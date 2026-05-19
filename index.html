@@ -863,6 +863,8 @@
       @media (max-width: 900px) {
         .mobile-hamburger {
           display: block;
+          top: 72px;
+          z-index: 1000000;
         }
       }
       .quiz-header-card {
@@ -1304,7 +1306,7 @@
         }
         .sidebar.open {
           transform: translateX(0);
-          z-index: 999;
+          z-index: 1000002;
         }
         .main-content {
           margin-right: 0;
@@ -1314,7 +1316,7 @@
           position: fixed;
           inset: 0;
           background: rgba(0, 0, 0, 0.6);
-          z-index: 998;
+          z-index: 1000001;
         }
         .overlay.hidden {
           display: none;
