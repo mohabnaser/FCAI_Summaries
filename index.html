@@ -2401,5 +2401,108 @@ function App() {
 
 ReactDOM.render(<App/>, document.getElementById('root'));
 </script>
+<!-- GLOBAL TOP NAV -->
+<style>
+.global-top-nav {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999999;
+  background: rgba(13, 18, 32, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  display: flex;
+  padding: 6px;
+  gap: 4px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05) inset;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease;
+  animation: slideDownNav 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes slideDownNav {
+  0% { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+  100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+.global-top-nav.hidden {
+  transform: translateX(-50%) translateY(-150px);
+}
+.global-top-nav:hover {
+  background: rgba(13, 18, 32, 0.95);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.gnav-item {
+  color: #94a3b8;
+  text-decoration: none;
+  font-family: 'Outfit', 'Cairo', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 24px;
+  border-radius: 100px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.gnav-item:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+.gnav-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+}
+.gnav-item.active .gnav-dot {
+  background: #00d4ff;
+  box-shadow: 0 0 10px #00d4ff;
+}
+.gnav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+@media (max-width: 768px) {
+  .global-top-nav {
+    top: 10px;
+    width: 95%;
+    padding: 5px;
+    justify-content: space-between;
+  }
+  .gnav-item {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    flex: 1;
+    justify-content: center;
+  }
+}
+</style>
+<div class="global-top-nav" id="globalTopNav">
+  <a href="index.html" class="gnav-item active"><div class="gnav-dot"></div> SQL Basics</a>
+  <a href="pp1.html" class="gnav-item"><div class="gnav-dot"></div> ER &amp; Mapping</a>
+  <a href="pp2.html" class="gnav-item"><div class="gnav-dot"></div> EER &amp; Norm</a>
+</div>
+<script>
+  (function() {
+    let lastScrollY = 0;
+    const nav = document.getElementById('globalTopNav');
+    document.addEventListener('scroll', function(e) {
+      if (!nav) return;
+      const target = e.target;
+      const currentScrollY = target.scrollTop || window.scrollY;
+      if (currentScrollY === undefined) return;
+      
+      if (currentScrollY > lastScrollY && currentScrollY > 60) {
+        nav.classList.add('hidden');
+      } else {
+        nav.classList.remove('hidden');
+      }
+      lastScrollY = currentScrollY;
+    }, true);
+  })();
+</script>
 </body>
 </html>

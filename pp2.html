@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IS211 · Database Systems — Complete Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050b18;--bg2:#08101f;--card:#0c1528;--card2:#101c30;
+  --border:#1a3050;--border2:#223d60;
+  --cyan:#22d3ee;--cyan2:#0ea5e9;
+  --emerald:#34d399;--emerald2:#10b981;
+  --amber:#fbbf24;--purple:#a78bfa;
+  --pink:#f472b6;--red:#f87171;
+  --t1:#e2e8f0;--t2:#94a3b8;--t3:#64748b;
+  --code:#060e1c;--fw:270px;
+  --fh:'Outfit',sans-serif;--fb:'DM Sans',sans-serif;--fc:'Fira Code',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.75;overflow-x:hidden}
+
+/* PROGRESS BAR */
+#prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--emerald));z-index:9999;transition:width .15s;width:0}
+
+/* SIDEBAR */
+#sidebar{position:fixed;right:0;top:0;bottom:0;width:var(--fw);background:var(--bg2);border-left:1px solid var(--border);border-right:none;overflow-y:auto;z-index:100;padding:0 0 40px;transition:.3s}
+#sidebar::-webkit-scrollbar{width:3px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.sb-logo{padding:20px 18px 16px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.sb-logo h2{font-family:var(--fh);font-size:1rem;color:var(--cyan);font-weight:700}
+.sb-logo p{font-size:.68rem;color:var(--t3);margin-top:2px}
+.sb-sec{padding:8px 18px 3px;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-top:8px}
+.sb-link{display:flex;align-items:center;gap:9px;padding:7px 18px;font-size:.78rem;color:var(--t2);text-decoration:none;transition:.2s;border-right:3px solid transparent}
+.sb-link:hover,.sb-link.active{color:var(--t1);background:rgba(34,211,238,.05);border-right-color:var(--cyan)}
+.sb-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:.2s}
+.sb-link.active .sb-dot,.sb-link:hover .sb-dot{background:var(--cyan)}
+.sb-link.grn:hover,.sb-link.grn.active{border-right-color:var(--emerald)}
+.sb-link.grn:hover .sb-dot,.sb-link.grn.active .sb-dot{background:var(--emerald)}
+
+/* MAIN */
+#main{margin-right:var(--fw);padding:0 0 80px}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#040c1a 0%,#080f25 50%,#060d20 100%);padding:60px 60px 52px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;left:-80px;width:450px;height:450px;background:radial-gradient(circle,rgba(34,211,238,.07) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-60px;right:150px;width:350px;height:350px;background:radial-gradient(circle,rgba(167,139,250,.05) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);border-radius:20px;padding:5px 14px;font-size:.72rem;color:var(--cyan);margin-bottom:18px;font-family:var(--fc);direction:ltr;}
+.hero h1{font-family:var(--fh);font-size:2.6rem;font-weight:800;line-height:1.15;margin-bottom:12px}
+.hero h1 span{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--t2);max-width:580px;font-size:.95rem}
+.hero-stats{display:flex;gap:28px;margin-top:28px;flex-wrap:wrap}
+.hstat .num{font-family:var(--fh);font-size:1.7rem;font-weight:700;color:var(--cyan)}
+.hstat .lbl{font-size:.7rem;color:var(--t3);margin-top:2px}
+
+/* CONTENT */
+.content{padding:36px 56px}
+.chapter{margin-bottom:72px}
+
+/* CHAPTER HEADERS */
+.ch-header{display:flex;align-items:center;gap:14px;margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.ch-num{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:.95rem;flex-shrink:0}
+.ch-num.eer{background:rgba(34,211,238,.12);color:var(--cyan);border:1px solid rgba(34,211,238,.25)}
+.ch-num.norm{background:rgba(52,211,153,.12);color:var(--emerald);border:1px solid rgba(52,211,153,.25)}
+.ch-num.cheat{background:rgba(167,139,250,.12);color:var(--purple);border:1px solid rgba(167,139,250,.25)}
+.ch-title h2{font-family:var(--fh);font-size:1.55rem;font-weight:700}
+.ch-title p{color:var(--t3);font-size:.82rem;margin-top:2px}
+
+/* TOPIC CARDS */
+.topic{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-bottom:18px;position:relative;overflow:hidden;transition:.25s}
+.topic::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--cyan)),transparent);opacity:.55}
+.topic:hover{border-color:var(--border2);transform:translateY(-1px)}
+.topic-title{font-family:var(--fh);font-size:1rem;font-weight:600;margin-bottom:9px;display:flex;align-items:center;gap:9px}
+.topic p{color:var(--t2);font-size:.88rem;margin-bottom:8px}
+.topic p:last-child{margin-bottom:0}
+
+/* GRID */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* CODE BLOCKS */
+.code-wrap{background:var(--code);border:1px solid #1a2a40;border-radius:10px;margin:12px 0;overflow:hidden;direction:ltr;text-align:left;}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:rgba(255,255,255,.02);border-bottom:1px solid #1a2a40}
+.code-dots{display:flex;gap:5px}
+.code-dots span{width:9px;height:9px;border-radius:50%}
+.code-dots span:nth-child(1){background:#ff5f57}
+.code-dots span:nth-child(2){background:#febc2e}
+.code-dots span:nth-child(3){background:#28c840}
+.code-lang{font-family:var(--fc);font-size:.65rem;color:var(--t3)}
+.code-wrap pre{padding:14px 18px;font-family:var(--fc);font-size:.8rem;line-height:1.75;overflow-x:auto;color:#cdd6f4;direction:ltr;text-align:left;}
+.kw{color:#cba6f7}.str{color:#a6e3a1}.fn{color:#89b4fa}.cmt{color:#4a5568;font-style:italic}
+.prop{color:#89dceb}.tag{color:#f38ba8}.val{color:#fab387}.num{color:#fab387}
+
+/* INLINE CODE */
+code{font-family:var(--fc);background:rgba(34,211,238,.08);color:var(--cyan);padding:2px 7px;border-radius:4px;font-size:.8em}
+
+/* INFO BOXES */
+.tip,.warn,.info,.danger,.note{display:flex;gap:11px;padding:13px 15px;border-radius:10px;margin:12px 0;font-size:.85rem;line-height:1.6}
+.tip{background:rgba(52,211,153,.07);border-right:3px solid var(--emerald);border-left:none;color:#6ee7b7}
+.warn{background:rgba(251,191,36,.07);border-right:3px solid var(--amber);border-left:none;color:#fcd34d}
+.info{background:rgba(34,211,238,.07);border-right:3px solid var(--cyan);border-left:none;color:#67e8f9}
+.danger{background:rgba(248,113,113,.07);border-right:3px solid var(--red);border-left:none;color:#fca5a5}
+.note{background:rgba(167,139,250,.07);border-right:3px solid var(--purple);border-left:none;color:#c4b5fd}
+.tip b,.warn b,.info b,.danger b,.note b{display:block;margin-bottom:2px;font-weight:600}
+
+/* TABLES */
+.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:.83rem}
+.tbl th{background:var(--card2);color:var(--cyan);font-family:var(--fh);font-weight:600;padding:9px 13px;text-align:right;border-bottom:2px solid var(--border)}
+.tbl td{padding:8px 13px;border-bottom:1px solid var(--border);color:var(--t2)}
+.tbl tr:hover td{background:rgba(255,255,255,.015)}
+.tbl.grn th{color:var(--emerald)}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:20px;font-size:.68rem;font-weight:600;font-family:var(--fc)}
+.bd-cyan{background:rgba(34,211,238,.1);color:var(--cyan);border:1px solid rgba(34,211,238,.2)}
+.bd-grn{background:rgba(52,211,153,.1);color:var(--emerald);border:1px solid rgba(52,211,153,.2)}
+.bd-amb{background:rgba(251,191,36,.1);color:var(--amber);border:1px solid rgba(251,191,36,.2)}
+.bd-red{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.2)}
+.bd-pur{background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
+
+/* SVG DIAGRAMS */
+.diagram-wrap{background:var(--code);border:1px solid #1a2a40;border-radius:12px;padding:20px;margin:14px 0;overflow-x:auto;text-align:center;direction:ltr;}
+.diagram-wrap svg{max-width:100%;direction:ltr;}
+.diagram-wrap svg text{direction:ltr;unicode-bidi:isolate;}
+
+/* QUIZ */
+.quiz-section{background:linear-gradient(135deg,#0a1628 0%,#0d1a2e 100%);border:1px solid var(--border);border-radius:16px;padding:28px;margin-top:36px;direction:ltr;text-align:left;}
+.quiz-header{display:flex;align-items:center;gap:13px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.quiz-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.quiz-header h3{font-family:var(--fh);font-size:1.1rem;font-weight:700}
+.quiz-header p{font-size:.77rem;color:var(--t3)}
+.q-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:12px;transition:.2s}
+.q-num{font-family:var(--fc);font-size:.67rem;color:var(--t3);margin-bottom:7px;display:flex;align-items:center;gap:7px}
+.q-src{background:rgba(167,139,250,.1);color:var(--purple);padding:2px 7px;border-radius:4px;font-size:.62rem}
+.q-text{font-size:.88rem;color:var(--t1);margin-bottom:12px;line-height:1.6}
+.q-opts{display:flex;flex-direction:column;gap:7px}
+.q-opt{display:flex;align-items:flex-start;gap:9px;padding:8px 13px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:.2s;font-size:.83rem;color:var(--t2);user-select:none}
+.q-opt:hover{border-color:var(--border2);color:var(--t1)}
+.q-opt.selected{border-color:var(--cyan);background:rgba(34,211,238,.05);color:var(--t1)}
+.q-opt.correct{border-color:var(--emerald)!important;background:rgba(52,211,153,.09)!important;color:#6ee7b7!important}
+.q-opt.wrong{border-color:var(--red)!important;background:rgba(248,113,113,.09)!important;color:#fca5a5!important}
+.q-opt-letter{width:20px;height:20px;border-radius:5px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-family:var(--fc);flex-shrink:0;font-weight:600}
+.q-explain{display:none;margin-top:10px;padding:11px 13px;background:rgba(34,211,238,.04);border-right:3px solid var(--cyan);border-left:none;border-radius:8px 0 0 8px;font-size:.8rem;color:#7dd3fc;line-height:1.6;direction:rtl;text-align:right;}
+.q-explain.show{display:block}
+.quiz-btn{display:inline-flex;align-items:center;gap:7px;margin-top:8px;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-family:var(--fh);font-size:.82rem;font-weight:600;transition:.2s}
+.btn-check{background:linear-gradient(135deg,var(--purple),var(--cyan2));color:#fff}
+.btn-check:hover{opacity:.9;transform:translateY(-1px)}
+.btn-reset{background:rgba(255,255,255,.05);color:var(--t2);margin-left:7px;border:1px solid var(--border)}
+.btn-reset:hover{background:rgba(255,255,255,.09);color:var(--t1)}
+.q-score{display:none;margin-top:14px;padding:12px 16px;border-radius:10px;font-family:var(--fh);font-weight:600;text-align:center}
+.q-score.good{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:var(--emerald)}
+.q-score.ok{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);color:var(--amber)}
+.q-score.bad{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:var(--red)}
+
+/* CHEAT SHEET */
+.cheat{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:16px}
+.cheat h3{font-family:var(--fh);font-size:.95rem;font-weight:700;margin-bottom:13px;display:flex;align-items:center;gap:7px}
+.cheat-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.81rem}
+.cheat-item:last-child{border-bottom:none}
+.cheat-key{min-width:180px;font-family:var(--fc);font-size:.72rem;color:var(--amber);flex-shrink:0;padding-top:2px;direction:ltr;unicode-bidi:isolate;text-align:left;}
+.cheat-val{color:var(--t2);line-height:1.55}
+
+/* TYPE CARDS */
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.type-card{border-radius:12px;padding:16px 18px;position:relative;overflow:hidden}
+.type-card h4{font-family:var(--fh);font-size:.92rem;font-weight:700;margin-bottom:6px}
+.type-card p{font-size:.8rem;opacity:.85}
+.tc-td{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2)}
+.tc-td h4{color:var(--cyan)}
+.tc-to{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2)}
+.tc-to h4{color:var(--purple)}
+.tc-pd{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2)}
+.tc-pd h4{color:var(--amber)}
+.tc-po{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2)}
+.tc-po h4{color:var(--red)}
+
+/* OPTION CARDS */
+.option-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:12px}
+.option-card-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.opt-num{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:.9rem;flex-shrink:0}
+.opt-8a{background:rgba(34,211,238,.12);color:var(--cyan);border:1px solid rgba(34,211,238,.25)}
+.opt-8b{background:rgba(52,211,153,.12);color:var(--emerald);border:1px solid rgba(52,211,153,.25)}
+.opt-8c{background:rgba(251,191,36,.12);color:var(--amber);border:1px solid rgba(251,191,36,.25)}
+.opt-8d{background:rgba(167,139,250,.12);color:var(--purple);border:1px solid rgba(167,139,250,.25)}
+
+/* FORMULA BOX */
+.formula{background:rgba(34,211,238,.05);border:1px solid rgba(34,211,238,.15);border-radius:10px;padding:16px 20px;margin:12px 0;font-family:var(--fc);font-size:.85rem}
+.formula .f-row{display:flex;align-items:center;gap:12px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.formula .f-row:last-child{border-bottom:none}
+.formula .f-cond{color:var(--cyan);font-weight:600;min-width:140px}
+.formula .f-res{color:var(--t2)}
+
+/* SCROLL TO TOP */
+#scroll-top{position:fixed;bottom:20px;left:20px;width:38px;height:38px;border-radius:9px;background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.25);color:var(--cyan);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s;z-index:200}
+#scroll-top.show{opacity:1}
+#menu-btn{position:fixed;bottom:20px;right:20px;z-index:200;width:44px;height:44px;border-radius:11px;background:var(--cyan);border:none;cursor:pointer;color:#000;font-size:1.2rem;display:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(34,211,238,.35)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  :root{--fw:0px}
+  #sidebar{transform:translateX(100%)}
+  #sidebar.open{transform:translateX(0);width:280px;box-shadow:0 0 30px rgba(0,0,0,.6)}
+  #main{margin-right:0}
+  .content{padding:20px 16px}
+  .hero{padding:36px 18px 30px}
+  .hero h1{font-size:1.8rem}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .type-grid{grid-template-columns:1fr}
+  #menu-btn{display:flex}
+  .cheat-item{flex-direction:column;gap:4px}
+  .cheat-key{min-width:auto}
+}
+@media(min-width:901px){#menu-btn{display:none!important}}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>🗄️ IS211 Study Guide</h2>
+    <p>Database Systems · Cairo University</p>
+  </div>
+
+  <div class="sb-sec">EER Model</div>
+  <a href="#sub-super" class="sb-link"><span class="sb-dot"></span>Subclasses & Superclasses</a>
+  <a href="#inheritance" class="sb-link"><span class="sb-dot"></span>Inheritance</a>
+  <a href="#spec-gen" class="sb-link"><span class="sb-dot"></span>Specialization & Generalization</a>
+  <a href="#constraints" class="sb-link"><span class="sb-dot"></span>Constraints (d / o)</a>
+  <a href="#completeness" class="sb-link"><span class="sb-dot"></span>Total vs Partial</a>
+  <a href="#four-types" class="sb-link"><span class="sb-dot"></span>4 Types & Cardinality</a>
+  <a href="#mapping" class="sb-link"><span class="sb-dot"></span>Mapping to Relational</a>
+  <a href="#eer-quiz" class="sb-link"><span class="sb-dot"></span>🎯 EER Quiz</a>
+
+  <div class="sb-sec">Normalization</div>
+  <a href="#redundancy" class="sb-link grn"><span class="sb-dot"></span>Redundancy & Anomalies</a>
+  <a href="#fd" class="sb-link grn"><span class="sb-dot"></span>Functional Dependencies</a>
+  <a href="#1nf" class="sb-link grn"><span class="sb-dot"></span>First Normal Form (1NF)</a>
+  <a href="#2nf" class="sb-link grn"><span class="sb-dot"></span>Second Normal Form (2NF)</a>
+  <a href="#3nf" class="sb-link grn"><span class="sb-dot"></span>Third Normal Form (3NF)</a>
+  <a href="#norm-example" class="sb-link grn"><span class="sb-dot"></span>Full Example</a>
+  <a href="#norm-quiz" class="sb-link grn"><span class="sb-dot"></span>🎯 Normalization Quiz</a>
+
+  <div class="sb-sec">Reference</div>
+  <a href="#cheatsheet" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+</nav>
+
+<button id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<main id="main">
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚡ IS211 · EER Model + Normalization · All 3 Finals Covered</div>
+  <h1>Database Systems<br><span>EER Model & Normalization</span></h1>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">2</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">3</div><div class="lbl">Finals (2023-25)</div></div>
+    <div class="hstat"><div class="num">20+</div><div class="lbl">Exam Questions</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">Mapping Options</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ═══════════════════════════════════════
+     CHAPTER 1: EER MODEL
+════════════════════════════════════════ -->
+<div class="chapter">
+  <div class="ch-header">
+    <div class="ch-num eer">01</div>
+    <div class="ch-title">
+      <h2>Enhanced Entity-Relationship (EER) Model</h2>
+      <p>Subclasses · Superclasses · Specialization · Generalization · Constraints · Mapping</p>
+    </div>
+  </div>
+
+  <!-- SUBCLASSES & SUPERCLASSES -->
+  <div class="topic" id="sub-super" style="--accent:var(--cyan)">
+    <div class="topic-title">🏗️ Subclasses &amp; Superclasses — الفكرة الأساسية</div>
+    <p>أحياناً الـ entity type بيكون فيه تجميعات أو أنواع فرعية ليه معنى إضافي. مثلاً:</p>
+    <div class="grid2">
+      <div>
+        <p style="color:var(--cyan);font-family:var(--fh);font-weight:600;margin-bottom:6px">Superclass (النوع الأب)</p>
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EMPLOYEE superclass</div></div>
+        <pre><code><span class="cmt">// EMPLOYEE entity has attributes:</span>
+Name, Ssn, Birth_date, Address
+
+<span class="cmt">// Grouped into subclasses by JOB:</span>
+SECRETARY    <span class="fn">→</span> Typing_speed
+TECHNICIAN   <span class="fn">→</span> Tgrade
+ENGINEER     <span class="fn">→</span> Eng_type
+
+<span class="cmt">// By MANAGEMENT role:</span>
+MANAGER      <span class="fn">→</span> manages PROJECT
+
+<span class="cmt">// By PAY METHOD:</span>
+SALARIED_EMP <span class="fn">→</span> Salary
+HOURLY_EMP   <span class="fn">→</span> Pay_scale</code></pre></div>
+      </div>
+      <div>
+        <div class="info"><div><b>📌 القاعدة الأساسية:</b><br>
+        • الـ <strong>Subclass</strong> بتمثل نفس الـ real-world entity بس في <strong>role مختلف</strong><br>
+        • Entity مش ممكن يكون في subclass لوحده — لازم يكون في الـ superclass الأول<br>
+        • Member في الـ superclass ممكن يكون في أكتر من subclass في نفس الوقت<br><br>
+        مثال: موظف مهندس وبياخد مرتب ثابت → في ENGINEER + SALARIED_EMPLOYEE معاً</div></div>
+        <div class="warn"><div><b>⚠️ اصطلاحات مهمة:</b><br>
+        Superclass = Supertype = الأب<br>
+        Subclass = Subtype = الفرع<br>
+        العلاقة = superclass/subclass relationship</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN EER DIAGRAM -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title">📊 EER Diagram — EMPLOYEE Specializations</div>
+    <p>ده الـ EER diagram الأساسي اللي بيجي في الامتحانات. افهمه كويس!</p>
+    <div class="diagram-wrap">
+      <svg dir='ltr' viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" style="max-width:720px;width:100%">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M0,0 L0,8 L8,4 z" fill="#475569"/>
+          </marker>
+        </defs>
+        <!-- Grid background subtle -->
+        <rect width="720" height="420" fill="transparent"/>
+
+        <!-- ===== EMPLOYEE superclass ===== -->
+        <rect x="260" y="10" width="200" height="50" rx="6" fill="rgba(34,211,238,0.08)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="360" y="40" text-anchor="middle" fill="#22d3ee" font-family="monospace" font-size="13" font-weight="bold">EMPLOYEE</text>
+
+        <!-- Attributes of EMPLOYEE -->
+        <ellipse cx="170" cy="25" rx="38" ry="16" fill="rgba(34,211,238,0.04)" stroke="#22d3ee" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="170" y="29" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">Name</text>
+        <line x1="208" y1="25" x2="260" y2="30" stroke="#334155" stroke-width="1"/>
+
+        <ellipse cx="578" cy="20" rx="30" ry="14" fill="rgba(34,211,238,0.04)" stroke="#22d3ee" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="578" y="24" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">Ssn</text>
+        <line x1="548" y1="22" x2="460" y2="28" stroke="#334155" stroke-width="1"/>
+
+        <ellipse cx="600" cy="55" rx="44" ry="15" fill="rgba(34,211,238,0.04)" stroke="#22d3ee" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="600" y="59" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">Birth_date</text>
+        <line x1="556" y1="57" x2="460" y2="48" stroke="#334155" stroke-width="1"/>
+
+        <!-- ===== Specialization 1: Job type (d circle) ===== -->
+        <!-- Line from EMPLOYEE down -->
+        <line x1="330" y1="60" x2="330" y2="102" stroke="#475569" stroke-width="2"/>
+        <!-- 'd' circle -->
+        <circle cx="330" cy="117" r="15" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="330" y="122" text-anchor="middle" fill="#a78bfa" font-family="monospace" font-size="11" font-weight="bold">d</text>
+        <!-- Label -->
+        <text x="355" y="121" fill="#64748b" font-family="sans-serif" font-size="9">Job_type</text>
+
+        <!-- Lines from d circle to job subclasses -->
+        <line x1="317" y1="131" x2="115" y2="185" stroke="#475569" stroke-width="1.5"/>
+        <line x1="330" y1="132" x2="330" y2="185" stroke="#475569" stroke-width="1.5"/>
+        <line x1="343" y1="131" x2="545" y2="185" stroke="#475569" stroke-width="1.5"/>
+
+        <!-- SECRETARY -->
+        <rect x="30" y="185" width="170" height="45" rx="5" fill="rgba(52,211,153,0.07)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="115" y="212" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="11" font-weight="bold">SECRETARY</text>
+        <!-- Typing_speed attr -->
+        <ellipse cx="70" cy="255" rx="44" ry="15" fill="rgba(52,211,153,0.04)" stroke="#34d399" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="70" y="259" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">Typing_speed</text>
+        <line x1="80" y1="240" x2="80" y2="230" stroke="#334155" stroke-width="1"/>
+
+        <!-- TECHNICIAN -->
+        <rect x="245" y="185" width="170" height="45" rx="5" fill="rgba(52,211,153,0.07)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="330" y="212" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="11" font-weight="bold">TECHNICIAN</text>
+        <ellipse cx="290" cy="255" rx="34" ry="15" fill="rgba(52,211,153,0.04)" stroke="#34d399" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="290" y="259" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">Tgrade</text>
+        <line x1="290" y1="240" x2="295" y2="230" stroke="#334155" stroke-width="1"/>
+
+        <!-- ENGINEER -->
+        <rect x="460" y="185" width="170" height="45" rx="5" fill="rgba(52,211,153,0.07)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="545" y="212" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="11" font-weight="bold">ENGINEER</text>
+        <ellipse cx="555" cy="255" rx="38" ry="15" fill="rgba(52,211,153,0.04)" stroke="#34d399" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="555" y="259" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">Eng_type</text>
+        <line x1="535" y1="240" x2="530" y2="230" stroke="#334155" stroke-width="1"/>
+
+        <!-- Label: specialization 1 -->
+        <text x="30" y="175" fill="#64748b" font-family="sans-serif" font-size="9" font-style="italic">{SECRETARY, TECHNICIAN, ENGINEER}</text>
+
+        <!-- ===== Specialization 2: MANAGER (single, no d/o shown = partial) ===== -->
+        <line x1="390" y1="60" x2="390" y2="115" stroke="#475569" stroke-width="2"/>
+        <!-- MANAGER box -->
+        <rect x="660" y="70" width="50" height="35" rx="5" fill="rgba(251,191,36,0.07)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="685" y="91" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="10" font-weight="bold">MGR</text>
+        <!-- Diagonal line -->
+        <line x1="460" y1="35" x2="660" y2="80" stroke="#475569" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="570" y="52" fill="#64748b" font-family="sans-serif" font-size="9" font-style="italic">{MANAGER}</text>
+
+        <!-- ===== Specialization 3: Pay type (d circle) ===== -->
+        <line x1="390" y1="60" x2="390" y2="102" stroke="#475569" stroke-width="2"/>
+        <!-- Another 'd' circle lower section – show separately -->
+        <!-- Pay specialization represented differently for clarity -->
+        <circle cx="390" cy="305" r="15" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="390" y="310" text-anchor="middle" fill="#a78bfa" font-family="monospace" font-size="11" font-weight="bold">d</text>
+        <line x1="390" y1="60" x2="390" y2="290" stroke="#475569" stroke-width="2" stroke-dasharray="6,3"/>
+        <text x="415" y="310" fill="#64748b" font-family="sans-serif" font-size="9">Pay_type</text>
+
+        <line x1="377" y1="319" x2="280" y2="355" stroke="#475569" stroke-width="1.5"/>
+        <line x1="403" y1="319" x2="500" y2="355" stroke="#475569" stroke-width="1.5"/>
+
+        <!-- HOURLY_EMPLOYEE -->
+        <rect x="185" y="355" width="175" height="42" rx="5" fill="rgba(248,113,113,0.07)" stroke="#f87171" stroke-width="1.5"/>
+        <text x="273" y="380" text-anchor="middle" fill="#f87171" font-family="monospace" font-size="10" font-weight="bold">HOURLY_EMP</text>
+
+        <!-- SALARIED_EMPLOYEE -->
+        <rect x="415" y="355" width="185" height="42" rx="5" fill="rgba(248,113,113,0.07)" stroke="#f87171" stroke-width="1.5"/>
+        <text x="508" y="380" text-anchor="middle" fill="#f87171" font-family="monospace" font-size="10" font-weight="bold">SALARIED_EMP</text>
+
+        <text x="185" y="348" fill="#64748b" font-family="sans-serif" font-size="9" font-style="italic">{HOURLY_EMP, SALARIED_EMP}</text>
+
+        <!-- Legend -->
+        <rect x="8" y="290" width="130" height="70" rx="6" fill="rgba(0,0,0,0.3)" stroke="#1e3a5f" stroke-width="1"/>
+        <text x="18" y="308" fill="#64748b" font-family="sans-serif" font-size="9" font-weight="bold">LEGEND</text>
+        <rect x="18" y="315" width="18" height="12" rx="2" fill="none" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="42" y="325" fill="#94a3b8" font-family="sans-serif" font-size="9">Superclass</text>
+        <rect x="18" y="332" width="18" height="12" rx="2" fill="none" stroke="#34d399" stroke-width="1.5"/>
+        <text x="42" y="342" fill="#94a3b8" font-family="sans-serif" font-size="9">Subclass</text>
+        <circle cx="27" cy="352" r="7" fill="none" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="33" y="350" fill="#a78bfa" font-family="monospace" font-size="8">d</text>
+        <text x="42" y="355" fill="#94a3b8" font-family="sans-serif" font-size="9">Specialization</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- INHERITANCE -->
+  <div class="topic" id="inheritance" style="--accent:var(--purple)">
+    <div class="topic-title">🧬 Inheritance — الوراثة</div>
+    <div class="grid2">
+      <div>
+        <p>الـ entity لما بيكون member في subclass، بيورّث <strong>كل حاجة</strong> من الـ superclass:</p>
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">SECRETARY entity gets:</div></div>
+        <pre><code><span class="cmt">// Inherited from EMPLOYEE (superclass):</span>
+Name       <span class="fn">← inherited</span>
+Ssn        <span class="fn">← inherited</span>
+Birth_date <span class="fn">← inherited</span>
+Address    <span class="fn">← inherited</span>
+
+<span class="cmt">// Specific/Local attribute (own):</span>
+Typing_speed <span class="fn">← specific</span>
+
+<span class="cmt">// Inherited relationships:</span>
+WORKS_FOR Department <span class="fn">← inherited</span>
+WORKS_ON  Project    <span class="fn">← inherited</span></code></pre></div>
+      </div>
+      <div>
+        <div class="tip"><div><b>✅ ما بيتورّث</b><br>
+        1. <strong>كل الـ attributes</strong> من الـ superclass<br>
+        2. <strong>كل الـ relationships</strong> من الـ superclass<br>
+        3. وإذا كانت في hierarchy: بيورّث من <strong>كل predecessor superclasses</strong></div></div>
+        <div class="info"><div><b>📌 Specific vs Local Attributes</b><br>
+        الـ attributes الخاصة بالـ subclass بتتسمى <strong>"specific"</strong> أو <strong>"local"</strong> attributes.<br>
+        مثال: TypingSpeed بتاعة SECRETARY<br>
+        والـ subclass ممكن يشارك في <strong>specific relationships</strong> زيها.<br>
+        مثال: HOURLY_EMP BELONGS_TO TRADE_UNION</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPECIALIZATION vs GENERALIZATION -->
+  <div class="topic" id="spec-gen" style="--accent:var(--purple)">
+    <div class="topic-title">🔄 Specialization vs Generalization — الفرق المهم!</div>
+    <div class="grid2">
+      <div style="border:1px solid rgba(34,211,238,.2);border-radius:10px;padding:16px">
+        <p style="color:var(--cyan);font-family:var(--fh);font-weight:700;margin-bottom:8px">⬇️ Specialization</p>
+        <p>بيبدأ من الـ <strong>Superclass</strong> ونعرّف الـ subclasses منها.</p>
+        <p>اتجاه <strong>Top-Down</strong> — من فوق لتحت</p>
+        <div class="diagram-wrap" style="padding:14px">
+          <svg dir='ltr' viewBox="0 0 200 110" style="max-width:200px;width:100%">
+            <rect x="50" y="5" width="100" height="30" rx="4" fill="rgba(34,211,238,0.08)" stroke="#22d3ee" stroke-width="1.5"/>
+            <text x="100" y="24" text-anchor="middle" fill="#22d3ee" font-family="monospace" font-size="10" font-weight="bold">EMPLOYEE</text>
+            <line x1="100" y1="35" x2="100" y2="55" stroke="#475569" stroke-width="1.5"/>
+            <circle cx="100" cy="62" r="10" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1.5"/>
+            <text x="100" y="66" text-anchor="middle" fill="#a78bfa" font-family="monospace" font-size="9">d</text>
+            <line x1="92" y1="72" x2="55" y2="90" stroke="#475569" stroke-width="1.5"/>
+            <line x1="108" y1="72" x2="145" y2="90" stroke="#475569" stroke-width="1.5"/>
+            <rect x="15" y="90" width="80" height="20" rx="3" fill="rgba(52,211,153,0.08)" stroke="#34d399" stroke-width="1.2"/>
+            <text x="55" y="104" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="8">SECRETARY</text>
+            <rect x="105" y="90" width="80" height="20" rx="3" fill="rgba(52,211,153,0.08)" stroke="#34d399" stroke-width="1.2"/>
+            <text x="145" y="104" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="8">ENGINEER</text>
+            <text x="100" y="88" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="7">⬇️ Top-Down</text>
+          </svg>
+        </div>
+      </div>
+      <div style="border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:16px">
+        <p style="color:var(--purple);font-family:var(--fh);font-weight:700;margin-bottom:8px">⬆️ Generalization</p>
+        <p>بيبدأ من entities متشابهة ونعمل <strong>Superclass</strong> مشتركة.</p>
+        <p>اتجاه <strong>Bottom-Up</strong> — من تحت لفوق</p>
+        <div class="diagram-wrap" style="padding:14px">
+          <svg dir='ltr' viewBox="0 0 220 120" style="max-width:220px;width:100%">
+            <rect x="60" y="5" width="100" height="28" rx="4" fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="1.5"/>
+            <text x="110" y="23" text-anchor="middle" fill="#a78bfa" font-family="monospace" font-size="10" font-weight="bold">VEHICLE</text>
+            <text x="110" y="62" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="8">Vehicle_id, Price, License</text>
+            <line x1="80" y1="33" x2="55" y2="84" stroke="#475569" stroke-width="1.5"/>
+            <line x1="140" y1="33" x2="165" y2="84" stroke="#475569" stroke-width="1.5"/>
+            <circle cx="110" cy="40" r="10" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1.5"/>
+            <text x="110" y="44" text-anchor="middle" fill="#a78bfa" font-family="monospace" font-size="9">d</text>
+            <rect x="5" y="84" width="85" height="32" rx="3" fill="rgba(52,211,153,0.08)" stroke="#34d399" stroke-width="1.2"/>
+            <text x="47" y="98" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="9">CAR</text>
+            <text x="47" y="110" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="7">Max_speed</text>
+            <rect x="130" y="84" width="85" height="32" rx="3" fill="rgba(52,211,153,0.08)" stroke="#34d399" stroke-width="1.2"/>
+            <text x="172" y="98" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="9">TRUCK</text>
+            <text x="172" y="110" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="7">No_of_axles</text>
+            <text x="110" y="78" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="7">⬆️ Bottom-Up</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="danger"><div><b>🚨 الفخ اللي بيقع فيه الناس في الامتحان!</b><br>
+    <strong>Specialization</strong> = من superclass للـ subclasses (Top-Down)<br>
+    <strong>Generalization</strong> = دمج entities في superclass واحدة (Bottom-Up)<br>
+    السؤال "Specialization is the process of generating a superclass from different subclasses" → الجواب: <strong>FALSE!</strong> دي Generalization!</div></div>
+  </div>
+
+  <!-- CONSTRAINTS: DISJOINT vs OVERLAPPING -->
+  <div class="topic" id="constraints" style="--accent:var(--amber)">
+    <div class="topic-title">🔀 Disjointness Constraint — الـ 'd' والـ 'o'</div>
+    <p>الـ constraint دي بتحدد: هل entity ممكن يكون في أكتر من subclass في نفس الوقت؟</p>
+    <div class="grid2">
+      <div style="border:1px solid rgba(34,211,238,.2);border-radius:10px;padding:16px">
+        <p style="color:var(--cyan);font-family:var(--fh);font-weight:700;margin-bottom:10px">🔵 Disjoint (d) — لا تداخل</p>
+        <p>الـ entity يكون في <strong>واحدة بس</strong> من الـ subclasses.</p>
+        <div class="diagram-wrap" style="padding:10px">
+          <svg dir='ltr' viewBox="0 0 240 120" style="max-width:240px;width:100%">
+            <circle cx="100" cy="55" r="35" fill="rgba(34,211,238,0.1)" stroke="#22d3ee" stroke-width="1.5"/>
+            <text x="100" y="45" text-anchor="middle" fill="#22d3ee" font-family="monospace" font-size="9">SECRETARY</text>
+            <text x="100" y="60" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="8">●  ●  ●</text>
+            <circle cx="180" cy="55" r="35" fill="rgba(52,211,153,0.1)" stroke="#34d399" stroke-width="1.5"/>
+            <text x="180" y="45" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="9">ENGINEER</text>
+            <text x="180" y="60" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="8">●  ●</text>
+            <text x="140" y="100" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="9">مفيش تداخل = فصل تام</text>
+            <circle cx="60" cy="62" r="10" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1.5"/>
+            <text x="60" y="66" text-anchor="middle" fill="#a78bfa" font-family="monospace" font-size="9">d</text>
+          </svg>
+        </div>
+        <div class="tip"><div>موظف اسمه كـ "Secretary" مش ممكن يكون "Engineer" في نفس الوقت في نفس الـ specialization</div></div>
+      </div>
+      <div style="border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:16px">
+        <p style="color:var(--amber);font-family:var(--fh);font-weight:700;margin-bottom:10px">🟡 Overlapping (o) — تداخل مسموح</p>
+        <p>الـ entity ممكن يكون في <strong>أكتر من subclass</strong> في نفس الوقت.</p>
+        <div class="diagram-wrap" style="padding:10px">
+          <svg dir='ltr' viewBox="0 0 240 120" style="max-width:240px;width:100%">
+            <circle cx="95" cy="55" r="38" fill="rgba(251,191,36,0.1)" stroke="#fbbf24" stroke-width="1.5"/>
+            <text x="78" y="48" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="9">PT_EMP</text>
+            <text x="78" y="62" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="8">●  ●</text>
+            <circle cx="165" cy="55" r="38" fill="rgba(248,113,113,0.1)" stroke="#f87171" stroke-width="1.5"/>
+            <text x="182" y="48" text-anchor="middle" fill="#f87171" font-family="monospace" font-size="9">CONSULT</text>
+            <text x="182" y="62" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="8">●  ●</text>
+            <text x="130" y="58" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="12" font-weight="bold">●</text>
+            <text x="130" y="100" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="9">المنطقة دي = الاتنين معاً</text>
+            <circle cx="50" cy="62" r="10" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1.5"/>
+            <text x="50" y="66" text-anchor="middle" fill="#a78bfa" font-family="monospace" font-size="9">o</text>
+          </svg>
+        </div>
+        <div class="warn"><div>موظف ممكن يكون Part-Time وفي نفس الوقت Consultant → يظهر في الاتنين</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOTAL vs PARTIAL -->
+  <div class="topic" id="completeness" style="--accent:var(--emerald)">
+    <div class="topic-title">📏 Completeness Constraint — Single Line vs Double Line</div>
+    <p>الـ constraint دي بتحدد: هل كل entities في الـ superclass لازم تكون في subclass؟</p>
+    <div class="grid2">
+      <div style="border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:16px">
+        <p style="color:var(--amber);font-family:var(--fh);font-weight:700;margin-bottom:10px">Single Line = Partial</p>
+        <p>بعض الـ entities في الـ superclass <strong>ممكن ما تكونش</strong> في أي subclass.</p>
+        <div class="diagram-wrap" style="padding:12px">
+          <svg dir='ltr' viewBox="0 0 200 130" style="max-width:200px;width:100%">
+            <rect x="50" y="5" width="100" height="28" rx="4" fill="rgba(34,211,238,0.08)" stroke="#22d3ee" stroke-width="1.5"/>
+            <text x="100" y="23" text-anchor="middle" fill="#22d3ee" font-family="monospace" font-size="10">EMPLOYEE</text>
+            <!-- Single line -->
+            <line x1="100" y1="33" x2="100" y2="55" stroke="#475569" stroke-width="2.5"/>
+            <circle cx="100" cy="65" r="10" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1.5"/>
+            <text x="100" y="69" text-anchor="middle" fill="#a78bfa" font-family="monospace" font-size="9">d</text>
+            <line x1="93" y1="75" x2="55" y2="98" stroke="#475569" stroke-width="1.5"/>
+            <line x1="107" y1="75" x2="145" y2="98" stroke="#475569" stroke-width="1.5"/>
+            <rect x="15" y="98" width="78" height="22" rx="3" fill="rgba(52,211,153,0.07)" stroke="#34d399" stroke-width="1.2"/>
+            <text x="54" y="113" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="8.5">SECR.</text>
+            <rect x="107" y="98" width="78" height="22" rx="3" fill="rgba(52,211,153,0.07)" stroke="#34d399" stroke-width="1.2"/>
+            <text x="146" y="113" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="8.5">TECH.</text>
+            <!-- Employees floating (not in any subclass) -->
+            <circle cx="170" cy="40" r="5" fill="#fbbf24" opacity=".7"/>
+            <circle cx="182" cy="30" r="5" fill="#fbbf24" opacity=".7"/>
+            <text x="155" y="55" fill="#fbbf24" font-family="sans-serif" font-size="7">not in any</text>
+            <text x="155" y="62" fill="#fbbf24" font-family="sans-serif" font-size="7">subclass!</text>
+          </svg>
+        </div>
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Notation</div></div>
+        <pre><code><span class="cmt">// In EER diagram: SINGLE LINE</span>
+EMPLOYEE ─── (d) → Subclasses
+
+<span class="cmt">// Meaning:</span>
+<span class="val">Some</span> EMPLOYEES have no subtype</code></pre></div>
+      </div>
+      <div style="border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:16px">
+        <p style="color:var(--emerald);font-family:var(--fh);font-weight:700;margin-bottom:10px">Double Line = Total</p>
+        <p><strong>كل entity</strong> في الـ superclass <strong>لازم تكون</strong> في على الأقل subclass واحدة.</p>
+        <div class="diagram-wrap" style="padding:12px">
+          <svg dir='ltr' viewBox="0 0 200 130" style="max-width:200px;width:100%">
+            <rect x="50" y="5" width="100" height="28" rx="4" fill="rgba(34,211,238,0.08)" stroke="#22d3ee" stroke-width="1.5"/>
+            <text x="100" y="23" text-anchor="middle" fill="#22d3ee" font-family="monospace" font-size="10">EMPLOYEE</text>
+            <!-- Double line! -->
+            <line x1="97" y1="33" x2="97" y2="55" stroke="#34d399" stroke-width="2.5"/>
+            <line x1="103" y1="33" x2="103" y2="55" stroke="#34d399" stroke-width="2.5"/>
+            <circle cx="100" cy="65" r="10" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1.5"/>
+            <text x="100" y="69" text-anchor="middle" fill="#a78bfa" font-family="monospace" font-size="9">d</text>
+            <line x1="93" y1="75" x2="55" y2="98" stroke="#475569" stroke-width="1.5"/>
+            <line x1="107" y1="75" x2="145" y2="98" stroke="#475569" stroke-width="1.5"/>
+            <rect x="15" y="98" width="78" height="22" rx="3" fill="rgba(52,211,153,0.07)" stroke="#34d399" stroke-width="1.2"/>
+            <text x="54" y="113" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="8.5">SECR.</text>
+            <rect x="107" y="98" width="78" height="22" rx="3" fill="rgba(52,211,153,0.07)" stroke="#34d399" stroke-width="1.2"/>
+            <text x="146" y="113" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="8.5">TECH.</text>
+            <text x="135" y="45" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="7">= = (double)</text>
+          </svg>
+        </div>
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Notation</div></div>
+        <pre><code><span class="cmt">// In EER diagram: DOUBLE LINE</span>
+EMPLOYEE ══ (d) → Subclasses
+
+<span class="cmt">// Meaning:</span>
+<span class="val">Every</span> EMPLOYEE must be in ≥1 subtype</code></pre></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 TYPES + CARDINALITY -->
+  <div class="topic" id="four-types" style="--accent:var(--amber)">
+    <div class="topic-title">📐 4 Types of Specialization + Cardinality — أهم جزء في الامتحان!</div>
+    <div class="type-grid">
+      <div class="type-card tc-td">
+        <h4>Total / Disjoint (T/D)</h4>
+        <p>كل entity في superclass في exactly ONE subclass. المجموع = Total بالظبط.</p>
+        <p style="margin-top:6px"><code style="color:var(--cyan)">Sum = Total</code></p>
+      </div>
+      <div class="type-card tc-to">
+        <h4>Total / Overlapping (T/O)</h4>
+        <p>كل entity في superclass في على الأقل ONE subclass، وممكن أكتر. المجموع ≥ Total.</p>
+        <p style="margin-top:6px"><code style="color:var(--purple)">Sum ≥ Total</code></p>
+      </div>
+      <div class="type-card tc-pd">
+        <h4>Partial / Disjoint (P/D)</h4>
+        <p>بعض entities مش في أي subclass، وكل entity في subclass واحدة max. المجموع &lt; Total.</p>
+        <p style="margin-top:6px"><code style="color:var(--amber)">Sum &lt; Total</code></p>
+      </div>
+      <div class="type-card tc-po">
+        <h4>Partial / Overlapping (P/O)</h4>
+        <p>الحالة الأعم — بعض entities مش في subclass، وممكن الموجودين يكونوا في أكتر من واحدة.</p>
+        <p style="margin-top:6px"><code style="color:var(--red)">Any case</code></p>
+      </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <p style="font-family:var(--fh);font-weight:600;margin-bottom:10px;color:var(--amber)">🔢 Cardinality Formula — اتحفظها!</p>
+      <p>بنفترض: <code>Total Employees = 100</code>, <code>PartTime = 50</code>, <code>Consultant = 20</code></p>
+      <p style="margin-top:6px;margin-bottom:10px">السؤال: إيه نوع الـ participation لو Permanent Employees = X؟</p>
+      <div class="formula">
+        <div class="f-row"><div class="f-cond">Sum = 50+20+X</div><div class="f-res">حساب مجموع كل الـ subtypes</div></div>
+        <div class="f-row"><div class="f-cond">Sum = 100 بالظبط</div><div class="f-res">→ <span style="color:var(--cyan)">T/D</span> (X = 30)</div></div>
+        <div class="f-row"><div class="f-cond">Sum &gt; 100</div><div class="f-res">→ <span style="color:var(--purple)">Overlapping</span> (T/O أو P/O — مش واضح من الأرقام لوحدها)</div></div>
+        <div class="f-row"><div class="f-cond">Sum &lt; 100</div><div class="f-res">→ <span style="color:var(--amber)">Partial</span> (P/D هي الأوضح — بعض موظفين مش متصنفين)</div></div>
+      </div>
+    </div>
+
+    <div class="grid3" style="margin-top:12px">
+      <div style="background:rgba(34,211,238,.07);border:1px solid rgba(34,211,238,.2);border-radius:10px;padding:13px">
+        <p style="color:var(--cyan);font-weight:700;font-family:var(--fh)">X = 29 → P/D</p>
+        <p style="font-size:.8rem;color:var(--t2)">Sum = 99 &lt; 100 → Partial</p>
+        <p style="font-size:.8rem;color:var(--t2)">99 ≤ 100 → consistent with Disjoint</p>
+        <span class="badge bd-cyan">Partial / Disjoint</span>
+      </div>
+      <div style="background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:13px">
+        <p style="color:var(--purple);font-weight:700;font-family:var(--fh)">X = 81 → Overlapping</p>
+        <p style="font-size:.8rem;color:var(--t2)">Sum = 151 &gt; 100 → Overlapping</p>
+        <p style="font-size:.8rem;color:var(--t2)">T أو P? مش واضح من الأرقام</p>
+        <span class="badge bd-pur">Overlapping (T or P)</span>
+      </div>
+      <div style="background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:13px">
+        <p style="color:var(--emerald);font-weight:700;font-family:var(--fh)">X = 30 → T/D</p>
+        <p style="font-size:.8rem;color:var(--t2)">Sum = 100 = 100 → Total</p>
+        <p style="font-size:.8rem;color:var(--t2)">لا overlap → Disjoint</p>
+        <span class="badge bd-grn">Total / Disjoint ✓</span>
+      </div>
+    </div>
+    <div class="danger"><div><b>🚨 الـ Trick اللي بيقع فيه الكل!</b><br>
+    لما Sum &lt; Total → مش ممكن Overlapping يكون confirmed (بس ممكن يكون P/D)<br>
+    لما Sum &gt; Total → Overlapping مؤكد (P/O أو T/O حسب Coverage)<br>
+    لما X = 30 بالظبط → T/D الوحيد الممكن</div></div>
+
+    <div class="note" style="margin-top:12px"><div><b>📋 مثال الامتحان الصعب (2025 Q31):</b><br>
+    Total=100, PT=50, C=20, PE=40, intersection بين الـ 3 subtypes = 10 نفس الـ records.<br>
+    Sum = 110 &gt; 100 → Overlapping مؤكد. وطالما الـ intersection = 10 → unique coverage = 110 - overlaps ≥ 100 → التغطية Total.<br>
+    <strong>Answer: Total / Overlapping</strong></div></div>
+  </div>
+
+  <!-- MAPPING OPTIONS -->
+  <div class="topic" id="mapping" style="--accent:var(--emerald)">
+    <div class="topic-title">🗺️ Mapping EER to Relational Schema — الـ 4 Options</div>
+    <p>عندنا specialization فيها superclass C وm subclasses {S1, S2, ..., Sm}. إزاي نحولها لـ relational tables؟</p>
+
+    <div class="option-card">
+      <div class="option-card-header">
+        <div class="opt-num opt-8a">8A</div>
+        <div>
+          <p style="font-family:var(--fh);font-weight:700;color:var(--cyan)">Multiple Relations — Superclass + Subclasses</p>
+          <p style="font-size:.8rem;color:var(--t3)">الخيار الآمن الشامل ✅</p>
+        </div>
+        <span class="badge bd-grn" style="margin-right:auto">m+1 relations</span>
+      </div>
+      <div class="grid2">
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Result Tables</div></div>
+        <pre><code><span class="kw">EMPLOYEE</span>(SSN, Name, Bdate, Addr)
+<span class="fn">SECRETARY</span>(SSN, Typing_speed)  <span class="cmt">← FK</span>
+<span class="fn">TECHNICIAN</span>(SSN, Tgrade)       <span class="cmt">← FK</span>
+<span class="fn">ENGINEER</span>(SSN, Eng_type)       <span class="cmt">← FK</span></code></pre></div>
+        <div><div class="tip"><div><b>✅ Works for:</b> ANY specialization<br>(Total or Partial) + (Disjoint or Overlapping)</div></div>
+        <div class="info"><div>الـ PK بتاعة كل subclass هو نفس الـ PK بتاعة الـ superclass (foreign key)</div></div></div>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-card-header">
+        <div class="opt-num opt-8b">8B</div>
+        <div>
+          <p style="font-family:var(--fh);font-weight:700;color:var(--emerald)">Multiple Relations — Subclass Relations Only</p>
+          <p style="font-size:.8rem;color:var(--t3)">كل subclass بياخد كل attrs الـ superclass</p>
+        </div>
+        <span class="badge bd-amb" style="margin-right:auto">m relations</span>
+      </div>
+      <div class="grid2">
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Result Tables</div></div>
+        <pre><code><span class="fn">SECRETARY</span>(SSN, Name, Bdate, Typing_speed)
+<span class="fn">ENGINEER</span>(SSN, Name, Bdate, Eng_type)
+<span class="cmt">// NO separate EMPLOYEE table</span></code></pre></div>
+        <div>
+          <div class="warn"><div><b>⚠️ Works ONLY for:</b><br>TOTAL specialization فقط!<br>لو Partial → employees مش في أي subclass هيتضيعوا</div></div>
+          <div class="info"><div>لو Overlapping → نفس الـ entity هيتكرر في أكتر من relation — valid بس مش recommended</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-card-header">
+        <div class="opt-num opt-8c">8C</div>
+        <div>
+          <p style="font-family:var(--fh);font-weight:700;color:var(--amber)">Single Relation with ONE Type Attribute</p>
+          <p style="font-size:.8rem;color:var(--t3)">table واحدة بـ discriminating attribute</p>
+        </div>
+        <span class="badge bd-amb" style="margin-right:auto">1 relation</span>
+      </div>
+      <div class="grid2">
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Result Table</div></div>
+        <pre><code><span class="kw">EMPLOYEE</span>(SSN, Name, Bdate,
+  Typing_speed, Tgrade, Eng_type,
+  <span class="val">Profession</span>)  <span class="cmt">← type attribute</span>
+
+<span class="cmt">// Example data:</span>
+<span class="num">1</span> | Ahmed | ... | <span class="num">NULL</span>  | <span class="num">Civil</span> | Engineer
+<span class="num">2</span> | Sara  | ... | <span class="num">100</span>   | <span class="num">NULL</span>  | Secretary</code></pre></div>
+        <div>
+          <div class="danger"><div><b>❌ Works ONLY for DISJOINT!</b><br>لو Overlapping → واحد بيكون Secretary وEngineer معاً → type attr واحد مش كفاية → <strong>violates uniqueness</strong><br>لازم تعمل: PK = (SSN + Profession)</div></div>
+          <div class="warn"><div>Total vs Partial: مش مهم هنا</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-card-header">
+        <div class="opt-num opt-8d">8D</div>
+        <div>
+          <p style="font-family:var(--fh);font-weight:700;color:var(--purple)">Single Relation with MULTIPLE Type Attributes</p>
+          <p style="font-size:.8rem;color:var(--t3)">Boolean flag لكل subclass</p>
+        </div>
+        <span class="badge bd-pur" style="margin-right:auto">1 relation</span>
+      </div>
+      <div class="grid2">
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Result Table</div></div>
+        <pre><code><span class="kw">EMPLOYEE</span>(SSN, Name, Bdate,
+  Typing_speed, Tgrade, Eng_type,
+  <span class="val">IsSecretary</span>,   <span class="cmt">← YES/NO</span>
+  <span class="val">IsTechnician</span>,  <span class="cmt">← YES/NO</span>
+  <span class="val">IsEngineer</span>)    <span class="cmt">← YES/NO</span>
+
+<span class="cmt">// Example: engineer+secretary:</span>
+<span class="num">1</span> | Ahmed | 100 | Civil | <span class="val">YES</span> | <span class="num">NO</span> | <span class="val">YES</span></code></pre></div>
+        <div>
+          <div class="tip"><div><b>✅ Works for BOTH:</b><br>Disjoint ✅ + Overlapping ✅<br>كل entity عنده m flags (YES/NO)</div></div>
+          <div class="info"><div>الفرق عن 8C: بدل type attribute واحد، عندك boolean flag لكل subclass — فالـ overlapping بيتحل</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary table -->
+    <div style="margin-top:16px">
+      <p style="font-family:var(--fh);font-weight:600;color:var(--amber);margin-bottom:8px">📊 Quick Summary Table — احفظها!</p>
+      <table class="tbl">
+        <tr><th>Option</th><th># Tables</th><th>Total</th><th>Partial</th><th>Disjoint</th><th>Overlapping</th></tr>
+        <tr>
+          <td><span class="badge bd-cyan">8A</span></td>
+          <td>m+1</td>
+          <td><span class="badge bd-grn">✓</span></td>
+          <td><span class="badge bd-grn">✓</span></td>
+          <td><span class="badge bd-grn">✓</span></td>
+          <td><span class="badge bd-grn">✓</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge bd-grn">8B</span></td>
+          <td>m</td>
+          <td><span class="badge bd-grn">✓ required</span></td>
+          <td><span class="badge bd-red">✗</span></td>
+          <td><span class="badge bd-grn">recommended</span></td>
+          <td><span class="badge bd-amb">valid, not recommended</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge bd-amb">8C</span></td>
+          <td>1</td>
+          <td><span class="badge bd-grn">✓</span></td>
+          <td><span class="badge bd-grn">✓</span></td>
+          <td><span class="badge bd-grn">✓ required</span></td>
+          <td><span class="badge bd-red">✗</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge bd-pur">8D</span></td>
+          <td>1</td>
+          <td><span class="badge bd-grn">✓</span></td>
+          <td><span class="badge bd-grn">✓</span></td>
+          <td><span class="badge bd-grn">✓</span></td>
+          <td><span class="badge bd-grn">✓</span></td>
+        </tr>
+      </table>
+    </div>
+    <div class="danger"><div><b>🚨 الأكثر سؤالاً في الامتحانات:</b><br>
+    "Option 8C works for Overlapping" → <strong>FALSE! فقط Disjoint</strong><br>
+    "Participation type doesn't affect the option" → <strong>FALSE! 8B requires Total</strong><br>
+    "Option 8A works for any type" → <strong>TRUE! ✓</strong></div></div>
+  </div>
+
+  <!-- EER QUIZ -->
+  <div class="quiz-section" id="eer-quiz">
+    <div class="quiz-header">
+      <div class="quiz-icon">🎯</div>
+      <div dir="rtl" style="text-align: right; flex: 1;">
+        <h3 style="direction: ltr; display: inline-block;">EER Quiz — أسئلة حقيقية من Finals 2023/2024/2025</h3>
+        <p>اختبر نفسك على كل المفاهيم اللي اتشرحت</p>
+      </div>
+    </div>
+    <div id="qset-eer">
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q1 <span class="q-src">Final 2023 — Q18</span></div>
+        <div class="q-text">Specialization is the process of generating a superclass from different subclasses.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ FALSE! ده تعريف الـ <strong>Generalization</strong> مش Specialization.<br>
+        • <strong>Specialization</strong> = Top-Down: من superclass لـ subclasses<br>
+        • <strong>Generalization</strong> = Bottom-Up: من entities متشابهة نعمل superclass</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q2 <span class="q-src">Final 2024 — Q37</span></div>
+        <div class="q-text">An entity that is a member of a subclass inherits:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> All attributes of the entity as a member of the superclass</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> All relationships of the entity as a member of the superclass</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> All weak entities of the entity as a member of the superclass</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> A and B</div>
+        </div>
+        <div class="q-explain">✅ الـ subclass بتورّث <strong>الـ attributes كلها</strong> + <strong>الـ relationships كلها</strong> من الـ superclass. مفيش حاجة اسمها "weak entities inheritance".</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3 <span class="q-src">Final 2024 — Q38 | Final 2023 — Q20</span></div>
+        <div class="q-text">Mapping Enhanced EER to SINGLE RELATION with ONE TYPE ATTRIBUTE (Option 8C) works for a specialization whose subclasses are:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Total</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Disjoint</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Partial</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Overlapping</div>
+        </div>
+        <div class="q-explain">✅ Option 8C يشتغل فقط مع <strong>Disjoint</strong>. لو كان Overlapping، entity واحدة ممكن تكون في أكتر من subclass → type attribute واحد مش كفاية → Uniqueness violation. Total vs Partial مش مهم هنا.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">Final 2023 — Q20</span></div>
+        <div class="q-text">Building one table to represent inheritance with ONE TYPE ATTRIBUTE in EER can be used to enforce OVERLAPPING and PARTIAL PARTICIPATION constraints.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ FALSE! One type attribute يشتغل بس مع <strong>Disjoint</strong>. Overlapping → محتاج Option 8D (multiple type attributes). كمان لو Partial مع Overlapping → الـ PK uniqueness بتتكسر (Dr. Ali's answer).</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q5 <span class="q-src">Final 2025 — Q40</span></div>
+        <div class="q-text">When converting EERD into relational model, the type of participation does NOT affect which option of the 4 conversion options is used.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ FALSE! الـ participation type مهم:<br>• <strong>Option 8B</strong> يشتغل فقط مع <strong>Total</strong> participation<br>• Option 8A يشتغل مع أي type<br>• Options 8C و8D مش مهم فيهم الـ Total/Partial</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q6 <span class="q-src">Final 2025 — Q29 | Final 2024 — Q28 | Final 2023 — Q33</span></div>
+        <div class="q-text">Assume 3 types of employees: PartTime, Permanent, Consultant. Total employees = 100, PartTime = 50, Consultant = 20. If number of Permanent = 29, the participation type is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Total / Disjoint</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Total / Overlapping</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Partial / Disjoint</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</div>
+        </div>
+        <div class="q-explain">✅ Sum = 50 + 20 + 29 = <strong>99 &lt; 100</strong><br>
+        → <strong>Partial</strong> (موظف واحد مش في أي subtype)<br>
+        → 99 ≤ 100 → consistent with <strong>Disjoint</strong> (مفيش overlap ضروري)<br>
+        → <strong>Partial / Disjoint ✓</strong></div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q7 <span class="q-src">Final 2025 — Q30 | Final 2024 — Q29 | Final 2023 — Q34</span></div>
+        <div class="q-text">Same scenario: Total=100, PartTime=50, Consultant=20. If Permanent = 81, the participation type is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Total / Disjoint</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Total / Overlapping</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Partial / Disjoint</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Overlapping — could be Total or Partial</div>
+        </div>
+        <div class="q-explain">✅ Sum = 50 + 20 + 81 = <strong>151 &gt; 100</strong><br>
+        → <strong>Overlapping مؤكد</strong> (بعض الموظفين في أكتر من subtype)<br>
+        → هل Total أو Partial؟ مش واضح من الأرقام لوحدها → "Overlapping (T or P)"<br>
+        Dr. Ali: "Overlapping and Maybe Partial or Total"</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q8 <span class="q-src">Final 2025 — Q31</span></div>
+        <div class="q-text">Total=100, PartTime=50, Consultant=20, Permanent=40. Intersection among ALL THREE subtypes = 10 records (same 10 records). The participation type is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Total / Disjoint</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Total / Overlapping</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Partial / Disjoint</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</div>
+        </div>
+        <div class="q-explain">✅ Sum = 50 + 20 + 40 = 110 &gt; 100 → <strong>Overlapping</strong> مؤكد<br>
+        Intersection = 10 (نفس 10 موظفين في الـ 3 types) → unique employees covered ≥ 100 → <strong>Total</strong><br>
+        → <strong>Total / Overlapping ✓</strong></div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q9 — EER Concept</div>
+        <div class="q-text">Which mapping option creates the MAXIMUM number of relational tables?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Option 8A</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Option 8B</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Option 8C</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Option 8D</div>
+        </div>
+        <div class="q-explain">✅ Option 8A → m+1 tables (1 للـ superclass + 1 لكل subclass)<br>
+        Option 8B → m tables<br>
+        Options 8C و8D → 1 table فقط</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q10 — EER Concept</div>
+        <div class="q-text">A member of a superclass CAN optionally be a member of any number of its subclasses.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ TRUE! من السلايدز: "A member of the superclass can be optionally included as a member of any number of its subclasses." — مثال: موظف مهندس ومدير وبياخد مرتب ثابت → في 3 subclasses معاً.</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-eer','score-eer')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-eer','score-eer')">↺ Reset</button>
+    <div class="q-score" id="score-eer"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CHAPTER 2: NORMALIZATION
+════════════════════════════════════════ -->
+<div class="chapter">
+  <div class="ch-header">
+    <div class="ch-num norm">02</div>
+    <div class="ch-title">
+      <h2>Functional Dependencies &amp; Normalization</h2>
+      <p>Redundancy · FDs · 1NF · 2NF · 3NF</p>
+    </div>
+  </div>
+
+  <!-- REDUNDANCY -->
+  <div class="topic" id="redundancy" style="--accent:var(--red)">
+    <div class="topic-title">⚠️ Redundancy &amp; Anomalies — المشكلة اللي هنحلها</div>
+    <p>لما بنحط معلومات مختلفة في table واحدة بتحصل <strong>Redundancy</strong> = تكرار البيانات. وده بيسبب 3 مشاكل:</p>
+    <div class="grid3">
+      <div style="background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:10px;padding:14px">
+        <p style="color:var(--red);font-weight:700;font-family:var(--fh);margin-bottom:6px">❌ Insertion Anomaly</p>
+        <p style="font-size:.81rem;color:var(--t2)">مش ممكن تضيف department جديد من غير employee — الـ PK هيكون NULL وده ممنوع!</p>
+      </div>
+      <div style="background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:14px">
+        <p style="color:var(--amber);font-weight:700;font-family:var(--fh);margin-bottom:6px">⚠️ Deletion Anomaly</p>
+        <p style="font-size:.81rem;color:var(--t2)">لو حذفت آخر موظف في department، بتحذف معاه كل معلومات الـ department!</p>
+      </div>
+      <div style="background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:14px">
+        <p style="color:var(--purple);font-weight:700;font-family:var(--fh);margin-bottom:6px">🔄 Modification Anomaly</p>
+        <p style="font-size:.81rem;color:var(--t2)">لو غيرت اسم الـ department، لازم تغيره في كل الـ rows — نسيان واحد → inconsistency!</p>
+      </div>
+    </div>
+    <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EMP_DEPT — Example of Redundancy Problem</div></div>
+    <pre><code><span class="cmt">Ename        | Ssn       | Dnumber | Dname        | Dmgr_ssn</span>
+Smith        | 123456789 | 5       | <span class="val">Research</span>     | 333445555
+Wong         | 333445555 | 5       | <span class="val">Research</span>     | 333445555  <span class="cmt">← repeated!</span>
+Narayan      | 666884444 | 5       | <span class="val">Research</span>     | 333445555  <span class="cmt">← repeated!</span>
+English      | 453453453 | 5       | <span class="val">Research</span>     | 333445555  <span class="cmt">← repeated!</span>
+<span class="cmt">// "Research" dept info repeated for EVERY employee in dept 5!</span></code></pre></div>
+  </div>
+
+  <!-- FUNCTIONAL DEPENDENCIES -->
+  <div class="topic" id="fd" style="--accent:var(--emerald)">
+    <div class="topic-title">🔗 Functional Dependencies (FD) — الأساس</div>
+    <p><strong>تعريف:</strong> X → Y يعني: لو tuple تانين ليهم نفس قيمة X، لازم يكون عندهم نفس قيمة Y.</p>
+    <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">FD Examples</div></div>
+    <pre><code><span class="cmt">// SSN determines all employee info:</span>
+<span class="kw">SSN</span> <span class="fn">→</span> Ename, Bdate, Address, Dnumber
+
+<span class="cmt">// Department number determines dept info:</span>
+<span class="kw">Dnumber</span> <span class="fn">→</span> Dname, Dmgr_ssn
+
+<span class="cmt">// Composite key determines hours:</span>
+<span class="kw">{SSN, Pnumber}</span> <span class="fn">→</span> Hours</code></pre></div>
+
+    <div class="grid3">
+      <div style="background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:14px">
+        <p style="color:var(--emerald);font-weight:700;margin-bottom:6px">✅ Direct (Full) Dependency</p>
+        <p style="font-size:.8rem;color:var(--t2)">كل attribute بيعتمد على الـ PK بالكامل</p>
+        <p style="font-size:.78rem;margin-top:5px"><code>StudentId → Name, DOB, Address</code></p>
+      </div>
+      <div style="background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:14px">
+        <p style="color:var(--amber);font-weight:700;margin-bottom:6px">⚠️ Partial Dependency</p>
+        <p style="font-size:.8rem;color:var(--t2)">attribute بيعتمد على <em>جزء</em> من composite PK — violates 2NF</p>
+        <p style="font-size:.78rem;margin-top:5px"><code>SSN → Ename</code> (في table PK={SSN,Pno})</p>
+      </div>
+      <div style="background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:14px">
+        <p style="color:var(--purple);font-weight:700;margin-bottom:6px">🔄 Transitive Dependency</p>
+        <p style="font-size:.8rem;color:var(--t2)">attribute بيعتمد على non-key attr — violates 3NF</p>
+        <p style="font-size:.78rem;margin-top:5px"><code>SSN → Dno → Dname</code></p>
+      </div>
+    </div>
+
+    <div class="diagram-wrap" style="margin-top:14px">
+      <svg dir='ltr' viewBox="0 0 680 140" style="max-width:680px;width:100%">
+        <text x="340" y="18" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="11" font-weight="600">FD Diagram — EMP_DEPT Table</text>
+        <!-- SSN box -->
+        <rect x="20" y="35" width="60" height="28" rx="5" fill="rgba(34,211,238,0.1)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="50" y="53" text-anchor="middle" fill="#22d3ee" font-family="monospace" font-size="10" font-weight="bold">SSN</text>
+        <!-- Arrows from SSN -->
+        <line x1="80" y1="49" x2="145" y2="35" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <line x1="80" y1="49" x2="145" y2="55" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <line x1="80" y1="49" x2="145" y2="72" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <line x1="80" y1="49" x2="145" y2="90" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <defs><marker id="arr2" markerWidth="7" markerHeight="7" refX="3" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#34d399"/></marker>
+        <marker id="arr3" markerWidth="7" markerHeight="7" refX="3" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#f87171"/></marker></defs>
+        <!-- SSN targets -->
+        <rect x="147" y="25" width="65" height="22" rx="4" fill="rgba(52,211,153,0.07)" stroke="#34d399" stroke-width="1"/>
+        <text x="179" y="40" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="9">Ename</text>
+        <rect x="147" y="45" width="65" height="22" rx="4" fill="rgba(52,211,153,0.07)" stroke="#34d399" stroke-width="1"/>
+        <text x="179" y="60" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="9">Bdate</text>
+        <rect x="147" y="63" width="65" height="22" rx="4" fill="rgba(52,211,153,0.07)" stroke="#34d399" stroke-width="1"/>
+        <text x="179" y="78" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="9">Address</text>
+        <rect x="147" y="82" width="65" height="22" rx="4" fill="rgba(251,191,36,0.1)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="179" y="97" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="9">Dnumber</text>
+
+        <!-- Dnumber box -->
+        <rect x="270" y="82" width="75" height="22" rx="5" fill="rgba(251,191,36,0.1)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="307" y="97" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="9">Dnumber</text>
+        <line x1="213" y1="93" x2="269" y2="93" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4,2"/>
+
+        <!-- Transitive label -->
+        <text x="230" y="115" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="8" font-style="italic">Transitive!</text>
+
+        <!-- Dnumber arrows -->
+        <line x1="346" y1="93" x2="420" y2="78" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr3)"/>
+        <line x1="346" y1="93" x2="420" y2="100" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+        <rect x="422" y="68" width="75" height="22" rx="4" fill="rgba(248,113,113,0.07)" stroke="#f87171" stroke-width="1"/>
+        <text x="459" y="83" text-anchor="middle" fill="#f87171" font-family="monospace" font-size="9">Dname</text>
+        <rect x="422" y="92" width="80" height="22" rx="4" fill="rgba(248,113,113,0.07)" stroke="#f87171" stroke-width="1"/>
+        <text x="462" y="107" text-anchor="middle" fill="#f87171" font-family="monospace" font-size="9">Dmgr_ssn</text>
+
+        <!-- Labels -->
+        <text x="50" y="130" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="9">Primary Key</text>
+        <text x="200" y="130" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="9">Direct deps</text>
+        <text x="460" y="130" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="9">Transitive via Dno</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 1NF -->
+  <div class="topic" id="1nf" style="--accent:var(--cyan)">
+    <div class="topic-title">1️⃣ First Normal Form (1NF)</div>
+    <p><strong>القاعدة:</strong> كل خلية في الـ table لازم تكون <strong>atomic</strong> = قيمة واحدة بس.</p>
+    <div class="grid2">
+      <div>
+        <div class="danger"><div><b>❌ يخالف 1NF:</b><br>
+        • <strong>Multi-valued attributes</strong> — موظف عنده أكتر من phone number في خلية واحدة<br>
+        • <strong>Composite attributes</strong> — الـ Name مش atomic<br>
+        • <strong>Nested relations</strong> — table جوا table<br>
+        • <strong>Repeated groups</strong> — أكتر من قيمة في نفس الخلية</div></div>
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">NOT in 1NF</div></div>
+        <pre><code><span class="cmt">// DEPARTMENT table — multi-valued Dlocations:</span>
+Dnumber | Dname    | Dlocations
+5       | Research | {Bellaire, Sugarland, Houston}
+<span class="cmt">// ↑ NOT ATOMIC! Multiple values in one cell</span></code></pre></div>
+      </div>
+      <div>
+        <div class="tip"><div><b>✅ Fix — قسّم لـ separate relations:</b></div></div>
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">IN 1NF — After fix</div></div>
+        <pre><code><span class="cmt">// DEPARTMENT:</span>
+Dnumber | Dname    | Dmgr_ssn
+
+<span class="cmt">// DEPT_LOCATIONS (separate table):</span>
+Dnumber | Dlocation
+5       | Bellaire
+5       | Sugarland
+5       | Houston
+<span class="cmt">// PK = {Dnumber, Dlocation}</span></code></pre></div>
+        <div class="warn"><div><b>📌 يمين:</b> لازم يكون في PK محددة عشان تعتبر الـ relation in 1NF. من غير PK → technically not 1NF</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2NF -->
+  <div class="topic" id="2nf" style="--accent:var(--emerald)">
+    <div class="topic-title">2️⃣ Second Normal Form (2NF)</div>
+    <div class="grid2">
+      <div>
+        <p><strong>الشرط:</strong> in 1NF + لا يوجد <strong>Partial Dependency</strong></p>
+        <p style="margin-top:6px">Partial Dependency = attribute بيعتمد على <em>جزء</em> من الـ composite PK بس، مش الـ composite key كله.</p>
+        <div class="danger"><div><b>❌ EMP_PROJ — violates 2NF:</b></div></div>
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Partial Dependencies Found!</div></div>
+        <pre><code><span class="cmt">// EMP_PROJ(SSN, Pnumber, Hours, Ename, Pname, Ploc)</span>
+<span class="cmt">// PK = {SSN, Pnumber}</span>
+
+{SSN, Pnumber} <span class="fn">→</span> Hours        <span class="cmt">← FULL ✓</span>
+SSN            <span class="fn">→</span> Ename        <span class="cmt">← PARTIAL ✗</span>
+Pnumber        <span class="fn">→</span> Pname, Ploc  <span class="cmt">← PARTIAL ✗</span></code></pre></div>
+      </div>
+      <div>
+        <div class="tip"><div><b>✅ Fix — فصّل كل dependency في relation منفصلة:</b></div></div>
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">2NF — After Decomposition</div></div>
+        <pre><code><span class="cmt">// EP1: Full dependency only</span>
+<span class="kw">EP1</span>(SSN, Pnumber, Hours)
+<span class="cmt">// {SSN, Pnumber} → Hours ✓</span>
+
+<span class="cmt">// EP2: SSN partial dep</span>
+<span class="kw">EP2</span>(SSN, Ename)
+<span class="cmt">// SSN → Ename ✓</span>
+
+<span class="cmt">// EP3: Pnumber partial dep</span>
+<span class="kw">EP3</span>(Pnumber, Pname, Plocation)
+<span class="cmt">// Pnumber → Pname, Ploc ✓</span></code></pre></div>
+        <div class="info"><div>Note: 2NF only relevant when PK is <strong>composite</strong>. Single PK → automatically in 2NF.</div></div>
+      </div>
+    </div>
+
+    <!-- 2NF Diagram SVG -->
+    <div class="diagram-wrap">
+      <svg dir='ltr' viewBox="0 0 680 180" style="max-width:680px;width:100%">
+        <text x="340" y="16" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="11" font-weight="600">2NF Decomposition Visual</text>
+
+        <!-- Original table -->
+        <text x="340" y="36" text-anchor="middle" fill="#f87171" font-family="monospace" font-size="9">EMP_PROJ — NOT in 2NF</text>
+        <rect x="100" y="42" width="480" height="28" rx="5" fill="rgba(248,113,113,0.08)" stroke="#f87171" stroke-width="1.5"/>
+        <text x="185" y="59" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="9" font-weight="bold">[SSN, Pnumber]</text>
+        <text x="340" y="59" text-anchor="middle" fill="#f87171" font-family="monospace" font-size="9">Hours</text>
+        <text x="430" y="59" text-anchor="middle" fill="#f87171" font-family="monospace" font-size="9">Ename</text>
+        <text x="520" y="59" text-anchor="middle" fill="#f87171" font-family="monospace" font-size="9">Pname, Ploc</text>
+
+        <!-- Arrow down -->
+        <text x="340" y="90" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="18">↓</text>
+        <text x="340" y="100" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="9">Decompose</text>
+
+        <!-- Three new tables -->
+        <rect x="20" y="112" width="175" height="30" rx="5" fill="rgba(52,211,153,0.08)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="53" y="125" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="9" font-weight="bold">[SSN,Pno]</text>
+        <text x="115" y="125" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="9">Hours</text>
+        <text x="107" y="136" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="7">EP1 — full dep</text>
+
+        <rect x="255" y="112" width="170" height="30" rx="5" fill="rgba(52,211,153,0.08)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="290" y="125" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="9" font-weight="bold">[SSN]</text>
+        <text x="355" y="125" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="9">Ename</text>
+        <text x="340" y="136" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="7">EP2 — SSN partial dep</text>
+
+        <rect x="485" y="112" width="195" height="30" rx="5" fill="rgba(52,211,153,0.08)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="510" y="125" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="9" font-weight="bold">[Pno]</text>
+        <text x="600" y="125" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="9">Pname, Ploc</text>
+        <text x="582" y="136" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="7">EP3 — Pnumber partial dep</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 3NF -->
+  <div class="topic" id="3nf" style="--accent:var(--purple)">
+    <div class="topic-title">3️⃣ Third Normal Form (3NF)</div>
+    <div class="grid2">
+      <div>
+        <p><strong>الشرط:</strong> in 2NF + لا يوجد <strong>Transitive Dependency</strong></p>
+        <p style="margin-top:6px">Transitive Dependency = A → B → C حيث B هي non-key attribute.</p>
+        <p style="margin-top:6px">بمعنى تاني: <strong>مفيش non-key attribute يحدد non-key attribute تاني</strong></p>
+        <div class="danger"><div><b>❌ EMP_DEPT — violates 3NF:</b></div></div>
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Transitive Dependency Found!</div></div>
+        <pre><code><span class="cmt">// EMP_DEPT(Ename, SSN, Bdate, Addr, Dno, Dname, Dmgr)</span>
+<span class="cmt">// PK = SSN</span>
+
+SSN  <span class="fn">→</span> Ename, Bdate, Addr, <span class="val">Dno</span>  <span class="cmt">← direct ✓</span>
+<span class="val">Dno</span>  <span class="fn">→</span> Dname, Dmgr_ssn            <span class="cmt">← Dno is non-key!</span>
+
+<span class="cmt">// So transitively:</span>
+SSN <span class="fn">→</span> Dno <span class="fn">→</span> Dname, Dmgr  <span class="cmt">← TRANSITIVE ✗</span></code></pre></div>
+      </div>
+      <div>
+        <div class="tip"><div><b>✅ Fix — افصل الـ transitive dependency:</b></div></div>
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">3NF — After Fix</div></div>
+        <pre><code><span class="cmt">// ED1: Employee info (keep Dno as FK)</span>
+<span class="kw">ED1</span>(SSN, Ename, Bdate, Address, <span class="val">Dno</span>)
+<span class="cmt">// SSN → Ename, Bdate, Addr, Dno ✓</span>
+
+<span class="cmt">// ED2: Department info (separate!)</span>
+<span class="kw">ED2</span>(Dno, Dname, Dmgr_ssn)
+<span class="cmt">// Dno → Dname, Dmgr ✓</span></code></pre></div>
+        <div class="note"><div><b>🧩 الـ method:</b><br>
+        1. حدد الـ transitive deps<br>
+        2. كل transitive dep → relation جديدة<br>
+        3. الـ determinant (Dno) يبقى FK في الـ original table وPK في الجديدة</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULL NORMALIZATION EXAMPLE -->
+  <div class="topic" id="norm-example" style="--accent:var(--purple)">
+    <div class="topic-title">📖 Full Example — Reservation System (من السلايدز)</div>
+    <p>هناخد الـ Reservation relation دي ونطبق عليها 2NF وبعدين 3NF:</p>
+    <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Original Relation + FDs</div></div>
+    <pre><code><span class="cmt">Reservation(PerformerId, AgentId, VenueId, EventId,
+  PerformerName, PerformerLoc, PerformerType, Fee,
+  AgentName, AgentLoc, EventType, EventName,
+  VenueName, VenueLoc, BookingDate)</span>
+
+<span class="cmt">// FDs:</span>
+{PerformerId,AgentId,VenueId,EventId} <span class="fn">→</span> BookingDate
+EventId      <span class="fn">→</span> EventType, EventName
+VenueId      <span class="fn">→</span> VenueName, VenueLocation
+AgentId      <span class="fn">→</span> AgentName, AgentLocation
+PerformerId  <span class="fn">→</span> PerformerName, PerformerLoc, PerformerType
+PerformerType <span class="fn">→</span> Fee</code></pre></div>
+
+    <div class="grid2">
+      <div>
+        <p style="color:var(--amber);font-family:var(--fh);font-weight:600;margin-bottom:8px">Step 1: 2NF — Remove Partial Deps</p>
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">After 2NF</div></div>
+        <pre><code><span class="kw">Performer</span>(PerformerId, PName, PLoc, PType, <span class="val">Fee</span>)
+<span class="kw">Event</span>(EventId, EventType, EventName)
+<span class="kw">Agent</span>(AgentId, AgentName, AgentLoc)
+<span class="kw">Venue</span>(VenueId, VenueName, VenueLoc)
+<span class="kw">Reservation</span>(PerformerId, AgentId, VenueId,
+            EventId, BookingDate)</code></pre></div>
+        <div class="warn"><div>Performer هل هي in 3NF؟ PerformerType→Fee → Transitive! لازم نفصله.</div></div>
+      </div>
+      <div>
+        <p style="color:var(--emerald);font-family:var(--fh);font-weight:600;margin-bottom:8px">Step 2: 3NF — Remove Transitive Deps</p>
+        <div class="code-wrap"><div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">After 3NF</div></div>
+        <pre><code><span class="kw">Performer</span>(PerformerId, PName, PLoc, PType)
+<span class="kw">PerformerType</span>(PerformerType, Fee) <span class="cmt">← new!</span>
+<span class="kw">Event</span>(EventId, EventType, EventName)
+<span class="kw">Agent</span>(AgentId, AgentName, AgentLoc)
+<span class="kw">Venue</span>(VenueId, VenueName, VenueLoc)
+<span class="kw">Reservation</span>(PerformerId, AgentId, VenueId,
+            EventId, BookingDate)</code></pre></div>
+        <div class="tip"><div>الآن كل relation in 3NF — مفيش partial أو transitive deps!</div></div>
+      </div>
+    </div>
+
+    <!-- 3NF detection table -->
+    <div style="margin-top:14px">
+      <p style="font-family:var(--fh);font-weight:600;color:var(--purple);margin-bottom:8px">🔍 كيف تحدد الـ Normal Form؟</p>
+      <table class="tbl grn">
+        <tr><th>Normal Form</th><th>الشرط اللي لازم ينطبق</th><th>الـ Violation اللي بتكسرها</th></tr>
+        <tr><td><span class="badge bd-cyan">1NF</span></td><td>قيم atomic + PK محددة</td><td>Multi-valued / composite attrs</td></tr>
+        <tr><td><span class="badge bd-grn">2NF</span></td><td>in 1NF + no partial deps</td><td>Non-key attr depends on PART of composite PK</td></tr>
+        <tr><td><span class="badge bd-pur">3NF</span></td><td>in 2NF + no transitive deps</td><td>Non-key attr determines another non-key attr</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- NORMALIZATION QUIZ -->
+  <div class="quiz-section" id="norm-quiz">
+    <div class="quiz-header">
+      <div class="quiz-icon">🎯</div>
+      <div dir="rtl" style="text-align: right; flex: 1;">
+        <h3 style="direction: ltr; display: inline-block;">Normalization Quiz — أسئلة حقيقية من Finals 2023/2024/2025</h3>
+        <p>اختبر فهمك للـ FDs والـ Normal Forms</p>
+      </div>
+    </div>
+    <div id="qset-norm">
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q1 <span class="q-src">Final 2025 — Q45 | Final 2024 | Final 2023 — Q1</span></div>
+        <div class="q-text">A functional dependency is a relationship between:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Entities</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Attributes</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Tuples</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Tables</div>
+        </div>
+        <div class="q-explain">✅ FD هي relationship بين <strong>Attributes</strong>. X → Y يعني كل ما قيمة X تتكرر، نفس قيمة Y بتظهر. Dr. Ali: "c. Attributes"</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q2 <span class="q-src">Final 2025 — Q46 | Final 2023 — Q3</span></div>
+        <div class="q-text">Every time a certain value of attribute A appears, it matches the same value of attribute B, but NOT the same value of C. Therefore it is true that:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> A → C</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> B, C → A</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> A → B</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> A → B, C</div>
+        </div>
+        <div class="q-explain">✅ لما A يظهر → نفس قيمة B دايماً = A → B ✓<br>
+        لما A يظهر → مش نفس قيمة C = A لا يحدد C → A → C ✗<br>
+        <strong>Dr. Ali: c. A → B</strong></div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q3 <span class="q-src">Final 2025 — Q47 | Final 2023 — Q4</span></div>
+        <div class="q-text">Given: StudentId → StuName, CourseId → CourseName, (StudentId, CourseId) → Grade. The 2NF decomposition is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> (StudentId, StuName), (CourseId, CourseName), (StudentId, CourseId, Grade)</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> (StudentId, StuName, Grade), (CourseId, CourseName), (StudentId, CourseId)</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> (StudentId, StuName), (CourseId, CourseName, Grade), (StudentId, CourseId)</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> (StudentId, CourseId), (StuName, CourseName, Grade)</div>
+        </div>
+        <div class="q-explain">✅ PK = {StudentId, CourseId} — composite<br>
+        • StudentId → StuName = Partial dep → <strong>Student(StudentId, StuName)</strong><br>
+        • CourseId → CourseName = Partial dep → <strong>Course(CourseId, CourseName)</strong><br>
+        • {StudentId, CourseId} → Grade = Full dep → <strong>Enroll(StudentId, CourseId, Grade)</strong><br>
+        <strong>Dr. Ali: a</strong></div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q4 <span class="q-src">Final 2023 — Q2</span></div>
+        <div class="q-text">Given: {DEPT, COURSE, SECTION} → ROOM, INSTR and INSTR → I_OFFICE. The 3NF decomposition is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> (DEPT, COURSE, SECTION, ROOM, INSTR), (INSTR, I_OFFICE)</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> (DEPT, COURSE, SECTION, ROOM), (INSTR, I_OFFICE)</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> (DEPT, COURSE, SECTION), (ROOM, INSTR), (INSTR, I_OFFICE)</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> (DEPT, COURSE, SECTION), (INSTR, I_OFFICE, ROOM)</div>
+        </div>
+        <div class="q-explain">✅ الـ transitive dependency هي: PK → INSTR → I_OFFICE<br>
+        Fix: فصّل INSTR → I_OFFICE في relation جديدة (INSTR, I_OFFICE)<br>
+        الـ original table بيفضل يحتفظ بـ ROOM و INSTR (INSTR بقى FK)<br>
+        <strong>Dr. Ali: a</strong></div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q5 <span class="q-src">Final 2024 — Q20</span></div>
+        <div class="q-text">A table stores StudentID (PK), CourseID (PK), StudentName, CourseName, and Grade where (StudentID, CourseID) is the composite key. Which statement is MOST TRUE?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The table is already in 3NF</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> The table suffers from partial dependency on StudentName</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> The table is in 1NF but violates higher normal forms</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The table design is efficient and avoids unnecessary redundancy</div>
+        </div>
+        <div class="q-explain">✅ الـ table in 1NF ✓ (atomic values, PK defined)<br>
+        لكن: StudentID → StudentName (Partial dep → violates 2NF)<br>
+        CourseID → CourseName (Partial dep → violates 2NF)<br>
+        → in 1NF but violates 2NF and 3NF<br>
+        <strong>Dr. Ali: c</strong></div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q6 <span class="q-src">Final 2024 — Q22 | Final 2025 — Q23</span></div>
+        <div class="q-text">A database D contains 3 entities: E1 in 2NF, E2 in 3NF, and E3 contains multi-valued attributes. The database is in:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1st Normal Form</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2nd Normal Form</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 3rd Normal Form</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Denormalized</div>
+        </div>
+        <div class="q-explain">✅ الـ DB بتاخد الـ NF الأضعف بين الـ tables.<br>
+        E3 عندها multi-valued attributes → violates 1NF → below 1NF → Denormalized!<br>
+        مش مهم إن E1 in 2NF وE2 in 3NF — الأضعف هو اللي بيحدد.<br>
+        <strong>Dr. Ali: a. Denormalized</strong></div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q7 <span class="q-src">Final 2024 — Q24</span></div>
+        <div class="q-text">Once the database model reaches Relational Model (with primary keys defined), all its relations are in at least:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1st Normal Form</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2nd Normal Form</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 3rd Normal Form</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Denormalized</div>
+        </div>
+        <div class="q-explain">✅ لما الـ relation تيجي في الـ Relational Model مع PK محددة → اتلحقت بشروط الـ 1NF (atomic values, defined key).<br>
+        لكن مش ضامن 2NF أو 3NF (ممكن يكون فيه partial أو transitive deps).<br>
+        <strong>Dr. Ali: a. 1st NF</strong></div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q8 — Concept</div>
+        <div class="q-text">Which type of dependency VIOLATES 2NF but NOT necessarily 1NF?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Transitive dependency</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Full dependency</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Partial dependency</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Direct dependency</div>
+        </div>
+        <div class="q-explain">✅ <strong>Partial Dependency</strong> = يخالف 2NF (attr يعتمد على جزء من الـ composite PK).<br>
+        Transitive = يخالف 3NF.<br>
+        Full/Direct dependency = مطلوبة في 2NF و3NF.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q9 <span class="q-src">Final 2024 — Q13</span></div>
+        <div class="q-text">Table: (OrderID, ProductID, Quantity, UnitPrice, TotalPrice) where TotalPrice = Quantity × UnitPrice, and PK = (OrderID, ProductID). What normal form?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1st NF</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2nd NF</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 3rd NF</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 0 NF</div>
+        </div>
+        <div class="q-explain">✅ الـ table in 1NF (atomic values, PK defined) ✓<br>
+        لكن: UnitPrice → هو سعر المنتج، بيعتمد على ProductID فقط (مش الـ composite PK كامل) → <strong>Partial Dependency → violates 2NF</strong><br>
+        كمان TotalPrice مشتقة (derived) من Quantity × UnitPrice.<br>
+        <strong>Dr. Ali: a. 1st NF</strong></div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q10 — Concept</div>
+        <div class="q-text">Which statement correctly describes 3NF?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> All attributes depend on the PRIMARY KEY only</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> No attribute depends on part of a composite key</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> In 2NF with no non-key attribute determining another non-key attribute</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All relations have a single primary key attribute</div>
+        </div>
+        <div class="q-explain">✅ 3NF = in 2NF + no transitive dependencies = مفيش {non-key → non-key}<br>
+        Option A يصف 2NF نوعاً ما.<br>
+        Option B يصف 2NF (removing partial deps).<br>
+        Option C هو التعريف الصحيح للـ 3NF.</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-norm','score-norm')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-norm','score-norm')">↺ Reset</button>
+    <div class="q-score" id="score-norm"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CHEAT SHEET
+════════════════════════════════════════ -->
+<div class="chapter" id="cheatsheet">
+  <div class="ch-header">
+    <div class="ch-num cheat">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet — ملخص للمراجعة السريعة</h2>
+      <p>احفظ الجدول ده ادخل الامتحان بثقة!</p>
+    </div>
+  </div>
+
+  <div class="cheat">
+    <h3 style="color:var(--cyan)">🏗️ EER — المفاهيم الأساسية</h3>
+    <div class="cheat-item"><div class="cheat-key">Specialization</div><div class="cheat-val">Top-Down: من Superclass لـ Subclasses — بتعرّف الـ subclasses</div></div>
+    <div class="cheat-item"><div class="cheat-key">Generalization</div><div class="cheat-val">Bottom-Up: من entities متشابهة تعمل Superclass واحدة</div></div>
+    <div class="cheat-item"><div class="cheat-key">Inheritance</div><div class="cheat-val">Subclass ترث ALL attributes + ALL relationships من الـ Superclass</div></div>
+    <div class="cheat-item"><div class="cheat-key">Local/Specific Attrs</div><div class="cheat-val">الـ attributes الخاصة بالـ subclass (مش موروثة)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Subclass rule</div><div class="cheat-val">لازم تكون member في الـ Superclass الأول — مش ممكن في Subclass لوحدها</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3 style="color:var(--amber)">🔀 Constraints — الـ d و o والـ single/double line</h3>
+    <div class="cheat-item"><div class="cheat-key">Disjoint (d)</div><div class="cheat-val">Entity في <strong>واحدة بس</strong> من الـ subclasses — لا تداخل</div></div>
+    <div class="cheat-item"><div class="cheat-key">Overlapping (o)</div><div class="cheat-val">Entity ممكن في <strong>أكتر من subclass</strong> — تداخل مسموح</div></div>
+    <div class="cheat-item"><div class="cheat-key">Total (double line ══)</div><div class="cheat-val"><strong>كل entity</strong> في الـ superclass لازم في على الأقل subclass واحدة</div></div>
+    <div class="cheat-item"><div class="cheat-key">Partial (single line ─)</div><div class="cheat-val">بعض entities ممكن <strong>ما تكونش</strong> في أي subclass</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3 style="color:var(--purple)">📐 Cardinality Formula — السؤال اللي بيجي كل سنة</h3>
+    <div class="cheat-item"><div class="cheat-key">Sum = Total بالظبط</div><div class="cheat-val">→ <span style="color:var(--cyan)">Total / Disjoint</span> (T/D)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Sum &gt; Total</div><div class="cheat-val">→ <span style="color:var(--purple)">Overlapping مؤكد</span> (T/O أو P/O — مش واضح)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Sum &lt; Total</div><div class="cheat-val">→ <span style="color:var(--amber)">Partial مؤكد</span> (P/D هي الأوضح)</div></div>
+    <div class="cheat-item"><div class="cheat-key">T=100,PT=50,C=20,PE=29</div><div class="cheat-val">Sum=99 &lt; 100 → <strong>Partial/Disjoint</strong> ✓</div></div>
+    <div class="cheat-item"><div class="cheat-key">T=100,PT=50,C=20,PE=81</div><div class="cheat-val">Sum=151 &gt; 100 → <strong>Overlapping (T or P)</strong></div></div>
+    <div class="cheat-item"><div class="cheat-key">T=100,PT=50,C=20,PE=30</div><div class="cheat-val">Sum=100 = 100 → <strong>Total/Disjoint</strong> ✓</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3 style="color:var(--emerald)">🗺️ Mapping Options — الـ 4 خيارات</h3>
+    <div class="cheat-item"><div class="cheat-key">Option 8A</div><div class="cheat-val">Superclass table + subclass tables = <strong>m+1</strong> tables. يشتغل مع ANY type ✅</div></div>
+    <div class="cheat-item"><div class="cheat-key">Option 8B</div><div class="cheat-val">Subclass tables only = <strong>m</strong> tables. يشتغل مع <strong>TOTAL فقط</strong>. Recommended for D.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Option 8C</div><div class="cheat-val">1 table + type attr. يشتغل مع <strong>DISJOINT فقط</strong>. لو Overlapping → violates uniqueness.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Option 8D</div><div class="cheat-val">1 table + m boolean flags. يشتغل مع <strong>D و O معاً</strong> ✅</div></div>
+    <div class="cheat-item"><div class="cheat-key">Participation effect?</div><div class="cheat-val">YES! 8B needs TOTAL. الـ participation type بيأثر على الـ option اللي بنختاره.</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3 style="color:var(--emerald)">📊 Normal Forms Summary</h3>
+    <div class="cheat-item"><div class="cheat-key">1NF</div><div class="cheat-val">Atomic values + PK defined. No multi-valued, composite, or nested attrs.</div></div>
+    <div class="cheat-item"><div class="cheat-key">2NF</div><div class="cheat-val">in 1NF + No PARTIAL dependencies (all non-key → full PK)</div></div>
+    <div class="cheat-item"><div class="cheat-key">3NF</div><div class="cheat-val">in 2NF + No TRANSITIVE dependencies (no non-key → non-key)</div></div>
+    <div class="cheat-item"><div class="cheat-key">FD is between</div><div class="cheat-val">ATTRIBUTES (مش entities أو tuples أو tables)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Partial dep</div><div class="cheat-val">Attr depends on PART of composite PK → Fix by splitting</div></div>
+    <div class="cheat-item"><div class="cheat-key">Transitive dep</div><div class="cheat-val">PK → A → B where A is non-key → Fix by separating (A, B)</div></div>
+    <div class="cheat-item"><div class="cheat-key">DB NF level</div><div class="cheat-val">= الـ NF للـ table الأضعف. لو table in 1NF → DB in 1NF max</div></div>
+    <div class="cheat-item"><div class="cheat-key">Multi-valued in table</div><div class="cheat-val">→ Denormalized (below 1NF) → DB is Denormalized</div></div>
+  </div>
+
+  <div class="cheat" style="border-color:var(--red)">
+    <h3 style="color:var(--red)">🚨 Exam Traps — الأكثر غلطاً</h3>
+    <div class="cheat-item"><div class="cheat-key">"Spec. generates superclass"</div><div class="cheat-val">→ FALSE! ده Generalization. Specialization بتعمل Subclasses من Superclass.</div></div>
+    <div class="cheat-item"><div class="cheat-key">"8C works for Overlapping"</div><div class="cheat-val">→ FALSE! 8C فقط للـ Disjoint. Overlapping محتاج 8D.</div></div>
+    <div class="cheat-item"><div class="cheat-key">"Participation doesn't matter"</div><div class="cheat-val">→ FALSE! 8B needs Total. Type of participation DOES matter.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Sum &lt; Total → مؤكد P/D</div><div class="cheat-val">→ مش دايماً! يمكن P/O — لكن P/D هو الجواب الأوضح في الامتحان.</div></div>
+    <div class="cheat-item"><div class="cheat-key">"FD between entities"</div><div class="cheat-val">→ FALSE! FD بين Attributes، مش entities أو tables.</div></div>
+    <div class="cheat-item"><div class="cheat-key">"2NF no transitive"</div><div class="cheat-val">→ FALSE! الـ transitive يخالف 3NF مش 2NF. 2NF عن الـ partial deps.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Subclass يرث weak entities</div><div class="cheat-val">→ FALSE! بيرث attributes + relationships بس.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Single PK → 2NF auto?</div><div class="cheat-val">→ YES! لو PK مش composite → مفيش partial deps ممكنة → automatically in 2NF.</div></div>
+  </div>
+</div>
+
+</div><!-- end .content -->
+</main>
+
+<script>
+/* QUIZ ENGINE */
+function checkQuiz(qsetId, scoreId) {
+  const qset = document.getElementById(qsetId);
+  const items = qset.querySelectorAll('.q-item');
+  let correct = 0, total = items.length;
+  items.forEach(item => {
+    const correctVal = item.dataset.correct;
+    const selected = item.querySelector('.q-opt.selected');
+    const explain = item.querySelector('.q-explain');
+    if (selected) {
+      if (selected.dataset.val === correctVal) { selected.classList.add('correct'); correct++; }
+      else {
+        selected.classList.add('wrong');
+        item.querySelectorAll('.q-opt').forEach(o => { if (o.dataset.val === correctVal) o.classList.add('correct'); });
+      }
+    } else {
+      item.querySelectorAll('.q-opt').forEach(o => { if (o.dataset.val === correctVal) o.classList.add('correct'); });
+    }
+    if (explain) explain.classList.add('show');
+    item.querySelectorAll('.q-opt').forEach(o => o.style.pointerEvents = 'none');
+  });
+  const pct = Math.round((correct / total) * 100);
+  const scoreDiv = document.getElementById(scoreId);
+  scoreDiv.style.display = 'block';
+  let cls = pct >= 80 ? 'good' : pct >= 50 ? 'ok' : 'bad';
+  let emoji = pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '📚';
+  scoreDiv.className = 'q-score ' + cls;
+  scoreDiv.innerHTML = `${emoji} نتيجتك: ${correct}/${total} (${pct}%)`;
+}
+
+function resetQuiz(qsetId, scoreId) {
+  const qset = document.getElementById(qsetId);
+  qset.querySelectorAll('.q-opt').forEach(o => { o.classList.remove('selected','correct','wrong'); o.style.pointerEvents = ''; });
+  qset.querySelectorAll('.q-explain').forEach(e => e.classList.remove('show'));
+  const s = document.getElementById(scoreId);
+  s.style.display = 'none'; s.className = 'q-score';
+}
+
+document.addEventListener('click', e => {
+  const opt = e.target.closest('.q-opt');
+  if (!opt || opt.style.pointerEvents === 'none') return;
+  opt.closest('.q-opts').querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
+  opt.classList.add('selected');
+});
+
+/* PROGRESS BAR */
+window.addEventListener('scroll', () => {
+  const winH = window.innerHeight;
+  const docH = document.documentElement.scrollHeight - winH;
+  const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+  document.getElementById('prog').style.width = pct + '%';
+  const btn = document.getElementById('scroll-top');
+  window.scrollY > 400 ? btn.classList.add('show') : btn.classList.remove('show');
+  /* Sidebar active */
+  const links = document.querySelectorAll('.sb-link');
+  let activeLink = null;
+  links.forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+    const target = document.getElementById(href.substring(1));
+    if (target && target.getBoundingClientRect().top <= 160) activeLink = link;
+  });
+  links.forEach(l => l.classList.remove('active'));
+  if (activeLink) activeLink.classList.add('active');
+});
+
+/* MOBILE SIDEBAR CLOSE */
+document.querySelectorAll('.sb-link').forEach(l => l.addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+}));
+
+/* ANIMATE ON SCROLL */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; obs.unobserve(e.target); } });
+}, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+
+document.querySelectorAll('.topic,.cheat,.quiz-section,.option-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(14px)';
+  el.style.transition = 'opacity .4s ease, transform .4s ease';
+  obs.observe(el);
+});
+</script>
+<!-- GLOBAL TOP NAV -->
+<style>
+.global-top-nav {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999999;
+  background: rgba(13, 18, 32, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  display: flex;
+  padding: 6px;
+  gap: 4px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05) inset;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease;
+  animation: slideDownNav 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes slideDownNav {
+  0% { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+  100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+.global-top-nav.hidden {
+  transform: translateX(-50%) translateY(-150px);
+}
+.global-top-nav:hover {
+  background: rgba(13, 18, 32, 0.95);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.gnav-item {
+  color: #94a3b8;
+  text-decoration: none;
+  font-family: 'Outfit', 'Cairo', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 24px;
+  border-radius: 100px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.gnav-item:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+.gnav-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+}
+.gnav-item.active .gnav-dot {
+  background: #00d4ff;
+  box-shadow: 0 0 10px #00d4ff;
+}
+.gnav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+@media (max-width: 768px) {
+  .global-top-nav {
+    top: 10px;
+    width: 95%;
+    padding: 5px;
+    justify-content: space-between;
+  }
+  .gnav-item {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    flex: 1;
+    justify-content: center;
+  }
+}
+</style>
+<div class="global-top-nav" id="globalTopNav">
+  <a href="index.html" class="gnav-item"><div class="gnav-dot"></div> SQL Basics</a>
+  <a href="pp1.html" class="gnav-item"><div class="gnav-dot"></div> ER &amp; Mapping</a>
+  <a href="pp2.html" class="gnav-item active"><div class="gnav-dot"></div> EER &amp; Norm</a>
+</div>
+<script>
+  (function() {
+    let lastScrollY = 0;
+    const nav = document.getElementById('globalTopNav');
+    document.addEventListener('scroll', function(e) {
+      if (!nav) return;
+      const target = e.target;
+      const currentScrollY = target.scrollTop || window.scrollY;
+      if (currentScrollY === undefined) return;
+      
+      if (currentScrollY > lastScrollY && currentScrollY > 60) {
+        nav.classList.add('hidden');
+      } else {
+        nav.classList.remove('hidden');
+      }
+      lastScrollY = currentScrollY;
+    }, true);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IS211 — ER Model & Mapping</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060c18;--bg2:#0a1020;--card:#0e1528;--card2:#121c30;
+  --border:#1a3050;--border2:#22405a;
+  --cyan:#00d4ff;--cyan2:#0ea5e9;--amber:#f59e0b;--green:#10b981;
+  --red:#ef4444;--purple:#8b5cf6;--pink:#f472b6;--orange:#fb923c;
+  --t1:#e2e8f0;--t2:#94a3b8;--t3:#64748b;
+  --code:#080e1a;--fw:270px;
+  --fh:'Outfit',sans-serif;--fb:'DM Sans',sans-serif;--fc:'Fira Code',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.75;overflow-x:hidden}
+
+/* ─── PROGRESS BAR ─── */
+#prog-bar{position:fixed;top:0;right:0;height:3px;background:linear-gradient(-90deg,var(--cyan),var(--purple),var(--amber));z-index:9999;transition:width .2s;width:0}
+
+/* ─── SIDEBAR ─── */
+#sidebar{position:fixed;right:0;top:0;bottom:0;width:var(--fw);background:var(--bg2);border-left:1px solid var(--border);overflow-y:auto;z-index:100;padding:20px 0;transition:.3s}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.sb-logo{padding:12px 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.sb-logo h2{font-family:var(--fh);font-size:1.1rem;color:var(--cyan);font-weight:700}
+.sb-logo p{font-size:.72rem;color:var(--t3);margin-top:3px}
+.sb-section{padding:6px 20px 2px;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-top:10px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 20px;font-size:.82rem;color:var(--t2);text-decoration:none;transition:.2s;border-right:3px solid transparent}
+.sb-link:hover,.sb-link.active{color:var(--t1);background:rgba(0,212,255,.06);border-right-color:var(--cyan)}
+.sb-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:.2s}
+.sb-link.active .sb-dot,.sb-link:hover .sb-dot{background:var(--cyan)}
+
+/* ─── MAIN ─── */
+#main{margin-right:var(--fw);padding:0 0 80px}
+.hero{background:linear-gradient(135deg,#040a16 0%,#080f22 40%,#0c0a28 100%);padding:70px 60px 60px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-100px;left:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,212,255,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-50px;right:200px;width:300px;height:300px;background:radial-gradient(circle,rgba(139,92,246,.06) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:20px;padding:5px 14px;font-size:.75rem;color:var(--cyan);margin-bottom:20px;font-family:var(--fc);direction:ltr;}
+.hero h1{font-family:var(--fh);font-size:2.8rem;font-weight:800;line-height:1.15;margin-bottom:14px}
+.hero h1 span{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--t2);max-width:600px;font-size:1rem}
+.hero-stats{display:flex;gap:30px;margin-top:30px;flex-wrap:wrap;}
+.hstat{text-align:center}
+.hstat .num{font-family:var(--fh);font-size:1.8rem;font-weight:700;color:var(--cyan)}
+.hstat .lbl{font-size:.72rem;color:var(--t3);margin-top:2px}
+
+/* ─── CONTENT ─── */
+.content{padding:40px 60px}
+.chapter{margin-bottom:80px}
+
+/* ─── CHAPTER HEADER ─── */
+.ch-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.ch-num{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:1rem;flex-shrink:0}
+.ch-num.blue{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.25)}
+.ch-num.amber{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+.ch-num.green{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+.ch-num.purple{background:rgba(139,92,246,.12);color:var(--purple);border:1px solid rgba(139,92,246,.25)}
+.ch-num.orange{background:rgba(251,146,60,.12);color:var(--orange);border:1px solid rgba(251,146,60,.25)}
+.ch-title h2{font-family:var(--fh);font-size:1.6rem;font-weight:700}
+.ch-title p{color:var(--t3);font-size:.85rem;margin-top:3px}
+
+/* ─── TOPIC CARD ─── */
+.topic{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden;transition:.25s}
+.topic::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--cyan)),transparent);opacity:.6}
+.topic:hover{border-color:var(--border2);transform:translateY(-1px)}
+.topic-title{font-family:var(--fh);font-size:1.05rem;font-weight:600;margin-bottom:10px;color:var(--t1);display:flex;align-items:center;gap:10px}
+.topic-title .icon{font-size:1.1rem}
+.topic p{color:var(--t2);font-size:.9rem;margin-bottom:10px}
+.topic p:last-child{margin-bottom:0}
+
+/* ─── GRID ─── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+/* ─── CODE BLOCK ─── */
+.code-wrap{background:var(--code);border:1px solid #1a2640;border-radius:10px;margin:14px 0;overflow:hidden;direction:ltr;text-align:left;}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;background:rgba(255,255,255,.02);border-bottom:1px solid #1a2640}
+.code-dots{display:flex;gap:6px}
+.code-dots span{width:10px;height:10px;border-radius:50%}
+.code-dots span:nth-child(1){background:#ff5f57}
+.code-dots span:nth-child(2){background:#febc2e}
+.code-dots span:nth-child(3){background:#28c840}
+.code-lang{font-family:var(--fc);font-size:.68rem;color:var(--t3)}
+.code-wrap pre{padding:18px 20px;font-family:var(--fc);font-size:.83rem;line-height:1.75;overflow-x:auto;color:#cdd6f4}
+.kw{color:#cba6f7}.str{color:#a6e3a1}.num{color:#fab387}.fn{color:#89b4fa}
+.cmt{color:#4a5568;font-style:italic}.prop{color:#89dceb}.tag{color:#f38ba8}
+.attr{color:#fab387}.val{color:#a6e3a1}.pk{color:#f5c842;font-weight:700}.fk{color:#fb923c}
+
+code{font-family:var(--fc);background:rgba(0,212,255,.08);color:var(--cyan);padding:2px 7px;border-radius:4px;font-size:.82em;direction:ltr;unicode-bidi:isolate;display:inline-block;}
+
+/* ─── INFO BOXES ─── */
+.tip,.warn,.info,.danger,.rule{display:flex;gap:12px;padding:14px 16px;border-radius:10px;margin:14px 0;font-size:.87rem;border-right:3px solid}
+.tip{background:rgba(16,185,129,.08);border-right-color:var(--green);color:#6ee7b7}
+.warn{background:rgba(245,158,11,.08);border-right-color:var(--amber);color:#fcd34d}
+.info{background:rgba(0,212,255,.08);border-right-color:var(--cyan);color:#7dd3fc}
+.danger{background:rgba(239,68,68,.08);border-right-color:var(--red);color:#fca5a5}
+.rule{background:rgba(139,92,246,.08);border-right-color:var(--purple);color:#c4b5fd}
+.tip b,.warn b,.info b,.danger b,.rule b{display:block;margin-bottom:4px;font-weight:700}
+
+/* ─── TABLE ─── */
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem}
+.tbl th{background:var(--card2);color:var(--cyan);font-family:var(--fh);font-weight:600;padding:10px 14px;text-align:right;border-bottom:2px solid var(--border)}
+.tbl td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--t2)}
+.tbl tr:hover td{background:rgba(255,255,255,.02)}
+
+/* ─── SVG DIAGRAM ─── */
+.diagram-wrap{background:var(--code);border:1px solid #1a2640;border-radius:12px;padding:20px;margin:16px 0;overflow-x:auto;text-align:center;direction:ltr;}
+.diagram-wrap svg{max-width:100%;direction:ltr;}
+.diagram-wrap svg text{direction:ltr;unicode-bidi:isolate;}
+.diagram-label{font-family:var(--fc);font-size:.7rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;text-align:right;direction:rtl;}
+
+/* ─── STEP BADGE ─── */
+.step-badge{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(0,212,255,.12),rgba(139,92,246,.12));border:1px solid rgba(0,212,255,.25);border-radius:100px;padding:6px 16px 6px 8px;font-family:var(--fh);font-size:.85rem;font-weight:700;color:var(--cyan);margin-bottom:14px;direction:ltr;}
+.step-badge .sn{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--purple));display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;font-size:.85rem}
+
+/* ─── BADGE ─── */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;font-family:var(--fc);direction:ltr;unicode-bidi:isolate;}
+.badge-cyan{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
+.badge-green{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.badge-amber{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.badge-red{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.badge-purple{background:rgba(139,92,246,.1);color:var(--purple);border:1px solid rgba(139,92,246,.2)}
+
+/* ─── NOTATION GRID ─── */
+.notation-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.notation-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:.2s}
+.notation-card:hover{border-color:var(--cyan)}
+.notation-card .nc-symbol{margin-bottom:10px;display:flex;justify-content:center;direction:ltr;}
+.notation-card .nc-label{font-size:.75rem;font-weight:700;color:var(--cyan);margin-bottom:3px;font-family:var(--fh);direction:ltr;unicode-bidi:isolate;}
+.notation-card .nc-desc{font-size:.72rem;color:var(--t3)}
+
+/* ─── COMPARE GRID ─── */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.no-box{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:16px}
+.yes-box{background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.25);border-radius:10px;padding:16px}
+.box-title{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.no-box .box-title{color:var(--red)}
+.yes-box .box-title{color:var(--green)}
+
+/* ─── QUIZ (LTR for English content) ─── */
+.quiz-section{background:linear-gradient(135deg,#0a1428 0%,#0c1220 100%);border:1px solid var(--border);border-radius:16px;padding:30px;margin-top:40px;direction:ltr;text-align:left;}
+.quiz-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.quiz-icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.quiz-header h3{font-family:var(--fh);font-size:1.2rem;font-weight:700}
+.quiz-header p{font-size:.8rem;color:var(--t3)}
+.q-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:14px;transition:.2s}
+.q-num{font-family:var(--fc);font-size:.7rem;color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.q-src{background:rgba(139,92,246,.1);color:var(--purple);padding:2px 8px;border-radius:4px;font-size:.65rem;display:inline-block;}
+.q-text{font-size:.9rem;color:var(--t1);margin-bottom:14px;line-height:1.6}
+.q-opts{display:flex;flex-direction:column;gap:8px}
+.q-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:.2s;font-size:.85rem;color:var(--t2);user-select:none;background:transparent;width:100%;text-align:left;font-family:var(--fb)}
+.q-opt:hover{border-color:var(--border2);color:var(--t1);background:rgba(255,255,255,.02)}
+.q-opt.selected{border-color:var(--cyan);background:rgba(0,212,255,.06);color:var(--t1)}
+.q-opt.correct{border-color:var(--green)!important;background:rgba(16,185,129,.1)!important;color:#6ee7b7!important}
+.q-opt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important;color:#fca5a5!important}
+.q-opt-letter{width:22px;height:22px;border-radius:6px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-family:var(--fc);flex-shrink:0;font-weight:600;min-width:22px}
+.q-explain{display:none;margin-top:12px;padding:12px 14px;background:rgba(0,212,255,.05);border-right:3px solid var(--cyan);border-left:none;border-radius:8px 0 0 8px;font-size:.83rem;color:#7dd3fc;line-height:1.6;direction:rtl;text-align:right;}
+.q-explain.show{display:block}
+.quiz-btn{display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:9px 22px;border-radius:8px;border:none;cursor:pointer;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s}
+.btn-check{background:linear-gradient(135deg,var(--purple),var(--cyan2));color:#fff}
+.btn-check:hover{opacity:.9;transform:translateY(-1px)}
+.btn-reset{background:rgba(255,255,255,.06);color:var(--t2);margin-left:8px;border:1px solid var(--border)}
+.btn-reset:hover{background:rgba(255,255,255,.1);color:var(--t1)}
+.q-score{display:none;margin-top:16px;padding:14px 18px;border-radius:10px;font-family:var(--fh);font-weight:600;text-align:center;font-size:1rem}
+.q-score.good{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:var(--green)}
+.q-score.ok{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--amber)}
+.q-score.bad{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+
+/* ─── CHEAT SHEET ─── */
+.cheat{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:18px}
+.cheat h3{font-family:var(--fh);font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--cyan);display:flex;align-items:center;gap:8px}
+.cheat-item{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem}
+.cheat-item:last-child{border-bottom:none}
+.cheat-key{min-width:160px;font-family:var(--fc);font-size:.75rem;color:var(--amber);flex-shrink:0;direction:ltr;unicode-bidi:isolate;text-align:left;}
+.cheat-val{color:var(--t2);line-height:1.5}
+
+/* ─── SCROLL TO TOP ─── */
+#scroll-top{position:fixed;bottom:20px;left:20px;width:40px;height:40px;border-radius:10px;background:rgba(0,212,255,.15);border:1px solid rgba(0,212,255,.3);color:var(--cyan);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s;z-index:200}
+#scroll-top.show{opacity:1}
+#menu-btn{position:fixed;bottom:20px;right:20px;z-index:200;width:46px;height:46px;border-radius:12px;background:var(--cyan);border:none;cursor:pointer;color:#000;font-size:1.3rem;display:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,212,255,.4)}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  :root{--fw:0px}
+  #sidebar{transform:translateX(100%)}
+  #sidebar.open{transform:translateX(0);width:280px;box-shadow:0 0 30px rgba(0,0,0,.6)}
+  #main{margin-right:0}
+  .content{padding:24px 16px}
+  .hero{padding:40px 20px 32px}
+  .hero h1{font-size:1.9rem}
+  .grid2,.grid3,.compare-grid{grid-template-columns:1fr}
+  #menu-btn{display:flex}
+  .cheat-item{flex-direction:column;gap:4px}
+  .cheat-key{min-width:auto}
+  .tbl{display:block;overflow-x:auto}
+}
+@media(max-width:480px){
+  .hero h1{font-size:1.6rem}
+  .ch-title h2{font-size:1.3rem}
+  .hero-stats{flex-wrap:wrap;gap:15px;justify-content:center;}
+  .content{padding:16px 12px}
+}
+@media(min-width:901px){#menu-btn{display:none!important}}
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<!-- ═══════ SIDEBAR ═══════ -->
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>🗄️ IS211 Study Guide</h2>
+    <p>ER Model & Mapping — Cairo University</p>
+  </div>
+
+  <div class="sb-section">الجزء الأول — ER Model</div>
+  <a href="#entities" class="sb-link"><span class="sb-dot"></span>Entities & Attributes</a>
+  <a href="#attr-types" class="sb-link"><span class="sb-dot"></span>أنواع الـ Attributes</a>
+  <a href="#key-attrs" class="sb-link"><span class="sb-dot"></span>Key Attributes</a>
+  <a href="#erd-notation" class="sb-link"><span class="sb-dot"></span>ERD Notation Shapes</a>
+  <a href="#relationships" class="sb-link"><span class="sb-dot"></span>Relationships & Degree</a>
+  <a href="#cardinality" class="sb-link"><span class="sb-dot"></span>Cardinality Ratios</a>
+  <a href="#participation" class="sb-link"><span class="sb-dot"></span>Participation Constraints</a>
+  <a href="#weak-entity" class="sb-link"><span class="sb-dot"></span>Weak Entities</a>
+  <a href="#minmax" class="sb-link"><span class="sb-dot"></span>Min/Max Notation</a>
+  <a href="#company-erd" class="sb-link"><span class="sb-dot"></span>Company ERD الكامل</a>
+  <a href="#design-tips" class="sb-link"><span class="sb-dot"></span>Design Tips & Traps</a>
+  <a href="#quiz-er" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — الجزء الأول</a>
+
+  <div class="sb-section">الجزء الثاني — ER→Relational</div>
+  <a href="#mapping-overview" class="sb-link"><span class="sb-dot"></span>Overview & Golden Rules</a>
+  <a href="#step1" class="sb-link"><span class="sb-dot"></span>Step 1: Strong Entity</a>
+  <a href="#step2" class="sb-link"><span class="sb-dot"></span>Step 2: Weak Entity</a>
+  <a href="#step3" class="sb-link"><span class="sb-dot"></span>Step 3: Binary 1:1</a>
+  <a href="#step4" class="sb-link"><span class="sb-dot"></span>Step 4: Binary 1:N</a>
+  <a href="#step5" class="sb-link"><span class="sb-dot"></span>Step 5: Binary M:N</a>
+  <a href="#step6" class="sb-link"><span class="sb-dot"></span>Step 6: Multivalued</a>
+  <a href="#step7" class="sb-link"><span class="sb-dot"></span>Step 7: N-ary</a>
+  <a href="#full-schema" class="sb-link"><span class="sb-dot"></span>الـ Schema الكاملة</a>
+  <a href="#mapping-summary" class="sb-link"><span class="sb-dot"></span>Summary Table</a>
+  <a href="#quiz-mapping" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — الجزء الثاني</a>
+
+  <div class="sb-section">Reference</div>
+  <a href="#cheatsheet" class="sb-link"><span class="sb-dot"></span>⚡ Cheat Sheet</a>
+</nav>
+
+<button id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ═══════════════════════ MAIN ═══════════════════════ -->
+<main id="main">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚡ IS211 · Entity-Relationship Model & Mapping · All Exam Questions</div>
+  <h1>ER Model &<br><span>Relational Mapping</span></h1>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">7</div><div class="lbl">Mapping Steps</div></div>
+    <div class="hstat"><div class="num">3</div><div class="lbl">Final Exams</div></div>
+    <div class="hstat"><div class="num">20+</div><div class="lbl">Real Exam Q's</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ═══════════════════════════════════════════════════
+     PART 1 — ER MODEL
+═══════════════════════════════════════════════════ -->
+
+<!-- SECTION: ENTITIES & ATTRIBUTES -->
+<div class="chapter" id="entities">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>Entities & Attributes</h2>
+      <p>اللبنات الأساسية لتصميم قاعدة البيانات</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🏢</span> Entity يعني إيه؟</div>
+    <p>الـ Entity هو أي شيء أو كيان موجود في الـ mini-world وعايز تخزّن بياناته في قاعدة البيانات. فكّر فيه زي الـ "اسم" في جملة — حاجة ليها وجود مستقل.</p>
+    <div class="grid3">
+      <div style="background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-size:2rem;margin-bottom:6px">👤</div>
+        <div style="color:var(--cyan);font-weight:700;font-family:var(--fh)">EMPLOYEE</div>
+        <div style="font-size:.78rem;color:var(--t3);margin-top:4px">موظف محدد في الشركة</div>
+      </div>
+      <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-size:2rem;margin-bottom:6px">🏢</div>
+        <div style="color:var(--amber);font-weight:700;font-family:var(--fh)">DEPARTMENT</div>
+        <div style="font-size:.78rem;color:var(--t3);margin-top:4px">قسم محدد في الشركة</div>
+      </div>
+      <div style="background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.2);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-size:2rem;margin-bottom:6px">📋</div>
+        <div style="color:var(--purple);font-weight:700;font-family:var(--fh)">PROJECT</div>
+        <div style="font-size:.78rem;color:var(--t3);margin-top:4px">مشروع محدد في الشركة</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🏷️</span> Attribute يعني إيه؟</div>
+    <p>الـ Attributes هي الصفات أو الخصائص اللي بتوصف الـ Entity. زي ما الشخص ليه اسم وعنوان وعمر — كل entity ليه attributes بتوصفه.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EXAMPLE — EMPLOYEE entity instance</div></div>
+      <pre>Name       = 'Ragab Ahmed'         <span class="cmt">← composite attribute</span>
+SSN        = '123456789'           <span class="cmt">← key attribute</span>
+Address    = '731 Faisal, Giza'    <span class="cmt">← simple attribute</span>
+Gender     = 'Male'                <span class="cmt">← simple attribute</span>
+BirthDate  = 'April 1, 1990'      <span class="cmt">← stored attribute</span>
+Age        = 34                    <span class="cmt">← derived from BirthDate</span></pre>
+    </div>
+    <div class="rule"><b>📌 Default Attribute:</b> بشكل افتراضي أي attribute هو <strong>Stored + Single-valued + Simple (Atomic)</strong>. لو مختلف بتوضح ده في الـ ERD.</div>
+  </div>
+</div>
+
+<!-- SECTION: ATTRIBUTE TYPES -->
+<div class="chapter" id="attr-types">
+  <div class="ch-header">
+    <div class="ch-num blue">02</div>
+    <div class="ch-title">
+      <h2>أنواع الـ Attributes</h2>
+      <p>كل نوع ليه رمز معين في الـ ERD — لازم تحفظهم</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">⚫</span> Simple (Atomic) Attribute</div>
+      <p>مش ممكن يتقسم لأجزاء أصغر. ده الـ default.</p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Examples</div></div>
+        <pre><span class="str">SSN</span>    = '123456789'   <span class="cmt">← can't split further</span>
+<span class="str">Gender</span> = 'Male'
+<span class="str">Salary</span> = 12000</pre>
+      </div>
+      <div class="info"><b>ERD Shape:</b> Oval عادي بسيط</div>
+    </div>
+
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">🔘🔘</span> Composite Attribute</div>
+      <p>بينقسم لأجزاء أصغر ذات معنى. كل جزء ممكن يتخزن لوحده.</p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Examples</div></div>
+        <pre><span class="str">Name</span>(FName, MInit, LName)
+<span class="str">Address</span>(Street, City, State, Zip)
+<span class="str">Registration</span>(Number, State)  <span class="cmt">← composite key!</span></pre>
+      </div>
+      <div class="warn"><b>⚠️ مهم جداً:</b> لما بتعمل Relational Table — الـ composite attribute نفسه مش بيتخزن. بس أجزاءه البسيطة هي اللي بتتخزن!</div>
+    </div>
+
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">①</span> Single-Valued Attribute</div>
+      <p>بياخد قيمة واحدة بس لكل entity. ده الـ default.</p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Examples</div></div>
+        <pre><span class="str">Age</span>   = 34        <span class="cmt">← one value per person</span>
+<span class="str">SSN</span>   = '123...'   <span class="cmt">← one SSN per employee</span></pre>
+      </div>
+    </div>
+
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">{}</span> Multi-Valued Attribute</div>
+      <p>ممكن يبقى ليه أكتر من قيمة لنفس الـ entity.</p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Examples</div></div>
+        <pre><span class="str">{Locations}</span>  = ['Cairo', 'Alex', 'Giza']
+<span class="str">{Hobbies}</span>    = ['Chess', 'Swimming']
+<span class="str">{PhoneNums}</span>  = ['010...', '011...']</pre>
+      </div>
+      <div class="info"><b>ERD Shape:</b> Double Oval (أوفال مزدوج) — وبتكتبه {Attr}</div>
+    </div>
+
+    <div class="topic" style="--accent:var(--orange)">
+      <div class="topic-title"><span class="icon">⟳</span> Derived Attribute</div>
+      <p>بيتحسب من attribute تاني — مش بنخزنه في قاعدة البيانات.</p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Examples</div></div>
+        <pre><span class="str">Age</span>             <span class="cmt">← derived from BirthDate</span>
+<span class="str">Num_Employees</span>   <span class="cmt">← derived from counting employees</span>
+<span class="str">TotalSalary</span>     <span class="cmt">← derived from summing salaries</span></pre>
+      </div>
+      <div class="tip"><b>ERD Shape:</b> Dashed Oval (أوفال بخط منقط) — مش بنخزنه في الـ table!</div>
+    </div>
+
+    <div class="topic" style="--accent:var(--red)">
+      <div class="topic-title"><span class="icon">🔑</span> Key Attribute</div>
+      <p>بيحدد كل entity بشكل فريد — لازم يكون Unique ومش NULL.</p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Examples</div></div>
+        <pre><span class="pk">SSN</span>         <span class="cmt">← key of EMPLOYEE</span>
+<span class="pk">DNumber</span>     <span class="cmt">← key of DEPARTMENT</span>
+<span class="pk">VehicleId</span>   <span class="cmt">← key of CAR</span>
+<span class="pk">Registration</span>(Number,State) <span class="cmt">← composite key of CAR</span></pre>
+      </div>
+      <div class="danger"><b>ERD Shape:</b> Oval بـ underline تحت اسمه — Unique + NOT NULL</div>
+    </div>
+  </div>
+
+  <!-- Visual ERD shapes diagram -->
+  <div class="diagram-wrap">
+    <div class="diagram-label">📐 ERD Attribute Shapes — مرجع بصري سريع</div>
+    <svg dir='ltr' viewBox="0 0 780 220" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:780px">
+      <!-- Simple -->
+      <ellipse cx="70" cy="70" rx="50" ry="24" fill="#080e1a" stroke="#4a6080" stroke-width="1.5"/>
+      <text x="70" y="75" text-anchor="middle" fill="#94a3b8" font-family="DM Sans,sans-serif" font-size="13">Simple</text>
+      <text x="70" y="110" text-anchor="middle" fill="#64748b" font-family="DM Sans,sans-serif" font-size="11">Simple Attr</text>
+
+      <!-- Key (underlined) -->
+      <ellipse cx="200" cy="70" rx="50" ry="24" fill="#080e1a" stroke="#f5c842" stroke-width="2"/>
+      <text x="200" y="75" text-anchor="middle" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="13" font-weight="700">Key</text>
+      <line x1="175" y1="79" x2="225" y2="79" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="200" y="110" text-anchor="middle" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="11">Key Attribute</text>
+
+      <!-- Derived (dashed) -->
+      <ellipse cx="330" cy="70" rx="55" ry="24" fill="#080e1a" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="330" y="75" text-anchor="middle" fill="#fb923c" font-family="DM Sans,sans-serif" font-size="13">Derived</text>
+      <text x="330" y="110" text-anchor="middle" fill="#fb923c" font-family="DM Sans,sans-serif" font-size="11">Derived Attr</text>
+
+      <!-- Multi-valued (double oval) -->
+      <ellipse cx="470" cy="70" rx="55" ry="26" fill="#080e1a" stroke="#a78bfa" stroke-width="1.5"/>
+      <ellipse cx="470" cy="70" rx="45" ry="19" fill="#080e1a" stroke="#a78bfa" stroke-width="1.5"/>
+      <text x="470" y="74" text-anchor="middle" fill="#a78bfa" font-family="DM Sans,sans-serif" font-size="12">{Multi}</text>
+      <text x="470" y="110" text-anchor="middle" fill="#a78bfa" font-family="DM Sans,sans-serif" font-size="11">Multi-valued Attr</text>
+
+      <!-- Composite (tree) -->
+      <ellipse cx="630" cy="45" rx="48" ry="22" fill="#080e1a" stroke="#22c55e" stroke-width="1.5"/>
+      <text x="630" y="50" text-anchor="middle" fill="#22c55e" font-family="DM Sans,sans-serif" font-size="12">Name</text>
+      <line x1="595" y1="65" x2="570" y2="88" stroke="#22c55e" stroke-width="1.2" opacity=".5"/>
+      <line x1="630" y1="67" x2="630" y2="88" stroke="#22c55e" stroke-width="1.2" opacity=".5"/>
+      <line x1="665" y1="65" x2="690" y2="88" stroke="#22c55e" stroke-width="1.2" opacity=".5"/>
+      <ellipse cx="570" cy="104" rx="32" ry="16" fill="#080e1a" stroke="#22c55e" stroke-width="1" opacity=".7"/>
+      <text x="570" y="108" text-anchor="middle" fill="#22c55e" font-size="10" font-family="DM Sans,sans-serif" opacity=".7">FName</text>
+      <ellipse cx="630" cy="104" rx="28" ry="16" fill="#080e1a" stroke="#22c55e" stroke-width="1" opacity=".7"/>
+      <text x="630" y="108" text-anchor="middle" fill="#22c55e" font-size="10" font-family="DM Sans,sans-serif" opacity=".7">MInit</text>
+      <ellipse cx="690" cy="104" rx="32" ry="16" fill="#080e1a" stroke="#22c55e" stroke-width="1" opacity=".7"/>
+      <text x="690" y="108" text-anchor="middle" fill="#22c55e" font-size="10" font-family="DM Sans,sans-serif" opacity=".7">LName</text>
+      <text x="630" y="140" text-anchor="middle" fill="#22c55e" font-family="DM Sans,sans-serif" font-size="11">Composite Attr (Tree)</text>
+
+      <!-- Labels row -->
+      <text x="390" y="195" text-anchor="middle" fill="#334155" font-family="DM Sans,sans-serif" font-size="11">Oval = Attribute ・ Double Oval = Multi-valued ・ Dashed = Derived ・ Underlined = Key</text>
+    </svg>
+  </div>
+</div>
+
+<!-- SECTION: KEY ATTRIBUTES -->
+<div class="chapter" id="key-attrs">
+  <div class="ch-header">
+    <div class="ch-num blue">03</div>
+    <div class="ch-title">
+      <h2>Key Attributes — التعريف والفرق</h2>
+      <p>الفرق بين Key و Unique و Candidate Key</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔑</span> Key vs. Unique — الفرق المهم!</div>
+    <div class="grid2">
+      <div>
+        <table class="tbl">
+          <tr><th>Property</th><th>Key Attribute</th><th>Unique Constraint</th></tr>
+          <tr><td>Unique Values?</td><td style="color:var(--green)">✅ Yes</td><td style="color:var(--green)">✅ Yes</td></tr>
+          <tr><td>Allows NULL?</td><td style="color:var(--red)">❌ No (NOT NULL)</td><td style="color:var(--amber)">⚠️ Yes (NULLs allowed & repeated)</td></tr>
+          <tr><td>Can be PK?</td><td style="color:var(--green)">✅ Yes</td><td style="color:var(--red)">❌ No</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tip"><b>💡 Candidate Keys:</b> entity ممكن يبقى عنده أكتر من key واحد — كل دول بيتسموا Candidate Keys. بتختار واحد منهم يبقى الـ Primary Key.</div>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CAR — Two Candidate Keys</div></div>
+          <pre><span class="cmt">-- Candidate Key 1:</span>
+<span class="pk">Vehicle_Id</span> = 'TK629'
+
+<span class="cmt">-- Candidate Key 2 (composite!):</span>
+<span class="pk">Registration</span>(Number='ABC 123', State='TX')
+
+<span class="cmt">-- Pick ONE as Primary Key</span></pre>
+        </div>
+      </div>
+    </div>
+    <div class="danger"><b>🚨 Exam Trap — Choosing the Wrong Key!</b> الـ Book Title مش key جيد لكتاب فيزيقي — ممكن يبقى في أكتر من نسخة من "Gone with the Wind". الـ key الصح هو serial number فريد لكل نسخة مطبوعة.</div>
+  </div>
+</div>
+
+<!-- SECTION: ERD NOTATION -->
+<div class="chapter" id="erd-notation">
+  <div class="ch-header">
+    <div class="ch-num blue">04</div>
+    <div class="ch-title">
+      <h2>ERD Notation — الرموز والأشكال</h2>
+      <p>اللغة البصرية للـ Entity-Relationship Diagrams</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📐</span> ملخص كل الأشكال</div>
+    <div class="notation-grid">
+      <div class="notation-card">
+        <div class="nc-symbol"><svg width="80" height="38"><rect x="5" y="5" width="70" height="28" rx="3" fill="#080e1a" stroke="#00d4ff" stroke-width="2"/><text x="40" y="24" text-anchor="middle" fill="#00d4ff" font-size="11" font-family="Outfit,sans-serif" font-weight="700">ENTITY</text></svg></div>
+        <div class="nc-label">Rectangle</div>
+        <div class="nc-desc">Strong Entity Type</div>
+      </div>
+      <div class="notation-card">
+        <div class="nc-symbol"><svg width="80" height="42"><rect x="3" y="3" width="74" height="36" rx="3" fill="#080e1a" stroke="#ef4444" stroke-width="2"/><rect x="7" y="7" width="66" height="28" rx="2" fill="#080e1a" stroke="#ef4444" stroke-width="1.5"/><text x="40" y="25" text-anchor="middle" fill="#ef4444" font-size="10" font-family="Outfit,sans-serif" font-weight="700">WEAK</text></svg></div>
+        <div class="nc-label">Double Rectangle</div>
+        <div class="nc-desc">Weak Entity Type</div>
+      </div>
+      <div class="notation-card">
+        <div class="nc-symbol"><svg width="80" height="42"><polygon points="40,5 75,21 40,37 5,21" fill="#080e1a" stroke="#a78bfa" stroke-width="2"/><text x="40" y="25" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="Outfit,sans-serif">REL</text></svg></div>
+        <div class="nc-label">Diamond</div>
+        <div class="nc-desc">Relationship Type</div>
+      </div>
+      <div class="notation-card">
+        <div class="nc-symbol"><svg width="80" height="46"><polygon points="40,5 75,23 40,41 5,23" fill="#080e1a" stroke="#ef4444" stroke-width="2"/><polygon points="40,10 70,23 40,36 10,23" fill="#080e1a" stroke="#ef4444" stroke-width="1.5"/><text x="40" y="27" text-anchor="middle" fill="#ef4444" font-size="9" font-family="Outfit,sans-serif">ID-REL</text></svg></div>
+        <div class="nc-label">Double Diamond</div>
+        <div class="nc-desc">Identifying Relationship</div>
+      </div>
+      <div class="notation-card">
+        <div class="nc-symbol"><svg width="80" height="38"><ellipse cx="40" cy="19" rx="35" ry="16" fill="#080e1a" stroke="#4a6080" stroke-width="1.5"/><text x="40" y="24" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="DM Sans,sans-serif">Attr</text></svg></div>
+        <div class="nc-label">Oval</div>
+        <div class="nc-desc">Simple Attribute</div>
+      </div>
+      <div class="notation-card">
+        <div class="nc-symbol"><svg width="80" height="40"><ellipse cx="40" cy="20" rx="35" ry="17" fill="#080e1a" stroke="#f5c842" stroke-width="1.5"/><text x="40" y="24" text-anchor="middle" fill="#f5c842" font-size="12" font-family="DM Sans,sans-serif">Key</text><line x1="22" y1="28" x2="58" y2="28" stroke="#f5c842" stroke-width="1.5"/></svg></div>
+        <div class="nc-label">Underlined Oval</div>
+        <div class="nc-desc">Key Attribute</div>
+      </div>
+      <div class="notation-card">
+        <div class="nc-symbol"><svg width="80" height="42"><ellipse cx="40" cy="21" rx="36" ry="18" fill="#080e1a" stroke="#a78bfa" stroke-width="1.5"/><ellipse cx="40" cy="21" rx="28" ry="13" fill="#080e1a" stroke="#a78bfa" stroke-width="1.5"/><text x="40" y="25" text-anchor="middle" fill="#a78bfa" font-size="11" font-family="DM Sans,sans-serif">{Multi}</text></svg></div>
+        <div class="nc-label">Double Oval</div>
+        <div class="nc-desc">Multi-valued Attribute</div>
+      </div>
+      <div class="notation-card">
+        <div class="nc-symbol"><svg width="80" height="40"><ellipse cx="40" cy="20" rx="36" ry="17" fill="#080e1a" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="5,3"/><text x="40" y="24" text-anchor="middle" fill="#fb923c" font-size="11" font-family="DM Sans,sans-serif">Derived</text></svg></div>
+        <div class="nc-label">Dashed Oval</div>
+        <div class="nc-desc">Derived Attribute</div>
+      </div>
+      <div class="notation-card">
+        <div class="nc-symbol"><svg width="80" height="36"><line x1="5" y1="15" x2="75" y2="15" stroke="#00d4ff" stroke-width="2.5"/><line x1="5" y1="22" x2="75" y2="22" stroke="#00d4ff" stroke-width="2.5"/></svg></div>
+        <div class="nc-label">Double Line</div>
+        <div class="nc-desc">Total Participation (Mandatory)</div>
+      </div>
+      <div class="notation-card">
+        <div class="nc-symbol"><svg width="80" height="36"><line x1="5" y1="18" x2="75" y2="18" stroke="#4a6080" stroke-width="2"/></svg></div>
+        <div class="nc-label">Single Line</div>
+        <div class="nc-desc">Partial Participation (Optional)</div>
+      </div>
+      <div class="notation-card">
+        <div class="nc-symbol"><svg width="80" height="36"><line x1="5" y1="18" x2="75" y2="18" stroke="#4a6080" stroke-width="1.5"/><text x="12" y="13" fill="#f5c842" font-family="Outfit,sans-serif" font-size="14" font-weight="800">1</text><text x="58" y="13" fill="#10b981" font-family="Outfit,sans-serif" font-size="14" font-weight="800">N</text></svg></div>
+        <div class="nc-label">1 and N labels</div>
+        <div class="nc-desc">Cardinality Ratio 1:N</div>
+      </div>
+      <div class="notation-card">
+        <div class="nc-symbol"><svg width="80" height="36"><ellipse cx="40" cy="18" rx="36" ry="16" fill="#080e1a" stroke="#ef4444" stroke-width="1.5"/><text x="40" y="22" text-anchor="middle" fill="#ef4444" font-size="11" font-family="DM Sans,sans-serif">Partial</text><line x1="18" y1="25" x2="62" y2="25" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,2"/></svg></div>
+        <div class="nc-label">Dashed Underline</div>
+        <div class="nc-desc">Partial Key (Weak Entity)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION: RELATIONSHIPS -->
+<div class="chapter" id="relationships">
+  <div class="ch-header">
+    <div class="ch-num blue">05</div>
+    <div class="ch-title">
+      <h2>Relationships & Relationship Types</h2>
+      <p>الروابط بين الـ Entities — الـ "أفعال" في الـ ERD</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔗</span> ما هو الـ Relationship؟</div>
+    <p>الـ Relationship هو الرابط الذي يربط entities اتنين أو أكتر بمعنى محدد. مثلاً: EMPLOYEE <strong>"WORKS_FOR"</strong> DEPARTMENT — ده relationship.</p>
+    <div class="info"><b>💡 مهم:</b> نفس الـ entities ممكن يكون بينهم أكتر من relationship — بس كل واحد له <strong>معنى مختلف</strong>. مثلاً: EMPLOYEE-DEPARTMENT لهم WORKS_FOR وكمان MANAGES — كل واحد بيعبر عن حاجة مختلفة!</div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📊</span> Degree of a Relationship — درجة العلاقة</div>
+    <p>الـ Degree هو عدد الـ entity types المشاركة في الـ relationship.</p>
+    <div class="grid3">
+      <div style="background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:14px">
+        <div style="color:var(--cyan);font-family:var(--fh);font-weight:700;margin-bottom:6px">Unary (Degree 1)</div>
+        <div style="font-size:.8rem;color:var(--t2)">Entity يرتبط بنفسه — recursive relationship</div>
+        <div class="code-wrap" style="margin-top:8px"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div><pre style="font-size:.75rem">EMPLOYEE <span class="purple">SUPERVISION</span> EMPLOYEE
+(supervisor / supervisee)</pre></div>
+      </div>
+      <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:14px">
+        <div style="color:var(--amber);font-family:var(--fh);font-weight:700;margin-bottom:6px">Binary (Degree 2)</div>
+        <div style="font-size:.8rem;color:var(--t2)">الأكثر شيوعاً — entity اتنين مع بعض</div>
+        <div class="code-wrap" style="margin-top:8px"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div><pre style="font-size:.75rem">EMPLOYEE <span class="str">WORKS_ON</span> PROJECT
+EMPLOYEE <span class="str">WORKS_FOR</span> DEPARTMENT</pre></div>
+      </div>
+      <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:14px">
+        <div style="color:var(--green);font-family:var(--fh);font-weight:700;margin-bottom:6px">Ternary (Degree 3)</div>
+        <div style="font-size:.8rem;color:var(--t2)">ثلاث entities مع بعض في نفس الوقت</div>
+        <div class="code-wrap" style="margin-top:8px"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div><pre style="font-size:.75rem">SUPPLIER <span class="green">SUPPLY</span> PROJECT
+       + PART (+ Quantity)</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📎</span> Relationship Attributes — الـ Relationship نفسه ممكن يبقى ليه Attributes!</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Example — WORKS_ON with attribute Hours</div></div>
+      <pre>EMPLOYEE <span class="fn">-- [ WORKS_ON ] --</span> PROJECT
+               <span class="kw">|</span>
+            <span class="str">Hours</span>   <span class="cmt">← عدد الساعات اللي الموظف بيشتغلها في المشروع ده</span>
+
+<span class="cmt">-- قيمة Hours بتعتمد على الاتنين: (employee, project)</span>
+<span class="cmt">-- Ahmed يشتغل 20 ساعة أسبوعياً على Project-X</span>
+<span class="cmt">-- Ahmed يشتغل 15 ساعة أسبوعياً على Project-Y</span>
+
+<span class="cmt">-- بنفس المنطق: MANAGES له Start_Date كـ attribute</span></pre>
+    </div>
+    <div class="rule"><b>📌 Rule:</b> الـ Relationship Attributes الأكثر شيوعاً في علاقات M:N. في علاقات 1:N ممكن تنقلها للـ entity في الـ N-side.</div>
+  </div>
+</div>
+
+<!-- SECTION: CARDINALITY -->
+<div class="chapter" id="cardinality">
+  <div class="ch-header">
+    <div class="ch-num blue">06</div>
+    <div class="ch-title">
+      <h2>Cardinality Ratios — نسب العلاقة</h2>
+      <p>الحد الأقصى لعدد العلاقات — مهم جداً في الامتحانات!</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔢</span> الأنواع الثلاثة للـ Cardinality</div>
+    <div class="diagram-wrap">
+      <div class="diagram-label">📐 Cardinality Visual — كل نوع بالتوضيح</div>
+      <svg dir='ltr' viewBox="0 0 740 200" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:740px">
+        <!-- 1:1 Panel -->
+        <rect x="5" y="5" width="225" height="190" rx="8" fill="#0a1020" stroke="#1a3050" stroke-width="1"/>
+        <text x="117" y="28" text-anchor="middle" fill="#f5c842" font-family="Outfit,sans-serif" font-size="13" font-weight="700">1 : 1</text>
+        <rect x="18" y="40" width="80" height="28" rx="3" fill="#0e1528" stroke="#00d4ff" stroke-width="1.5"/>
+        <text x="58" y="58" text-anchor="middle" fill="#00d4ff" font-family="Outfit,sans-serif" font-size="10" font-weight="700">EMPLOYEE</text>
+        <polygon points="117,40 135,54 117,68 99,54" fill="#0e1528" stroke="#f5c842" stroke-width="1.5"/>
+        <text x="117" y="58" text-anchor="middle" fill="#f5c842" font-size="8" font-family="DM Sans,sans-serif">MANAGES</text>
+        <rect x="152" y="40" width="65" height="28" rx="3" fill="#0e1528" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="184" y="58" text-anchor="middle" fill="#a78bfa" font-family="Outfit,sans-serif" font-size="10" font-weight="700">DEPT</text>
+        <line x1="98" y1="54" x2="99" y2="54" stroke="#4a6080" stroke-width="1.5"/>
+        <line x1="135" y1="54" x2="152" y2="54" stroke="#4a6080" stroke-width="1.5"/>
+        <text x="90" y="50" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="12" font-weight="800">1</text>
+        <text x="140" y="50" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="12" font-weight="800">1</text>
+        <circle cx="40" cy="100" r="5" fill="#00d4ff"/><circle cx="40" cy="118" r="5" fill="#00d4ff"/><circle cx="40" cy="136" r="5" fill="#00d4ff"/><circle cx="40" cy="154" r="5" fill="#4a6080"/>
+        <circle cx="195" cy="100" r="5" fill="#a78bfa"/><circle cx="195" cy="118" r="5" fill="#a78bfa"/><circle cx="195" cy="136" r="5" fill="#a78bfa"/>
+        <line x1="45" y1="100" x2="190" y2="100" stroke="#1e3050" stroke-width="1.2"/>
+        <line x1="45" y1="118" x2="190" y2="118" stroke="#1e3050" stroke-width="1.2"/>
+        <line x1="45" y1="136" x2="190" y2="136" stroke="#1e3050" stroke-width="1.2"/>
+        <text x="117" y="185" text-anchor="middle" fill="#4a6080" font-size="9" font-family="DM Sans,sans-serif">كل مدير → قسم واحد</text>
+
+        <!-- 1:N Panel -->
+        <rect x="257" y="5" width="225" height="190" rx="8" fill="#0a1020" stroke="#1a3050" stroke-width="1"/>
+        <text x="369" y="28" text-anchor="middle" fill="#f5c842" font-family="Outfit,sans-serif" font-size="13" font-weight="700">1 : N</text>
+        <rect x="268" y="40" width="65" height="28" rx="3" fill="#0e1528" stroke="#f5c842" stroke-width="1.5"/>
+        <text x="300" y="58" text-anchor="middle" fill="#f5c842" font-family="Outfit,sans-serif" font-size="10" font-weight="700">DEPT</text>
+        <polygon points="369,40 387,54 369,68 351,54" fill="#0e1528" stroke="#10b981" stroke-width="1.5"/>
+        <text x="369" y="58" text-anchor="middle" fill="#10b981" font-size="7" font-family="DM Sans,sans-serif">WORKS_FOR</text>
+        <rect x="400" y="40" width="75" height="28" rx="3" fill="#0e1528" stroke="#00d4ff" stroke-width="1.5"/>
+        <text x="437" y="58" text-anchor="middle" fill="#00d4ff" font-family="Outfit,sans-serif" font-size="10" font-weight="700">EMPLOYEE</text>
+        <line x1="333" y1="54" x2="351" y2="54" stroke="#4a6080" stroke-width="1.5"/>
+        <line x1="387" y1="54" x2="400" y2="54" stroke="#4a6080" stroke-width="1.5"/>
+        <text x="340" y="50" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="12" font-weight="800">1</text>
+        <text x="392" y="50" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="12" font-weight="800">N</text>
+        <circle cx="290" cy="110" r="5" fill="#f5c842"/><circle cx="290" cy="148" r="5" fill="#f5c842"/>
+        <circle cx="445" cy="95" r="4" fill="#00d4ff"/><circle cx="445" cy="110" r="4" fill="#00d4ff"/><circle cx="445" cy="125" r="4" fill="#00d4ff"/><circle cx="445" cy="140" r="4" fill="#00d4ff"/><circle cx="445" cy="155" r="4" fill="#00d4ff"/>
+        <line x1="295" y1="110" x2="441" y2="95" stroke="#1e3050" stroke-width="1.2"/>
+        <line x1="295" y1="110" x2="441" y2="110" stroke="#1e3050" stroke-width="1.2"/>
+        <line x1="295" y1="110" x2="441" y2="125" stroke="#1e3050" stroke-width="1.2"/>
+        <line x1="295" y1="148" x2="441" y2="140" stroke="#1e3050" stroke-width="1.2"/>
+        <line x1="295" y1="148" x2="441" y2="155" stroke="#1e3050" stroke-width="1.2"/>
+        <text x="369" y="185" text-anchor="middle" fill="#4a6080" font-size="9" font-family="DM Sans,sans-serif">قسم واحد → موظفين كتير</text>
+
+        <!-- M:N Panel -->
+        <rect x="510" y="5" width="225" height="190" rx="8" fill="#0a1020" stroke="#1a3050" stroke-width="1"/>
+        <text x="622" y="28" text-anchor="middle" fill="#f5c842" font-family="Outfit,sans-serif" font-size="13" font-weight="700">M : N</text>
+        <rect x="520" y="40" width="75" height="28" rx="3" fill="#0e1528" stroke="#00d4ff" stroke-width="1.5"/>
+        <text x="557" y="58" text-anchor="middle" fill="#00d4ff" font-family="Outfit,sans-serif" font-size="10" font-weight="700">EMPLOYEE</text>
+        <polygon points="622,40 640,54 622,68 604,54" fill="#0e1528" stroke="#fb923c" stroke-width="1.5"/>
+        <text x="622" y="58" text-anchor="middle" fill="#fb923c" font-size="7" font-family="DM Sans,sans-serif">WORKS_ON</text>
+        <rect x="650" y="40" width="70" height="28" rx="3" fill="#0e1528" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="685" y="58" text-anchor="middle" fill="#a78bfa" font-family="Outfit,sans-serif" font-size="10" font-weight="700">PROJECT</text>
+        <line x1="595" y1="54" x2="604" y2="54" stroke="#4a6080" stroke-width="1.5"/>
+        <line x1="640" y1="54" x2="650" y2="54" stroke="#4a6080" stroke-width="1.5"/>
+        <text x="594" y="50" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="12" font-weight="800">M</text>
+        <text x="642" y="50" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="12" font-weight="800">N</text>
+        <circle cx="540" cy="100" r="4" fill="#00d4ff"/><circle cx="540" cy="120" r="4" fill="#00d4ff"/><circle cx="540" cy="140" r="4" fill="#00d4ff"/>
+        <circle cx="700" cy="100" r="4" fill="#a78bfa"/><circle cx="700" cy="125" r="4" fill="#a78bfa"/><circle cx="700" cy="150" r="4" fill="#a78bfa"/>
+        <line x1="544" y1="100" x2="696" y2="100" stroke="#1e3050" stroke-width="1.2"/>
+        <line x1="544" y1="100" x2="696" y2="125" stroke="#1e3050" stroke-width="1.2"/>
+        <line x1="544" y1="120" x2="696" y2="100" stroke="#1e3050" stroke-width="1.2"/>
+        <line x1="544" y1="120" x2="696" y2="125" stroke="#1e3050" stroke-width="1.2"/>
+        <line x1="544" y1="120" x2="696" y2="150" stroke="#1e3050" stroke-width="1.2"/>
+        <line x1="544" y1="140" x2="696" y2="125" stroke="#1e3050" stroke-width="1.2"/>
+        <line x1="544" y1="140" x2="696" y2="150" stroke="#1e3050" stroke-width="1.2"/>
+        <text x="622" y="185" text-anchor="middle" fill="#4a6080" font-size="9" font-family="DM Sans,sans-serif">موظفين كتير ↔ مشاريع كتير</text>
+      </svg>
+    </div>
+    <div class="danger"><b>🚨 أهم Trap في الامتحانات — فكر من الاتجاهين!</b><br>
+    "Person بيحب Ice Cream Flavors كتير" → هتقول 1:M ؟ لكن تفكّر: "كتير من الناس بيحبوا نفس الطعم!" → الصواب هو M:N!<br>
+    <strong>دايماً اسأل من الاتجاهين الاتنين قبل ما تحدد الـ Cardinality.</strong></div>
+  </div>
+</div>
+
+<!-- SECTION: PARTICIPATION -->
+<div class="chapter" id="participation">
+  <div class="ch-header">
+    <div class="ch-num blue">07</div>
+    <div class="ch-title">
+      <h2>Participation Constraints — الـ Minimum</h2>
+      <p>Total vs. Partial — Mandatory vs. Optional</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">══</span> Total Participation (Mandatory)</div>
+      <p>كل entity instance لازم يكون موجود في الـ relationship. مش مسموح يكون entity بدون علاقة.</p>
+      <div style="display:flex;align-items:center;gap:14px;margin:12px 0;padding:10px 14px;background:rgba(0,212,255,.06);border-radius:8px">
+        <svg width="80" height="20"><line x1="0" y1="7" x2="80" y2="7" stroke="#00d4ff" stroke-width="2.5"/><line x1="0" y1="14" x2="80" y2="14" stroke="#00d4ff" stroke-width="2.5"/></svg>
+        <span style="font-size:.85rem;color:var(--t2)">Double Line = Total/Mandatory</span>
+      </div>
+      <div class="tip"><b>مثال:</b> كل EMPLOYEE لازم يـ WORKS_FOR قسم — ما فيش موظف بدون قسم!</div>
+    </div>
+    <div class="topic" style="--accent:var(--t3)">
+      <div class="topic-title"><span class="icon">─</span> Partial Participation (Optional)</div>
+      <p>بعض entity instances ممكن ما يكونوش في الـ relationship. مسموح entity يكون بدون علاقة.</p>
+      <div style="display:flex;align-items:center;gap:14px;margin:12px 0;padding:10px 14px;background:rgba(255,255,255,.03);border-radius:8px">
+        <svg width="80" height="20"><line x1="0" y1="10" x2="80" y2="10" stroke="#4a6080" stroke-width="2"/></svg>
+        <span style="font-size:.85rem;color:var(--t2)">Single Line = Partial/Optional</span>
+      </div>
+      <div class="warn"><b>مثال:</b> مش كل EMPLOYEE بيـ MANAGES قسم — معظم الموظفين مش مديرين!</div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔍</span> نتائج الـ Join وعلاقتها بالـ Participation — من الامتحانات!</div>
+    <table class="tbl">
+      <tr><th>نتيجة الـ Natural Join</th><th>المعنى</th></tr>
+      <tr><td>النتيجة = <span class="badge badge-red">0 records</span></td><td>الـ Relationship Optional من الجانبين (Partial/Partial)</td></tr>
+      <tr><td>النتيجة ≥ <span class="badge badge-amber">Min(|T1|, |T2|)</span></td><td>على الأقل جانب واحد Total (Mandatory)</td></tr>
+      <tr><td>النتيجة دايماً <span class="badge badge-green">≥ |T2|</span></td><td>T2 لديها Total Participation — كل record في T2 ليه match</td></tr>
+      <tr><td>النتيجة = <span class="badge badge-cyan">|T1| × |T2|</span></td><td>Cross Join behavior — M:N وكل entity بترتبط بكل حاجة</td></tr>
+    </table>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Exam Example — Final 2024</div></div>
+      <pre><span class="cmt">-- |T1| = 100, |T2| = 100</span>
+<span class="cmt">-- Natural Join نتيجته 10,000 = 100 × 100</span>
+<span class="cmt">-- → Cross Join behavior → الـ Relationship Optional على الجانبين (M:N)</span>
+
+<span class="cmt">-- "never less than 100 records"</span>
+<span class="cmt">-- → On at least one side the participation is Total (Mandatory)</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION: WEAK ENTITY -->
+<div class="chapter" id="weak-entity">
+  <div class="ch-header">
+    <div class="ch-num blue">08</div>
+    <div class="ch-title">
+      <h2>Weak Entities — الـ Entity الضعيفة</h2>
+      <p>entity مش قادرة تتعرف عن نفسها لوحدها</div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">⚠️</span> ما هو الـ Weak Entity؟</div>
+    <p>الـ Weak Entity هو entity <strong>مالوش Key attribute</strong> خاص بيه. بيحتاج entity تاني (الـ Owner) عشان يتعرف.</p>
+    <div class="grid2">
+      <div>
+        <div class="danger"><b>مثال: DEPENDENT</b><br>
+        عندنا اتنين بنات اسمهم "سارة" في قاعدة البيانات:<br>
+        • سارة بنت أحمد (SSN: 123)<br>
+        • سارة بنت محمد (SSN: 456)<br><br>
+        الاسم "سارة" وحده مش كافي — محتاجين SSN الأب عشان نفرقهم!</div>
+      </div>
+      <div>
+        <ul style="color:var(--t2);font-size:.88rem;padding-right:18px;line-height:2.2">
+          <li><strong style="color:var(--t1)">Double Rectangle</strong> → الـ Weak Entity</li>
+          <li><strong style="color:var(--t1)">Double Diamond</strong> → الـ Identifying Relationship</li>
+          <li><strong style="color:var(--t1)">Partial Key</strong> → بيتبين بـ dashed underline</li>
+          <li><strong style="color:var(--t1)">Full ID</strong> = Owner's PK + Partial Key</li>
+          <li><strong style="color:var(--t1)">Total Participation</strong> → دايماً لازم يكون معاه Owner</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weak Entity ERD -->
+  <div class="diagram-wrap">
+    <div class="diagram-label">📐 DEPENDENT Weak Entity — الـ ERD</div>
+    <svg dir='ltr' viewBox="0 0 600 170" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:600px">
+      <rect x="15" y="65" width="130" height="44" rx="4" fill="#0e1528" stroke="#00d4ff" stroke-width="2"/>
+      <text x="80" y="92" text-anchor="middle" fill="#00d4ff" font-family="Outfit,sans-serif" font-weight="700" font-size="14">EMPLOYEE</text>
+      <ellipse cx="70" cy="25" rx="38" ry="17" fill="#080e1a" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="70" y="29" text-anchor="middle" fill="#f5c842" font-size="11" font-family="DM Sans,sans-serif">Ssn</text>
+      <line x1="48" y1="35" x2="92" y2="35" stroke="#f5c842" stroke-width="1.5"/>
+      <line x1="76" y1="42" x2="80" y2="65" stroke="#1e3050" stroke-width="1.2"/>
+      <polygon points="255,62 282,80 255,98 228,80" fill="#0e1528" stroke="#ef4444" stroke-width="2"/>
+      <polygon points="255,67 277,80 255,93 233,80" fill="#0e1528" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="255" y="77" text-anchor="middle" fill="#ef4444" font-size="8" font-family="DM Sans,sans-serif" font-weight="700">DEPENDENTS</text>
+      <text x="255" y="88" text-anchor="middle" fill="#ef4444" font-size="8" font-family="DM Sans,sans-serif" font-weight="700">_OF</text>
+      <line x1="145" y1="80" x2="228" y2="80" stroke="#4a6080" stroke-width="1.5"/>
+      <text x="170" y="73" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="13" font-weight="800">1</text>
+      <rect x="375" y="60" width="140" height="44" rx="4" fill="#0e1528" stroke="#ef4444" stroke-width="2"/>
+      <rect x="380" y="65" width="130" height="34" rx="2" fill="#0e1528" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="445" y="87" text-anchor="middle" fill="#ef4444" font-family="Outfit,sans-serif" font-weight="700" font-size="13">DEPENDENT</text>
+      <line x1="282" y1="78" x2="375" y2="78" stroke="#ef4444" stroke-width="2.5"/>
+      <line x1="282" y1="84" x2="375" y2="84" stroke="#ef4444" stroke-width="2.5"/>
+      <text x="340" y="73" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="13" font-weight="800">N</text>
+      <ellipse cx="430" cy="22" rx="42" ry="17" fill="#080e1a" stroke="#ef4444" stroke-width="1.2"/>
+      <text x="430" y="26" text-anchor="middle" fill="#ef4444" font-size="11" font-family="DM Sans,sans-serif">Dep_Name</text>
+      <line x1="402" y1="30" x2="458" y2="30" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="435" y1="39" x2="445" y2="60" stroke="#1e3050" stroke-width="1.2"/>
+      <ellipse cx="530" cy="30" rx="35" ry="16" fill="#080e1a" stroke="#4a6080" stroke-width="1"/>
+      <text x="530" y="34" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="DM Sans,sans-serif">Sex</text>
+      <line x1="510" y1="43" x2="490" y2="64" stroke="#1e3050" stroke-width="1"/>
+      <text x="80" y="155" text-anchor="middle" fill="#00d4ff" font-size="10" font-family="DM Sans,sans-serif">Strong Entity (single rect)</text>
+      <text x="445" y="155" text-anchor="middle" fill="#ef4444" font-size="10" font-family="DM Sans,sans-serif">Weak Entity (double rect) — Partial Key (dashed underline)</text>
+    </svg>
+  </div>
+
+  <div class="danger"><b>🚨 Exam Trap من Final 2023:</b> "A weak entity is an entity with only one column which is the primary key of the strong entity" → <strong>FALSE!</strong><br>
+  الـ Weak Entity ليه Attributes خاصة بيه زي (Name, Sex, BirthDate). الفرق إنه مش عنده Key كافي لوحده — بيحتاج Owner's PK + Partial Key لتحديد الـ record.</div>
+</div>
+
+<!-- SECTION: MIN/MAX NOTATION -->
+<div class="chapter" id="minmax">
+  <div class="ch-header">
+    <div class="ch-num blue">09</div>
+    <div class="ch-title">
+      <h2>Min/Max Notation — الطريقة البديلة</h2>
+      <p>بدل 1:N نقول (min, max) على كل جانب</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📊</span> الفرق بين (min, max) Notation والعادي</div>
+    <div class="grid2">
+      <div>
+        <div class="info"><b>📌 (min, max) Rules:</b><br>
+        • min = 0 → Optional (Partial)<br>
+        • min ≥ 1 → Mandatory (Total)<br>
+        • max = 1 → يرتبط بـ entity واحدة كحد أقصى<br>
+        • max = N → يرتبط بـ entities كتير</div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Company ERD — Min/Max Notation</div></div>
+        <pre>EMPLOYEE <span class="num">(0,1)</span> ──[MANAGES]── <span class="num">(1,1)</span> DEPARTMENT
+<span class="cmt">موظف ممكن يدير 0 أو 1 قسم</span>
+<span class="cmt">القسم لازم يبقى ليه مدير واحد بالظبط</span>
+
+EMPLOYEE <span class="num">(1,1)</span> ──[WORKS_FOR]── <span class="num">(1,N)</span> DEPARTMENT
+<span class="cmt">موظف يشتغل في قسم واحد بالظبط</span>
+<span class="cmt">القسم ممكن يبقى فيه موظف واحد أو أكتر</span></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION: COMPANY ERD -->
+<div class="chapter" id="company-erd">
+  <div class="ch-header">
+    <div class="ch-num blue">10</div>
+    <div class="ch-title">
+      <h2>Company ERD الكامل</h2>
+      <p>المثال المرجعي للمنهج كله — ادرسه كويس!</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🏗️</span> مكونات الـ Company Database</div>
+    <table class="tbl">
+      <tr><th>Entity</th><th>Attributes</th><th>Key</th></tr>
+      <tr><td style="color:var(--cyan)">EMPLOYEE</td><td>Name(Fname, Minit, Lname), Ssn, Bdate, Address, Sex, Salary</td><td style="color:var(--amber)">Ssn</td></tr>
+      <tr><td style="color:var(--amber)">DEPARTMENT</td><td>Dname, Dnumber, {Locations}, Num_Employees(derived)</td><td style="color:var(--amber)">Dnumber</td></tr>
+      <tr><td style="color:var(--green)">PROJECT</td><td>Pname, Pnumber, Plocation</td><td style="color:var(--amber)">Pnumber</td></tr>
+      <tr><td style="color:var(--red)">DEPENDENT (Weak)</td><td>Dep_Name(partial), Sex, BDate, Relationship</td><td style="color:var(--red)">Essn + Dep_Name</td></tr>
+    </table>
+    <table class="tbl" style="margin-top:16px">
+      <tr><th>Relationship</th><th>بين</th><th>Cardinality</th><th>Participation</th><th>Attributes</th></tr>
+      <tr><td>WORKS_FOR</td><td>EMPLOYEE — DEPARTMENT</td><td>N:1</td><td>Employee: Total | Dept: Partial</td><td>—</td></tr>
+      <tr><td>MANAGES</td><td>EMPLOYEE — DEPARTMENT</td><td>1:1</td><td>Employee: Partial | Dept: Total</td><td>Start_Date</td></tr>
+      <tr><td>CONTROLS</td><td>DEPARTMENT — PROJECT</td><td>1:N</td><td>Project: Total</td><td>—</td></tr>
+      <tr><td>WORKS_ON</td><td>EMPLOYEE — PROJECT</td><td>M:N</td><td>Both: Total</td><td>Hours</td></tr>
+      <tr><td>SUPERVISION</td><td>EMPLOYEE — EMPLOYEE</td><td>1:N (recursive)</td><td>Both: Partial</td><td>—</td></tr>
+      <tr><td>DEPENDENTS_OF</td><td>EMPLOYEE — DEPENDENT</td><td>1:N (identifying)</td><td>Dependent: Total</td><td>—</td></tr>
+    </table>
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">📐 Company ERD — Full Diagram</div>
+    <svg dir='ltr' viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:800px">
+      <!-- DEPARTMENT -->
+      <rect x="295" y="85" width="180" height="44" rx="4" fill="#0e1528" stroke="#f5c842" stroke-width="2"/>
+      <text x="385" y="112" text-anchor="middle" fill="#f5c842" font-family="Outfit,sans-serif" font-weight="700" font-size="14">DEPARTMENT</text>
+      <!-- Dept attrs -->
+      <ellipse cx="330" cy="42" rx="42" ry="16" fill="#080e1a" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="330" y="46" text-anchor="middle" fill="#f5c842" font-size="11" font-family="DM Sans,sans-serif">DName</text>
+      <line x1="308" y1="52" x2="352" y2="52" stroke="#f5c842" stroke-width="1.2"/>
+      <line x1="338" y1="58" x2="348" y2="85" stroke="#1e3050" stroke-width="1.2"/>
+      <ellipse cx="430" cy="42" rx="46" ry="16" fill="#080e1a" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="430" y="46" text-anchor="middle" fill="#f5c842" font-size="11" font-family="DM Sans,sans-serif">DNumber</text>
+      <line x1="408" y1="53" x2="452" y2="53" stroke="#f5c842" stroke-width="1.2"/>
+      <line x1="430" y1="58" x2="415" y2="85" stroke="#1e3050" stroke-width="1.2"/>
+      <ellipse cx="510" cy="52" rx="42" ry="18" fill="#080e1a" stroke="#a78bfa" stroke-width="1.5"/>
+      <ellipse cx="510" cy="52" rx="34" ry="13" fill="#080e1a" stroke="#a78bfa" stroke-width="1.2"/>
+      <text x="510" y="56" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="DM Sans,sans-serif">{Locations}</text>
+      <line x1="486" y1="65" x2="464" y2="85" stroke="#1e3050" stroke-width="1.2"/>
+      <ellipse cx="588" cy="70" rx="50" ry="16" fill="#080e1a" stroke="#fb923c" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <text x="588" y="74" text-anchor="middle" fill="#fb923c" font-size="10" font-family="DM Sans,sans-serif">Num_Emp</text>
+      <line x1="554" y1="74" x2="475" y2="110" stroke="#1e3050" stroke-width="1" stroke-dasharray="4,3"/>
+
+      <!-- EMPLOYEE -->
+      <rect x="25" y="195" width="150" height="44" rx="4" fill="#0e1528" stroke="#00d4ff" stroke-width="2"/>
+      <text x="100" y="222" text-anchor="middle" fill="#00d4ff" font-family="Outfit,sans-serif" font-weight="700" font-size="14">EMPLOYEE</text>
+      <!-- Emp key attr -->
+      <ellipse cx="35" cy="156" rx="24" ry="15" fill="#080e1a" stroke="#00d4ff" stroke-width="1.5"/>
+      <text x="35" y="160" text-anchor="middle" fill="#00d4ff" font-size="10" font-family="DM Sans,sans-serif">Ssn</text>
+      <line x1="20" y1="165" x2="50" y2="165" stroke="#00d4ff" stroke-width="1.2"/>
+      <line x1="40" y1="171" x2="55" y2="195" stroke="#1e3050" stroke-width="1.2"/>
+      <!-- Name composite -->
+      <ellipse cx="95" cy="148" rx="30" ry="15" fill="#080e1a" stroke="#22c55e" stroke-width="1.5"/>
+      <text x="95" y="152" text-anchor="middle" fill="#22c55e" font-size="10" font-family="DM Sans,sans-serif">Name</text>
+      <line x1="95" y1="163" x2="100" y2="195" stroke="#1e3050" stroke-width="1.2"/>
+      <ellipse cx="45" cy="108" rx="26" ry="13" fill="#080e1a" stroke="#22c55e" stroke-width="1" opacity=".7"/>
+      <text x="45" y="112" text-anchor="middle" fill="#22c55e" font-size="9" font-family="DM Sans,sans-serif" opacity=".7">FName</text>
+      <line x1="55" y1="121" x2="77" y2="135" stroke="#22c55e" stroke-width="1" opacity=".4"/>
+      <ellipse cx="100" cy="105" rx="22" ry="13" fill="#080e1a" stroke="#22c55e" stroke-width="1" opacity=".7"/>
+      <text x="100" y="109" text-anchor="middle" fill="#22c55e" font-size="9" font-family="DM Sans,sans-serif" opacity=".7">MInit</text>
+      <line x1="100" y1="118" x2="95" y2="133" stroke="#22c55e" stroke-width="1" opacity=".4"/>
+      <ellipse cx="155" cy="108" rx="26" ry="13" fill="#080e1a" stroke="#22c55e" stroke-width="1" opacity=".7"/>
+      <text x="155" y="112" text-anchor="middle" fill="#22c55e" font-size="9" font-family="DM Sans,sans-serif" opacity=".7">LName</text>
+      <line x1="145" y1="121" x2="113" y2="135" stroke="#22c55e" stroke-width="1" opacity=".4"/>
+      <ellipse cx="160" cy="156" rx="34" ry="15" fill="#080e1a" stroke="#4a6080" stroke-width="1"/>
+      <text x="160" y="160" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="DM Sans,sans-serif">Address</text>
+      <line x1="160" y1="171" x2="143" y2="195" stroke="#1e3050" stroke-width="1.2"/>
+      <ellipse cx="22" cy="255" rx="28" ry="13" fill="#080e1a" stroke="#4a6080" stroke-width="1"/>
+      <text x="22" y="259" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="DM Sans,sans-serif">Salary</text>
+      <line x1="25" y1="239" x2="25" y2="242" stroke="#1e3050" stroke-width="1.2"/>
+
+      <!-- WORKS_FOR N:1 -->
+      <polygon points="235,195 262,215 235,235 208,215" fill="#0e1528" stroke="#22c55e" stroke-width="1.5"/>
+      <text x="235" y="212" text-anchor="middle" fill="#22c55e" font-size="8" font-family="DM Sans,sans-serif">WORKS</text>
+      <text x="235" y="223" text-anchor="middle" fill="#22c55e" font-size="8" font-family="DM Sans,sans-serif">FOR</text>
+      <line x1="175" y1="212" x2="208" y2="212" stroke="#22c55e" stroke-width="2.5"/>
+      <line x1="175" y1="218" x2="208" y2="218" stroke="#22c55e" stroke-width="2.5"/>
+      <text x="188" y="207" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="14" font-weight="800">N</text>
+      <line x1="262" y1="215" x2="295" y2="125" stroke="#4a6080" stroke-width="1.5"/>
+      <text x="290" y="170" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="14" font-weight="800">1</text>
+
+      <!-- MANAGES 1:1 -->
+      <polygon points="232,105 258,120 232,135 206,120" fill="#0e1528" stroke="#a78bfa" stroke-width="1.5"/>
+      <text x="232" y="117" text-anchor="middle" fill="#a78bfa" font-size="8" font-family="DM Sans,sans-serif">MANAGES</text>
+      <ellipse cx="232" cy="72" rx="44" ry="15" fill="#080e1a" stroke="#a78bfa" stroke-width="1" opacity=".7"/>
+      <text x="232" y="76" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="DM Sans,sans-serif" opacity=".7">Start_Date</text>
+      <line x1="232" y1="87" x2="232" y2="105" stroke="#a78bfa" stroke-width="1" opacity=".5"/>
+      <line x1="175" y1="205" x2="206" y2="120" stroke="#4a6080" stroke-width="1.5"/>
+      <text x="180" y="150" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="13" font-weight="800">1</text>
+      <line x1="258" y1="120" x2="295" y2="110" stroke="#22c55e" stroke-width="2.5"/>
+      <line x1="258" y1="126" x2="295" y2="116" stroke="#22c55e" stroke-width="2.5"/>
+      <text x="290" y="107" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="13" font-weight="800">1</text>
+
+      <!-- PROJECT -->
+      <rect x="540" y="270" width="130" height="44" rx="4" fill="#0e1528" stroke="#22c55e" stroke-width="2"/>
+      <text x="605" y="297" text-anchor="middle" fill="#22c55e" font-family="Outfit,sans-serif" font-weight="700" font-size="14">PROJECT</text>
+      <ellipse cx="648" cy="230" rx="36" ry="15" fill="#080e1a" stroke="#22c55e" stroke-width="1.5"/>
+      <text x="648" y="234" text-anchor="middle" fill="#22c55e" font-size="10" font-family="DM Sans,sans-serif">PName</text>
+      <line x1="626" y1="242" x2="670" y2="242" stroke="#22c55e" stroke-width="1.2"/>
+      <line x1="644" y1="245" x2="630" y2="270" stroke="#1e3050" stroke-width="1.2"/>
+      <ellipse cx="725" cy="250" rx="38" ry="15" fill="#080e1a" stroke="#22c55e" stroke-width="1.5"/>
+      <text x="725" y="254" text-anchor="middle" fill="#22c55e" font-size="10" font-family="DM Sans,sans-serif">PNumber</text>
+      <line x1="706" y1="260" x2="744" y2="260" stroke="#22c55e" stroke-width="1.2"/>
+      <line x1="720" y1="265" x2="670" y2="285" stroke="#1e3050" stroke-width="1.2"/>
+      <ellipse cx="680" cy="330" rx="40" ry="15" fill="#080e1a" stroke="#4a6080" stroke-width="1"/>
+      <text x="680" y="334" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="DM Sans,sans-serif">PLocation</text>
+      <line x1="660" y1="330" x2="670" y2="314" stroke="#1e3050" stroke-width="1.2"/>
+
+      <!-- CONTROLS -->
+      <polygon points="472,195 496,210 472,225 448,210" fill="#0e1528" stroke="#fb923c" stroke-width="1.5"/>
+      <text x="472" y="213" text-anchor="middle" fill="#fb923c" font-size="8" font-family="DM Sans,sans-serif" font-weight="700">CONTROLS</text>
+      <line x1="475" y1="129" x2="472" y2="195" stroke="#4a6080" stroke-width="1.5"/>
+      <text x="480" y="162" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="13" font-weight="800">1</text>
+      <line x1="496" y1="210" x2="540" y2="282" stroke="#22c55e" stroke-width="2.5"/>
+      <line x1="502" y1="210" x2="546" y2="282" stroke="#22c55e" stroke-width="2.5"/>
+      <text x="530" y="248" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="13" font-weight="800">N</text>
+
+      <!-- WORKS_ON M:N -->
+      <polygon points="340,355 368,372 340,389 312,372" fill="#0e1528" stroke="#00d4ff" stroke-width="1.5"/>
+      <text x="340" y="370" text-anchor="middle" fill="#00d4ff" font-size="8" font-family="DM Sans,sans-serif">WORKS_ON</text>
+      <ellipse cx="340" cy="415" rx="32" ry="14" fill="#080e1a" stroke="#00d4ff" stroke-width="1" opacity=".7"/>
+      <text x="340" y="419" text-anchor="middle" fill="#00d4ff" font-size="10" font-family="DM Sans,sans-serif" opacity=".7">Hours</text>
+      <line x1="340" y1="389" x2="340" y2="401" stroke="#00d4ff" stroke-width="1" opacity=".4"/>
+      <line x1="125" y1="235" x2="312" y2="368" stroke="#22c55e" stroke-width="2.5"/>
+      <line x1="130" y1="237" x2="317" y2="370" stroke="#22c55e" stroke-width="2.5"/>
+      <text x="208" y="296" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="13" font-weight="800">M</text>
+      <line x1="368" y1="370" x2="540" y2="290" stroke="#22c55e" stroke-width="2.5"/>
+      <line x1="370" y1="376" x2="542" y2="296" stroke="#22c55e" stroke-width="2.5"/>
+      <text x="470" y="328" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="13" font-weight="800">N</text>
+
+      <!-- SUPERVISION recursive -->
+      <polygon points="158,315 178,330 158,345 138,330" fill="#0e1528" stroke="#a78bfa" stroke-width="1.5"/>
+      <text x="158" y="328" text-anchor="middle" fill="#a78bfa" font-size="8" font-family="DM Sans,sans-serif">SUPER</text>
+      <text x="158" y="339" text-anchor="middle" fill="#a78bfa" font-size="8" font-family="DM Sans,sans-serif">VISION</text>
+      <path d="M 100 240 Q 50 285 98 315 Q 125 330 138 330" fill="none" stroke="#a78bfa" stroke-width="1.5"/>
+      <line x1="178" y1="330" x2="105" y2="240" stroke="#4a6080" stroke-width="1.2"/>
+      <text x="82" y="262" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="12" font-weight="800">1</text>
+      <text x="42" y="318" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="12" font-weight="800">N</text>
+
+      <!-- DEPENDENT weak -->
+      <rect x="22" y="420" width="148" height="44" rx="4" fill="#0e1528" stroke="#ef4444" stroke-width="2"/>
+      <rect x="27" y="425" width="138" height="34" rx="2" fill="#0e1528" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="96" y="447" text-anchor="middle" fill="#ef4444" font-family="Outfit,sans-serif" font-weight="700" font-size="13">DEPENDENT</text>
+      <ellipse cx="60" cy="390" rx="38" ry="15" fill="#080e1a" stroke="#ef4444" stroke-width="1.2"/>
+      <text x="60" y="394" text-anchor="middle" fill="#ef4444" font-size="10" font-family="DM Sans,sans-serif">Dep_Name</text>
+      <line x1="36" y1="399" x2="84" y2="399" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="60" y1="405" x2="60" y2="420" stroke="#1e3050" stroke-width="1.2"/>
+      <!-- DEPENDENTS_OF double diamond -->
+      <polygon points="205,428 230,445 205,462 180,445" fill="#0e1528" stroke="#ef4444" stroke-width="2"/>
+      <polygon points="205,433 225,445 205,457 185,445" fill="#0e1528" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="205" y="448" text-anchor="middle" fill="#ef4444" font-size="7" font-family="DM Sans,sans-serif">DEPS_OF</text>
+      <!-- Connect DEPENDENT to DEPS_OF -->
+      <line x1="170" y1="441" x2="180" y2="444" stroke="#ef4444" stroke-width="2"/>
+      <line x1="170" y1="446" x2="180" y2="449" stroke="#ef4444" stroke-width="2"/>
+      <text x="175" y="435" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="12" font-weight="800">N</text>
+      <!-- Connect EMPLOYEE to DEPS_OF -->
+      <line x1="130" y1="239" x2="205" y2="428" stroke="#4a6080" stroke-width="1.5"/>
+      <text x="180" y="380" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="12" font-weight="800">1</text>
+
+      <!-- Legend -->
+      <rect x="580" y="380" width="215" height="115" rx="6" fill="#080e1a" stroke="#1a3050" stroke-width="1"/>
+      <text x="687" y="398" text-anchor="middle" fill="#94a3b8" font-family="Outfit,sans-serif" font-size="11" font-weight="700">LEGEND</text>
+      <rect x="590" y="408" width="38" height="15" rx="2" fill="#0e1528" stroke="#00d4ff" stroke-width="1.5"/>
+      <text x="636" y="420" fill="#94a3b8" font-size="10" font-family="DM Sans,sans-serif">Strong Entity</text>
+      <rect x="590" y="428" width="38" height="15" rx="2" fill="#0e1528" stroke="#ef4444" stroke-width="1.5"/>
+      <rect x="593" y="431" width="32" height="9" rx="1" fill="#0e1528" stroke="#ef4444" stroke-width="1"/>
+      <text x="636" y="440" fill="#94a3b8" font-size="10" font-family="DM Sans,sans-serif">Weak Entity</text>
+      <line x1="590" y1="457" x2="626" y2="457" stroke="#22c55e" stroke-width="2"/>
+      <line x1="590" y1="461" x2="626" y2="461" stroke="#22c55e" stroke-width="2"/>
+      <text x="636" y="461" fill="#94a3b8" font-size="10" font-family="DM Sans,sans-serif">Total Participation</text>
+      <line x1="590" y1="478" x2="626" y2="478" stroke="#4a6080" stroke-width="1.5"/>
+      <text x="636" y="481" fill="#94a3b8" font-size="10" font-family="DM Sans,sans-serif">Partial Participation</text>
+    </svg>
+  </div>
+</div>
+
+<!-- SECTION: DESIGN TIPS -->
+<div class="chapter" id="design-tips">
+  <div class="ch-header">
+    <div class="ch-num blue">11</div>
+    <div class="ch-title">
+      <h2>Design Tips & Common Mistakes</h2>
+      <p>أكتر الأخطاء الشائعة في التصميم — من المحاضرة مباشرة</p>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="no-box">
+      <div class="box-title">❌ غلط: تعمل Entity لحاجة بسيطة</div>
+      <p style="font-size:.84rem;color:var(--t2)">EMPLOYEE makes → SALARY (Entity). الـ Salary مش محتاج حياة مستقلة.</p>
+    </div>
+    <div class="yes-box">
+      <div class="box-title">✅ صح: خلّيها Attribute</div>
+      <p style="font-size:.84rem;color:var(--t2)">EMPLOYEE (Salary). لو الحاجة مش محتاجة Relationships أو Properties — خلّيها Attribute.</p>
+    </div>
+    <div class="no-box">
+      <div class="box-title">❌ غلط: FK في الـ Conceptual Model</div>
+      <p style="font-size:.84rem;color:var(--t2)">EMPLOYEE (deptno) works_for DEPT(deptno). الـ deptno في الـ Employee هو FK وده concept رلائشنال مش ERD.</p>
+    </div>
+    <div class="yes-box">
+      <div class="box-title">✅ صح: استخدم Relationships</div>
+      <p style="font-size:.84rem;color:var(--t2)">الـ WORKS_FOR relationship بيعبر عن الارتباط — مش محتاج تضيف FK attribute في الـ ERD.</p>
+    </div>
+    <div class="no-box">
+      <div class="box-title">❌ غلط: 1:M بدل M:N</div>
+      <p style="font-size:.84rem;color:var(--t2)">"Person يحب Ice Cream Flavors كتير" → مش 1:M. فكّر: كتير من الناس بيحبوا نفس الطعم → M:N!</p>
+    </div>
+    <div class="yes-box">
+      <div class="box-title">✅ صح: فكّر من الاتجاهين</div>
+      <p style="font-size:.84rem;color:var(--t2)">اسأل "كم entity في الجانب الآخر يمكن يرتبط بـ entity واحدة هنا؟" — الاتجاهين الاتنين!</p>
+    </div>
+    <div class="no-box">
+      <div class="box-title">❌ غلط: Attributes معقدة</div>
+      <p style="font-size:.84rem;color:var(--t2)">EMPLOYEE (assignments: projname, role, hrs). ده معقد جداً كـ attribute.</p>
+    </div>
+    <div class="yes-box">
+      <div class="box-title">✅ صح: خلّيها Entity + Relationship</div>
+      <p style="font-size:.84rem;color:var(--t2)">WORKS_ON relationship مع Hours attribute — أو ASSIGNMENT entity لو محتاجين تفاصيل أكتر.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ QUIZ 1 ═══════ -->
+<div class="chapter" id="quiz-er">
+  <div class="quiz-section">
+    <div class="quiz-header">
+      <div class="quiz-icon">🎯</div>
+      <div dir="rtl" style="text-align: right; flex: 1;">
+        <h3 style="direction: ltr; display: inline-block;">Quiz 1 — ER Model Concepts</h3>
+        <p>أسئلة حقيقية من امتحانات 2023 و2024 و2025 — اختبر نفسك!</p>
+      </div>
+    </div>
+    <div id="qset-er">
+      <!-- Q1 -->
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q1 <span class="q-src">Final 2023</span></div>
+        <div class="q-text">A weak entity is an entity with only one column which is the primary key of the strong entity.</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</button>
+        </div>
+        <div class="q-explain">✅ <strong>FALSE!</strong> الـ Weak Entity ليها attributes خاصة بيها زي (Name, Sex, BirthDate). الفرق إنها مش عندها Key كافي لوحدها — بتحتاج Owner's PK + Partial Key عشان تتعرف. مش بس column واحد!</div>
+      </div>
+      <!-- Q2 -->
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q2 <span class="q-src">Final 2023</span></div>
+        <div class="q-text">The degree of a relationship type is the number of participating...</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Attributes</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Entity types</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Relationships</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All of the above</button>
+        </div>
+        <div class="q-explain">✅ الـ Degree of a Relationship = عدد الـ Entity Types المشاركة. Binary = 2 entity types. Ternary = 3 entity types. مش عدد الـ attributes أو الـ relationships.</div>
+      </div>
+      <!-- Q3 -->
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q3 <span class="q-src">Final 2023 / 2024</span></div>
+        <div class="q-text">Based on the ERD for EMPLOYEE and PROJECT (M:N WORKS_ON relationship, Total participation for both), which relation would be INCORRECT in the relational mapping?</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Person(NID, Name)</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Qualification(NID, ExamID, QualifiedDate)</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Exam(ExamID, NID, ExamName)</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Exam(ExamID, ExamName)</button>
+        </div>
+        <div class="q-explain">✅ <strong>Exam(ExamID, NID, ExamName) غلط!</strong> العلاقة بين Person وExam هي M:N (Qualification). في M:N مش بتحط FK في أي من الـ entities مباشرة — لازم junction table هي Qualification(NID, ExamID, QualifiedDate). لو حطيت NID في Exam معناه إنك عملتها 1:N وده غلط!</div>
+      </div>
+      <!-- Q4 -->
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q4 <span class="q-src">Final 2023</span></div>
+        <div class="q-text">Consider a university database. Which of the following is a WRONG answer regarding "each session is held in a room"?</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The relationship from course to session is 1:M</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Session is a weak entity</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> The relationship from course to room is 1:M</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The relationship from session to room is M:1</button>
+        </div>
+        <div class="q-explain">✅ الإجابة الغلط هي C: "The relationship from course to room is 1:M". Course مش بترتبط مباشرة بـ Room — الـ Session هي اللي بتتحمل فيها Room. Course → Session (1:M) وSession → Room (M:1).</div>
+      </div>
+      <!-- Q5 -->
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q5 <span class="q-src">Final 2023</span></div>
+        <div class="q-text">Which of the following entities shows a one-to-many RECURSIVE relation? (Given: paper_reference(paper_id, conference_occurrence_year, reference_paper_id, reference_paper_conference_occurrence_year))</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> conference_occurrence_participant</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> paper_authors</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> paper_reference</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</button>
+        </div>
+        <div class="q-explain">✅ <strong>paper_reference</strong> بتربط paper بـ paper تانية — ده recursive (self-referencing) relationship. الـ paper بترجع لـ paper تانية كمرجع. paper_id → reference_paper_id كلاهما من نفس الـ paper entity.</div>
+      </div>
+      <!-- Q6 -->
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q6 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">The relationship "Written-By" between Book and Author is:</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Many-to-Many</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> One-to-Many</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> One-to-One</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</button>
+        </div>
+        <div class="q-explain">✅ Written-By هي M:N — كتاب واحد ممكن يتكتب بواسطة مؤلفين كتير، ومؤلف واحد ممكن يكتب كتب كتير. فكّر من الاتجاهين!</div>
+      </div>
+      <!-- Q7 -->
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q7 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">The relationship "Stocks" between Warehouse and Book is:</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> One-to-One</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> One-to-Many</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Many-to-Many</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</button>
+        </div>
+        <div class="q-explain">✅ Stocks بين Warehouse وBook هي M:N — warehouse واحد بيخزن كتب كتير، ونفس الكتاب ممكن يكون متخزن في أكتر من warehouse.</div>
+      </div>
+      <!-- Q8 -->
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q8 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">The min and max cardinality of Entity type "Shopping-Basket" at Basket-of relationship is:</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> (0,1)</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> (1,M)</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> (1,1)</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> (0,M)</button>
+        </div>
+        <div class="q-explain">✅ "Customer can have only one shopping basket at a time" → كل basket لازم يبقى تابع لـ customer واحد بالظبط (1,1). الـ basket لازم يكون ليه صاحب (min=1) وما ينفعش يبقى لأكتر من customer (max=1).</div>
+      </div>
+      <!-- Q9 -->
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q9 <span class="q-src">Final 2025</span></div>
+        <div class="q-text">More than one candidate key can be used during the conceptual design of the databases for the same entity:</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</button>
+        </div>
+        <div class="q-explain">✅ <strong>TRUE!</strong> Entity ممكن يبقى عنده أكتر من Candidate Key. مثلاً CAR عنده Vehicle_Id وRegistration(Number,State) كلاهما candidate keys. هتختار واحد منهم يبقى Primary Key.</div>
+      </div>
+      <!-- Q10 -->
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q10 <span class="q-src">Final 2025</span></div>
+        <div class="q-text">Not all entities have clear primary key during the conceptual model:</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</button>
+        </div>
+        <div class="q-explain">✅ <strong>TRUE!</strong> الـ Weak Entities مش عندها Primary Key واضح — بتحتاج Owner's PK + Partial Key. ده بالظبط اللي بيخليها "Weak".</div>
+      </div>
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-er','score-er')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-er','score-er')">Reset ↺</button>
+    <div class="q-score" id="score-er"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PART 2 — ER TO RELATIONAL MAPPING
+═══════════════════════════════════════════════════ -->
+<div class="chapter" id="mapping-overview">
+  <div class="ch-header">
+    <div class="ch-num amber">12</div>
+    <div class="ch-title">
+      <h2>ER→Relational Mapping — المقدمة</h2>
+      <p>7 خطوات منظمة لتحويل الـ ERD لـ Tables حقيقية</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🗺️</span> الـ Golden Rules قبل ما تبدأ</div>
+    <div class="grid2">
+      <div>
+        <div class="rule"><b>📌 القواعد الذهبية:</b><br>
+        1. كل <strong>Entity</strong> → جدول جديد<br>
+        2. علاقات 1:1 و1:N → <strong>Foreign Key</strong> في جدول موجود<br>
+        3. علاقات <strong>M:N</strong> → جدول جديد<br>
+        4. الـ <strong>Multivalued Attribute</strong> → جدول جديد<br>
+        5. الـ <strong>Derived Attribute</strong> → مش بيتخزن خالص</div>
+      </div>
+      <div>
+        <table class="tbl">
+          <tr><th>Step</th><th>بيتعامل مع</th><th>الناتج</th></tr>
+          <tr><td>1</td><td>Strong Entity</td><td>جدول جديد</td></tr>
+          <tr><td>2</td><td>Weak Entity</td><td>جدول + FK من Owner</td></tr>
+          <tr><td>3</td><td>Binary 1:1</td><td>FK في الـ total participation side</td></tr>
+          <tr><td>4</td><td>Binary 1:N</td><td>FK في الـ N-side</td></tr>
+          <tr><td>5</td><td>Binary M:N</td><td>جدول جديد + 2 FKs</td></tr>
+          <tr><td>6</td><td>Multivalued Attr</td><td>جدول جديد + FK</td></tr>
+          <tr><td>7</td><td>N-ary Relationship</td><td>جدول جديد + N FKs</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 1 -->
+<div class="chapter" id="step1">
+  <div class="ch-header">
+    <div class="ch-num amber">13</div>
+    <div class="ch-title">
+      <h2>Step 1: Strong Entity Types</h2>
+      <p>أبسط خطوة — كل strong entity يبقى جدول</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="step-badge"><div class="sn">1</div>Mapping of Regular (Strong) Entity Types</div>
+    <p>لكل Strong Entity في الـ ERD، بنعمل جدول (Relation) يشمل:</p>
+    <ul style="color:var(--t2);padding-right:20px;line-height:2.2;font-size:.9rem">
+      <li>كل الـ <strong style="color:var(--t1)">Simple Attributes</strong> مباشرة</li>
+      <li>الـ <strong style="color:var(--t1)">Composite Attribute</strong> → بنحط <em>أجزاءه البسيطة بس</em> (مش الـ composite نفسه!)</li>
+      <li>الـ <strong style="color:var(--orange)">Derived Attributes</strong> → <em>مش بنخزنهم!</em></li>
+      <li>الـ <strong style="color:var(--purple)">{Multivalued Attributes}</strong> → هنتعامل معاهم في Step 6</li>
+      <li>بنختار واحد من الـ Key Attributes كـ <strong style="color:var(--amber)">Primary Key</strong></li>
+    </ul>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Example — Company Database Step 1</div></div>
+      <pre><span class="cmt">-- EMPLOYEE entity: Name(Fname,Minit,Lname) composite → break into parts</span>
+<span class="kw">EMPLOYEE</span> (<span class="pk">Ssn</span>, Fname, Minit, Lname, Bdate, Address, Sex, Salary)
+<span class="cmt">           ↑ PK    ↑ composite Name broken into 3 parts</span>
+<span class="cmt">-- NOT included: Age (derived), Name itself (composite)</span>
+
+<span class="kw">DEPARTMENT</span> (<span class="pk">Dnumber</span>, Dname)
+<span class="cmt">           ↑ PK</span>
+<span class="cmt">-- NOT included: Locations (multivalued→Step 6), Num_Employees (derived)</span>
+
+<span class="kw">PROJECT</span> (<span class="pk">Pnumber</span>, Pname, Plocation)</pre>
+    </div>
+    <div class="danger"><b>🚨 أهم Exam Trap في Step 1:</b> الـ Composite Attribute (Name) مش بيتخزن كـ column — بنحط أجزاءه بس (Fname, Minit, Lname). لو السؤال سألك "where is Name?" الإجابة: اتعوّض بالـ 3 components بتاعها!</div>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="chapter" id="step2">
+  <div class="ch-header">
+    <div class="ch-num amber">14</div>
+    <div class="ch-title">
+      <h2>Step 2: Weak Entity Types</h2>
+      <p>بياخد مفتاح صاحبه كـ FK</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="step-badge"><div class="sn">2</div>Mapping of Weak Entity Types</div>
+    <p>لكل Weak Entity W بصاحب E، بنعمل جدول يشمل:</p>
+    <ul style="color:var(--t2);padding-right:20px;line-height:2.2;font-size:.9rem">
+      <li>كل الـ Simple Attributes بتاعة W</li>
+      <li>الـ <strong style="color:var(--amber)">Primary Key بتاع الـ Owner Entity</strong> كـ Foreign Key</li>
+      <li>الـ Primary Key للجدول الجديد = <span class="badge badge-red">Owner's PK</span> + <span class="badge badge-amber">Partial Key</span></li>
+    </ul>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Example — DEPENDENT Weak Entity</div></div>
+      <pre><span class="kw">DEPENDENT</span> (<span class="pk fk">Essn</span>, <span class="pk">Dependent_Name</span>, Sex, Bdate, Relationship)
+<span class="cmt">            ↑ FK → EMPLOYEE.Ssn    ↑ Partial Key</span>
+<span class="cmt">            ↑──── Combined PK ─────↑</span>
+
+<span class="cmt">-- Sara w/ Essn=123 ≠ Sara w/ Essn=456 (different employees!)</span>
+<span class="cmt">-- FK with CASCADE DELETE → لو الموظف اتحذف، dependents بتتحذف معاه</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="chapter" id="step3">
+  <div class="ch-header">
+    <div class="ch-num amber">15</div>
+    <div class="ch-title">
+      <h2>Step 3: Binary 1:1 Relationships</h2>
+      <p>الـ FK بيروح للـ Total Participation side</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="step-badge"><div class="sn">3</div>Mapping of Binary 1:1 Relationship Types</div>
+    <p>بنختار من الـ entities اللي بتشارك في الـ 1:1 — الأفضل نختار الـ entity اللي عندها <strong>Total Participation</strong> — وبنضيف:</p>
+    <ul style="color:var(--t2);padding-right:20px;line-height:2.2;font-size:.9rem">
+      <li>الـ <strong>Primary Key</strong> بتاع الـ entity التانية كـ Foreign Key</li>
+      <li>أي <strong>Relationship Attributes</strong> بتاعة الـ 1:1 relationship</li>
+    </ul>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Example — MANAGES (1:1) relationship</div></div>
+      <pre><span class="cmt">-- DEPARTMENT has TOTAL participation in MANAGES</span>
+<span class="cmt">-- (كل قسم لازم يبقى ليه مدير)</span>
+<span class="cmt">-- So FK goes into DEPARTMENT table</span>
+
+<span class="kw">DEPARTMENT</span> (<span class="pk">Dnumber</span>, Dname, <span class="fk">Mgr_Ssn</span>, Mgr_Start_Date)
+<span class="cmt">                              ↑ FK → EMPLOYEE.Ssn</span>
+<span class="cmt">                                      ↑ Relationship attribute of MANAGES</span></pre>
+    </div>
+    <div class="tip"><b>💡 ليه DEPARTMENT ومش EMPLOYEE؟</b> لو حطيت الـ FK في EMPLOYEE، معظم الموظفين مش مديرين → هيبقى في الـ Mgr_Ssn column قيمة NULL لكل الموظفين العاديين. أحسن نحط FK في DEPARTMENT عشان كل قسم لازم يبقى ليه مدير (Total participation).</div>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="chapter" id="step4">
+  <div class="ch-header">
+    <div class="ch-num amber">16</div>
+    <div class="ch-title">
+      <h2>Step 4: Binary 1:N Relationships</h2>
+      <p>الـ FK بيروح للـ N-side دايماً</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="step-badge"><div class="sn">4</div>Mapping of Binary 1:N Relationship Types</div>
+    <p>أسهل rule في الـ mapping: الـ FK بيروح للـ entity اللي على الـ <strong>N-side</strong> دايماً.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Example — Company Database 1:N Relationships</div></div>
+      <pre><span class="cmt">-- WORKS_FOR (N:1) — Employee → Department</span>
+<span class="cmt">-- EMPLOYEE is on N-side → FK goes into EMPLOYEE</span>
+<span class="kw">EMPLOYEE</span> (<span class="pk">Ssn</span>, ..., <span class="fk">Super_Ssn</span>, <span class="fk">Dno</span>)
+<span class="cmt">                         ↑ FK → EMPLOYEE.Ssn (SUPERVISION recursive!)</span>
+<span class="cmt">                                  ↑ FK → DEPARTMENT.Dnumber (WORKS_FOR)</span>
+
+<span class="cmt">-- CONTROLS (1:N) — Department controls Projects</span>
+<span class="cmt">-- PROJECT is on N-side → FK goes into PROJECT</span>
+<span class="kw">PROJECT</span> (<span class="pk">Pnumber</span>, Pname, Plocation, <span class="fk">Dnum</span>)
+<span class="cmt">                                          ↑ FK → DEPARTMENT.Dnumber</span></pre>
+    </div>
+    <div class="info"><b>💡 ملحوظة مهمة — Recursive Relationship:</b> الـ SUPERVISION هي 1:N recursive. الـ FK بيجي في نفس الجدول (EMPLOYEE) ويرفر لنفس الـ Primary Key (Ssn) في نفس الجدول. الـ Supervisor هو employee كمان!</div>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="chapter" id="step5">
+  <div class="ch-header">
+    <div class="ch-num amber">17</div>
+    <div class="ch-title">
+      <h2>Step 5: Binary M:N Relationships</h2>
+      <p>لازم جدول جديد — مفيش FK مباشر!</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="step-badge"><div class="sn">5</div>Mapping of Binary M:N Relationship Types</div>
+    <p>علاقات M:N مينفعش نحط FK في أي من الجدولين — لازم جدول جديد (Junction Table):</p>
+    <ul style="color:var(--t2);padding-right:20px;line-height:2.2;font-size:.9rem">
+      <li>الجدول الجديد بيشمل <strong>الـ Primary Keys لكل الجدولين</strong> كـ Foreign Keys</li>
+      <li>الـ <strong>Primary Key</strong> بتاع الجدول الجديد = (FK1 + FK2) composite</li>
+      <li>أي Relationship Attributes بتتضاف هنا</li>
+    </ul>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Example — WORKS_ON (M:N) relationship</div></div>
+      <pre><span class="cmt">-- Can't put FK in EMPLOYEE (one employee → many projects)</span>
+<span class="cmt">-- Can't put FK in PROJECT  (one project → many employees)</span>
+<span class="cmt">-- Solution: Create WORKS_ON junction table!</span>
+
+<span class="kw">WORKS_ON</span> (<span class="pk fk">Essn</span>, <span class="pk fk">Pno</span>, Hours)
+<span class="cmt">          ↑ FK → EMPLOYEE.Ssn</span>
+<span class="cmt">                  ↑ FK → PROJECT.Pnumber</span>
+<span class="cmt">          ↑─────── Composite PK ─────↑</span>
+<span class="cmt">                                     ↑ Relationship Attribute</span></pre>
+    </div>
+    <div class="diagram-wrap">
+      <div class="diagram-label">📐 M:N Mapping — Before & After</div>
+      <svg dir='ltr' viewBox="0 0 680 160" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:680px">
+        <!-- ERD Side -->
+        <text x="145" y="18" text-anchor="middle" fill="#00d4ff" font-family="Outfit,sans-serif" font-size="11" font-weight="700">ERD (Conceptual)</text>
+        <rect x="10" y="70" width="90" height="30" rx="3" fill="#0e1528" stroke="#00d4ff" stroke-width="1.5"/>
+        <text x="55" y="90" text-anchor="middle" fill="#00d4ff" font-family="Outfit,sans-serif" font-size="11" font-weight="700">EMPLOYEE</text>
+        <polygon points="155,70 175,85 155,100 135,85" fill="#0e1528" stroke="#f5c842" stroke-width="1.5"/>
+        <text x="155" y="89" text-anchor="middle" fill="#f5c842" font-size="8" font-family="DM Sans,sans-serif">WORKS_ON</text>
+        <rect x="200" y="70" width="80" height="30" rx="3" fill="#0e1528" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="240" y="90" text-anchor="middle" fill="#a78bfa" font-family="Outfit,sans-serif" font-size="11" font-weight="700">PROJECT</text>
+        <line x1="100" y1="85" x2="135" y2="85" stroke="#4a6080" stroke-width="1.5"/>
+        <text x="108" y="80" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="12" font-weight="800">M</text>
+        <line x1="175" y1="85" x2="200" y2="85" stroke="#4a6080" stroke-width="1.5"/>
+        <text x="182" y="80" fill="#e2e8f0" font-family="Outfit,sans-serif" font-size="12" font-weight="800">N</text>
+        <!-- Hours attribute -->
+        <ellipse cx="155" cy="130" rx="28" ry="14" fill="#080e1a" stroke="#f5c842" stroke-width="1" opacity=".7"/>
+        <text x="155" y="134" text-anchor="middle" fill="#f5c842" font-size="10" font-family="DM Sans,sans-serif" opacity=".7">Hours</text>
+        <line x1="155" y1="100" x2="155" y2="116" stroke="#f5c842" stroke-width="1" opacity=".4"/>
+
+        <!-- Arrow -->
+        <text x="340" y="90" text-anchor="middle" fill="#f5c842" font-family="Outfit,sans-serif" font-size="22" font-weight="700">→</text>
+
+        <!-- Relational Side -->
+        <text x="535" y="18" text-anchor="middle" fill="#10b981" font-family="Outfit,sans-serif" font-size="11" font-weight="700">Relational Model</text>
+        <rect x="370" y="28" width="90" height="70" rx="3" fill="#0e1528" stroke="#00d4ff" stroke-width="1.5"/>
+        <rect x="370" y="28" width="90" height="20" rx="3" fill="#162039" stroke="#00d4ff" stroke-width="1.5"/>
+        <text x="415" y="43" text-anchor="middle" fill="#00d4ff" font-family="Outfit,sans-serif" font-size="10" font-weight="700">EMPLOYEE</text>
+        <text x="380" y="60" fill="#f5c842" font-family="Fira Code,monospace" font-size="10" font-weight="700">Ssn</text>
+        <text x="380" y="75" fill="#94a3b8" font-family="Fira Code,monospace" font-size="9">Fname...</text>
+        <rect x="490" y="40" width="110" height="80" rx="3" fill="#0e1528" stroke="#f5c842" stroke-width="2"/>
+        <rect x="490" y="40" width="110" height="20" rx="3" fill="#162039" stroke="#f5c842" stroke-width="2"/>
+        <text x="545" y="55" text-anchor="middle" fill="#f5c842" font-family="Outfit,sans-serif" font-size="10" font-weight="700">WORKS_ON</text>
+        <text x="500" y="73" fill="#f5c842" font-family="Fira Code,monospace" font-size="9" font-weight="700">Essn 🔑FK</text>
+        <text x="500" y="88" fill="#f5c842" font-family="Fira Code,monospace" font-size="9" font-weight="700">Pno  🔑FK</text>
+        <text x="500" y="103" fill="#94a3b8" font-family="Fira Code,monospace" font-size="9">Hours</text>
+        <rect x="620" y="28" width="55" height="70" rx="3" fill="#0e1528" stroke="#a78bfa" stroke-width="1.5"/>
+        <rect x="620" y="28" width="55" height="20" rx="3" fill="#162039" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="647" y="43" text-anchor="middle" fill="#a78bfa" font-family="Outfit,sans-serif" font-size="10" font-weight="700">PROJECT</text>
+        <text x="630" y="60" fill="#f5c842" font-family="Fira Code,monospace" font-size="9" font-weight="700">Pno</text>
+        <text x="630" y="75" fill="#94a3b8" font-family="Fira Code,monospace" font-size="9">Pname</text>
+        <line x1="460" y1="65" x2="490" y2="72" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <line x1="600" y1="72" x2="620" y2="65" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="545" y="150" text-anchor="middle" fill="#4a6080" font-size="10" font-family="DM Sans,sans-serif">Composite PK = (Essn + Pno) 🔑</text>
+      </svg>
+    </div>
+    <div class="danger"><b>🚨 أهم Exam Trap في Step 5 — من امتحانات 2023 و2024 و2025:</b><br>
+    في علاقة M:N بين Person وExam — الإجابة الغلط هي <code>Exam(ExamID, <span style="color:var(--red)">NID</span>, ExamName)</code> — لأنك حطيت الـ FK مباشرة في الـ Exam table، وده بيعمل 1:N مش M:N!<br>
+    الصح هو جدول جديد: <code>Qualification(NID, ExamID, QualifiedDate)</code></div>
+  </div>
+</div>
+
+<!-- STEP 6 -->
+<div class="chapter" id="step6">
+  <div class="ch-header">
+    <div class="ch-num amber">18</div>
+    <div class="ch-title">
+      <h2>Step 6: Multivalued Attributes</h2>
+      <p>كل {Multivalued} بيبقى جدول جديد</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="step-badge"><div class="sn">6</div>Mapping of Multivalued Attributes</div>
+    <p>الـ Multivalued Attributes مش ممكن تتخزن في column واحد — لازم جدول جديد:</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Example — DEPARTMENT has {Locations}</div></div>
+      <pre><span class="cmt">-- {Locations} is multivalued → Create DEPT_LOCATIONS table</span>
+
+<span class="kw">DEPT_LOCATIONS</span> (<span class="pk fk">Dnumber</span>, <span class="pk">Dlocation</span>)
+<span class="cmt">                ↑ FK → DEPARTMENT.Dnumber</span>
+<span class="cmt">                ↑────── Composite PK ───↑</span>
+
+<span class="cmt">-- Data example:</span>
+<span class="cmt">-- (5, 'Houston'), (5, 'Bellaire'), (5, 'Sugarland') — all for Dept 5</span>
+<span class="cmt">-- (4, 'Stafford')  — for Dept 4</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 7 -->
+<div class="chapter" id="step7">
+  <div class="ch-header">
+    <div class="ch-num amber">19</div>
+    <div class="ch-title">
+      <h2>Step 7: N-ary Relationship Types</h2>
+      <p>ثلاث entities أو أكتر → جدول جديد</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="step-badge"><div class="sn">7</div>Mapping of N-ary Relationship Types</div>
+    <p>نفس منطق M:N بس بنوسّعه لـ N entities:</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Example 1 — SUPPLY (Ternary: Supplier × Project × Part)</div></div>
+      <pre><span class="kw">SUPPLY</span> (<span class="pk fk">Sname</span>, <span class="pk fk">Proj_name</span>, <span class="pk fk">Part_no</span>, Quantity)
+<span class="cmt">        ↑ FK→SUPPLIER  ↑ FK→PROJECT  ↑ FK→PART</span>
+<span class="cmt">        ↑──────────── Composite PK (all 3) ─────↑</span></pre>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Example 2 — ENROLLED (Student × Course × Semester)</div></div>
+      <pre><span class="kw">ENROLLED</span> (<span class="pk fk">StudId</span>, <span class="pk fk">CourseId</span>, <span class="pk fk">SemId</span>, Grade)
+<span class="cmt">          ↑─────── Composite PK (all 3 FKs) ────↑</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- FULL SCHEMA -->
+<div class="chapter" id="full-schema">
+  <div class="ch-header">
+    <div class="ch-num green">20</div>
+    <div class="ch-title">
+      <h2>الـ Schema الكاملة — Company Database</h2>
+      <p>نتيجة تطبيق الـ 7 خطوات على الـ Company ERD</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🗄️</span> Final Relational Schema</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Complete Company Relational Schema</div></div>
+      <pre><span class="cmt">-- Step 1: Strong Entities</span>
+<span class="kw">EMPLOYEE</span>       (<span class="pk">Ssn</span>, Fname, Minit, Lname, Bdate, Address, Sex, Salary, <span class="fk">Super_Ssn</span>, <span class="fk">Dno</span>)
+<span class="kw">DEPARTMENT</span>     (<span class="pk">Dnumber</span>, Dname, <span class="fk">Mgr_Ssn</span>, Mgr_Start_Date)
+<span class="kw">PROJECT</span>        (<span class="pk">Pnumber</span>, Pname, Plocation, <span class="fk">Dnum</span>)
+
+<span class="cmt">-- Step 2: Weak Entity</span>
+<span class="kw">DEPENDENT</span>      (<span class="pk fk">Essn</span>, <span class="pk">Dependent_Name</span>, Sex, Bdate, Relationship)
+
+<span class="cmt">-- Step 3: 1:1 → FK in DEPARTMENT (total participation)</span>
+<span class="cmt">           Mgr_Ssn + Mgr_Start_Date already in DEPARTMENT above</span>
+
+<span class="cmt">-- Step 4: 1:N → FKs on N-side</span>
+<span class="cmt">           Super_Ssn in EMPLOYEE (SUPERVISION recursive)</span>
+<span class="cmt">           Dno in EMPLOYEE (WORKS_FOR)</span>
+<span class="cmt">           Dnum in PROJECT (CONTROLS)</span>
+
+<span class="cmt">-- Step 5: M:N → New junction table</span>
+<span class="kw">WORKS_ON</span>       (<span class="pk fk">Essn</span>, <span class="pk fk">Pno</span>, Hours)
+
+<span class="cmt">-- Step 6: Multivalued attribute</span>
+<span class="kw">DEPT_LOCATIONS</span> (<span class="pk fk">Dnumber</span>, <span class="pk">Dlocation</span>)
+
+<span class="cmt">────────────────────────────────────────────</span>
+<span class="cmt">-- Foreign Key References:</span>
+<span class="cmt">   EMPLOYEE.Super_Ssn → EMPLOYEE.Ssn</span>
+<span class="cmt">   EMPLOYEE.Dno → DEPARTMENT.Dnumber</span>
+<span class="cmt">   DEPARTMENT.Mgr_Ssn → EMPLOYEE.Ssn</span>
+<span class="cmt">   PROJECT.Dnum → DEPARTMENT.Dnumber</span>
+<span class="cmt">   WORKS_ON.Essn → EMPLOYEE.Ssn</span>
+<span class="cmt">   WORKS_ON.Pno → PROJECT.Pnumber</span>
+<span class="cmt">   DEPENDENT.Essn → EMPLOYEE.Ssn</span>
+<span class="cmt">   DEPT_LOCATIONS.Dnumber → DEPARTMENT.Dnumber</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- MAPPING SUMMARY TABLE -->
+<div class="chapter" id="mapping-summary">
+  <div class="ch-header">
+    <div class="ch-num green">21</div>
+    <div class="ch-title">
+      <h2>Summary Table — ER ↔ Relational</h2>
+      <p>المقارنة الكاملة بين الـ ER Model والـ Relational Model</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📊</span> Correspondence Table</div>
+    <table class="tbl">
+      <tr><th>ER MODEL</th><th>RELATIONAL MODEL</th><th>جدول جديد؟</th><th>الـ PK</th></tr>
+      <tr><td style="color:var(--cyan)">Strong Entity Type</td><td>Entity Relation</td><td style="color:var(--green)">✅ Yes</td><td>Key Attribute</td></tr>
+      <tr><td style="color:var(--red)">Weak Entity Type</td><td>Entity Relation + FK from Owner</td><td style="color:var(--green)">✅ Yes</td><td>Owner PK + Partial Key</td></tr>
+      <tr><td style="color:var(--purple)">1:1 Relationship</td><td>FK (في الـ total side)</td><td style="color:var(--red)">❌ No</td><td>—</td></tr>
+      <tr><td style="color:var(--amber)">1:N Relationship</td><td>FK (في الـ N-side)</td><td style="color:var(--red)">❌ No</td><td>—</td></tr>
+      <tr><td style="color:var(--cyan)">M:N Relationship</td><td>Junction Table + 2 FKs</td><td style="color:var(--green)">✅ Yes</td><td>(FK1, FK2)</td></tr>
+      <tr><td style="color:var(--purple)">{Multivalued Attr}</td><td>New Table + FK to owner</td><td style="color:var(--green)">✅ Yes</td><td>(Attr, FK)</td></tr>
+      <tr><td style="color:var(--green)">N-ary Relationship</td><td>New Table + N FKs</td><td style="color:var(--green)">✅ Yes</td><td>All N FKs</td></tr>
+      <tr><td>Simple Attribute</td><td>Column</td><td style="color:var(--red)">❌ No</td><td>—</td></tr>
+      <tr><td>Composite Attribute</td><td>مكوناته البسيطة فقط</td><td style="color:var(--red)">❌ No</td><td>—</td></tr>
+      <tr><td style="color:var(--orange)">Derived Attribute</td><td>مش بيتخزن</td><td style="color:var(--red)">❌ No</td><td>—</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════ QUIZ 2 ═══════ -->
+<div class="chapter" id="quiz-mapping">
+  <div class="quiz-section">
+    <div class="quiz-header">
+      <div class="quiz-icon">🗂️</div>
+      <div dir="rtl" style="text-align: right; flex: 1;">
+        <h3 style="direction: ltr; display: inline-block;">Quiz 2 — ER to Relational Mapping</h3>
+        <p>أسئلة من امتحانات 2023 و2024 و2025 على الـ Mapping — الأصعب!</p>
+      </div>
+    </div>
+    <div id="qset-mapping">
+      <!-- Q1 -->
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q1 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">Mapping entity "Warehouse" to Relational Schema is: (Warehouse has: code, phone, address. Stocks relationship to Book has attribute: number)</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Warehouse(code, phone, address, ISBN, number)</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Warehouse(code, phone, address)</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Warehouse(code, phone, address, ISBN)</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</button>
+        </div>
+        <div class="q-explain">✅ Warehouse → Strong Entity → Table with its own attributes only. الـ "Stocks" relationship هي M:N بين Warehouse وBook، فمش بنحط ISBN في Warehouse مباشرة — هيبقى في junction table. الـ Warehouse table بس بياخد attributes بتاعته: code, phone, address.</div>
+      </div>
+      <!-- Q2 -->
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q2 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">Mapping relationship "Basket-Of" (1:1 between Customer and Shopping-Basket) to Relational Schema is:</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Basket-Of(email, basketID)</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Shopping-Basket(basketID, email)</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Customer(email, name, address, phone, BasketID)</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</button>
+        </div>
+        <div class="q-explain">✅ Basket-Of هي 1:1. في 1:1 بنختار الـ entity اللي عندها Total Participation. Customer can have only ONE basket = (1,1) → Customer has total participation. فبنضيف BasketID كـ FK في Customer. الـ Customer table بيشمل: (email, name, address, phone, BasketID).</div>
+      </div>
+      <!-- Q3 -->
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q3 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">Mapping relationship "Contains" (M:N between Book and Shopping-Basket, with attribute: number) to Relational Schema is:</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Contains(ISBN, basketID)</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Shopping-Basket(basketID, ISBN, number)</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Contains(ISBN, basketID, number)</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</button>
+        </div>
+        <div class="q-explain">✅ Contains هي M:N بين Book وShopping-Basket. في M:N → جدول جديد! الجدول الجديد بياخد: ISBN (FK→Book) + basketID (FK→ShoppingBasket) + number (Relationship Attribute). الـ PK = (ISBN, basketID) combined.</div>
+      </div>
+      <!-- Q4 -->
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">After mapping relationship "Written-By" (M:N between Book and Author) to Relational Schema, the number of attributes forming the primary key for the mapped relation is:</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 3</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 4</button>
+        </div>
+        <div class="q-explain">✅ Written-By هي M:N → Junction Table. الـ PK بيتكون من: ISBN (من Book) + author_name (من Author) = <strong>2 attributes</strong>. كل M:N بييجي بـ Composite PK من الـ 2 FKs.</div>
+      </div>
+      <!-- Q5 -->
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q5 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">Entity Type "Doctors" has inheritance with subclasses Regular Doctor (SALARY) and Doctor on Call (FS_PR_CL, PYMT_DU), with overlapping 'o' symbol. The inheritance is:</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Total, Disjoint</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Total, Overlapping</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Partial, Disjoint</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Partial, Overlapping</button>
+        </div>
+        <div class="q-explain">✅ الرمز 'o' = Overlapping (طبيب ممكن يكون Regular وOn-Call في نفس الوقت). والـ Participation بيكون Partial لأنه ممكن يكون في طبيب مش في أي subclass. إذن: Partial + Overlapping.</div>
+      </div>
+      <!-- Q6 -->
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q6 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">If mapping entity type "Doctors" to relational schema is done using Single relation with multiple type attributes, the resulting relation will have how many columns? (Doctor: DOC_NO, QUALIFICATION, PH_NO, D_NAME + Regular Doctor: SALARY + Doctor on Call: FS_PR_CL, PYMT_DU)</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 7</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 8</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 9</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 10</button>
+        </div>
+        <div class="q-explain">✅ Single relation with multiple type attributes: بنحط كل الـ attributes في جدول واحد + type column لكل subtype.<br>
+        Doctor: DOC_NO, QUALIFICATION, PH_NO, D_NAME (4)<br>
+        Regular: SALARY (1)<br>
+        On Call: FS_PR_CL, PYMT_DU (2)<br>
+        Type columns: is_Regular, is_OnCall (2)<br>
+        Total = 4 + 1 + 2 + 2 = <strong>9 columns</strong></div>
+      </div>
+      <!-- Q7 -->
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q7 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">Mapping relationship "Works-in" (N:1 between Doctor and Department) to Relational Schema is:</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Works-in(D_Name, DOC_NO)</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Doctor(DOC_NO, Doc_Name, Qualification, PH_NO, D_Name)</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Department(D_Name, Facilities, D_Location)</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</button>
+        </div>
+        <div class="q-explain">✅ Works-in هي N:1 (many doctors → one department). في 1:N الـ FK بيروح للـ N-side. الـ Doctor هو الـ N-side → بنضيف D_Name (FK→Department) في جدول Doctor. مش محتاجين جدول جديد!</div>
+      </div>
+      <!-- Q8 -->
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q8 <span class="q-src">Final 2025</span></div>
+        <div class="q-text">When converting EERD into relational model, the type of participation does NOT affect which option of the 4 conversion options used:</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</button>
+        </div>
+        <div class="q-explain">✅ <strong>FALSE!</strong> الـ Participation Type بيأثر على الـ conversion option. مثلاً الـ "Single relation with one type attribute" بتشتغل بشكل أفضل مع الـ Disjoint subclasses. والـ Total/Partial participation بيأثر على اختيارك للطريقة الأنسب.</div>
+      </div>
+      <!-- Q9 -->
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q9 <span class="q-src">Final 2025</span></div>
+        <div class="q-text">The most guaranteed normal form for a database with weak entities and many-to-many relationships is:</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1st Normal Form</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2nd Normal Form</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 3rd Normal Form</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Denormalized</button>
+        </div>
+        <div class="q-explain">✅ لما بتعمل Mapping صح للـ ER Model (including weak entities و M:N as junction tables) — الناتج بيكون في الـ 2nd Normal Form على الأقل. الـ Weak Entity بـ composite PK والـ M:N Junction tables بتضمن إزالة الـ Partial Dependencies.</div>
+      </div>
+      <!-- Q10 -->
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q10 <span class="q-src">Final 2025</span></div>
+        <div class="q-text">Once a database model reaches Relational Model and primary keys have not been highlighted yet, then all its relations is... NF?</div>
+        <div class="q-opts">
+          <button class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1st Normal Form</button>
+          <button class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2nd Normal Form</button>
+          <button class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 3rd Normal Form</button>
+          <button class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Denormalized</button>
+        </div>
+        <div class="q-explain">✅ لو وصلنا للـ Relational Model بدون تحديد الـ Primary Keys — ده بيضمن الـ 1st Normal Form فقط. الـ 2NF و3NF بيحتاجوا تحديد الـ PKs والتحقق من الـ Functional Dependencies.</div>
+      </div>
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-mapping','score-mapping')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-mapping','score-mapping')">Reset ↺</button>
+    <div class="q-score" id="score-mapping"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     CHEAT SHEET
+═══════════════════════════════════════════════════ -->
+<div class="chapter" id="cheatsheet">
+  <div class="ch-header">
+    <div class="ch-num purple">⚡</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet — المرجع السريع</h2>
+      <p>كل حاجة مهمة في صفحة واحدة — ذاكر ده قبل الامتحان!</p>
+    </div>
+  </div>
+
+  <div class="cheat">
+    <h3>🔵 Attribute Types</h3>
+    <div class="cheat-item"><div class="cheat-key">Simple (Atomic)</div><div class="cheat-val">مش قابل للتقسيم. Default. Oval عادي.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Composite</div><div class="cheat-val">قابل للتقسيم لأجزاء. Tree of Ovals. في الـ Table → أجزاءه البسيطة فقط (مش هو نفسه!)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Single-valued</div><div class="cheat-val">قيمة واحدة. Default. Oval عادي.</div></div>
+    <div class="cheat-item"><div class="cheat-key">{Multi-valued}</div><div class="cheat-val">أكتر من قيمة. Double Oval. في الـ Relational Model → جدول جديد (Step 6)!</div></div>
+    <div class="cheat-item"><div class="cheat-key">Derived</div><div class="cheat-val">بيتحسب من غيره. Dashed Oval. مش بيتخزن في الـ Table!</div></div>
+    <div class="cheat-item"><div class="cheat-key">Key Attribute</div><div class="cheat-val">Unique + NOT NULL. Underlined Oval. اختر واحد كـ Primary Key.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Default Attribute</div><div class="cheat-val">Stored + Single-valued + Simple (Atomic) — لو مختلف بتوضح ده بس!</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3>📐 ERD Shapes</h3>
+    <div class="cheat-item"><div class="cheat-key">Rectangle</div><div class="cheat-val">Strong Entity</div></div>
+    <div class="cheat-item"><div class="cheat-key">Double Rectangle</div><div class="cheat-val">Weak Entity</div></div>
+    <div class="cheat-item"><div class="cheat-key">Diamond ◇</div><div class="cheat-val">Relationship Type</div></div>
+    <div class="cheat-item"><div class="cheat-key">Double Diamond ◈</div><div class="cheat-val">Identifying Relationship (للـ Weak Entity)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Double Line ══</div><div class="cheat-val">Total / Mandatory Participation</div></div>
+    <div class="cheat-item"><div class="cheat-key">Single Line ─</div><div class="cheat-val">Partial / Optional Participation</div></div>
+    <div class="cheat-item"><div class="cheat-key">Dashed Underline</div><div class="cheat-val">Partial Key (في الـ Weak Entity)</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3>🔢 Cardinality & Participation</h3>
+    <div class="cheat-item"><div class="cheat-key">1:1</div><div class="cheat-val">كل entity في كل جانب يرتبط بحد أقصى entity واحدة في الجانب التاني. مثال: MANAGES.</div></div>
+    <div class="cheat-item"><div class="cheat-key">1:N</div><div class="cheat-val">entity واحدة ترتبط بـ entities كتير. مثال: WORKS_FOR (قسم واحد — موظفين كتير).</div></div>
+    <div class="cheat-item"><div class="cheat-key">M:N</div><div class="cheat-val">entities كتير ترتبط بـ entities كتير. مثال: WORKS_ON. دايماً → Junction Table!</div></div>
+    <div class="cheat-item"><div class="cheat-key">Total = Mandatory</div><div class="cheat-val">كل entity لازم يشارك في الـ relationship. Double Line. min ≥ 1.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Partial = Optional</div><div class="cheat-val">بعض entities مش مضطرة تشارك. Single Line. min = 0.</div></div>
+    <div class="cheat-item"><div class="cheat-key">(0,1)</div><div class="cheat-val">Optional — على الأكتر علاقة واحدة. مثال: EMPLOYEE في MANAGES.</div></div>
+    <div class="cheat-item"><div class="cheat-key">(1,1)</div><div class="cheat-val">Mandatory — علاقة واحدة بالظبط. مثال: DEPARTMENT في MANAGES.</div></div>
+    <div class="cheat-item"><div class="cheat-key">(1,N)</div><div class="cheat-val">Mandatory — علاقة أو أكتر. مثال: DEPARTMENT في WORKS_FOR.</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3>🗺️ 7 Mapping Steps — ملخص</h3>
+    <div class="cheat-item"><div class="cheat-key">Step 1 — Strong Entity</div><div class="cheat-val">جدول جديد + simple attrs فقط. Composite → أجزاءه. Derived → مش بتتخزن.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Step 2 — Weak Entity</div><div class="cheat-val">جدول جديد. PK = Owner PK (as FK) + Partial Key combined.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Step 3 — Binary 1:1</div><div class="cheat-val">FK في الـ Total Participation side + Relationship Attributes. مش جدول جديد!</div></div>
+    <div class="cheat-item"><div class="cheat-key">Step 4 — Binary 1:N</div><div class="cheat-val">FK في الـ N-side + Relationship Attributes. مش جدول جديد!</div></div>
+    <div class="cheat-item"><div class="cheat-key">Step 5 — Binary M:N</div><div class="cheat-val">جدول جديد! PK = (FK1 + FK2) Composite. + Relationship Attributes.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Step 6 — Multivalued</div><div class="cheat-val">جدول جديد! PK = (Attribute + FK to owner) Composite.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Step 7 — N-ary</div><div class="cheat-val">جدول جديد! PK = كل الـ N FKs combined.</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3>🔍 Join Results & Participation</h3>
+    <div class="cheat-item"><div class="cheat-key">Join result = 0</div><div class="cheat-val">كلا الجانبين Optional (Partial على الاتنين)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Join ≥ Min(|T1|,|T2|)</div><div class="cheat-val">على الأقل جانب واحد Total (Mandatory)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Join دايماً ≥ |T2|</div><div class="cheat-val">T2 عندها Total Participation — كل record في T2 ليه match</div></div>
+    <div class="cheat-item"><div class="cheat-key">Join = |T1| × |T2|</div><div class="cheat-val">Cross Join behavior — M:N + Optional على الجانبين</div></div>
+  </div>
+
+  <div class="cheat" style="border-color:rgba(239,68,68,.3)">
+    <h3 style="color:var(--red)">🚨 Common Exam Traps — دول بييجوا كتير!</h3>
+    <div class="cheat-item"><div class="cheat-key">M:N FK مباشر</div><div class="cheat-val">غلط! Exam(ExamID, NID, ExamName) → غلط لـ M:N. الصح: Qualification(NID, ExamID, QualifiedDate)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Composite في Table</div><div class="cheat-val">Name مش بيتحط كـ column — بس Fname + Minit + Lname. الـ Composite نفسه بيختفي!</div></div>
+    <div class="cheat-item"><div class="cheat-key">Derived في Table</div><div class="cheat-val">Age و Num_Employees مش بيتخزنوا! بيتحسبوا وقت الحاجة.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Weak Entity Definition</div><div class="cheat-val">غلط إن الـ Weak Entity بس column واحد هو PK الـ Strong. ليها attributes خاصة!</div></div>
+    <div class="cheat-item"><div class="cheat-key">FK في Conceptual ERD</div><div class="cheat-val">في الـ ERD مفيش FK attributes — بستخدم Relationships. FK ده concept relational بس!</div></div>
+    <div class="cheat-item"><div class="cheat-key">1:M بدل M:N</div><div class="cheat-val">فكّر من الاتجاهين! "Person likes Flavors" مش 1:M — كتير من الناس بيحبوا نفس الطعم → M:N!</div></div>
+    <div class="cheat-item"><div class="cheat-key">Written-By Cardinality</div><div class="cheat-val">M:N — كتاب ممكن يكون ليه مؤلفين كتير، ومؤلف واحد ممكن يكتب كتب كتير.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Participation في Mapping</div><div class="cheat-val">الـ Participation بيأثر على اختيار الـ Mapping Option — مش صح إنه ما يأثرش!</div></div>
+    <div class="cheat-item"><div class="cheat-key">PK Count في M:N</div><div class="cheat-val">في M:N Junction Table → PK = 2 attributes (FK1 + FK2). مش 1 ومش 3!</div></div>
+    <div class="cheat-item"><div class="cheat-key">Single Relation Columns</div><div class="cheat-val">عد كل: superclass attrs + كل subclass attrs + type columns (واحد لكل subtype في overlapping)</div></div>
+  </div>
+</div>
+
+</div><!-- end .content -->
+</main>
+
+<!-- ═══════════════ JAVASCRIPT ═══════════════ -->
+<script>
+/* ─── QUIZ ENGINE ─── */
+function checkQuiz(qsetId, scoreId) {
+  const qset = document.getElementById(qsetId);
+  const items = qset.querySelectorAll('.q-item');
+  let correct = 0, total = items.length;
+
+  items.forEach(item => {
+    const correctVal = item.dataset.correct;
+    const selected = item.querySelector('.q-opt.selected');
+    const explain = item.querySelector('.q-explain');
+
+    if (selected) {
+      const val = selected.dataset.val;
+      if (val === correctVal) {
+        selected.classList.add('correct');
+        correct++;
+      } else {
+        selected.classList.add('wrong');
+        item.querySelectorAll('.q-opt').forEach(opt => {
+          if (opt.dataset.val === correctVal) opt.classList.add('correct');
+        });
+      }
+    } else {
+      item.querySelectorAll('.q-opt').forEach(opt => {
+        if (opt.dataset.val === correctVal) opt.classList.add('correct');
+      });
+    }
+    if (explain) explain.classList.add('show');
+    item.querySelectorAll('.q-opt').forEach(opt => opt.disabled = true);
+  });
+
+  const pct = Math.round((correct / total) * 100);
+  const scoreDiv = document.getElementById(scoreId);
+  scoreDiv.style.display = 'block';
+
+  let cls = 'bad', emoji = '😔 ';
+  if (pct >= 80) { cls = 'good'; emoji = '🎉 '; }
+  else if (pct >= 50) { cls = 'ok'; emoji = '💪 '; }
+
+  scoreDiv.className = 'q-score ' + cls;
+  scoreDiv.innerHTML = emoji + 'Score: ' + correct + '/' + total + ' (' + pct + '%)';
+}
+
+function resetQuiz(qsetId, scoreId) {
+  const qset = document.getElementById(qsetId);
+  qset.querySelectorAll('.q-opt').forEach(opt => {
+    opt.classList.remove('selected', 'correct', 'wrong');
+    opt.disabled = false;
+  });
+  qset.querySelectorAll('.q-explain').forEach(e => e.classList.remove('show'));
+  const scoreDiv = document.getElementById(scoreId);
+  scoreDiv.style.display = 'none';
+  scoreDiv.className = 'q-score';
+}
+
+/* ─── QUIZ OPTION CLICK ─── */
+document.addEventListener('click', e => {
+  const opt = e.target.closest('.q-opt');
+  if (!opt || opt.disabled) return;
+  const opts = opt.closest('.q-opts');
+  opts.querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
+  opt.classList.add('selected');
+});
+
+/* ─── PROGRESS BAR ─── */
+function updateProgress() {
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+  document.getElementById('prog-bar').style.width = pct + '%';
+}
+
+/* ─── SCROLL TO TOP ─── */
+function updateScrollTop() {
+  const btn = document.getElementById('scroll-top');
+  window.scrollY > 400 ? btn.classList.add('show') : btn.classList.remove('show');
+}
+
+/* ─── ACTIVE SIDEBAR ─── */
+function updateSidebar() {
+  const links = document.querySelectorAll('.sb-link');
+  const scrollPos = window.scrollY + 130;
+  let activeLink = null;
+  links.forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+    const target = document.getElementById(href.substring(1));
+    if (target && target.offsetTop <= scrollPos) activeLink = link;
+  });
+  links.forEach(l => l.classList.remove('active'));
+  if (activeLink) activeLink.classList.add('active');
+}
+
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      updateProgress();
+      updateScrollTop();
+      updateSidebar();
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+
+/* ─── CLOSE SIDEBAR ON MOBILE ─── */
+document.querySelectorAll('.sb-link').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+  });
+});
+
+/* ─── KEYBOARD ─── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('sidebar').classList.remove('open');
+});
+
+/* ─── INTERSECTION OBSERVER ─── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+
+document.querySelectorAll('.topic, .cheat, .quiz-section, .diagram-wrap').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(14px)';
+  el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+  observer.observe(el);
+});
+
+/* ─── HERO COUNTER ANIMATION ─── */
+document.addEventListener('DOMContentLoaded', () => {
+  updateProgress();
+  updateScrollTop();
+  updateSidebar();
+  document.querySelectorAll('.hstat .num').forEach(el => {
+    const final = el.textContent.trim();
+    const num = parseInt(final);
+    if (isNaN(num)) return;
+    let cur = 0;
+    const step = Math.max(1, Math.floor(num / 25));
+    const iv = setInterval(() => {
+      cur += step;
+      if (cur >= num) { clearInterval(iv); el.textContent = final; }
+      else el.textContent = cur;
+    }, 40);
+  });
+});
+</script>
+<!-- GLOBAL TOP NAV -->
+<style>
+.global-top-nav {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999999;
+  background: rgba(13, 18, 32, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  display: flex;
+  padding: 6px;
+  gap: 4px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05) inset;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease;
+  animation: slideDownNav 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes slideDownNav {
+  0% { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+  100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+.global-top-nav.hidden {
+  transform: translateX(-50%) translateY(-150px);
+}
+.global-top-nav:hover {
+  background: rgba(13, 18, 32, 0.95);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.gnav-item {
+  color: #94a3b8;
+  text-decoration: none;
+  font-family: 'Outfit', 'Cairo', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 24px;
+  border-radius: 100px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.gnav-item:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+.gnav-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+}
+.gnav-item.active .gnav-dot {
+  background: #00d4ff;
+  box-shadow: 0 0 10px #00d4ff;
+}
+.gnav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+@media (max-width: 768px) {
+  .global-top-nav {
+    top: 10px;
+    width: 95%;
+    padding: 5px;
+    justify-content: space-between;
+  }
+  .gnav-item {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    flex: 1;
+    justify-content: center;
+  }
+}
+</style>
+<div class="global-top-nav" id="globalTopNav">
+  <a href="index.html" class="gnav-item"><div class="gnav-dot"></div> SQL Basics</a>
+  <a href="pp1.html" class="gnav-item active"><div class="gnav-dot"></div> ER &amp; Mapping</a>
+  <a href="pp2.html" class="gnav-item"><div class="gnav-dot"></div> EER &amp; Norm</a>
+</div>
+<script>
+  (function() {
+    let lastScrollY = 0;
+    const nav = document.getElementById('globalTopNav');
+    document.addEventListener('scroll', function(e) {
+      if (!nav) return;
+      const target = e.target;
+      const currentScrollY = target.scrollTop || window.scrollY;
+      if (currentScrollY === undefined) return;
+      
+      if (currentScrollY > lastScrollY && currentScrollY > 60) {
+        nav.classList.add('hidden');
+      } else {
+        nav.classList.remove('hidden');
+      }
+      lastScrollY = currentScrollY;
+    }, true);
+  })();
+</script>
+</body>
+</html>
