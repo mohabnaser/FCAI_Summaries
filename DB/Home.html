@@ -3263,6 +3263,7 @@
         { id: "dml1", label: "DML 1", icon: "✏️", color: "var(--cyan)" },
         { id: "dml2", label: "Joins", icon: "🔗", color: "var(--pink)" },
         { id: "dml3", label: "DML 3", icon: "📊", color: "var(--orange)" },
+        { id: "ra", label: "RA", icon: "🧮", color: "var(--green)" },
       ];
 
       /* =====================================================
@@ -4483,6 +4484,1043 @@
       }
 
       /* =====================================================
+         RELATIONAL ALGEBRA SECTION (Lecture 10)
+      ===================================================== */
+      const raStudents = [
+        ["123", "Ali", "Dokki", "EE", "3.2"],
+        ["450", "Maha", "Nasr City", "CE", "1.9"],
+        ["789", "Ahmad", "Haram", "Arch", "2.7"],
+        ["341", "Noha", "Dokki", "EE", "1.0"],
+      ];
+      const raStudentsOR = [
+        ["123", "Ali", "Dokki", "EE", "3.2"],
+        ["450", "Maha", "Nasr City", "CE", "1.9"],
+        ["789", "Ahmad", "Dokki", "Arch", "2.7"],
+        ["341", "Noha", "Dokki", "EE", "1.0"],
+      ];
+      const raProfs = [
+        ["P71", "Ali", "Shobra", "Comm", "Full"],
+        ["P08", "Karem", "Dokki", "NULL", "Full"],
+        ["P11", "Magda", "Agoza", "CE", "Assoc"],
+        ["P91", "Nagy", "Dokki", "EE", "Full"],
+      ];
+
+      function RelationalAlgebraSection() {
+        return (
+          <div className="animate-in">
+            <div
+              className="section-hero"
+              style={{
+                background: "linear-gradient(135deg,var(--bg2),#0a1e16)",
+              }}
+            >
+              <div
+                className="section-badge"
+                style={{
+                  borderColor: "rgba(16,185,129,.4)",
+                  color: "var(--green)",
+                  background: "rgba(16,185,129,.15)",
+                }}
+              >
+                LECTURE 10 • RELATIONAL ALGEBRA
+              </div>
+              <h1
+                style={{
+                  background: "linear-gradient(135deg,#fff,var(--green))",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                🧮 Relational Algebra
+              </h1>
+              <p>
+                لغة استعلام رياضية على الـ Relations! بنتعلم العمليات الأساسية
+                (σ, π, ρ) والـ Set Operations (∪, ∩, −) والـ Cartesian Product
+                والـ JOIN بكل أنواعه. كل عملية ناتجها <strong>Relation جديد</strong>
+                — ده اللي بيخلي الـ Algebra <em>"Closed"</em>.
+              </p>
+            </div>
+
+            {/* ========== OVERVIEW ========== */}
+            <div className="topic-card" id="ra-intro">
+              <div className="topic-title">
+                <span className="icon">💡</span> ايه هي Relational Algebra؟
+              </div>
+              <div className="topic-body">
+                الـ <strong>Relational Algebra (RA)</strong> هي مجموعة الـ
+                Operations الأساسية للـ Relational Model. بتسمح للمستخدم إنه يكتب
+                الـ <strong>Retrieval Requests</strong> (يعني Database Select
+                Queries).
+                <br />
+                <br />
+                ✅ ناتج أي Operation هو <strong>Relation جديد</strong>، ممكن
+                يتعمل عليه Operations تانية.
+                <br />
+                ✅ سلسلة من الـ Operations اسمها{" "}
+                <em>"Relational Algebra Expression"</em>.
+                <br />
+                ✅ في الـ RA، الـ Relations بيتعامل معاها كـ{" "}
+                <strong>Sets of Tuples</strong> — يعني Set Operations بتشتغل
+                عليها.
+              </div>
+              <div className="note-box">
+                🔒 <strong>Closure Property:</strong> كل output في الـ RA هو
+                نفسه Relation. ده اللي بيخلي الـ Algebra "Closed" ويمكّنك تعمل
+                Compose للعمليات.
+              </div>
+            </div>
+
+            {/* ========== CLASSIFICATION ========== */}
+            <div className="topic-card" id="ra-classification">
+              <div className="topic-title">
+                <span className="icon">🗂️</span> Classification of Operations
+              </div>
+              <div className="two-col">
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--violet)" }}
+                >
+                  <h4 style={{ color: "var(--violet-light)" }}>
+                    Unary Operations
+                  </h4>
+                  <p>بتشتغل على Relation واحد:</p>
+                  <p style={{ marginTop: ".4rem", color: "var(--text)" }}>
+                    • <strong>SELECT (σ)</strong> — sigma
+                    <br />• <strong>PROJECT (π)</strong> — pi
+                    <br />• <strong>RENAME (ρ)</strong> — rho
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--cyan)" }}
+                >
+                  <h4 style={{ color: "var(--cyan-light)" }}>
+                    Binary Operations
+                  </h4>
+                  <p>بتشتغل على Relation اتنين:</p>
+                  <p style={{ marginTop: ".4rem", color: "var(--text)" }}>
+                    • Set Theory: <strong>∪ , ∩ , −</strong>
+                    <br />• <strong>Cartesian Product (×)</strong>
+                    <br />• <strong>JOIN (⋈)</strong> بكل أنواعه
+                    <br />• <strong>DIVISION (÷)</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ========== SELECT (σ) ========== */}
+            <div className="topic-card" id="ra-select">
+              <div className="topic-title">
+                <span className="icon">σ</span> SELECT Operation
+              </div>
+              <div className="topic-body">
+                الـ SELECT (σ — sigma) بتعمل <strong>Horizontal Filtering</strong>{" "}
+                — يعني بتختار الـ Tuples اللي بتحقق شرط معين، والباقي بيتشال.
+                <br />
+                <br />
+                <strong>Syntax:</strong> &nbsp; σ&nbsp;
+                <em>&lt;selection condition&gt;</em> (R)
+              </div>
+              <SQLBlock
+                title="SELECT Examples"
+                code={`-- 1) موظفين الـ Department رقم 4
+σ DNO = 4 (EMPLOYEE)
+
+-- 2) موظفين مرتبهم أكبر من 30,000
+σ SALARY > 30000 (EMPLOYEE)
+
+-- 3) Combined Condition (AND)
+σ SALARY > 30000 ∧ DNO = 4 (EMPLOYEE)`}
+              />
+
+              <hr className="sep" />
+              <div className="viz-title">
+                ⚡ Example 1 — AND Condition: σ Address='Dokki' ∧ Major='EE'
+                (STUDENT)
+              </div>
+              <div className="two-col">
+                <div>
+                  <DataTable
+                    title="Input: STUDENT"
+                    headers={["ST-ID", "Name", "Address", "Major", "GPA"]}
+                    rows={raStudents}
+                    resultRows={[0, 3]}
+                  />
+                </div>
+                <div>
+                  <DataTable
+                    title="Result (2 rows)"
+                    headers={["ST-ID", "Name", "Address", "Major", "GPA"]}
+                    rows={[raStudents[0], raStudents[3]]}
+                  />
+                </div>
+              </div>
+
+              <hr className="sep" />
+              <div className="viz-title">
+                ⚡ Example 2 — OR Condition: σ Address='Dokki' ∨ Major='EE'
+                (STUDENT)
+              </div>
+              <div className="two-col">
+                <div>
+                  <DataTable
+                    title="Input: STUDENT"
+                    headers={["ST-ID", "Name", "Address", "Major", "GPA"]}
+                    rows={raStudentsOR}
+                    resultRows={[0, 2, 3]}
+                  />
+                </div>
+                <div>
+                  <DataTable
+                    title="Result (3 rows)"
+                    headers={["ST-ID", "Name", "Address", "Major", "GPA"]}
+                    rows={[
+                      raStudentsOR[0],
+                      raStudentsOR[2],
+                      raStudentsOR[3],
+                    ]}
+                  />
+                </div>
+              </div>
+              <div className="note-box">
+                💡 الـ Selection Condition هو <strong>Boolean Expression</strong>{" "}
+                على Attributes الـ Relation. اللي يحقق الشرط بيفضل، والباقي
+                بيتشال.
+              </div>
+            </div>
+
+            {/* ========== SELECT PROPERTIES ========== */}
+            <div className="topic-card" id="ra-select-props">
+              <div className="topic-title">
+                <span className="icon">🧷</span> SELECT — Properties
+              </div>
+              <div className="constraint-grid">
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--cyan)" }}
+                >
+                  <h4 style={{ color: "var(--cyan-light)" }}>Same Schema</h4>
+                  <p>
+                    ناتج σ ليه نفس الـ Attributes بتاعة R بالظبط.
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--green)" }}
+                >
+                  <h4 style={{ color: "var(--green)" }}>|σ(R)| ≤ |R|</h4>
+                  <p>
+                    عدد الـ Tuples الناتجة دايماً أقل أو يساوي R.{" "}
+                    <strong>متى تتساوى؟</strong> لما كل الـ Tuples تحقق الشرط.
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--violet)" }}
+                >
+                  <h4 style={{ color: "var(--violet-light)" }}>Commutative</h4>
+                  <p>
+                    σ&lt;c1&gt;(σ&lt;c2&gt;(R)) = σ&lt;c2&gt;(σ&lt;c1&gt;(R))
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--orange)" }}
+                >
+                  <h4 style={{ color: "var(--orange)" }}>Cascade</h4>
+                  <p>
+                    سلسلة من الـ σ ممكن تترتب بأي ترتيب بدون ما الناتج يتغير.
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--pink)" }}
+                >
+                  <h4 style={{ color: "var(--pink)" }}>Replacement</h4>
+                  <p>
+                    سلسلة σ تتجمع في σ واحدة بـ AND:
+                    <br />
+                    σ&lt;c1∧c2∧c3&gt;(R)
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ========== PROJECT (π) ========== */}
+            <div className="topic-card" id="ra-project">
+              <div className="topic-title">
+                <span className="icon">π</span> PROJECT Operation
+              </div>
+              <div className="topic-body">
+                الـ PROJECT (π — pi) بتعمل <strong>Vertical Filtering</strong> —
+                يعني بتختار <strong>Columns</strong> معينة وبتسيب الباقي.
+                <br />
+                <br />
+                <strong>Syntax:</strong> &nbsp; π&nbsp;
+                <em>&lt;attribute list&gt;</em> (R)
+                <br />
+                <br />
+                🔁 <strong>Comparison مع SELECT:</strong>
+                <br />• σ → Horizontal Partitioning (Rows)
+                <br />• π → Vertical Partitioning (Columns)
+              </div>
+
+              <hr className="sep" />
+              <div className="viz-title">
+                ⚡ Example A — π ST-ID, Major (STUDENT)
+              </div>
+              <div className="two-col">
+                <div>
+                  <DataTable
+                    title="Input: STUDENT"
+                    headers={["ST-ID", "Name", "Address", "Major", "GPA"]}
+                    rows={raStudents}
+                  />
+                </div>
+                <div>
+                  <DataTable
+                    title="Result"
+                    headers={["ST-ID", "Major"]}
+                    rows={raStudents.map((r) => [r[0], r[3]])}
+                  />
+                </div>
+              </div>
+
+              <hr className="sep" />
+              <div className="viz-title">
+                ⚡ Example B — π Major (STUDENT) → Duplicates Removed!
+              </div>
+              <div className="two-col">
+                <div>
+                  <DataTable
+                    title="Before (4 rows, includes duplicate EE)"
+                    headers={["Major"]}
+                    rows={raStudents.map((r) => [r[3]])}
+                  />
+                </div>
+                <div>
+                  <DataTable
+                    title="After RA Projection (3 unique)"
+                    headers={["Major"]}
+                    rows={[["EE"], ["CE"], ["Arch"]]}
+                  />
+                </div>
+              </div>
+
+              <div className="warn-box">
+                ⚠️ <strong>Critical Rule — RA vs SQL:</strong>
+                <br />• في الـ RA: الـ Projection بتشيل الـ Duplicates{" "}
+                <strong>تلقائياً</strong> (Set semantics).
+                <br />• في الـ SQL: <code>SELECT col</code> بـ
+                <strong> ما بيشلش</strong> الـ Duplicates. لازم تستخدم{" "}
+                <code>SELECT DISTINCT</code>.
+                <br />
+                <br />
+                🎯 يعني: <strong>π في RA = SELECT DISTINCT في SQL</strong>
+              </div>
+            </div>
+
+            {/* ========== PROJECT PROPERTIES ========== */}
+            <div className="topic-card" id="ra-project-props">
+              <div className="topic-title">
+                <span className="icon">🧷</span> PROJECT — Properties
+              </div>
+              <div className="constraint-grid">
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--cyan)" }}
+                >
+                  <h4 style={{ color: "var(--cyan-light)" }}>|π(R)| ≤ |R|</h4>
+                  <p>
+                    عدد الـ Tuples الناتج دايماً أقل أو يساوي R بسبب إزالة
+                    الـ Duplicates.
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--green)" }}
+                >
+                  <h4 style={{ color: "var(--green)" }}>متى يتساوى؟</h4>
+                  <p>
+                    لما الـ &lt;list&gt; يحتوي على{" "}
+                    <strong>Primary Key</strong> أو Super-key لـ R، أو على Column
+                    قيمه كلها فريدة.
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--red)" }}
+                >
+                  <h4 style={{ color: "var(--red)" }}>NOT Commutative ⚠️</h4>
+                  <p>
+                    π&lt;list1&gt;(π&lt;list2&gt;(R)) = π&lt;list1&gt;(R){" "}
+                    <strong>فقط</strong> لو list2 تحتوي على كل ما في list1.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ========== MIXED EXAMPLES ========== */}
+            <div className="topic-card" id="ra-mixed">
+              <div className="topic-title">
+                <span className="icon">🎯</span> Mixed: SELECT + PROJECT
+              </div>
+              <div className="topic-body">
+                <strong>Objective:</strong> Get names and GPAs of either EE or
+                CE students with GPA &lt; 2.0.
+              </div>
+              <SQLBlock
+                title="Valid RA Expression"
+                code={`π Name, GPA ( σ (Major = 'EE' ∨ Major = 'CE') ∧ GPA < 2.0 (STUDENT) )
+
+-- Equivalent SQL:
+SELECT Name, GPA
+FROM Student
+WHERE (Major = 'EE' OR Major = 'CE') AND GPA < 2.0;`}
+              />
+              <div className="two-col" style={{ marginTop: "1rem" }}>
+                <div>
+                  <DataTable
+                    title="Input: STUDENT"
+                    headers={["ST-ID", "Name", "Address", "Major", "GPA"]}
+                    rows={raStudents}
+                    resultRows={[1, 3]}
+                  />
+                </div>
+                <div>
+                  <DataTable
+                    title="Result"
+                    headers={["Name", "GPA"]}
+                    rows={[
+                      ["Maha", "1.9"],
+                      ["Noha", "1.0"],
+                    ]}
+                  />
+                </div>
+              </div>
+              <div className="note-box">
+                💡 يمكن أيضاً كتابتها كـ:
+                <br />
+                <code>
+                  σ (Major='EE' ∨ Major='CE') ∧ GPA&lt;2.0 ( π Major, ST-ID, GPA
+                  (STUDENT) )
+                </code>
+                <br />
+                لأن الـ inner projection محتفظة بـ Major و GPA.
+              </div>
+            </div>
+
+            {/* ========== NON-COMMUTATIVITY ========== */}
+            <div className="topic-card" id="ra-non-commute">
+              <div className="topic-title">
+                <span className="icon">⚠️</span> SELECT & PROJECT — Do NOT
+                Commute!
+              </div>
+              <div className="two-col">
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--green)" }}
+                >
+                  <h4 style={{ color: "var(--green)" }}>✅ RA-1 (Valid)</h4>
+                  <p
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: ".72rem",
+                    }}
+                  >
+                    π Name, GPA ( σ (Major='EE' ∨ Major='CE') ∧ GPA&lt;2.0
+                    (STUDENT) )
+                  </p>
+                  <p style={{ marginTop: ".4rem" }}>بيرجّع النتيجة المطلوبة.</p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--red)" }}
+                >
+                  <h4 style={{ color: "var(--red)" }}>❌ RA-2 (Fails)</h4>
+                  <p
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: ".72rem",
+                    }}
+                  >
+                    σ (Major='EE' ∨ Major='CE') ∧ GPA&lt;2.0 ( π Name, GPA
+                    (STUDENT) )
+                  </p>
+                  <p style={{ marginTop: ".4rem" }}>
+                    الـ π جوّه شالت Column "Major" → الـ σ مش لاقياها → Error.
+                  </p>
+                </div>
+              </div>
+              <div className="warn-box">
+                🚫 Conclusion: <strong>RA-1 ≠ RA-2</strong> — Selection و
+                Projection مش بيتبادلوا. لازم Projection بعد Selection (مش قبلها)
+                عشان الـ Attributes اللي محتاجها الشرط تفضل موجودة.
+              </div>
+            </div>
+
+            {/* ========== RA EXPRESSIONS ========== */}
+            <div className="topic-card" id="ra-expressions">
+              <div className="topic-title">
+                <span className="icon">📐</span> RA Expressions — Two Methods
+              </div>
+              <div className="topic-body">
+                لما نطبق كذا Operation ورا بعض، عندنا طريقتين:
+              </div>
+              <div className="two-col">
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--cyan)" }}
+                >
+                  <h4 style={{ color: "var(--cyan-light)" }}>
+                    1) Single Nested Expression
+                  </h4>
+                  <p>نكتب كل العمليات في Expression واحد مدمج.</p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--orange)" }}
+                >
+                  <h4 style={{ color: "var(--orange)" }}>
+                    2) Sequence of Operations
+                  </h4>
+                  <p>
+                    نعمل operation وننتج <strong>Intermediate Relation</strong>{" "}
+                    باسم مؤقت، وبعدين نشتغل عليه.
+                  </p>
+                </div>
+              </div>
+              <SQLBlock
+                title="Example: FName, LName, Salary of DNO=5 Employees"
+                code={`-- 🔹 Method 1: Single Nested Expression
+π FNAME, LNAME, SALARY ( σ DNO=5 (EMPLOYEE) )
+
+-- 🔹 Method 2: Sequence of Operations (with assignment arrow ←)
+DEP5_EMPS  ←  σ DNO=5 (EMPLOYEE)
+RESULT     ←  π FNAME, LNAME, SALARY (DEP5_EMPS)`}
+              />
+            </div>
+
+            {/* ========== RENAME (ρ) ========== */}
+            <div className="topic-card" id="ra-rename">
+              <div className="topic-title">
+                <span className="icon">ρ</span> RENAME Operation
+              </div>
+              <div className="topic-body">
+                الـ RENAME (ρ — rho) بتغير اسم الـ Relation أو أسماء الـ
+                Attributes أو الاتنين معاً.
+              </div>
+              <div className="three-col">
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--violet)" }}
+                >
+                  <h4 style={{ color: "var(--violet-light)" }}>Full Rename</h4>
+                  <p
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: ".72rem",
+                    }}
+                  >
+                    ρ S(B1, B2, …, Bn) (R)
+                  </p>
+                  <p>غير اسم الـ Relation لـ S واسامي الأعمدة لـ B1…Bn.</p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--cyan)" }}
+                >
+                  <h4 style={{ color: "var(--cyan-light)" }}>Relation Only</h4>
+                  <p
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: ".72rem",
+                    }}
+                  >
+                    ρ S (R)
+                  </p>
+                  <p>غير اسم الـ Relation بس لـ S.</p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--green)" }}
+                >
+                  <h4 style={{ color: "var(--green)" }}>Columns Only</h4>
+                  <p
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: ".72rem",
+                    }}
+                  >
+                    ρ (B1, B2, …, Bn) (R)
+                  </p>
+                  <p>غير أسماء الـ Attributes بس.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* ========== SET OPERATIONS ========== */}
+            <div className="topic-card" id="ra-set-ops">
+              <div className="topic-title">
+                <span className="icon">∪</span> Set Theory Operations — UNION,
+                INTERSECTION, DIFFERENCE
+              </div>
+              <div className="warn-box">
+                ⚠️ <strong>Type Compatibility Rule:</strong> R و S لازم:
+                <br />• يكون عندهم نفس عدد الـ Attributes.
+                <br />• كل Attribute متناظر يكون من نفس الـ Domain / Data Type.
+              </div>
+              <div className="three-col">
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--violet)" }}
+                >
+                  <h4 style={{ color: "var(--violet-light)" }}>
+                    UNION (R ∪ S)
+                  </h4>
+                  <p>
+                    كل الـ Tuples اللي في R أو S أو الاتنين.{" "}
+                    <strong>Duplicates بتتشال تلقائياً.</strong>
+                  </p>
+                  <span className="badge badge-g" style={{ marginTop: ".4rem" }}>
+                    Commutative
+                  </span>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--cyan)" }}
+                >
+                  <h4 style={{ color: "var(--cyan-light)" }}>
+                    INTERSECTION (R ∩ S)
+                  </h4>
+                  <p>الـ Tuples الموجودة في R و S الاتنين.</p>
+                  <span className="badge badge-g" style={{ marginTop: ".4rem" }}>
+                    Commutative
+                  </span>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--red)" }}
+                >
+                  <h4 style={{ color: "var(--red)" }}>
+                    DIFFERENCE (R − S)
+                  </h4>
+                  <p>الـ Tuples اللي في R بس مش في S.</p>
+                  <span className="badge badge-r" style={{ marginTop: ".4rem" }}>
+                    NOT Commutative
+                  </span>
+                </div>
+              </div>
+
+              <hr className="sep" />
+              <div className="viz-title">
+                ⚡ Practical Example — STUDENT &amp; PROF addresses
+              </div>
+              <SQLBlock
+                title="Schemas & Type Compatibility"
+                code={`-- Schemas
+STUDENT (ST-ID, Name, Nation-ID, Address, Major, GPA)
+PROF    (P-ID,  Name, Works-in,  Rank,    Add,   Specialty)
+
+-- Step 1: Extract a single compatible attribute (Address)
+STADD    ←  π Address (STUDENT)
+PROFADD  ←  π Add     (PROF)
+
+-- Step 2: Queries
+RESULT  ←  STADD ∪ PROFADD     -- Student OR Prof lives
+RESULT  ←  STADD − PROFADD     -- Student lives, no Prof
+RESULT  ←  STADD ∩ PROFADD     -- Both Student and Prof live`}
+              />
+
+              <div className="constraint-grid" style={{ marginTop: "1rem" }}>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--green)" }}
+                >
+                  <h4 style={{ color: "var(--green)" }}>Commutativity</h4>
+                  <p
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: ".72rem",
+                    }}
+                  >
+                    R ∪ S = S ∪ R
+                    <br />R ∩ S = S ∩ R
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--cyan)" }}
+                >
+                  <h4 style={{ color: "var(--cyan-light)" }}>Associativity</h4>
+                  <p
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: ".72rem",
+                    }}
+                  >
+                    R ∪ (S ∪ T) = (R ∪ S) ∪ T
+                    <br />R ∩ (S ∩ T) = (R ∩ S) ∩ T
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--red)" }}
+                >
+                  <h4 style={{ color: "var(--red)" }}>Non-Commutativity</h4>
+                  <p
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: ".72rem",
+                    }}
+                  >
+                    R − S ≠ S − R
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ========== CARTESIAN PRODUCT ========== */}
+            <div className="topic-card" id="ra-cartesian">
+              <div className="topic-title">
+                <span className="icon">×</span> Cartesian Product
+              </div>
+              <div className="topic-body">
+                الـ <strong>Cartesian Product (×)</strong> — يعرف كمان بـ Cross
+                Product — بيدمج كل Tuple من R مع كل Tuple من S.
+                <br />
+                <br />• لو R(A1…An) و S(B1…Bm) → Q(A1…An, B1…Bm) بـ{" "}
+                <strong>n + m</strong> Attributes.
+                <br />• <strong>Cardinality:</strong> |Q| = |R| × |S|.
+                <br />• مش محتاج Type Compatibility.
+                <br />• لوحده مش مفيد — قيمته الحقيقية لما يتدمج مع σ (وده اللي
+                بيكون JOIN).
+              </div>
+
+              <hr className="sep" />
+              <div className="viz-title">
+                ⚡ STUDENT × PROF → 4 × 4 = 16 rows
+              </div>
+              <div className="two-col">
+                <div>
+                  <DataTable
+                    title="STUDENT (4)"
+                    headers={["ST-ID", "Name", "Address", "Major", "GPA"]}
+                    rows={raStudents}
+                  />
+                </div>
+                <div>
+                  <DataTable
+                    title="PROF (4)"
+                    headers={["P-ID", "PName", "ADD", "WorksIn", "Rank"]}
+                    rows={raProfs}
+                  />
+                </div>
+              </div>
+
+              <hr className="sep" />
+              <div className="viz-title">
+                ⚡ σ Address = ADD (STUDENT × PROF) → 6 matching rows
+              </div>
+              <SQLBlock
+                title="Filtering the Cross Product"
+                code={`σ Address = ADD (STUDENT × PROF)
+-- = Keep rows where Student.Address = Prof.ADD`}
+              />
+              <DataTable
+                title="Result (Address = ADD)"
+                headers={[
+                  "ST-ID",
+                  "Name",
+                  "Address",
+                  "Major",
+                  "GPA",
+                  "P-ID",
+                  "PName",
+                  "ADD",
+                  "WorksIn",
+                  "Rank",
+                ]}
+                rows={[
+                  ["123", "Ali", "Dokki", "EE", "3.2", "P08", "Karem", "Dokki", "NULL", "Full"],
+                  ["123", "Ali", "Dokki", "EE", "3.2", "P91", "Nagy", "Dokki", "EE", "Full"],
+                  ["789", "Ahmad", "Dokki", "Arch", "2.7", "P08", "Karem", "Dokki", "NULL", "Full"],
+                  ["789", "Ahmad", "Dokki", "Arch", "2.7", "P91", "Nagy", "Dokki", "EE", "Full"],
+                  ["341", "Noha", "Dokki", "EE", "1.0", "P08", "Karem", "Dokki", "NULL", "Full"],
+                  ["341", "Noha", "Dokki", "EE", "1.0", "P91", "Nagy", "Dokki", "EE", "Full"],
+                ]}
+              />
+
+              <hr className="sep" />
+              <div className="viz-title">
+                ⚡ π ST-ID, Name ( σ Address=ADD (STUDENT × PROF) )
+              </div>
+              <DataTable
+                title="Final Output (duplicates removed by π)"
+                headers={["ST-ID", "Name"]}
+                rows={[
+                  ["123", "Ali"],
+                  ["789", "Ahmad"],
+                  ["341", "Noha"],
+                ]}
+              />
+              <div className="note-box">
+                💡 <strong>Reminder:</strong> Projection في RA = SELECT DISTINCT
+                في SQL.
+              </div>
+            </div>
+
+            {/* ========== JOIN ========== */}
+            <div className="topic-card" id="ra-join">
+              <div className="topic-title">
+                <span className="icon">⋈</span> JOIN Operation
+              </div>
+              <div className="topic-body">
+                لما نعمل <strong>Cartesian Product</strong> ونعمل بعده{" "}
+                <strong>Selection</strong> على شرط بيربط بين الجدولين، ده اسمه{" "}
+                <strong>JOIN</strong>.
+                <br />
+                <br />
+                <strong>Symbol:</strong> ⋈ (Bowtie) &nbsp; • &nbsp;{" "}
+                <strong>Syntax:</strong> R ⋈ &lt;join condition&gt; S
+              </div>
+              <SQLBlock
+                title="From Cartesian × Selection → JOIN"
+                code={`-- Equivalent expressions:
+σ Address = ADD (STUDENT × PROF)
+STUDENT ⋈ Address = ADD PROF
+
+-- With Projection:
+π ST-ID, Name ( STUDENT ⋈ Address = ADD PROF )`}
+              />
+
+              <div className="two-col" style={{ marginTop: "1rem" }}>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--cyan)" }}
+                >
+                  <h4 style={{ color: "var(--cyan-light)" }}>EQUIJOIN</h4>
+                  <p>
+                    لو الشرط بـ <strong>"="</strong> فقط، الـ Join اسمه EQUIJOIN.
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--orange)" }}
+                >
+                  <h4 style={{ color: "var(--orange)" }}>THETA-JOIN (θ)</h4>
+                  <p>
+                    لو الشرط فيه{" "}
+                    <strong>&gt;, ≥, &lt;, ≤, ≠</strong> أو أي Boolean Expression.
+                  </p>
+                </div>
+              </div>
+
+              <div className="note-box">
+                💡 <strong>Theta-Join General Form:</strong> R ⋈
+                <sub>θ</sub> S — حيث θ يمكن أن يكون أي Boolean Expression:
+                <br />
+                <code>R.Ai &lt; S.Bj ∧ (R.Ak = S.Bl ∨ R.Ap &lt; S.Bq)</code>
+                <br />
+                لكن معظم الـ Joins العملية بتستخدم Equality + AND.
+              </div>
+            </div>
+
+            {/* ========== NATURAL JOIN ========== */}
+            <div className="topic-card" id="ra-natural-join">
+              <div className="topic-title">
+                <span className="icon">✱</span> Natural Join
+              </div>
+              <div className="topic-body">
+                في الـ <strong>EQUIJOIN</strong>، الـ matching attribute بيظهر
+                مرتين في النتيجة (Duplicate Column). الـ{" "}
+                <strong>NATURAL JOIN</strong> اخترع عشان يحل المشكلة دي تلقائياً.
+                <br />
+                <br />• <strong>Symbol:</strong> *
+                <br />• بيشيل الـ Duplicate Column أوتوماتيك.
+                <br />• الـ Matching attributes لازم يكون عندهم{" "}
+                <strong>نفس الاسم و نفس النوع</strong> في الجدولين.
+                <br />• لو الأسماء مختلفة، لازم نعمل ρ (rename) الأول.
+              </div>
+
+              <hr className="sep" />
+              <SQLBlock
+                title="Example A — DEPARTMENT * DEPT_LOCATIONS"
+                code={`DEPT_LOCS  ←  DEPARTMENT * DEPT_LOCATIONS
+
+-- Implicit join condition:
+-- DEPARTMENT.DNUMBER = DEPT_LOCATIONS.DNUMBER`}
+              />
+              <SQLBlock
+                title="Example B — Schema-level"
+                code={`R(A, B, C, D)
+S(C, D, E)
+
+Q  ←  R * S
+-- Shared columns: C and D
+-- Implicit: R.C = S.C  ∧  R.D = S.D
+-- Resulting schema: Q(A, B, C, D, E)`}
+              />
+            </div>
+
+            {/* ========== COMPLEX QUERIES ========== */}
+            <div className="topic-card" id="ra-complex">
+              <div className="topic-title">
+                <span className="icon">🧠</span> Complex Comprehensive Queries
+              </div>
+              <div className="topic-body">
+                <strong>Objective:</strong> Retrieve name and address of all
+                employees who work for the <em>'Research'</em> department.
+              </div>
+              <SQLBlock
+                title="Sequence of Operations Solution"
+                code={`-- 1) Select the Research department
+RESEARCH_DEPT   ←  σ DNAME='Research' (DEPARTMENT)
+
+-- 2) Join with EMPLOYEE on department number
+RESEARCH_EMPS   ←  RESEARCH_DEPT ⋈ DNUMBER=DNO EMPLOYEE
+
+-- 3) Project the required attributes
+RESULT          ←  π FNAME, LNAME, ADDRESS (RESEARCH_EMPS)`}
+              />
+              <div className="note-box">
+                💡 الـ Sequence Method بيخلي الـ Query أوضح وأسهل في الـ Debug،
+                بس الـ Single Expression أحياناً بيكون أقصر.
+              </div>
+            </div>
+
+            {/* ========== OUTER JOINS ========== */}
+            <div className="topic-card" id="ra-outer">
+              <div className="topic-title">
+                <span className="icon">⟗</span> Outer Joins
+              </div>
+              <div className="topic-body">
+                الـ Outer Joins بنستخدمها لما نحتاج كل الـ Rows من جدول معين تظهر
+                في النتيجة — حتى لو ما حققتش الـ Join Condition. اللي مش لقي
+                Match بيتعبأ بـ <strong>NULL</strong>.
+              </div>
+              <div className="three-col">
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--violet)" }}
+                >
+                  <h4 style={{ color: "var(--violet-light)" }}>
+                    Left Outer Join (⟕)
+                  </h4>
+                  <p>كل الـ Rows من الجدول الشمال، حتى اللي مالوش match.</p>
+                  <p
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: ".7rem",
+                      marginTop: ".3rem",
+                      color: "var(--text)",
+                    }}
+                  >
+                    E ⟕ P
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--cyan)" }}
+                >
+                  <h4 style={{ color: "var(--cyan-light)" }}>
+                    Right Outer Join (⟖)
+                  </h4>
+                  <p>كل الـ Rows من الجدول اليمين.</p>
+                  <p
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: ".7rem",
+                      marginTop: ".3rem",
+                      color: "var(--text)",
+                    }}
+                  >
+                    E ⟖ P
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--green)" }}
+                >
+                  <h4 style={{ color: "var(--green)" }}>
+                    Full Outer Join (⟗)
+                  </h4>
+                  <p>كل الـ Rows من الجدولين.</p>
+                  <p
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: ".7rem",
+                      marginTop: ".3rem",
+                      color: "var(--text)",
+                    }}
+                  >
+                    E ⟗ P
+                  </p>
+                </div>
+              </div>
+              <SQLBlock
+                title="Practical Scenarios"
+                code={`-- Get all Employees E even if they don't work on any Projects P
+E ⟕ P     -- Left Outer
+
+-- Get all Projects P even if no Employee works on them
+E ⟖ P     -- Right Outer
+
+-- Get all Employees AND all Projects (even unmatched on both sides)
+E ⟗ P     -- Full Outer`}
+              />
+            </div>
+
+            {/* ========== SUMMARY / CHEATSHEET ========== */}
+            <div className="topic-card" id="ra-summary">
+              <div className="topic-title">
+                <span className="icon">📋</span> Symbols Cheatsheet
+              </div>
+              <div className="constraint-grid">
+                {[
+                  { sym: "σ", name: "SELECT", desc: "Horizontal filtering (rows)", color: "var(--violet)" },
+                  { sym: "π", name: "PROJECT", desc: "Vertical filtering (columns) — auto-distinct", color: "var(--cyan)" },
+                  { sym: "ρ", name: "RENAME", desc: "Rename relation / attributes", color: "var(--green)" },
+                  { sym: "∪", name: "UNION", desc: "All tuples in R or S (no duplicates)", color: "var(--orange)" },
+                  { sym: "∩", name: "INTERSECTION", desc: "Tuples in both R and S", color: "var(--pink)" },
+                  { sym: "−", name: "DIFFERENCE", desc: "Tuples in R but not in S", color: "var(--red)" },
+                  { sym: "×", name: "CARTESIAN PRODUCT", desc: "All pairs |R| × |S|", color: "var(--violet-light)" },
+                  { sym: "⋈", name: "JOIN", desc: "Cartesian + Selection (Theta / Equi)", color: "var(--cyan-light)" },
+                  { sym: "✱", name: "NATURAL JOIN", desc: "Equijoin without duplicate columns", color: "var(--green)" },
+                  { sym: "⟕", name: "LEFT OUTER", desc: "All rows from left + matches", color: "var(--violet)" },
+                  { sym: "⟖", name: "RIGHT OUTER", desc: "All rows from right + matches", color: "var(--cyan)" },
+                  { sym: "⟗", name: "FULL OUTER", desc: "All rows from both sides", color: "var(--orange)" },
+                  { sym: "÷", name: "DIVISION", desc: "Tuples in R associated with ALL of S", color: "var(--text2)" },
+                ].map((s) => (
+                  <div
+                    key={s.name}
+                    className="constraint-card"
+                    style={{ borderTopColor: s.color }}
+                  >
+                    <h4
+                      style={{
+                        color: s.color,
+                        fontSize: "1.1rem",
+                        fontFamily: "JetBrains Mono",
+                      }}
+                    >
+                      {s.sym} &nbsp;
+                      <span style={{ fontSize: ".72rem" }}>{s.name}</span>
+                    </h4>
+                    <p style={{ marginTop: ".25rem" }}>{s.desc}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="note-box" style={{ marginTop: "1rem" }}>
+                🎓 "Other Dr(s) will continue teaching the rest of the contents
+                with you. GOOD LUCK 😊"
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      /* =====================================================
          SIDEBAR ITEMS
       ===================================================== */
       const sidebarItems = {
@@ -4528,6 +5566,25 @@
           { id: "nested-select", icon: "🪆", label: "Nested in SELECT" },
           { id: "exec-order", icon: "🔄", label: "Execution Order" },
           { id: "cheatsheet", icon: "📝", label: "Cheatsheet" },
+        ],
+        ra: [
+          { id: "ra-intro", icon: "💡", label: "Overview" },
+          { id: "ra-classification", icon: "🗂️", label: "Classification" },
+          { id: "ra-select", icon: "σ", label: "SELECT (σ)" },
+          { id: "ra-select-props", icon: "🧷", label: "SELECT Properties" },
+          { id: "ra-project", icon: "π", label: "PROJECT (π)" },
+          { id: "ra-project-props", icon: "🧷", label: "PROJECT Properties" },
+          { id: "ra-mixed", icon: "🎯", label: "Mixed Examples" },
+          { id: "ra-non-commute", icon: "⚠️", label: "Non-Commutativity" },
+          { id: "ra-expressions", icon: "📐", label: "RA Expressions" },
+          { id: "ra-rename", icon: "ρ", label: "RENAME (ρ)" },
+          { id: "ra-set-ops", icon: "∪", label: "Set Operations" },
+          { id: "ra-cartesian", icon: "×", label: "Cartesian Product" },
+          { id: "ra-join", icon: "⋈", label: "JOIN" },
+          { id: "ra-natural-join", icon: "✱", label: "Natural Join" },
+          { id: "ra-complex", icon: "🧠", label: "Complex Queries" },
+          { id: "ra-outer", icon: "⟗", label: "Outer Joins" },
+          { id: "ra-summary", icon: "📋", label: "Symbols Cheatsheet" },
         ],
       };
 
@@ -4578,6 +5635,7 @@
           dml1: <DML1Section />,
           dml2: <DML2Section />,
           dml3: <DML3Section />,
+          ra: <RelationalAlgebraSection />,
         };
 
         return (
