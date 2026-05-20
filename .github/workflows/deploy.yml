@@ -17,7 +17,7 @@ jobs:
           username: ${{ vars.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /var/www/my-static-site
+            cd /var/www/FCAI_Summaries
 
             git pull origin main
 
