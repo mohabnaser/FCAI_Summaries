@@ -1,44 +1,258 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FCAI-Revisions</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <style>
-    :root{--bg:#050914;--line:#1d2c47;--text:#e2e8f0;--cyan:#22d3ee;--green:#34d399;--amber:#fbbf24;--pink:#f472b6;--violet:#a78bfa}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{min-height:100vh;background:radial-gradient(circle at top left, rgba(34,211,238,.12), transparent 28%),radial-gradient(circle at top right, rgba(167,139,250,.12), transparent 26%),linear-gradient(180deg,#04070f 0%,#050914 100%);color:var(--text);font-family:"Cairo",sans-serif;overflow-x:hidden}
-    a{text-decoration:none;color:inherit}
-    .wrap{max-width:1220px;margin:0 auto;padding:20px}
-    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-    .card{position:relative;min-height:170px;border:1px solid var(--line);border-radius:22px;padding:22px;background:linear-gradient(180deg, rgba(18,29,51,.96), rgba(12,20,36,.96));display:flex;align-items:flex-end;overflow:hidden;transition:.22s ease}
-    .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.28)}
-    .card::before{content:"";position:absolute;inset:0 auto auto 0;width:100%;height:3px;background:linear-gradient(90deg, transparent, var(--accent), transparent)}
-    .card h4{position:relative;z-index:1;font-family:"Outfit",sans-serif;font-size:1.55rem;font-weight:900;line-height:1.1}
-    .icon{position:absolute;top:18px;right:18px;width:54px;height:54px;border-radius:18px;display:grid;place-items:center;font-size:1.4rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
-    .accent-cyan{--accent:var(--cyan)}
-    .accent-green{--accent:var(--green)}
-    .accent-amber{--accent:var(--amber)}
-    .accent-pink{--accent:var(--pink)}
-    .accent-cyan .icon{color:var(--cyan);background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.16)}
-    .accent-green .icon{color:var(--green);background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.16)}
-    .accent-amber .icon{color:var(--amber);background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.16)}
-    .accent-pink .icon{color:var(--pink);background:rgba(244,114,182,.08);border-color:rgba(244,114,182,.16)}
-    @media (max-width:1100px){.grid{grid-template-columns:1fr 1fr}}
-    @media (max-width:720px){.wrap{padding:14px}.grid{grid-template-columns:1fr}.card{min-height:140px}}
-  </style>
-</head>
-<body>
-  <main class="wrap">
-    <div class="grid">
-      <a class="card accent-cyan" href="DB/Home.html"><div class="icon">🗄️</div><h4>Database</h4></a>
-      <a class="card accent-green" href="Software/index.html"><div class="icon">💻</div><h4>Software</h4></a>
-      <a class="card accent-amber" href="Web/index.html"><div class="icon">🌐</div><h4>Web</h4></a>
-      <a class="card accent-pink" href="Managment/index.html"><div class="icon">📊</div><h4>Managment</h4></a>
-    </div>
-  </main>
-</body>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FCAI-Revisions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #050914;
+        --line: #1d2c47;
+        --text: #e2e8f0;
+        --cyan: #22d3ee;
+        --green: #34d399;
+        --amber: #fbbf24;
+        --pink: #f472b6;
+        --violet: #a78bfa;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        min-height: 100vh;
+        background:
+          radial-gradient(
+            circle at top left,
+            rgba(34, 211, 238, 0.08),
+            transparent 28%
+          ),
+          radial-gradient(
+            circle at top right,
+            rgba(167, 139, 250, 0.06),
+            transparent 26%
+          ),
+          linear-gradient(180deg, #04070f 0%, #050914 100%);
+        color: var(--text);
+        font-family: "Cairo", sans-serif;
+        overflow-x: hidden;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      .wrap {
+        max-width: 1220px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .site-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0 20px;
+      }
+      .site-title {
+        font-family: "Outfit", sans-serif;
+        font-weight: 800;
+        font-size: 1.25rem;
+      }
+      .hero {
+        padding: 22px;
+        border-radius: 18px;
+        margin-bottom: 18px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .hero h1 {
+        font-family: "Outfit", sans-serif;
+        font-size: 1.6rem;
+        margin-bottom: 6px;
+      }
+      .hero p {
+        opacity: 0.85;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .card {
+        position: relative;
+        min-height: 170px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 18px;
+        background: linear-gradient(
+          180deg,
+          rgba(18, 29, 51, 0.96),
+          rgba(12, 20, 36, 0.96)
+        );
+        display: flex;
+        align-items: flex-end;
+        overflow: hidden;
+        transition:
+          transform 0.22s ease,
+          box-shadow 0.22s ease;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0 auto auto 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--accent),
+          transparent
+        );
+      }
+      .card h4 {
+        position: relative;
+        z-index: 1;
+        font-family: "Outfit", sans-serif;
+        font-size: 1.45rem;
+        font-weight: 800;
+        line-height: 1.1;
+      }
+      .card .desc {
+        position: relative;
+        z-index: 1;
+        font-size: 0.92rem;
+        opacity: 0.85;
+        margin-top: 6px;
+      }
+      .icon {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        width: 54px;
+        height: 54px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        font-size: 1.4rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .accent-cyan {
+        --accent: var(--cyan);
+      }
+      .accent-green {
+        --accent: var(--green);
+      }
+      .accent-amber {
+        --accent: var(--amber);
+      }
+      .accent-pink {
+        --accent: var(--pink);
+      }
+      .accent-cyan .icon {
+        color: var(--cyan);
+        background: rgba(34, 211, 238, 0.08);
+        border-color: rgba(34, 211, 238, 0.16);
+      }
+      .accent-green .icon {
+        color: var(--green);
+        background: rgba(52, 211, 153, 0.08);
+        border-color: rgba(52, 211, 153, 0.16);
+      }
+      .accent-amber .icon {
+        color: var(--amber);
+        background: rgba(251, 191, 36, 0.08);
+        border-color: rgba(251, 191, 36, 0.16);
+      }
+      .accent-pink .icon {
+        color: var(--pink);
+        background: rgba(244, 114, 182, 0.08);
+        border-color: rgba(244, 114, 182, 0.16);
+      }
+      @media (max-width: 1100px) {
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 720px) {
+        .wrap {
+          padding: 14px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .card {
+          min-height: 140px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="wrap site-header" role="banner">
+      <div class="site-title">FCAI — Revisions</div>
+    </header>
+    <main class="wrap">
+      <section class="hero" aria-labelledby="home-title">
+        <h1 id="home-title">Welcome — Shortcuts & Resources</h1>
+        <p>
+          This is the main hub with quick links to projects, databases, and
+          learning materials. Choose a section to continue.
+        </p>
+      </section>
+      <div class="grid">
+        <a class="card accent-cyan" href="DB/Home.html"
+          ><div class="icon">🗄️</div>
+          <div>
+            <h4>Database</h4>
+            <div class="desc">ER diagrams and project files</div>
+          </div></a
+        >
+        <a class="card accent-green" href="Software/index.html"
+          ><div class="icon">💻</div>
+          <div>
+            <h4>Software</h4>
+            <div class="desc">Tools, code snippets and projects</div>
+          </div></a
+        >
+        <a class="card accent-amber" href="Web/index.html"
+          ><div class="icon">🌐</div>
+          <div>
+            <h4>Web</h4>
+            <div class="desc">Sites and web development resources</div>
+          </div></a
+        >
+        <a class="card accent-pink" href="Managment/index.html"
+          ><div class="icon">📊</div>
+          <div>
+            <h4>Management</h4>
+            <div class="desc">Reports and administrative materials</div>
+          </div></a
+        >
+      </div>
+    </main>
+    <footer
+      class="wrap"
+      style="
+        padding: 18px 20px;
+        color: rgba(226, 232, 240, 0.7);
+        text-align: center;
+      "
+    >
+      All rights reserved — FCAI
+    </footer>
+  </body>
 </html>
