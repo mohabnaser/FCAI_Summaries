@@ -3410,6 +3410,20 @@
               </div>
             </div>
 
+            <div className="topic-card" id="create-db">
+              <div className="topic-title">
+                <span className="icon">🗄️</span> CREATE DATABASE
+              </div>
+              <div className="topic-body">أول حاجة بنعملها هي إننا نعمل قاعدة بيانات جديدة:</div>
+              <SQLBlock
+                title="CREATE / DROP DATABASE"
+                code={`-- إنشاء قاعدة بيانات جديدة\nCREATE DATABASE university;\n\n-- حذف قاعدة بيانات موجودة\nDROP DATABASE university;`}
+              />
+              <div className="warn-box">
+                ⚠️ <strong>تحذير:</strong> الـ DROP DATABASE بتحذف كل حاجة جوّه قاعدة البيانات بدون رجعة! كن حذر جداً.
+              </div>
+            </div>
+
             <div className="topic-card" id="create-table">
               <div className="topic-title">
                 <span className="icon">📋</span> CREATE TABLE - إنشاء جدول
@@ -3904,6 +3918,24 @@
               />
             </div>
 
+            <div className="topic-card" id="full-join">
+              <div className="topic-title">
+                <span className="icon">🌐</span> FULL OUTER JOIN
+              </div>
+              <div className="topic-body">
+                الـ FULL JOIN بيرجع <strong>كل rows من الجدولين</strong>. اللي مش متطابق من أي جهة بيبقى NULL.
+              </div>
+              <SQLBlock
+                title="FULL OUTER JOIN"
+                code={`-- كل الـ Departments وكل الـ Students\nSELECT Department.DCode, Student.Name\nFROM Department FULL OUTER JOIN Student\nON Department.DCode = Student.Major;\n\n-- لو الـ Database مش بتدعم FULL OUTER JOIN:\n-- نعمله بـ UNION بين LEFT و RIGHT\nSELECT Department.DCode, Student.Name\nFROM Department LEFT OUTER JOIN Student\nON Department.DCode = Student.Major\nUNION\nSELECT Department.DCode, Student.Name\nFROM Department RIGHT OUTER JOIN Student\nON Department.DCode = Student.Major;`}
+              />
+              <DataTable
+                headers={["SSN", "Name", "CrsCode"]}
+                rows={fullJoinResult.map((r) => r.map((v) => (v === null ? "NULL" : v)))}
+                title="✅ نتيجة FULL JOIN - كل rows الاتنين ظاهرين"
+              />
+            </div>
+
             <div className="topic-card" id="cross-join">
               <div className="topic-title">
                 <span className="icon">✖️</span> CROSS JOIN - الضرب الكارتيزي
@@ -3921,6 +3953,17 @@
                 ⚠️ CROSS JOIN على جداول كبيرة ممكن يوقف الـ Server! 1000 × 1000
                 = مليون row.
               </div>
+            </div>
+
+            <div className="topic-card" id="insert-select">
+              <div className="topic-title">
+                <span className="icon">📤</span> INSERT INTO SELECT
+              </div>
+              <div className="topic-body">ممكن نحط بيانات في جدول من جدول تاني باستخدام SELECT:</div>
+              <SQLBlock
+                title="INSERT INTO SELECT"
+                code={`-- نسخ customers من جدول لجدول تاني\nINSERT INTO MyCustomers\nSELECT customerNumber, customerName, city\nFROM Customers;\n\n-- مع WHERE\nINSERT INTO MyCustomers\nSELECT customerNumber, customerName, city\nFROM Customers\nWHERE country = 'Egypt';\n\n-- الشرط: الـ columns في TARGET TABLE لازم تتطابق\n-- مع الـ columns في الـ SELECT (نفس العدد ونفس الترتيب)\n-- إلا لو الـ Target Table فيها Identity Column`}
+              />
             </div>
 
             <div className="topic-card" id="operators">
@@ -4214,6 +4257,26 @@
               />
             </div>
 
+            <div className="topic-card" id="divide">
+              <div className="topic-title">
+                <span className="icon">➗</span> Divide Set Operator - قسمة المجموعات
+              </div>
+              <div className="topic-body">
+                الـ Divide Operator بيجاوب على سؤال من نوع "<strong>مين عنده كل...</strong>". مثلاً: مين اشترى كل المنتجات اللي اشتراها Customer معين؟
+              </div>
+              <SQLBlock
+                title="Divide - طريقة EXCEPT (الأوضح)"
+                code={`-- Get Customers who ordered ALL products that 'CENTC' ordered\nSELECT DISTINCT customerid\nFROM orders r\nWHERE NOT EXISTS (\n    -- Products بتاعة CENTC\n    SELECT ProductID\n    FROM orders o, [Order Details] od1\n    WHERE od1.OrderID = o.OrderID\n      AND customerid = 'CENTC'\n\n    EXCEPT -- طرح\n\n    -- Products بتاعة Customer الحالي\n    SELECT ProductID\n    FROM [order details] od2, orders o2\n    WHERE od2.orderid = o2.orderId\n      AND r.customerid = o2.customerid\n);\n-- لو الـ EXCEPT طلعت فاضية (Phi) → NOT EXISTS = TRUE → اتضاف`}
+              />
+              <SQLBlock
+                title="Divide - طريقة NOT EXISTS (الأكثر optimization)"
+                code={`SELECT CustomerId\nFROM Customers CC\nWHERE NOT EXISTS (\n    SELECT DISTINCT P.ProductId\n    FROM Products P, Customers C, Orders O, [Order Details] OD\n    WHERE P.ProductID = OD.ProductID\n      AND O.OrderID = OD.OrderID\n      AND C.CustomerID = O.CustomerID\n      AND C.customerid = 'CENTC'\n\n    EXCEPT\n\n    SELECT DISTINCT P.ProductId\n    FROM Products P, Customers C, Orders O, [Order Details] OD\n    WHERE P.ProductID = OD.ProductID\n      AND O.OrderID = OD.OrderID\n      AND C.CustomerID = O.CustomerID\n      AND C.customerid = CC.customerid\n);\n-- المعنى: مفيش product اشتراها CENTC ومشتراهاش الـ Customer ده`}
+              />
+              <div className="note-box">
+                💡 <strong>المنطق:</strong> NOT EXISTS (A EXCEPT B) = B يحتوي على كل عناصر A → هو Division!
+              </div>
+            </div>
+
             <div className="topic-card" id="set-operators">
               <div className="topic-title">
                 <span className="icon">🔄</span> Set Operators
@@ -4265,6 +4328,35 @@
               </div>
             </div>
 
+            <div className="topic-card" id="any-all">
+              <div className="topic-title">
+                <span className="icon">⚖️</span> ANY / ALL Operators
+              </div>
+              <div className="topic-body">
+                الـ <strong>ANY</strong> و <strong>ALL</strong> بيشتغلوا مع Subqueries وبيقارنوا قيمة مع مجموعة قيم:
+              </div>
+              <div className="two-col">
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--cyan)" }}
+                >
+                  <h4 style={{ color: "var(--cyan)" }}>ANY / SOME</h4>
+                  <p>TRUE لو الشرط اتحقق مع <strong>أي قيمة واحدة</strong> على الأقل في الـ Subquery. يعني: أكبر من أصغر واحد.</p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--orange)" }}
+                >
+                  <h4 style={{ color: "var(--orange)" }}>ALL</h4>
+                  <p>TRUE لو الشرط اتحقق مع <strong>كل القيم</strong> في الـ Subquery. يعني: أكبر من أكبر واحد.</p>
+                </div>
+              </div>
+              <SQLBlock
+                title="ANY / ALL Examples"
+                code={`-- ALL: الطلاب اللي GPA بتاعهم أعلى من كل طلاب القاهرة\nSELECT Name FROM Student\nWHERE GPA > ALL (\n    SELECT GPA FROM Student\n    WHERE City = 'Cairo'\n);\n-- يعني GPA أكبر من أعلى GPA في القاهرة\n\n-- ANY: الطلاب اللي GPA بتاعهم أعلى من أي طالب في القاهرة\nSELECT Name FROM Student\nWHERE GPA > ANY (\n    SELECT GPA FROM Student\n    WHERE City = 'Cairo'\n);\n-- يعني GPA أكبر من أقل GPA في القاهرة`}
+              />
+            </div>
+
             <div className="topic-card" id="cte">
               <div className="topic-title">
                 <span className="icon">📦</span> WITH Clause - CTE
@@ -4272,6 +4364,23 @@
               <SQLBlock
                 title="WITH (CTE) Example"
                 code={`WITH CustomerOrders AS\n(\n    SELECT CustomerID,\n           COUNT(*) AS TotalOrders,\n           SUM(TotalAmount) AS TotalSpent\n    FROM Orders\n    GROUP BY CustomerID\n)\nSELECT C.CompanyName, CO.TotalOrders, CO.TotalSpent\nFROM Customers C\nINNER JOIN CustomerOrders CO\n    ON C.CustomerID = CO.CustomerID\nWHERE CO.TotalOrders > 5\nORDER BY CO.TotalSpent DESC;`}
+              />
+            </div>
+
+            <div className="topic-card" id="nested-select">
+              <div className="topic-title">
+                <span className="icon">🪆</span> Nested Subquery في SELECT Clause
+              </div>
+              <div className="topic-body">
+                ممكن نحط Subquery في الـ SELECT clause نفسها بدل ما نعمل JOIN:
+              </div>
+              <SQLBlock
+                title="Subquery in SELECT"
+                code={`-- طريقة 1: Subquery في SELECT (بدون JOIN)\nSELECT OrderId, CustomerId,\n       (SELECT ContactName\n        FROM Customers C\n        WHERE C.CustomerID = O.CustomerID) AS CustomerName\nFROM Orders O;\n\n-- طريقة 2: نفس النتيجة بـ JOIN\nSELECT OrderId, C.CustomerId, ContactName\nFROM Customers C, Orders\nWHERE C.CustomerID = Orders.CustomerID;\n\n-- إزاي نتأكد إن الاتنين بيرجعوا نفس النتيجة؟\n-- Run Q1 EXCEPT Q2 → لازم ترجع فاضية (Phi)\n-- Run Q2 EXCEPT Q1 → لازم ترجع فاضية (Phi)`}
+              />
+              <SQLBlock
+                title="Subquery كـ Derived Table في FROM"
+                code={`SELECT C.ContactName, O.OrderDate\nFROM\n    (SELECT ContactName, CustomerID\n     FROM Customers\n     WHERE COUNTRY = 'USA') AS C,\n    (SELECT CustomerID, OrderDate\n     FROM Orders\n     WHERE YEAR(OrderDate) = 1996\n       AND MONTH(OrderDate) = 12) AS O\nWHERE C.CustomerID = O.CustomerId;\n\n-- Customers اللي اشتروا Products مش مكررة\nSELECT Products.ProductID, Products.ProductName,\n       Count(Q.CustomerID) AS NumberOfCustomers\nFROM (\n    SELECT DISTINCT ProductID, CustomerID\n    FROM Orders\n    INNER JOIN [Order Details]\n    ON Orders.OrderID = [Order Details].OrderID\n) AS Q\nINNER JOIN Products ON Q.ProductID = Products.ProductID\nGROUP BY Products.ProductID, Products.ProductName\nORDER BY ProductId;`}
               />
             </div>
 
@@ -4285,6 +4394,82 @@
                 اضغط على كل step:
               </div>
               <ExecutionOrderViz />
+            </div>
+
+            <div className="topic-card" id="cheatsheet">
+              <div className="topic-title">
+                <span className="icon">📝</span> SQL Cheatsheet - مراجعة سريعة
+              </div>
+              <div className="constraint-grid">
+                {[
+                  { name: "SELECT *", desc: "جيب كل الـ columns", cat: "SELECT" },
+                  { name: "WHERE x = y", desc: "فلتر بشرط", cat: "FILTER" },
+                  { name: "ORDER BY col DESC", desc: "رتب تنازلياً", cat: "SORT" },
+                  { name: "DISTINCT", desc: "شيل التكرار", cat: "SELECT" },
+                  { name: "BETWEEN x AND y", desc: "نطاق (شامل الحدود)", cat: "FILTER" },
+                  { name: "LIKE '%x%'", desc: "بيحتوي على x", cat: "FILTER" },
+                  { name: "IN (a,b,c)", desc: "موجود في القائمة", cat: "FILTER" },
+                  { name: "IS NULL", desc: "القيمة فارغة", cat: "FILTER" },
+                  { name: "INNER JOIN", desc: "التطابق بس", cat: "JOIN" },
+                  { name: "LEFT JOIN", desc: "كل الشمال", cat: "JOIN" },
+                  { name: "RIGHT JOIN", desc: "كل اليمين", cat: "JOIN" },
+                  { name: "FULL JOIN", desc: "الكل", cat: "JOIN" },
+                  { name: "CROSS JOIN", desc: "كل combination", cat: "JOIN" },
+                  { name: "COUNT(*)", desc: "عد الـ rows", cat: "AGG" },
+                  { name: "SUM(col)", desc: "مجموع", cat: "AGG" },
+                  { name: "AVG(col)", desc: "متوسط", cat: "AGG" },
+                  { name: "MIN / MAX", desc: "أصغر / أكبر", cat: "AGG" },
+                  { name: "GROUP BY", desc: "جمّع حسب column", cat: "GROUP" },
+                  { name: "HAVING", desc: "فلتر بعد GROUP BY", cat: "GROUP" },
+                  { name: "EXISTS", desc: "في نتيجة؟", cat: "SUB" },
+                  { name: "NOT EXISTS", desc: "مفيش نتيجة؟", cat: "SUB" },
+                  { name: "WITH xxx AS", desc: "CTE - جدول مؤقت", cat: "ADV" },
+                  { name: "EXCEPT", desc: "فرق بين sets", cat: "SET" },
+                  { name: "UNION", desc: "دمج sets بدون تكرار", cat: "SET" },
+                ].map((item) => {
+                  const catColors = {
+                    SELECT: "var(--violet)",
+                    FILTER: "var(--cyan)",
+                    SORT: "var(--green)",
+                    JOIN: "var(--pink)",
+                    AGG: "var(--orange)",
+                    GROUP: "var(--red)",
+                    SUB: "var(--violet-light)",
+                    ADV: "var(--text2)",
+                    SET: "var(--cyan-light)",
+                  };
+                  return (
+                    <div
+                      key={item.name}
+                      className="constraint-card"
+                      style={{ borderTopColor: catColors[item.cat] }}
+                    >
+                      <h4
+                        style={{
+                          fontFamily: "JetBrains Mono",
+                          fontSize: ".72rem",
+                          color: catColors[item.cat],
+                        }}
+                      >
+                        {item.name}
+                      </h4>
+                      <p style={{ fontSize: ".72rem" }}>
+                        {item.desc}{" "}
+                        <span
+                          className="badge"
+                          style={{
+                            background: `${catColors[item.cat]}20`,
+                            color: catColors[item.cat],
+                            marginLeft: "4px",
+                          }}
+                        >
+                          {item.cat}
+                        </span>
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             {/* ========== DML3 QUIZ ========== */}
@@ -4305,6 +4490,7 @@
           { id: "sql-intro", icon: "💡", label: "SQL Introduction" },
           { id: "sql-notes", icon: "📌", label: "SQL Notes" },
           { id: "data-types", icon: "🔢", label: "Data Types" },
+          { id: "create-db", icon: "🗄️", label: "CREATE DATABASE" },
           { id: "create-table", icon: "📋", label: "CREATE TABLE" },
           { id: "constraints", icon: "🔒", label: "Constraints" },
           { id: "alter-table", icon: "🔧", label: "ALTER TABLE" },
@@ -4324,7 +4510,9 @@
           { id: "inner-join", icon: "🎯", label: "INNER JOIN" },
           { id: "left-join", icon: "⬅️", label: "LEFT JOIN" },
           { id: "right-join", icon: "➡️", label: "RIGHT JOIN" },
+          { id: "full-join", icon: "🌐", label: "FULL JOIN" },
           { id: "cross-join", icon: "✖️", label: "CROSS JOIN" },
+          { id: "insert-select", icon: "📤", label: "INSERT SELECT" },
           { id: "operators", icon: "📊", label: "Operators Ref" },
         ],
         dml3: [
@@ -4333,9 +4521,13 @@
           { id: "group-by", icon: "🗂️", label: "GROUP BY" },
           { id: "having", icon: "🔍", label: "HAVING" },
           { id: "subqueries", icon: "🪆", label: "Subqueries" },
+          { id: "divide", icon: "➗", label: "Divide Operator" },
           { id: "set-operators", icon: "🔄", label: "Set Operators" },
+          { id: "any-all", icon: "⚖️", label: "ANY / ALL" },
           { id: "cte", icon: "📦", label: "WITH / CTE" },
+          { id: "nested-select", icon: "🪆", label: "Nested in SELECT" },
           { id: "exec-order", icon: "🔄", label: "Execution Order" },
+          { id: "cheatsheet", icon: "📝", label: "Cheatsheet" },
         ],
       };
 
