@@ -60,6 +60,8 @@
         padding: 8px 0 20px;
       }
       .site-title {
+        padding: 20px;
+        color: var(--cyan);
         font-family: "Outfit", sans-serif;
         font-weight: 800;
         font-size: 1.25rem;
@@ -151,6 +153,22 @@
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.08);
       }
+      #home-title {
+        font-size: 1.8rem;
+        color: var(--cyan);
+      }
+      .DB{
+        color:var(--cyan);
+      }
+      .SW{
+        color:var(--green);
+      }
+      .W{
+        color:var(--amber);
+      }
+      .MA{
+        color:var(--pink);
+      }
       .accent-cyan {
         --accent: var(--cyan);
       }
@@ -199,6 +217,7 @@
           min-height: 140px;
         }
       }
+      
     </style>
   </head>
   <body>
@@ -217,28 +236,28 @@
         <a class="card accent-cyan" href="DB/Home.html"
           ><div class="icon">🗄️</div>
           <div>
-            <h4>Database</h4>
+            <h4 class="DB">Database</h4>
             <div class="desc">ER diagrams and project files</div>
           </div></a
         >
         <a class="card accent-green" href="Software/index.html"
           ><div class="icon">💻</div>
           <div>
-            <h4>Software</h4>
+            <h4 class="SW">Software</h4>
             <div class="desc">Tools, code snippets and projects</div>
           </div></a
         >
         <a class="card accent-amber" href="Web/index.html"
           ><div class="icon">🌐</div>
           <div>
-            <h4>Web</h4>
+            <h4 class="W">Web</h4>
             <div class="desc">Sites and web development resources</div>
           </div></a
         >
         <a class="card accent-pink" href="Managment/index.html"
           ><div class="icon">📊</div>
           <div>
-            <h4>Management</h4>
+            <h4 class="MA">Management</h4>
             <div class="desc">Reports and administrative materials</div>
           </div></a
         >
