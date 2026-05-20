@@ -1,0 +1,4620 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>🎓 SQL + Quiz</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #080b14;
+        --bg2: #0d1220;
+        --bg3: #111827;
+        --card: #141b2d;
+        --border: #1e2d4a;
+        --violet: #7c3aed;
+        --violet-light: #a855f7;
+        --cyan: #06b6d4;
+        --cyan-light: #67e8f9;
+        --green: #10b981;
+        --orange: #f59e0b;
+        --red: #ef4444;
+        --pink: #ec4899;
+        --text: #e2e8f0;
+        --text2: #94a3b8;
+        --text3: #475569;
+        --glow-v: rgba(124, 58, 237, 0.3);
+        --glow-c: rgba(6, 182, 212, 0.2);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Cairo", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      .home-btn {
+        position: fixed;
+        top: 18px;
+        left: 18px;
+        z-index: 120;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(6, 182, 212, 0.25);
+        background: rgba(8, 11, 20, 0.92);
+        color: var(--text);
+        text-decoration: none;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 0.82rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      }
+      .home-btn:hover {
+        background: rgba(6, 182, 212, 0.1);
+        border-color: rgba(6, 182, 212, 0.45);
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg2);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--violet);
+        border-radius: 3px;
+      }
+
+      /* LAYOUT */
+      .app-layout {
+        display: flex;
+        height: 100vh;
+      }
+      .sidebar {
+        width: 260px;
+        min-width: 260px;
+        background: var(--bg2);
+        border-left: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+        position: fixed;
+        height: 100vh;
+        right: 0;
+        top: 0;
+        z-index: 50;
+        transition: transform 0.3s;
+      }
+      .main-content {
+        margin-right: 260px;
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      .topbar {
+        background: rgba(8, 11, 20, 0.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        height: 64px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+      .content-area {
+        padding: 2rem;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      /* LOGO */
+      .logo {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1.05rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--violet-light), var(--cyan));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        padding: 1.5rem 1.25rem 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .logo span {
+        display: block;
+        font-family: "Cairo", sans-serif;
+        font-size: 0.65rem;
+        color: var(--text2);
+        -webkit-text-fill-color: var(--text2);
+        font-weight: 400;
+        margin-top: 2px;
+      }
+
+      /* SIDEBAR NAV */
+      .nav-section {
+        padding: 0.5rem 0;
+      }
+      .nav-section-title {
+        font-size: 0.6rem;
+        font-family: "JetBrains Mono", monospace;
+        letter-spacing: 0.12em;
+        color: var(--text3);
+        text-transform: uppercase;
+        padding: 0.5rem 1.25rem 0.25rem;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.45rem 1.25rem;
+        cursor: pointer;
+        color: var(--text2);
+        font-size: 0.8rem;
+        border-right: 3px solid transparent;
+        transition: all 0.15s;
+        position: relative;
+      }
+      .nav-item:hover {
+        color: var(--text);
+        background: rgba(124, 58, 237, 0.08);
+      }
+      .nav-item.active {
+        color: var(--violet-light);
+        border-right-color: var(--violet);
+        background: rgba(124, 58, 237, 0.12);
+      }
+      .nav-item .icon {
+        font-size: 0.85rem;
+        width: 18px;
+        text-align: center;
+      }
+      .nav-item.scrollspy-active {
+        color: var(--cyan-light);
+        border-right-color: var(--cyan);
+        background: rgba(6, 182, 212, 0.08);
+      }
+
+      /* TAB BUTTONS */
+      .tab-btn {
+        padding: 0.35rem 0.9rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text2);
+        transition: all 0.15s;
+        white-space: nowrap;
+        font-family: "Cairo", sans-serif;
+        flex-shrink: 0;
+      }
+      .tab-btn:hover {
+        border-color: var(--violet);
+        color: var(--violet-light);
+      }
+      .tab-btn.active {
+        background: var(--violet);
+        border-color: var(--violet);
+        color: white;
+        box-shadow: 0 0 16px var(--glow-v);
+      }
+
+      /* SECTION HERO */
+      .section-hero {
+        background: linear-gradient(135deg, var(--bg2) 0%, var(--card) 100%);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .section-hero::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -20%;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        background: var(--glow-v);
+        filter: blur(80px);
+        pointer-events: none;
+      }
+      .section-hero h1 {
+        font-size: 1.8rem;
+        font-weight: 900;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, #fff, var(--violet-light));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .section-hero p {
+        color: var(--text2);
+        font-size: 0.88rem;
+        line-height: 1.7;
+        max-width: 600px;
+      }
+      .section-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: rgba(124, 58, 237, 0.2);
+        border: 1px solid rgba(124, 58, 237, 0.4);
+        border-radius: 100px;
+        font-size: 0.7rem;
+        font-family: "JetBrains Mono", monospace;
+        color: var(--violet-light);
+        margin-bottom: 0.75rem;
+      }
+
+      /* TOPIC CARD */
+      .topic-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        scroll-margin-top: 80px;
+        transition: border-color 0.2s;
+      }
+      .topic-card:hover {
+        border-color: rgba(124, 58, 237, 0.4);
+      }
+      .topic-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .topic-title .icon {
+        font-size: 1.2rem;
+      }
+      .topic-body {
+        color: var(--text2);
+        font-size: 0.87rem;
+        line-height: 1.8;
+      }
+      .topic-body strong {
+        color: var(--cyan-light);
+      }
+      .topic-body em {
+        color: var(--orange);
+        font-style: normal;
+      }
+      .note-box {
+        background: rgba(6, 182, 212, 0.08);
+        border: 1px solid rgba(6, 182, 212, 0.25);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        margin-top: 0.75rem;
+        font-size: 0.81rem;
+        color: var(--cyan-light);
+      }
+      .warn-box {
+        background: rgba(245, 158, 11, 0.08);
+        border: 1px solid rgba(245, 158, 11, 0.25);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        margin-top: 0.75rem;
+        font-size: 0.81rem;
+        color: var(--orange);
+      }
+
+      /* SQL CODE BLOCK */
+      .sql-block {
+        background: #060910;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 1rem;
+        font-size: 0.81rem;
+      }
+      .sql-block-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-bottom: 1px solid var(--border);
+        direction: ltr;
+      }
+      .sql-block-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        direction: ltr;
+      }
+      .sql-block-dots {
+        display: flex;
+        gap: 5px;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .dot-r {
+        background: #ef4444;
+      }
+      .dot-y {
+        background: #f59e0b;
+      }
+      .dot-g {
+        background: #10b981;
+      }
+      .sql-code {
+        font-family: "JetBrains Mono", monospace;
+        padding: 1rem 1.25rem;
+        line-height: 1.7;
+        overflow-x: auto;
+        white-space: pre;
+        direction: ltr;
+        text-align: left;
+      }
+      .kw {
+        color: #7c3aed;
+        font-weight: 600;
+      }
+      .kw2 {
+        color: #a855f7;
+      }
+      .fn {
+        color: #06b6d4;
+      }
+      .str {
+        color: #10b981;
+      }
+      .num {
+        color: #f59e0b;
+      }
+      .cmt {
+        color: #475569;
+        font-style: italic;
+      }
+      .op {
+        color: #ec4899;
+      }
+      .tbl {
+        color: #e2e8f0;
+      }
+      .col {
+        color: #bfdbfe;
+      }
+
+      /* DATA TABLE */
+      .data-table-wrap {
+        overflow-x: auto;
+        margin-top: 0.75rem;
+        direction: ltr;
+      }
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.77rem;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .data-table th {
+        background: rgba(124, 58, 237, 0.15);
+        color: var(--violet-light);
+        padding: 0.5rem 0.75rem;
+        text-align: left;
+        border: 1px solid var(--border);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .data-table td {
+        padding: 0.4rem 0.75rem;
+        border: 1px solid rgba(30, 45, 74, 0.6);
+        color: var(--text2);
+        text-align: left;
+      }
+      .data-table tr:hover td {
+        background: rgba(124, 58, 237, 0.05);
+        color: var(--text);
+      }
+      .data-table td.null {
+        color: var(--text3);
+        font-style: italic;
+      }
+      .data-table td.highlighted {
+        background: rgba(124, 58, 237, 0.15);
+        color: var(--violet-light);
+      }
+      .data-table td.result {
+        background: rgba(16, 185, 129, 0.08);
+        color: var(--green);
+      }
+
+      /* VISUALIZER */
+      .viz-container {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-top: 1rem;
+      }
+      .viz-title {
+        font-size: 0.75rem;
+        font-family: "JetBrains Mono", monospace;
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        direction: ltr;
+      }
+      .viz-grid {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 1rem;
+        align-items: start;
+      }
+      .viz-label {
+        font-size: 0.65rem;
+        font-family: "JetBrains Mono", monospace;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.4rem;
+        direction: ltr;
+        text-align: left;
+      }
+
+      /* JOIN VISUALIZER */
+      .join-container {
+        margin-top: 1rem;
+      }
+      .join-tabs {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.25rem;
+        direction: ltr;
+      }
+      .join-tab {
+        padding: 0.35rem 0.85rem;
+        border-radius: 6px;
+        font-size: 0.74rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text2);
+        transition: all 0.15s;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .join-tab:hover {
+        border-color: var(--violet);
+        color: var(--violet-light);
+      }
+      .join-tab.active {
+        background: var(--violet);
+        border-color: var(--violet);
+        color: white;
+      }
+      .join-layout {
+        display: grid;
+        grid-template-columns: 1fr 200px 1fr;
+        gap: 1rem;
+        align-items: start;
+      }
+      .result-section {
+        margin-top: 1.25rem;
+      }
+      .result-label {
+        font-size: 0.65rem;
+        font-family: "JetBrains Mono", monospace;
+        color: var(--green);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        direction: ltr;
+      }
+      .result-count {
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        border-radius: 100px;
+        padding: 0.1rem 0.5rem;
+        font-size: 0.65rem;
+        color: var(--green);
+      }
+
+      /* CONSTRAINT CARDS */
+      .constraint-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+      }
+      .constraint-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.9rem;
+        border-top: 3px solid transparent;
+        transition: all 0.2s;
+      }
+      .constraint-card:hover {
+        border-top-color: var(--violet);
+        transform: translateY(-2px);
+      }
+      .constraint-card h4 {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+        color: var(--violet-light);
+      }
+      .constraint-card p {
+        font-size: 0.74rem;
+        color: var(--text2);
+        line-height: 1.6;
+      }
+
+      /* AGGREGATE VISUALIZER */
+      .agg-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 0.75rem;
+      }
+      .agg-step {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1rem;
+      }
+      .agg-step-title {
+        font-size: 0.65rem;
+        font-family: "JetBrains Mono", monospace;
+        color: var(--orange);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.6rem;
+      }
+
+      /* GROUP VIZ */
+      .group-viz {
+        margin-top: 0.75rem;
+        direction: ltr;
+        text-align: left;
+      }
+      .group-item {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+      }
+      .group-header {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.75rem;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .group-rows {
+        padding: 0.25rem 0.5rem 0.5rem;
+      }
+      .group-row {
+        font-size: 0.72rem;
+        font-family: "JetBrains Mono", monospace;
+        color: var(--text2);
+        padding: 0.15rem 0.25rem;
+      }
+
+      /* STEP INDICATOR */
+      .steps {
+        display: flex;
+        gap: 0;
+        margin: 1rem 0;
+      }
+      .step {
+        flex: 1;
+        padding: 0.6rem 0.75rem;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        font-size: 0.72rem;
+        text-align: center;
+        color: var(--text2);
+        position: relative;
+      }
+      .step:first-child {
+        border-radius: 8px 0 0 8px;
+      }
+      .step:last-child {
+        border-radius: 0 8px 8px 0;
+      }
+      .step.active {
+        background: rgba(124, 58, 237, 0.15);
+        color: var(--violet-light);
+        border-color: var(--violet);
+      }
+      .step-num {
+        display: block;
+        font-size: 0.6rem;
+        color: var(--text3);
+        font-family: "JetBrains Mono", monospace;
+        margin-bottom: 0.15rem;
+      }
+
+      /* BADGE */
+      .badge {
+        display: inline-block;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.65rem;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 600;
+      }
+      .badge-v {
+        background: rgba(124, 58, 237, 0.2);
+        color: var(--violet-light);
+      }
+      .badge-c {
+        background: rgba(6, 182, 212, 0.2);
+        color: var(--cyan-light);
+      }
+      .badge-g {
+        background: rgba(16, 185, 129, 0.2);
+        color: var(--green);
+      }
+      .badge-o {
+        background: rgba(245, 158, 11, 0.2);
+        color: var(--orange);
+      }
+      .badge-r {
+        background: rgba(239, 68, 68, 0.2);
+        color: var(--red);
+      }
+
+      /* TWO/THREE COLS */
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 0.75rem;
+      }
+      .three-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+      }
+      .sep {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 1.5rem 0;
+      }
+
+      /* HAMBURGER */
+      .hamburger {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 1.4rem;
+        cursor: pointer;
+        padding: 0.25rem;
+        flex-shrink: 0;
+      }
+
+      /* EXEC ORDER */
+      .exec-flow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin: 1rem 0;
+        direction: ltr;
+      }
+      .exec-step {
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-size: 0.78rem;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: var(--bg2);
+        color: var(--text2);
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+      }
+      .exec-step:hover {
+        border-color: var(--violet);
+        color: var(--violet-light);
+      }
+      .exec-step.active {
+        background: var(--violet);
+        border-color: var(--violet);
+        color: white;
+        box-shadow: 0 0 20px var(--glow-v);
+      }
+      .exec-step .exec-num {
+        position: absolute;
+        top: -8px;
+        right: -6px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--cyan);
+        color: var(--bg);
+        font-size: 0.55rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .exec-arrow {
+        color: var(--text3);
+        font-size: 1rem;
+      }
+
+      /* SUBQUERY */
+      .subquery-outer {
+        border: 2px solid var(--violet);
+        border-radius: 8px;
+        padding: 0.75rem;
+        position: relative;
+        direction: ltr;
+        text-align: left;
+      }
+      .subquery-inner {
+        border: 2px solid var(--cyan);
+        border-radius: 6px;
+        padding: 0.75rem;
+        margin-top: 0.5rem;
+        position: relative;
+      }
+      .subquery-tag {
+        position: absolute;
+        top: -0.6rem;
+        left: 0.75rem;
+        direction: ltr;
+        background: var(--bg);
+        padding: 0 0.4rem;
+        font-size: 0.6rem;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .subquery-tag-v {
+        color: var(--violet-light);
+      }
+      .subquery-tag-c {
+        color: var(--cyan-light);
+      }
+
+      /* ANIMATIONS */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-in {
+        animation: fadeIn 0.3s ease;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+      .pulse {
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      /* PROGRESS BAR */
+      .progress-bar {
+        height: 3px;
+        background: var(--border);
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 0.5rem 0;
+      }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--violet), var(--cyan));
+        border-radius: 3px;
+        transition: width 0.4s;
+      }
+
+      /* ===================== QUIZ STYLES ===================== */
+      .quiz-wrapper {
+        margin-top: 2.5rem;
+        border-top: 2px solid rgba(124, 58, 237, 0.4);
+        padding-top: 2rem;
+      }
+
+      /* MOBILE FLOATING HAMBURGER (right side) */
+      .mobile-hamburger {
+        display: none;
+        position: fixed;
+        right: 14px;
+        top: 14px;
+        z-index: 1001;
+        background: var(--violet);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 8px 10px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(124, 58, 237, 0.25);
+      }
+      @media (max-width: 900px) {
+        .mobile-hamburger {
+          display: block;
+          top: 72px;
+          z-index: 1000000;
+        }
+      }
+      .quiz-header-card {
+        background: linear-gradient(
+          135deg,
+          rgba(124, 58, 237, 0.18),
+          rgba(6, 182, 212, 0.1)
+        );
+        border: 1px solid rgba(124, 58, 237, 0.35);
+        border-radius: 14px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .quiz-header-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .quiz-header-icon {
+        font-size: 2rem;
+      }
+      .quiz-header-title {
+        font-size: 1.15rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #fff, var(--violet-light));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .quiz-header-meta {
+        font-size: 0.75rem;
+        color: var(--text3);
+        margin-top: 0.15rem;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .quiz-header-right {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .quiz-progress-text {
+        font-size: 0.8rem;
+        color: var(--text2);
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      .quiz-score-badge {
+        padding: 0.4rem 1rem;
+        border-radius: 100px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+      .quiz-score-badge.score-great {
+        background: rgba(16, 185, 129, 0.2);
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        color: var(--green);
+      }
+      .quiz-score-badge.score-good {
+        background: rgba(6, 182, 212, 0.2);
+        border: 1px solid rgba(6, 182, 212, 0.4);
+        color: var(--cyan-light);
+      }
+      .quiz-score-badge.score-mid {
+        background: rgba(245, 158, 11, 0.2);
+        border: 1px solid rgba(245, 158, 11, 0.4);
+        color: var(--orange);
+      }
+      .quiz-score-badge.score-bad {
+        background: rgba(239, 68, 68, 0.2);
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        color: var(--red);
+      }
+
+      .quiz-pb-wrap {
+        height: 4px;
+        background: var(--border);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 1.25rem;
+      }
+      .quiz-pb-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--violet), var(--cyan));
+        border-radius: 4px;
+        transition: width 0.4s;
+      }
+
+      .quiz-result-card {
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        animation: fadeIn 0.4s ease;
+      }
+      .quiz-result-card.result-great {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
+      .quiz-result-card.result-good {
+        background: rgba(6, 182, 212, 0.1);
+        border: 1px solid rgba(6, 182, 212, 0.3);
+      }
+      .quiz-result-card.result-mid {
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+      }
+      .quiz-result-card.result-bad {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+      }
+      .quiz-result-emoji {
+        font-size: 2.5rem;
+      }
+      .quiz-result-text {
+        font-size: 0.95rem;
+        font-weight: 700;
+        flex: 1;
+      }
+      .quiz-result-card.result-great .quiz-result-text {
+        color: var(--green);
+      }
+      .quiz-result-card.result-good .quiz-result-text {
+        color: var(--cyan-light);
+      }
+      .quiz-result-card.result-mid .quiz-result-text {
+        color: var(--orange);
+      }
+      .quiz-result-card.result-bad .quiz-result-text {
+        color: var(--red);
+      }
+      .quiz-result-sub {
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: var(--text2);
+        display: block;
+        margin-top: 0.2rem;
+      }
+
+      /* QUIZ QUESTION */
+      .quiz-q {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        transition: border-color 0.2s;
+      }
+      .quiz-q.q-correct-border {
+        border-color: rgba(16, 185, 129, 0.5);
+        background: rgba(16, 185, 129, 0.03);
+      }
+      .quiz-q.q-wrong-border {
+        border-color: rgba(239, 68, 68, 0.5);
+        background: rgba(239, 68, 68, 0.03);
+      }
+      .quiz-q.q-skip-border {
+        border-color: rgba(100, 116, 139, 0.3);
+      }
+
+      .quiz-q-header {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .quiz-q-num {
+        background: var(--violet);
+        color: white;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 0.2rem 0.5rem;
+        border-radius: 6px;
+        white-space: nowrap;
+      }
+      .quiz-q-year {
+        background: rgba(6, 182, 212, 0.15);
+        border: 1px solid rgba(6, 182, 212, 0.3);
+        color: var(--cyan-light);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.62rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      .quiz-q-tag {
+        background: rgba(124, 58, 237, 0.15);
+        border: 1px solid rgba(124, 58, 237, 0.3);
+        color: var(--violet-light);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.6rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      .quiz-q-status {
+        font-size: 0.7rem;
+        font-weight: 700;
+        margin-right: auto;
+        white-space: nowrap;
+      }
+      .q-status-correct {
+        color: var(--green);
+      }
+      .q-status-wrong {
+        color: var(--red);
+      }
+      .q-status-skip {
+        color: var(--text3);
+      }
+
+      .quiz-q-text {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+        white-space: pre-wrap;
+      }
+
+      .quiz-q-code {
+        background: #060910;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.75rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.76rem;
+        direction: ltr;
+        text-align: left;
+        white-space: pre;
+        overflow-x: auto;
+        color: var(--text2);
+        line-height: 1.6;
+      }
+
+      /* QUIZ OPTIONS */
+      .quiz-q-options {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .quiz-opt {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.65rem 1rem;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        cursor: pointer;
+        transition: all 0.15s;
+        background: transparent;
+        text-align: right;
+      }
+      .quiz-opt:hover:not(.quiz-opt-disabled) {
+        border-color: var(--violet);
+        background: rgba(124, 58, 237, 0.06);
+      }
+      .quiz-opt.quiz-opt-selected {
+        border-color: var(--violet);
+        background: rgba(124, 58, 237, 0.12);
+      }
+      .quiz-opt.quiz-opt-correct {
+        border-color: var(--green) !important;
+        background: rgba(16, 185, 129, 0.12) !important;
+      }
+      .quiz-opt.quiz-opt-wrong {
+        border-color: var(--red) !important;
+        background: rgba(239, 68, 68, 0.1) !important;
+      }
+      .quiz-opt.quiz-opt-disabled {
+        cursor: default;
+      }
+      .quiz-opt-letter {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: var(--text3);
+        transition: all 0.15s;
+      }
+      .quiz-opt.quiz-opt-selected .quiz-opt-letter {
+        background: var(--violet);
+        border-color: var(--violet);
+        color: white;
+      }
+      .quiz-opt.quiz-opt-correct .quiz-opt-letter {
+        background: var(--green);
+        border-color: var(--green);
+        color: white;
+      }
+      .quiz-opt.quiz-opt-wrong .quiz-opt-letter {
+        background: var(--red);
+        border-color: var(--red);
+        color: white;
+      }
+      .quiz-opt-text {
+        flex: 1;
+        font-size: 0.84rem;
+        color: var(--text2);
+        line-height: 1.5;
+      }
+      .quiz-opt.quiz-opt-selected .quiz-opt-text {
+        color: var(--text);
+      }
+      .quiz-opt.quiz-opt-correct .quiz-opt-text {
+        color: var(--green);
+      }
+      .quiz-opt.quiz-opt-wrong .quiz-opt-text {
+        color: var(--red);
+      }
+      .quiz-opt-icon {
+        font-size: 0.8rem;
+        margin-top: 2px;
+        flex-shrink: 0;
+      }
+
+      /* EXPLANATION */
+      .quiz-explanation {
+        margin-top: 0.75rem;
+        padding: 0.85rem 1rem;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        line-height: 1.75;
+        animation: fadeIn 0.35s ease;
+        display: flex;
+        gap: 0.75rem;
+      }
+      .quiz-explanation.exp-correct {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
+      .quiz-explanation.exp-wrong {
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.25);
+      }
+      .quiz-explanation.exp-skip {
+        background: rgba(100, 116, 139, 0.1);
+        border: 1px solid rgba(100, 116, 139, 0.25);
+      }
+      .exp-icon {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .exp-text {
+        color: var(--text2);
+        line-height: 1.75;
+        white-space: pre-wrap;
+      }
+      .exp-text strong {
+        color: var(--cyan-light);
+      }
+
+      /* QUIZ ACTIONS */
+      .quiz-actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .quiz-submit-btn {
+        padding: 0.75rem 2rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        font-family: "Cairo", sans-serif;
+        background: linear-gradient(135deg, var(--violet), var(--violet-light));
+        color: white;
+        box-shadow: 0 4px 20px var(--glow-v);
+        transition: all 0.2s;
+        flex: 1;
+        min-width: 160px;
+      }
+      .quiz-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 28px var(--glow-v);
+      }
+      .quiz-submit-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .quiz-retry-btn {
+        padding: 0.65rem 1.5rem;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        border: 1px solid var(--violet);
+        background: transparent;
+        color: var(--violet-light);
+        font-family: "Cairo", sans-serif;
+        transition: all 0.2s;
+      }
+      .quiz-retry-btn:hover {
+        background: rgba(124, 58, 237, 0.12);
+      }
+      .quiz-warning {
+        font-size: 0.78rem;
+        color: var(--text3);
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      /* OVERLAY */
+      .overlay {
+        display: none;
+      }
+
+      /* ========================= MOBILE FIXES ========================= */
+      @media (max-width: 900px) {
+        .hamburger {
+          display: block;
+        }
+        .sidebar {
+          transform: translateX(100%);
+          width: 280px;
+        }
+        .sidebar.open {
+          transform: translateX(0);
+          z-index: 1000002;
+        }
+        .main-content {
+          margin-right: 0;
+        }
+        .overlay {
+          display: block;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.6);
+          z-index: 1000001;
+        }
+        .overlay.hidden {
+          display: none;
+        }
+
+        /* Topbar */
+        .topbar {
+          padding: 0 0.75rem;
+          gap: 0.4rem;
+          height: auto;
+          min-height: 56px;
+          flex-wrap: wrap;
+          padding-top: 0.5rem;
+          padding-bottom: 0.5rem;
+        }
+        .tab-btn {
+          font-size: 0.68rem;
+          padding: 0.28rem 0.55rem;
+          flex: 1;
+          text-align: center;
+        }
+
+        /* Content */
+        .content-area {
+          padding: 1rem;
+        }
+        .section-hero {
+          padding: 1.25rem;
+        }
+        .section-hero h1 {
+          font-size: 1.35rem;
+        }
+        .section-hero p {
+          font-size: 0.82rem;
+        }
+        .topic-card {
+          padding: 1rem;
+          margin-bottom: 1rem;
+        }
+        .topic-title {
+          font-size: 0.95rem;
+        }
+
+        /* Grids */
+        .join-layout {
+          grid-template-columns: 1fr;
+        }
+        .viz-grid {
+          grid-template-columns: 1fr;
+        }
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+        .three-col {
+          grid-template-columns: 1fr 1fr;
+        }
+        .agg-container {
+          grid-template-columns: 1fr;
+        }
+        .constraint-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        /* Steps */
+        .steps {
+          flex-direction: column;
+        }
+        .step:first-child {
+          border-radius: 8px 8px 0 0;
+        }
+        .step:last-child {
+          border-radius: 0 0 8px 8px;
+        }
+        .step {
+          flex: unset;
+          width: 100%;
+        }
+
+        /* Exec flow */
+        .exec-flow {
+          gap: 0.35rem;
+        }
+        .exec-step {
+          font-size: 0.7rem;
+          padding: 0.4rem 0.75rem;
+        }
+
+        /* Quiz */
+        .quiz-header-card {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .quiz-opt {
+          padding: 0.55rem 0.75rem;
+          gap: 0.6rem;
+        }
+        .quiz-opt-text {
+          font-size: 0.8rem;
+        }
+        .quiz-q-text {
+          font-size: 0.84rem;
+        }
+        .quiz-submit-btn {
+          font-size: 0.85rem;
+          padding: 0.65rem 1.25rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .three-col {
+          grid-template-columns: 1fr;
+        }
+        .constraint-grid {
+          grid-template-columns: 1fr;
+        }
+        .section-hero h1 {
+          font-size: 1.2rem;
+        }
+        .tab-btn {
+          font-size: 0.62rem;
+          padding: 0.25rem 0.4rem;
+        }
+        .quiz-header-icon {
+          display: none;
+        }
+        .quiz-q-header {
+          gap: 0.4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="home-btn" href="../index.html">↩ العودة للرئيسية</a>
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState, useEffect, useRef } = React;
+
+      /* ===== HTML ESCAPE ===== */
+      function escHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      /* ===== SQL HIGHLIGHTER ===== */
+      function highlight(sql) {
+        const KW = new Set([
+          "SELECT",
+          "FROM",
+          "WHERE",
+          "INSERT",
+          "INTO",
+          "VALUES",
+          "UPDATE",
+          "SET",
+          "DELETE",
+          "CREATE",
+          "TABLE",
+          "DATABASE",
+          "ALTER",
+          "DROP",
+          "ADD",
+          "COLUMN",
+          "CONSTRAINT",
+          "REFERENCES",
+          "DEFAULT",
+          "UNIQUE",
+          "CHECK",
+          "TRUNCATE",
+          "INNER",
+          "LEFT",
+          "RIGHT",
+          "FULL",
+          "OUTER",
+          "JOIN",
+          "ON",
+          "HAVING",
+          "ASC",
+          "DESC",
+          "DISTINCT",
+          "AS",
+          "AND",
+          "OR",
+          "NOT",
+          "IN",
+          "BETWEEN",
+          "LIKE",
+          "EXISTS",
+          "EXCEPT",
+          "UNION",
+          "INTERSECT",
+          "WITH",
+          "LIMIT",
+          "TOP",
+          "IDENTITY",
+          "CASCADE",
+          "COUNT",
+          "SUM",
+          "AVG",
+          "MIN",
+          "MAX",
+          "NULL",
+          "TRUE",
+          "FALSE",
+          "INT",
+          "INTEGER",
+          "VARCHAR",
+          "FLOAT",
+          "CHAR",
+          "SMALLINT",
+          "BIGINT",
+          "DATE",
+          "DATETIME",
+          "TIMESTAMP",
+          "BOOLEAN",
+          "MONEY",
+          "ANY",
+          "ALL",
+          "SOME",
+          "YEAR",
+          "MONTH",
+          "GETDATE",
+          "CURRENT_TIMESTAMP",
+          "PRIMARY",
+          "FOREIGN",
+          "KEY",
+          "ORDER",
+          "GROUP",
+          "BY",
+          "IS",
+          "NVARCHAR",
+          "REAL",
+          "VARBINARY",
+          "BIT",
+          "DECIMAL",
+          "NCHAR",
+          "ROLLBACK",
+          "COMMIT",
+          "BEGIN",
+          "TRANSACTION",
+          "INDEX",
+          "VIEW",
+          "PROCEDURE",
+          "FUNCTION",
+          "TRIGGER",
+          "EXEC",
+          "EXECUTE",
+          "BACKUP",
+          "RESTORE",
+        ]);
+        const OPS = new Set(Array.from("=<>!,;()*[]+-/"));
+        let out = "",
+          i = 0;
+        const n = sql.length;
+        while (i < n) {
+          const ch = sql[i];
+          if (ch === "-" && sql[i + 1] === "-") {
+            let j = i;
+            while (j < n && sql[j] !== "\n") j++;
+            out += `<span class="cmt">${escHtml(sql.slice(i, j))}</span>`;
+            i = j;
+          } else if (ch === "'") {
+            let j = i + 1;
+            while (j < n && sql[j] !== "'") j++;
+            out += `<span class="str">${escHtml(sql.slice(i, j + 1))}</span>`;
+            i = j + 1;
+          } else if (/[a-zA-Z_\u0600-\u06FF]/.test(ch)) {
+            let j = i;
+            while (j < n && /[\w\u0600-\u06FF]/.test(sql[j])) j++;
+            const w = sql.slice(i, j);
+            out += KW.has(w.toUpperCase())
+              ? `<span class="kw">${escHtml(w.toUpperCase())}</span>`
+              : escHtml(w);
+            i = j;
+          } else if (/\d/.test(ch)) {
+            let j = i;
+            while (j < n && /[\d.]/.test(sql[j])) j++;
+            out += `<span class="num">${escHtml(sql.slice(i, j))}</span>`;
+            i = j;
+          } else if (OPS.has(ch)) {
+            out += `<span class="op">${escHtml(ch)}</span>`;
+            i++;
+          } else {
+            out += escHtml(ch);
+            i++;
+          }
+        }
+        return out;
+      }
+
+      /* ===== SQL BLOCK ===== */
+      function SQLBlock({ code, title }) {
+        const [copied, setCopied] = useState(false);
+        const copy = () => {
+          navigator.clipboard?.writeText(code).catch(() => {});
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        };
+        return (
+          <div className="sql-block">
+            <div className="sql-block-header">
+              <div className="sql-block-dots">
+                <div className="dot dot-r" />
+                <div className="dot dot-y" />
+                <div className="dot dot-g" />
+              </div>
+              <span className="sql-block-label">{title || "SQL"}</span>
+              <button
+                onClick={copy}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: "var(--text3)",
+                  fontSize: ".7rem",
+                  fontFamily: "JetBrains Mono",
+                }}
+              >
+                {copied ? "✓ Copied" : "Copy"}
+              </button>
+            </div>
+            <div
+              className="sql-code"
+              dangerouslySetInnerHTML={{ __html: highlight(code) }}
+            />
+          </div>
+        );
+      }
+
+      /* ===== DATA TABLE ===== */
+      function DataTable({
+        headers,
+        rows,
+        title,
+        highlightRows = [],
+        resultRows = [],
+      }) {
+        return (
+          <div>
+            {title && <div className="viz-label">{title}</div>}
+            <div className="data-table-wrap">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    {headers.map((h, i) => (
+                      <th key={i}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row, i) => (
+                    <tr key={i}>
+                      {row.map((cell, j) => (
+                        <td
+                          key={j}
+                          className={
+                            cell === null || cell === "NULL"
+                              ? "null"
+                              : resultRows.includes(i)
+                                ? "result"
+                                : highlightRows.includes(i)
+                                  ? "highlighted"
+                                  : ""
+                          }
+                        >
+                          {cell === null || cell === "NULL" ? "NULL" : cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      }
+      /* ===== UNIVERSITY DB DATA ===== */
+      const students = [
+        [101, "Ahmed", "Cairo", 17, "IS"],
+        [102, "Ayman", "Giza", 16, "Gen"],
+        [103, "Ibrahim", "Cairo", 18, "IS"],
+        [104, "Ibrahim", "Fayoum", 18, "DS"],
+        [105, "Mona", "Cairo", 16, "IT"],
+        [106, "Nahla", "Giza", 16, "IS"],
+        [107, "Ibrahim", "Cairo", 19, "CS"],
+        [108, "Sameh", "Alexandria", 20, "CS"],
+        [109, "Tarek", "Giza", 17, "AI"],
+        [110, "Wafaa", "Cairo", 17, null],
+      ];
+      const courses = [
+        ["CS112", "Programming 1"],
+        ["CS213", "Programming 2"],
+        ["DS425", "Logistics Management"],
+        ["DS241", "Modeling and Simulation"],
+        ["IS221", "Database Systems 1"],
+        ["IS312", "Database Systems 2"],
+        ["IT111", "Electronics 1"],
+        ["IT112", "Electronics 2"],
+      ];
+      const registered = [
+        [101, "IS221", "Fall", 2011],
+        [101, "IS312", "Spring", 2012],
+        [105, "IS221", "Spring", 2012],
+        [106, "IS221", "Summer", 2012],
+        [106, "CS213", "Spring", 2011],
+        [109, "IT111", "Summer", 2010],
+        [109, "IS221", "Spring", 2010],
+      ];
+      const innerJoinResult = students
+        .filter((s) => registered.some((r) => r[0] === s[0]))
+        .flatMap((s) =>
+          registered
+            .filter((r) => r[0] === s[0])
+            .map((r) => [s[0], s[1], r[1]]),
+        )
+        .sort((a, b) => a[0] - b[0]);
+      const leftJoinResult = students
+        .map((s) => {
+          const regs = registered.filter((r) => r[0] === s[0]);
+          if (regs.length === 0) return [[s[0], s[1], null]];
+          return regs.map((r) => [s[0], s[1], r[1]]);
+        })
+        .flat();
+      const rightJoinResult = courses.flatMap((c) => {
+        const regs = registered.filter((r) => r[1] === c[0]);
+        if (regs.length === 0) return [[null, c[0], c[1]]];
+        return regs.map((r) => [r[0], c[0], c[1]]);
+      });
+      const crossJoinResult = students
+        .slice(0, 3)
+        .flatMap((s) =>
+          courses.slice(0, 3).map((c) => [s[0], s[1], c[0], c[1]]),
+        );
+      const fullJoinResult = [
+        ...leftJoinResult,
+        ...rightJoinResult.filter((r) => r[0] === null),
+      ];
+
+      /* ===== VENN DIAGRAM ===== */
+      function VennDiagram({ type }) {
+        const configs = {
+          INNER: {
+            leftFill: "rgba(124,58,237,.15)",
+            centerFill: "rgba(124,58,237,.5)",
+            rightFill: "rgba(6,182,212,.15)",
+            desc: "الـ Rows اللي موجودة في الاتنين",
+          },
+          LEFT: {
+            leftFill: "rgba(124,58,237,.5)",
+            centerFill: "rgba(124,58,237,.4)",
+            rightFill: "rgba(6,182,212,.08)",
+            desc: "كل الـ Rows من الجدول الشمال",
+          },
+          RIGHT: {
+            leftFill: "rgba(124,58,237,.08)",
+            centerFill: "rgba(6,182,212,.4)",
+            rightFill: "rgba(6,182,212,.5)",
+            desc: "كل الـ Rows من الجدول اليمين",
+          },
+          FULL: {
+            leftFill: "rgba(124,58,237,.4)",
+            centerFill: "rgba(160,40,220,.5)",
+            rightFill: "rgba(6,182,212,.4)",
+            desc: "كل الـ Rows من الاتنين",
+          },
+          CROSS: {
+            leftFill: "rgba(245,158,11,.4)",
+            centerFill: "rgba(245,158,11,.2)",
+            rightFill: "rgba(245,158,11,.4)",
+            desc: "كل combination ممكنة",
+          },
+        };
+        const c = configs[type] || configs.INNER;
+        return (
+          <div style={{ textAlign: "center" }}>
+            <svg viewBox="0 0 200 120" width="180" height="108">
+              <circle
+                cx="75"
+                cy="60"
+                r="50"
+                fill={c.leftFill}
+                stroke="var(--violet)"
+                strokeWidth="1.5"
+              />
+              <circle
+                cx="125"
+                cy="60"
+                r="50"
+                fill={c.rightFill}
+                stroke="var(--cyan)"
+                strokeWidth="1.5"
+              />
+              <clipPath id="leftClip">
+                <circle cx="75" cy="60" r="50" />
+              </clipPath>
+              <circle
+                cx="125"
+                cy="60"
+                r="50"
+                fill={c.centerFill}
+                clipPath="url(#leftClip)"
+              />
+              <text
+                x="52"
+                y="62"
+                fill="var(--violet-light)"
+                fontSize="9"
+                textAnchor="middle"
+                fontFamily="JetBrains Mono"
+              >
+                LEFT
+              </text>
+              <text
+                x="148"
+                y="62"
+                fill="var(--cyan-light)"
+                fontSize="9"
+                textAnchor="middle"
+                fontFamily="JetBrains Mono"
+              >
+                RIGHT
+              </text>
+              <text
+                x="100"
+                y="62"
+                fill="white"
+                fontSize="8"
+                textAnchor="middle"
+                fontFamily="Cairo"
+              >
+                ∩
+              </text>
+            </svg>
+            <div
+              style={{
+                fontSize: ".7rem",
+                color: "var(--text2)",
+                marginTop: ".25rem",
+              }}
+            >
+              {c.desc}
+            </div>
+          </div>
+        );
+      }
+
+      /* ===== JOIN VISUALIZER ===== */
+      function JoinVisualizer() {
+        const [activeJoin, setActiveJoin] = useState("INNER");
+        const joins = [
+          { id: "INNER", label: "INNER JOIN", color: "var(--violet)" },
+          { id: "LEFT", label: "LEFT JOIN", color: "var(--violet-light)" },
+          { id: "RIGHT", label: "RIGHT JOIN", color: "var(--cyan)" },
+          { id: "FULL", label: "FULL JOIN", color: "var(--pink)" },
+          { id: "CROSS", label: "CROSS JOIN", color: "var(--orange)" },
+        ];
+        const results = {
+          INNER: innerJoinResult,
+          LEFT: leftJoinResult,
+          RIGHT: rightJoinResult,
+          FULL: fullJoinResult,
+          CROSS: crossJoinResult,
+        };
+        const sqls = {
+          INNER: `SELECT S.SSN, S.Name, R.CrsCode\nFROM Student S\nINNER JOIN Registered R ON S.SSN = R.SSN\nORDER BY S.SSN;`,
+          LEFT: `SELECT S.SSN, S.Name, R.CrsCode\nFROM Student S\nLEFT OUTER JOIN Registered R ON S.SSN = R.SSN;`,
+          RIGHT: `SELECT R.SSN, C.CrsCode, C.Name\nFROM Registered R\nRIGHT OUTER JOIN Course C ON R.CrsCode = C.CrsCode;`,
+          FULL: `SELECT D.DCode, S.Name\nFROM Department D\nFULL OUTER JOIN Student S ON D.DCode = S.Major;`,
+          CROSS: `-- ضرب كارتيزي - كل صف مع كل صف!\nSELECT S.SSN, S.Name, C.CrsCode, C.Name\nFROM Student S\nCROSS JOIN Course C;\n-- النتيجة = 10 students × 8 courses = 80 rows`,
+        };
+        const resultHeaders = {
+          INNER: ["SSN", "Name", "CrsCode"],
+          LEFT: ["SSN", "Name", "CrsCode"],
+          RIGHT: ["SSN", "CrsCode", "CourseName"],
+          FULL: ["SSN", "Name", "CrsCode"],
+          CROSS: ["SSN", "SName", "CrsCode", "CName"],
+        };
+        const res = results[activeJoin];
+        return (
+          <div className="join-container animate-in">
+            <div className="join-tabs">
+              {joins.map((j) => (
+                <button
+                  key={j.id}
+                  className={`join-tab ${activeJoin === j.id ? "active" : ""}`}
+                  style={
+                    activeJoin === j.id
+                      ? { background: j.color, borderColor: j.color }
+                      : {}
+                  }
+                  onClick={() => setActiveJoin(j.id)}
+                >
+                  {j.label}
+                </button>
+              ))}
+            </div>
+            <div className="join-layout">
+              <div>
+                <div className="viz-label">📋 الجدول الشمال (Student)</div>
+                <DataTable
+                  headers={["SSN", "Name", "Major"]}
+                  rows={students.map((s) => [s[0], s[1], s[4]])}
+                />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "1rem",
+                  paddingTop: "2rem",
+                }}
+              >
+                <VennDiagram type={activeJoin} />
+                <div
+                  style={{
+                    fontSize: ".65rem",
+                    color: "var(--text3)",
+                    fontFamily: "JetBrains Mono",
+                    textAlign: "center",
+                  }}
+                >
+                  {activeJoin}
+                </div>
+              </div>
+              <div>
+                <div className="viz-label">
+                  📋 الجدول اليمين (Registered/Course)
+                </div>
+                <DataTable
+                  headers={["SSN", "CrsCode", "Semester", "Year"]}
+                  rows={registered}
+                />
+              </div>
+            </div>
+            <div style={{ marginTop: "1rem" }}>
+              <SQLBlock code={sqls[activeJoin]} title={activeJoin + " QUERY"} />
+            </div>
+            <div className="result-section">
+              <div className="result-label">
+                ✅ النتيجة
+                <span className="result-count">{res.length} rows</span>
+              </div>
+              <DataTable
+                headers={resultHeaders[activeJoin]}
+                rows={res.map((r) => r.map((v) => (v === null ? "NULL" : v)))}
+                resultRows={res.map((_, i) => i)}
+              />
+            </div>
+          </div>
+        );
+      }
+
+      /* ===== GROUP BY VISUALIZER ===== */
+      function GroupByVisualizer() {
+        const [step, setStep] = useState(0);
+        const orderDetails = [
+          [1, 1, 10, 15.5],
+          [1, 2, 5, 10.0],
+          [2, 1, 3, 15.5],
+          [2, 3, 8, 5.0],
+          [3, 2, 12, 10.0],
+          [3, 3, 6, 5.0],
+          [4, 1, 2, 15.5],
+        ];
+        const grouped = {};
+        orderDetails.forEach((r) => {
+          if (!grouped[r[1]]) grouped[r[1]] = [];
+          grouped[r[1]].push(r);
+        });
+        const groupColors = [
+          "rgba(124,58,237,.15)",
+          "rgba(6,182,212,.15)",
+          "rgba(16,185,129,.15)",
+        ];
+        const result = Object.entries(grouped).map(([pid, rows]) => [
+          pid,
+          rows.length,
+          rows.reduce((s, r) => s + r[2] * r[3], 0).toFixed(2),
+        ]);
+        return (
+          <div className="animate-in">
+            <div className="steps">
+              {["البيانات الخام", "تجميع GROUP BY", "نتيجة COUNT & SUM"].map(
+                (s, i) => (
+                  <div
+                    key={i}
+                    className={`step ${step === i ? "active" : ""}`}
+                    onClick={() => setStep(i)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <span className="step-num">STEP {i + 1}</span>
+                    {s}
+                  </div>
+                ),
+              )}
+            </div>
+            {step === 0 && (
+              <DataTable
+                headers={["OrderID", "ProductID", "Qty", "Price"]}
+                rows={orderDetails}
+                title="📊 Order Details - البيانات الخام"
+              />
+            )}
+            {step === 1 && (
+              <div className="group-viz">
+                <div className="viz-label">
+                  🎯 الـ Rows اتجمعت حسب ProductID
+                </div>
+                {Object.entries(grouped).map(([pid, rows], gi) => (
+                  <div
+                    key={pid}
+                    className="group-item"
+                    style={{
+                      borderColor: `rgba(124,58,237,${0.3 + gi * 0.1})`,
+                    }}
+                  >
+                    <div
+                      className="group-header"
+                      style={{ background: groupColors[gi % 3] }}
+                    >
+                      <span
+                        style={{
+                          color: "var(--violet-light)",
+                          fontFamily: "JetBrains Mono",
+                        }}
+                      >
+                        ProductID = {pid}
+                      </span>
+                      <span className="badge badge-v">{rows.length} rows</span>
+                    </div>
+                    <div className="group-rows">
+                      {rows.map((r, i) => (
+                        <div key={i} className="group-row">
+                          Order#{r[0]} → Qty:{r[2]}, Price:{r[3]}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {step === 2 && (
+              <DataTable
+                headers={["ProductID", "NumOrders", "TotalSales"]}
+                rows={result}
+                title="✅ النتيجة بعد GROUP BY + COUNT + SUM"
+                resultRows={result.map((_, i) => i)}
+              />
+            )}
+          </div>
+        );
+      }
+
+      /* ===== EXECUTION ORDER VISUALIZER ===== */
+      function ExecutionOrderViz() {
+        const [activeStep, setActiveStep] = useState(null);
+        const steps = [
+          {
+            num: 1,
+            kw: "FROM",
+            desc: "أول حاجة SQL بيشوفها هي الجداول. بيحددها وبيعمل JOIN لو في.",
+            color: "var(--red)",
+          },
+          {
+            num: 2,
+            kw: "WHERE",
+            desc: "بيفلتر الـ rows الفردية حسب الشروط. الـ Aggregate Functions مش مسموحة هنا!",
+            color: "var(--orange)",
+          },
+          {
+            num: 3,
+            kw: "GROUP BY",
+            desc: "بيجمع الـ rows اللي عندها نفس القيمة في مجموعات.",
+            color: "var(--violet)",
+          },
+          {
+            num: 4,
+            kw: "HAVING",
+            desc: "بيفلتر المجموعات بناءً على Aggregate Functions. بييجي بعد GROUP BY فقط!",
+            color: "var(--pink)",
+          },
+          {
+            num: 5,
+            kw: "SELECT",
+            desc: "بيختار الـ columns اللي هتظهر. وبيحسب أي expressions أو aliases.",
+            color: "var(--cyan)",
+          },
+          {
+            num: 6,
+            kw: "ORDER BY",
+            desc: "بيرتب النتيجة النهائية تصاعدياً أو تنازلياً.",
+            color: "var(--green)",
+          },
+        ];
+        return (
+          <div>
+            <div className="exec-flow">
+              {steps.map((s, i) => (
+                <React.Fragment key={s.kw}>
+                  <div
+                    className={`exec-step ${activeStep === i ? "active" : ""}`}
+                    onClick={() => setActiveStep(activeStep === i ? null : i)}
+                    style={
+                      activeStep === i
+                        ? { background: s.color, borderColor: s.color }
+                        : {}
+                    }
+                  >
+                    <span className="exec-num">{s.num}</span>
+                    {s.kw}
+                  </div>
+                  {i < steps.length - 1 && (
+                    <span className="exec-arrow">→</span>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+            {activeStep !== null && (
+              <div
+                className="note-box animate-in"
+                style={{
+                  borderColor: steps[activeStep].color,
+                  background: `${steps[activeStep].color}15`,
+                }}
+              >
+                <strong style={{ color: steps[activeStep].color }}>
+                  {steps[activeStep].kw}:
+                </strong>{" "}
+                {steps[activeStep].desc}
+              </div>
+            )}
+            <SQLBlock
+              title="ترتيب الكتابة vs ترتيب التنفيذ"
+              code={`-- بنكتبها كده:\nSELECT Major, COUNT(*) AS Cnt    -- 5️⃣\nFROM Student                      -- 1️⃣\nWHERE City = 'Cairo'              -- 2️⃣\nGROUP BY Major                    -- 3️⃣\nHAVING COUNT(*) > 2               -- 4️⃣\nORDER BY Cnt DESC;                -- 6️⃣\n\n-- بس SQL بينفذها بالترتيب ده:\n-- FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY`}
+            />
+          </div>
+        );
+      }
+
+      /* ===== SUBQUERY VISUALIZER ===== */
+      function SubqueryVisualizer() {
+        const [mode, setMode] = useState("IN");
+        const content = {
+          IN: {
+            label: "IN Subquery",
+            outer: `SELECT FirstName, Title, Country\nFROM Employees\nWHERE Country = 'UK'\nAND Title IN (`,
+            inner: `  SELECT Title\n  FROM Employees\n  WHERE FirstName IN ('Janet', 'Steven')`,
+            closing: `)`,
+            explain: [
+              "الـ Inner Query بتتنفذ الأول وبترجع list من الـ Titles",
+              "الـ Outer Query بتاخد الـ list دي وبتفلتر الـ employees",
+              "يعني بنجيب موظفين في UK وعندهم نفس title زي Janet أو Steven",
+            ],
+          },
+          EXISTS: {
+            label: "EXISTS Subquery",
+            outer: `SELECT CompanyName\nFROM Customers\nWHERE EXISTS (`,
+            inner: `  SELECT OrderID\n  FROM Orders\n  WHERE Orders.CustomerID = Customers.CustomerID\n  AND Orders.OrderDate > GETDATE() - 15`,
+            closing: `)`,
+            explain: [
+              "الـ EXISTS بيشوف لو الـ Subquery رجعت أي row واحدة على الأقل",
+              "لو لقى row → TRUE → الـ Customer اتضاف للنتيجة",
+              "يعني بنجيب الـ Customers اللي عندهم orders في آخر 15 يوم",
+            ],
+          },
+          "NOT EXISTS": {
+            label: "NOT EXISTS",
+            outer: `SELECT CompanyName\nFROM Customers\nWHERE NOT EXISTS (`,
+            inner: `  SELECT OrderID\n  FROM Orders\n  WHERE Orders.CustomerID = Customers.CustomerID\n  AND Orders.OrderDate > GETDATE() - 15`,
+            closing: `)`,
+            explain: [
+              "NOT EXISTS عكس EXISTS تماماً",
+              "لو الـ Subquery ملقتش أي row → TRUE → اتضاف للنتيجة",
+              "يعني بنجيب الـ Customers اللي معملوش أي orders في آخر 15 يوم",
+            ],
+          },
+          CTE: {
+            label: "WITH (CTE)",
+            outer: `WITH CustomerOrders AS (\n  SELECT CustomerID, COUNT(*) AS TotalOrders\n  FROM Orders\n  GROUP BY CustomerID\n)\nSELECT C.CompanyName, CO.TotalOrders\nFROM Customers C`,
+            inner: `  -- هنا بنستخدم الـ CTE كأنه جدول عادي`,
+            closing: `INNER JOIN CustomerOrders CO\n  ON C.CustomerID = CO.CustomerID`,
+            explain: [
+              "الـ WITH بيعرّف جدول مؤقت اسمه CTE",
+              "ممكن نستخدمه في الـ Query الأساسية كأنه جدول عادي",
+              "بيخلي الـ Query أوضح وأسهل في القراءة",
+            ],
+          },
+        };
+        const c = content[mode];
+        return (
+          <div className="animate-in">
+            <div className="join-tabs" style={{ marginBottom: "1rem" }}>
+              {Object.keys(content).map((k) => (
+                <button
+                  key={k}
+                  className={`join-tab ${mode === k ? "active" : ""}`}
+                  onClick={() => setMode(k)}
+                >
+                  {k}
+                </button>
+              ))}
+            </div>
+            <div className="subquery-outer">
+              <span className="subquery-tag subquery-tag-v">OUTER QUERY</span>
+              <div
+                style={{
+                  fontFamily: "JetBrains Mono",
+                  fontSize: ".78rem",
+                  whiteSpace: "pre",
+                }}
+                dangerouslySetInnerHTML={{ __html: highlight(c.outer) }}
+              />
+              <div className="subquery-inner">
+                <span className="subquery-tag subquery-tag-c">
+                  INNER QUERY / SUBQUERY
+                </span>
+                <div
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: ".78rem",
+                    whiteSpace: "pre",
+                  }}
+                  dangerouslySetInnerHTML={{ __html: highlight(c.inner) }}
+                />
+              </div>
+              <div
+                style={{
+                  fontFamily: "JetBrains Mono",
+                  fontSize: ".78rem",
+                  whiteSpace: "pre",
+                  marginTop: ".25rem",
+                }}
+                dangerouslySetInnerHTML={{ __html: highlight(c.closing) }}
+              />
+            </div>
+            <div style={{ marginTop: "1rem" }}>
+              {c.explain.map((e, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    gap: ".5rem",
+                    padding: ".4rem 0",
+                    borderBottom: "1px solid var(--border)",
+                    fontSize: ".8rem",
+                    color: "var(--text2)",
+                  }}
+                >
+                  <span
+                    style={{
+                      color: "var(--violet-light)",
+                      fontFamily: "JetBrains Mono",
+                      fontSize: ".7rem",
+                      minWidth: "20px",
+                    }}
+                  >
+                    0{i + 1}
+                  </span>
+                  {e}
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      /* =====================================================
+         QUIZ DATA
+      ===================================================== */
+
+      /* ---- DDL QUIZ (12 questions) ---- */
+      const DDL_QUIZ = [
+        {
+          id: "d1",
+          year: "2023 & 2024",
+          tag: "Constraints",
+          text: "Which of the following is NOT a Constraint in SQL?",
+          options: ["PRIMARY KEY", "CHECK", "NOT NULL", "UNION"],
+          correct: 3,
+          explanation:
+            "✓ الإجابة: UNION\n\nالـ UNION هو Set Operator بيدمج نتائج Queries، مش Constraint!\n\nالـ SQL Constraints الحقيقية:\n• PRIMARY KEY • FOREIGN KEY\n• UNIQUE • CHECK\n• NOT NULL • DEFAULT",
+        },
+        {
+          id: "d2",
+          year: "2023",
+          tag: "PK & FK",
+          text: "A relation schema may have several foreign keys but exactly one primary key.",
+          options: ["True ✓", "False ✗"],
+          correct: 0,
+          explanation:
+            "✓ صح! كل جدول عنده Primary Key واحد بس (ممكن يكون Composite).\n\nلكن ممكن يكون عنده عدة Foreign Keys بتشير لجداول مختلفة:\nمثال: Student له FK للـ Department وFK للـ Advisor",
+        },
+        {
+          id: "d3",
+          year: "2024",
+          tag: "Primary Key",
+          text: "What is the maximum number of Primary Keys that a single relation (table) can have?",
+          options: [
+            "1",
+            "2",
+            "Depends on the number of fields",
+            "Depends on the database designer",
+          ],
+          correct: 0,
+          explanation:
+            "✓ كل جدول عنده Primary Key واحد بس.\n\nممكن يكون Composite PK (يتكون من أكتر من column) لكن يعتبر PK واحد كـ concept.\n\nالجدول ممكن يبقى عنده عدة Candidate Keys، بس نختار واحدة منهم تبقى Primary Key.",
+        },
+        {
+          id: "d4",
+          year: "2024",
+          tag: "DDL Naming",
+          text: "Which of the following statements about naming in SQL databases is correct?",
+          options: [
+            "Table names are unique per database schema only",
+            "Column names are unique per table only",
+            "Constraint names are unique across the entire database only",
+            "All of the above are correct",
+          ],
+          correct: 3,
+          explanation:
+            "✓ All of the above!\n\n• Table names → unique في الـ Schema\n• Column names → unique في الجدول نفسه\n• Constraint names → unique على مستوى الـ Database كلها\n\nتذكر: Constraint Name لازم يكون Globally Unique في الـ DB!",
+        },
+        {
+          id: "d5",
+          year: "2023 & 2025",
+          tag: "Degree & Cardinality",
+          text: "In the following table:\n[ST-ID | Name | National-ID | Address | Major | GPA]\nWith 4 data rows — which statement is correct?",
+          options: [
+            "The degree is 6",
+            "The cardinality is 6",
+            "The degree is 4",
+            "B and C are both correct",
+          ],
+          correct: 0,
+          explanation:
+            "✓ The degree is 6\n\n• Degree = عدد الـ Columns (الصفات) = 6\n• Cardinality = عدد الـ Rows (الـ Tuples) = 4\n\nالـ Degree هو 6 (صح) والـ Cardinality هو 4 (مش موجود كإجابة صحيحة في الخيارات).",
+        },
+        {
+          id: "d6",
+          year: "2024",
+          tag: "Table Storage",
+          text: "Tuples (rows) in relational database tables are:",
+          options: [
+            "Sorted ascending on the PK field(s)",
+            "Sorted ascending based on insertion datetime",
+            "Sorted ascending based on last update datetime",
+            "Randomly sorted",
+          ],
+          correct: 0,
+          explanation:
+            "✓ Dr. Ali Answer: Sorted ascending on the PK field(s).\n\nفي SQL Server، الجداول اللي عندها Clustered Index على الـ PK بتخزن البيانات مرتبة تصاعدياً على الـ PK columns.\n\nملاحظة: في الـ Relational Model النظري، الـ Tuples مش بيكون ليها ترتيب محدد.",
+        },
+        {
+          id: "d7",
+          year: "2024",
+          tag: "UNIQUE Constraint",
+          text: "A UNIQUE constraint allows NULL values to be repeated (multiple NULLs are allowed in the same column).",
+          options: ["True ✓", "False ✗"],
+          correct: 1,
+          explanation:
+            '✗ غلط!\n\nDr. Ali: "Unique Constraints doesn\'t accept repeated nulls"\n\nفي SQL Server، الـ UNIQUE Constraint بيقبل NULL واحدة بس في الـ Column. التكرار مش مسموح حتى للـ NULL values.',
+        },
+        {
+          id: "d8",
+          year: "2024 & 2025",
+          tag: "Composite PK Order",
+          text: "If a table has a composite primary key (X, Y), creating it as PRIMARY KEY(X, Y) vs PRIMARY KEY(Y, X) should produce the same result.",
+          options: ["True ✓", "False ✗"],
+          correct: 1,
+          explanation:
+            "✗ غلط!\n\nDr. Ali: False.\n\nترتيب الـ Columns في الـ Composite PK بيأثر على:\n• الـ Clustered Index في SQL Server\n• ترتيب تخزين البيانات\n• Performance الـ Queries اللي بتستخدم الـ PK\n\nالترتيب مهم ومش نفس النتيجة!",
+        },
+        {
+          id: "d9",
+          year: "2025",
+          tag: "UNIQUE & NULL",
+          text: "Unique constraints do NOT check against NULL values, so NULL values are allowed to be repeated (multiple NULLs in one column).",
+          options: ["True ✓", "False ✗"],
+          correct: 1,
+          explanation:
+            "✗ غلط!\n\nالـ UNIQUE Constraint في SQL Server بترفض الـ NULL المكررة.\nممكن يبقى في NULL واحدة بس في الـ Column اللي عليها UNIQUE.\n\nيعني لو عندك Column UNIQUE وحطيت NULL → OK\nلكن لو حاولت تحط NULL تاني → Error!",
+        },
+        {
+          id: "d10",
+          year: "2025",
+          tag: "ALTER TABLE Syntax",
+          text: "To alter table T and add a new NOT NULL integer column X, which DDL statement is correct for SQL Server?",
+          options: [
+            "ALTER TABLE T ADD COLUMN X int NOT NULL",
+            "ALTER TABLE T ADD X int NOT NULL",
+            "ALTER TABLE T ADD COLUMN X int",
+            "ALTER TABLE T ADD X int",
+          ],
+          correct: 1,
+          explanation:
+            "✓ الإجابة: ALTER TABLE T ADD X int NOT NULL\n\nفي SQL Server، الـ Syntax الصح:\nALTER TABLE T ADD ColumnName DataType [Constraints]\n\nبدون كلمة COLUMN. الخيار A غلط لأن SQL Server ما بيستخدمش COLUMN في ADD.\nالخيار C و D غلط لأنهم ما بيحطوش NOT NULL.",
+        },
+        {
+          id: "d11",
+          year: "2025",
+          tag: "Default Attributes",
+          text: "By default, columns (attributes) in SQL are nullable AND unique.",
+          options: ["True ✓", "False ✗"],
+          correct: 1,
+          explanation:
+            "✗ غلط!\n\nبـ Default:\n✓ Nullable → صح (ممكن تبقى NULL)\n✗ Unique → غلط (مش Unique بـ default)\n\nالـ UNIQUE Constraint لازم تتحدد بشكل صريح:\nCREATE TABLE T (Name VARCHAR(50) UNIQUE)",
+        },
+        {
+          id: "d12",
+          year: "2023",
+          tag: "DDL vs DML",
+          text: "In which of the following cases is a DML (Data Manipulation Language) statement NOT executed?",
+          options: [
+            "When existing rows are modified (UPDATE)",
+            "When a table is dropped (DELETE)",
+            "When some rows are deleted (DELETE rows)",
+            "None of the above — all are DML",
+          ],
+          correct: 1,
+          explanation:
+            "✓ When a table is dropped!\n\nDROP TABLE هو عملية DDL مش DML!\n\n• DML = INSERT, UPDATE, DELETE (rows) ← تعمل على البيانات\n• DDL = CREATE, ALTER, DROP ← تعمل على الـ Structure\n\nالـ DROP TABLE بيحذف الجدول نفسه وده DDL مش DML.",
+        },
+      ];
+
+      /* ---- DML1 QUIZ (8 questions) ---- */
+      const DML1_QUIZ = [
+        {
+          id: "m1",
+          year: "2023 & 2024",
+          tag: "IS NULL Operator",
+          text: "In relational databases, which SQL operator correctly tests an attribute's value for the absence of data (NULL)?",
+          options: [
+            "NOT operator",
+            "NOT EXISTS operator",
+            "IS NULL operator",
+            "None of the above",
+          ],
+          correct: 2,
+          explanation:
+            "✓ IS NULL هو الـ Operator الصح!\n\n❌ WHERE column = NULL → دايماً غلط (بيرجع UNKNOWN)\n✅ WHERE column IS NULL → الصح\n✅ WHERE column IS NOT NULL → للتحقق من وجود قيمة\n\nملاحظة: NULL = NULL بيرجع UNKNOWN مش TRUE في SQL!",
+        },
+        {
+          id: "m2",
+          year: "2024",
+          tag: "SQL Alias",
+          text: "Which of the following is TRUE about SQL Aliases (AS keyword)?",
+          options: [
+            "Used to define a search/filter condition",
+            "Can be used with the JOIN clause only",
+            "Changes the column name in output or assigns a name to derived column",
+            "B and C are both true",
+          ],
+          correct: 3,
+          explanation:
+            "✓ Dr. Ali Answer: D (B & C)\n\nالـ SQL Alias يقدر:\n✓ يستخدم مع JOIN: FROM Student S (S هو alias)\n✓ يغير اسم Column في الـ Output: SELECT Name AS StudentName\n✓ يدي اسم لـ Derived Column: SELECT Age*12 AS AgeInMonths\n\nلكن ❌ مش بيستخدم لتعريف شروط البحث (دي مهمة WHERE)",
+        },
+        {
+          id: "m3",
+          year: "2023",
+          tag: "UPDATE Syntax",
+          text: 'How can you correctly change "Thomas" into "Michel" in the LastName column of the Users table?',
+          options: [
+            "UPDATE User SET LastName='Thomas' INTO LastName='Michel'",
+            "MODIFY Users SET LastName='Michel' WHERE LastName='Thomas'",
+            "MODIFY Users SET LastName='Thomas' INTO LastName='Michel'",
+            "UPDATE Users SET LastName='Michel' WHERE LastName='Thomas'",
+          ],
+          correct: 3,
+          explanation:
+            "✓ الإجابة: UPDATE Users SET LastName='Michel' WHERE LastName='Thomas'\n\nقواعد UPDATE:\n• الكلمة الصح: UPDATE (مش MODIFY)\n• اسم الجدول: Users (مش User)\n• الـ Syntax: SET Column = NewValue WHERE Condition\n\nلو نسيت WHERE → هتعدل كل الـ rows!",
+        },
+        {
+          id: "m4",
+          year: "2023 & 2024 & 2025",
+          tag: "BETWEEN Operator",
+          text: 'The SQL BETWEEN operator does NOT consider its boundaries.\nSo: "WHERE X BETWEEN 100 AND 200" is equivalent to "WHERE X > 100 AND X < 200" (exclusive boundaries).',
+          options: [
+            "True ✓ — BETWEEN is exclusive",
+            "False ✗ — BETWEEN is inclusive (includes boundaries)",
+          ],
+          correct: 1,
+          explanation:
+            "✗ غلط! الـ BETWEEN بيشمل الحدود (Inclusive):\n\nWHERE X BETWEEN 100 AND 200\n= WHERE X >= 100 AND X <= 200\n\nيعني 100 و 200 نفسهم مشمولين في النتيجة!\n\n(ظهر في امتحانات 2023 و 2024 و 2025)",
+        },
+        {
+          id: "m5",
+          year: "2024 & 2025",
+          tag: "LIKE Pattern",
+          text: "What is the correct interpretation of the SQL LIKE pattern: '%0%0%'?",
+          options: [
+            "The value begins with two zeros",
+            "The value ends with two zeros",
+            "The value has more than two zeros",
+            "The value contains at least two zeros at ANY position",
+          ],
+          correct: 3,
+          explanation:
+            "✓ الإجابة: at least two zeros at any position\n\n%0%0% يعني:\n% → أي عدد حروف (حتى صفر)\n0 → صفر بالظبط\n% → أي عدد حروف\n0 → صفر تاني بالظبط\n% → أي عدد حروف\n\nأمثلة تتطابق: '105020', 'A0B0C', '00XY', 'test0data0'\nأمثلة ما تتطابقش: 'A0BC', '12345'",
+        },
+        {
+          id: "m6",
+          year: "2024",
+          tag: "DELETE Syntax",
+          text: 'To delete rows from database table T, we can use either "DELETE FROM T" or "DELETE T" commands — both are valid in SQL Server.',
+          options: [
+            "True ✓ — both forms are valid in SQL Server",
+            "False ✗ — only DELETE FROM T is valid",
+          ],
+          correct: 0,
+          explanation:
+            "✓ Dr. Ali Answer: True!\n\nفي SQL Server، الـ FROM keyword اختيارية في الـ DELETE statement:\n\nDELETE FROM Student WHERE Age < 18; ← صح ✓\nDELETE Student WHERE Age < 18; ← صح برضو ✓\n\nلكن في MySQL و PostgreSQL، FROM إجبارية.",
+        },
+        {
+          id: "m7",
+          year: "2024",
+          tag: "INSERT Multiple Rows",
+          text: "We can insert multiple rows at one time using a single DML INSERT statement.",
+          options: ["True ✓", "False ✗"],
+          correct: 0,
+          explanation:
+            "✓ صح!\n\nممكن نعمل INSERT لأكتر من Row في statement واحدة:\n\nINSERT INTO Student (SSN, Name, City)\nVALUES\n  (201, 'Ali',   'Cairo'),\n  (202, 'Sara',  'Giza'),\n  (203, 'Mona',  'Alex');\n\nده أسرع من عمل INSERT منفصل لكل Row!",
+        },
+        {
+          id: "m8",
+          year: "2025",
+          tag: "UPDATE with Subquery",
+          text: 'All "IS" students need their DepartmentId updated to "IT". Will this query do the job correctly?\n\nUPDATE Student\nSET DepartmentId = (\n  SELECT DepartmentId FROM Department\n  WHERE DepartmentName = \'IT\'\n)',
+          options: [
+            "True ✓ — correctly updates IS students to IT",
+            "False ✗ — will update ALL students to IT (no WHERE filter for IS)",
+          ],
+          correct: 1,
+          explanation:
+            "✗ غلط!\n\nالـ Query ديه مفيش WHERE clause بتفلتر طلاب IS بس. هتعمل UPDATE لكل الطلاب!\n\nالصح:\nUPDATE Student\nSET DepartmentId = (\n  SELECT DepartmentId FROM Department\n  WHERE DepartmentName = 'IT'\n)\nWHERE DepartmentId = (\n  SELECT DepartmentId FROM Department\n  WHERE DepartmentName = 'IS'\n)",
+        },
+      ];
+
+      /* ---- JOINS QUIZ (13 questions) ---- */
+      const JOINS_QUIZ = [
+        {
+          id: "j1",
+          year: "2023 & 2024",
+          tag: "Performance",
+          text: "It is usually better in terms of performance to use JOINs rather than Subqueries in SQL.",
+          options: ["True ✓", "False ✗"],
+          correct: 0,
+          explanation:
+            "✓ Dr. Ali: True\n\nالـ JOINs في الغالب أسرع من الـ Subqueries لأن:\n• الـ Query Optimizer بيتعامل مع JOINs بشكل أكفأ\n• الـ Subqueries ممكن تتنفذ مرات كتير (Correlated Subqueries)\n• الـ JOINs بتستفيد من الـ Indexes بشكل أفضل\n\nاستخدم JOIN قبل ما تفكر في Subquery!",
+        },
+        {
+          id: "j2",
+          year: "2023",
+          tag: "Natural Join",
+          text: "Natural Join was created to get rid of the unnecessary duplicate attribute that appears in Equijoin results.",
+          options: ["True ✓", "False ✗"],
+          correct: 0,
+          explanation:
+            "✓ Dr. Ali: True\n\nالفرق:\n• Equijoin: بيرجع الـ Join Column مرتين (من كل جدول)\n• Natural Join: بيرجع الـ Join Column مرة واحدة بس\n\nالـ Natural Join بيعمل JOIN تلقائياً على كل الـ Columns اللي بيتشاركوا نفس الاسم ونفس الـ Domain.",
+        },
+        {
+          id: "j3",
+          year: "2023 & 2024 & 2025",
+          tag: "Relational Algebra",
+          text: "Which of the following is NOT a UNARY relational algebra operation?",
+          options: [
+            "Selection (σ) — Select rows",
+            "Join (⋈) — Combine tables",
+            "Rename (ρ) — Rename attributes",
+            "Projection (π) — Select columns",
+          ],
+          correct: 1,
+          explanation:
+            "✓ الإجابة: JOIN\n\nUnary Operations (تشتغل على جدول واحد):\n• σ Selection — بتفلتر rows\n• π Projection — بتختار columns\n• ρ Rename — بتغير أسماء\n\nBinary Operations (تشتغل على جدولين):\n• ⋈ Join — بتدمج جدولين\n• × Cross Product\n• ∪ Union, ∩ Intersection, − Difference",
+        },
+        {
+          id: "j4",
+          year: "2023 & 2024 & 2025",
+          tag: "JOIN Types",
+          text: "Which type of JOIN returns rows that do NOT have matching values in the other table?",
+          options: [
+            "Natural Join",
+            "Outer Join (LEFT / RIGHT / FULL)",
+            "Equijoin / Inner Join",
+            "Cross Join",
+          ],
+          correct: 1,
+          explanation:
+            "✓ الإجابة: Outer Join\n\n• INNER JOIN → يرجع matching rows فقط\n• LEFT OUTER JOIN → كل rows الجدول الشمال + matching من اليمين\n• RIGHT OUTER JOIN → كل rows الجدول اليمين + matching من الشمال\n• FULL OUTER JOIN → كل rows من الاتنين\n\nاللي ما عندوش match بيبقى NULL في النتيجة!",
+        },
+        {
+          id: "j5",
+          year: "2023",
+          tag: "Cross Product",
+          text: "If Relation R has n tuples and Relation S has m tuples, then the result of R CROSS JOIN S has n + m tuples.",
+          options: ["True ✓", "False ✗ — result has n × m tuples"],
+          correct: 1,
+          explanation:
+            "✗ غلط!\n\nالـ Cross Join (Cartesian Product) بيرجع n × m tuples:\n\nمثال: R = 10 rows, S = 5 rows\n→ Cross Join = 10 × 5 = 50 rows (مش 10+5=15)\n\nSELECT * FROM R CROSS JOIN S;\n-- ده بيعمل كل combination ممكنة!",
+        },
+        {
+          id: "j6",
+          year: "2023",
+          tag: "Join Cardinality",
+          text: "We have T1 (50 tuples) & T2 (5 tuples). When joined using Natural Join, we NEVER got less than 5 records. This means:",
+          options: [
+            "The relationship is mandatory on at least one side (Total Participation on at least one side)",
+            "The relationship is optional on both sides (Partial on both)",
+            "The relationship is mandatory on both sides",
+            "None of the above",
+          ],
+          correct: 0,
+          explanation:
+            "✓ Dr. Ali: (a) Mandatory on at least one side\n\nلو الـ Natural Join دايماً بيرجع ≥ 5 records:\n• يعني كل الـ 5 rows من T2 دايماً عندها match في T1\n• T2 مشاركة إجبارية (Total Participation)\n• كل record في T2 لازم يلاقي record مطابق في T1",
+        },
+        {
+          id: "j7",
+          year: "2023",
+          tag: "Join Cardinality",
+          text: "We have T1 (50 tuples) & T2 (5 tuples). The MAXIMUM records we ever received from Natural Join was 250. This means:",
+          options: [
+            "The relationship is mandatory on at least one side",
+            "The relationship is optional on both sides",
+            "The relationship is M:N with total participation (mandatory both sides)",
+            "None of the above",
+          ],
+          correct: 0,
+          explanation:
+            "✓ Dr. Ali: (a) Mandatory on at least one side\n\n250 = 50 × 5 = ناتج الـ Cross Join\nيعني كل row في T1 بتتطابق مع كل row في T2!\n\nده بيحصل في علاقة M:N حيث كل T1 يطابق كل T2\n→ إجبارية من الأقل جانب واحد",
+        },
+        {
+          id: "j8",
+          year: "2024",
+          tag: "Join Cardinality",
+          text: "T1 and T2 each have 100 tuples. Natural Join returned 10,000 records. This means:",
+          options: [
+            "Mandatory on at least one side only",
+            "Mandatory on BOTH sides (M:N total participation)",
+            "Optional on at least one side",
+            "Optional on both sides",
+          ],
+          correct: 1,
+          explanation:
+            "✓ Dr. Ali: (b) Mandatory on Both Sides\n\n10,000 = 100 × 100 = ناتج Cross Join\nيعني كل row في T1 بتتطابق مع كل row في T2!\n\nده بيعني:\n• M:N relationship\n• Total Participation من الجانبين\n• كل entity في كل جدول عنده match في الجدول التاني",
+        },
+        {
+          id: "j9",
+          year: "2024 & 2025",
+          tag: "Join Cardinality",
+          text: "T1 and T2 each have 100 tuples. When joined using Natural Join, we NEVER got less than 100 records. This means:",
+          options: [
+            "Mandatory on at least one side (Total Participation ≥ 1 side)",
+            "Mandatory on both sides",
+            "Optional on at least one side",
+            "Optional on both sides",
+          ],
+          correct: 0,
+          explanation:
+            "✓ Dr. Ali: (a) Mandatory on at least one side\n\nلو الـ JOIN دايماً بيرجع ≥ 100 records:\n→ كل الـ rows من أحد الجدولين على الأقل دايماً عندها match\n→ Total Participation من جانب واحد على الأقل\n→ Mandatory on at least one side",
+        },
+        {
+          id: "j10",
+          year: "2024 & 2025",
+          tag: "Cross Join Equivalence",
+          text: "Query:\nSELECT S.Name, P.Name FROM Supplier S, Order O, Project P\nWHERE S.Supp# = O.Supp# AND O.Proj# = P.Proj#\nAND P.Budget > 10,000,000 OR S.City = 'New York'\n\nIf ALL suppliers are in New York, this query is equivalent to:",
+          options: [
+            "INNER JOIN between the three tables",
+            "CROSS JOIN between the three tables",
+            "LEFT OUTER JOIN",
+            "FULL OUTER JOIN",
+          ],
+          correct: 1,
+          explanation:
+            "✓ Dr. Ali: Cross Join!\n\nبسبب AND/OR Precedence:\n(A AND B AND C) OR S.City='NY'\n\nلو كل الـ Suppliers في NY → S.City='NY' = TRUE دايماً\n→ (anything) OR TRUE = TRUE دايماً\n→ الـ WHERE كلها TRUE لكل الـ rows\n→ مفيش JOIN condition → Cross Join!",
+        },
+        {
+          id: "j11",
+          year: "2025",
+          tag: "Cross Join Equivalence",
+          text: "Same query as above. If NO suppliers live in New York, this query is equivalent to:",
+          options: [
+            "CROSS JOIN between the three tables",
+            "INNER JOIN with Budget filter",
+            "LEFT OUTER JOIN",
+            "FULL OUTER JOIN",
+          ],
+          correct: 1,
+          explanation:
+            "✓ Inner Join!\n\nلو مفيش Suppliers في NY → S.City='NY' = FALSE دايماً\n→ (A AND B AND C) OR FALSE = (A AND B AND C)\n→ WHERE بتبقى: S.Supp#=O.Supp# AND O.Proj#=P.Proj# AND P.Budget>10M\n→ ده INNER JOIN بين الثلاث جداول مع شرط على الـ Budget!",
+        },
+        {
+          id: "j12",
+          year: "2025",
+          tag: "Join Cardinality",
+          text: "T1 and T2 each have 100 tuples. When joined using Natural Join, we got 0 records. This means:",
+          options: [
+            "Mandatory on at least one side",
+            "Optional on BOTH sides (no matches at all)",
+            "Mandatory on both sides",
+            "None of the above",
+          ],
+          correct: 1,
+          explanation:
+            "✓ Optional on both sides!\n\nلو النتيجة = 0:\n→ مفيش أي row في T1 عندها match في T2\n→ المشاركة اختيارية من الجانبين (Partial Participation)\n→ ممكن يكون في entities من غير علاقة",
+        },
+        {
+          id: "j13",
+          year: "2025",
+          tag: "Cross Join Cardinality",
+          text: "|Employees| = 10 and |Projects| = 5.\nHow many records (Min, Max) does CROSS JOIN return?",
+          options: [
+            "(10, 50) — varies",
+            "(50, 50) — always exactly 50",
+            "(0, 50) — might be empty",
+            "(0, 10) — at most one table size",
+          ],
+          correct: 1,
+          explanation:
+            "✓ (50, 50) — always exactly 50!\n\nالـ Cross Join دايماً بيرجع نفس الناتج:\n10 × 5 = 50 rows\n\nمش بيعتمد على أي matching conditions.\nMin = Max = 50 دايماً.",
+        },
+      ];
+
+      /* ---- DML3 QUIZ (22 questions) ---- */
+      const DML3_QUIZ = [
+        {
+          id: "a1",
+          year: "2023",
+          tag: "GROUP BY Validity",
+          text: "Is the following SQL query valid (will parse successfully)?\n\nSELECT X, Y, SUM(Z)\nFROM Table1\nGROUP BY X, Y, M",
+          options: ["True ✓ — valid SQL, will parse", "False ✗ — syntax error"],
+          correct: 0,
+          explanation:
+            "✓ Dr. Ali: True — Valid SQL!\n\nالـ Query صح لأن:\n• X, Y موجودين في SELECT وفي GROUP BY ✓\n• SUM(Z) هي Aggregate Function ✓\n• M في GROUP BY بس مش في SELECT → مسموح!\n\nيمكن وجود Column في GROUP BY حتى لو مش موجود في SELECT.",
+        },
+        {
+          id: "a2",
+          year: "2023",
+          tag: "Query Equivalence",
+          text: "Are these two queries EQUIVALENT?\n\nQ1: SELECT DISTINCT X, (SELECT SUM(Y) FROM T1 WHERE X=T.X) AS SumY FROM Table1 T\n\nQ2: SELECT X, SUM(Y) AS SumY FROM Table1 GROUP BY X",
+          options: [
+            "Equivalent ✓ — same result",
+            "Not Equivalent ✗ — different results",
+          ],
+          correct: 0,
+          explanation:
+            "✓ Dr. Ali: Equivalent!\n\nالاتنين بيرجعوا نفس النتيجة:\n• Q1 بتستخدم Correlated Subquery في SELECT مع DISTINCT\n• Q2 بتستخدم GROUP BY\n\nكلاهما بيرجع كل قيمة فريدة لـ X مع SUM(Y) بتاعها.\n\nللتحقق: Q1 EXCEPT Q2 = Φ AND Q2 EXCEPT Q1 = Φ",
+        },
+        {
+          id: "a3",
+          year: "2023",
+          tag: "Cross Join + FK + NOT IN",
+          text: "R has composite PK (X, Y). S uses (X, Y) as a Foreign Key. |R|=100, |S|=10.\n\nWhat is the cardinality of:\nSELECT * FROM R CROSS JOIN S\nWHERE S.X NOT IN (SELECT X FROM R)",
+          options: ["1000", "100", "10", "Zero (0)"],
+          correct: 3,
+          explanation:
+            "✓ Dr. Ali: Zero!\n\nالمنطق:\n• S.X هو Foreign Key من R\n• يعني كل قيمة في S.X لازم موجودة في R.X\n• S.X NOT IN (SELECT X FROM R) → دايماً FALSE\n• مفيش Rows تمر من الـ WHERE\n• النتيجة = 0 rows\n\nالـ FK بيضمن Referential Integrity!",
+        },
+        {
+          id: "a4",
+          year: "2023",
+          tag: "Complex Query with EXCEPT",
+          text: "Same tables (R with PK(X,Y), S with FK(X,Y)). Assume Y EXCEPT X = Y (no common values between X and Y sets).\n\nWhat is the cardinality of:\nSELECT * FROM R CROSS JOIN S WHERE S.Y IN (SELECT X FROM R)",
+          options: [
+            "1000 rows",
+            "May fail to parse",
+            "Zero if parsed successfully",
+            "B and C — may fail, or zero if it runs",
+          ],
+          correct: 3,
+          explanation:
+            "✓ Dr. Ali: D (B & C)\n\nالمنطق:\n• الـ Query ممكن تفشل في الـ Parse لو في NULL في الـ Subquery مع IN\n• لو اتنفذت بنجاح: Y EXCEPT X = Y يعني Y ∩ X = ∅\n• يعني S.Y IN (SELECT X FROM R) → دايماً FALSE\n• النتيجة = Zero\n\nالإجابة: إما تفشل في Parse أو ترجع Zero → D",
+        },
+        {
+          id: "a5",
+          year: "2024 & 2025",
+          tag: "ORDER BY in UNION",
+          text: "You can use UNION between two queries, and ORDER BY can be applied to sort EACH query's result separately before combining.",
+          options: ["True ✓", "False ✗"],
+          correct: 1,
+          explanation:
+            "✗ غلط! Dr. Ali: False\n\nفي UNION، الـ ORDER BY:\n✓ لازم تيجي في آخر الـ Query كلها\n✓ بتطبق على النتيجة النهائية بعد الـ UNION\n\n❌ مش ممكن:\nSELECT X FROM R ORDER BY X  ← هنا مش مسموح\nUNION\nSELECT Y FROM S ORDER BY Y  ← هنا برضو مش مسموح\n\n✅ الصح:\nSELECT X FROM R UNION SELECT Y FROM S ORDER BY X",
+        },
+        {
+          id: "a6",
+          year: "2024 & 2025",
+          tag: "GROUP BY Parsing",
+          text: "Which of the following SQL statements will NOT be parsed successfully?",
+          options: [
+            "SELECT COUNT(*), X, Y, Z FROM R GROUP BY X, Y, Z",
+            "SELECT COUNT(*), X, Y FROM R",
+            "SELECT COUNT(Y), X FROM R GROUP BY X, Y",
+            "D — B & C are both invalid",
+          ],
+          correct: 1,
+          explanation:
+            "✓ Dr. Ali: (b) — Only option B is invalid!\n\n• A: COUNT(*), X,Y,Z في SELECT وX,Y,Z في GROUP BY → صح ✓\n• B: COUNT(*), X, Y في SELECT بدون GROUP BY → غلط ✗ (X,Y مش Aggregated)\n• C: COUNT(Y), X في SELECT. X في GROUP BY, Y في Aggregate → صح ✓\n\nالإجابة B فقط هي الغلطة.",
+        },
+        {
+          id: "a7",
+          year: "2024 & 2025",
+          tag: "SET Ops: UNION",
+          text: "If |R| = 5 and |S| = 10, then |R UNION S| = {Min, Max} equals:",
+          options: ["(5, 10)", "(10, 15)", "(5, 15)", "(15, 15)"],
+          correct: 1,
+          explanation:
+            "✓ (10, 15)\n\nUNION بيشيل التكرار:\n• Min = 10: لو R ⊆ S، UNION = S = 10\n• Max = 15: لو R ∩ S = ∅ (مفيش تقاطع)، UNION = 5+10 = 15\n\nقاعدة: Min ≥ max(|R|,|S|) = 10\nMax ≤ |R| + |S| = 15",
+        },
+        {
+          id: "a8",
+          year: "2025",
+          tag: "SET Ops: UNION ALL",
+          text: "If |R| = 5 and |S| = 10, then |R UNION ALL S| = {Min, Max} equals:",
+          options: ["(5, 10)", "(10, 15)", "(5, 15)", "(15, 15)"],
+          correct: 3,
+          explanation:
+            "✓ (15, 15) — دايماً!\n\nUNION ALL مش بيشيل التكرار:\n→ دايماً بيرجع كل الـ Rows من الجدولين\n→ النتيجة دايماً = |R| + |S| = 5 + 10 = 15\n\nMin = Max = 15 في كل الحالات!",
+        },
+        {
+          id: "a9",
+          year: "2024 & 2025",
+          tag: "SET Ops: INTERSECT",
+          text: "If |R| = 5 and |S| = 10, then |R INTERSECT S| = {Min, Max} equals:",
+          options: ["(0, 5)", "(5, 10)", "(5, 5)", "(0, 10)"],
+          correct: 0,
+          explanation:
+            "✓ (0, 5)\n\nINTERSECT بيرجع العناصر الموجودة في الاتنين:\n• Min = 0: لو R و S مفيش بينهم أي عناصر مشتركة\n• Max = 5: لو R ⊆ S (كل R موجود في S)، INTERSECT = R = 5\n\nقاعدة: Max ≤ min(|R|, |S|) = 5",
+        },
+        {
+          id: "a10",
+          year: "2024 & 2025",
+          tag: "SET Ops: R EXCEPT S",
+          text: "If |R| = 5 and |S| = 10, then |R EXCEPT S| = {Min, Max} equals:",
+          options: ["(0, 5)", "(5, 10)", "(5, 15)", "(0, 10)"],
+          correct: 0,
+          explanation:
+            "✓ (0, 5)\n\nR EXCEPT S = العناصر في R بس (مش في S):\n• Min = 0: لو R ⊆ S (كل R موجود في S → لا يتبقى شيء)\n• Max = 5: لو R ∩ S = ∅ (مفيش تقاطع → كل R يتبقى)\n\nقاعدة: النتيجة دايماً بين 0 و |R|",
+        },
+        {
+          id: "a11",
+          year: "2024",
+          tag: "SET Ops: S EXCEPT R",
+          text: "If |R| = 5 and |S| = 10, then |S EXCEPT R| = {Min, Max} equals:",
+          options: ["(5, 10)", "(5, 15)", "(15, 15)", "(0, 5)"],
+          correct: 0,
+          explanation:
+            "✓ (5, 10)\n\nS EXCEPT R = العناصر في S بس (مش في R):\n• Min = 5: لو R ⊆ S (كل R موجود في S) → نطرح 5 من S → 10-5=5\n• Max = 10: لو R ∩ S = ∅ (مفيش تقاطع) → كل S تتبقى = 10\n\nقاعدة: بين |S| - min(|R|,|S|) و |S|",
+        },
+        {
+          id: "a12",
+          year: "2025",
+          tag: "Distinct UNION",
+          text: "R has 5 distinct values in column X. S has 3 distinct values in column X (independent columns, no FK constraint).\n\n{Min, Max} of distinct values in R.X UNION S.X = ?",
+          options: ["(3, 5)", "(5, 6)", "(3, 8)", "(5, 8)"],
+          correct: 3,
+          explanation:
+            "✓ (5, 8)\n\nUNION بيشيل التكرار:\n• Min = 5: لو S.X ⊆ R.X (كل 3 قيم S موجودة في R) → UNION = R.X = 5\n• Max = 8: لو R.X ∩ S.X = ∅ → UNION = 5+3 = 8\n\nNote: بما أن |R.X|=5 > |S.X|=3، فـ Min = 5 (مش أقل من الأكبر)",
+        },
+        {
+          id: "a13",
+          year: "2025",
+          tag: "Distinct INTERSECT",
+          text: "R has 5 distinct X values. S has 3 distinct X values (independent columns).\n\n{Min, Max} of R.X INTERSECT S.X = ?",
+          options: ["(0, 3)", "(3, 3)", "(3, 5)", "(5, 5)"],
+          correct: 0,
+          explanation:
+            "✓ (0, 3)\n\nINTERSECT بيرجع العناصر المشتركة:\n• Min = 0: لو R.X ∩ S.X = ∅ (مفيش قيم مشتركة)\n• Max = 3: لو S.X ⊆ R.X (كل 3 قيم S موجودة في R) → INTERSECT = S.X = 3\n\nقاعدة: Max ≤ min(5, 3) = 3",
+        },
+        {
+          id: "a14",
+          year: "2025",
+          tag: "Distinct S EXCEPT R",
+          text: "R has 5 distinct X values. S has 3 distinct X values (independent columns).\n\n{Min, Max} of S.X EXCEPT R.X = ?",
+          options: ["(0, 3)", "(0, 2)", "(2, 2)", "(0, 1)"],
+          correct: 0,
+          explanation:
+            "✓ (0, 3)\n\nS.X EXCEPT R.X = قيم S.X اللي مش في R.X:\n• Min = 0: لو S.X ⊆ R.X (كل 3 قيم S موجودة في R → لا يتبقى شيء)\n• Max = 3: لو S.X ∩ R.X = ∅ (مفيش تقاطع → كل S.X = 3 تتبقى)\n\nقاعدة: النتيجة دايماً بين 0 و |S.X| = 3",
+        },
+        {
+          id: "a15",
+          year: "2024 & 2025",
+          tag: "NULL: COUNT with =",
+          text: "Table T: 15 rows total — 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T WHERE A = 2",
+          options: ["0", "5", "10", "15"],
+          correct: 1,
+          explanation:
+            "✓ 5\n\nA = 2 بيطابق بس الـ Rows اللي A فيها = 2 بالظبط:\n• A=1 rows (5): FALSE → ما بتعدش\n• A=2 rows (5): TRUE → بتعدد ✓\n• A=NULL rows (5): UNKNOWN → ما بتعدش\n\nالنتيجة = 5",
+        },
+        {
+          id: "a16",
+          year: "2025",
+          tag: "NULL: IN(NULL)",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T WHERE A IN (NULL)",
+          options: ["0", "5", "10", "15"],
+          correct: 0,
+          explanation:
+            "✓ 0!\n\nA IN (NULL) بيتحول لـ: A = NULL\nواللي بيرجع UNKNOWN دايماً (مش TRUE)\n\nحتى الـ Rows اللي فيها A=NULL ما بتتطابقش!\nلأن NULL = NULL → UNKNOWN مش TRUE\n\nالصح: WHERE A IS NULL (مش IN NULL)",
+        },
+        {
+          id: "a17",
+          year: "2024 & 2025",
+          tag: "NULL: IS NULL",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T WHERE A IS NULL",
+          options: ["0", "5", "10", "15"],
+          correct: 1,
+          explanation:
+            "✓ 5\n\nIS NULL بيتعرف على الـ NULL values بشكل صح:\n• A=1 rows (5): FALSE\n• A=2 rows (5): FALSE\n• A=NULL rows (5): TRUE ✓\n\nالنتيجة = 5\n\nالفرق المهم:\n= NULL → دايماً UNKNOWN ❌\nIS NULL → صح ✓",
+        },
+        {
+          id: "a18",
+          year: "2025",
+          tag: "NULL: IN(NULL, 1)",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T WHERE A IN (NULL, 1)",
+          options: ["0", "5", "10", "15"],
+          correct: 1,
+          explanation:
+            "✓ 5\n\nA IN (NULL, 1) بيتحول لـ:\nA = NULL OR A = 1\n\n• A=NULL: (UNKNOWN OR FALSE) = UNKNOWN → لا\n• A=1: (UNKNOWN OR TRUE) = TRUE ✓\n• A=2: (UNKNOWN OR FALSE) = UNKNOWN → لا\n\nبس الـ 5 rows اللي A=1 بتعدد → النتيجة = 5",
+        },
+        {
+          id: "a19",
+          year: "2025",
+          tag: "EXISTS Subquery",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T\nWHERE EXISTS (\n  SELECT * FROM T WHERE A IN (1)\n)",
+          options: ["0", "5", "10", "15"],
+          correct: 3,
+          explanation:
+            "✓ 15!\n\nالـ Subquery: SELECT * FROM T WHERE A IN (1)\n→ بترجع 5 rows (A=1)\n\nEXISTS بيشوف هل رجعت rows؟ نعم → TRUE\n\nالـ Subquery مش Correlated (مش مرتبطة بالـ Outer):\n→ EXISTS = TRUE لكل row في الـ Outer Query\n→ كل الـ 15 rows بتعدد!\n→ النتيجة = 15",
+        },
+        {
+          id: "a20",
+          year: "2025",
+          tag: "EXISTS with NULL Subquery",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T\nWHERE EXISTS (\n  SELECT * FROM T WHERE A IN (NULL)\n)",
+          options: ["0", "5", "10", "15"],
+          correct: 0,
+          explanation:
+            "✓ 0!\n\nالـ Subquery: SELECT * FROM T WHERE A IN (NULL)\n→ A = NULL → UNKNOWN دايماً → 0 rows!\n\nEXISTS بيشوف هل رجعت rows؟ لا (0 rows)\n→ EXISTS = FALSE لكل row في الـ Outer Query\n→ مفيش rows بتعدد\n→ النتيجة = 0",
+        },
+        {
+          id: "a21",
+          year: "2025",
+          tag: "NOT EXISTS with NULL",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T\nWHERE NOT EXISTS (\n  SELECT * FROM T WHERE A IN (NULL)\n)",
+          options: ["0", "5", "10", "15"],
+          correct: 3,
+          explanation:
+            "✓ 15!\n\nالـ Subquery: WHERE A IN (NULL)\n→ بترجع 0 rows (كما شرحنا)\n\nEXISTS = FALSE (مرجعتش أي rows)\n→ NOT EXISTS = TRUE\n→ WHERE = TRUE لكل الـ 15 rows\n→ النتيجة = 15\n\nطريقة التذكر: NOT EXISTS(φ) = TRUE دايماً!",
+        },
+        {
+          id: "a22",
+          year: "2024",
+          tag: "NULL: = NULL",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T WHERE A = NULL",
+          options: ["10", "5", "15", "Zero (0)"],
+          correct: 3,
+          explanation:
+            "✓ Dr. Ali: Zero!\n\n= NULL دايماً بيرجع UNKNOWN مش TRUE:\n• A=1: 1 = NULL → UNKNOWN\n• A=2: 2 = NULL → UNKNOWN\n• A=NULL: NULL = NULL → UNKNOWN (مش TRUE!)\n\nكل الـ rows بترجع UNKNOWN → مفيش rows تعدد\n→ النتيجة = 0\n\nالحل الصح: WHERE A IS NULL",
+        },
+      ];
+
+      /* =====================================================
+         QUIZ COMPONENTS
+      ===================================================== */
+
+      function QuizQuestion({
+        question,
+        index,
+        userAnswer,
+        submitted,
+        onSelect,
+      }) {
+        const isAnswered = userAnswer !== undefined;
+        const isCorrect = submitted && userAnswer === question.correct;
+        const isWrong = submitted && isAnswered && !isCorrect;
+
+        const letters = ["A", "B", "C", "D", "E"];
+
+        let qCls = "quiz-q";
+        if (submitted && isCorrect) qCls += " q-correct-border";
+        else if (submitted && isWrong) qCls += " q-wrong-border";
+        else if (submitted && !isAnswered) qCls += " q-skip-border";
+
+        return (
+          <div className={qCls}>
+            <div className="quiz-q-header">
+              <span className="quiz-q-num">Q{index + 1}</span>
+              <span className="quiz-q-year">📅 {question.year}</span>
+              <span className="quiz-q-tag">🏷 {question.tag}</span>
+              {submitted && isCorrect && (
+                <span className="quiz-q-status q-status-correct">
+                  ✓ إجابة صحيحة
+                </span>
+              )}
+              {submitted && isWrong && (
+                <span className="quiz-q-status q-status-wrong">
+                  ✗ إجابة خاطئة
+                </span>
+              )}
+              {submitted && !isAnswered && (
+                <span className="quiz-q-status q-status-skip">— لم يُجب</span>
+              )}
+            </div>
+
+            <div className="quiz-q-text">{question.text}</div>
+
+            <div className="quiz-q-options">
+              {question.options.map((opt, j) => {
+                let cls = "quiz-opt";
+                if (!submitted) {
+                  if (userAnswer === j) cls += " quiz-opt-selected";
+                } else {
+                  cls += " quiz-opt-disabled";
+                  if (j === question.correct) cls += " quiz-opt-correct";
+                  else if (userAnswer === j) cls += " quiz-opt-wrong";
+                }
+                return (
+                  <div
+                    key={j}
+                    className={cls}
+                    onClick={() => !submitted && onSelect(j)}
+                  >
+                    <span className="quiz-opt-letter">{letters[j]}</span>
+                    <span className="quiz-opt-text">{opt}</span>
+                    {submitted && j === question.correct && (
+                      <span className="quiz-opt-icon">✓</span>
+                    )}
+                    {submitted &&
+                      userAnswer === j &&
+                      j !== question.correct && (
+                        <span className="quiz-opt-icon">✗</span>
+                      )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {submitted && (
+              <div
+                className={`quiz-explanation ${isCorrect ? "exp-correct" : isAnswered ? "exp-wrong" : "exp-skip"}`}
+              >
+                <div className="exp-icon">{isCorrect ? "💡" : "📖"}</div>
+                <div className="exp-text">{question.explanation}</div>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      function QuizSection({ questions, sectionName, color }) {
+        const [userAnswers, setUserAnswers] = useState({});
+        const [submitted, setSubmitted] = useState(false);
+        const [score, setScore] = useState(null);
+        const topRef = useRef(null);
+
+        const handleSelect = (qIdx, optIdx) => {
+          if (submitted) return;
+          setUserAnswers((prev) => ({ ...prev, [qIdx]: optIdx }));
+        };
+
+        const handleSubmit = () => {
+          let correct = 0;
+          questions.forEach((q, i) => {
+            if (userAnswers[i] === q.correct) correct++;
+          });
+          setScore(correct);
+          setSubmitted(true);
+          setTimeout(
+            () =>
+              topRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              }),
+            100,
+          );
+        };
+
+        const handleReset = () => {
+          setUserAnswers({});
+          setSubmitted(false);
+          setScore(null);
+          topRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        };
+
+        const answered = Object.keys(userAnswers).length;
+        const total = questions.length;
+        const pct = total > 0 ? Math.round((answered / total) * 100) : 0;
+        const scorePct = score !== null ? Math.round((score / total) * 100) : 0;
+
+        let scoreCls = "quiz-score-badge";
+        let resultCls = "quiz-result-card";
+        let emoji = "💪";
+        let msg = "";
+        let sub = "";
+        if (score !== null) {
+          if (scorePct >= 90) {
+            scoreCls += " score-great";
+            resultCls += " result-great";
+            emoji = "🏆";
+            msg = "ممتاز! أنت جاهز للامتحان!";
+            sub = "درجة رائعة، استمر!";
+          } else if (scorePct >= 70) {
+            scoreCls += " score-good";
+            resultCls += " result-good";
+            emoji = "🎉";
+            msg = "كويس جداً!";
+            sub = "راجع الأسئلة اللي غلطت فيها.";
+          } else if (scorePct >= 50) {
+            scoreCls += " score-mid";
+            resultCls += " result-mid";
+            emoji = "📚";
+            msg = "مش بعيد!";
+            sub = "راجع الشرح وحاول تاني.";
+          } else {
+            scoreCls += " score-bad";
+            resultCls += " result-bad";
+            emoji = "💪";
+            msg = "ذاكر كويس وارجع!";
+            sub = "اقرأ الشرح مرة تانية.";
+          }
+        }
+
+        const accentColor = color || "var(--violet)";
+
+        return (
+          <div className="quiz-wrapper" ref={topRef}>
+            {/* Header */}
+            <div className="quiz-header-card">
+              <div className="quiz-header-left">
+                <div className="quiz-header-icon">🎯</div>
+                <div>
+                  <div className="quiz-header-title">Quiz: {sectionName}</div>
+                  <div className="quiz-header-meta">
+                    {total} سؤال من امتحانات حقيقية 2023 • 2024 • 2025
+                  </div>
+                </div>
+              </div>
+              <div className="quiz-header-right">
+                {!submitted ? (
+                  <span className="quiz-progress-text">
+                    {answered}/{total} تم الإجابة
+                  </span>
+                ) : (
+                  <span className={scoreCls}>
+                    {score}/{total} ({scorePct}%)
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Progress bar */}
+            {!submitted && (
+              <div className="quiz-pb-wrap">
+                <div className="quiz-pb-fill" style={{ width: `${pct}%` }} />
+              </div>
+            )}
+
+            {/* Result card */}
+            {submitted && (
+              <div className={resultCls}>
+                <div className="quiz-result-emoji">{emoji}</div>
+                <div className="quiz-result-text">
+                  {msg}
+                  <span className="quiz-result-sub">{sub}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Questions */}
+            <div>
+              {questions.map((q, i) => (
+                <QuizQuestion
+                  key={q.id}
+                  question={q}
+                  index={i}
+                  userAnswer={userAnswers[i]}
+                  submitted={submitted}
+                  onSelect={(opt) => handleSelect(i, opt)}
+                />
+              ))}
+            </div>
+
+            {/* Actions */}
+            <div className="quiz-actions">
+              {!submitted ? (
+                <>
+                  <button
+                    className="quiz-submit-btn"
+                    onClick={handleSubmit}
+                    disabled={answered === 0}
+                  >
+                    {answered === 0
+                      ? "⬆ اختار الإجابات الأول"
+                      : answered < total
+                        ? `📤 تسليم (${answered} من ${total} أُجيب)`
+                        : "✅ تسليم الكويز"}
+                  </button>
+                  {answered > 0 && answered < total && (
+                    <span className="quiz-warning">
+                      تقدر تسلم وأنت لسه ما خلصتش!
+                    </span>
+                  )}
+                </>
+              ) : (
+                <button className="quiz-retry-btn" onClick={handleReset}>
+                  🔄 حاول تاني من الأول
+                </button>
+              )}
+            </div>
+          </div>
+        );
+      }
+
+      /* =====================================================
+         SECTIONS DATA
+      ===================================================== */
+      const sections = [
+        { id: "ddl", label: "DDL", icon: "🏗️", color: "var(--violet)" },
+        { id: "dml1", label: "DML 1", icon: "✏️", color: "var(--cyan)" },
+        { id: "dml2", label: "Joins", icon: "🔗", color: "var(--pink)" },
+        { id: "dml3", label: "DML 3", icon: "📊", color: "var(--orange)" },
+      ];
+
+      /* =====================================================
+         DDL SECTION
+      ===================================================== */
+      function DDLSection() {
+        return (
+          <div className="animate-in">
+            <div className="section-hero">
+              <div className="section-badge">LECTURE 3 • DDL</div>
+              <h1>🏗️ Data Definition Language</h1>
+              <p>
+                هنا هنتعلم إزاي نبني قاعدة البيانات من الصفر! هنعمل tables, نحدد
+                columns, نضيف constraints, وهنتعلم إزاي نعدل وبعدين نحذف.
+              </p>
+            </div>
+
+            <div className="topic-card" id="sql-intro">
+              <div className="topic-title">
+                <span className="icon">💡</span> ايه هو الـ SQL
+              </div>
+              <div className="topic-body">
+                الـ <strong>SQL (Structured Query Language)</strong> هي اللغة
+                اللي بنتكلم بيها مع قاعدة البيانات. فيها 3 أجزاء رئيسية:
+                <br />
+                <br />
+                🏗️ <strong>DDL</strong> - Data Definition Language → بنعرّف الـ
+                schema (Create / Alter / Drop)
+                <br />
+                ✏️ <strong>DML</strong> - Data Manipulation Language → بنتعامل
+                مع الداتا (Insert / Update / Delete / Select)
+                <br />
+                🔐 <strong>DCL</strong> - Data Control Language → بنتحكم في الـ
+                permissions (Grant / Revoke)
+              </div>
+              <div className="three-col">
+                <div className="constraint-card">
+                  <h4>DDL</h4>
+                  <p>بيعرّف وبيغير هيكل قاعدة البيانات نفسها</p>
+                </div>
+                <div className="constraint-card">
+                  <h4>DML</h4>
+                  <p>بيتعامل مع الداتا الجوّه الـ tables</p>
+                </div>
+                <div className="constraint-card">
+                  <h4>DCL</h4>
+                  <p>بيتحكم في مين يقدر يعمل إيه</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="topic-card" id="sql-notes">
+              <div className="topic-title">
+                <span className="icon">📌</span> ملاحظات مهمة في SQL
+              </div>
+              <div className="three-col">
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--cyan)" }}
+                >
+                  <h4 style={{ color: "var(--cyan)" }}>Case-Insensitive</h4>
+                  <p>
+                    SQL مش بتفرق بين الحروف الكبيرة والصغيرة. SELECT = select
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--green)" }}
+                >
+                  <h4 style={{ color: "var(--green)" }}>
+                    Single Quotes للـ Strings
+                  </h4>
+                  <p>
+                    النصوص والتواريخ لازم بين single quotes.
+                    <br />
+                    WHERE Name = 'Ahmed' ✓
+                  </p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--orange)" }}
+                >
+                  <h4 style={{ color: "var(--orange)" }}>NULL مش صفر</h4>
+                  <p>NULL = قيمة غير معروفة. استخدم IS NULL مش = NULL</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="topic-card" id="data-types">
+              <div className="topic-title">
+                <span className="icon">🔢</span> Data Types - أنواع البيانات
+              </div>
+              <div className="three-col">
+                {[
+                  {
+                    name: "INT / INTEGER",
+                    ex: "1, 42, -100",
+                    desc: "أرقام صحيحة",
+                  },
+                  {
+                    name: "BIGINT",
+                    ex: "9999999999",
+                    desc: "أرقام صحيحة كبيرة جداً",
+                  },
+                  { name: "SMALLINT", ex: "1 to 32767", desc: "أرقام صغيرة" },
+                  { name: "FLOAT / REAL", ex: "3.14", desc: "أرقام عشرية" },
+                  { name: "CHAR(n)", ex: "CHAR(10)", desc: "نص بطول ثابت" },
+                  {
+                    name: "VARCHAR(n)",
+                    ex: "VARCHAR(100)",
+                    desc: "نص بطول متغير",
+                  },
+                  {
+                    name: "NVARCHAR(n)",
+                    ex: "NVARCHAR(50)",
+                    desc: "نص Unicode للعربي",
+                  },
+                  { name: "DATE", ex: "'2024-01-15'", desc: "تاريخ بدون وقت" },
+                  {
+                    name: "DATETIME",
+                    ex: "'2024-01-15 10:30'",
+                    desc: "تاريخ مع وقت",
+                  },
+                  { name: "BOOLEAN", ex: "TRUE / FALSE", desc: "قيمة منطقية" },
+                  { name: "MONEY", ex: "1999.99", desc: "قيم مالية" },
+                  {
+                    name: "SQL_VARIANT",
+                    ex: "أي نوع",
+                    desc: "بيقبل أي نوع بيانات",
+                  },
+                ].map((t) => (
+                  <div key={t.name} className="constraint-card">
+                    <h4>{t.name}</h4>
+                    <p>
+                      <em>مثال: {t.ex}</em>
+                      <br />
+                      {t.desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div className="note-box">
+                💡 <strong>نصيحة:</strong> استخدم <strong>VARCHAR</strong>{" "}
+                للنصوص و<strong>INT</strong> للأرقام الصحيحة العادية.
+              </div>
+            </div>
+
+            <div className="topic-card" id="create-table">
+              <div className="topic-title">
+                <span className="icon">📋</span> CREATE TABLE - إنشاء جدول
+              </div>
+              <SQLBlock
+                title="CREATE TABLE SYNTAX"
+                code={`CREATE TABLE TableName\n(\n    ColumnName1  DataType  [Constraints],\n    ColumnName2  DataType  [Constraints],\n    ...\n    [Table-Level Constraints]\n);`}
+              />
+              <SQLBlock
+                title="EXAMPLE - Student Table"
+                code={`CREATE TABLE Student\n(\n    SSN      INT         PRIMARY KEY,\n    Name     VARCHAR(45) NOT NULL,\n    Age      INT,\n    City     VARCHAR(15) DEFAULT 'CAIRO',\n    Major    VARCHAR(5)\n);`}
+              />
+              <SQLBlock
+                title="EXAMPLE - Table with IDENTITY & FK"
+                code={`CREATE TABLE Department\n(\n    DeptId    INT IDENTITY(1,1) PRIMARY KEY,\n    -- IDENTITY(start, increment): Auto-Increment\n    Name      VARCHAR(15) NOT NULL\n);\n\nCREATE TABLE Registered\n(\n    SSN       INT          NOT NULL REFERENCES Student(SSN),\n    CrsCode   SMALLINT     NOT NULL REFERENCES Course(CrsCode),\n    Semester  VARCHAR(45)  NOT NULL,\n    [Year]    VARCHAR(45)\n    -- Year كلمة محجوزة → بنحطها في brackets\n);`}
+              />
+            </div>
+
+            <div className="topic-card" id="constraints">
+              <div className="topic-title">
+                <span className="icon">🔒</span> Constraints - القيود
+              </div>
+              <div className="constraint-grid">
+                {[
+                  {
+                    name: "NOT NULL",
+                    color: "var(--red)",
+                    desc: "لازم دايماً يبقى فيها قيمة.",
+                    ex: "Name VARCHAR(45) NOT NULL",
+                  },
+                  {
+                    name: "DEFAULT",
+                    color: "var(--orange)",
+                    desc: "قيمة تلقائية لو ما حددتش.",
+                    ex: "City VARCHAR(15) DEFAULT 'CAIRO'",
+                  },
+                  {
+                    name: "UNIQUE",
+                    color: "var(--cyan)",
+                    desc: "كل القيم لازم مختلفة.",
+                    ex: "Name VARCHAR(45) UNIQUE",
+                  },
+                  {
+                    name: "PRIMARY KEY",
+                    color: "var(--violet)",
+                    desc: "NOT NULL + UNIQUE. بيعرّف كل row بشكل فريد.",
+                    ex: "SSN INT PRIMARY KEY",
+                  },
+                  {
+                    name: "FOREIGN KEY",
+                    color: "var(--pink)",
+                    desc: "بيربط جدولين ويضمن Referential Integrity.",
+                    ex: "REFERENCES Department(DCode)",
+                  },
+                  {
+                    name: "CHECK",
+                    color: "var(--green)",
+                    desc: "بيتأكد إن القيمة بتحقق شرط.",
+                    ex: "CHECK (Age >= 18)",
+                  },
+                ].map((c) => (
+                  <div
+                    key={c.name}
+                    className="constraint-card"
+                    style={{ borderTopColor: c.color }}
+                  >
+                    <h4 style={{ color: c.color }}>{c.name}</h4>
+                    <p>{c.desc}</p>
+                    <div
+                      style={{
+                        marginTop: ".4rem",
+                        background: "rgba(0,0,0,.3)",
+                        borderRadius: "4px",
+                        padding: ".3rem .5rem",
+                        fontFamily: "JetBrains Mono",
+                        fontSize: ".63rem",
+                        color: "var(--text2)",
+                      }}
+                    >
+                      {c.ex}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <SQLBlock
+                title="FOREIGN KEY with Actions"
+                code={`ALTER TABLE Student\nADD CONSTRAINT FK_1\n    FOREIGN KEY (Major)\n    REFERENCES Department(DeptCode)\n    ON DELETE SET NULL   -- لو المرجع اتحذف اعمله NULL\n    ON UPDATE CASCADE;   -- لو المرجع اتغير اغيّر معاه`}
+              />
+            </div>
+
+            <div className="topic-card" id="alter-table">
+              <div className="topic-title">
+                <span className="icon">🔧</span> ALTER TABLE - تعديل جدول موجود
+              </div>
+              <SQLBlock
+                title="ADD / DROP / ALTER COLUMN"
+                code={`-- إضافة column جديدة\nALTER TABLE Department ADD numberOfStudents INT;\n\n-- حذف column\nALTER TABLE Student DROP COLUMN Major;\n\n-- تغيير الـ data type\nALTER TABLE Student ALTER COLUMN Name VARCHAR(100);`}
+              />
+              <SQLBlock
+                title="ADD / DROP CONSTRAINTS"
+                code={`-- إضافة Primary Key\nALTER TABLE Registered ADD CONSTRAINT PK1 PRIMARY KEY (SSN, CrsCode);\n\n-- إضافة Foreign Key\nALTER TABLE Student ADD CONSTRAINT FK_StudentDept\n    FOREIGN KEY (DeptId) REFERENCES Department(DeptId);\n\n-- إضافة UNIQUE\nALTER TABLE STUDENT ADD CONSTRAINT UQ_Std_Name UNIQUE (Name);\n\n-- حذف Constraint\nALTER TABLE STUDENT DROP CONSTRAINT UQ_Std_Name;`}
+              />
+              <div className="note-box">
+                💡 <strong>تذكر:</strong> الـ Constraint Name لازم يكون unique
+                في الـ Database كلها مش بس في الجدول!
+              </div>
+            </div>
+
+            <div className="topic-card" id="drop-table">
+              <div className="topic-title">
+                <span className="icon">🗑️</span> DROP TABLE / TRUNCATE
+              </div>
+              <SQLBlock
+                title="DROP vs TRUNCATE"
+                code={`-- حذف جدول كامل (لا رجعة!)\nDROP TABLE Student;\n\n-- حذف الداتا بس، الجدول يفضل\nTRUNCATE TABLE Student;\n-- TRUNCATE أسرع من DELETE * لأنه مش بيسجل كل row\n\n-- حذف قاعدة بيانات\nDROP DATABASE university;`}
+              />
+              <div className="warn-box">
+                ⚠️ <strong>تحذير:</strong> DROP TABLE و TRUNCATE لا رجعة فيهم!
+                دايماً اعمل Backup الأول.
+              </div>
+            </div>
+
+            <div className="topic-card" id="uni-schema">
+              <div className="topic-title">
+                <span className="icon">🎓</span> University Database Schema
+              </div>
+              <SQLBlock
+                title="FULL UNIVERSITY SCHEMA"
+                code={`CREATE TABLE Department\n(\n    DeptId    INT IDENTITY(1,1) PRIMARY KEY,\n    DeptCode  VARCHAR(5)  NOT NULL UNIQUE,\n    Name      VARCHAR(50) NOT NULL\n);\n\nCREATE TABLE Student\n(\n    SSN    INT         PRIMARY KEY,\n    Name   VARCHAR(45) NOT NULL,\n    City   VARCHAR(20) DEFAULT 'Cairo',\n    Age    INT,\n    Major  VARCHAR(5)  REFERENCES Department(DeptCode)\n);\n\nCREATE TABLE Registered\n(\n    SSN       INT       NOT NULL REFERENCES Student(SSN),\n    CrsCode   SMALLINT  NOT NULL REFERENCES Course(CrsCode),\n    Semester  VARCHAR(10) NOT NULL,\n    [Year]    INT,\n    CONSTRAINT PK_Reg PRIMARY KEY (SSN, CrsCode)\n);`}
+              />
+              <div className="two-col">
+                <DataTable
+                  headers={["SSN", "Name", "City", "Age", "Major"]}
+                  rows={students}
+                  title="📋 Student Table"
+                />
+                <DataTable
+                  headers={["SSN", "CrsCode", "Semester", "Year"]}
+                  rows={registered}
+                  title="📋 Registered Table"
+                />
+              </div>
+            </div>
+
+            {/* ========== DDL QUIZ ========== */}
+            <QuizSection
+              questions={DDL_QUIZ}
+              sectionName="DDL — Data Definition Language"
+              color="var(--violet)"
+            />
+          </div>
+        );
+      }
+
+      /* =====================================================
+         DML1 SECTION
+      ===================================================== */
+      function DML1Section() {
+        const [whereDemo, setWhereDemo] = useState("AND");
+        const filterResults = {
+          AND: students.filter((s) => s[2] === "Cairo" && s[3] >= 18),
+          OR: students.filter((s) => s[2] === "Cairo" || s[3] >= 18),
+          BETWEEN: students.filter((s) => s[3] >= 17 && s[3] <= 19),
+          IN: students.filter((s) => ["Cairo", "Giza"].includes(s[2])),
+          IS_NULL: students.filter((s) => s[4] === null),
+          NOT_NULL: students.filter((s) => s[4] !== null),
+        };
+        return (
+          <div className="animate-in">
+            <div className="section-hero">
+              <div className="section-badge">LECTURES 4-5 • DML PART 1</div>
+              <h1>✏️ Data Manipulation Language</h1>
+              <p>
+                INSERT بيضيف، UPDATE بيعدل، DELETE بيحذف، SELECT بيجيب الداتا.
+                دي الأوامر اللي هتستخدمها كل يوم!
+              </p>
+            </div>
+
+            <div className="topic-card" id="insert">
+              <div className="topic-title">
+                <span className="icon">➕</span> INSERT INTO - إضافة بيانات
+              </div>
+              <SQLBlock
+                title="INSERT Examples"
+                code={`-- Insert كل الـ Columns\nINSERT INTO Student\nVALUES (201, 'Adam', 'Cairo', 21, 'IT');\n\n-- Insert Columns معينة\nINSERT INTO Student (SSN, Name, City)\nVALUES (202, 'Sara', 'Giza');\n-- Age و Major هيبقوا NULL\n\n-- Insert Multiple Rows\nINSERT INTO Student (SSN, Name, City, Age, Major)\nVALUES (203, 'Ali',   'Cairo', 20, 'CS'),\n       (204, 'Nour',  'Giza',  22, 'IT'),\n       (205, 'Laila', 'Cairo', 19, 'IS');\n\n-- Insert from Another Table\nINSERT INTO MyCustomers\nSELECT customerNumber, customerName, city\nFROM Customers\nWHERE country = 'Egypt';`}
+              />
+            </div>
+
+            <div className="topic-card" id="update">
+              <div className="topic-title">
+                <span className="icon">✏️</span> UPDATE - تعديل بيانات
+              </div>
+              <SQLBlock
+                title="UPDATE Examples"
+                code={`-- Syntax\nUPDATE TableName\nSET Column1 = Value1, Column2 = Value2\nWHERE <Condition>;\n\n-- تغيير GPA طالب معين\nUPDATE Student SET GPA = 3.6 WHERE Name = 'Ayman';\n\n-- تغيير أكتر من قيمة\nUPDATE Student\nSET City = 'Giza', Major = 'IT'\nWHERE SSN = 109;`}
+              />
+              <div className="warn-box">
+                ⚠️ نسيت تكتب WHERE؟ هتعدل كل الـ rows في الجدول! غلطة كلاسيكية!
+              </div>
+            </div>
+
+            <div className="topic-card" id="delete">
+              <div className="topic-title">
+                <span className="icon">🗑️</span> DELETE - حذف بيانات
+              </div>
+              <SQLBlock
+                title="DELETE Examples"
+                code={`-- حذف rows معينة\nDELETE FROM Student WHERE Age < 18;\n\n-- في SQL Server: FROM اختيارية!\nDELETE Student WHERE Age < 18; -- صح برضو\n\n-- حذف كل الـ Rows (الجدول يفضل)\nDELETE FROM Student;\n\n-- TRUNCATE أسرع لو عايز تفضي كل شيء\nTRUNCATE TABLE Student;`}
+              />
+            </div>
+
+            <div className="topic-card" id="select">
+              <div className="topic-title">
+                <span className="icon">🔍</span> SELECT - استعلام البيانات
+              </div>
+              <SQLBlock
+                title="SELECT Examples"
+                code={`-- كل البيانات\nSELECT * FROM Department;\n\n-- Columns معينة\nSELECT Name, Major FROM Student;\n\n-- بدون تكرار\nSELECT DISTINCT CrsCode FROM Registered;\n\n-- Alias\nSELECT Name, Age * 12 AS AgeInMonths FROM Student;\n\n-- TOP 5 طلاب (SQL Server)\nSELECT TOP(5) * FROM Student;\n\n-- LIMIT (MySQL)\nSELECT * FROM Student LIMIT 5;`}
+              />
+            </div>
+
+            <div className="topic-card" id="where">
+              <div className="topic-title">
+                <span className="icon">🎯</span> WHERE Clause - شروط الاستعلام
+              </div>
+              <div className="viz-container">
+                <div className="viz-title">⚡ Interactive WHERE Demo</div>
+                <div className="join-tabs">
+                  {[
+                    ["AND", "AND", "var(--violet)"],
+                    ["OR", "OR", "var(--cyan)"],
+                    ["BETWEEN", "BETWEEN", "var(--green)"],
+                    ["IN", "IN", "var(--orange)"],
+                    ["IS_NULL", "IS NULL", "var(--pink)"],
+                  ].map(([k, l, c]) => (
+                    <button
+                      key={k}
+                      className={`join-tab ${whereDemo === k ? "active" : ""}`}
+                      style={
+                        whereDemo === k ? { background: c, borderColor: c } : {}
+                      }
+                      onClick={() => setWhereDemo(k)}
+                    >
+                      {l}
+                    </button>
+                  ))}
+                </div>
+                {whereDemo === "AND" && (
+                  <>
+                    <SQLBlock
+                      code={`SELECT * FROM Student\nWHERE City = 'Cairo' AND Age >= 18;`}
+                    />
+                    <DataTable
+                      headers={["SSN", "Name", "City", "Age", "Major"]}
+                      rows={filterResults.AND}
+                      title={`✅ النتيجة (${filterResults.AND.length} rows)`}
+                      resultRows={filterResults.AND.map((_, i) => i)}
+                    />
+                  </>
+                )}
+                {whereDemo === "OR" && (
+                  <>
+                    <SQLBlock
+                      code={`SELECT * FROM Student\nWHERE City = 'Cairo' OR Age >= 18;`}
+                    />
+                    <DataTable
+                      headers={["SSN", "Name", "City", "Age", "Major"]}
+                      rows={filterResults.OR}
+                      title={`✅ النتيجة (${filterResults.OR.length} rows)`}
+                      resultRows={filterResults.OR.map((_, i) => i)}
+                    />
+                  </>
+                )}
+                {whereDemo === "BETWEEN" && (
+                  <>
+                    <SQLBlock
+                      code={`SELECT * FROM Student\nWHERE Age BETWEEN 17 AND 19;\n-- يشمل الحدود: 17 و 19 مشمولين!`}
+                    />
+                    <DataTable
+                      headers={["SSN", "Name", "City", "Age", "Major"]}
+                      rows={filterResults.BETWEEN}
+                      title={`✅ النتيجة (${filterResults.BETWEEN.length} rows)`}
+                      resultRows={filterResults.BETWEEN.map((_, i) => i)}
+                    />
+                  </>
+                )}
+                {whereDemo === "IN" && (
+                  <>
+                    <SQLBlock
+                      code={`SELECT * FROM Student\nWHERE City IN ('Cairo', 'Giza');\n-- أحسن من: WHERE City='Cairo' OR City='Giza'`}
+                    />
+                    <DataTable
+                      headers={["SSN", "Name", "City", "Age", "Major"]}
+                      rows={filterResults.IN}
+                      title={`✅ النتيجة (${filterResults.IN.length} rows)`}
+                      resultRows={filterResults.IN.map((_, i) => i)}
+                    />
+                  </>
+                )}
+                {whereDemo === "IS_NULL" && (
+                  <div className="two-col">
+                    <div>
+                      <SQLBlock
+                        code={`-- IS NULL\nSELECT * FROM Student\nWHERE Major IS NULL;\n-- مش = NULL (ده غلط!)`}
+                      />
+                      <DataTable
+                        headers={["SSN", "Name", "City", "Age", "Major"]}
+                        rows={filterResults.IS_NULL}
+                        title={`IS NULL (${filterResults.IS_NULL.length} rows)`}
+                        resultRows={filterResults.IS_NULL.map((_, i) => i)}
+                      />
+                    </div>
+                    <div>
+                      <SQLBlock
+                        code={`-- IS NOT NULL\nSELECT * FROM Student\nWHERE Major IS NOT NULL;`}
+                      />
+                      <DataTable
+                        headers={["SSN", "Name", "City", "Age", "Major"]}
+                        rows={filterResults.NOT_NULL}
+                        title={`IS NOT NULL (${filterResults.NOT_NULL.length} rows)`}
+                        resultRows={filterResults.NOT_NULL.map((_, i) => i)}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+              <SQLBlock
+                title="LIKE Pattern Matching"
+                code={`-- % = أي عدد من الحروف (صفر أو أكتر)\n-- _ = حرف واحد بالظبط\n\n-- يبدأ بـ 'Data'\nSELECT Name FROM Course WHERE Name LIKE 'Data%';\n\n-- يحتوي على 'Database'\nSELECT Name FROM Course WHERE Name LIKE '%Database%';\n\n-- فيه صفرين على الأقل في أي مكان\nSELECT * FROM Products WHERE Code LIKE '%0%0%';\n\n-- الحرف التاني 'r'\nSELECT lastName FROM employees WHERE lastName LIKE '_r%';`}
+              />
+              <SQLBlock
+                title="ORDER BY"
+                code={`-- تصاعدي\nSELECT Name, Age FROM Student ORDER BY Age;\n\n-- تنازلي\nSELECT Name, Age FROM Student ORDER BY Age DESC;\n\n-- أكتر من column\nSELECT Name, City, Age FROM Student\nORDER BY City ASC, Age DESC;`}
+              />
+            </div>
+
+            {/* ========== DML1 QUIZ ========== */}
+            <QuizSection
+              questions={DML1_QUIZ}
+              sectionName="DML 1 — INSERT, UPDATE, DELETE, SELECT"
+              color="var(--cyan)"
+            />
+          </div>
+        );
+      }
+
+      /* =====================================================
+         DML2 / JOINS SECTION
+      ===================================================== */
+      function DML2Section() {
+        return (
+          <div className="animate-in">
+            <div
+              className="section-hero"
+              style={{
+                background: "linear-gradient(135deg,var(--bg2),#1a0a2e)",
+              }}
+            >
+              <div
+                className="section-badge"
+                style={{
+                  borderColor: "rgba(236,72,153,.4)",
+                  color: "var(--pink)",
+                }}
+              >
+                LECTURES 6-7 • JOINS
+              </div>
+              <h1
+                style={{
+                  background: "linear-gradient(135deg,#fff,var(--pink))",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                🔗 JOIN Operations
+              </h1>
+              <p>
+                الـ JOIN هو أقوى عملية في SQL! بيخلينا نجمع بيانات من جداول
+                مختلفة. فيه 5 أنواع وكل نوع بيرجع نتيجة مختلفة.
+              </p>
+            </div>
+
+            <div className="topic-card" id="join-types">
+              <div className="topic-title">
+                <span className="icon">🗺️</span> أنواع الـ JOIN
+              </div>
+              <div className="constraint-grid">
+                {[
+                  {
+                    name: "INNER JOIN",
+                    color: "var(--violet)",
+                    desc: "بيرجع بس الـ rows اللي عندها تطابق في الجدولين",
+                  },
+                  {
+                    name: "LEFT OUTER JOIN",
+                    color: "var(--violet-light)",
+                    desc: "كل rows الجدول الشمال + الـ matching rows من اليمين",
+                  },
+                  {
+                    name: "RIGHT OUTER JOIN",
+                    color: "var(--cyan)",
+                    desc: "كل rows الجدول اليمين + الـ matching rows من الشمال",
+                  },
+                  {
+                    name: "FULL OUTER JOIN",
+                    color: "var(--pink)",
+                    desc: "كل rows الاتنين مع بعض، اللي مش متطابق بيبقى NULL",
+                  },
+                  {
+                    name: "CROSS JOIN",
+                    color: "var(--orange)",
+                    desc: "كل combination ممكنة = الجدول الأول × الجدول التاني",
+                  },
+                ].map((j) => (
+                  <div
+                    key={j.name}
+                    className="constraint-card"
+                    style={{ borderTopColor: j.color }}
+                  >
+                    <h4 style={{ color: j.color }}>{j.name}</h4>
+                    <p>{j.desc}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="note-box">
+                📐 <strong>قاعدة:</strong> عشان تجمع n جداول، محتاج n-1 شرط JOIN
+                على الأقل.
+              </div>
+            </div>
+
+            <div className="topic-card" id="join-viz">
+              <div className="topic-title">
+                <span className="icon">⚡</span> Interactive JOIN Visualizer
+              </div>
+              <div className="topic-body">
+                اضغط على نوع الـ JOIN وشوف الفرق في النتيجة:
+              </div>
+              <JoinVisualizer />
+            </div>
+
+            <div className="topic-card" id="inner-join">
+              <div className="topic-title">
+                <span className="icon">🎯</span> INNER JOIN - بالتفصيل
+              </div>
+              <SQLBlock
+                title="INNER JOIN - 4 طرق صح"
+                code={`-- طريقة 1: INNER JOIN keyword\nSELECT S.SSN, S.Name, R.CrsCode\nFROM Student S INNER JOIN Registered R\nON S.SSN = R.SSN;\n\n-- طريقة 2: الطريقة القديمة\nSELECT S.SSN, S.Name, CrsCode\nFROM Student S, Registered R\nWHERE S.SSN = R.SSN;`}
+              />
+              <DataTable
+                headers={["SSN", "Name", "CrsCode"]}
+                rows={innerJoinResult}
+                title={`✅ نتيجة INNER JOIN (${innerJoinResult.length} rows) - الطلاب المسجلين فقط`}
+                resultRows={innerJoinResult.map((_, i) => i)}
+              />
+              <div className="warn-box">
+                ⚠️ الطلاب 102,103,104,107,108,110 مش ظاهرين لأنهم مش مسجلين في
+                أي course!
+              </div>
+            </div>
+
+            <div className="topic-card" id="left-join">
+              <div className="topic-title">
+                <span className="icon">⬅️</span> LEFT OUTER JOIN
+              </div>
+              <SQLBlock
+                title="LEFT JOIN"
+                code={`-- كل الطلاب حتى اللي مش مسجلين\nSELECT Student.SSN, Student.Name, CrsCode\nFROM Student LEFT OUTER JOIN Registered\nON Student.SSN = Registered.SSN;`}
+              />
+              <DataTable
+                headers={["SSN", "Name", "CrsCode"]}
+                rows={leftJoinResult.map((r) =>
+                  r.map((v) => (v === null ? "NULL" : v)),
+                )}
+                title={`✅ نتيجة LEFT JOIN (${leftJoinResult.length} rows)`}
+              />
+            </div>
+
+            <div className="topic-card" id="right-join">
+              <div className="topic-title">
+                <span className="icon">➡️</span> RIGHT OUTER JOIN
+              </div>
+              <SQLBlock
+                title="RIGHT JOIN"
+                code={`-- كل الـ Courses حتى اللي محدش سجل فيها\nSELECT course.CrsCode, course.Name, registered.SSN\nFROM registered RIGHT OUTER JOIN course\nON registered.CrsCode = course.CrsCode;`}
+              />
+              <DataTable
+                headers={["SSN", "CrsCode", "CourseName"]}
+                rows={rightJoinResult.map((r) =>
+                  r.map((v) => (v === null ? "NULL" : v)),
+                )}
+                title="✅ نتيجة RIGHT JOIN - كل الـ Courses ظاهرين"
+              />
+            </div>
+
+            <div className="topic-card" id="cross-join">
+              <div className="topic-title">
+                <span className="icon">✖️</span> CROSS JOIN - الضرب الكارتيزي
+              </div>
+              <SQLBlock
+                title="CROSS JOIN"
+                code={`-- كل Combination بين Students والـ Courses\nSELECT S.SSN, S.Name, C.CrsCode, C.Name\nFROM Student S CROSS JOIN Course C;\n-- 10 students × 8 courses = 80 rows!\n\n-- الطريقة القديمة (نفس النتيجة):\nSELECT S.SSN, S.Name, C.CrsCode, C.Name\nFROM Student S, Course C;\n-- مفيش ON condition!`}
+              />
+              <DataTable
+                headers={["SSN", "SName", "CrsCode", "CName"]}
+                rows={crossJoinResult}
+                title="✅ نموذج CROSS JOIN (أول 9 rows)"
+              />
+              <div className="warn-box">
+                ⚠️ CROSS JOIN على جداول كبيرة ممكن يوقف الـ Server! 1000 × 1000
+                = مليون row.
+              </div>
+            </div>
+
+            <div className="topic-card" id="operators">
+              <div className="topic-title">
+                <span className="icon">📊</span> SQL Operators Reference
+              </div>
+              <div className="constraint-grid">
+                {[
+                  { name: "=", desc: "يساوي" },
+                  { name: "<> أو !=", desc: "مش يساوي" },
+                  { name: "< >", desc: "أصغر / أكبر" },
+                  { name: "BETWEEN x AND y", desc: "بين قيمتين (شاملهم)" },
+                  { name: "LIKE", desc: "Pattern Matching بـ % و _" },
+                  { name: "IN (list)", desc: "موجود في القائمة" },
+                  { name: "IS NULL", desc: "القيمة فارغة" },
+                  { name: "IS NOT NULL", desc: "القيمة مش فارغة" },
+                  { name: "AND", desc: "الاتنين الشرطين لازم يتحققوا" },
+                  { name: "OR", desc: "واحد من الشرطين يكفي" },
+                  { name: "NOT", desc: "عكس الشرط" },
+                  { name: "EXISTS", desc: "في نتيجة في الـ Subquery؟" },
+                ].map((op) => (
+                  <div key={op.name} className="constraint-card">
+                    <h4 style={{ fontFamily: "JetBrains Mono" }}>{op.name}</h4>
+                    <p>{op.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ========== JOINS QUIZ ========== */}
+            <QuizSection
+              questions={JOINS_QUIZ}
+              sectionName="JOIN Operations"
+              color="var(--pink)"
+            />
+          </div>
+        );
+      }
+
+      /* =====================================================
+         DML3 SECTION
+      ===================================================== */
+      function DML3Section() {
+        return (
+          <div className="animate-in">
+            <div
+              className="section-hero"
+              style={{
+                background: "linear-gradient(135deg,var(--bg2),#0a1a10)",
+              }}
+            >
+              <div
+                className="section-badge"
+                style={{
+                  borderColor: "rgba(245,158,11,.4)",
+                  color: "var(--orange)",
+                }}
+              >
+                LECTURES 8-9 • DML PART 3
+              </div>
+              <h1
+                style={{
+                  background: "linear-gradient(135deg,#fff,var(--orange))",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                📊 Aggregations & Subqueries
+              </h1>
+              <p>
+                COUNT, SUM, AVG، الـ GROUP BY، الـ HAVING، وأهم حاجة: الـ
+                Subqueries والـ Set Operators!
+              </p>
+            </div>
+
+            <div className="topic-card" id="northwind-schema">
+              <div className="topic-title">
+                <span className="icon">🏛️</span> Northwind Database Schema
+              </div>
+              <div className="constraint-grid">
+                {[
+                  {
+                    name: "customers",
+                    color: "var(--violet)",
+                    cols: "CustomerID, CompanyName, ContactName, City, Country",
+                  },
+                  {
+                    name: "orders",
+                    color: "var(--cyan)",
+                    cols: "OrderID, CustomerID→, EmployeeID→, OrderDate, ShippedDate",
+                  },
+                  {
+                    name: "[Order Details]",
+                    color: "var(--green)",
+                    cols: "OrderID→, ProductID→, UnitPrice, Quantity, Discount",
+                  },
+                  {
+                    name: "products",
+                    color: "var(--orange)",
+                    cols: "ProductID, ProductName, SupplierID→, CategoryID→, UnitPrice",
+                  },
+                  {
+                    name: "employees",
+                    color: "var(--pink)",
+                    cols: "EmployeeID, LastName, FirstName, Title, City, Country",
+                  },
+                  {
+                    name: "categories",
+                    color: "var(--violet-light)",
+                    cols: "CategoryID, CategoryName, Description",
+                  },
+                  {
+                    name: "suppliers",
+                    color: "var(--red)",
+                    cols: "SupplierID, CompanyName, City, Country",
+                  },
+                  {
+                    name: "shippers",
+                    color: "var(--text2)",
+                    cols: "ShipperID, CompanyName, Phone",
+                  },
+                ].map((t) => (
+                  <div
+                    key={t.name}
+                    className="constraint-card"
+                    style={{ borderTopColor: t.color }}
+                  >
+                    <h4
+                      style={{
+                        color: t.color,
+                        fontFamily: "JetBrains Mono",
+                        fontSize: ".73rem",
+                      }}
+                    >
+                      {t.name}
+                    </h4>
+                    <p style={{ fontSize: ".68rem" }}>{t.cols}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="topic-card" id="aggregates">
+              <div className="topic-title">
+                <span className="icon">🔢</span> Aggregate Functions
+              </div>
+              <div className="constraint-grid">
+                {[
+                  {
+                    name: "COUNT(*)",
+                    color: "var(--violet)",
+                    desc: "عدد الـ rows",
+                    note: "كل أنواع البيانات",
+                  },
+                  {
+                    name: "COUNT(col)",
+                    color: "var(--violet-light)",
+                    desc: "عدد الـ rows غير NULL",
+                    note: "بتتجاهل NULL",
+                  },
+                  {
+                    name: "SUM(col)",
+                    color: "var(--cyan)",
+                    desc: "مجموع القيم",
+                    note: "أرقام بس",
+                  },
+                  {
+                    name: "AVG(col)",
+                    color: "var(--green)",
+                    desc: "المتوسط الحسابي",
+                    note: "أرقام، بتتجاهل NULL",
+                  },
+                  {
+                    name: "MIN(col)",
+                    color: "var(--orange)",
+                    desc: "أصغر قيمة",
+                    note: "كل البيانات",
+                  },
+                  {
+                    name: "MAX(col)",
+                    color: "var(--red)",
+                    desc: "أكبر قيمة",
+                    note: "كل البيانات",
+                  },
+                  {
+                    name: "VAR(col)",
+                    color: "var(--pink)",
+                    desc: "التباين Variance",
+                    note: "أرقام بس",
+                  },
+                  {
+                    name: "STDEV(col)",
+                    color: "var(--text2)",
+                    desc: "الانحراف المعياري",
+                    note: "أرقام بس",
+                  },
+                ].map((f) => (
+                  <div
+                    key={f.name}
+                    className="constraint-card"
+                    style={{ borderTopColor: f.color }}
+                  >
+                    <h4
+                      style={{ color: f.color, fontFamily: "JetBrains Mono" }}
+                    >
+                      {f.name}
+                    </h4>
+                    <p>{f.desc}</p>
+                    <div
+                      style={{
+                        fontSize: ".65rem",
+                        color: "var(--text3)",
+                        marginTop: ".25rem",
+                      }}
+                    >
+                      ⚠️ {f.note}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <SQLBlock
+                title="Aggregate Examples"
+                code={`-- عدد الـ Orders\nSELECT COUNT(*) AS TotalOrders FROM Orders;\n\n-- متوسط وأقل وأعلى سعر\nSELECT AVG(Price) AS Avg, MIN(Price) AS Min,\n       MAX(Price) AS Max, SUM(Price) AS Total\nFROM Products;`}
+              />
+            </div>
+
+            <div className="topic-card" id="group-by">
+              <div className="topic-title">
+                <span className="icon">🗂️</span> GROUP BY - التجميع
+              </div>
+              <div className="warn-box">
+                ⚠️ <strong>قاعدة ذهبية:</strong> كل column في SELECT لازم تكون
+                في GROUP BY أو جوّه Aggregate Function!
+              </div>
+              <SQLBlock
+                title="GROUP BY Examples"
+                code={`-- عدد المنتجات في كل Category\nSELECT CategoryName, COUNT(ProductID) AS Num\nFROM Products\nINNER JOIN Categories ON Products.CategoryID = Categories.CategoryID\nGROUP BY CategoryName\nORDER BY Num DESC;\n\n-- ✅ صح: Column في GROUP BY بس مش في SELECT\nSELECT CategoryName, COUNT(ProductID)\nFROM Products P, Categories C\nWHERE P.CategoryID = C.CategoryID\nGROUP BY CategoryName, ProductName;\n-- ProductName مش في SELECT بس في GROUP BY → صح!\n\n-- ❌ غلط: ProductName في SELECT بدون GROUP BY\nSELECT CategoryName, ProductName, COUNT(ProductID)\nFROM Products GROUP BY CategoryName; -- ERROR!`}
+              />
+              <div className="viz-container">
+                <div className="viz-title">
+                  ⚡ GROUP BY Interactive Visualizer
+                </div>
+                <GroupByVisualizer />
+              </div>
+            </div>
+
+            <div className="topic-card" id="having">
+              <div className="topic-title">
+                <span className="icon">🔍</span> HAVING - فلترة المجموعات
+              </div>
+              <div className="two-col">
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--cyan)" }}
+                >
+                  <h4 style={{ color: "var(--cyan)" }}>WHERE</h4>
+                  <p>بيتطبق قبل GROUP BY. بيفلتر الـ rows الفردية.</p>
+                </div>
+                <div
+                  className="constraint-card"
+                  style={{ borderTopColor: "var(--orange)" }}
+                >
+                  <h4 style={{ color: "var(--orange)" }}>HAVING</h4>
+                  <p>بيتطبق بعد GROUP BY. بيفلتر المجموعات بالكامل.</p>
+                </div>
+              </div>
+              <SQLBlock
+                title="HAVING Examples"
+                code={`-- Suppliers عندهم أكتر من 3 منتجات\nSELECT ContactName, COUNT(ProductID) AS NumProducts\nFROM Products\nINNER JOIN Suppliers ON Products.SupplierID = Suppliers.SupplierID\nGROUP BY ContactName\nHAVING COUNT(ProductID) > 3;\n\n-- WHERE قبل Group, HAVING بعده\nSELECT CategoryName, COUNT(*) AS Cnt, AVG(Price) AS AvgP\nFROM Products P, Categories C\nWHERE P.CategoryID = C.CategoryID\n  AND Price > 10           -- WHERE: قبل التجميع\nGROUP BY CategoryName\nHAVING COUNT(*) > 5;       -- HAVING: بعد التجميع`}
+              />
+            </div>
+
+            <div className="topic-card" id="subqueries">
+              <div className="topic-title">
+                <span className="icon">🪆</span> Subqueries - الاستعلامات
+                المتداخلة
+              </div>
+              <div className="viz-container">
+                <div className="viz-title">
+                  ⚡ Subquery Interactive Visualizer
+                </div>
+                <SubqueryVisualizer />
+              </div>
+              <SQLBlock
+                title="IN / NOT IN Subquery"
+                code={`-- Employees في UK بنفس Title زي Janet أو Steven\nSELECT FirstName, Title, Country\nFROM Employees\nWHERE Country = 'UK'\n  AND Title IN (\n      SELECT Title FROM Employees\n      WHERE FirstName IN ('Janet', 'Steven')\n  );\n\n-- تحذير: NOT IN مع NULL بيطلع نتائج غريبة!\n-- الحل: استخدم NOT EXISTS بدل NOT IN`}
+              />
+              <SQLBlock
+                title="EXISTS / NOT EXISTS"
+                code={`-- EXISTS: Customers لهم Orders في آخر 15 يوم\nSELECT CompanyName FROM Customers\nWHERE EXISTS (\n    SELECT OrderID FROM Orders\n    WHERE Orders.CustomerID = Customers.CustomerID\n      AND OrderDate > GETDATE() - 15\n);\n\n-- NOT EXISTS: Customers ما عملوش Orders\nSELECT CompanyName FROM Customers\nWHERE NOT EXISTS (\n    SELECT OrderID FROM Orders\n    WHERE Orders.CustomerID = Customers.CustomerID\n);`}
+              />
+            </div>
+
+            <div className="topic-card" id="set-operators">
+              <div className="topic-title">
+                <span className="icon">🔄</span> Set Operators
+              </div>
+              <div className="constraint-grid">
+                {[
+                  {
+                    name: "UNION",
+                    color: "var(--violet)",
+                    desc: "دمج نتائج query-تين بدون تكرار",
+                  },
+                  {
+                    name: "UNION ALL",
+                    color: "var(--violet-light)",
+                    desc: "دمج مع الاحتفاظ بالتكرار (أسرع!)",
+                  },
+                  {
+                    name: "INTERSECT",
+                    color: "var(--cyan)",
+                    desc: "الـ rows الموجودة في الاتنين بس",
+                  },
+                  {
+                    name: "EXCEPT",
+                    color: "var(--orange)",
+                    desc: "الـ rows من الأولى اللي مش في التانية",
+                  },
+                ].map((op) => (
+                  <div
+                    key={op.name}
+                    className="constraint-card"
+                    style={{ borderTopColor: op.color }}
+                  >
+                    <h4
+                      style={{ color: op.color, fontFamily: "JetBrains Mono" }}
+                    >
+                      {op.name}
+                    </h4>
+                    <p>{op.desc}</p>
+                  </div>
+                ))}
+              </div>
+              <SQLBlock
+                title="Set Operations Cardinality"
+                code={`-- |R|=5, |S|=10:\n-- UNION:     Min=10, Max=15\n-- UNION ALL: Min=Max=15 (دايماً)\n-- INTERSECT: Min=0,  Max=5\n-- R EXCEPT S: Min=0, Max=5\n-- S EXCEPT R: Min=5, Max=10\n\n-- قاعدة ORDER BY مع UNION:\nSELECT Name FROM Student\nUNION\nSELECT Name FROM Employee\nORDER BY Name;  -- لازم في الآخر بس!`}
+              />
+              <div className="note-box">
+                💡 <strong>NULL في IN:</strong> A IN (NULL) = A = NULL =
+                UNKNOWN. لو عايز تطابق NULL استخدم IS NULL!
+              </div>
+            </div>
+
+            <div className="topic-card" id="cte">
+              <div className="topic-title">
+                <span className="icon">📦</span> WITH Clause - CTE
+              </div>
+              <SQLBlock
+                title="WITH (CTE) Example"
+                code={`WITH CustomerOrders AS\n(\n    SELECT CustomerID,\n           COUNT(*) AS TotalOrders,\n           SUM(TotalAmount) AS TotalSpent\n    FROM Orders\n    GROUP BY CustomerID\n)\nSELECT C.CompanyName, CO.TotalOrders, CO.TotalSpent\nFROM Customers C\nINNER JOIN CustomerOrders CO\n    ON C.CustomerID = CO.CustomerID\nWHERE CO.TotalOrders > 5\nORDER BY CO.TotalSpent DESC;`}
+              />
+            </div>
+
+            <div className="topic-card" id="exec-order">
+              <div className="topic-title">
+                <span className="icon">🔄</span> SQL Execution Order - ترتيب
+                التنفيذ
+              </div>
+              <div className="topic-body">
+                <strong>مهم جداً!</strong> SQL مش بيتنفذ بالترتيب اللي بنكتبه.
+                اضغط على كل step:
+              </div>
+              <ExecutionOrderViz />
+            </div>
+
+            {/* ========== DML3 QUIZ ========== */}
+            <QuizSection
+              questions={DML3_QUIZ}
+              sectionName="DML 3 — Aggregates, Subqueries & Set Ops"
+              color="var(--orange)"
+            />
+          </div>
+        );
+      }
+
+      /* =====================================================
+         SIDEBAR ITEMS
+      ===================================================== */
+      const sidebarItems = {
+        ddl: [
+          { id: "sql-intro", icon: "💡", label: "SQL Introduction" },
+          { id: "sql-notes", icon: "📌", label: "SQL Notes" },
+          { id: "data-types", icon: "🔢", label: "Data Types" },
+          { id: "create-table", icon: "📋", label: "CREATE TABLE" },
+          { id: "constraints", icon: "🔒", label: "Constraints" },
+          { id: "alter-table", icon: "🔧", label: "ALTER TABLE" },
+          { id: "drop-table", icon: "🗑️", label: "DROP TABLE" },
+          { id: "uni-schema", icon: "🎓", label: "University Schema" },
+        ],
+        dml1: [
+          { id: "insert", icon: "➕", label: "INSERT INTO" },
+          { id: "update", icon: "✏️", label: "UPDATE" },
+          { id: "delete", icon: "🗑️", label: "DELETE" },
+          { id: "select", icon: "🔍", label: "SELECT" },
+          { id: "where", icon: "🎯", label: "WHERE & Operators" },
+        ],
+        dml2: [
+          { id: "join-types", icon: "🗺️", label: "أنواع الـ JOIN" },
+          { id: "join-viz", icon: "⚡", label: "Interactive Visualizer" },
+          { id: "inner-join", icon: "🎯", label: "INNER JOIN" },
+          { id: "left-join", icon: "⬅️", label: "LEFT JOIN" },
+          { id: "right-join", icon: "➡️", label: "RIGHT JOIN" },
+          { id: "cross-join", icon: "✖️", label: "CROSS JOIN" },
+          { id: "operators", icon: "📊", label: "Operators Ref" },
+        ],
+        dml3: [
+          { id: "northwind-schema", icon: "🏛️", label: "Northwind Schema" },
+          { id: "aggregates", icon: "🔢", label: "Aggregate Functions" },
+          { id: "group-by", icon: "🗂️", label: "GROUP BY" },
+          { id: "having", icon: "🔍", label: "HAVING" },
+          { id: "subqueries", icon: "🪆", label: "Subqueries" },
+          { id: "set-operators", icon: "🔄", label: "Set Operators" },
+          { id: "cte", icon: "📦", label: "WITH / CTE" },
+          { id: "exec-order", icon: "🔄", label: "Execution Order" },
+        ],
+      };
+
+      /* =====================================================
+         MAIN APP
+      ===================================================== */
+      function App() {
+        const [activeSection, setActiveSection] = useState("ddl");
+        const [activeItem, setActiveItem] = useState("");
+        const [sidebarOpen, setSidebarOpen] = useState(false);
+        const mainRef = useRef(null);
+
+        const scrollTo = (id) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+            setActiveItem(id);
+          }
+          setSidebarOpen(false);
+        };
+
+        useEffect(() => {
+          const obs = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((e) => {
+                if (!e.isIntersecting) return;
+                // If this is a section wrapper, update activeSection
+                if (e.target.dataset && e.target.dataset.section) {
+                  setActiveSection(e.target.dataset.section);
+                } else if (e.target.id) {
+                  // topic-card with an id -> highlight in sidebar
+                  setActiveItem(e.target.id);
+                }
+              });
+            },
+            { threshold: 0.2, rootMargin: "-60px 0px -60px 0px" },
+          );
+          document
+            .querySelectorAll(
+              ".topic-card[id], .quiz-wrapper, .section-wrapper",
+            )
+            .forEach((el) => obs.observe(el));
+          return () => obs.disconnect();
+        }, []);
+
+        const sectionContent = {
+          ddl: <DDLSection />,
+          dml1: <DML1Section />,
+          dml2: <DML2Section />,
+          dml3: <DML3Section />,
+        };
+
+        return (
+          <div className="app-layout">
+            {/* Overlay */}
+            {sidebarOpen && (
+              <div className="overlay" onClick={() => setSidebarOpen(false)} />
+            )}
+
+            {/* Sidebar */}
+            <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+              <div className="logo">
+                {"<SQL/>"}
+                <span>Database Systems Course + Quiz</span>
+              </div>
+              {sections.map((sec) => (
+                <div key={sec.id} className="nav-section">
+                  <div className="nav-section-title">
+                    {sec.icon} {sec.label}
+                  </div>
+                  {sidebarItems[sec.id]?.map((item) => (
+                    <div
+                      key={item.id}
+                      className={`nav-item ${activeItem === item.id ? "scrollspy-active" : ""}`}
+                      onClick={() => {
+                        scrollTo(item.id);
+                      }}
+                    >
+                      <span className="icon">{item.icon}</span>
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </aside>
+
+            {/* Main */}
+            <div className="main-content" ref={mainRef}>
+              {/* Topbar */}
+              <div className="topbar">
+                <button
+                  className="hamburger"
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                >
+                  ☰
+                </button>
+                <div
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: ".75rem",
+                    color: "var(--text3)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  DB Systems
+                </div>
+                {sections.map((sec) => (
+                  <button
+                    key={sec.id}
+                    className={`tab-btn ${activeSection === sec.id ? "active" : ""}`}
+                    onClick={() => {
+                      scrollTo(sec.id);
+                    }}
+                  >
+                    {sec.icon} {sec.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Mobile floating hamburger (right) */}
+              <button
+                className="mobile-hamburger"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+              >
+                ☰
+              </button>
+              {/* Content */}
+              <div className="content-area" style={{ paddingTop: "1.5rem" }}>
+                {sections.map((sec) => (
+                  <div
+                    key={sec.id}
+                    id={sec.id}
+                    className="section-wrapper"
+                    data-section={sec.id}
+                    style={{ marginBottom: "2rem" }}
+                  >
+                    {sectionContent[sec.id]}
+                  </div>
+                ))}
+              </div>
+
+              {/* Footer */}
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "2rem",
+                  borderTop: "1px solid var(--border)",
+                  color: "var(--text3)",
+                  fontSize: ".75rem",
+                  fontFamily: "JetBrains Mono",
+                }}
+              >
+                {"</>"} SQL Interactive Tutorial + Quiz • امتحانات 2023 • 2024 •
+                2025
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+
+    <!-- GLOBAL TOP NAV -->
+    <style>
+      .global-top-nav {
+        position: fixed;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 999999;
+        background: rgba(13, 18, 32, 0.75);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 100px;
+        display: flex;
+        padding: 6px;
+        gap: 4px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        animation: slideDownNav 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes slideDownNav {
+        0% {
+          transform: translateX(-50%) translateY(-100px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(-50%) translateY(0);
+          opacity: 1;
+        }
+      }
+      .global-top-nav.hidden {
+        transform: translateX(-50%) translateY(-150px);
+      }
+      .global-top-nav:hover {
+        background: rgba(13, 18, 32, 0.95);
+      }
+      .gnav-item {
+        color: #94a3b8;
+        text-decoration: none;
+        font-family: "Cairo", sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 10px 22px;
+        border-radius: 100px;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .gnav-item:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .gnav-item.active {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+      }
+      .gnav-item.active .gnav-dot {
+        background: #00d4ff;
+        box-shadow: 0 0 10px #00d4ff;
+      }
+      .gnav-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transition: all 0.3s;
+        flex-shrink: 0;
+      }
+      @media (max-width: 768px) {
+        .global-top-nav {
+          top: 8px;
+          width: calc(100% - 16px);
+          padding: 4px;
+          justify-content: space-between;
+          border-radius: 14px;
+        }
+        .gnav-item {
+          padding: 8px 10px;
+          font-size: 0.78rem;
+          flex: 1;
+          justify-content: center;
+        }
+      }
+    </style>
+    <div class="global-top-nav" id="globalTopNav">
+      <a href="Home.html" class="gnav-item active"
+        ><div class="gnav-dot"></div>
+        SQL Basics</a
+      >
+      <a href="ERD1.html" class="gnav-item"
+        ><div class="gnav-dot"></div>
+        ER &amp; Mapping</a
+      >
+      <a href="ERD2.html" class="gnav-item"
+        ><div class="gnav-dot"></div>
+        EER &amp; Norm</a
+      >
+    </div>
+    <script>
+      (function () {
+        var lastY = 0,
+          nav = document.getElementById("globalTopNav");
+        document.addEventListener(
+          "scroll",
+          function (e) {
+            if (!nav) return;
+            var t = e.target,
+              y = t.scrollTop || window.scrollY;
+            if (y === undefined) return;
+            if (y > lastY && y > 60) nav.classList.add("hidden");
+            else nav.classList.remove("hidden");
+            lastY = y;
+          },
+          true,
+        );
+      })();
+    </script>
+  </body>
+</html>

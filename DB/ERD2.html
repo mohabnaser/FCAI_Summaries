@@ -21,6 +21,26 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.75;overflow-x:hidden}
 
+.home-btn{
+  position:fixed;
+  top:18px;
+  left:18px;
+  z-index:120;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid rgba(34,211,238,.25);
+  background:rgba(8,11,20,.92);
+  color:var(--t1);
+  text-decoration:none;
+  font-family:var(--fh);
+  font-size:.82rem;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.home-btn:hover{background:rgba(34,211,238,.1);border-color:rgba(34,211,238,.45)}
+
 /* PROGRESS BAR */
 #prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--emerald));z-index:9999;transition:width .15s;width:0}
 
@@ -1705,9 +1725,9 @@ document.querySelectorAll('.topic,.cheat,.quiz-section,.option-card').forEach(el
 }
 </style>
 <div class="global-top-nav" id="globalTopNav">
-  <a href="index.html" class="gnav-item"><div class="gnav-dot"></div> SQL Basics</a>
-  <a href="pp1.html" class="gnav-item"><div class="gnav-dot"></div> ER &amp; Mapping</a>
-  <a href="pp2.html" class="gnav-item active"><div class="gnav-dot"></div> EER &amp; Norm</a>
+  <a href="Home.html" class="gnav-item"><div class="gnav-dot"></div> SQL Basics</a>
+  <a href="ERD1.html" class="gnav-item"><div class="gnav-dot"></div> ER &amp; Mapping</a>
+  <a href="ERD2.html" class="gnav-item active"><div class="gnav-dot"></div> EER &amp; Norm</a>
 </div>
 <script>
   (function() {
@@ -1729,4 +1749,6 @@ document.querySelectorAll('.topic,.cheat,.quiz-section,.option-card').forEach(el
   })();
 </script>
 </body>
+
+<a class="home-btn" href="../index.html">↩ العودة للرئيسية</a>
 </html>
