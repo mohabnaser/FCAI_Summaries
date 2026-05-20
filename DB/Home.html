@@ -1042,6 +1042,8 @@
         padding: 1.25rem;
         margin-bottom: 1rem;
         transition: border-color 0.2s;
+        direction: ltr;
+        text-align: left;
       }
       .quiz-q.q-correct-border {
         border-color: rgba(16, 185, 129, 0.5);
@@ -1095,7 +1097,7 @@
       .quiz-q-status {
         font-size: 0.7rem;
         font-weight: 700;
-        margin-right: auto;
+        margin-left: auto;
         white-space: nowrap;
       }
       .q-status-correct {
@@ -1133,6 +1135,17 @@
         line-height: 1.6;
       }
 
+      .quiz-inline-code {
+        font-family: "JetBrains Mono", monospace;
+        background: rgba(8, 11, 20, 0.6);
+        border: 1px solid var(--border);
+        padding: 0.15rem 0.35rem;
+        border-radius: 4px;
+        color: var(--cyan-light);
+        font-size: 0.8rem;
+        word-break: break-word;
+      }
+
       /* QUIZ OPTIONS */
       .quiz-q-options {
         display: flex;
@@ -1149,7 +1162,7 @@
         cursor: pointer;
         transition: all 0.15s;
         background: transparent;
-        text-align: right;
+        text-align: left;
       }
       .quiz-opt:hover:not(.quiz-opt-disabled) {
         border-color: var(--violet);
@@ -1232,6 +1245,8 @@
         animation: fadeIn 0.35s ease;
         display: flex;
         gap: 0.75rem;
+        direction: rtl;
+        text-align: right;
       }
       .quiz-explanation.exp-correct {
         background: rgba(16, 185, 129, 0.1);
@@ -1475,6 +1490,44 @@
     <div id="root"></div>
     <script type="text/babel">
       const { useState, useEffect, useRef } = React;
+
+      /* ===== MARKDOWN CODE BLOCK PARSER ===== */
+      function formatTextWithCode(text) {
+        if (!text) return null;
+        const parts = text.split(/(```[\s\S]*?```|`[^`\n]+`)/g);
+        return parts.map((part, index) => {
+          if (part.startsWith("```") && part.endsWith("```")) {
+            let code = part.slice(3, -3);
+            const firstLineBreak = code.indexOf("\n");
+            if (firstLineBreak !== -1) {
+              const firstLine = code.substring(0, firstLineBreak).trim();
+              if (["sql", "javascript", "js", "css", "html"].includes(firstLine.toLowerCase())) {
+                code = code.substring(firstLineBreak + 1);
+              }
+            }
+            return (
+              <pre key={index} className="quiz-q-code">
+                <code>{code.trim()}</code>
+              </pre>
+            );
+          } else if (part.startsWith("`") && part.endsWith("`")) {
+            const code = part.slice(1, -1);
+            return (
+              <code key={index} className="quiz-inline-code">
+                {code}
+              </code>
+            );
+          } else {
+            const subparts = part.split("\n");
+            return subparts.map((subpart, subidx) => (
+              <React.Fragment key={`${index}-${subidx}`}>
+                {subpart}
+                {subidx < subparts.length - 1 && <br />}
+              </React.Fragment>
+            ));
+          }
+        });
+      }
 
       /* ===== HTML ESCAPE ===== */
       function escHtml(s) {
@@ -2319,10 +2372,10 @@
           year: "2023 & 2024",
           tag: "Constraints",
           text: "Which of the following is NOT a Constraint in SQL?",
-          options: ["PRIMARY KEY", "CHECK", "NOT NULL", "UNION"],
+          options: ["`PRIMARY KEY`", "`CHECK`", "`NOT NULL`", "`UNION`"],
           correct: 3,
           explanation:
-            "✓ الإجابة: UNION\n\nالـ UNION هو Set Operator بيدمج نتائج Queries، مش Constraint!\n\nالـ SQL Constraints الحقيقية:\n• PRIMARY KEY • FOREIGN KEY\n• UNIQUE • CHECK\n• NOT NULL • DEFAULT",
+            "✓ الإجابة: `UNION`\n\nالـ `UNION` هو `Set Operator` بيدمج نتائج Queries، مش `Constraint`!\n\nالـ SQL Constraints الحقيقية:\n• `PRIMARY KEY` • `FOREIGN KEY`\n• `UNIQUE` • `CHECK`\n• `NOT NULL` • `DEFAULT`",
         },
         {
           id: "d2",
@@ -2332,7 +2385,7 @@
           options: ["True ✓", "False ✗"],
           correct: 0,
           explanation:
-            "✓ صح! كل جدول عنده Primary Key واحد بس (ممكن يكون Composite).\n\nلكن ممكن يكون عنده عدة Foreign Keys بتشير لجداول مختلفة:\nمثال: Student له FK للـ Department وFK للـ Advisor",
+            "✓ صح! كل جدول عنده `Primary Key` واحد بس (ممكن يكون `Composite PK`).\n\nلكن ممكن يكون عنده عدة `Foreign Keys` بتشير لجداول مختلفة:\nمثال: جدول `Student` له `FK` للـ `Department` و `FK` للـ `Advisor`",
         },
         {
           id: "d3",
@@ -2347,7 +2400,7 @@
           ],
           correct: 0,
           explanation:
-            "✓ كل جدول عنده Primary Key واحد بس.\n\nممكن يكون Composite PK (يتكون من أكتر من column) لكن يعتبر PK واحد كـ concept.\n\nالجدول ممكن يبقى عنده عدة Candidate Keys، بس نختار واحدة منهم تبقى Primary Key.",
+            "✓ كل جدول عنده `Primary Key` واحد بس.\n\nممكن يكون `Composite PK` (يتكون من أكتر من column) لكن يعتبر `PK` واحد كـ concept.\n\nالجدول ممكن يبقى عنده عدة `Candidate Keys`، بس نختار واحدة منهم تبقى `Primary Key`.",
         },
         {
           id: "d4",
@@ -2362,13 +2415,13 @@
           ],
           correct: 3,
           explanation:
-            "✓ All of the above!\n\n• Table names → unique في الـ Schema\n• Column names → unique في الجدول نفسه\n• Constraint names → unique على مستوى الـ Database كلها\n\nتذكر: Constraint Name لازم يكون Globally Unique في الـ DB!",
+            "✓ All of the above!\n\n• Table names → unique في الـ `Schema`\n• Column names → unique في الجدول نفسه\n• Constraint names → unique على مستوى الـ `Database` كلها\n\nتذكر: `Constraint Name` لازم يكون Globally Unique في الـ `DB`!",
         },
         {
           id: "d5",
           year: "2023 & 2025",
           tag: "Degree & Cardinality",
-          text: "In the following table:\n[ST-ID | Name | National-ID | Address | Major | GPA]\nWith 4 data rows — which statement is correct?",
+          text: "In the following table:\n```sql\n[ST-ID | Name | National-ID | Address | Major | GPA]\n```\nWith 4 data rows — which statement is correct?",
           options: [
             "The degree is 6",
             "The cardinality is 6",
@@ -2377,7 +2430,7 @@
           ],
           correct: 0,
           explanation:
-            "✓ The degree is 6\n\n• Degree = عدد الـ Columns (الصفات) = 6\n• Cardinality = عدد الـ Rows (الـ Tuples) = 4\n\nالـ Degree هو 6 (صح) والـ Cardinality هو 4 (مش موجود كإجابة صحيحة في الخيارات).",
+            "✓ The degree is 6\n\n• `Degree` = عدد الـ Columns (الصفات) = 6\n• `Cardinality` = عدد الـ Rows (الـ Tuples) = 4\n\nالـ `Degree` هو 6 (صح) والـ `Cardinality` هو 4 (مش موجود كإجابة صحيحة في الخيارات).",
         },
         {
           id: "d6",
@@ -2400,15 +2453,15 @@
           tag: "UNIQUE Constraint",
           text: "A UNIQUE constraint allows NULL values to be repeated (multiple NULLs are allowed in the same column).",
           options: ["True ✓", "False ✗"],
-          correct: 1,
+          correct: 0,
           explanation:
-            '✗ غلط!\n\nDr. Ali: "Unique Constraints doesn\'t accept repeated nulls"\n\nفي SQL Server، الـ UNIQUE Constraint بيقبل NULL واحدة بس في الـ Column. التكرار مش مسموح حتى للـ NULL values.',
+            "✓ صح!\n\nحسب معيار الـ SQL القياسي (`Standard ANSI SQL`)، فإن الـ `UNIQUE` constraint يسمح بتكرار قيم الـ `NULL` لأن `NULL` لا تتساوى مع `NULL` أخرى (`NULL <> NULL`).\n\n(ملاحظة: في SQL Server فقط يتم السماح بـ `NULL` واحدة بسبب تفضيل التصميم هناك، ولكن في قواعد البيانات الأخرى مثل Oracle و PostgreSQL ومعيار الـ Standard SQL، التكرار مسموح تماماً والعبارة تعتبر صحيحة علمياً).",
         },
         {
           id: "d8",
           year: "2024 & 2025",
           tag: "Composite PK Order",
-          text: "If a table has a composite primary key (X, Y), creating it as PRIMARY KEY(X, Y) vs PRIMARY KEY(Y, X) should produce the same result.",
+          text: "If a table has a composite primary key (X, Y), creating it as `PRIMARY KEY(X, Y)` vs `PRIMARY KEY(Y, X)` should produce the same result.",
           options: ["True ✓", "False ✗"],
           correct: 1,
           explanation:
@@ -2420,9 +2473,9 @@
           tag: "UNIQUE & NULL",
           text: "Unique constraints do NOT check against NULL values, so NULL values are allowed to be repeated (multiple NULLs in one column).",
           options: ["True ✓", "False ✗"],
-          correct: 1,
+          correct: 0,
           explanation:
-            "✗ غلط!\n\nالـ UNIQUE Constraint في SQL Server بترفض الـ NULL المكررة.\nممكن يبقى في NULL واحدة بس في الـ Column اللي عليها UNIQUE.\n\nيعني لو عندك Column UNIQUE وحطيت NULL → OK\nلكن لو حاولت تحط NULL تاني → Error!",
+            "✓ صح!\n\nالـ `UNIQUE` constraint لا ينطبق على قيم الـ `NULL` لأنها قيم غير محددة (Absent Data)، وبالتالي لا يتم التحقق من تكرار قيم `NULL` ويُسمح بتعددها في العمود المطبق عليه القيد طبقاً للمواصفات القياسية للغة SQL.",
         },
         {
           id: "d10",
@@ -2430,14 +2483,14 @@
           tag: "ALTER TABLE Syntax",
           text: "To alter table T and add a new NOT NULL integer column X, which DDL statement is correct for SQL Server?",
           options: [
-            "ALTER TABLE T ADD COLUMN X int NOT NULL",
-            "ALTER TABLE T ADD X int NOT NULL",
-            "ALTER TABLE T ADD COLUMN X int",
-            "ALTER TABLE T ADD X int",
+            "`ALTER TABLE T ADD COLUMN X int NOT NULL`",
+            "`ALTER TABLE T ADD X int NOT NULL`",
+            "`ALTER TABLE T ADD COLUMN X int`",
+            "`ALTER TABLE T ADD X int`",
           ],
           correct: 1,
           explanation:
-            "✓ الإجابة: ALTER TABLE T ADD X int NOT NULL\n\nفي SQL Server، الـ Syntax الصح:\nALTER TABLE T ADD ColumnName DataType [Constraints]\n\nبدون كلمة COLUMN. الخيار A غلط لأن SQL Server ما بيستخدمش COLUMN في ADD.\nالخيار C و D غلط لأنهم ما بيحطوش NOT NULL.",
+            "✓ الإجابة: `ALTER TABLE T ADD X int NOT NULL`\n\nفي SQL Server، الـ Syntax الصح:\n```sql\nALTER TABLE T ADD ColumnName DataType [Constraints]\n```\nبدون كلمة `COLUMN`. الخيار A غلط لأن SQL Server ما بيستخدمش `COLUMN` في `ADD`.\nالخيار C و D غلط لأنهم ما بيحطوش `NOT NULL`.",
         },
         {
           id: "d11",
@@ -2447,7 +2500,7 @@
           options: ["True ✓", "False ✗"],
           correct: 1,
           explanation:
-            "✗ غلط!\n\nبـ Default:\n✓ Nullable → صح (ممكن تبقى NULL)\n✗ Unique → غلط (مش Unique بـ default)\n\nالـ UNIQUE Constraint لازم تتحدد بشكل صريح:\nCREATE TABLE T (Name VARCHAR(50) UNIQUE)",
+            "✗ غلط!\n\nبالـ Default:\n✓ `Nullable` → صح (ممكن تبقى `NULL`)\n✗ `Unique` → غلط (مش `Unique` بـ default)\n\nالـ `UNIQUE` Constraint لازم تتحدد بشكل صريح:\n```sql\nCREATE TABLE T (Name VARCHAR(50) UNIQUE)\n```",
         },
         {
           id: "d12",
@@ -2455,14 +2508,14 @@
           tag: "DDL vs DML",
           text: "In which of the following cases is a DML (Data Manipulation Language) statement NOT executed?",
           options: [
-            "When existing rows are modified (UPDATE)",
-            "When a table is dropped (DELETE)",
-            "When some rows are deleted (DELETE rows)",
+            "When existing rows are modified (`UPDATE`)",
+            "When a table is dropped (`DROP`)",
+            "When some rows are deleted (`DELETE` rows)",
             "None of the above — all are DML",
           ],
           correct: 1,
           explanation:
-            "✓ When a table is dropped!\n\nDROP TABLE هو عملية DDL مش DML!\n\n• DML = INSERT, UPDATE, DELETE (rows) ← تعمل على البيانات\n• DDL = CREATE, ALTER, DROP ← تعمل على الـ Structure\n\nالـ DROP TABLE بيحذف الجدول نفسه وده DDL مش DML.",
+            "✓ `When a table is dropped!`\n\n`DROP TABLE` هو عملية DDL مش DML!\n\n• `DML` = `INSERT`, `UPDATE`, `DELETE` (rows) ← تعمل على البيانات\n• `DDL` = `CREATE`, `ALTER`, `DROP` ← تعمل على الـ Structure\n\nالـ `DROP TABLE` بيحذف الجدول نفسه وده DDL مش DML.",
         },
       ];
 
@@ -2472,22 +2525,22 @@
           id: "m1",
           year: "2023 & 2024",
           tag: "IS NULL Operator",
-          text: "In relational databases, which SQL operator correctly tests an attribute's value for the absence of data (NULL)?",
+          text: "In relational databases, which SQL operator correctly tests an attribute's value for the absence of data (`NULL`)?",
           options: [
             "NOT operator",
             "NOT EXISTS operator",
-            "IS NULL operator",
+            "`IS NULL` operator",
             "None of the above",
           ],
           correct: 2,
           explanation:
-            "✓ IS NULL هو الـ Operator الصح!\n\n❌ WHERE column = NULL → دايماً غلط (بيرجع UNKNOWN)\n✅ WHERE column IS NULL → الصح\n✅ WHERE column IS NOT NULL → للتحقق من وجود قيمة\n\nملاحظة: NULL = NULL بيرجع UNKNOWN مش TRUE في SQL!",
+            "✓ `IS NULL` هو الـ Operator الصح!\n\n❌ `WHERE column = NULL` → دايماً غلط (بيرجع `UNKNOWN`)\n✅ `WHERE column IS NULL` → الصح\n✅ `WHERE column IS NOT NULL` → للتحقق من وجود قيمة\n\nملاحظة: `NULL = NULL` بيرجع `UNKNOWN` مش `TRUE` في SQL!",
         },
         {
           id: "m2",
           year: "2024",
           tag: "SQL Alias",
-          text: "Which of the following is TRUE about SQL Aliases (AS keyword)?",
+          text: "Which of the following is TRUE about SQL Aliases (`AS` keyword)?",
           options: [
             "Used to define a search/filter condition",
             "Can be used with the JOIN clause only",
@@ -2496,7 +2549,7 @@
           ],
           correct: 3,
           explanation:
-            "✓ Dr. Ali Answer: D (B & C)\n\nالـ SQL Alias يقدر:\n✓ يستخدم مع JOIN: FROM Student S (S هو alias)\n✓ يغير اسم Column في الـ Output: SELECT Name AS StudentName\n✓ يدي اسم لـ Derived Column: SELECT Age*12 AS AgeInMonths\n\nلكن ❌ مش بيستخدم لتعريف شروط البحث (دي مهمة WHERE)",
+            "✓ Dr. Ali Answer: D (B & C)\n\nالـ `SQL Alias` يقدر:\n✓ يستخدم مع `JOIN`: `FROM Student S` (`S` هو alias)\n✓ يغير اسم Column في الـ Output: `SELECT Name AS StudentName`\n✓ يدي اسم لـ `Derived Column`: `SELECT Age*12 AS AgeInMonths`\n\nلكن ❌ مش بيستخدم لتعريف شروط البحث (دي مهمة `WHERE`)",
         },
         {
           id: "m3",
@@ -2504,33 +2557,33 @@
           tag: "UPDATE Syntax",
           text: 'How can you correctly change "Thomas" into "Michel" in the LastName column of the Users table?',
           options: [
-            "UPDATE User SET LastName='Thomas' INTO LastName='Michel'",
-            "MODIFY Users SET LastName='Michel' WHERE LastName='Thomas'",
-            "MODIFY Users SET LastName='Thomas' INTO LastName='Michel'",
-            "UPDATE Users SET LastName='Michel' WHERE LastName='Thomas'",
+            "`UPDATE User SET LastName='Thomas' INTO LastName='Michel'`",
+            "`MODIFY Users SET LastName='Michel' WHERE LastName='Thomas'`",
+            "`MODIFY Users SET LastName='Thomas' INTO LastName='Michel'`",
+            "`UPDATE Users SET LastName='Michel' WHERE LastName='Thomas'`",
           ],
           correct: 3,
           explanation:
-            "✓ الإجابة: UPDATE Users SET LastName='Michel' WHERE LastName='Thomas'\n\nقواعد UPDATE:\n• الكلمة الصح: UPDATE (مش MODIFY)\n• اسم الجدول: Users (مش User)\n• الـ Syntax: SET Column = NewValue WHERE Condition\n\nلو نسيت WHERE → هتعدل كل الـ rows!",
+            "✓ الإجابة: `UPDATE Users SET LastName='Michel' WHERE LastName='Thomas'`\n\nقواعد `UPDATE`:\n• الكلمة الصح: `UPDATE` (مش `MODIFY`)\n• اسم الجدول: `Users` (مش `User`)\n• الـ Syntax:\n```sql\nSET Column = NewValue WHERE Condition\n```\nلو نسيت `WHERE` → هتعدل كل الـ rows!",
         },
         {
           id: "m4",
           year: "2023 & 2024 & 2025",
           tag: "BETWEEN Operator",
-          text: 'The SQL BETWEEN operator does NOT consider its boundaries.\nSo: "WHERE X BETWEEN 100 AND 200" is equivalent to "WHERE X > 100 AND X < 200" (exclusive boundaries).',
+          text: "The SQL `BETWEEN` operator does NOT consider its boundaries.\nSo, is the following condition:\n```sql\nWHERE X BETWEEN 100 AND 200\n```\nequivalent to:\n```sql\nWHERE X > 100 AND X < 200\n```\n(exclusive boundaries)?",
           options: [
             "True ✓ — BETWEEN is exclusive",
             "False ✗ — BETWEEN is inclusive (includes boundaries)",
           ],
           correct: 1,
           explanation:
-            "✗ غلط! الـ BETWEEN بيشمل الحدود (Inclusive):\n\nWHERE X BETWEEN 100 AND 200\n= WHERE X >= 100 AND X <= 200\n\nيعني 100 و 200 نفسهم مشمولين في النتيجة!\n\n(ظهر في امتحانات 2023 و 2024 و 2025)",
+            "✗ غلط! الـ `BETWEEN` بيشمل الحدود (Inclusive):\n\n```sql\nWHERE X BETWEEN 100 AND 200\n= WHERE X >= 100 AND X <= 200\n```\nيعني 100 و 200 نفسهم مشمولين في النتيجة!\n\n(ظهر في امتحانات 2023 و 2024 & 2025)",
         },
         {
           id: "m5",
           year: "2024 & 2025",
           tag: "LIKE Pattern",
-          text: "What is the correct interpretation of the SQL LIKE pattern: '%0%0%'?",
+          text: "What is the correct interpretation of the SQL LIKE pattern: `'%0%0%'`?",
           options: [
             "The value begins with two zeros",
             "The value ends with two zeros",
@@ -2539,43 +2592,43 @@
           ],
           correct: 3,
           explanation:
-            "✓ الإجابة: at least two zeros at any position\n\n%0%0% يعني:\n% → أي عدد حروف (حتى صفر)\n0 → صفر بالظبط\n% → أي عدد حروف\n0 → صفر تاني بالظبط\n% → أي عدد حروف\n\nأمثلة تتطابق: '105020', 'A0B0C', '00XY', 'test0data0'\nأمثلة ما تتطابقش: 'A0BC', '12345'",
+            "✓ الإجابة: `at least two zeros at any position`\n\n`%0%0%` يعني:\n`%` → أي عدد حروف (حتى صفر)\n`0` → صفر بالظبط\n`%` → أي عدد حروف\n`0` → صفر تاني بالظبط\n`%` → أي عدد حروف\n\nأمثلة تتطابق: `'105020'`, `'A0B0C'`, `'00XY'`, `'test0data0'`\nأمثلة ما تتطابقش: `'A0BC'`, `'12345'`",
         },
         {
           id: "m6",
           year: "2024",
           tag: "DELETE Syntax",
-          text: 'To delete rows from database table T, we can use either "DELETE FROM T" or "DELETE T" commands — both are valid in SQL Server.',
+          text: "To delete rows from database table T, we can use either `DELETE FROM T` or `DELETE T` commands — both are valid in SQL Server.",
           options: [
             "True ✓ — both forms are valid in SQL Server",
             "False ✗ — only DELETE FROM T is valid",
           ],
           correct: 0,
           explanation:
-            "✓ Dr. Ali Answer: True!\n\nفي SQL Server، الـ FROM keyword اختيارية في الـ DELETE statement:\n\nDELETE FROM Student WHERE Age < 18; ← صح ✓\nDELETE Student WHERE Age < 18; ← صح برضو ✓\n\nلكن في MySQL و PostgreSQL، FROM إجبارية.",
+            "✓ Dr. Ali Answer: True!\n\nفي SQL Server، الـ `FROM` keyword اختيارية في الـ `DELETE` statement:\n\n```sql\nDELETE FROM Student WHERE Age < 18; -- صح ✓\nDELETE Student WHERE Age < 18;      -- صح برضو ✓\n```\nلكن في MySQL و PostgreSQL، الـ `FROM` إجبارية.",
         },
         {
           id: "m7",
           year: "2024",
           tag: "INSERT Multiple Rows",
-          text: "We can insert multiple rows at one time using a single DML INSERT statement.",
+          text: "We can insert multiple rows at one time using a single DML `INSERT` statement.",
           options: ["True ✓", "False ✗"],
           correct: 0,
           explanation:
-            "✓ صح!\n\nممكن نعمل INSERT لأكتر من Row في statement واحدة:\n\nINSERT INTO Student (SSN, Name, City)\nVALUES\n  (201, 'Ali',   'Cairo'),\n  (202, 'Sara',  'Giza'),\n  (203, 'Mona',  'Alex');\n\nده أسرع من عمل INSERT منفصل لكل Row!",
+            "✓ صح!\n\nممكن نعمل `INSERT` لأكتر من Row في statement واحدة:\n\n```sql\nINSERT INTO Student (SSN, Name, City)\nVALUES\n  (201, 'Ali',   'Cairo'),\n  (202, 'Sara',  'Giza'),\n  (203, 'Mona',  'Alex');\n```\nده أسرع من عمل `INSERT` منفصل لكل Row!",
         },
         {
           id: "m8",
           year: "2025",
           tag: "UPDATE with Subquery",
-          text: 'All "IS" students need their DepartmentId updated to "IT". Will this query do the job correctly?\n\nUPDATE Student\nSET DepartmentId = (\n  SELECT DepartmentId FROM Department\n  WHERE DepartmentName = \'IT\'\n)',
+          text: 'All "IS" students need their DepartmentId updated to "IT". Will this query do the job correctly?\n\n```sql\nUPDATE Student\nSET DepartmentId = (\n  SELECT DepartmentId FROM Department\n  WHERE DepartmentName = \'IT\'\n)\n```',
           options: [
             "True ✓ — correctly updates IS students to IT",
             "False ✗ — will update ALL students to IT (no WHERE filter for IS)",
           ],
           correct: 1,
           explanation:
-            "✗ غلط!\n\nالـ Query ديه مفيش WHERE clause بتفلتر طلاب IS بس. هتعمل UPDATE لكل الطلاب!\n\nالصح:\nUPDATE Student\nSET DepartmentId = (\n  SELECT DepartmentId FROM Department\n  WHERE DepartmentName = 'IT'\n)\nWHERE DepartmentId = (\n  SELECT DepartmentId FROM Department\n  WHERE DepartmentName = 'IS'\n)",
+            "✗ غلط!\n\nالـ Query ديه مفيش `WHERE` clause بتفلتر طلاب `IS` بس. هتعمل `UPDATE` لكل الطلاب!\n\nالصح:\n```sql\nUPDATE Student\nSET DepartmentId = (\n  SELECT DepartmentId FROM Department\n  WHERE DepartmentName = \'IT\'\n)\nWHERE DepartmentId = (\n  SELECT DepartmentId FROM Department\n  WHERE DepartmentName = \'IS\'\n)\n```",
         },
       ];
 
@@ -2585,27 +2638,27 @@
           id: "j1",
           year: "2023 & 2024",
           tag: "Performance",
-          text: "It is usually better in terms of performance to use JOINs rather than Subqueries in SQL.",
+          text: "It is usually better in terms of performance to use `JOIN`s rather than `Subqueries` in SQL.",
           options: ["True ✓", "False ✗"],
           correct: 0,
           explanation:
-            "✓ Dr. Ali: True\n\nالـ JOINs في الغالب أسرع من الـ Subqueries لأن:\n• الـ Query Optimizer بيتعامل مع JOINs بشكل أكفأ\n• الـ Subqueries ممكن تتنفذ مرات كتير (Correlated Subqueries)\n• الـ JOINs بتستفيد من الـ Indexes بشكل أفضل\n\nاستخدم JOIN قبل ما تفكر في Subquery!",
+            "✓ Dr. Ali: True\n\nالـ `JOIN`s في الغالب أسرع من الـ `Subqueries` لأن:\n• الـ `Query Optimizer` بيتعامل مع `JOIN`s بشكل أكفأ\n• الـ `Subqueries` ممكن تتنفذ مرات كتير (Correlated Subqueries)\n• الـ `JOIN`s بتستفيد من الـ `Indexes` بشكل أفضل\n\nاستخدم `JOIN` قبل ما تفكر في `Subquery`!",
         },
         {
           id: "j2",
           year: "2023",
           tag: "Natural Join",
-          text: "Natural Join was created to get rid of the unnecessary duplicate attribute that appears in Equijoin results.",
+          text: "`Natural Join` was created to get rid of the unnecessary duplicate attribute that appears in `Equijoin` results.",
           options: ["True ✓", "False ✗"],
           correct: 0,
           explanation:
-            "✓ Dr. Ali: True\n\nالفرق:\n• Equijoin: بيرجع الـ Join Column مرتين (من كل جدول)\n• Natural Join: بيرجع الـ Join Column مرة واحدة بس\n\nالـ Natural Join بيعمل JOIN تلقائياً على كل الـ Columns اللي بيتشاركوا نفس الاسم ونفس الـ Domain.",
+            "✓ Dr. Ali: True\n\nالفرق:\n• `Equijoin`: بيرجع الـ Join Column مرتين (من كل جدول)\n• `Natural Join`: بيرجع الـ Join Column مرة واحدة بس\n\nالـ `Natural Join` بيعمل `JOIN` تلقائياً على كل الـ `Columns` اللي بيتشاركوا نفس الاسم ونفس الـ `Domain`.",
         },
         {
           id: "j3",
           year: "2023 & 2024 & 2025",
           tag: "Relational Algebra",
-          text: "Which of the following is NOT a UNARY relational algebra operation?",
+          text: "Which of the following is NOT a `UNARY` relational algebra operation?",
           options: [
             "Selection (σ) — Select rows",
             "Join (⋈) — Combine tables",
@@ -2614,13 +2667,13 @@
           ],
           correct: 1,
           explanation:
-            "✓ الإجابة: JOIN\n\nUnary Operations (تشتغل على جدول واحد):\n• σ Selection — بتفلتر rows\n• π Projection — بتختار columns\n• ρ Rename — بتغير أسماء\n\nBinary Operations (تشتغل على جدولين):\n• ⋈ Join — بتدمج جدولين\n• × Cross Product\n• ∪ Union, ∩ Intersection, − Difference",
+            "✓ الإجابة: `JOIN`\n\nUnary Operations (تشتغل على جدول واحد):\n• `σ` Selection — بتفلتر rows\n• `π` Projection — بتختار columns\n• `ρ` Rename — بتغير أسماء\n\nBinary Operations (تشتغل على جدولين):\n• `⋈` Join — بتدمج جدولين\n• `×` Cross Product\n• `∪` Union, `∩` Intersection, `−` Difference",
         },
         {
           id: "j4",
           year: "2023 & 2024 & 2025",
           tag: "JOIN Types",
-          text: "Which type of JOIN returns rows that do NOT have matching values in the other table?",
+          text: "Which type of `JOIN` returns rows that do NOT have matching values in the other table?",
           options: [
             "Natural Join",
             "Outer Join (LEFT / RIGHT / FULL)",
@@ -2629,23 +2682,23 @@
           ],
           correct: 1,
           explanation:
-            "✓ الإجابة: Outer Join\n\n• INNER JOIN → يرجع matching rows فقط\n• LEFT OUTER JOIN → كل rows الجدول الشمال + matching من اليمين\n• RIGHT OUTER JOIN → كل rows الجدول اليمين + matching من الشمال\n• FULL OUTER JOIN → كل rows من الاتنين\n\nاللي ما عندوش match بيبقى NULL في النتيجة!",
+            "✓ الإجابة: `Outer Join`\n\n• `INNER JOIN` ← يرجع matching rows فقط\n• `LEFT OUTER JOIN` ← كل rows الجدول الشمال + matching من اليمين\n• `RIGHT OUTER JOIN` ← كل rows الجدول اليمين + matching من الشمال\n• `FULL OUTER JOIN` ← كل rows من الجدولين\n\nاللي ما عندوش match بيبقى `NULL` في النتيجة!",
         },
         {
           id: "j5",
           year: "2023",
           tag: "Cross Product",
-          text: "If Relation R has n tuples and Relation S has m tuples, then the result of R CROSS JOIN S has n + m tuples.",
+          text: "If Relation `R` has `n` tuples and Relation `S` has `m` tuples, then the result of `R CROSS JOIN S` has `n + m` tuples.",
           options: ["True ✓", "False ✗ — result has n × m tuples"],
           correct: 1,
           explanation:
-            "✗ غلط!\n\nالـ Cross Join (Cartesian Product) بيرجع n × m tuples:\n\nمثال: R = 10 rows, S = 5 rows\n→ Cross Join = 10 × 5 = 50 rows (مش 10+5=15)\n\nSELECT * FROM R CROSS JOIN S;\n-- ده بيعمل كل combination ممكنة!",
+            "✗ غلط!\n\nالـ `Cross Join` (Cartesian Product) بيرجع `n × m` tuples:\n\nمثال: `R` = 10 rows, `S` = 5 rows\n→ `Cross Join` = `10 × 5 = 50` rows (مش 10+5=15)\n\n```sql\nSELECT * FROM R CROSS JOIN S;\n-- ده بيعمل كل combination ممكنة!\n```",
         },
         {
           id: "j6",
           year: "2023",
           tag: "Join Cardinality",
-          text: "We have T1 (50 tuples) & T2 (5 tuples). When joined using Natural Join, we NEVER got less than 5 records. This means:",
+          text: "We have `T1` (50 tuples) & `T2` (5 tuples). When joined using `Natural Join`, we NEVER got less than 5 records. This means:",
           options: [
             "The relationship is mandatory on at least one side (Total Participation on at least one side)",
             "The relationship is optional on both sides (Partial on both)",
@@ -2654,13 +2707,13 @@
           ],
           correct: 0,
           explanation:
-            "✓ Dr. Ali: (a) Mandatory on at least one side\n\nلو الـ Natural Join دايماً بيرجع ≥ 5 records:\n• يعني كل الـ 5 rows من T2 دايماً عندها match في T1\n• T2 مشاركة إجبارية (Total Participation)\n• كل record في T2 لازم يلاقي record مطابق في T1",
+            "✓ Dr. Ali: (a) Mandatory on at least one side\n\nلو الـ `Natural Join` دايماً بيرجع `≥ 5` records:\n• يعني كل الـ 5 rows من `T2` دايماً عندها match في `T1`\n• `T2` مشاركة إجبارية (Total Participation)\n• كل record في `T2` لازم يلاقي record مطابق في `T1`",
         },
         {
           id: "j7",
           year: "2023",
           tag: "Join Cardinality",
-          text: "We have T1 (50 tuples) & T2 (5 tuples). The MAXIMUM records we ever received from Natural Join was 250. This means:",
+          text: "We have `T1` (50 tuples) & `T2` (5 tuples). The MAXIMUM records we ever received from `Natural Join` was 250. This means:",
           options: [
             "The relationship is mandatory on at least one side",
             "The relationship is optional on both sides",
@@ -2669,13 +2722,13 @@
           ],
           correct: 0,
           explanation:
-            "✓ Dr. Ali: (a) Mandatory on at least one side\n\n250 = 50 × 5 = ناتج الـ Cross Join\nيعني كل row في T1 بتتطابق مع كل row في T2!\n\nده بيحصل في علاقة M:N حيث كل T1 يطابق كل T2\n→ إجبارية من الأقل جانب واحد",
+            "✓ Dr. Ali: (a) Mandatory on at least one side\n\n`250 = 50 × 5` = ناتج الـ `Cross Join`\nيعني كل row في `T1` بتتطابق مع كل row في `T2`!\n\nده بيحصل في علاقة `M:N` حيث كل `T1` يطابق كل `T2`\n→ إجبارية من الأقل جانب واحد",
         },
         {
           id: "j8",
           year: "2024",
           tag: "Join Cardinality",
-          text: "T1 and T2 each have 100 tuples. Natural Join returned 10,000 records. This means:",
+          text: "`T1` and `T2` each have 100 tuples. Natural Join returned 10,000 records. This means:",
           options: [
             "Mandatory on at least one side only",
             "Mandatory on BOTH sides (M:N total participation)",
@@ -2684,13 +2737,13 @@
           ],
           correct: 1,
           explanation:
-            "✓ Dr. Ali: (b) Mandatory on Both Sides\n\n10,000 = 100 × 100 = ناتج Cross Join\nيعني كل row في T1 بتتطابق مع كل row في T2!\n\nده بيعني:\n• M:N relationship\n• Total Participation من الجانبين\n• كل entity في كل جدول عنده match في الجدول التاني",
+            "✓ Dr. Ali: (b) Mandatory on Both Sides\n\n`10,000 = 100 × 100` = ناتج `Cross Join`\nيعني كل row في `T1` بتتطابق مع كل row في `T2`!\n\nده بيعني:\n• `M:N` relationship\n• `Total Participation` من الجانبين\n• كل entity في كل جدول عنده match في الجدول التاني",
         },
         {
           id: "j9",
           year: "2024 & 2025",
           tag: "Join Cardinality",
-          text: "T1 and T2 each have 100 tuples. When joined using Natural Join, we NEVER got less than 100 records. This means:",
+          text: "`T1` and `T2` each have 100 tuples. When joined using Natural Join, we NEVER got less than 100 records. This means:",
           options: [
             "Mandatory on at least one side (Total Participation ≥ 1 side)",
             "Mandatory on both sides",
@@ -2699,13 +2752,13 @@
           ],
           correct: 0,
           explanation:
-            "✓ Dr. Ali: (a) Mandatory on at least one side\n\nلو الـ JOIN دايماً بيرجع ≥ 100 records:\n→ كل الـ rows من أحد الجدولين على الأقل دايماً عندها match\n→ Total Participation من جانب واحد على الأقل\n→ Mandatory on at least one side",
+            "✓ Dr. Ali: (a) Mandatory on at least one side\n\nلو الـ `JOIN` دايماً بيرجع `≥ 100` records:\n→ كل الـ rows من أحد الجدولين على الأقل دايماً عندها match\n→ `Total Participation` من جانب واحد على الأقل\n→ Mandatory on at least one side",
         },
         {
           id: "j10",
           year: "2024 & 2025",
           tag: "Cross Join Equivalence",
-          text: "Query:\nSELECT S.Name, P.Name FROM Supplier S, Order O, Project P\nWHERE S.Supp# = O.Supp# AND O.Proj# = P.Proj#\nAND P.Budget > 10,000,000 OR S.City = 'New York'\n\nIf ALL suppliers are in New York, this query is equivalent to:",
+          text: "Query:\n```sql\nSELECT S.Name, P.Name FROM Supplier S, Order O, Project P\nWHERE S.Supp# = O.Supp# AND O.Proj# = P.Proj#\nAND P.Budget > 10,000,000 OR S.City = 'New York'\n```\nIf ALL suppliers are in New York, this query is equivalent to:",
           options: [
             "INNER JOIN between the three tables",
             "CROSS JOIN between the three tables",
@@ -2714,7 +2767,7 @@
           ],
           correct: 1,
           explanation:
-            "✓ Dr. Ali: Cross Join!\n\nبسبب AND/OR Precedence:\n(A AND B AND C) OR S.City='NY'\n\nلو كل الـ Suppliers في NY → S.City='NY' = TRUE دايماً\n→ (anything) OR TRUE = TRUE دايماً\n→ الـ WHERE كلها TRUE لكل الـ rows\n→ مفيش JOIN condition → Cross Join!",
+            "✓ Dr. Ali: Cross Join!\n\nبسبب `AND`/`OR` Precedence:\n```sql\n(A AND B AND C) OR S.City='NY'\n```\nلو كل الـ Suppliers في NY ← `S.City='NY' = TRUE` دايماً\n→ `(anything) OR TRUE = TRUE` دايماً\n→ الـ `WHERE` كلها `TRUE` لكل الـ rows\n→ مفيش `JOIN` condition → `Cross Join`!",
         },
         {
           id: "j11",
@@ -2729,13 +2782,13 @@
           ],
           correct: 1,
           explanation:
-            "✓ Inner Join!\n\nلو مفيش Suppliers في NY → S.City='NY' = FALSE دايماً\n→ (A AND B AND C) OR FALSE = (A AND B AND C)\n→ WHERE بتبقى: S.Supp#=O.Supp# AND O.Proj#=P.Proj# AND P.Budget>10M\n→ ده INNER JOIN بين الثلاث جداول مع شرط على الـ Budget!",
+            "✓ Inner Join!\n\nلو مفيش Suppliers في NY ← `S.City='NY' = FALSE` دايماً\n→ `(A AND B AND C) OR FALSE = (A AND B AND C)`\n→ `WHERE` بتبقى:\n```sql\nS.Supp# = O.Supp# AND O.Proj# = P.Proj# AND P.Budget > 10M\n```\n→ ده `INNER JOIN` بين الثلاث جداول مع شرط على الـ `Budget`!",
         },
         {
           id: "j12",
           year: "2025",
           tag: "Join Cardinality",
-          text: "T1 and T2 each have 100 tuples. When joined using Natural Join, we got 0 records. This means:",
+          text: "`T1` and `T2` each have 100 tuples. When joined using Natural Join, we got 0 records. This means:",
           options: [
             "Mandatory on at least one side",
             "Optional on BOTH sides (no matches at all)",
@@ -2744,13 +2797,13 @@
           ],
           correct: 1,
           explanation:
-            "✓ Optional on both sides!\n\nلو النتيجة = 0:\n→ مفيش أي row في T1 عندها match في T2\n→ المشاركة اختيارية من الجانبين (Partial Participation)\n→ ممكن يكون في entities من غير علاقة",
+            "✓ Optional on both sides!\n\nلو النتيجة = 0:\n→ مفيش أي row في `T1` عندها match في `T2`\n→ المشاركة اختيارية من الجانبين (`Partial Participation`)\n→ ممكن يكون في entities من غير علاقة",
         },
         {
           id: "j13",
           year: "2025",
           tag: "Cross Join Cardinality",
-          text: "|Employees| = 10 and |Projects| = 5.\nHow many records (Min, Max) does CROSS JOIN return?",
+          text: "`|Employees| = 10` and `|Projects| = 5`.\nHow many records (Min, Max) does `CROSS JOIN` return?",
           options: [
             "(10, 50) — varies",
             "(50, 50) — always exactly 50",
@@ -2759,7 +2812,7 @@
           ],
           correct: 1,
           explanation:
-            "✓ (50, 50) — always exactly 50!\n\nالـ Cross Join دايماً بيرجع نفس الناتج:\n10 × 5 = 50 rows\n\nمش بيعتمد على أي matching conditions.\nMin = Max = 50 دايماً.",
+            "✓ (50, 50) — always exactly 50!\n\nالـ `Cross Join` دايماً بيرجع نفس الناتج:\n`10 × 5 = 50` rows\n\nمش بيعتمد على أي matching conditions.\n`Min = Max = 50` دايماً.",
         },
       ];
 
@@ -2769,40 +2822,40 @@
           id: "a1",
           year: "2023",
           tag: "GROUP BY Validity",
-          text: "Is the following SQL query valid (will parse successfully)?\n\nSELECT X, Y, SUM(Z)\nFROM Table1\nGROUP BY X, Y, M",
+          text: "Is the following SQL query valid (will parse successfully)?\n\n```sql\nSELECT X, Y, SUM(Z)\nFROM Table1\nGROUP BY X, Y, M\n```",
           options: ["True ✓ — valid SQL, will parse", "False ✗ — syntax error"],
           correct: 0,
           explanation:
-            "✓ Dr. Ali: True — Valid SQL!\n\nالـ Query صح لأن:\n• X, Y موجودين في SELECT وفي GROUP BY ✓\n• SUM(Z) هي Aggregate Function ✓\n• M في GROUP BY بس مش في SELECT → مسموح!\n\nيمكن وجود Column في GROUP BY حتى لو مش موجود في SELECT.",
+            "✓ Dr. Ali: True — Valid SQL!\n\nالـ Query صح لأن:\n• `X`, `Y` موجودين في SELECT وفي GROUP BY ✓\n• `SUM(Z)` هي Aggregate Function ✓\n• `M` في GROUP BY بس مش في SELECT → مسموح!\n\nيمكن وجود Column في GROUP BY حتى لو مش موجود في SELECT.",
         },
         {
           id: "a2",
           year: "2023",
           tag: "Query Equivalence",
-          text: "Are these two queries EQUIVALENT?\n\nQ1: SELECT DISTINCT X, (SELECT SUM(Y) FROM T1 WHERE X=T.X) AS SumY FROM Table1 T\n\nQ2: SELECT X, SUM(Y) AS SumY FROM Table1 GROUP BY X",
+          text: "Are these two queries EQUIVALENT?\n\n```sql\n-- Q1\nSELECT DISTINCT X, (SELECT SUM(Y) FROM T1 WHERE X=T.X) AS SumY\nFROM Table1 T;\n\n-- Q2\nSELECT X, SUM(Y) AS SumY\nFROM Table1\nGROUP BY X;\n```",
           options: [
             "Equivalent ✓ — same result",
             "Not Equivalent ✗ — different results",
           ],
           correct: 0,
           explanation:
-            "✓ Dr. Ali: Equivalent!\n\nالاتنين بيرجعوا نفس النتيجة:\n• Q1 بتستخدم Correlated Subquery في SELECT مع DISTINCT\n• Q2 بتستخدم GROUP BY\n\nكلاهما بيرجع كل قيمة فريدة لـ X مع SUM(Y) بتاعها.\n\nللتحقق: Q1 EXCEPT Q2 = Φ AND Q2 EXCEPT Q1 = Φ",
+            "✓ Dr. Ali: Equivalent!\n\nالاتنين بيرجعوا نفس النتيجة:\n• Q1 بتستخدم Correlated Subquery في SELECT مع DISTINCT\n• Q2 بتستخدم GROUP BY\n\nكلاهما بيرجع كل قيمة فريدة لـ X مع SUM(Y) بتاعها.\n\nللتحقق: `(Q1 EXCEPT Q2) UNION (Q2 EXCEPT Q1)` بيرجع نتيجة فاضية (Φ)",
         },
         {
           id: "a3",
           year: "2023",
           tag: "Cross Join + FK + NOT IN",
-          text: "R has composite PK (X, Y). S uses (X, Y) as a Foreign Key. |R|=100, |S|=10.\n\nWhat is the cardinality of:\nSELECT * FROM R CROSS JOIN S\nWHERE S.X NOT IN (SELECT X FROM R)",
+          text: "R has composite PK (X, Y). S uses (X, Y) as a Foreign Key. |R|=100, |S|=10.\n\nWhat is the cardinality of the following query?\n```sql\nSELECT * FROM R CROSS JOIN S\nWHERE S.X NOT IN (SELECT X FROM R);\n```",
           options: ["1000", "100", "10", "Zero (0)"],
           correct: 3,
           explanation:
-            "✓ Dr. Ali: Zero!\n\nالمنطق:\n• S.X هو Foreign Key من R\n• يعني كل قيمة في S.X لازم موجودة في R.X\n• S.X NOT IN (SELECT X FROM R) → دايماً FALSE\n• مفيش Rows تمر من الـ WHERE\n• النتيجة = 0 rows\n\nالـ FK بيضمن Referential Integrity!",
+            "✓ Dr. Ali: Zero!\n\nالمنطق:\n• `S.X` هو Foreign Key من `R`\n• يعني كل قيمة في `S.X` لازم موجودة في `R.X`\n• `S.X NOT IN (SELECT X FROM R)` → دايماً FALSE\n• مفيش Rows تمر من الـ WHERE\n• النتيجة = 0 rows\n\nالـ FK بيضمن Referential Integrity!",
         },
         {
           id: "a4",
           year: "2023",
           tag: "Complex Query with EXCEPT",
-          text: "Same tables (R with PK(X,Y), S with FK(X,Y)). Assume Y EXCEPT X = Y (no common values between X and Y sets).\n\nWhat is the cardinality of:\nSELECT * FROM R CROSS JOIN S WHERE S.Y IN (SELECT X FROM R)",
+          text: "Same tables (R with PK(X,Y), S with FK(X,Y)). Assume `Y EXCEPT X = Y` (no common values between X and Y sets).\n\nWhat is the cardinality of the following query?\n```sql\nSELECT * FROM R CROSS JOIN S WHERE S.Y IN (SELECT X FROM R);\n```",
           options: [
             "1000 rows",
             "May fail to parse",
@@ -2811,7 +2864,7 @@
           ],
           correct: 3,
           explanation:
-            "✓ Dr. Ali: D (B & C)\n\nالمنطق:\n• الـ Query ممكن تفشل في الـ Parse لو في NULL في الـ Subquery مع IN\n• لو اتنفذت بنجاح: Y EXCEPT X = Y يعني Y ∩ X = ∅\n• يعني S.Y IN (SELECT X FROM R) → دايماً FALSE\n• النتيجة = Zero\n\nالإجابة: إما تفشل في Parse أو ترجع Zero → D",
+            "✓ Dr. Ali: D (B & C)\n\nالمنطق:\n• الـ Query ممكن تفشل في الـ Parse لو في NULL في الـ Subquery مع IN\n• لو اتنفذت بنجاح: `Y EXCEPT X = Y` يعني `Y ∩ X = ∅`\n• يعني `S.Y IN (SELECT X FROM R)` → دايماً FALSE\n• النتيجة = Zero\n\nالإجابة: إما تفشل في Parse أو ترجع Zero → D",
         },
         {
           id: "a5",
@@ -2821,7 +2874,7 @@
           options: ["True ✓", "False ✗"],
           correct: 1,
           explanation:
-            "✗ غلط! Dr. Ali: False\n\nفي UNION، الـ ORDER BY:\n✓ لازم تيجي في آخر الـ Query كلها\n✓ بتطبق على النتيجة النهائية بعد الـ UNION\n\n❌ مش ممكن:\nSELECT X FROM R ORDER BY X  ← هنا مش مسموح\nUNION\nSELECT Y FROM S ORDER BY Y  ← هنا برضو مش مسموح\n\n✅ الصح:\nSELECT X FROM R UNION SELECT Y FROM S ORDER BY X",
+            "✗ غلط! Dr. Ali: False\n\nفي `UNION`، الـ `ORDER BY`:\n✓ لازم تيجي في آخر الـ Query كلها\n✓ بتطبق على النتيجة النهائية بعد الـ `UNION`\n\n❌ مش ممكن:\n```sql\nSELECT X FROM R ORDER BY X\nUNION\nSELECT Y FROM S ORDER BY Y;\n```\n\n✅ الصح:\n```sql\nSELECT X FROM R UNION SELECT Y FROM S ORDER BY X;\n```",
         },
         {
           id: "a6",
@@ -2836,7 +2889,7 @@
           ],
           correct: 1,
           explanation:
-            "✓ Dr. Ali: (b) — Only option B is invalid!\n\n• A: COUNT(*), X,Y,Z في SELECT وX,Y,Z في GROUP BY → صح ✓\n• B: COUNT(*), X, Y في SELECT بدون GROUP BY → غلط ✗ (X,Y مش Aggregated)\n• C: COUNT(Y), X في SELECT. X في GROUP BY, Y في Aggregate → صح ✓\n\nالإجابة B فقط هي الغلطة.",
+            "✓ Dr. Ali: (b) — Only option B is invalid!\n\n• A: `SELECT COUNT(*), X, Y, Z FROM R GROUP BY X, Y, Z` → صح ✓\n• B: `SELECT COUNT(*), X, Y FROM R` → غلط ✗ (X, Y مش Aggregated)\n• C: `SELECT COUNT(Y), X FROM R GROUP BY X, Y` → صح ✓\n\nالإجابة B فقط هي الغلطة.",
         },
         {
           id: "a7",
@@ -2922,81 +2975,81 @@
           id: "a15",
           year: "2024 & 2025",
           tag: "NULL: COUNT with =",
-          text: "Table T: 15 rows total — 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T WHERE A = 2",
+          text: "Table T: 15 rows total — 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does the following query return?\n```sql\nSELECT COUNT(*) FROM T WHERE A = 2;\n```",
           options: ["0", "5", "10", "15"],
           correct: 1,
           explanation:
-            "✓ 5\n\nA = 2 بيطابق بس الـ Rows اللي A فيها = 2 بالظبط:\n• A=1 rows (5): FALSE → ما بتعدش\n• A=2 rows (5): TRUE → بتعدد ✓\n• A=NULL rows (5): UNKNOWN → ما بتعدش\n\nالنتيجة = 5",
+            "✓ 5\n\n`A = 2` بيطابق بس الـ Rows اللي A فيها = 2 بالظبط:\n• A=1 rows (5): FALSE → ما بتعدش\n• A=2 rows (5): TRUE → بتعدد ✓\n• A=NULL rows (5): UNKNOWN → ما بتعدش\n\nالنتيجة = 5",
         },
         {
           id: "a16",
           year: "2025",
           tag: "NULL: IN(NULL)",
-          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T WHERE A IN (NULL)",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does the following query return?\n```sql\nSELECT COUNT(*) FROM T WHERE A IN (NULL);\n```",
           options: ["0", "5", "10", "15"],
           correct: 0,
           explanation:
-            "✓ 0!\n\nA IN (NULL) بيتحول لـ: A = NULL\nواللي بيرجع UNKNOWN دايماً (مش TRUE)\n\nحتى الـ Rows اللي فيها A=NULL ما بتتطابقش!\nلأن NULL = NULL → UNKNOWN مش TRUE\n\nالصح: WHERE A IS NULL (مش IN NULL)",
+            "✓ 0!\n\n`A IN (NULL)` بيتحول لـ: `A = NULL` واللي بيرجع UNKNOWN دايماً (مش TRUE)\n\nحتى الـ Rows اللي فيها A=NULL ما بتتطابقش!\nلأن `NULL = NULL` → UNKNOWN مش TRUE\n\nالصح: `WHERE A IS NULL` (مش `IN (NULL)`)",
         },
         {
           id: "a17",
           year: "2024 & 2025",
           tag: "NULL: IS NULL",
-          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T WHERE A IS NULL",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does the following query return?\n```sql\nSELECT COUNT(*) FROM T WHERE A IS NULL;\n```",
           options: ["0", "5", "10", "15"],
           correct: 1,
           explanation:
-            "✓ 5\n\nIS NULL بيتعرف على الـ NULL values بشكل صح:\n• A=1 rows (5): FALSE\n• A=2 rows (5): FALSE\n• A=NULL rows (5): TRUE ✓\n\nالنتيجة = 5\n\nالفرق المهم:\n= NULL → دايماً UNKNOWN ❌\nIS NULL → صح ✓",
+            "✓ 5\n\n`IS NULL` بيتعرف على الـ NULL values بشكل صح:\n• A=1 rows (5): FALSE\n• A=2 rows (5): FALSE\n• A=NULL rows (5): TRUE ✓\n\nالنتيجة = 5\n\nالفرق المهم:\n• `= NULL` → دايماً UNKNOWN ❌\n• `IS NULL` → صح ✓",
         },
         {
           id: "a18",
           year: "2025",
           tag: "NULL: IN(NULL, 1)",
-          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T WHERE A IN (NULL, 1)",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does the following query return?\n```sql\nSELECT COUNT(*) FROM T WHERE A IN (NULL, 1);\n```",
           options: ["0", "5", "10", "15"],
           correct: 1,
           explanation:
-            "✓ 5\n\nA IN (NULL, 1) بيتحول لـ:\nA = NULL OR A = 1\n\n• A=NULL: (UNKNOWN OR FALSE) = UNKNOWN → لا\n• A=1: (UNKNOWN OR TRUE) = TRUE ✓\n• A=2: (UNKNOWN OR FALSE) = UNKNOWN → لا\n\nبس الـ 5 rows اللي A=1 بتعدد → النتيجة = 5",
+            "✓ 5\n\n`A IN (NULL, 1)` بيتحول لـ:\n`A = NULL OR A = 1`\n\n• A=NULL: `(UNKNOWN OR FALSE) = UNKNOWN` → لا\n• A=1: `(UNKNOWN OR TRUE) = TRUE` ✓\n• A=2: `(UNKNOWN OR FALSE) = UNKNOWN` → لا\n\nبس الـ 5 rows اللي A=1 بتعد → النتيجة = 5",
         },
         {
           id: "a19",
           year: "2025",
           tag: "EXISTS Subquery",
-          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T\nWHERE EXISTS (\n  SELECT * FROM T WHERE A IN (1)\n)",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does the following query return?\n```sql\nSELECT COUNT(*) FROM T\nWHERE EXISTS (\n  SELECT * FROM T WHERE A IN (1)\n);\n```",
           options: ["0", "5", "10", "15"],
           correct: 3,
           explanation:
-            "✓ 15!\n\nالـ Subquery: SELECT * FROM T WHERE A IN (1)\n→ بترجع 5 rows (A=1)\n\nEXISTS بيشوف هل رجعت rows؟ نعم → TRUE\n\nالـ Subquery مش Correlated (مش مرتبطة بالـ Outer):\n→ EXISTS = TRUE لكل row في الـ Outer Query\n→ كل الـ 15 rows بتعدد!\n→ النتيجة = 15",
+            "✓ 15!\n\nالـ Subquery:\n```sql\nSELECT * FROM T WHERE A IN (1)\n```\n→ بترجع 5 rows (A=1)\n\n`EXISTS` بيشوف هل رجعت rows؟ نعم → TRUE\n\nالـ Subquery مش Correlated (مش مرتبطة بالـ Outer):\n→ `EXISTS = TRUE` لكل row في الـ Outer Query\n→ كل الـ 15 rows بتعد!\n→ النتيجة = 15",
         },
         {
           id: "a20",
           year: "2025",
           tag: "EXISTS with NULL Subquery",
-          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T\nWHERE EXISTS (\n  SELECT * FROM T WHERE A IN (NULL)\n)",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does the following query return?\n```sql\nSELECT COUNT(*) FROM T\nWHERE EXISTS (\n  SELECT * FROM T WHERE A IN (NULL)\n);\n```",
           options: ["0", "5", "10", "15"],
           correct: 0,
           explanation:
-            "✓ 0!\n\nالـ Subquery: SELECT * FROM T WHERE A IN (NULL)\n→ A = NULL → UNKNOWN دايماً → 0 rows!\n\nEXISTS بيشوف هل رجعت rows؟ لا (0 rows)\n→ EXISTS = FALSE لكل row في الـ Outer Query\n→ مفيش rows بتعدد\n→ النتيجة = 0",
+            "✓ 0!\n\nالـ Subquery:\n```sql\nSELECT * FROM T WHERE A IN (NULL)\n```\n→ `A = NULL` → UNKNOWN دايماً → 0 rows!\n\n`EXISTS` بيشوف هل رجعت rows؟ لا (0 rows)\n→ `EXISTS = FALSE` لكل row في الـ Outer Query\n→ مفيش rows بتعد\n→ النتيجة = 0",
         },
         {
           id: "a21",
           year: "2025",
           tag: "NOT EXISTS with NULL",
-          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T\nWHERE NOT EXISTS (\n  SELECT * FROM T WHERE A IN (NULL)\n)",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does the following query return?\n```sql\nSELECT COUNT(*) FROM T\nWHERE NOT EXISTS (\n  SELECT * FROM T WHERE A IN (NULL)\n);\n```",
           options: ["0", "5", "10", "15"],
           correct: 3,
           explanation:
-            "✓ 15!\n\nالـ Subquery: WHERE A IN (NULL)\n→ بترجع 0 rows (كما شرحنا)\n\nEXISTS = FALSE (مرجعتش أي rows)\n→ NOT EXISTS = TRUE\n→ WHERE = TRUE لكل الـ 15 rows\n→ النتيجة = 15\n\nطريقة التذكر: NOT EXISTS(φ) = TRUE دايماً!",
+            "✓ 15!\n\nالـ Subquery: `WHERE A IN (NULL)` بترجع 0 rows (كما شرحنا).\n\n`EXISTS` = FALSE (مرجعتش أي rows) → `NOT EXISTS = TRUE`.\n→ WHERE = TRUE لكل الـ 15 rows\n→ النتيجة = 15\n\nطريقة التذكر: `NOT EXISTS(φ)` = TRUE دايماً!",
         },
         {
           id: "a22",
           year: "2024",
           tag: "NULL: = NULL",
-          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does this return?\nSELECT COUNT(*) FROM T WHERE A = NULL",
+          text: "Table T: 5 with A=1, 5 with A=2, 5 with A=NULL.\n\nWhat does the following query return?\n```sql\nSELECT COUNT(*) FROM T WHERE A = NULL;\n```",
           options: ["10", "5", "15", "Zero (0)"],
           correct: 3,
           explanation:
-            "✓ Dr. Ali: Zero!\n\n= NULL دايماً بيرجع UNKNOWN مش TRUE:\n• A=1: 1 = NULL → UNKNOWN\n• A=2: 2 = NULL → UNKNOWN\n• A=NULL: NULL = NULL → UNKNOWN (مش TRUE!)\n\nكل الـ rows بترجع UNKNOWN → مفيش rows تعدد\n→ النتيجة = 0\n\nالحل الصح: WHERE A IS NULL",
+            "✓ Dr. Ali: Zero!\n\n`= NULL` دايماً بيرجع UNKNOWN مش TRUE:\n• A=1: `1 = NULL` → UNKNOWN\n• A=2: `2 = NULL` → UNKNOWN\n• A=NULL: `NULL = NULL` → UNKNOWN (مش TRUE!)\n\nكل الـ rows بترجع UNKNOWN → مفيش rows بتعد\n→ النتيجة = 0\n\nالحل الصح: `WHERE A IS NULL`",
         },
       ];
 
@@ -3043,7 +3096,7 @@
               )}
             </div>
 
-            <div className="quiz-q-text">{question.text}</div>
+            <div className="quiz-q-text">{formatTextWithCode(question.text)}</div>
 
             <div className="quiz-q-options">
               {question.options.map((opt, j) => {
@@ -3062,7 +3115,7 @@
                     onClick={() => !submitted && onSelect(j)}
                   >
                     <span className="quiz-opt-letter">{letters[j]}</span>
-                    <span className="quiz-opt-text">{opt}</span>
+                    <span className="quiz-opt-text">{formatTextWithCode(opt)}</span>
                     {submitted && j === question.correct && (
                       <span className="quiz-opt-icon">✓</span>
                     )}
@@ -3081,7 +3134,7 @@
                 className={`quiz-explanation ${isCorrect ? "exp-correct" : isAnswered ? "exp-wrong" : "exp-skip"}`}
               >
                 <div className="exp-icon">{isCorrect ? "💡" : "📖"}</div>
-                <div className="exp-text">{question.explanation}</div>
+                <div className="exp-text">{formatTextWithCode(question.explanation)}</div>
               </div>
             )}
           </div>
