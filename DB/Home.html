@@ -2689,7 +2689,7 @@
           year: "2023",
           tag: "Cross Product",
           text: "If Relation `R` has `n` tuples and Relation `S` has `m` tuples, then the result of `R CROSS JOIN S` has `n + m` tuples.",
-          options: ["True ✓", "False ✗ — result has n × m tuples"],
+          options: ["True ✓", "False ✗"],
           correct: 1,
           explanation:
             "✗ غلط!\n\nالـ `Cross Join` (Cartesian Product) بيرجع `n × m` tuples:\n\nمثال: `R` = 10 rows, `S` = 5 rows\n→ `Cross Join` = `10 × 5 = 50` rows (مش 10+5=15)\n\n```sql\nSELECT * FROM R CROSS JOIN S;\n-- ده بيعمل كل combination ممكنة!\n```",
