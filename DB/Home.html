@@ -2623,8 +2623,8 @@
           tag: "UPDATE with Subquery",
           text: 'All "IS" students need their DepartmentId updated to "IT". Will this query do the job correctly?\n\n```sql\nUPDATE Student\nSET DepartmentId = (\n  SELECT DepartmentId FROM Department\n  WHERE DepartmentName = \'IT\'\n)\n```',
           options: [
-            "True ✓ — correctly updates IS students to IT",
-            "False ✗ — will update ALL students to IT (no WHERE filter for IS)",
+            "True ✓ ",
+            "False ✗ )",
           ],
           correct: 1,
           explanation:
