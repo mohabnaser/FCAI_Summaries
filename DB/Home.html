@@ -2654,21 +2654,7 @@
           explanation:
             "✓ Dr. Ali: True\n\nالفرق:\n• `Equijoin`: بيرجع الـ Join Column مرتين (من كل جدول)\n• `Natural Join`: بيرجع الـ Join Column مرة واحدة بس\n\nالـ `Natural Join` بيعمل `JOIN` تلقائياً على كل الـ `Columns` اللي بيتشاركوا نفس الاسم ونفس الـ `Domain`.",
         },
-        {
-          id: "j3",
-          year: "2023 & 2024 & 2025",
-          tag: "Relational Algebra",
-          text: "Which of the following is NOT a `UNARY` relational algebra operation?",
-          options: [
-            "Selection (σ) — Select rows",
-            "Join (⋈) — Combine tables",
-            "Rename (ρ) — Rename attributes",
-            "Projection (π) — Select columns",
-          ],
-          correct: 1,
-          explanation:
-            "✓ الإجابة: `JOIN`\n\nUnary Operations (تشتغل على جدول واحد):\n• `σ` Selection — بتفلتر rows\n• `π` Projection — بتختار columns\n• `ρ` Rename — بتغير أسماء\n\nBinary Operations (تشتغل على جدولين):\n• `⋈` Join — بتدمج جدولين\n• `×` Cross Product\n• `∪` Union, `∩` Intersection, `−` Difference",
-        },
+
         {
           id: "j4",
           year: "2023 & 2024 & 2025",
@@ -4013,6 +3999,78 @@
               <div className="warn-box">
                 ⚠️ CROSS JOIN على جداول كبيرة ممكن يوقف الـ Server! 1000 × 1000
                 = مليون row.
+              </div>
+            </div>
+
+            <div className="topic-card" id="natural-join">
+              <div className="topic-title">
+                <span className="icon">✱</span> NATURAL JOIN
+              </div>
+              <div className="topic-body">
+                الـ <strong>NATURAL JOIN</strong> هو نوع من الـ JOIN بيحل مشكلة الأعمدة المكررة اللي بتظهر في الـ <strong>EQUIJOIN</strong>.
+                <br /><br />
+                في الـ EQUIJOIN (اللي بنستخدم فيه <code>=</code>)، العمود اللي بنربط بيه بيظهر مرتين في النتيجة (مرة من كل جدول).
+                الـ NATURAL JOIN بيدمج الجدولين تلقائياً بناءً على كل الـ columns اللي بتشارك نفس الاسم ونفس الـ Domain، وبيخلي العمود المشترك يظهر <strong>مرة واحدة بس</strong>.
+              </div>
+            </div>
+
+            <div className="topic-card" id="join-performance">
+              <div className="topic-title">
+                <span className="icon">🚀</span> أداء الـ JOIN vs Subqueries
+              </div>
+              <div className="topic-body">
+                في الأغلب بيكون الـ <strong>JOIN</strong> أسرع وأكفأ من استخدام الـ <strong>Subqueries</strong> من ناحية الـ Performance.
+                <br /><br />
+                <strong>ليه الـ JOIN أفضل؟</strong>
+                <ul>
+                  <li>الـ <strong>Query Optimizer</strong> بيعرف يتعامل مع الـ JOINs بشكل أفضل ويختار أحسن مسار لتنفيذ الـ Query.</li>
+                  <li>الـ Subqueries (بالذات الـ Correlated) ممكن تضطر تتنفذ مرات كتير (مرة لكل row في الجدول الأساسي).</li>
+                  <li>الـ JOINs بتستفيد من الـ <strong>Indexes</strong> الموجودة على الجداول بشكل أكفأ بكتير.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="topic-card" id="join-cardinality">
+              <div className="topic-title">
+                <span className="icon">📈</span> Join Cardinality & Participation
+              </div>
+              <div className="topic-body">
+                حجم النتيجة (عدد الـ rows) اللي بتطلع من الـ JOIN ممكن يعرفنا نوع المشاركة (Participation) بين الجدولين.
+                بفرض إننا بنعمل JOIN بين جدولين <strong>T1</strong> و <strong>T2</strong>:
+              </div>
+              <div className="constraint-grid">
+                <div className="constraint-card">
+                  <h4>0 records</h4>
+                  <p>لو الـ JOIN مرجعش أي حاجة، معناه مفيش أي تطابق. دي علاقة <strong>Optional on both sides</strong>.</p>
+                </div>
+                <div className="constraint-card">
+                  <h4>&ge; حجم جدول منهم</h4>
+                  <p>لو النتيجة دايماً على الأقل بحجم جدول T2 (أو مابتقلش عنه)، ده معناه إن كل سطر في T2 لقى match. تبقى المشاركة إجبارية <strong>Mandatory on at least one side</strong> (Total Participation).</p>
+                </div>
+                <div className="constraint-card">
+                  <h4>Max Records (N &times; M)</h4>
+                  <p>لو النتيجة بتوصل لحجم الـ Cross Join (عدد T1 &times; عدد T2)، ده معناه إن كل سطر هنا طابق كل سطر هناك. دي علاقة <strong>M:N with Total Participation</strong> على الجانبين.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="topic-card" id="join-equivalence">
+              <div className="topic-title">
+                <span className="icon">🎭</span> خدع شرط الـ JOIN
+              </div>
+              <div className="topic-body">
+                أحياناً شرط <code>WHERE</code> إضافي ممكن يغيّر نوع الـ JOIN تماماً في التنفيذ!
+                <br /><br />
+                بص على الـ Query دي اللي بتدمج 3 جداول:
+                <SQLBlock
+                  title="AND / OR Precedence"
+                  code={`SELECT S.Name, P.Name \nFROM Supplier S, Order O, Project P\nWHERE S.Supp# = O.Supp# AND O.Proj# = P.Proj#\nAND P.Budget > 10000000 OR S.City = 'New York'`}
+                />
+                <ul>
+                  <li><strong>لو كل الـ Suppliers من New York:</strong> شرط <code>S.City = 'New York'</code> هيكون <code>TRUE</code> دايماً. ولأن الـ <code>OR</code> بتخلي الناتج الكلي <code>TRUE</code> لو أي طرف <code>TRUE</code>، الـ WHERE كلها هتبقى <code>TRUE</code> لكل السطور. مفيش أي فلترة هتحصل والنتيجة هتبقى <strong>CROSS JOIN</strong> بين الـ 3 جداول!</li>
+                  <br />
+                  <li><strong>لو مفيش ولا Supplier من New York:</strong> الشرط ده هيكون <code>FALSE</code> دايماً. وكأننا بنقول <code>(A AND B AND C) OR FALSE</code> اللي هي هي <code>(A AND B AND C)</code>. ساعتها الـ Query هتتنفذ كـ <strong>INNER JOIN</strong> عادي جداً مع فلترة بالـ Budget.</li>
+                </ul>
               </div>
             </div>
 
