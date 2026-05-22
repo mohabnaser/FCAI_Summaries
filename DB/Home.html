@@ -2696,21 +2696,6 @@
             "✓ Dr. Ali: (a) Mandatory on at least one side\n\nلو الـ `Natural Join` دايماً بيرجع `≥ 5` records:\n• يعني كل الـ 5 rows من `T2` دايماً عندها match في `T1`\n• `T2` مشاركة إجبارية (Total Participation)\n• كل record في `T2` لازم يلاقي record مطابق في `T1`",
         },
         {
-          id: "j7",
-          year: "2023",
-          tag: "Join Cardinality",
-          text: "We have `T1` (50 tuples) & `T2` (5 tuples). The MAXIMUM records we ever received from `Natural Join` was 250. This means:",
-          options: [
-            "The relationship is mandatory on at least one side",
-            "The relationship is optional on both sides",
-            "The relationship is M:N with total participation (mandatory both sides)",
-            "None of the above",
-          ],
-          correct: 0,
-          explanation:
-            "✓ Dr. Ali: (a) Mandatory on at least one side\n\n`250 = 50 × 5` = ناتج الـ `Cross Join`\nيعني كل row في `T1` بتتطابق مع كل row في `T2`!\n\nده بيحصل في علاقة `M:N` حيث كل `T1` يطابق كل `T2`\n→ إجبارية من الأقل جانب واحد",
-        },
-        {
           id: "j8",
           year: "2024",
           tag: "Join Cardinality",
