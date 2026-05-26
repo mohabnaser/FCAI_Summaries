@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 03 — Requirements Engineering | CS251</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  /* Page-specific tweaks */
+  .req-process{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:20px 0;position:relative}
+  .req-step{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center;border-top:3px solid var(--accent);position:relative}
+  .req-step::after{content:'→';position:absolute;right:-12px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--cyan);z-index:2}
+  .req-step:last-child::after{display:none}
+  .req-step .rs-num{font-family:var(--fc);font-size:.72rem;color:var(--accent);font-weight:600}
+  .req-step .rs-name{font-family:var(--fh);font-size:.85rem;color:var(--t1);font-weight:600;margin-top:4px}
+  .req-step.s1{--accent:var(--cyan)}
+  .req-step.s2{--accent:var(--green)}
+  .req-step.s3{--accent:var(--amber)}
+  .req-step.s4{--accent:var(--purple)}
+  .req-step.s5{--accent:var(--pink)}
+  @media(max-width:900px){.req-process{grid-template-columns:1fr;gap:14px}.req-step::after{content:'↓';right:50%;top:auto;bottom:-18px;transform:translateX(50%)}}
+
+  /* Good/Bad requirement comparison */
+  .compare-req{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  .req-bad,.req-good{padding:14px 16px;border-radius:10px;border-left:3px solid;font-family:var(--fc);font-size:.85rem;line-height:1.6}
+  .req-bad{background:rgba(239,68,68,.08);border-color:var(--red);color:#fca5a5}
+  .req-good{background:rgba(16,185,129,.08);border-color:var(--green);color:#6ee7b7}
+  .req-bad::before,.req-good::before{display:block;font-family:var(--fh);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+  .req-bad::before{content:'❌ غامض / ضعيف';color:var(--red)}
+  .req-good::before{content:'✅ واضح / قوي';color:var(--green)}
+  @media(max-width:700px){.compare-req{grid-template-columns:1fr}}
+
+  /* INVEST checklist */
+  .invest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+  .invest-tile{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+  .invest-letter{font-family:var(--fh);font-size:1.8rem;font-weight:800;color:var(--accent,var(--cyan));line-height:1}
+  .invest-word{font-family:var(--fh);font-size:.85rem;color:var(--t1);font-weight:600;margin-top:4px}
+  .invest-desc{font-size:.72rem;color:var(--t3);margin-top:4px;line-height:1.4}
+  .invest-tile:nth-child(1){--accent:var(--cyan)}
+  .invest-tile:nth-child(2){--accent:var(--green)}
+  .invest-tile:nth-child(3){--accent:var(--amber)}
+  .invest-tile:nth-child(4){--accent:var(--purple)}
+  .invest-tile:nth-child(5){--accent:var(--pink)}
+  .invest-tile:nth-child(6){--accent:var(--red)}
+  @media(max-width:700px){.invest-grid{grid-template-columns:repeat(2,1fr)}}
+
+  /* Use case mini-diagram */
+  .uc-diagram{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:24px;display:flex;align-items:center;justify-content:center;gap:30px;flex-wrap:wrap;margin:14px 0}
+  .uc-actor{display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--fh);font-size:.78rem;color:var(--cyan)}
+  .uc-actor-icon{font-size:2.2rem;color:var(--cyan)}
+  .uc-box{border:2px solid var(--cyan);border-radius:10px;padding:18px 16px;background:rgba(0,212,255,.05);min-width:200px}
+  .uc-bubble{background:var(--card2);border:1px solid var(--border);border-radius:30px;padding:7px 14px;margin:5px 0;font-size:.78rem;text-align:center;color:var(--t1);font-family:var(--fh)}
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>📋 CS251 — Lec 03</h2>
+    <p>Requirements Engineering</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">Pre-Project</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Software Product Types</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Pre-Project Activities</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Domain Analysis</a>
+
+  <div class="sb-section">RE Core</div>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>RE Process (5 stages)</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Types of Requirements</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Good Requirements</a>
+
+  <div class="sb-section">Specifying</div>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>6 Specification Methods</a>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>User Stories &amp; INVEST</a>
+  <a href="#ch9" class="sb-link"><span class="sb-dot"></span>Use Cases (Deep)</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Bank</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Rapid Revision</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main">
+
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<section class="hero">
+  <div class="hero-badge">📋 Lecture 03 · 106 slides · أهم lecture في الترم</div>
+  <h1>Requirements <span>Engineering</span></h1>
+  <p>"إذا ما تعرفش رايح فين، مفيش جهد ولا سرعة هتوصلك" — د. الرملي. هنا هنتعلم ازاي نجمع requirements من العملاء، نوثقها، ونتحقق منها. كل أسئلة User Stories و SRS و Use Cases في الامتحانات بتيجي من هنا.</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">9</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">5</div><div class="lbl">RE Stages</div></div>
+    <div class="hstat"><div class="num">6</div><div class="lbl">Spec Methods</div></div>
+    <div class="hstat"><div class="num">10</div><div class="lbl">Exam Qs</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — TYPES OF SOFTWARE PRODUCTS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>Types of Software Products</h2>
+      <p>قبل ما نجمع requirements، لازم نعرف الـ software اللي بنبنيه نوعه ايه. النوع بيحدد كل الخطوات بعد كده.</p>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">🎯</span> Custom Made</div>
+      <p>Software مخصص لـ <strong>عميل محدد</strong> — بيتبني حسب احتياجاته الفريدة.</p>
+      <p>مثال: نظام محاسبي لشركة معينة.</p>
+    </div>
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">🏢</span> B-B (Business to Business)</div>
+      <p>Product <strong>narrow</strong> بيستهدف شركات معينة (clients محددين).</p>
+      <p>مثال: Salesforce, SAP.</p>
+    </div>
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">👥</span> B-C (Business to Customer)</div>
+      <p>Product / Platform عام للجمهور العريض.</p>
+      <p>مثال: Word, Uber, Google Docs (cloud-based), WhatsApp.</p>
+    </div>
+  </div>
+
+  <div class="info">
+    <div><b>💡 ليه ده مهم؟</b>الـ Custom-made بيحتاج interviews كتيرة مع العميل. الـ B-C بيحتاج market research وsegmentation. النوع بيغير كل الخطوات بعد كده.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — PRE-PROJECT ACTIVITIES
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num green">02</div>
+    <div class="ch-title">
+      <h2>Pre-Project Activities — قبل ما نبدأ المشروع أصلاً</h2>
+      <p>4 أنشطة لازمة قبل ما نكتب أول سطر كود. كتير من المشاريع بتفشل لإنها بتتخطى الخطوات دي.</p>
+    </div>
+  </div>
+
+  <div class="req-process">
+    <div class="req-step s1"><div class="rs-num">STEP 1</div><div class="rs-name">Market / Gap Analysis</div></div>
+    <div class="req-step s2"><div class="rs-num">STEP 2</div><div class="rs-name">Market Segmentation</div></div>
+    <div class="req-step s3"><div class="rs-num">STEP 3</div><div class="rs-name">Feasibility Study</div></div>
+    <div class="req-step s4"><div class="rs-num">STEP 4</div><div class="rs-name">High-Level Biz Plan</div></div>
+    <div class="req-step s5"><div class="rs-num">STEP 5</div><div class="rs-name">→ Project Start</div></div>
+  </div>
+
+  <!-- Market Analysis -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📊</span> 1. Market / Gap Analysis</div>
+    <p><strong>Market Analysis</strong>: تشوف كيف الناس في دول تانية بتحل المشكلة دي.</p>
+    <ul>
+      <li><strong>Global Practices</strong>: مثال — تبني تطبيق دفع، بص على كينيا (M-Pesa) ومصر (Vodafone Cash).</li>
+      <li><strong>Local Practices</strong>: الـ landscape المحلي — مثلاً في مصر: mobile wallets, government initiatives.</li>
+    </ul>
+    <p><strong>Gap Analysis</strong>: بيحدد الفجوات بين <strong>الـ current state</strong> والـ <strong>desired future state</strong>.</p>
+  </div>
+
+  <!-- Segmentation -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">👥</span> 2. Market Segmentation &amp; Research</div>
+    <p>افهم مين هم العملاء الـ target:</p>
+    <ul>
+      <li><strong>Customer Segmentation</strong>: مين متأثر؟ (unbanked، أهالي، طلاب جامعة، SMEs، رِيف/مدينة).</li>
+      <li><strong>Demographics</strong>: العمر، الدخل، التعليم، عادات استخدام الـ tech.</li>
+    </ul>
+  </div>
+
+  <!-- Feasibility -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔬</span> 3. Feasibility Study — 4 جوانب</div>
+    <table class="tbl">
+      <tr><th>النوع</th><th>السؤال اللي بيجاوب عليه</th></tr>
+      <tr><td><span class="badge badge-cyan">Technical</span></td><td>هل ممكن نبنيه بالـ technology والـ tools والـ skills المتاحة؟</td></tr>
+      <tr><td><span class="badge badge-green">Economic</span></td><td>هل المشروع مربح؟ (Cost vs Revenue, ROI)</td></tr>
+      <tr><td><span class="badge badge-amber">Legal &amp; Regulatory</span></td><td>هل بيلتزم بالقوانين واللوائح؟</td></tr>
+      <tr><td><span class="badge badge-purple">Schedule</span></td><td>هل ممكن نخلصه في الوقت المتاح؟</td></tr>
+    </table>
+  </div>
+
+  <!-- Business Plan -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📝</span> 4. High-Level Business Plan — 3 أجزاء</div>
+
+    <h4 style="color:var(--cyan);font-family:var(--fh);font-size:.95rem;margin:10px 0 6px">🎯 Project Goals (لازم تكون SMART)</h4>
+    <p><strong>S</strong>pecific · <strong>M</strong>easurable · <strong>A</strong>chievable · <strong>R</strong>elevant · <strong>T</strong>ime-bound</p>
+    <div class="info"><div><b>مثال:</b> "Build a mobile budgeting app, achieve 100,000 active users in 1st year, integrate with major banks by Q3."</div></div>
+
+    <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin:14px 0 6px">💎 Value Proposition</h4>
+    <p>ايه اللي بيخليك different عن المنافسين؟</p>
+    <div class="info"><div><b>مثال:</b> "AI-powered budgeting app that predicts monthly spending, auto-saves, and gives personalized financial advice — all in one place."</div></div>
+
+    <h4 style="color:var(--amber);font-family:var(--fh);font-size:.95rem;margin:14px 0 6px">💰 Financial Outlook</h4>
+    <ul>
+      <li>Dev Costs: $150K</li>
+      <li>Ongoing: $50K/year (hosting, support, marketing)</li>
+      <li>Revenue: $5/month × 20K users = <strong>$1.2M/year</strong></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — DOMAIN ANALYSIS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>Domain Analysis — افهم المجال قبل ما تبني</h2>
+      <p>قبل ما تجمع requirements، لازم تفهم الـ <em>domain</em> اللي شغّال فيه (طب، تعليم، بنوك، إلخ).</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🌐</span> ايه الـ Domain Analysis؟</div>
+    <p>العملية اللي بيها الـ software engineer بيتعلم عن الـ domain علشان يفهم المشكلة:</p>
+    <ul>
+      <li>الـ <strong>domain</strong> = المجال العام بتاع البيزنس أو الـ tech اللي العميل هيستخدم فيه الـ software.</li>
+      <li>الـ <strong>domain expert</strong> = شخص عنده فهم عميق للـ domain.</li>
+    </ul>
+
+    <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin:14px 0 6px">✨ فوائد Domain Analysis</h4>
+    <div class="grid4">
+      <div class="cmp-card" style="--accent:var(--cyan)"><h4>⚡ Faster Dev</h4><p>تطوير أسرع.</p></div>
+      <div class="cmp-card" style="--accent:var(--green)"><h4>🎯 Better System</h4><p>نظام أحسن.</p></div>
+      <div class="cmp-card" style="--accent:var(--amber)"><h4>🚫 No Misunderstanding</h4><p>تجنب سوء الفهم.</p></div>
+      <div class="cmp-card" style="--accent:var(--purple)"><h4>🔮 Anticipate Extensions</h4><p>توقع التوسعات المستقبلية.</p></div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📄</span> Domain Analysis Document — 8 أقسام</div>
+    <table class="tbl">
+      <tr><th>القسم</th><th>المحتوى</th></tr>
+      <tr><td><strong>A. Introduction</strong></td><td>خلفية عامة + الغرض من الـ doc</td></tr>
+      <tr><td><strong>B. Glossary</strong></td><td>تعريفات للمصطلحات الخاصة بالـ domain (Open event, Fixed event, Recurrent event...)</td></tr>
+      <tr><td><strong>C. General knowledge</strong></td><td>قوانين الـ domain العامة</td></tr>
+      <tr><td><strong>D. Customers and users</strong></td><td>مين هم الـ clients (organizations) و users (staff, admins...)</td></tr>
+      <tr><td><strong>E. The environment</strong></td><td>البيئة المحيطة (HW, SW, network, regulatory)</td></tr>
+      <tr><td><strong>F. Tasks and procedures currently performed</strong></td><td>كيف بيشتغلوا دلوقتي بدون الـ software الجديد</td></tr>
+      <tr><td><strong>G. Competing software</strong></td><td>المنتجات المنافسة الموجودة</td></tr>
+      <tr><td><strong>H. Similarities to other domains</strong></td><td>أي domains تانية شبه ده ممكن نستفيد من خبرتها</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — RE PROCESS (5 STAGES)
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num purple">04</div>
+    <div class="ch-title">
+      <h2>Requirements Engineering Process — 5 مراحل</h2>
+      <p>RE = تعريف، توثيق، وصيانة الـ requirements. 5 مراحل بترتيب: <strong>Elicit → Analyze → Specify → Validate → Manage</strong>.</p>
+    </div>
+  </div>
+
+  <div class="req-process">
+    <div class="req-step s1"><div class="rs-num">S1</div><div class="rs-name">Elicitation</div></div>
+    <div class="req-step s2"><div class="rs-num">S2</div><div class="rs-name">Analysis</div></div>
+    <div class="req-step s3"><div class="rs-num">S3</div><div class="rs-name">Specification</div></div>
+    <div class="req-step s4"><div class="rs-num">S4</div><div class="rs-name">Validation</div></div>
+    <div class="req-step s5"><div class="rs-num">S5</div><div class="rs-name">Management</div></div>
+  </div>
+
+  <!-- S1: Elicitation -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🎤</span> S1: Elicitation — جمع المعلومات</div>
+    <p>أول خطوة. الـ goal: نفهم الـ needs والـ desires والـ constraints من الـ stakeholders. الـ techniques:</p>
+    <ol>
+      <li><strong>Interviews</strong> — مقابلات فردية. اسأل عن الـ details، الـ vision، الـ alternatives، مصادر المعلومات. مش كافي لوحدها.</li>
+      <li><strong>Surveys</strong> — استبيانات للوصول لعينة كبيرة.</li>
+      <li><strong>Workshops / Brainstorming</strong> — جلسات جماعية. moderator + trigger question + كل واحد يكتب إجابة ويمرر للجاي بعده.</li>
+      <li><strong>Focus Groups</strong> — مجموعات صغيرة لمناقشة عميقة.</li>
+      <li><strong>Observation of Users</strong> — تشوف الـ users بيشتغلوا في الحياة الحقيقية.</li>
+      <li><strong>Prototyping</strong> — mockups أو pictures للنظام لتوضيح الفكرة. مش بيعمل computations حقيقية، بس بيوضح الـ UI.</li>
+    </ol>
+    <div class="warn"><div><b>📌 Winter 2025 Q1.23</b>السؤال: "Which are typically parts of requirements elicitation?" الإجابة: <strong>Stakeholder surveys + Role-playing scenarios + Prototyping</strong>. <em>Creating UML diagrams ليس elicitation</em> — ده specification.</div></div>
+  </div>
+
+  <!-- S2: Analysis -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔍</span> S2: Analysis &amp; Negotiation</div>
+    <p>بعد ما جمعنا الـ requirements، نحللها ونتفاوض عليها:</p>
+    <ol>
+      <li>Identify <strong>conflicting requirements</strong>.</li>
+      <li><strong>Categorize</strong> requirements (FR, NFR, etc.).</li>
+      <li><strong>Prioritize</strong> based on importance (MoSCoW: Must, Should, Could, Won't).</li>
+      <li>Address <strong>ambiguity</strong>.</li>
+    </ol>
+  </div>
+
+  <!-- S3: Specification -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📝</span> S3: Specification / Documentation</div>
+    <p>التوثيق الرسمي. طرق ممكنة:</p>
+    <ul>
+      <li>Textual (Natural language, User Stories, Use Cases, EARS).</li>
+      <li>Models (UML diagrams).</li>
+      <li>Formal languages or logic (Z notation, pseudocode).</li>
+      <li>Prototypes / mockups (للـ UI).</li>
+    </ul>
+  </div>
+
+  <!-- S4: Validation -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">✓</span> S4: Validation</div>
+    <p>نتأكد إن الـ requirements بتطابق احتياجات الـ stakeholders الحقيقية:</p>
+    <ul>
+      <li><strong>Reviews and inspections</strong> — مراجعة من فريق خارجي ("4 eyes are better than 2").</li>
+      <li><strong>Prototyping</strong> — لإظهار الفكرة قبل التنفيذ.</li>
+      <li><strong>Simulations / walkthroughs</strong> مع الـ stakeholders.</li>
+      <li><strong>User feedback</strong>.</li>
+    </ul>
+  </div>
+
+  <!-- S5: Management -->
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">📚</span> S5: Management — مستمرة طول حياة المشروع</div>
+    <ul>
+      <li><strong>Change Management</strong>: تتبع وموافقة على التغييرات.</li>
+      <li><strong>Traceability</strong>: كل requirement بنرجعه لمصدره ولينكه بـ design elements و tests.</li>
+    </ul>
+  </div>
+
+  <!-- Challenges -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🚧</span> Challenges of RE</div>
+    <ul>
+      <li><strong>Ambiguity</strong> — متطلبات غامضة → سوء فهم.</li>
+      <li><strong>Conflicting Requirements</strong> — stakeholders عندهم احتياجات متعارضة.</li>
+      <li><strong>Incomplete Requirements</strong> — متطلبات ناقصة → gaps في الـ functionality.</li>
+      <li><strong>Changing Requirements</strong> — المتطلبات بتتغير.</li>
+      <li><strong>Communication Barriers</strong> — لغات/مصطلحات مختلفة بين stakeholders.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — TYPES OF REQUIREMENTS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num pink">05</div>
+    <div class="ch-title">
+      <h2>Types of Requirements — أنواع المتطلبات</h2>
+      <p>5 أنواع رئيسية. ركز على الفرق بين Functional و Non-functional، وأيضاً Business، Transition، Stakeholder.</p>
+    </div>
+  </div>
+
+  <!-- FR vs NFR -->
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">⚙️</span> Functional Requirements (FR)</div>
+      <p>بتحدد <strong>الـ behavior والـ functions</strong> اللي النظام يعملها.</p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">FR Examples</div></div>
+<pre><code><span class="cmt">// R1.1</span>
+The system must allow users to create
+a new account by entering email,
+username, and password.
+
+<span class="cmt">// R1.2</span>
+User must be able to log in with
+registered credentials and reset
+password via email link.
+
+<span class="cmt">// R3.2</span>
+System should calculate and display
+shipping costs and taxes before
+completing the purchase.</code></pre>
+      </div>
+    </div>
+
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">🎚️</span> Non-Functional Requirements (NFR)</div>
+      <p>بتوصف <strong>كيف</strong> النظام بيؤدي وظايفه، مش <strong>ايه</strong> اللي بيعمله.</p>
+      <table class="tbl" style="font-size:.78rem">
+        <tr><th>النوع</th><th>مثال</th></tr>
+        <tr><td><strong>Performance</strong></td><td>Speed, responsiveness</td></tr>
+        <tr><td><strong>Security</strong></td><td>Access control, encryption</td></tr>
+        <tr><td><strong>Scalability</strong></td><td>Handle 10K concurrent users</td></tr>
+        <tr><td><strong>Usability</strong></td><td>User-friendly, accessible</td></tr>
+        <tr><td><strong>Accessibility</strong></td><td>ALT text for blind users</td></tr>
+        <tr><td><strong>Compliance</strong></td><td>GDPR, HIPAA</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Other Types -->
+  <div class="grid3">
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">📈</span> Business Requirements</div>
+      <p>أهداف عالية المستوى من الـ organization. بتعبر عن الـ <em>vision</em>.</p>
+      <p><strong>مثال:</strong> "Develop mobile app to increase customer engagement by 20% in the first year."</p>
+      <p>عادةً بيكتبها <strong>product owners, sponsors, marketing</strong>.</p>
+    </div>
+
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">🔄</span> Transition Requirements</div>
+      <p>متطلبات <strong>مؤقتة</strong> خاصة بالانتقال من الـ current state للـ future state.</p>
+      <p>بتشمل: <strong>training, data conversion, reformatting, parallel system runs</strong>.</p>
+      <p>بعد التنفيذ، ما تبقاش محتاجة.</p>
+      <div class="info"><div><b>📌 Winter 2025 Q1.24</b>"All customer support staff must complete a 2-day training workshop on the new CRM system" = <strong>Transition Requirement</strong>.</div></div>
+    </div>
+
+    <div class="topic" style="--accent:var(--red)">
+      <div class="topic-title"><span class="icon">👤</span> Stakeholder Requirements</div>
+      <p>احتياجات وتوقعات وقيود الأطراف المختلفة (users, customers, sponsors, regulators).</p>
+      <p><strong>مثال:</strong> "Ambulance drivers should receive audio instructions about next case NOT on screen."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — CHARACTERISTICS OF GOOD REQUIREMENTS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num cyan blue">06</div>
+    <div class="ch-title">
+      <h2>Characteristics of Good Requirements — 5 صفات لازمة</h2>
+      <p>كل requirement لازم يحقق الـ 5 صفات دي. لو ناقص واحدة، بيبقى ضعيف.</p>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="topic" style="--accent:var(--cyan)"><div class="topic-title">📦 1. Complete</div><p>بيدي كل المعلومات اللازمة للتنفيذ والاختبار.</p></div>
+    <div class="topic" style="--accent:var(--green)"><div class="topic-title">🎯 2. Unambiguous</div><p>تفسير واحد بس، مش مفتوح لتفسيرات متعددة.</p></div>
+    <div class="topic" style="--accent:var(--amber)"><div class="topic-title">🔗 3. Consistent</div><p>ما بيتعارضش مع متطلبات تانية.</p></div>
+    <div class="topic" style="--accent:var(--purple)"><div class="topic-title">✓ 4. Verifiable</div><p>ممكن نقيس / نختبر تحققه (fully or partially).</p></div>
+    <div class="topic" style="--accent:var(--pink)"><div class="topic-title">🔍 5. Traceable</div><p>بنرجعه لمصدره ولينكه بـ design و tests.</p></div>
+  </div>
+
+  <!-- Examples -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔎</span> أمثلة Complete</div>
+    <div class="compare-req">
+      <div class="req-bad">The system should allow users to log in.</div>
+      <div class="req-good">The system should require users to enter a valid username and password. If correct → dashboard. If incorrect → error message, allow up to 3 tries before temp lock.</div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔎</span> أمثلة Unambiguous</div>
+    <div class="compare-req">
+      <div class="req-bad">The system shall show the name somewhere on the homepage.</div>
+      <div class="req-good">The system will display user's name on the <strong>top right corner</strong> of the homepage after login.</div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🔎</span> أمثلة Verifiable</div>
+    <div class="compare-req">
+      <div class="req-bad">The system should be secure.</div>
+      <div class="req-good">The system must encrypt all user passwords using <strong>AES-256</strong> before storing in the database.</div>
+    </div>
+    <div class="compare-req">
+      <div class="req-bad">The system should be fast and efficient.</div>
+      <div class="req-good">System should process <strong>1,000 transactions per second</strong> under normal operating conditions.</div>
+    </div>
+    <div class="warn"><div><b>⚠️ exam trap</b>كلمات زي "fast", "easy", "popular platforms" = <em>NOT verifiable</em>. أرقام محددة وأسماء محددة = verifiable.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🔎</span> أمثلة Consistent</div>
+    <div class="danger"><div><b>تعارض واضح:</b>
+      <br>R1: "System shall allow one-click shopping by clicking purchase button and using stored credit card."
+      <br>R2: "System should NOT store credit card details after purchase."
+      <br>الاتنين ما يقدرش يتحققوا في نفس الوقت.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🔎</span> أمثلة Traceable</div>
+    <div class="compare-req">
+      <div class="req-bad">The system shall encrypt user data.</div>
+      <div class="req-good">The system shall ensure all user data is encrypted using AES-256 to comply with GDPR (Requirement ID: <code>GDPR-001</code>).</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — 6 SPECIFICATION METHODS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num amber">07</div>
+    <div class="ch-title">
+      <h2>6 Methods for Specifying Requirements</h2>
+      <p>كل طريقة ليها استخدام مختلف. اللي بيتسأل عليه في الامتحان: User Stories, Use Cases, EARS.</p>
+    </div>
+  </div>
+
+  <table class="tbl">
+    <tr><th>Method</th><th>الخصائص</th><th>الاستخدام</th></tr>
+    <tr><td><strong>1. Natural Language</strong></td><td>بسيط لكن غامض</td><td>للنقاشات الأولية والـ general audience</td></tr>
+    <tr><td><strong>2. Formal Specs (Z, pseudocode)</strong></td><td>دقيق، machine-readable</td><td>Critical systems / formal analysis</td></tr>
+    <tr><td><strong>3. IEEE 830 SRS Template</strong></td><td>مفصل ومنظم</td><td>المشاريع الكبيرة</td></tr>
+    <tr><td><strong>4. User Stories</strong></td><td>User-centric + acceptance criteria</td><td>Agile teams, backlog</td></tr>
+    <tr><td><strong>5. Use Cases</strong></td><td>تفاعل user-system بخطوات</td><td>OO design</td></tr>
+    <tr><td><strong>6. EARS</strong></td><td>Structured natural language</td><td>متطلبات دقيقة وtestable</td></tr>
+  </table>
+
+  <!-- IEEE 830 -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📑</span> IEEE 830-1998 SRS Template</div>
+    <p>3 أقسام رئيسية:</p>
+    <ol>
+      <li><strong>Introduction</strong>: Purpose, Scope, Definitions, References, Overview</li>
+      <li><strong>Overall Description</strong>: Product Perspective, Functions, User Characteristics, Constraints, Assumptions</li>
+      <li><strong>Specific Requirements</strong>: External interfaces, FR, Performance, Design constraints, Quality, Other</li>
+    </ol>
+    <div class="info"><div><b>📌 Update</b>تم تحديث الـ standard لـ <strong>IEEE 29148-2011</strong> (ISO/IEC/IEEE 29148).</div></div>
+  </div>
+
+  <!-- EARS -->
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🎯</span> EARS Method — Easy Approach to Requirements Syntax</div>
+    <p>Structure ثابت بـ 5 كلمات: <strong>When · then · If · then · Else</strong></p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EARS example</div></div>
+<pre><code><span class="kw">When</span> a user enters their username and password,
+<span class="kw">then</span> the system checks the credentials.
+<span class="kw">If</span> the credentials are valid,
+<span class="kw">then</span> the user is granted access to the dashboard.
+<span class="kw">Else</span> the system displays an error message and allows retry.</code></pre>
+    </div>
+    <p>الـ structure: <code>When &lt;trigger&gt;, then &lt;response&gt;. If &lt;cond&gt;, then &lt;response&gt;. Else &lt;opposite&gt;</code>.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 8 — USER STORIES & INVEST
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num green">08</div>
+    <div class="ch-title">
+      <h2>User Stories &amp; INVEST Criteria ⭐</h2>
+      <p>أهم سؤال متكرر في الامتحان. لازم تعرف الـ format والـ INVEST كويس جداً.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📝</span> User Story Format</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Standard format</div></div>
+<pre><code><span class="kw">As a</span> [user role],
+<span class="kw">I want</span> [some functionality]
+<span class="kw">so that</span> [I achieve some benefit / value].</code></pre>
+    </div>
+
+    <p style="margin-top:14px"><strong>مثال:</strong></p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Example user story</div></div>
+<pre><code><span class="kw">As a</span> user,
+<span class="kw">I want</span> to log into the application
+<span class="kw">so that</span> I can access my dashboard securely.
+
+<span class="cmt">Acceptance Criteria:</span>
+1. System should accept username &amp; password.
+2. System should authenticate credentials.
+3. If valid → redirect to dashboard.
+4. If invalid → display error message.</code></pre>
+    </div>
+  </div>
+
+  <!-- INVEST -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">⭐</span> INVEST — 6 صفات اللي بتخلي user story كويس</div>
+    <div class="invest-grid">
+      <div class="invest-tile"><div class="invest-letter">I</div><div class="invest-word">Independent</div><div class="invest-desc">مستقل عن stories تانية</div></div>
+      <div class="invest-tile"><div class="invest-letter">N</div><div class="invest-word">Negotiable</div><div class="invest-desc">قابل للنقاش والتعديل</div></div>
+      <div class="invest-tile"><div class="invest-letter">V</div><div class="invest-word">Valuable</div><div class="invest-desc">يضيف قيمة للـ user</div></div>
+      <div class="invest-tile"><div class="invest-letter">E</div><div class="invest-word">Estimable</div><div class="invest-desc">سهل تقدير الجهد المطلوب</div></div>
+      <div class="invest-tile"><div class="invest-letter">S</div><div class="invest-word">Small</div><div class="invest-desc">صغير، يخلص في sprint واحد</div></div>
+      <div class="invest-tile"><div class="invest-letter">T</div><div class="invest-word">Testable</div><div class="invest-desc">عنده acceptance criteria واضحة</div></div>
+    </div>
+    <div class="warn"><div><b>⚠️ Exam trap</b>الـ doctor بيدي 3 user stories و يسأل أيهم INVEST. الـ stories اللي بتيجي من <strong>perspective عالي جداً</strong> (مدير المدرسة) ومتعريفة بشكل مفتوح زي "monitor progress" — بتفشل في <strong>S</strong> (Small) و <strong>E</strong> (Estimable).</div></div>
+  </div>
+
+  <!-- Enriched User Stories -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">💎</span> Enriched User Stories</div>
+    <p>User Story + prototype + data dictionary + textual use case + acceptance criteria — كل ده في document واحد.</p>
+    <p><strong>الميزة:</strong> Enhanced team communication — كل اللي محتاجه الـ dev team والـ stakeholders في مكان واحد.</p>
+    <p>بيشمل:</p>
+    <ul>
+      <li>Description, Focal point, Other Actors</li>
+      <li>Location (path في الـ UI), Pre/Post-conditions</li>
+      <li>Main Path table (2-column: Actor Action / System Response)</li>
+      <li>Data dictionary (Field name, Type, Validation, Business Rules)</li>
+      <li>UI Mockup</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 9 — USE CASES DEEP
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="ch-header">
+    <div class="ch-num red">09</div>
+    <div class="ch-title">
+      <h2>Use Cases — تفصيلي</h2>
+      <p>أهم Diagram في الامتحان (Question 2 في كل امتحان فيه use case modeling). 3 خطوات: Actors → Use Cases → Diagram.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📖</span> What is a Use Case?</div>
+    <ul>
+      <li>تسلسل الـ <strong>actions</strong> اللي الـ user بيعملها لإتمام مهمة معينة.</li>
+      <li>بيغطي الـ <strong>full sequence</strong> من البداية للنهاية.</li>
+      <li>بيوصف <strong>user-system interaction</strong>، مش الحسابات الداخلية.</li>
+      <li>مكتوب بشكل <strong>independent من UI design</strong>.</li>
+      <li>بس <strong>user-computer actions</strong>، مش manual أو internal.</li>
+    </ul>
+  </div>
+
+  <!-- 3 Steps -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📋</span> Step 1: Identify Actors</div>
+    <p>الـ Actor = كيان (شخص أو نظام) بيتفاعل مع الـ system. اسأل:</p>
+    <ul>
+      <li>Who uses / starts / maintains / shuts down the system?</li>
+      <li>What other systems use this system?</li>
+      <li>Who gets information from / provides information to the system?</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📋</span> Step 2: Identify Use Cases</div>
+    <p>بعد ما عرفت الـ actors، اسأل لكل واحد:</p>
+    <ul>
+      <li>What functions will the actor want?</li>
+      <li>Does the system store information? Who CRUDs it?</li>
+      <li>Does the actor need to be informed of state changes?</li>
+      <li>External events?</li>
+    </ul>
+  </div>
+
+  <!-- Mini Diagram -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📊</span> Step 3: Build the Diagram</div>
+    <p>عناصر الـ Use Case Diagram:</p>
+    <div class="uc-diagram">
+      <div class="uc-actor">
+        <div class="uc-actor-icon">🧍</div>
+        <div>Actor</div>
+      </div>
+      <div class="uc-box">
+        <div style="text-align:center;font-family:var(--fc);font-size:.7rem;color:var(--t3);margin-bottom:6px;text-transform:uppercase">System Boundary</div>
+        <div class="uc-bubble">Use Case 1</div>
+        <div class="uc-bubble">Use Case 2</div>
+      </div>
+    </div>
+    <table class="tbl" style="margin-top:14px">
+      <tr><th>العنصر</th><th>المعنى</th></tr>
+      <tr><td><strong>Actor</strong> (stick figure)</td><td>كيان خارجي بيتفاعل مع الـ system</td></tr>
+      <tr><td><strong>Use Case</strong> (oval)</td><td>وظيفة بيقدر الـ user يعملها</td></tr>
+      <tr><td><strong>System Boundary</strong> (rectangle)</td><td>حدود الـ system</td></tr>
+      <tr><td><strong>Generalization</strong> (solid arrow with open triangle)</td><td>Actor/Use case بيرث من أب</td></tr>
+      <tr><td><strong>&lt;&lt;Include&gt;&gt;</strong> (dashed arrow)</td><td>Use case <em>دايماً</em> بتستخدم use case تانية (مثل Login مع كل use case)</td></tr>
+      <tr><td><strong>&lt;&lt;Extend&gt;&gt;</strong> (dashed arrow)</td><td>Use case ممكن <em>أحياناً</em> تستخدم use case تانية (شرط معين)</td></tr>
+    </table>
+    <div class="info"><div><b>📌 Winter 2023 Q1.04</b>"Customers with bad credit history should pay an extra down payment" → الإجابة هي <strong>&lt;&lt;extend&gt;&gt; من Bad Credit Customer لـ Pay Extra Down Payment</strong>. الـ extend بيستخدم لما الحالة <em>conditional</em>.</div></div>
+  </div>
+
+  <!-- Use Case Description -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📝</span> Use Case Description — 8 عناصر</div>
+    <table class="tbl">
+      <tr><th>#</th><th>العنصر</th><th>المحتوى</th></tr>
+      <tr><td>A ⭐</td><td><strong>Name</strong></td><td>اسم قصير ووصفي</td></tr>
+      <tr><td>B</td><td><strong>Actors</strong></td><td>مين بيعمل الـ use case</td></tr>
+      <tr><td>C</td><td><strong>Goals</strong></td><td>ايه اللي الـ actor بيحاول يحققه</td></tr>
+      <tr><td>D</td><td><strong>Preconditions</strong></td><td>حالة النظام قبل الـ use case</td></tr>
+      <tr><td>E</td><td><strong>Summary</strong></td><td>وصف غير رسمي قصير</td></tr>
+      <tr><td>F</td><td><strong>Related use cases</strong></td><td>include / extend</td></tr>
+      <tr><td>G ⭐</td><td><strong>Steps</strong></td><td>2-column: Actor Actions / System Responses</td></tr>
+      <tr><td>H</td><td><strong>Postconditions</strong></td><td>حالة النظام بعد الانتهاء</td></tr>
+    </table>
+    <div class="tip"><div><b>💡</b><strong>A والـ G هما الأهم</strong> — في exam questions كتيرة، بيطلبوا منك Use Case Description كاملة، الـ Name والـ Steps هما المعيار الرئيسي للتقدير.</div></div>
+  </div>
+
+  <!-- Example UC -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📚</span> Example: Library "Check Out Item"</div>
+    <ul>
+      <li><strong>Actor:</strong> Clerk</li>
+      <li><strong>Goal:</strong> Lend a book to a borrower</li>
+      <li><strong>Preconditions:</strong> User is allowed to borrow</li>
+      <li><strong>Postconditions:</strong> Item is checked out &amp; recorded on user's borrowing records</li>
+    </ul>
+
+    <table class="tbl">
+      <tr><th>Actor</th><th>System</th></tr>
+      <tr><td>1- Enter user's ID (or scan)</td><td>2- Open user page</td></tr>
+      <tr><td>3- Choose "borrow an item"</td><td></td></tr>
+      <tr><td>4- Enter book's barcode &amp; click borrow</td><td>5- Add book to user's records, due date displayed</td></tr>
+    </table>
+
+    <h4 style="font-family:var(--fh);color:var(--red);font-size:.95rem;margin:14px 0 6px">Exceptional Flow — User suspended:</h4>
+    <table class="tbl">
+      <tr><th>Actor</th><th>System</th></tr>
+      <tr><td>1- Enter/Scan user ID</td><td>2- Open user page (Suspended / Max num reached)</td></tr>
+      <tr><td>3- Borrow option disabled</td><td></td></tr>
+      <tr><td>4- Cancel</td><td></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ — EXAM BANK
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Exam Question Bank — Lecture 3</h3>
+      <p>10 أسئلة حقيقية من امتحانات 2021 → 2025 · User Stories, INVEST, SRS, Use Cases, Verifiability</p>
+    </div>
+  </div>
+
+  <!-- Q1 — INVEST -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 1 <span class="q-src">Fall 2021–22 · Q1.01 (also Winter 2021)</span></div>
+    <div class="q-text">A good user story should be <strong>INVEST</strong>. Which of the following is a good user story?
+      <br><br>(a) <em>View Grades:</em> "As a student, I can see grades online as soon as they are posted, so I don't have to wait until I go to school."
+      <br>(b) <em>Upgrade Grades:</em> "As a teacher, I want to enter grades online so I no longer need to fill students' reports by hand."
+      <br>(c) <em>Monitoring Students' Progress:</em> "As a school manager, I want to monitor the progress of students so I know if the school is doing well or not."
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Only (a)</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Only (b)</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Only (c)</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Both (a) and (b)</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> All three</div>
+      <div class="q-opt" data-val="f"><span class="q-opt-letter">F</span> None</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — Both (a) and (b)</b>
+      الـ (a) و (b) كلاهما <strong>specific, small, testable</strong> — بيوصفوا feature واضحة في sprint واحد.
+      <div class="why-wrong">
+        <strong>(c)</strong> "monitor progress" واسع جداً — مش <strong>Small</strong> ولا <strong>Estimable</strong>. ده business goal مش user story. مدير المدرسة لما يطلب "monitor progress"، ده ممكن يتقسم لـ 10 user stories أصغر.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 — Verifiable (Fall 21-22 version) -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 2 <span class="q-src">Fall 2021–22 · Q1.02</span></div>
+    <div class="q-text">Which requirements are <strong>verifiable (V)</strong> and which are <strong>non-verifiable (NV)</strong>?
+      <br><br>1. Scrum development process must be followed.
+      <br>2. The system should support the popular mobile platforms <em>now</em>.
+      <br>3. The game server should be able to handle up to 1000 players simultaneously.
+      <br>4. The web server should be fast and respond quickly to requests.
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Verifiable: 1, 3 / Non-verifiable: 2, 4</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Verifiable: 2 / Non-verifiable: 1, 3, 4</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Verifiable: 1, 2, 3 / Non-verifiable: 4</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Verifiable: 3, 4 / Non-verifiable: 1, 2</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A — Verifiable: 1, 3 / Non-verifiable: 2, 4</b>
+      <ul style="margin-top:6px;padding-left:22px">
+        <li><strong>1 (V)</strong> — ممكن نتأكد بمراجعة عملية التطوير.</li>
+        <li><strong>2 (NV)</strong> — "popular mobile platforms now" غامض. "popular" ايه معايير؟ "now" يعني امتى؟</li>
+        <li><strong>3 (V)</strong> — رقم محدد: 1000 players. اختبار load testing.</li>
+        <li><strong>4 (NV)</strong> — "fast and respond quickly" مفيش معيار. كان لازم يكون "response time &lt; 200ms".</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q3 — Verifiable (Winter 2021 version) -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 3 <span class="q-src">Winter 2021 · Q1.02</span></div>
+    <div class="q-text">Same question but item 2 is now:
+      <br><br>1. Scrum development process must be followed.
+      <br>2. The system should support <strong>two mobile platforms: iOS and Android</strong>.
+      <br>3. The game server should handle up to 1000 players.
+      <br>4. The web server should be fast.
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> V: 1, 3 / NV: 2, 4</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> V: 2 / NV: 1, 3, 4</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> V: 1, 2, 3 / NV: 4</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> V: 3, 4 / NV: 1, 2</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — V: 1, 2, 3 / NV: 4</b>
+      الفرق عن السؤال السابق: item 2 بقى <strong>specific</strong> ("iOS and Android"). الآن قابل للتحقق بـ tests على المنصتين.
+      <div class="why-wrong">
+        <strong>Item 4</strong> لسه non-verifiable — "fast" بدون رقم محدد. ده الـ trap الأساسي.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 — Unambiguous (Winter 2023) -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 4 <span class="q-src">Winter 2023 · Q1.01</span></div>
+    <div class="q-text">Which of these are <strong>unambiguous</strong> (clear) requirements that developers can understand easily?
+      <br><br>I. The user should be able to update his profile picture with a new one.
+      <br>II. The system should support 1000 simultaneous users.
+      <br>III. The system should work in the same way on the most popular web browsers.
+      <br>IV. The UI should be easy to understand and quick to learn.
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> I and IV</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> I and II</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> I and III</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> II and III</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> III and IV</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — I and II</b>
+      <ul style="margin-top:6px;padding-left:22px">
+        <li><strong>I</strong> ✅ واضح — تغيير صورة البروفايل.</li>
+        <li><strong>II</strong> ✅ واضح — 1000 simultaneous users. رقم محدد.</li>
+        <li><strong>III</strong> ❌ غامض — "most popular browsers"؟ ايه هم؟ Chrome? Safari? IE6؟</li>
+        <li><strong>IV</strong> ❌ غامض — "easy to understand" و "quick to learn" مفيش معيار.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q5 — Elicitation (Winter 2025) -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 5 <span class="q-src">Winter 2025 · Q1.23</span></div>
+    <div class="q-text">Which of the following are typically parts of <strong>requirements elicitation</strong>?
+      <br><br>1. Stakeholder surveys and user observation
+      <br>2. Role-playing user scenarios
+      <br>3. Creating UML diagrams for design
+      <br>4. Prototyping to clarify concepts
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Only 1 and 2</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Only 3 and 4</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Only 1, 2 and 4</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All four</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Only 1, 2 and 4</b>
+      Elicitation = جمع المعلومات من stakeholders. Surveys, role-playing, observation, prototyping كلهم techniques لجمع المعلومات.
+      <div class="why-wrong">
+        <strong>3 (UML diagrams)</strong> ده <em>design</em> أو <em>specification</em>، مش elicitation. الـ UML بيتعمل بعد ما الـ requirements اتجمعت أصلاً.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 — Transition Req (Winter 2025) -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 6 <span class="q-src">Winter 2025 · Q1.24</span></div>
+    <div class="q-text">Classify the following requirement: <em>"All customer support staff must complete a 2-day training workshop on the new CRM system's features before the system goes live."</em></div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Business Requirement</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Functional</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Stakeholder</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Transition</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — Transition Requirement</b>
+      Training قبل go-live = activity مؤقتة خاصة بالانتقال من الـ current state للـ new system. بعد الـ go-live، ما تبقاش محتاجة.
+      <div class="why-wrong">
+        <strong>A (Business)</strong> — لا، ده مش goal على مستوى الـ org. ·
+        <strong>B (Functional)</strong> — لا، ده مش function للـ system. ·
+        <strong>C (Stakeholder)</strong> — قريبة لكن Transition أكتر specific.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 — AI Tools (Winter 2025) -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 7 <span class="q-src">Winter 2025 · Q1.25</span></div>
+    <div class="q-text">Which AI assistant tools can be <strong>most helpful in requirements engineering</strong>?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> UI/UX Design tools like Uizard and Galileo AI</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> AI Code Assistants like Windsurf, Codex, Cursor</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> AI Code Review tools like Codacy and CodeRabbit</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> AI Document Generation tools like Tabnine Docs and DocuWriter.ai</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A — UI/UX Design tools</b>
+      Uizard و Galileo AI بيعملوا <strong>mockups و prototypes</strong> من نصوص — وده جزء أساسي من requirements elicitation (Prototyping).
+      <div class="why-wrong">
+        <strong>B, C, D</strong> — كل دول tools للـ coding/review/docs <em>بعد</em> ما الـ requirements اتحددت. مش بتفيد في مرحلة جمع الـ requirements.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 — Use case extend (Winter 2023 Q1.04) -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 8 <span class="q-src">Winter 2023 · Q1.04</span></div>
+    <div class="q-text">Customers of a car sales shop can buy cars. Customers with a bad credit history should pay an extra down payment. Which use case relation is correct?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;&lt;include&gt;&gt; from Bad Credit Customer's "Buy a car" to "Pay extra down payment"</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;&lt;include&gt;&gt; on the Customer side</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> &lt;&lt;extend&gt;&gt; on the Customer side</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> &lt;&lt;extend&gt;&gt; from "Pay extra down payment" to "Buy a car" on the <strong>Bad Credit Customer</strong> side</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D</b>
+      <strong>&lt;&lt;extend&gt;&gt;</strong> بيستخدم لما الـ use case الإضافية <em>conditional</em> — يعني بتحصل في حالات معينة (هنا: لما العميل عنده bad credit). الـ relation بيتعمل من <strong>Bad Credit Customer</strong> لأنه هو اللي بيدفع الـ extra.
+      <div class="why-wrong">
+        <strong>A, B</strong> — <code>include</code> بيستخدم لما الـ use case الإضافية <em>إلزامية دايماً</em>. هنا مش الحالة. ·
+        <strong>C</strong> — extend صح بس على الـ Customer العادي غلط — الـ extra بيدفعه bad credit بس.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q9 — Code → Class Diagram (touches use case) - skip, in lec 5 -->
+
+  <!-- Q9 — INVEST detail/MoSCoW combination — replace with another -->
+  <!-- Skip; we have 8 strong ones -->
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet — مذاكرة سريعة</h2>
+      <p>كل المصطلحات والمعايير والصيغ اللي محتاجها لاتقان الـ requirements engineering.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+
+    <div class="cheat">
+      <h3>🎯 INVEST Criteria</h3>
+      <div class="cheat-item"><div class="cheat-key">I</div><div class="cheat-val"><strong>Independent</strong> — لا يعتمد على stories تانية</div></div>
+      <div class="cheat-item"><div class="cheat-key">N</div><div class="cheat-val"><strong>Negotiable</strong> — قابل للنقاش</div></div>
+      <div class="cheat-item"><div class="cheat-key">V</div><div class="cheat-val"><strong>Valuable</strong> — يضيف قيمة</div></div>
+      <div class="cheat-item"><div class="cheat-key">E</div><div class="cheat-val"><strong>Estimable</strong> — قابل لتقدير الجهد</div></div>
+      <div class="cheat-item"><div class="cheat-key">S</div><div class="cheat-val"><strong>Small</strong> — يخلص في sprint</div></div>
+      <div class="cheat-item"><div class="cheat-key">T</div><div class="cheat-val"><strong>Testable</strong> — عنده acceptance criteria</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>✅ Good Requirement = 5 صفات</h3>
+      <div class="cheat-item"><div class="cheat-key">1. Complete</div><div class="cheat-val">معلومات كاملة للتنفيذ والاختبار</div></div>
+      <div class="cheat-item"><div class="cheat-key">2. Unambiguous</div><div class="cheat-val">تفسير واحد، أرقام/أسماء محددة</div></div>
+      <div class="cheat-item"><div class="cheat-key">3. Consistent</div><div class="cheat-val">ما يتعارضش مع requirements تانية</div></div>
+      <div class="cheat-item"><div class="cheat-key">4. Verifiable</div><div class="cheat-val">ممكن قياسه/اختباره</div></div>
+      <div class="cheat-item"><div class="cheat-key">5. Traceable</div><div class="cheat-val">له ID وبنرجعه لمصدره</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🔄 RE Process — 5 Stages</h3>
+      <div class="cheat-item"><div class="cheat-key">S1: Elicitation</div><div class="cheat-val">Interviews, Surveys, Brainstorming, Focus groups, Observation, Prototyping</div></div>
+      <div class="cheat-item"><div class="cheat-key">S2: Analysis</div><div class="cheat-val">Conflicts, Categorize, Prioritize, Ambiguity</div></div>
+      <div class="cheat-item"><div class="cheat-key">S3: Specification</div><div class="cheat-val">SRS, User Stories, Use Cases, EARS, Z</div></div>
+      <div class="cheat-item"><div class="cheat-key">S4: Validation</div><div class="cheat-val">Reviews, Prototyping, Walkthroughs, User feedback</div></div>
+      <div class="cheat-item"><div class="cheat-key">S5: Management</div><div class="cheat-val">Change mgmt, Traceability (continuous)</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📚 Types of Requirements</h3>
+      <div class="cheat-item"><div class="cheat-key">Functional (FR)</div><div class="cheat-val">ايه اللي النظام يعمله (login, search...)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Non-Functional (NFR)</div><div class="cheat-val">كيف يعمله (performance, security, scalability, usability)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Business</div><div class="cheat-val">أهداف الـ org (vision, ROI)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Transition</div><div class="cheat-val">مؤقتة — training, data migration, parallel runs</div></div>
+      <div class="cheat-item"><div class="cheat-key">Stakeholder</div><div class="cheat-val">احتياجات أطراف محددة</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🎬 Use Case Quick Ref</h3>
+      <div class="cheat-item"><div class="cheat-key">Actor</div><div class="cheat-val">Stick figure · external entity</div></div>
+      <div class="cheat-item"><div class="cheat-key">Use Case</div><div class="cheat-val">Oval · user goal</div></div>
+      <div class="cheat-item"><div class="cheat-key">System Boundary</div><div class="cheat-val">Rectangle around use cases</div></div>
+      <div class="cheat-item"><div class="cheat-key">&lt;&lt;include&gt;&gt;</div><div class="cheat-val"><strong>Always</strong> uses another UC (Login)</div></div>
+      <div class="cheat-item"><div class="cheat-key">&lt;&lt;extend&gt;&gt;</div><div class="cheat-val"><strong>Sometimes</strong> (conditional) — bad credit case</div></div>
+      <div class="cheat-item"><div class="cheat-key">Generalization</div><div class="cheat-val">Inheritance between actors/UCs</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📝 EARS Method</h3>
+      <div class="cheat-item"><div class="cheat-key">Keyword 1</div><div class="cheat-val"><strong>When</strong> &lt;trigger&gt;</div></div>
+      <div class="cheat-item"><div class="cheat-key">Keyword 2</div><div class="cheat-val"><strong>then</strong> &lt;system response&gt;</div></div>
+      <div class="cheat-item"><div class="cheat-key">Keyword 3</div><div class="cheat-val"><strong>If</strong> &lt;condition&gt;</div></div>
+      <div class="cheat-item"><div class="cheat-key">Keyword 4</div><div class="cheat-val"><strong>then</strong> &lt;another response&gt;</div></div>
+      <div class="cheat-item"><div class="cheat-key">Keyword 5</div><div class="cheat-val"><strong>Else</strong> &lt;negative response&gt;</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     RAPID REVISION
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="revision" style="margin-top:60px">
+  <div class="ch-header">
+    <div class="ch-num pink">⚡</div>
+    <div class="ch-title">
+      <h2>Rapid Revision</h2>
+      <p>Flashcards · Common Mistakes · What the doctor loves to ask.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--cyan);margin:12px 0 14px">🎴 Flashcards</h3>
+  <div class="flashcards">
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">ايه الـ 5 stages بتاعة RE Process؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Elicitation → Analysis → Specification → Validation → Management</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">ايه INVEST؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Independent · Negotiable · Valuable · Estimable · Small · Testable</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">User Story Format؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">As a [role], I want [goal], so that [benefit]</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">5 صفات الـ Good Requirement؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Complete · Unambiguous · Consistent · Verifiable · Traceable</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Include vs Extend؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Include = ALWAYS uses · Extend = SOMETIMES (conditional)</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Training before go-live = نوع ايه؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Transition Requirement</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">FR vs NFR؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">FR = ايه يعمل · NFR = كيف يعمل (perf, security, usability)</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">EARS keywords؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">When · then · If · then · Else</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">6 Techniques للـ Elicitation؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Interviews · Surveys · Brainstorming · Focus Groups · Observation · Prototyping</div></div>
+    </div></div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
+
+  <div class="danger"><div><b>1. خلط Include و Extend</b>Include = mandatory dependency. Extend = optional/conditional. لو فيه شرط زي "if customer has bad credit", استخدم <strong>extend</strong>.</div></div>
+
+  <div class="danger"><div><b>2. اعتبار "easy", "fast", "popular" verifiable</b>دي كلمات <em>غامضة</em>. للـ verifiability محتاج أرقام أو أسماء محددة (1000 users, AES-256, Chrome &amp; Safari).</div></div>
+
+  <div class="danger"><div><b>3. التفريق بين Transition وStakeholder</b>Transition = activities مؤقتة للـ go-live (training, migration). Stakeholder = احتياجات specific لـ user types (ambulance drivers want audio).</div></div>
+
+  <div class="danger"><div><b>4. اعتبار UML diagrams part of Elicitation</b>UML بيتعمل بعد ما الـ requirements اتجمعت — ده <em>Specification/Design</em>. الـ Elicitation = جمع المعلومات بـ interviews/surveys/observation.</div></div>
+
+  <div class="danger"><div><b>5. اعتبار "monitor school progress" user story</b>ده business goal مش user story. الـ INVEST بيفشل في Small و Estimable.</div></div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--amber);margin:30px 0 12px">⭐ What Dr. El-Ramly Loves to Ask</h3>
+  <div class="info">
+    <div>
+      <b>🔥 الأسئلة المتكررة على Lec 3</b>
+      <ol style="margin-top:6px;padding-left:22px">
+        <li><strong>INVEST evaluation</strong> — بيدي 3 user stories و يسأل أيهم كويس. السر: الـ vague/high-level بيفشل.</li>
+        <li><strong>Verifiable vs Non-verifiable</strong> — بيدي 4 requirements و يسأل أيهم verifiable. كلمات زي "fast" دايماً NV.</li>
+        <li><strong>نوع الـ requirement</strong> — Functional? Transition? Stakeholder? اقرا الكلمات الـ trigger.</li>
+        <li><strong>Use Case relations</strong> — Include vs Extend. لو في "should pay if/when..." → extend.</li>
+        <li><strong>Question 2 (UML Modeling)</strong> — كل امتحان فيه سؤال 20 مارك على بناء use case diagram + class diagram لـ system معين (car rental, email server, etc.). ركز على ده!</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.content -->
+</main>
+
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

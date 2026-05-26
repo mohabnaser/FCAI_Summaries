@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 04 — Modularity, Cohesion &amp; Coupling | CS251</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  /* Cohesion / Coupling ladder */
+  .ladder{display:grid;grid-template-columns:auto 1fr 2fr;gap:0;margin:14px 0;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .ladder-row{display:contents}
+  .ladder-row > div{padding:12px 16px;border-bottom:1px solid var(--border)}
+  .ladder-row:last-child > div{border-bottom:none}
+  .ladder-rank{font-family:var(--fh);font-size:1.1rem;font-weight:700;background:var(--card2);text-align:center;display:flex;align-items:center;justify-content:center;min-width:60px}
+  .ladder-name{background:var(--card);font-family:var(--fh);font-weight:600;color:var(--accent,var(--cyan));display:flex;align-items:center;gap:8px}
+  .ladder-desc{background:var(--card);color:var(--t2);font-size:.85rem;line-height:1.6}
+  .ladder-row.best .ladder-rank{background:rgba(16,185,129,.15);color:var(--green)}
+  .ladder-row.best .ladder-name{--accent:var(--green)}
+  .ladder-row.good .ladder-rank{background:rgba(20,184,166,.12);color:var(--teal)}
+  .ladder-row.good .ladder-name{--accent:var(--teal)}
+  .ladder-row.ok .ladder-rank{background:rgba(0,212,255,.12);color:var(--cyan)}
+  .ladder-row.ok .ladder-name{--accent:var(--cyan)}
+  .ladder-row.weak .ladder-rank{background:rgba(245,158,11,.12);color:var(--amber)}
+  .ladder-row.weak .ladder-name{--accent:var(--amber)}
+  .ladder-row.bad .ladder-rank{background:rgba(244,114,182,.12);color:var(--pink)}
+  .ladder-row.bad .ladder-name{--accent:var(--pink)}
+  .ladder-row.worst .ladder-rank{background:rgba(239,68,68,.15);color:var(--red)}
+  .ladder-row.worst .ladder-name{--accent:var(--red)}
+  @media(max-width:700px){.ladder{grid-template-columns:1fr}.ladder-row > div{padding:8px 14px}}
+
+  /* CFG visualization for cyclomatic complexity */
+  .cfg-viz{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:24px;margin:14px 0;text-align:center}
+  .cfg-stat{display:inline-block;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin:4px;font-family:var(--fc);font-size:.8rem}
+  .cfg-stat strong{color:var(--cyan);display:block;font-size:1.4rem;font-family:var(--fh);font-weight:700}
+
+  /* coupling level color tags */
+  .level-tag{display:inline-block;font-family:var(--fc);font-size:.72rem;padding:2px 8px;border-radius:5px;font-weight:600;letter-spacing:.04em}
+  .tag-best{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+  .tag-worst{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>🧩 CS251 — Lec 04</h2>
+    <p>Modularity, Cohesion &amp; Coupling</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">Foundation</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Design in SWEBOK</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>What is Modularity?</a>
+
+  <div class="sb-section">Complexity</div>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Module Complexity</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Cyclomatic Complexity ⭐</a>
+
+  <div class="sb-section">Cohesion &amp; Coupling</div>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Cohesion (7 levels) ⭐</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Coupling (6 levels) ⭐</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Bank</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Rapid Revision</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🧩 Lecture 04 · Design — Modularity</div>
+  <h1>Modularity, <span>Cohesion &amp; Coupling</span></h1>
+  <p>كيف نقيس جودة الكود؟ 3 مقاييس: <strong>Cyclomatic Complexity</strong> (مدى تعقيد function)، <strong>Cohesion</strong> (داخل الـ module), <strong>Coupling</strong> (بين الـ modules). الـ goal: High Cohesion + Low Coupling.</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">6</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">7</div><div class="lbl">Cohesion Levels</div></div>
+    <div class="hstat"><div class="num">6</div><div class="lbl">Coupling Levels</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">Exam Qs</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — DESIGN IN SWEBOK
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>Design Knowledge Area in SWEBOK</h2>
+      <p>الـ Design = تحويل الـ requirements لـ system structure منظم وفعّال يحقق الـ FR والـ NFR.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📚</span> Design Topics في SWEBOK</div>
+    <div class="grid3">
+      <div class="cmp-card" style="--accent:var(--cyan)"><h4>🏗️ Fundamentals</h4><p>Modularity, abstraction, separation of concerns.</p></div>
+      <div class="cmp-card" style="--accent:var(--green)"><h4>🔄 Design Process</h4><p>High-level (architecture) + Low-level (components).</p></div>
+      <div class="cmp-card" style="--accent:var(--amber)"><h4>📐 Principles</h4><p>Patterns, modular design, maintainability, scalability.</p></div>
+      <div class="cmp-card" style="--accent:var(--purple)"><h4>📊 Models</h4><p>UML, ER diagrams, class &amp; sequence diagrams.</p></div>
+      <div class="cmp-card" style="--accent:var(--pink)"><h4>✅ Evaluation</h4><p>Reviews, prototyping, metrics.</p></div>
+      <div class="cmp-card" style="--accent:var(--red)"><h4>🏛️ Architecture</h4><p>System structure + NFR (perf, security).</p></div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🎯</span> What do we need to design?</div>
+    <ul>
+      <li>Higher-level design (<strong>Architecture</strong>)</li>
+      <li>Module-level design (<strong>Classes, interactions</strong>)</li>
+      <li><strong>Algorithms</strong></li>
+      <li><strong>Database</strong></li>
+      <li><strong>User Interface</strong></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — WHAT IS MODULARITY
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num green">02</div>
+    <div class="ch-title">
+      <h2>What is Modularity?</h2>
+      <p>قلعة من الرمل vs قلعة LEGO. الأولى لو خربت كلها هتروح. الـ LEGO تقدر تستبدل قطعة وتعيد تشغّل الباقي.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📖</span> تعريف Modularity</div>
+    <div class="info">
+      <div><b>David Parnas, 1972:</b>"... a mechanism for improving the <strong>flexibility</strong> and <strong>comprehensibility</strong> of a system while allowing the <strong>shortening of its development time</strong>."</div>
+    </div>
+    <ul>
+      <li>الـ Software المـ modular: الأجزاء ممكن <strong>تتبدل</strong> أو <strong>تتعاد استخدامها</strong> في software تاني.</li>
+      <li>الـ Modularity بتخلي الـ software أسهل في الفهم لأن كل جزء صغير يتدرس لوحده.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🧩</span> What is a Module?</div>
+    <p>أكتر من تعريف، كلهم بيوصلوا لنفس الفكرة:</p>
+    <ul>
+      <li>"A program unit that is <strong>discrete and identifiable</strong> with respect to compiling, combining, and loading."</li>
+      <li>"A <strong>logically separable</strong> part of a program."</li>
+      <li>"A set of <strong>source code files under version control</strong> that can be manipulated as one."</li>
+      <li>"A collection of both <strong>data and the routines</strong> that act on it." (object-oriented view)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — MODULE COMPLEXITY
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>Module Complexity</h2>
+      <p>3 مقاييس لجودة الـ module: <strong>Cyclomatic Complexity</strong>, <strong>Cohesion</strong>, <strong>Coupling</strong>.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--red)">
+      <div class="topic-title"><span class="icon">🌪️</span> Module Complexity</div>
+      <p>الدرجة اللي بيها design أو code <strong>صعب الفهم</strong> بسبب:</p>
+      <ul>
+        <li>كتر الـ components</li>
+        <li>كتر الـ relationships بينهم</li>
+      </ul>
+      <p>أو الدرجة اللي بيها implementation صعب الـ <strong>understand and verify</strong>.</p>
+    </div>
+
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">✨</span> Module Simplicity</div>
+      <p>العكس: الدرجة اللي بيها design أو code <strong>straightforward وسهل الفهم</strong>.</p>
+      <p>هدفنا: تصميم modules بسيطة.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📏</span> Measures of Module Complexity — 3 مقاييس</div>
+    <ol>
+      <li><strong>McCabe Cyclomatic Complexity</strong> — تعقيد function واحدة.</li>
+      <li><strong>Coupling</strong> — اعتماد الـ modules على بعضها.</li>
+      <li><strong>Cohesion</strong> — تماسك الـ module من جوّه.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — CYCLOMATIC COMPLEXITY
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num purple">04</div>
+    <div class="ch-title">
+      <h2>Cyclomatic Complexity — McCabe 1974 ⭐</h2>
+      <p>عدد المسارات المستقلة في piece من الكود. كل ما زاد، كل ما الكود أصعب وأكتر عرضة للـ bugs.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🧮</span> 3 طرق لحساب V(G)</div>
+    <div class="grid3">
+      <div class="cmp-card" style="--accent:var(--cyan)">
+        <h4>1. Decisions + 1</h4>
+        <p>عدد الـ <strong>binary decisions</strong> (if, while, case) <strong>+ 1</strong>.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--green)">
+        <h4>2. Closed Areas + 1</h4>
+        <p>على الـ Control Flow Graph: عدد المناطق المغلقة (enclosed regions) + 1.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--amber)">
+        <h4>3. Edges − Nodes + 2P</h4>
+        <p><code>V(G) = E − N + 2P</code>
+        <br>P = عدد الـ separate sub-graphs (عادة = 1).</p>
+      </div>
+    </div>
+    <div class="warn"><div><b>⚠️ ملاحظة مهمة</b>"Simple decision" = اختيار <strong>بين خيارين فقط</strong>. لو فيه <code>switch</code> بـ 3 cases، اعتبره مثل 2 simple decisions (تتفرع شجرة binary).</div></div>
+  </div>
+
+  <!-- Example -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔢</span> مثال: حساب V(G) من graph</div>
+    <div class="cfg-viz">
+      <p style="color:var(--t2);margin-bottom:14px">على Control Flow Graph معين:</p>
+      <div class="cfg-stat"><span>Edges</span><strong>9</strong></div>
+      <div class="cfg-stat"><span>Nodes</span><strong>7</strong></div>
+      <div class="cfg-stat"><span>P</span><strong>1</strong></div>
+      <div style="margin-top:14px;font-family:var(--fc);font-size:.95rem">V(G) = 9 − 7 + 2(1) = <strong style="color:var(--cyan);font-size:1.2rem">4</strong></div>
+    </div>
+  </div>
+
+  <!-- Code example -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">💻</span> مثال: حساب V(G) من كود</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">C++ · categorize()</div></div>
+<pre><code><span class="kw">std::string</span> <span class="fn">categorize</span>(<span class="kw">int</span> value) {
+  <span class="kw">if</span> (value &gt; <span class="num">100</span>) {              <span class="cmt">// decision 1</span>
+    <span class="kw">return</span> <span class="str">"Very High"</span>;
+  } <span class="kw">else if</span> (value &gt; <span class="num">75</span>) {        <span class="cmt">// decision 2</span>
+    <span class="kw">return</span> <span class="str">"High"</span>;
+  } <span class="kw">else if</span> (value &gt; <span class="num">50</span>) {        <span class="cmt">// decision 3</span>
+    <span class="kw">return</span> <span class="str">"Medium High"</span>;
+  } <span class="kw">else if</span> (value &gt; <span class="num">25</span>) {        <span class="cmt">// decision 4</span>
+    <span class="kw">return</span> <span class="str">"Medium Low"</span>;
+  } <span class="kw">else if</span> (value &gt; <span class="num">0</span>) {         <span class="cmt">// decision 5</span>
+    <span class="kw">return</span> <span class="str">"Low"</span>;
+  } <span class="kw">else</span> {
+    <span class="kw">return</span> <span class="str">"Negative"</span>;
+  }
+}
+<span class="cmt">// V(G) = 5 decisions + 1 = 6</span></code></pre>
+    </div>
+  </div>
+
+  <!-- Complexity ranges -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📊</span> ايه يعتبر "كويس"؟</div>
+    <table class="tbl">
+      <tr><th>V(G)</th><th>التقييم</th><th>التوصية</th></tr>
+      <tr><td><span class="badge badge-green">1–10</span></td><td>Manageable</td><td>سهل الفهم والاختبار. الأهداف المثلى.</td></tr>
+      <tr><td><span class="badge badge-amber">11–20</span></td><td>Moderate</td><td>محتاج testing أكتر، review عناية. ممكن refactoring.</td></tr>
+      <tr><td><span class="badge badge-red">21–50</span></td><td>High Complexity</td><td>صعب الفهم/الصيانة. غالباً candidate للـ refactor.</td></tr>
+      <tr><td><span class="badge badge-red">&gt; 50</span></td><td>Very Complex</td><td>🚨 Red flag — لازم refactoring.</td></tr>
+    </table>
+
+    <div class="tip"><div><b>💡 توصيات McCabe</b><br>1. حافظ على V(G) &lt; 10 خصوصاً للكود الحرج.<br>2. استخدم complexity كـ guideline للـ refactoring.<br>3. بعض الـ algorithms (statemachine, business rules) ليها complexity عالية بطبيعتها.</div></div>
+  </div>
+
+  <!-- Path coverage relation -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🛣️</span> العلاقة بـ Basis Path Testing</div>
+    <p>عدد test cases المطلوبة لـ <strong>full path coverage</strong> = <strong>V(G)</strong>.</p>
+    <p>لو V(G) = 4، محتاج 4 test cases لتغطية كل المسارات المستقلة.</p>
+    <p>عدد test cases للـ <strong>statement coverage</strong> ممكن يكون أقل بكتير — أحياناً test case واحد بيمر بكل الـ statements (لو الكود sequential).</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — COHESION
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num pink">05</div>
+    <div class="ch-title">
+      <h2>Cohesion — تماسك الـ Module ⭐</h2>
+      <p>مدى ارتباط الـ functions داخل module واحد ببعضها. <strong>High cohesion = جيد</strong>. 7 مستويات من الأسوأ (Coincidental) للأفضل (Functional).</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">📖</span> ايه يعني Cohesion؟</div>
+    <p><strong>Cohesion</strong> = درجة ارتباط الـ elements داخل module واحد ببعض. لو الـ functions كلها بتعمل حاجة <em>واحدة</em> related → High cohesion.</p>
+    <p>الهدف: <strong>High cohesion</strong> + <strong>Low coupling</strong>.</p>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📈</span> Levels of Cohesion (من الأفضل للأسوأ)</div>
+    <div class="ladder">
+
+      <div class="ladder-row best">
+        <div class="ladder-rank">7</div>
+        <div class="ladder-name">🏆 Functional <span class="level-tag tag-best">BEST</span></div>
+        <div class="ladder-desc">كل الـ elements في الـ module بتساهم في <strong>وظيفة واحدة well-defined</strong>. مثلاً: <code>StringUtils</code> فيه toUpper, toLower, trim — كلها string operations.</div>
+      </div>
+
+      <div class="ladder-row good">
+        <div class="ladder-rank">6</div>
+        <div class="ladder-name">Sequential</div>
+        <div class="ladder-desc">الـ output من function = input للـ next. مثال: <code>parseInput() → validate() → process()</code>.</div>
+      </div>
+
+      <div class="ladder-row good">
+        <div class="ladder-rank">5</div>
+        <div class="ladder-name">Communicational</div>
+        <div class="ladder-desc">الـ functions بتشتغل على <strong>نفس الـ data</strong>. مثال: كل عمليات الـ student record (read, update, delete) في module واحد.</div>
+      </div>
+
+      <div class="ladder-row ok">
+        <div class="ladder-rank">4</div>
+        <div class="ladder-name">Procedural</div>
+        <div class="ladder-desc">الـ functions بتنفّذ بترتيب معين كجزء من procedure. مثال: <code>open file → read → close</code>.</div>
+      </div>
+
+      <div class="ladder-row weak">
+        <div class="ladder-rank">3</div>
+        <div class="ladder-name">Temporal</div>
+        <div class="ladder-desc">الـ functions بتنفّذ في <strong>نفس الوقت</strong> بس مش related. مثال: <code>initializeApp()</code> اللي بيـ load configs, connect DB, start logger كلها في الـ startup.</div>
+      </div>
+
+      <div class="ladder-row bad">
+        <div class="ladder-rank">2</div>
+        <div class="ladder-name">Logical</div>
+        <div class="ladder-desc">الـ functions بتعمل حاجات similar logically بس بـ implementations مختلفة. مثال: <code>handleInput(type)</code> اللي بيـ switch على type والـ handlers مختلفة جداً.</div>
+      </div>
+
+      <div class="ladder-row worst">
+        <div class="ladder-rank">1</div>
+        <div class="ladder-name">😈 Coincidental <span class="level-tag tag-worst">WORST</span></div>
+        <div class="ladder-desc">الـ elements <strong>مالهاش علاقة ببعض</strong>. اتحطوا في module بالصدفة. مثال: ملف فيه <code>parseDate()</code> و <code>sendEmail()</code> و <code>encryptPassword()</code>.</div>
+      </div>
+
+    </div>
+    <div class="info"><div><b>📌 Winter 2025 Q1.06</b>لو عندك <code>StringUtils</code> فيها static functions كلها بتعالج Strings — الجواب: <strong>Functional</strong> cohesion (الأفضل).</div></div>
+  </div>
+
+  <!-- Mnemonic -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🧠</span> Mnemonic</div>
+    <p>من الأفضل للأسوأ:</p>
+    <div class="code-wrap">
+<pre><code><span class="kw">Functional</span> &gt; <span class="kw">Sequential</span> &gt; <span class="kw">Communicational</span> &gt;
+<span class="kw">Procedural</span> &gt; <span class="kw">Temporal</span> &gt; <span class="kw">Logical</span> &gt; <span class="kw">Coincidental</span></code></pre>
+    </div>
+    <p>أو: <strong>Fancy Sandwich Cooks Prefer Tasty Lemon Cake</strong> 🍰</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — COUPLING
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num red">06</div>
+    <div class="ch-title">
+      <h2>Coupling — اعتماد الـ Modules على بعضها ⭐</h2>
+      <p>مدى اعتماد module على module تاني. <strong>Low coupling = جيد</strong>. 6 مستويات من الأسوأ (Content) للأفضل (Data).</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">📖</span> ايه يعني Coupling؟</div>
+    <p><strong>Coupling</strong> = درجة الاعتماد بين modules مختلفة. لو module بيعرف تفاصيل داخلية في module تاني → High coupling (مش جيد).</p>
+    <p>الـ goal: كل module مستقل بقدر الإمكان — لو غيرت module واحد، الباقي ما يتأثرش.</p>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📉</span> Levels of Coupling (من الأسوأ للأفضل)</div>
+    <div class="ladder">
+
+      <div class="ladder-row worst">
+        <div class="ladder-rank">6</div>
+        <div class="ladder-name">😈 Content <span class="level-tag tag-worst">WORST</span></div>
+        <div class="ladder-desc">Module A بيـ <strong>access مباشرةً</strong> للـ internals بتاع Module B (يقرا/يعدّل في variables داخلية). كارثة. مثال: في C، <code>goto</code> لـ label داخل function تانية.</div>
+      </div>
+
+      <div class="ladder-row bad">
+        <div class="ladder-rank">5</div>
+        <div class="ladder-name">Common (Environment)</div>
+        <div class="ladder-desc">الـ Modules بتشترك في <strong>global variables</strong>. أي module يعدّل في الـ global، كل الباقي يتأثروا.</div>
+      </div>
+
+      <div class="ladder-row weak">
+        <div class="ladder-rank">4</div>
+        <div class="ladder-name">External</div>
+        <div class="ladder-desc">الـ Modules بتشترك في external data format/protocol (مثل file format معين). تغيير الـ format يخرّب كل الـ modules.</div>
+      </div>
+
+      <div class="ladder-row ok">
+        <div class="ladder-rank">3</div>
+        <div class="ladder-name">Control</div>
+        <div class="ladder-desc">Module بيمرر <strong>flag/parameter</strong> اللي بيتحكم في الـ logic داخل module تاني. <code>process(data, flag)</code> حيث الـ flag بيقرر ايه يحصل.</div>
+      </div>
+
+      <div class="ladder-row good">
+        <div class="ladder-rank">2</div>
+        <div class="ladder-name">Stamp (Data-structure)</div>
+        <div class="ladder-desc">Module بيمرر <strong>data structure كاملة</strong> (object) للتاني، حتى لو محتاج جزء منها بس.</div>
+      </div>
+
+      <div class="ladder-row best">
+        <div class="ladder-rank">1</div>
+        <div class="ladder-name">🏆 Data <span class="level-tag tag-best">BEST</span></div>
+        <div class="ladder-desc">Module بيمرر بس الـ <strong>parameters اللي محتاجها</strong> للـ function (primitive values). مفيش data sharing تاني.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JS Example -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">💻</span> مثال على Common Environment Coupling</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">JavaScript — Bad coupling</div></div>
+<pre><code><span class="kw">let</span> counter = <span class="num">0</span>;             <span class="cmt">// ⚠️ Global shared state</span>
+
+<span class="kw">class</span> <span class="fn">ModuleA</span> {
+  <span class="fn">increment</span>() { counter++; }   <span class="cmt">// writes global</span>
+}
+
+<span class="kw">class</span> <span class="fn">ModuleB</span> {
+  <span class="fn">display</span>() {
+    console.log(<span class="str">"Count: "</span> + counter);  <span class="cmt">// reads global</span>
+  }
+}</code></pre>
+    </div>
+    <div class="warn"><div><b>📌 Winter 2025 Q1.07</b>الكود ده <strong>Common Environment Coupling</strong> — الـ modules بتشترك في <code>counter</code> global. لو ModuleC ضيفته بتمسح الـ counter، ModuleA و ModuleB كلهم هيتأثروا.</div></div>
+
+    <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin:14px 0 6px">✅ الحل: Data Coupling</h4>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">JavaScript — Good coupling</div></div>
+<pre><code><span class="kw">class</span> <span class="fn">Counter</span> {
+  <span class="kw">constructor</span>() { <span class="kw">this</span>.value = <span class="num">0</span>; }
+  <span class="fn">increment</span>() { <span class="kw">this</span>.value++; }
+  <span class="fn">get</span>() { <span class="kw">return</span> <span class="kw">this</span>.value; }
+}
+
+<span class="kw">function</span> <span class="fn">display</span>(count) {     <span class="cmt">// only receives what it needs</span>
+  console.log(<span class="str">"Count: "</span> + count);
+}</code></pre>
+    </div>
+  </div>
+
+  <!-- Goal -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🎯</span> The Golden Rule</div>
+    <div class="info">
+      <div style="font-family:var(--fh);font-size:1.1rem;text-align:center;padding:8px">
+        <strong style="color:var(--green)">High Cohesion</strong> + <strong style="color:var(--cyan)">Low Coupling</strong>
+      </div>
+    </div>
+    <p style="margin-top:14px">كل module:</p>
+    <ul>
+      <li>✅ <strong>عنده مسؤولية واحدة واضحة</strong> (High cohesion - Functional).</li>
+      <li>✅ <strong>بيعتمد على باقي الـ modules بأقل قدر</strong> (Low coupling - Data only).</li>
+      <li>✅ <strong>سهل تستبدله، تختبره، تفهمه</strong> لوحده.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ — EXAM BANK
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Exam Question Bank — Lecture 4</h3>
+      <p>4 أسئلة حقيقية من Winter 2025 على Cyclomatic Complexity, Cohesion, Coupling, White-box Testing.</p>
+    </div>
+  </div>
+
+  <!-- Q1 — Cyclomatic Complexity -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 1 <span class="q-src">Winter 2025 · Q1.05</span></div>
+    <div class="q-text">What is the <strong>average Cyclomatic Complexity per function</strong> in class <code>StringUtils</code>? <br>(The class has multiple static String methods, each with at most 1 if/branch.)</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 2</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 3</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 4</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 6</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> 12</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A — 2</b>
+      كل function فيها branch واحد بسيط (1 decision)، فالـ V(G) لكل function = 1 + 1 = 2. الـ average هو 2.
+      <div class="why-wrong">
+        الإجابات التانية بتفترض branches أكتر مما الكود حقيقي بيحتوي. لو الـ function ليها <em>n</em> simple decisions، V(G) = n+1.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 — Cohesion -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 2 <span class="q-src">Winter 2025 · Q1.06</span></div>
+    <div class="q-text">What type of <strong>cohesion</strong> does <code>StringUtils</code> have? (StringUtils contains multiple static methods all dealing with String operations: toUpper, toLower, etc.)</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Functional</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Sequential</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Temporal</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Communicational</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A — Functional</b>
+      كل الـ functions في <code>StringUtils</code> بتساهم في وظيفة واحدة well-defined: <strong>String manipulation</strong>. ده الـ best level of cohesion.
+      <div class="why-wrong">
+        <strong>B (Sequential)</strong> — لما output method بيكون input للتاني. هنا الـ functions independent. ·
+        <strong>C (Temporal)</strong> — لما الـ functions بتنفذ في نفس الوقت (مثل init). ·
+        <strong>D (Communicational)</strong> — لما الـ functions بتشتغل على نفس الـ data. هنا كل function بتاخد String مختلف.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 — Coupling -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 3 <span class="q-src">Winter 2025 · Q1.07</span></div>
+    <div class="q-text">What kind of <strong>coupling</strong> is shown in this JS code?
+      <br><br><code>let counter = 0;</code>
+      <br><code>class ModuleA { increment() { counter++; } }</code>
+      <br><code>class ModuleB { display() { console.log("Count: " + counter); } }</code>
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Data</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Content</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Common (Environment)</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Control</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Common Environment</b>
+      الـ <code>counter</code> هو <strong>global variable</strong> بتشارك فيه ModuleA و ModuleB. أي module يعدّل في الـ counter يتأثر الباقي. ده exactly تعريف الـ Common Coupling.
+      <div class="why-wrong">
+        <strong>A (Data)</strong> — لو الـ counter كان parameter بيتمرر للـ function، كان Data coupling. ·
+        <strong>B (Content)</strong> — لو module كان بيدخل على internals لـ object/class تاني مباشرةً (أسوأ نوع). ·
+        <strong>D (Control)</strong> — لما function بتمرر flag للتانية تتحكم في الـ logic.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 — White-box Testing -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 4 <span class="q-src">Winter 2025 · Q1.03</span></div>
+    <div class="q-text">What is the <strong>minimum number of test cases</strong> needed to achieve:
+      <br>(1) FULL statement coverage, AND
+      <br>(2) FULL path coverage (not branch coverage)
+      <br>for a sequential code block with one chained if-else-if structure with 4 distinct paths?
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 2 for statement, 4 for path</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 1 for statement, 2 for path</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 2 for statement, 2 for path</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 1 for statement, 4 for path</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — 1 for statement coverage, 4 for path coverage</b>
+      <ul style="margin-top:6px;padding-left:22px">
+        <li><strong>Statement coverage</strong>: لو الكود فيه عبارات executed مرة على الأقل بـ input واحد، test case واحد كفاية.</li>
+        <li><strong>Path coverage</strong>: محتاج test case لكل <em>independent path</em>. عدد الـ paths = V(G). لو V(G) = 4، محتاج 4 test cases.</li>
+      </ul>
+      <div class="why-wrong">
+        الـ statement coverage دايماً ≤ path coverage. الإجابات اللي بتسوي بينهم أو تقلب الترتيب غلط.
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet</h2>
+      <p>كل المعادلات والمستويات والتعريفات.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="cheat">
+      <h3>🧮 Cyclomatic Complexity</h3>
+      <div class="cheat-item"><div class="cheat-key">Method 1</div><div class="cheat-val">simple decisions + 1</div></div>
+      <div class="cheat-item"><div class="cheat-key">Method 2</div><div class="cheat-val">closed regions in CFG + 1</div></div>
+      <div class="cheat-item"><div class="cheat-key">Method 3</div><div class="cheat-val">V(G) = E − N + 2P</div></div>
+      <div class="cheat-item"><div class="cheat-key">Range 1–10</div><div class="cheat-val">Manageable</div></div>
+      <div class="cheat-item"><div class="cheat-key">Range 11–20</div><div class="cheat-val">Moderate, may refactor</div></div>
+      <div class="cheat-item"><div class="cheat-key">Range &gt; 20</div><div class="cheat-val">High, refactor 🔴</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📈 Cohesion — Best to Worst</h3>
+      <div class="cheat-item"><div class="cheat-key">7. Functional</div><div class="cheat-val">🏆 single well-defined task</div></div>
+      <div class="cheat-item"><div class="cheat-key">6. Sequential</div><div class="cheat-val">output of A = input of B</div></div>
+      <div class="cheat-item"><div class="cheat-key">5. Communicational</div><div class="cheat-val">operate on same data</div></div>
+      <div class="cheat-item"><div class="cheat-key">4. Procedural</div><div class="cheat-val">execute in sequence</div></div>
+      <div class="cheat-item"><div class="cheat-key">3. Temporal</div><div class="cheat-val">execute at same time</div></div>
+      <div class="cheat-item"><div class="cheat-key">2. Logical</div><div class="cheat-val">similar logic, diff impl</div></div>
+      <div class="cheat-item"><div class="cheat-key">1. Coincidental</div><div class="cheat-val">😈 no relation</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📉 Coupling — Worst to Best</h3>
+      <div class="cheat-item"><div class="cheat-key">6. Content</div><div class="cheat-val">😈 access internals directly</div></div>
+      <div class="cheat-item"><div class="cheat-key">5. Common</div><div class="cheat-val">shared global variables</div></div>
+      <div class="cheat-item"><div class="cheat-key">4. External</div><div class="cheat-val">shared external format/protocol</div></div>
+      <div class="cheat-item"><div class="cheat-key">3. Control</div><div class="cheat-val">pass flag controls logic</div></div>
+      <div class="cheat-item"><div class="cheat-key">2. Stamp</div><div class="cheat-val">pass full data structure</div></div>
+      <div class="cheat-item"><div class="cheat-key">1. Data</div><div class="cheat-val">🏆 pass only what's needed</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🎯 Golden Rules</h3>
+      <div class="cheat-item"><div class="cheat-key">Goal</div><div class="cheat-val">High cohesion + Low coupling</div></div>
+      <div class="cheat-item"><div class="cheat-key">V(G) target</div><div class="cheat-val">&lt; 10 for critical code</div></div>
+      <div class="cheat-item"><div class="cheat-key">Path coverage</div><div class="cheat-val">test cases = V(G)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Module = ?</div><div class="cheat-val">discrete + identifiable + reusable</div></div>
+      <div class="cheat-item"><div class="cheat-key">Parnas, 1972</div><div class="cheat-val">First defined modularity</div></div>
+      <div class="cheat-item"><div class="cheat-key">McCabe, 1974</div><div class="cheat-val">First defined cyclomatic complexity</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     RAPID REVISION
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="revision" style="margin-top:60px">
+  <div class="ch-header">
+    <div class="ch-num pink">⚡</div>
+    <div class="ch-title">
+      <h2>Rapid Revision</h2>
+      <p>Flashcards · Common Mistakes · What the doctor loves to ask.</p>
+    </div>
+  </div>
+
+  <div class="flashcards">
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">7 levels of Cohesion (best to worst)؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Functional · Sequential · Communicational · Procedural · Temporal · Logical · Coincidental</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">6 levels of Coupling (worst to best)؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Content · Common · External · Control · Stamp · Data</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">V(G) formula؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">V(G) = Edges − Nodes + 2P (or: decisions + 1)</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Goal of modular design؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">High Cohesion + Low Coupling</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Best cohesion type؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Functional 🏆</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Best coupling type؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Data 🏆 (only needed primitives)</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Code uses global variable shared between modules؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Common (Environment) Coupling</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Test cases needed for path coverage؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Equal to V(G)</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Recommended max V(G)؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">&lt; 10 for critical code</div></div>
+    </div></div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
+
+  <div class="danger"><div><b>1. خلط ترتيب Cohesion</b>Functional هي الـ best — مش Coincidental. الـ ladder صعود من coincidental لـ functional.</div></div>
+
+  <div class="danger"><div><b>2. خلط ترتيب Coupling</b>Data هو الـ best — لإن المعلومات اللي بتمرر بس اللي محتاجها. Content هو الأسوأ (access internals).</div></div>
+
+  <div class="danger"><div><b>3. خلط Common و External</b>Common = shared <em>global variables</em> (programming). External = shared external resources (file format, protocol).</div></div>
+
+  <div class="danger"><div><b>4. V(G) = decisions، مش decisions + 1</b>الصيغة هي <code>decisions + 1</code>. مش بس عدد الـ ifs.</div></div>
+
+  <div class="danger"><div><b>5. تخيل إن switch بـ 3 cases = 1 decision</b>لأ — كل case = decision لوحده تقريباً (binary tree of decisions). switch بـ N cases ≈ N-1 simple decisions.</div></div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--amber);margin:30px 0 12px">⭐ What Dr. El-Ramly Loves to Ask</h3>
+  <div class="info">
+    <div>
+      <b>🔥 الأسئلة المتكررة على Lec 4 (Winter 2025 جديد)</b>
+      <ol style="margin-top:6px;padding-left:22px">
+        <li><strong>Cyclomatic Complexity</strong> — بيدي class وعليك تحسب الـ average per function.</li>
+        <li><strong>Cohesion type</strong> — بيدي class وعليك تحدد type cohesion.</li>
+        <li><strong>Coupling type</strong> — بيدي code snippet (global var, parameter, etc.) وعليك تحدد type coupling.</li>
+        <li><strong>Test cases for coverage</strong> — مقارنة بين statement vs path vs branch coverage.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-top:24px">
+    <div><b>🎯 نصيحة</b>احفظ الـ 7 cohesion والـ 6 coupling بترتيب. كتير الأسئلة بتسأل تختار من قائمة، فلو حافظ الترتيب هتعرف Functional &gt; Sequential &gt; ... فوراً.</div>
+  </div>
+</div>
+
+</div><!-- /.content -->
+</main>
+
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
