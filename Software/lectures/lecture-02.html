@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 02 — Software Crisis & Characteristics | CS251</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  /* Page-specific tweaks for Lecture 2 */
+  .failure-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+  .fg-item{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;border-left:3px solid var(--accent,var(--red));transition:.2s}
+  .fg-item:hover{transform:translateY(-2px);border-color:var(--border2);box-shadow:0 8px 22px rgba(0,0,0,.25)}
+  .fg-when{font-family:var(--fc);font-size:.7rem;color:var(--accent,var(--red));margin-bottom:4px;letter-spacing:.05em}
+  .fg-name{font-family:var(--fh);font-size:.95rem;font-weight:600;color:var(--t1);margin-bottom:8px}
+  .fg-desc{font-size:.8rem;color:var(--t2);line-height:1.55}
+  .fg-cost{display:inline-block;margin-top:6px;padding:2px 9px;border-radius:5px;font-family:var(--fc);font-size:.7rem;background:rgba(239,68,68,.1);color:#fca5a5;border:1px solid rgba(239,68,68,.2)}
+  @media(max-width:1100px){.failure-gallery{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.failure-gallery{grid-template-columns:1fr}}
+
+  /* CHAOS stat tiles */
+  .chaos-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+  .chaos-tile{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 14px;text-align:center}
+  .chaos-pct{font-family:var(--fh);font-size:2rem;font-weight:800;color:var(--accent,var(--cyan))}
+  .chaos-lbl{font-size:.78rem;color:var(--t3);margin-top:2px;text-transform:uppercase;letter-spacing:.06em}
+  .chaos-tile.success{--accent:var(--green)}
+  .chaos-tile.challenged{--accent:var(--amber)}
+  .chaos-tile.failed{--accent:var(--red)}
+  @media(max-width:600px){.chaos-row{grid-template-columns:1fr}}
+
+  /* 4 difficulties grand cards */
+  .diff-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:14px 0}
+  .diff-card{background:linear-gradient(135deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:16px;padding:24px;position:relative;overflow:hidden;border-top:4px solid var(--accent)}
+  .diff-card .diff-num{position:absolute;top:12px;right:18px;font-family:var(--fh);font-size:3.5rem;font-weight:800;color:var(--accent);opacity:.18;line-height:1}
+  .diff-card h4{font-family:var(--fh);font-size:1.2rem;color:var(--accent);font-weight:700;margin-bottom:10px}
+  .diff-card p{color:var(--t2);font-size:.88rem;line-height:1.65;margin-bottom:8px}
+  .diff-card.c1{--accent:var(--cyan)}
+  .diff-card.c2{--accent:var(--amber)}
+  .diff-card.c3{--accent:var(--purple)}
+  .diff-card.c4{--accent:var(--green)}
+  @media(max-width:900px){.diff-grid{grid-template-columns:1fr}}
+
+  /* LOC bar chart */
+  .loc-chart{margin:14px 0}
+  .loc-row{display:flex;align-items:center;gap:12px;margin-bottom:8px;font-family:var(--fc);font-size:.82rem}
+  .loc-name{min-width:140px;color:var(--t1)}
+  .loc-bar{flex:1;height:22px;background:rgba(255,255,255,.03);border-radius:5px;overflow:hidden;position:relative}
+  .loc-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:5px;display:flex;align-items:center;padding-right:8px;justify-content:flex-end;color:#fff;font-size:.72rem;font-weight:600;transition:width 1s ease}
+  .loc-val{min-width:90px;text-align:right;color:var(--amber)}
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="prog-bar"></div>
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>💥 CS251 — Lec 02</h2>
+    <p>Software Crisis &amp; Characteristics</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">Chapter 1</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Chronic Crisis (deep)</a>
+
+  <div class="sb-section">Chapter 2</div>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Wall of Failures</a>
+
+  <div class="sb-section">Chapter 3</div>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>CHAOS Reports &amp; Stats</a>
+
+  <div class="sb-section">Chapter 4</div>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Ariane 5 Deep Dive</a>
+
+  <div class="sb-section">Chapter 5</div>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Therac-25 Deep Dive</a>
+
+  <div class="sb-section">Chapter 6</div>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Werewolves &amp; Brooks</a>
+
+  <div class="sb-section">Chapter 7</div>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>The 4 Difficulties ⭐</a>
+
+  <div class="sb-section">Bonus</div>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>Surviving the AI Era</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Bank</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Rapid Revision</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main">
+
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<section class="hero">
+  <div class="hero-badge">⚠️ Lecture 02 · 81 slides · ليه الـ software بيفشل بالتفصيل</div>
+  <h1>Software Crisis &amp; <span>Characteristics</span></h1>
+  <p>الـ Software Crisis بقاله 50+ سنة ولسه قائم. هنا هنفكك أشهر الكوارث، نشوف ليه حصلت، ونفهم الـ 4 صعوبات الأساسية اللي بتخلي الـ software hard من طبيعته (Brooks 1987).</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">8</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">12</div><div class="lbl">Failure Cases</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">Inherent Difficulties</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Exam Qs</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — SOFTWARE'S CHRONIC CRISIS (definition + categories)
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num amber">01</div>
+    <div class="ch-title">
+      <h2>Software's Chronic Crisis — أزمة مزمنة من 50 سنة</h2>
+      <p>ايه يعني "chronic crisis"؟ ليه الـ software الـ industry الوحيد اللي بيكتب "AS IS, NO WARRANTY"؟</p>
+    </div>
+  </div>
+
+  <!-- Definition deep -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📖</span> Chronic Crisis — تفكيك المصطلح</div>
+    <div class="grid2">
+      <div>
+        <h4 style="font-family:var(--fh);color:var(--cyan);font-size:1rem;margin-bottom:8px">🔁 Chronic</h4>
+        <ul>
+          <li>Of long duration, continuing</li>
+          <li>Marked by frequent re-occurrence</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-family:var(--fh);color:var(--red);font-size:1rem;margin-bottom:8px">⚠️ Crisis</h4>
+        <ul>
+          <li>A crucial state of affairs in which a decisive change is impending</li>
+          <li>Especially one with the <strong>possibility of an undesirable outcome</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="info">
+      <div><b>💡 يعني ايه software's chronic crisis؟</b>أزمة <strong>طويلة الأمد ومتكررة</strong> في صناعة البرمجيات: مشاريع بتفشل تخدم غرضها، tubes overruns في التكلفة والوقت، deliverables ناقصة، ومشاريع كتير بتتلغي قبل ما تشوف النور.</div>
+    </div>
+  </div>
+
+  <!-- Why now? Software is everywhere -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🌍</span> ليه الأزمة دلوقتي؟ Software في كل حتة</div>
+    <p>حجم الـ software بيزيد بشكل أسي (exponentially) بسبب الـ hardware اللي بيبقى أسرع وأرخص وأصغر. والـ software دلوقتي موجود في:</p>
+
+    <div class="grid3">
+      <div class="cmp-card" style="--accent:var(--cyan)">
+        <h4>System Software</h4>
+        <p>Operating systems, drivers, telecom systems — بيتفاعل مع الـ hardware و users كتير.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--green)">
+        <h4>Application Software</h4>
+        <p>Office apps — برامج standalone لحاجة محددة.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--amber)">
+        <h4>Business Software</h4>
+        <p>MIS — payroll, inventory, business databases.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--purple)">
+        <h4>Engineering &amp; Scientific</h4>
+        <p>Numerical estimations, simulations.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--pink)">
+        <h4>Web-based</h4>
+        <p>e-commerce, social networks.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--red)">
+        <h4>Real-time</h4>
+        <p>Response 1ms-1sec — automotive, autopilot.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--teal)">
+        <h4>Embedded</h4>
+        <p>Digital TV, IoT, consumer devices.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--purple)">
+        <h4>AI Software</h4>
+        <p>Robotics, games, pattern recognition.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--cyan)">
+        <h4>Mobile Applications</h4>
+        <p>Apps هي اللي بتسيطر على حياتنا.</p>
+      </div>
+    </div>
+
+    <div class="warn">
+      <div><b>⚠️ الخطر الكبير</b>الـ software بقى في <strong>safety-critical systems</strong>: عربيات، طيارات، محطات نووية. لو فيه bug، ممكن الناس تموت.</div>
+    </div>
+  </div>
+
+  <!-- The unique disclaimer -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">📜</span> اللايسنس اللي بيكشف الأزمة</div>
+    <p>إحنا الـ industry الوحيدة اللي بنكتب على المنتج "<em>AS IS, NO WARRANTY</em>". تخيل تشتري عربية والشركة تقولك "ماشية كده، مفيش ضمانات أصلاً". ده عادي في الـ software!</p>
+
+    <div class="code-wrap">
+      <div class="code-header">
+        <div class="code-dots"><span></span><span></span><span></span></div>
+        <div class="code-lang">MIT License (and basically every SW license)</div>
+      </div>
+<pre><code><span class="cmt">THE SOFTWARE IS PROVIDED <span class="str">"AS IS"</span>, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+ANY CLAIM, DAMAGES OR OTHER LIABILITY...</span></code></pre>
+    </div>
+
+    <div class="info">
+      <div><b>🤔 الفكرة</b>لو الـ industry بتاعنا مظبوطة، ما كانش فيه داعي للـ disclaimer ده. وجوده دليل على إن الـ crisis حقيقية.</div>
+    </div>
+  </div>
+
+  <!-- Cost of failure -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">💀</span> فشل الـ Software بيكلّف ايه؟</div>
+    <div class="grid4">
+      <div class="cmp-card" style="--accent:var(--amber)"><h4>⏱️ Time</h4><p>أشهر وسنين بتضيع.</p></div>
+      <div class="cmp-card" style="--accent:var(--green)"><h4>💰 Money</h4><p>بلايين الدولارات.</p></div>
+      <div class="cmp-card" style="--accent:var(--purple)"><h4>😡 Satisfaction</h4><p>عملاء بتسيب الشركة.</p></div>
+      <div class="cmp-card" style="--accent:var(--red)"><h4>⚰️ LIVES</h4><p>وأحياناً... أرواح بشر.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — WALL OF FAILURES
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num red">02</div>
+    <div class="ch-title">
+      <h2>Wall of Famous Software Failures — معرض الكوارث</h2>
+      <p>12 حالة فشل حقيقية اتسببت في خسائر مادية وبشرية ضخمة. لازم تعرفهم لإن أي واحد ممكن ييجي في الـ MCQ.</p>
+    </div>
+  </div>
+
+  <div class="failure-gallery">
+
+    <div class="fg-item" style="--accent:var(--red)">
+      <div class="fg-when">1985–1987</div>
+      <div class="fg-name">⚕️ Therac-25</div>
+      <div class="fg-desc">Computerized radiation therapy machine made by <strong>AECL</strong> (Atomic Energy Canada). جرعات إشعاع مميتة. السبب: <strong>race condition + UI problem</strong>.</div>
+      <div class="fg-cost">3 deaths · 3 serious injuries</div>
+    </div>
+
+    <div class="fg-item" style="--accent:var(--red)">
+      <div class="fg-when">15 Jan 1990</div>
+      <div class="fg-name">📞 AT&amp;T Network Crash</div>
+      <div class="fg-desc"><strong>Missing <code>break</code> in C switch</strong> في 1M LOC. بعد upgrade لـ 114 switching centers في الـ US، كلهم وقعوا في نفس اليوم.</div>
+      <div class="fg-cost">70M calls lost · $1B</div>
+    </div>
+
+    <div class="fg-item" style="--accent:var(--red)">
+      <div class="fg-when">25 Feb 1991</div>
+      <div class="fg-name">🚀 Patriot MIM-104</div>
+      <div class="fg-desc">صاروخ Patriot الأمريكي فشل في اعتراض صاروخ <em>Scud</em> عراقي. السبب: <strong>clock skew</strong> (cumulative rounding error).</div>
+      <div class="fg-cost">28 US soldiers killed</div>
+    </div>
+
+    <div class="fg-item" style="--accent:var(--red)">
+      <div class="fg-when">4 June 1996</div>
+      <div class="fg-name">🛰️ Ariane 5 Launcher</div>
+      <div class="fg-desc">Total failure of first flight 37s after liftoff. <strong>Number conversion error</strong> in inertial reference system (64-bit float → 16-bit int overflow).</div>
+      <div class="fg-cost">$370M+ rocket lost</div>
+    </div>
+
+    <div class="fg-item" style="--accent:var(--red)">
+      <div class="fg-when">Sept 1999</div>
+      <div class="fg-name">🪐 Mars Orbiter</div>
+      <div class="fg-desc">NASA's Mars Climate Orbiter crashed because of <strong>metric / English unit confusion</strong> بين فريقين كانوا بيستخدموا وحدات مختلفة.</div>
+      <div class="fg-cost">$327M satellite lost</div>
+    </div>
+
+    <div class="fg-item" style="--accent:var(--red)">
+      <div class="fg-when">14 Aug 2003</div>
+      <div class="fg-name">⚡ Northeast Blackout</div>
+      <div class="fg-desc">508 generating units &amp; 256 power plants shut down. <strong>Alarm system في الـ Energy Management System فشل</strong> فالـ operators معرفوش بالـ overload.</div>
+      <div class="fg-cost">50M people · $6B</div>
+    </div>
+
+    <div class="fg-item" style="--accent:var(--amber)">
+      <div class="fg-when">1988</div>
+      <div class="fg-name">🏦 Bank of America MasterNet</div>
+      <div class="fg-desc">شركة بنوك صرفت $23M على نظام محاسبة جديد، وبعدين $600M محاولة تخليه يشتغل. المشروع <strong>اتلغي تماماً</strong>.</div>
+      <div class="fg-cost">$623M wasted · accounts lost</div>
+    </div>
+
+    <div class="fg-item" style="--accent:var(--amber)">
+      <div class="fg-when">1982–1993</div>
+      <div class="fg-name">🛡️ Allstate Insurance</div>
+      <div class="fg-desc">$8M initial budget، مشروع 5 سنين أصبح 10 سنين، التكلفة وصلت <strong>$100M</strong>. EDS كانت الـ contractor.</div>
+      <div class="fg-cost">$100M · 5x time overrun</div>
+    </div>
+
+    <div class="fg-item" style="--accent:var(--amber)">
+      <div class="fg-when">1983–1987</div>
+      <div class="fg-name">🏥 Blue Cross Wisconsin</div>
+      <div class="fg-desc">$200M system اتسلم في الوقت بعد 18 شهر، بس <strong>اشتغل غلط</strong> — $60M overpayments &amp; duplicate checks. 35K عميل سابوا الشركة.</div>
+      <div class="fg-cost">$60M overpayments · 35K customers</div>
+    </div>
+
+    <div class="fg-item" style="--accent:var(--amber)">
+      <div class="fg-when">1988–1992</div>
+      <div class="fg-name">✈️ CONFIRM Project</div>
+      <div class="fg-desc">ARMIS (with Marriot, Hilton, Budget) حاولت تبني نظام حجز فنادق وعربيات. <strong>ARMIS كانت بتكدب على status المشروع</strong>. اتلغي بعد 4 سنين.</div>
+      <div class="fg-cost">$125M → $160M court settlement</div>
+    </div>
+
+    <div class="fg-item" style="--accent:var(--purple)">
+      <div class="fg-when">Dec 2013</div>
+      <div class="fg-name">✈️ Delta Air Lines Glitch</div>
+      <div class="fg-desc">Computer glitch خلى Delta تبيع تذاكر بأسعار رخيصة جداً من 10am لـ noon. الشركة قررت تكرّم التذاكر — خسارة كبيرة.</div>
+      <div class="fg-cost">Glitch active 2 hours</div>
+    </div>
+
+    <div class="fg-item" style="--accent:var(--purple)">
+      <div class="fg-when">2014</div>
+      <div class="fg-name">🚓 Surrey Police IT</div>
+      <div class="fg-desc">£15M نظام لتسجيل معلومات الجرائم. الـ oversight اتوصف بأنه <strong>"not fit for purpose"</strong>. مشروع فشل ذريع.</div>
+      <div class="fg-cost">£15M wasted</div>
+    </div>
+  </div>
+
+  <div class="warn">
+    <div><b>⚠️ اللي بيتسأل في الامتحان</b>ركز على <strong>AT&amp;T (missing break)</strong>, <strong>Ariane 5 (overflow)</strong>, <strong>Patriot (miscalculated trajectory)</strong>, <strong>Therac-25 (race condition)</strong>. دول الأربعة الكلاسيكيين.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — CHAOS REPORTS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num purple">03</div>
+    <div class="ch-title">
+      <h2>Standish CHAOS Reports — أرقام بتدق الجرس</h2>
+      <p>كل سنتين Standish Group بيعمل تقرير بإحصاءات نسبة نجاح مشاريع الـ software حول العالم. الأرقام صادمة.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🎯</span> A Successful Software Project Is...</div>
+    <p>4 شروط ولازم كلهم يتحققوا — حسب الـ Standish:</p>
+    <div class="grid4">
+      <div class="cmp-card" style="--accent:var(--green)"><h4>⏱️ On Time</h4><p>اتسلم في الميعاد المحدد.</p></div>
+      <div class="cmp-card" style="--accent:var(--green)"><h4>💰 On Budget</h4><p>في حدود الميزانية المحددة.</p></div>
+      <div class="cmp-card" style="--accent:var(--green)"><h4>🎯 On Target</h4><p>حقق الـ requirements كلها.</p></div>
+      <div class="cmp-card" style="--accent:var(--green)"><h4>😊 Customer Satisfied</h4><p>العميل مبسوط بالنتيجة.</p></div>
+    </div>
+    <div class="info"><div><b>💡</b>لو واحد من الـ 4 ناقص، المشروع <strong>"challenged"</strong>. لو 2 أو 3 ناقصين، <strong>"failed"</strong>.</div></div>
+  </div>
+
+  <!-- 1994 CHAOS -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">📉</span> 1994 CHAOS Report — الصدمة الأولى</div>
+    <p>الـ US كانت بتصرف <strong>$250 Billion</strong> على IT projects، النتائج كانت:</p>
+    <div class="chaos-row">
+      <div class="chaos-tile success"><div class="chaos-pct">16%</div><div class="chaos-lbl">Successful</div></div>
+      <div class="chaos-tile challenged"><div class="chaos-pct">52.7%</div><div class="chaos-lbl">Cost = 189% of estimate</div></div>
+      <div class="chaos-tile failed"><div class="chaos-pct">31.3%</div><div class="chaos-lbl">Cancelled</div></div>
+    </div>
+    <div class="danger"><div><b>🔴 $140 Billion ضاعوا</b>في waste — يعني المبلغ ده اتصرف على مشاريع ما نفعت أو ما اتسلمتش.</div></div>
+  </div>
+
+  <!-- 2004 CHAOS -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📈</span> 2004 CHAOS Chronicles — تحسن نسبي</div>
+    <p>10 سنين بعدين، الأرقام اتحسنت شوية بفضل وعي أكبر بـ SE practices:</p>
+    <div class="chaos-row">
+      <div class="chaos-tile success"><div class="chaos-pct">34%</div><div class="chaos-lbl">Successful (+18%)</div></div>
+      <div class="chaos-tile challenged"><div class="chaos-pct">51%</div><div class="chaos-lbl">Challenged</div></div>
+      <div class="chaos-tile failed"><div class="chaos-pct">15%</div><div class="chaos-lbl">Failed (−16%)</div></div>
+    </div>
+    <p style="margin-top:8px">Cost overrun انخفض من 180% (1994) لـ <strong>43%</strong>. Waste من $140B لـ $55B.</p>
+  </div>
+
+  <!-- 2015 CHAOS -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📊</span> 2015 CHAOS Report — والتحسن وقف!</div>
+    <p>للأسف، الأرقام ما اتحسنتش بعد 2011 — وقفت تقريباً نفس النسب:</p>
+    <table class="tbl">
+      <tr><th>Category</th><th>2011</th><th>2012</th><th>2013</th><th>2014</th><th>2015</th></tr>
+      <tr><td><span class="badge badge-green">Successful</span></td><td>29%</td><td>27%</td><td>31%</td><td>28%</td><td>29%</td></tr>
+      <tr><td><span class="badge badge-amber">Challenged</span></td><td>49%</td><td>56%</td><td>50%</td><td>55%</td><td>52%</td></tr>
+      <tr><td><span class="badge badge-red">Failed</span></td><td>22%</td><td>17%</td><td>19%</td><td>17%</td><td>19%</td></tr>
+    </table>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:1rem;margin:20px 0 10px">🔑 ملحوظة مهمة جداً: حجم المشروع بيؤثر</h4>
+    <table class="tbl">
+      <tr><th>Project Size</th><th>Successful</th><th>Challenged</th><th>Failed</th></tr>
+      <tr><td>Grand (huge)</td><td>6%</td><td>51%</td><td><span class="badge badge-red">43%</span></td></tr>
+      <tr><td>Large</td><td>11%</td><td>59%</td><td>30%</td></tr>
+      <tr><td>Medium</td><td>12%</td><td>62%</td><td>26%</td></tr>
+      <tr><td>Moderate</td><td>24%</td><td>64%</td><td>12%</td></tr>
+      <tr><td>Small</td><td><span class="badge badge-green">61%</span></td><td>32%</td><td>7%</td></tr>
+    </table>
+
+    <div class="tip"><div><b>💡 الـ takeaway</b>كل ما المشروع أكبر، كل ما الفشل أعلى. <strong>Small projects بتنجح 61% من المرات، Grand projects بتنجح 6% بس!</strong> ده ليه الـ Agile بيكسر المشروع لـ sprints صغيرة.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — ARIANE 5 DEEP DIVE
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num red">04</div>
+    <div class="ch-title">
+      <h2>Ariane 5 — تشريح كامل للكارثة</h2>
+      <p>قصة كاملة: ليه الكود فشل، ليه ماتم اكتشافه قبل الإطلاق، وايه الـ lessons learned اللي لازم تحفظها.</p>
+    </div>
+  </div>
+
+  <!-- Background -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📜</span> الخلفية — Ariane 4 vs Ariane 5</div>
+    <div class="grid2">
+      <div>
+        <h4 style="font-family:var(--fh);color:var(--green);font-size:1rem;margin-bottom:8px">✅ Ariane 4 (الـ successor)</h4>
+        <ul>
+          <li>Smaller rocket</li>
+          <li>Lower initial acceleration</li>
+          <li>Lower horizontal velocity build-up</li>
+          <li><strong>Launched 100 times successfully</strong></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-family:var(--fh);color:var(--red);font-size:1rem;margin-bottom:8px">💥 Ariane 5 (الـ new)</h4>
+        <ul>
+          <li>Heavier rocket, heavier payload</li>
+          <li><strong>Higher horizontal velocity</strong> من البداية</li>
+          <li>كان شايل 4 satellites قيمتهم بـ enormous engineering effort</li>
+          <li>Self-destructed 37s بعد الإقلاع</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Root cause -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🔍</span> What Went Wrong — السبب الفني</div>
+    <ol>
+      <li>الـ altitude والـ trajectory للصاروخ بيتقاسوا بنظام computer-based.</li>
+      <li><strong>Number conversion error</strong> — تحويل من <code>64-bit floating point</code> لـ <code>signed 16-bit integer</code>. حصل <strong>overflow</strong>.</li>
+      <li>مفيش <strong>exception handler</strong> للتحويل ده.</li>
+      <li>الـ system exception management facilities اتفعّلت → <strong>shut down الـ software</strong>.</li>
+      <li>الـ backup software <strong>اشتغل نفس الكود</strong> فعمل نفس الغلط واتقفل.</li>
+      <li>الصاروخ خرج عن مساره → incorrect signals للـ engines → swivel → unsustainable stresses → break up.</li>
+    </ol>
+  </div>
+
+  <!-- Why avoidable -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">😤</span> ليه كانت قابلة للتجنب؟ (Avoidable Failure)</div>
+    <p>الجزء المُحبط أوي: الكود ده كان <strong>reused</strong> من Ariane 4. والحساب اللي عمل overflow <strong>مش مطلوب أصلاً في Ariane 5</strong>.</p>
+
+    <p>قرارات اتاخدت بالغلط:</p>
+    <ol>
+      <li>❌ <strong>Not to remove</strong> the unused facility — خوفاً من إن الإزالة تدخل faults جديدة.</li>
+      <li>❌ <strong>Not to test for overflow exceptions</strong> — لأن الـ processor كان "heavily loaded" وعايزين spare CPU capacity.</li>
+    </ol>
+
+    <div class="danger"><div><b>🔴 الدرس الكبير</b>Performance لا يبرر التخلي عن safety. الـ overflow check كان هيكلف ms أو اتنين بس على CPU، وكان هينقذ صاروخ بـ $370M.</div></div>
+  </div>
+
+  <!-- Why A4 didn't fail -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🤔</span> ليه Ariane 4 ما فشلتش بنفس الكود؟</div>
+    <p>الخصائص الفيزيائية لـ Ariane 4:</p>
+    <ul>
+      <li><strong>Smaller vehicle</strong> → lower initial acceleration</li>
+      <li><strong>Lower horizontal velocity build-up</strong></li>
+      <li>قيمة المتغير على A4 <strong>ما توصلش أبداً</strong> لحد بيسبب overflow خلال فترة الإطلاق</li>
+    </ul>
+    <div class="info"><div><b>💡 الدرس</b>الكود اللي شغّال في environment معين مش بالضرورة هيشتغل في environment تاني. <strong>Re-testing لـ reused code إجباري</strong>.</div></div>
+  </div>
+
+  <!-- Validation failure -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🧪</span> فشل الـ Validation</div>
+    <p>هنا فيه سلسلة من القرارات الغلط:</p>
+    <ol>
+      <li>الـ facility اللي فشلت <strong>مش مطلوبة في Ariane 5</strong> → مفيش requirement مرتبط بيها.</li>
+      <li>مفيش requirement → <strong>مفيش tests</strong> اتعملت ليها.</li>
+      <li>مفيش tests → <strong>مفيش chance لاكتشاف المشكلة</strong>.</li>
+      <li>خلال الـ system testing، استخدموا <strong>simulators</strong> للـ inertial reference system computers.</li>
+      <li>الـ simulators <strong>ما generateetش الـ error</strong> (لأن مفيش requirement أصلاً).</li>
+    </ol>
+    <div class="warn"><div><b>⚠️</b>هنا اللي مرتبط بـ <em>Winter 2025 Q1.22</em>: ايه القاسم المشترك بين Ariane 5 و London Ambulance System؟ <strong>Testing was inadequate</strong>.</div></div>
+  </div>
+
+  <!-- Review failure -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">👁️</span> فشل الـ Code Review</div>
+    <p>الـ design والـ code لكل software المفروض يتعمل لهم review أثناء التطوير. هنا حصل واحد من اتنين:</p>
+    <ul>
+      <li>إما الـ inertial reference system code <strong>ما اتمراجعش</strong> لأنه كان مستخدم في version قديمة.</li>
+      <li>أو الـ review اتعمل بس <strong>فشل في كشف المشكلة</strong>.</li>
+    </ul>
+  </div>
+
+  <!-- Lessons Learned -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📚</span> Lessons Learned — اللي لازم تحفظهم</div>
+    <ol>
+      <li>🚫 <strong>Don't run software</strong> in critical systems unless it is <em>actually needed</em>.</li>
+      <li>🧪 As well as testing <strong>what the system should do</strong>, you also have to test <strong>what it should NOT do</strong>.</li>
+      <li>⛔ <strong>Don't default</strong> to system shut-down on exception in systems with no fail-safe state.</li>
+      <li>🎯 In critical computations, return <strong>best-effort values</strong> even if absolutely correct values can't be computed.</li>
+      <li>🔧 Wherever possible, use <strong>real equipment, not simulations</strong>.</li>
+      <li>👥 Improve the review process — include <strong>external participants</strong> and review <strong>all assumptions</strong>.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — THERAC-25
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num red">05</div>
+    <div class="ch-title">
+      <h2>Therac-25 — لما الـ bug بيقتل مرضى</h2>
+      <p>1985-1987. أكتر مثال drastic عن خطورة الـ software في الـ safety-critical systems.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">⚕️</span> ايه الـ Therac-25؟</div>
+    <p>Computerized radiation therapy machine بتاع <strong>AECL</strong> (Atomic Energy Canada Limited). كان "improved" version بيقدر يطلع نوعين إشعاع:</p>
+    <ul>
+      <li><strong>Low-power electron beam</strong> (beta particles) — للأنسجة السطحية.</li>
+      <li><strong>X-rays</strong> — للأنسجة العميقة، عن طريق ضرب electrons بقوة عالية على <em>metal target</em> بين الـ electron gun والمريض.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🐛</span> الـ Bug القاتل — Race Condition</div>
+    <p>الـ bug الـ "subtle":</p>
+    <ol>
+      <li>الـ operator بيختار mode (electron أو X-ray) من على keyboard.</li>
+      <li>لو الـ operator كان <strong>سريع جداً في الكتابة</strong> (quick-fingered typist)...</li>
+      <li>الـ machine ممكن تتـ configure على <strong>high-power mode (X-ray)</strong>...</li>
+      <li>بس الـ <strong>metal X-ray target</strong> يكون لسه <strong>out of position</strong>!</li>
+      <li>النتيجة: المريض ياخد <strong>electron beam بقوة X-ray</strong> مباشرةً في جسمه.</li>
+    </ol>
+    <div class="danger"><div><b>💀 النتيجة</b>جرعات إشعاع مميتة. <strong>6 مرضى</strong> ماتوا أو اتأذوا بشدة بين يونيو 1985 ويناير 1987.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">⏳</span> ايه اللي حصل بعد كده؟</div>
+    <ul>
+      <li>الـ bug خد <strong>سنتين</strong> علشان يتلاقى.</li>
+      <li>الشركة (AECL) <strong>أنكرت في الأول</strong> إن المشكلة في الجهاز/الكود.</li>
+      <li>بعد الفضيحة، AECL <strong>سابت سوق الـ medical equipment</strong> بالكامل.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📚</span> Lessons Learned</div>
+    <ol>
+      <li>❌ AECL <strong>ignored safety aspects</strong> of software.</li>
+      <li>❌ <strong>Confused reliability with safety</strong> — الـ machine reliable في 99.9%، بس الـ 0.1% بتقتل.</li>
+      <li>❌ <strong>Lack of defensive design</strong> — مفيش checks بتمنع الـ config الخاطئ.</li>
+      <li>❌ <strong>Inadequate reporting</strong> — حادثة Ontario ما اتعملش لها explanation/follow-up.</li>
+      <li>❌ <strong>Inadequate SE practices</strong>:
+        <ul style="margin-top:4px">
+          <li>Specs as afterthought (مش من البداية)</li>
+          <li>Complex architecture</li>
+          <li>Dangerous coding patterns</li>
+          <li>Little testing</li>
+          <li>Careless HCI design</li>
+        </ul>
+      </li>
+    </ol>
+    <div class="info"><div><b>💡 الفرق بين Reliability و Safety</b><strong>Reliable</strong> = بيشتغل كتير من غير ما يقع. <strong>Safe</strong> = حتى لو وقع، مش بيأذي حد. Therac-25 كان reliable بس <em>مش safe</em>.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — WEREWOLVES & NO SILVER BULLET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num purple">06</div>
+    <div class="ch-title">
+      <h2>Software Werewolves &amp; No Silver Bullet</h2>
+      <p>Brooks 1987 — مفيش حل سحري واحد هيحل مشاكل الـ software.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">🌕</span> Werewolves في الميثولوجيا</div>
+      <p>من كل وحوش الماضي، الـ werewolves كانوا الأكتر إخافة. ليه؟</p>
+      <p>لإنهم <strong>بيتغيروا شكلهم بدون إنذار</strong>. واحد ساعتها بيبان عادي زي أي إنسان، وفي اللحظة التانية بيبقى وحش مرعب بفك ضخم.</p>
+    </div>
+    <div class="topic" style="--accent:var(--red)">
+      <div class="topic-title"><span class="icon">💻</span> Software Werewolf — Brooks Metaphor</div>
+      <p>الـ Software زي الـ werewolf — <strong>بيبان عادي لحد ما القمر يطلع، وبعدين يتحول لوحش</strong>:</p>
+      <ul>
+        <li>📅 Missed deadlines</li>
+        <li>💸 Blown budgets</li>
+        <li>🐛 Buggy software</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🪙</span> No Silver Bullet — مفيش حل سحري</div>
+    <p>في 1987، Frederick P. Brooks كتب مقالة مشهورة:</p>
+    <div class="diagram" style="text-align:center;padding:30px">
+      <div style="font-family:var(--fh);font-size:1.25rem;color:var(--cyan);font-weight:700;margin-bottom:8px">"No Silver Bullet: Essence and Accidents of Software Engineering"</div>
+      <div style="color:var(--t3);font-size:.85rem">Frederick P. Brooks · 1987</div>
+    </div>
+    <p>الحجة الأساسية: مفيش <strong>silver bullet</strong> (الرصاصة الفضية اللي بتقتل الـ werewolf) واحدة هتحل كل مشاكل الـ software. لأن الـ software عنده <strong>essence</strong> (طبيعة جوهرية) صعبة، وفيها 4 صعوبات اساسية هنشوفهم تحت.</p>
+    <div class="info"><div><b>📌 Winter 2025 Q1.21</b>"Werewolves" في Brooks metaphor تمثل <strong>projects that seem normal but become complex and problematic</strong>. مش الـ bugs، مش الـ engineers، مش الـ tools — الـ <strong>projects</strong> نفسها.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — THE 4 INHERENT DIFFICULTIES ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num blue">07</div>
+    <div class="ch-title">
+      <h2>The 4 Essential Difficulties of Software ⭐</h2>
+      <p>أهم slide في الـ lecture. Brooks قال إن الـ software ليه 4 صعوبات في طبيعته الجوهرية (essence). احفظهم بترتيب: <strong>C-C-C-I</strong>.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🧠</span> Mnemonic: <code>C - C - C - I</code></div>
+    <p>الأربعة بحرف C ما عدا واحد:</p>
+    <ul>
+      <li><strong>C</strong>omplexity</li>
+      <li><strong>C</strong>onformity</li>
+      <li><strong>C</strong>hangeability</li>
+      <li><strong>I</strong>nvisibility</li>
+    </ul>
+    <div class="warn"><div><b>⚠️</b>المفروض تعرف كل واحدة معناها <em>وأمثلة عليها</em>. الـ doctor بيحب يسأل "ايه ال خاصية اللي بتعمل كذا؟".</div></div>
+  </div>
+
+  <!-- 4 cards -->
+  <div class="diff-grid">
+
+    <!-- 1. Complexity -->
+    <div class="diff-card c1">
+      <div class="diff-num">1</div>
+      <h4>🧩 Complexity</h4>
+      <p>الـ Software systems <strong>مالهاش regular structures</strong> — مفيش identical parts بتتكرر. مفيش حسابات أو data structures متطابقة بتترّر.</p>
+      <p>على عكس الـ hardware: <em>memory chip</em> بيكرر نفس الـ basic structure ملايين المرات.</p>
+      <p>والـ software systems عندها <strong>very high number of discrete states</strong>، والتعقيد بيزيد <strong>worse than linearly</strong> مع الـ size.</p>
+    </div>
+
+    <!-- 2. Conformity -->
+    <div class="diff-card c2">
+      <div class="diff-num">2</div>
+      <h4>🔌 Conformity</h4>
+      <p>الـ Software لازم <strong>يتكيف مع الـ environment بتاعه</strong>، مش العكس.</p>
+      <p>مثلاً: <strong>الـ software هو اللي بيتكيف مع الـ hardware interfaces</strong>، مش الـ hardware اللي بيتغير علشان الـ software.</p>
+      <p>وفي معظم الوقت، أي software جديد لازم <strong>يـ interface مع نظام قديم موجود</strong> (legacy system).</p>
+    </div>
+
+    <!-- 3. Changeability -->
+    <div class="diff-card c3">
+      <div class="diff-num">3</div>
+      <h4>🔄 Changeability</h4>
+      <p>الـ Software <strong>سهل التغيير</strong>، على عكس الـ hardware.</p>
+      <p>Intel Pentium bug كلف نص بليون دولار علشان <strong>استبدال chips</strong>. لكن Microsoft لما يطلع bug فالـ Windows، التحديث download مجاني — كلفة zero.</p>
+      <p><strong>بس ده مش بالضرورة advantage!</strong> الـ pressure على التغيير بيخلي الـ software يتغير كتير ويبعد عن الـ initial design (راجع Q1.03 Winter 2023).</p>
+    </div>
+
+    <!-- 4. Invisibility -->
+    <div class="diff-card c4">
+      <div class="diff-num">4</div>
+      <h4>👻 Invisibility</h4>
+      <p>الـ Software <strong>invisible وunvisualizable</strong> — مش زي المبنى أو السيارة اللي بتقدر تشوفهم.</p>
+      <p>Complete views بتكون incomprehensible (معقدة جداً)، و partial views بتكون misleading.</p>
+      <p>الـ engineering disciplines التانية بتستخدم <strong>geometric abstractions</strong> (floor plans, blueprints) لكن الـ software <strong>ملوش geometric representation طبيعي</strong>.</p>
+    </div>
+  </div>
+
+  <!-- LOC chart -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📊</span> الـ Complexity بالأرقام — LOC Table</div>
+    <p>عدد سطور الكود في systems مشهورة:</p>
+    <div class="loc-chart">
+      <div class="loc-row">
+        <div class="loc-name">Windows XP</div>
+        <div class="loc-bar"><div class="loc-fill" style="width:100%">40M LOC</div></div>
+        <div class="loc-val">40,000,000</div>
+      </div>
+      <div class="loc-row">
+        <div class="loc-name">Netscape</div>
+        <div class="loc-bar"><div class="loc-fill" style="width:42%"></div></div>
+        <div class="loc-val">17,000,000</div>
+      </div>
+      <div class="loc-row">
+        <div class="loc-name">Space Shuttle</div>
+        <div class="loc-bar"><div class="loc-fill" style="width:25%"></div></div>
+        <div class="loc-val">10,000,000</div>
+      </div>
+      <div class="loc-row">
+        <div class="loc-name">Boeing 777</div>
+        <div class="loc-bar"><div class="loc-fill" style="width:17.5%"></div></div>
+        <div class="loc-val">7,000,000</div>
+      </div>
+      <div class="loc-row">
+        <div class="loc-name">Linux</div>
+        <div class="loc-bar"><div class="loc-fill" style="width:3.75%"></div></div>
+        <div class="loc-val">1,500,000</div>
+      </div>
+    </div>
+    <div class="info"><div><b>🤯 fun fact</b>عربية جديدة دلوقتي فيها <strong>أكتر من الكود اللي استخدمته NASA علشان توصل أبولو للقمر</strong>!</div></div>
+  </div>
+
+  <!-- Why Changeability is NOT an advantage -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">⚖️</span> Changeability is NOT really an Advantage</div>
+    <p>ممكن تفكر إن سهولة التغيير ميزة. <strong>غلط</strong>. ليه؟</p>
+    <ul>
+      <li>السهولة دي بتخلق <strong>pressure مستمر</strong> على إن الـ software يتغير.</li>
+      <li>التغيير المستمر بيخلي الـ software <strong>يبعد عن الـ initial design</strong>.</li>
+      <li>الإصدارات الجديدة بتضيف features، تدعم hardware جديد، تصلح bugs — كله بيراكم تعقيد.</li>
+      <li>النتيجة: <strong>technical debt</strong> بيتراكم، والـ system بيبقى أصعب في الصيانة.</li>
+    </ul>
+    <div class="warn"><div><b>⚠️ Winter 2023 Q1.03</b>الإجابة الصح لـ "what is true about changeability" هي <strong>"It has advantages AND disadvantages"</strong> + "leads to frequent modifications and deviations from initial design".</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 8 — BONUS: SURVIVING IN AI ERA
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num teal">08</div>
+    <div class="ch-title">
+      <h2>Surviving in the AI Era — Bonus</h2>
+      <p>الـ doctor بيقول لازم تتعلم حاجات معينة علشان تتفوق في سوق الشغل وقت AI dominance.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">🤖</span> AI Tools اتعلمهم</div>
+      <ul>
+        <li>GitHub <strong>Copilot</strong> — code completion</li>
+        <li>Google <strong>Codey</strong> / Gemini</li>
+        <li>اتعلم تستخدمهم <strong>بسرعة</strong></li>
+        <li>اتعلم تدمج AI في الـ apps بتاعتك (chatbots, ML)</li>
+        <li>Secure coding</li>
+        <li>Data analysis &amp; visualization</li>
+      </ul>
+    </div>
+
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">🚀</span> Trending Technologies</div>
+      <ul>
+        <li><strong>Serverless</strong> (AWS Lambda, Azure Functions)</li>
+        <li><strong>Microservices</strong> architecture</li>
+        <li><strong>Containers</strong> &amp; Docker / Kubernetes</li>
+        <li><strong>Blockchain</strong></li>
+        <li><strong>Low-Code / No-Code (LCNC)</strong> — مثل MS Power Platform</li>
+        <li>IT Business knowledge</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip"><div><b>💼 الـ idea</b>كل ما توسّع الـ arsenal بتاعك، كل ما تبقى أقل قابلية للإستبدال بـ AI.</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ — EXAM QUESTION BANK
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Exam Question Bank — Lecture 2</h3>
+      <p>8 أسئلة حقيقية تتمحور حول Software Crisis والـ Characteristics · من امتحانات 2021 → 2025</p>
+    </div>
+  </div>
+
+  <!-- Q1 — AT&T -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 1 <span class="q-src">Fall 2021–22 · Q1.03</span></div>
+    <div class="q-text">In the case of <strong>AT&amp;T long-distance phone network crash</strong> (15/1/1990) — what was the reason behind the failure?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Bad UI design that confuses the operator</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A number conversion error</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Delay in software delivery by the contractor</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Missing <code>break</code> statement in C switch statement</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — Missing break in C switch</b>
+      في 114 switching center اتعمل لهم upgrade وكلهم اتأثروا بنفس السطر الغلط. 70 مليون مكالمة ضاعت في يوم واحد، AT&amp;T خسرت بليون دولار.
+      <div class="why-wrong">
+        <b>ليه باقي الإجابات غلط:</b>
+        <strong>A</strong> — مفيش UI involved، ده failure في الـ network logic. ·
+        <strong>B</strong> — Number conversion overflow ده حكاية <em>Ariane 5</em>. ·
+        <strong>C</strong> — التسليم تم بالفعل والكود اشتغل لمدة فترة، المشكلة في الكود نفسه مش في التسليم.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 — NOT in crisis -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 2 <span class="q-src">Fall 2021–22 · Q1.04</span></div>
+    <div class="q-text">Which of these items is <strong>NOT included</strong> in the definition of software crisis?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Software fails to serve the purpose or may cause harm</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Project delivers reduced functional deliverables</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Project cost overruns and schedule delays</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Project staff leave the project before completion</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — Project staff leave</b>
+      الـ chronic crisis ليه 3 مظاهر بس: fails purpose · reduced functionality · cost &amp; schedule overruns. سيبان الموظفين دي مشكلة HR في أي صناعة، مش مرتبطة بفشل الـ software تحديداً.
+      <div class="why-wrong">
+        <b>A, B, C كلهم جزء من التعريف الرسمي.</b>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 — Patriot -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 3 <span class="q-src">Winter 2021 · Q1.03</span></div>
+    <div class="q-text">In the case of <strong>Patriot MIM-104</strong>, a software bug caused the system to:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Not being able to see the attacking missile</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Not showing the trajectory of the attacking missile on the screen</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Miscalculate the trajectory of the attacking missile</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Fail to fire at the attacking missile</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Miscalculate the trajectory</b>
+      Patriot رصد الـ Scud، وأطلق عليه صاروخ اعتراضي. بس بسبب <strong>clock skew</strong> (cumulative rounding error)، النظام حسب موقع الـ Scud بشكل غلط فالـ صاروخ المعترض راح في مكان خاطئ. 28 جندي ماتوا.
+      <div class="why-wrong">
+        <strong>A/B</strong> — الـ Patriot شاف الصاروخ على الـ radar. ·
+        <strong>D</strong> — الـ Patriot أطلق فعلاً، بس الـ trajectory المحسوبة غلط فما أصابش الهدف.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 — AT&T Line -->
+  <div class="q-item" data-correct="e">
+    <div class="q-num">Question 4 <span class="q-src">Winter 2021 · Q1.04</span></div>
+    <div class="q-text">Which line of code caused the failure of <strong>AT&amp;T telephone network</strong>?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Line 2</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Line 13</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Line 6</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Line 12</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Line 10</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: E — Line 10</b>
+      الـ <code>break</code> في السطر 10 موجود داخل <code>else</code> برّه الـ if الداخلي، وبالتالي بيخرج من الـ <strong>switch كله</strong> بدل ما يخرج من الـ if فقط. بكده ما بيوصلش لـ <em>process incoming message</em>.
+      <div class="why-wrong">
+        <strong>B (line 13)</strong> — break الطبيعي للخروج من الـ case، مش هو السبب. ·
+        الـ خيارات التانية: مش هي السطور اللي فيها bug.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 — Failures stem -->
+  <div class="q-item" data-correct="e">
+    <div class="q-num">Question 5 <span class="q-src">Winter 2023 · Q1.02</span></div>
+    <div class="q-text">Software failures stem from...
+      <br>I. Poor management decisions or lack of decisions
+      <br>II. Poor software development practices
+      <br>III. Limited budget for the software project
+      <br>IV. Overconfidence in the software performance
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Only I &amp; III</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Only II, III &amp; IV</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Only I, II &amp; III</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Only III &amp; IV</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Only I, II &amp; IV</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: E — Only I, II &amp; IV</b>
+      الأسباب الحقيقية للفشل: <strong>Poor management + Poor practices + Overconfidence</strong>. الميزانية المحدودة (III) <em>مش</em> سبب رئيسي — Therac-25 ما فشلش بسبب ميزانية، فشل بسبب practices سيئة.
+      <div class="why-wrong">
+        أي إجابة فيها III غلط.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 — Changeability -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 6 <span class="q-src">Winter 2023 · Q1.03</span></div>
+    <div class="q-text">Software changeability...
+      <br>I. It has advantages and disadvantages
+      <br>II. It means that software is intangible and lacks a physical presence
+      <br>III. It means that software must adapt to existing hardware interfaces
+      <br>IV. It often leads to frequent modifications and deviations from the initial design
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Only I &amp; III</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Only I, II &amp; III</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Only I &amp; IV</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Only II &amp; IV</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Only III &amp; IV</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Only I &amp; IV</b>
+      Changeability ليها مميزات (سهولة التحديث) <em>وعيوب</em> (الـ pressure للتغيير بيؤدي لانحراف عن الـ initial design). الاتنين صحيحين.
+      <div class="why-wrong">
+        <strong>II</strong> — "intangible" = <em>Invisibility</em>، صعوبة تانية من الـ 4. ·
+        <strong>III</strong> — "adapt to existing hardware interfaces" = <em>Conformity</em>، صعوبة تالتة. الـ doctor بيخلط بين الـ 4 difficulties في الـ MCQ.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 — Werewolves -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 7 <span class="q-src">Winter 2025 · Q1.21</span></div>
+    <div class="q-text">In <strong>Brooks' metaphor</strong>, what do <em>"werewolves"</em> represent in software engineering?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Bugs that are difficult to track</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Projects that seem normal but become complex and problematic</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Magical tools that promise to fix everything</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Software engineers who over-complicate systems</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Projects that seem normal but become complex</b>
+      الـ werewolf في الميثولوجيا بيتغير شكله بدون إنذار. كده المشاريع: تبدأ بسيطة وفجأة بتبقى وحش. الـ "silver bullet" هو اللي بيقتل الـ werewolf، فالـ projects هم الـ werewolves.
+      <div class="why-wrong">
+        <strong>A</strong> — Bugs مش الـ werewolves. ·
+        <strong>C</strong> — الـ silver bullet هو الـ tool، الـ werewolf هو الضحية/المشكلة. ·
+        <strong>D</strong> — Brooks ركز على الـ projects مش الـ engineers.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 — Ariane + LAS -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 8 <span class="q-src">Winter 2025 · Q1.22</span></div>
+    <div class="q-text">What is <strong>common between</strong> the cases of software failure in <em>Ariane 5</em> and <em>London Ambulance System (LAS)</em>?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The company developing the software had no prior experience in this type of software</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A number conversion to a smaller type caused overflow and hence system failure</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Testing was inadequate and insufficient</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The decision to release the system was done on political not technical reasons</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Testing was inadequate and insufficient</b>
+      Ariane 5: الكود من A4 ما اتعملش له re-testing على البيئة الجديدة (الـ horizontal velocity الأعلى). الـ simulators ما generateetش الـ error لأن مفيش requirement أصلاً. LAS: launched without load testing كافي. <strong>الـ common factor = inadequate testing</strong>.
+      <div class="why-wrong">
+        <strong>A</strong> — الشركتين كان عندهم خبرة في الـ domain. ·
+        <strong>B</strong> — overflow ده Ariane 5 بس، مش LAS. ·
+        <strong>D</strong> — قرارات سياسية مش العامل المشترك.
+      </div>
+    </div>
+  </div>
+
+  <!-- Buttons + Score -->
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet — مذاكرة سريعة لليلة الامتحان</h2>
+      <p>كل اللي محتاجه: الأرقام · الأسماء · التواريخ · الأسباب · الـ 4 صعوبات.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+
+    <div class="cheat">
+      <h3>💥 Famous Failures (الأهم)</h3>
+      <div class="cheat-item"><div class="cheat-key">AT&amp;T 1990</div><div class="cheat-val">Missing <code>break</code> in C switch (line 10). 70M calls. $1B.</div></div>
+      <div class="cheat-item"><div class="cheat-key">Patriot 1991</div><div class="cheat-val"><strong>Clock skew</strong> (cumulative rounding) → miscalculated Scud trajectory. 28 deaths.</div></div>
+      <div class="cheat-item"><div class="cheat-key">Ariane 5 1996</div><div class="cheat-val">64-bit float → 16-bit int <strong>overflow</strong>. Code reused from A4. No exception handler. Exploded 37s after liftoff.</div></div>
+      <div class="cheat-item"><div class="cheat-key">Therac-25 1985-87</div><div class="cheat-val"><strong>Race condition</strong> + UI bug. X-ray target out of position. 6 victims, 3 deaths.</div></div>
+      <div class="cheat-item"><div class="cheat-key">Mars Orbiter 1999</div><div class="cheat-val"><strong>Metric/English unit confusion</strong>. $327M lost.</div></div>
+      <div class="cheat-item"><div class="cheat-key">Blackout 2003</div><div class="cheat-val">Alarm system في EMS فشل. 50M people. $6B.</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>⭐ The 4 Inherent Difficulties (Brooks)</h3>
+      <div class="cheat-item"><div class="cheat-key">1. Complexity</div><div class="cheat-val">No regular structure · high # discrete states · grows worse than linearly</div></div>
+      <div class="cheat-item"><div class="cheat-key">2. Conformity</div><div class="cheat-val">SW conforms to HW interfaces (not vice versa) · must interface w/ existing systems</div></div>
+      <div class="cheat-item"><div class="cheat-key">3. Changeability</div><div class="cheat-val">Easy to change · BUT pressure leads to deviation from initial design</div></div>
+      <div class="cheat-item"><div class="cheat-key">4. Invisibility</div><div class="cheat-val">No geometric/physical representation · complete views incomprehensible · partial views misleading</div></div>
+      <div class="cheat-item"><div class="cheat-key">Mnemonic</div><div class="cheat-val"><strong>C-C-C-I</strong> · Brooks 1987 "No Silver Bullet"</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📊 CHAOS Stats</h3>
+      <div class="cheat-item"><div class="cheat-key">1994</div><div class="cheat-val">16% success · 53% challenged · 31% cancelled · $140B waste</div></div>
+      <div class="cheat-item"><div class="cheat-key">2004</div><div class="cheat-val">34% success · 51% challenged · 15% failed · $55B waste</div></div>
+      <div class="cheat-item"><div class="cheat-key">2015</div><div class="cheat-val">29% success · 52% challenged · 19% failed</div></div>
+      <div class="cheat-item"><div class="cheat-key">Project size</div><div class="cheat-val">Small = 61% success · Grand = 6% success</div></div>
+      <div class="cheat-item"><div class="cheat-key">Success = 4 things</div><div class="cheat-val">On Time · On Budget · On Target · Customer Satisfied</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🔢 LOC Quick Reference</h3>
+      <div class="cheat-item"><div class="cheat-key">Windows XP</div><div class="cheat-val">40 million LOC</div></div>
+      <div class="cheat-item"><div class="cheat-key">Netscape</div><div class="cheat-val">17 million LOC</div></div>
+      <div class="cheat-item"><div class="cheat-key">Space Shuttle</div><div class="cheat-val">10 million LOC</div></div>
+      <div class="cheat-item"><div class="cheat-key">Boeing 777</div><div class="cheat-val">7 million LOC</div></div>
+      <div class="cheat-item"><div class="cheat-key">Linux</div><div class="cheat-val">1.5 million LOC</div></div>
+      <div class="cheat-item"><div class="cheat-key">Modern car</div><div class="cheat-val">&gt; Apollo moon mission code</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🧠 Concepts Don't Mix Up</h3>
+      <div class="cheat-item"><div class="cheat-key">Reliability</div><div class="cheat-val">شغّال كتير من غير ما يقع</div></div>
+      <div class="cheat-item"><div class="cheat-key">Safety</div><div class="cheat-val">حتى لو وقع، مش بيأذي حد. Therac-25 كان reliable مش safe.</div></div>
+      <div class="cheat-item"><div class="cheat-key">Changeability</div><div class="cheat-val">سهولة التعديل (essence #3)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Conformity</div><div class="cheat-val">التكيف مع HW/legacy (essence #2)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Invisibility</div><div class="cheat-val">ملوش شكل فيزيائي/هندسي (essence #4)</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🚀 Ariane 5 — Why It Failed</h3>
+      <div class="cheat-item"><div class="cheat-key">Code source</div><div class="cheat-val">Reused from Ariane 4</div></div>
+      <div class="cheat-item"><div class="cheat-key">Why no overflow check?</div><div class="cheat-val">Performance — CPU was "heavily loaded"</div></div>
+      <div class="cheat-item"><div class="cheat-key">Why no test?</div><div class="cheat-val">No requirement (feature not used in A5) → no test</div></div>
+      <div class="cheat-item"><div class="cheat-key">Backup software</div><div class="cheat-val">Same code → same crash</div></div>
+      <div class="cheat-item"><div class="cheat-key">Simulators?</div><div class="cheat-val">Used in testing, but didn't generate the error</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     RAPID REVISION
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="revision" style="margin-top:60px">
+  <div class="ch-header">
+    <div class="ch-num pink">⚡</div>
+    <div class="ch-title">
+      <h2>Rapid Revision — مراجعة آخر ساعة</h2>
+      <p>Flashcards على الـ 4 صعوبات والكوارث · Common Mistakes · What the doctor loves to ask.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--cyan);margin:12px 0 14px">🎴 اضغط على أي card علشان تشوف الإجابة</h3>
+
+  <div class="flashcards">
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">ايه الـ 4 inherent difficulties في الـ software (Brooks)؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Complexity · Conformity · Changeability · Invisibility</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">ايه سبب فشل Therac-25؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Race condition + UI problem</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">ايه سبب فشل Mars Orbiter 1999؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Metric / English unit confusion</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">ايه الشروط الـ 4 لـ successful SW project؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">On Time · On Budget · On Target · Customer Satisfied</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">ليه Ariane 4 ما فشلتش بنفس الكود؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Smaller rocket → lower horizontal velocity → value never reached overflow</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">ايه الفرق بين Reliability و Safety؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Reliable = doesn't fail often. Safe = doesn't harm even when it fails.</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">ايه نسبة نجاح Small projects vs Grand projects (CHAOS 2015)؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Small = 61% success · Grand = 6% success</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">ايه Brooks' famous 1987 paper title؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">"No Silver Bullet: Essence &amp; Accidents of SE"</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Changeability ميزة ولا مش ميزة؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">عندها مميزات وعيوب — الـ pressure للتغيير بيخلي SW يبعد عن الـ initial design</div></div>
+    </div></div>
+  </div>
+
+  <!-- Common Mistakes -->
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
+
+  <div class="danger">
+    <div>
+      <b>1. خلط الـ 4 difficulties</b>
+      Conformity = adapt to existing systems · Invisibility = no physical form · Changeability = easy to change · Complexity = no regular structure.
+      الـ doctor بيستخدم تعريف صعوبة واحدة كـ <em>distractor</em> في سؤال عن صعوبة تانية.
+    </div>
+  </div>
+
+  <div class="danger">
+    <div>
+      <b>2. خلط أسباب الكوارث</b>
+      AT&amp;T = missing break · Ariane 5 = number overflow · Patriot = clock skew (miscalculated trajectory) · Therac-25 = race condition · Mars Orbiter = metric/English units.
+      كل واحدة سببها مختلف، ما تخلطش بينهم.
+    </div>
+  </div>
+
+  <div class="danger">
+    <div>
+      <b>3. Changeability = advantage فقط؟</b>
+      <strong>لأ.</strong> Brooks قال صراحة إنها <em>essential difficulty</em>. الـ pressure على التغيير بيخلي الـ SW يبعد عن الـ design الأصلي ويراكم technical debt.
+    </div>
+  </div>
+
+  <div class="danger">
+    <div>
+      <b>4. Reliability = Safety؟</b>
+      <strong>لأ، مختلفين.</strong> Therac-25 كان reliable (شغّال كتير من غير ما يقع) بس مش safe (لما وقع، قتل ناس). الفرق ده ممكن ييجي في MCQ مفصّل.
+    </div>
+  </div>
+
+  <div class="danger">
+    <div>
+      <b>5. القاسم المشترك بين Ariane 5 و LAS</b>
+      مش الـ overflow (ده Ariane بس) ولا الـ political decision. هو <strong>inadequate testing</strong>. ركز.
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--amber);margin:30px 0 12px">⭐ What Dr. El-Ramly Loves to Ask</h3>
+  <div class="info">
+    <div>
+      <b>🔥 الأسئلة المتكررة على Lec 2</b>
+      <ol style="margin-top:6px;padding-left:22px">
+        <li><strong>اسم الـ failure + سببها</strong> — كل امتحان لازم فيه سؤال زي ده.</li>
+        <li><strong>"What is NOT in the definition of software crisis"</strong> — متكرر جداً.</li>
+        <li><strong>One of the 4 essential difficulties</strong> — بيختار خاصية ويسأل ايه التعريف بتاعها (أو العكس).</li>
+        <li><strong>"What causes software failures"</strong> — Poor mgmt + Poor practices + Overconfidence.</li>
+        <li><strong>Brooks' werewolves</strong> — مرة كل سنة.</li>
+        <li><strong>الـ common factor</strong> بين 2 failure cases — testing inadequate في معظم الأحيان.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-top:24px">
+    <div>
+      <b>🎯 نصيحة أخيرة</b>
+      ركز على الـ <em>keywords</em>: missing break · number conversion overflow · race condition · clock skew · metric/English · alarm system · Brooks 1987 · No Silver Bullet · C-C-C-I · inadequate testing · safety ≠ reliability.
+    </div>
+  </div>
+</div>
+
+</div><!-- /.content -->
+
+</main>
+
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
