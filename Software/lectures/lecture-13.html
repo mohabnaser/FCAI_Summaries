@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 13 — Observer Pattern &amp; MVC | CS251</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  /* Subject/Observer visual */
+  .pubsub-vis{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:24px;margin:14px 0;text-align:center}
+  .pubsub-row{display:flex;align-items:center;justify-content:center;gap:30px;flex-wrap:wrap}
+  .subject-box{background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(245,158,11,.05));border:2px solid var(--amber);border-radius:14px;padding:16px 22px;font-family:var(--fh);font-weight:700;color:var(--amber);min-width:140px}
+  .observers-stack{display:flex;flex-direction:column;gap:8px}
+  .observer-box{background:rgba(0,212,255,.08);border:1.5px solid var(--cyan);border-radius:10px;padding:8px 16px;font-family:var(--fh);font-size:.85rem;color:var(--cyan);font-weight:600;min-width:120px;text-align:center}
+  .notify-arrow{display:flex;flex-direction:column;align-items:center;gap:4px}
+  .notify-arrow-line{width:60px;height:2px;background:linear-gradient(90deg,var(--amber),var(--cyan));position:relative}
+  .notify-arrow-line::after{content:'';position:absolute;right:-4px;top:-4px;border-left:8px solid var(--cyan);border-top:5px solid transparent;border-bottom:5px solid transparent}
+  .notify-label{font-family:var(--fc);font-size:.72rem;color:var(--t3);font-style:italic}
+
+  /* MVC layout */
+  .mvc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+  .mvc-card{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;border-top:4px solid var(--accent)}
+  .mvc-letter{font-family:var(--fh);font-size:3rem;font-weight:800;color:var(--accent);line-height:1}
+  .mvc-name{font-family:var(--fh);font-size:1.05rem;color:var(--t1);font-weight:700;margin:4px 0 10px}
+  .mvc-card ul{text-align:left;font-size:.85rem;color:var(--t2);padding-left:22px}
+  .mvc-card:nth-child(1){--accent:var(--green)}
+  .mvc-card:nth-child(2){--accent:var(--cyan)}
+  .mvc-card:nth-child(3){--accent:var(--purple)}
+  @media(max-width:700px){.mvc-grid{grid-template-columns:1fr}}
+
+  /* Flow diagram for MVC */
+  .mvc-flow{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:20px;margin:14px 0}
+  .mvc-flow-row{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:14px 0}
+  .mvc-flow-box{background:var(--card2);border:2px solid var(--accent);border-radius:10px;padding:12px 18px;font-family:var(--fh);font-weight:600;color:var(--accent);min-width:130px;text-align:center}
+  .mvc-flow-arrow{color:var(--cyan);font-family:var(--fc);font-size:.72rem;text-align:center;flex:1}
+  .mvc-flow-arrow .arrow-line{height:2px;background:var(--cyan);position:relative;margin:8px 0}
+  .mvc-flow-arrow .arrow-line::after{content:'';position:absolute;right:-2px;top:-4px;border-left:8px solid var(--cyan);border-top:5px solid transparent;border-bottom:5px solid transparent}
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>📡 CS251 — Lec 13</h2>
+    <p>Observer Pattern &amp; MVC</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">Observer Pattern</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Intro &amp; Definition</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>UML Structure</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>4 Key Players</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Sequence Flow</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Java Implementation ⭐</a>
+
+  <div class="sb-section">MVC Architecture</div>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>MVC Overview</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Roles &amp; Flow</a>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>MVC + Observer Link</a>
+  <a href="#ch9" class="sb-link"><span class="sb-dot"></span>MVP Variation</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Bank</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Rapid Revision</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main">
+
+<section class="hero">
+  <div class="hero-badge">📡 Lecture 13 · Pub-Sub &amp; MVC architecture</div>
+  <h1>Observer Pattern &amp; <span>MVC Architecture</span></h1>
+  <p>الـ Observer = الـ Pub-Sub pattern. Winter 2023 Q3 ضم Observer implementation (4 marks code + 3 marks diagram). MVC architecture is also recurring in Q1.18.</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">9</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">Observer Players</div></div>
+    <div class="hstat"><div class="num">3</div><div class="lbl">MVC Components</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Exam Qs</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — OBSERVER INTRO
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>Observer Pattern — Intro</h2>
+      <p>الـ "Publish-Subscribe" — One object notifies a collection of others about changes.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📖</span> Definition</div>
+    <p>الـ Observer Pattern = pattern <strong>behavioral</strong> بـ <em>"publish/subscribe"</em>:</p>
+    <ul>
+      <li>عند ما object واحد <strong>بيتغير state</strong>، بيـ <strong>notify</strong> a collection of other objects.</li>
+      <li>الـ <strong>observers</strong> بيتـ register مع الـ <strong>observable / subject</strong>.</li>
+      <li>الـ Subject بيحتفظ بـ <strong>collection of observers</strong>.</li>
+      <li>عند تغيير state، الـ Subject بيـ notify كل الـ observers تلقائياً.</li>
+    </ul>
+  </div>
+
+  <!-- Visual demo -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📡</span> Visual Workflow</div>
+    <div class="pubsub-vis">
+      <div class="pubsub-row">
+        <div class="subject-box">
+          📊 Subject<br>
+          <small style="font-size:.75rem;font-weight:400;color:var(--t3);font-family:var(--fc)">state: a=50% b=30% c=20%</small>
+        </div>
+        <div class="notify-arrow">
+          <span class="notify-label">change notification</span>
+          <div class="notify-arrow-line"></div>
+          <span class="notify-label">requests / modifications</span>
+        </div>
+        <div class="observers-stack">
+          <div class="observer-box">📊 Bar Chart</div>
+          <div class="observer-box">📑 Text Grid</div>
+          <div class="observer-box">🥧 Pie Chart</div>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:var(--t2);margin-top:10px">3 different observers بيرسموا <strong>نفس الـ data</strong> بطرق مختلفة. عند تغيير الـ Subject، كل الـ Observers يتم تحديث تلقائياً.</p>
+  </div>
+
+  <!-- Office Boy analogy -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">☕</span> Manager &amp; Office Boy Analogy</div>
+    <ol>
+      <li><strong>Office Boy:</strong> "I'm here at your service" (subscribe/register)</li>
+      <li><strong>Manager:</strong> "Thanks. I'll call you when I need you" (subject acknowledges)</li>
+      <li><strong>Manager (later):</strong> "Hey, I have something to ask you for." (notify)</li>
+      <li><strong>Office Boy:</strong> "Sure, what do you need?" (update)</li>
+      <li><strong>Manager:</strong> "Please, can I have a cup of tea?" (specific event)</li>
+    </ol>
+    <p style="margin-top:8px">الـ Manager (Subject) doesn't know exactly what each Office Boy (Observer) will do — they handle their own reactions.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — UML STRUCTURE
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num green">02</div>
+    <div class="ch-title">
+      <h2>UML Structure</h2>
+      <p>4 classes: Subject + Observer interfaces + their concrete implementations.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📐</span> Observer Pattern — UML Class Diagram</div>
+    <div class="diagram">
+      <pre style="font-family:var(--fc);font-size:.8rem;line-height:1.5;color:var(--t2);text-align:left;direction:ltr">
+       ┌────────────────────────────┐         ┌──────────────────────────┐
+       │         Subject            │ ◇ ─────→│  «interface» Observer    │
+       ├────────────────────────────┤observers├──────────────────────────┤
+       │ -observers : List          │         │ +update()                │
+       │ +attach(o : Observer)      │         └──────────────────────────┘
+       │ +detach(o : Observer)      │                      △
+       │ +notify()                  │                      │ implements
+       └────────────────────────────┘                      │
+                       △                       ┌───────────────────────────┐
+                       │ extends               │     ConcreteObserver       │
+       ┌────────────────────────────┐          ├───────────────────────────┤
+       │     ConcreteSubject        │ ←observes│ -observerState            │
+       ├────────────────────────────┤          │ -subject : ConcreteSubject│
+       │ -subjectState              │          │ +update()                 │
+       │ +getState()                │          └───────────────────────────┘
+       │ +setState()                │
+       └────────────────────────────┘
+
+   Note on notify(): "For all x in observers { x.update(); }"
+   Note on update(): "observerState = subject.getState();"</pre>
+    </div>
+  </div>
+
+  <div class="info"><div><b>💡 The 4 essential classes</b>You need (1) Subject base/interface, (2) Observer interface, (3) ConcreteSubject extending Subject, (4) ConcreteObserver implementing Observer. هذا الـ structure متكرر in Java's <code>Observable</code> + <code>Observer</code>.</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — 4 KEY PLAYERS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>4 Key Players</h2>
+      <p>كل player له responsibility محدد.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">📊</span> Subject (Abstract)</div>
+      <ul>
+        <li>يحتفظ بـ <strong>list of observers</strong>.</li>
+        <li>Interfaces للـ attach / detach observers.</li>
+        <li><code>notify()</code> method = loop on observers and call update on each.</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">👁️</span> Observer (Interface)</div>
+      <ul>
+        <li>Updating interface للـ objects اللي بتـ get notified.</li>
+        <li>الـ method الأساسية: <code>update()</code>.</li>
+        <li>Defines the <em>contract</em> لكل observer.</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">📦</span> ConcreteSubject</div>
+      <ul>
+        <li>Stores <strong>"state of interest"</strong> للـ observers.</li>
+        <li>Sends notification when state changes (calls <code>notify()</code>).</li>
+        <li>Provides <code>getState()</code>, <code>setState()</code>.</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--pink)">
+      <div class="topic-title"><span class="icon">🎧</span> ConcreteObserver</div>
+      <ul>
+        <li>Implements <code>update()</code>.</li>
+        <li>Has reference to its <code>ConcreteSubject</code>.</li>
+        <li>Maintains its own state synchronized with the subject.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — SEQUENCE FLOW
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num purple">04</div>
+    <div class="ch-title">
+      <h2>Sequence Flow</h2>
+      <p>The order of interactions when state changes.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🎬</span> Collaboration Sequence</div>
+    <p>Lifelines: <code>:ConcreteSubject</code> · <code>:ConcreteObserver-1</code> · <code>:ConcreteObserver-2</code></p>
+    <ol>
+      <li>External or internal call invokes <code>setState()</code> on <code>:ConcreteSubject</code>.</li>
+      <li><code>:ConcreteSubject</code> triggers internal <code>notify()</code> cycle.</li>
+      <li><code>:ConcreteSubject</code> sends <code>update()</code> message to <code>:ConcreteObserver-1</code>.</li>
+      <li><code>:ConcreteObserver-1</code> responds by calling <code>getState()</code> back on <code>:ConcreteSubject</code> to fetch the new data.</li>
+      <li><code>:ConcreteSubject</code> sends <code>update()</code> message to <code>:ConcreteObserver-2</code>.</li>
+      <li><code>:ConcreteObserver-2</code> responds by calling <code>getState()</code> back on <code>:ConcreteSubject</code> to fetch the new data.</li>
+    </ol>
+    <div class="info"><div><b>💡 Pull Model</b>الـ flow ده pull-based: الـ Observer بيـ pull الـ state من الـ Subject بنفسه عن طريق <code>getState()</code>. في الـ push model، الـ Subject بيـ push الـ data كـ parameter في الـ <code>update()</code>.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — JAVA IMPLEMENTATION ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num red">05</div>
+    <div class="ch-title">
+      <h2>Java Implementation ⭐ (Winter 2023 Q3)</h2>
+      <p>الـ Java standard library فيه <code>Observable</code> class و <code>Observer</code> interface (deprecated بعد Java 9 لكنها لسه في الـ exam).</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">📚</span> Java's Built-in Observer</div>
+    <table class="tbl">
+      <tr><th>Class/Interface</th><th>Method Summary</th></tr>
+      <tr><td><code>interface Observer</code></td><td><code>void update(Observable o, Object arg)</code> — called when observed object is changed.</td></tr>
+      <tr><td rowspan="3"><code>class Observable</code></td><td><code>void addObserver(Observer o)</code> — adds observer to set.</td></tr>
+      <tr><td><code>void notifyObservers()</code> — if changed, notify all observers.</td></tr>
+      <tr><td><code>protected void setChanged()</code> — marks this Observable as having been changed.</td></tr>
+    </table>
+  </div>
+
+  <!-- The original code -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📜</span> Original Code (without Observer)</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Subject1.java (no pattern)</div></div>
+<pre><code><span class="kw">import</span> java.util.Random;
+
+<span class="kw">class</span> <span class="fn">Subject1</span> {
+  <span class="kw">public String</span> <span class="fn">getNumber</span>() {
+    <span class="fn">Random</span> random = <span class="kw">new</span> <span class="fn">Random</span>();
+    <span class="kw">int</span> randNum = random.nextInt(<span class="num">10000</span>);
+    <span class="kw">return String</span>.valueOf(randNum);
+  }
+}
+
+<span class="kw">class</span> <span class="fn">Client</span> {
+  <span class="kw">private</span> <span class="fn">Subject1</span> subject;
+
+  <span class="kw">public void</span> <span class="fn">setSubject</span>(<span class="fn">Subject1</span> subject) {
+    <span class="kw">this</span>.subject = subject;
+  }
+
+  <span class="kw">public void</span> <span class="fn">update</span>() {
+    <span class="fn">System.out</span>.println(<span class="str">"Client got num: "</span> + subject.getNumber());
+  }
+}
+
+<span class="kw">public class</span> <span class="fn">Main</span> {
+  <span class="kw">public static void</span> <span class="fn">main</span>(<span class="kw">String</span>[] args) {
+    <span class="fn">Subject1</span> subject = <span class="kw">new</span> <span class="fn">Subject1</span>();
+    <span class="fn">Client</span> client = <span class="kw">new</span> <span class="fn">Client</span>();
+    client.setSubject(subject);
+    client.update();  <span class="cmt">// Client manually pulls — no auto-notify</span>
+  }
+}</code></pre>
+    </div>
+    <div class="warn"><div><b>⚠️ Problem</b>الـ client بيـ manually call update. لو الـ subject يتغير، الـ client مش بيعرف تلقائياً. محتاج <strong>auto-notification</strong>.</div></div>
+  </div>
+
+  <!-- Observer pattern applied -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🎯</span> After Applying Observer Pattern</div>
+    <p>الـ goal: لما <code>Subject.getNumber()</code> يتعمل call، الـ Client يـ get notified automatically.</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:12px 0 6px">1️⃣ Imports + Client (implements Observer)</h4>
+    <div class="code-wrap">
+<pre><code><span class="kw">import</span> java.util.Observer;
+<span class="kw">import</span> java.util.Observable;
+
+<span class="kw">class</span> <span class="fn">Client</span> <span class="kw">implements</span> <span class="fn">Observer</span> {  <span class="cmt">// 0.5 mark</span>
+  <span class="kw">private</span> <span class="fn">Subject</span> subject;
+
+  <span class="kw">public void</span> <span class="fn">setSubject</span>(<span class="fn">Subject</span> subject) {
+    <span class="kw">this</span>.subject = subject;
+    subject.addObserver(<span class="kw">this</span>);  <span class="cmt">// 1 mark — register self</span>
+  }
+
+  <span class="kw">public void</span> <span class="fn">update</span>(<span class="fn">Observable</span> subject, <span class="fn">Object</span> newNum) {  <span class="cmt">// 0.5 mark</span>
+    <span class="fn">System.out</span>.println(<span class="str">"Client got new num: "</span> + newNum);
+  }
+}</code></pre>
+    </div>
+
+    <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin:12px 0 6px">2️⃣ Subject (extends Observable)</h4>
+    <div class="code-wrap">
+<pre><code><span class="kw">class</span> <span class="fn">Subject</span> <span class="kw">extends</span> <span class="fn">Observable</span> {  <span class="cmt">// 0.5 mark</span>
+  <span class="kw">public String</span> <span class="fn">getNumber</span>() {
+    <span class="fn">Random</span> random = <span class="kw">new</span> <span class="fn">Random</span>();
+    <span class="kw">int</span> randomNumber = random.nextInt(<span class="num">100</span>);
+    <span class="kw">String</span> newNum = <span class="kw">String</span>.valueOf(randomNumber);
+
+    setChanged();              <span class="cmt">// 0.5 mark — mark dirty</span>
+    notifyObservers(newNum);   <span class="cmt">// 1 mark — auto-notify everyone</span>
+
+    <span class="kw">return</span> newNum;
+  }
+}</code></pre>
+    </div>
+
+    <h4 style="font-family:var(--fh);color:var(--amber);font-size:.95rem;margin:12px 0 6px">3️⃣ Main (Loop demo)</h4>
+    <div class="code-wrap">
+<pre><code><span class="kw">public class</span> <span class="fn">Main</span> {
+  <span class="kw">public static void</span> <span class="fn">main</span>(<span class="kw">String</span>[] args) {
+    <span class="fn">Subject</span> subject = <span class="kw">new</span> <span class="fn">Subject</span>();
+    <span class="fn">Client</span> client = <span class="kw">new</span> <span class="fn">Client</span>();
+    client.setSubject(subject);
+
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; <span class="num">10</span>; i++) {
+      subject.getNumber();  <span class="cmt">// Observer auto-notified each time</span>
+    }
+  }
+}</code></pre>
+    </div>
+
+    <div class="tip"><div><b>💡 الفايدة</b>الـ Main code أصبح أبسط: ما عادش محتاج يـ manually call update. الـ Client بيتم notify تلقائياً في كل iteration.</div></div>
+  </div>
+
+  <!-- Class diagram -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📐</span> Class Diagram (3 marks in Q3)</div>
+    <div class="diagram">
+      <pre style="font-family:var(--fc);font-size:.78rem;line-height:1.5;color:var(--t2);text-align:left;direction:ltr">
+   ┌─────────────────────────┐         ┌──────────────────────────┐
+   │ «interface» Observer    │         │     Observable            │
+   ├─────────────────────────┤         ├──────────────────────────┤
+   │ +update(Observable,Obj) │ ←─────  │ +addObserver(Observer)   │
+   └─────────────────────────┘         │ +notifyObservers()       │
+              △                        │ +setChanged()            │
+              │ implements             └──────────────────────────┘
+              │                                    △
+   ┌─────────────────────────┐                     │ extends
+   │       Client            │                     │
+   ├─────────────────────────┤              ┌──────────────────┐
+   │ -subject : Subject      │─────────────→│     Subject      │
+   │ +setSubject(Subject)    │              ├──────────────────┤
+   │ +update(Observable,Obj) │              │ +getNumber():Str │
+   └─────────────────────────┘              └──────────────────┘</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — MVC OVERVIEW
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num cyan blue">06</div>
+    <div class="ch-title">
+      <h2>MVC — Model View Controller</h2>
+      <p>Architectural pattern (مش design pattern). أعم وأشمل من Strategy/Observer.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🏗️</span> Architectural vs Design Pattern</div>
+    <ul>
+      <li>MVC = <strong>Architectural pattern</strong> (high level). مش زي Strategy/Observer.</li>
+      <li>بيـ structure الـ <strong>whole application</strong> into 3 separate parts.</li>
+      <li>معروف قبل GoF design patterns — موجود من 1979.</li>
+      <li>Sun (Java): "MVC is the <strong>recommended architectural design pattern</strong> for interactive applications."</li>
+    </ul>
+  </div>
+
+  <div class="mvc-grid">
+    <div class="mvc-card">
+      <div class="mvc-letter">M</div>
+      <div class="mvc-name">Model</div>
+      <ul>
+        <li>Data + business logic</li>
+        <li>Rules, strategies</li>
+        <li><strong>Observable</strong> (Subject)</li>
+        <li>Notifies Views of changes</li>
+      </ul>
+    </div>
+    <div class="mvc-card">
+      <div class="mvc-letter">V</div>
+      <div class="mvc-name">View</div>
+      <ul>
+        <li>Displays the Model</li>
+        <li><strong>Observer</strong> of Model</li>
+        <li>UI representation</li>
+        <li>Can have edit components</li>
+      </ul>
+    </div>
+    <div class="mvc-card">
+      <div class="mvc-letter">C</div>
+      <div class="mvc-name">Controller</div>
+      <ul>
+        <li>Accepts user input</li>
+        <li>Mediates: View ↔ Model</li>
+        <li>Sends messages to Model</li>
+        <li>In Java: listeners are controllers</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — MVC ROLES & FLOW
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num purple">07</div>
+    <div class="ch-title">
+      <h2>MVC Roles &amp; Data Flow</h2>
+      <p>كل component له responsibilities محددة. الـ flow بيدور كذا الشكل.</p>
+    </div>
+  </div>
+
+  <!-- Detailed roles -->
+  <div class="grid3">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">📦</span> Model Responsibilities</div>
+      <ul>
+        <li>Provide access to the <strong>state</strong> of the system.</li>
+        <li>Provide access to the <strong>system's functionality</strong>.</li>
+        <li>Can <strong>notify the view(s)</strong> that its state has changed.</li>
+      </ul>
+      <p style="font-size:.78rem;color:var(--t3);margin-top:6px;font-style:italic">⚠️ Model = Observable</p>
+    </div>
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">🖼️</span> View Responsibilities</div>
+      <ul>
+        <li>Display the <strong>state of the model</strong> to the user.</li>
+        <li>Register with the model (Model = observable, Views = observers).</li>
+        <li>Get notified when Model state changes.</li>
+      </ul>
+      <p style="font-size:.78rem;color:var(--t3);margin-top:6px;font-style:italic">👁️ View = Observer</p>
+    </div>
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">🎮</span> Controller Responsibilities</div>
+      <ul>
+        <li>Accept user input: clicks, key presses, mouse, sliders.</li>
+        <li>Send messages to Model (may trigger notifications).</li>
+        <li>Send appropriate messages to View.</li>
+      </ul>
+      <p style="font-size:.78rem;color:var(--t3);margin-top:6px;font-style:italic">🎧 Controller = Listener in Java</p>
+    </div>
+  </div>
+
+  <!-- Data Flow -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔄</span> Data Flow</div>
+    <div class="mvc-flow">
+      <div class="mvc-flow-row">
+        <div class="mvc-flow-box" style="--accent:#f59e0b">👤 User</div>
+        <div class="mvc-flow-arrow"><div>user actions</div><div class="arrow-line"></div></div>
+        <div class="mvc-flow-box" style="--accent:var(--purple)">🎮 Controller</div>
+        <div class="mvc-flow-arrow"><div>setState()</div><div class="arrow-line"></div></div>
+        <div class="mvc-flow-box" style="--accent:var(--green)">📦 Model</div>
+      </div>
+      <div class="mvc-flow-row" style="margin-top:6px">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="mvc-flow-row" style="margin-top:0">
+        <div class="mvc-flow-box" style="--accent:#f59e0b">👤 User</div>
+        <div class="mvc-flow-arrow" style="transform:rotate(180deg)"><div></div><div class="arrow-line"></div></div>
+        <div class="mvc-flow-box" style="--accent:var(--cyan)">🖼️ View</div>
+        <div class="mvc-flow-arrow" style="transform:rotate(180deg)"><div></div><div class="arrow-line"></div></div>
+        <div class="mvc-flow-box" style="--accent:var(--green)">📦 Model</div>
+      </div>
+      <div style="text-align:center;font-size:.78rem;color:var(--t3);font-style:italic;margin-top:10px">
+        <div>1. User acts → Controller</div>
+        <div>2. Controller updates → Model (setState)</div>
+        <div>3. Model notifies → View (update / change notification)</div>
+        <div>4. View queries → Model (getState)</div>
+        <div>5. View displays updated info to User</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Combining View & Controller -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🧩</span> When to Combine View &amp; Controller</div>
+    <ul>
+      <li>أحياناً في برامج صغيرة، Controller + View بيتجمعوا.</li>
+      <li>Appropriate لما الـ Controller و View <strong>very interdependent</strong>.</li>
+      <li>The Model <strong>should remain independent</strong>.</li>
+    </ul>
+    <div class="danger"><div><b>🔴 NEVER mix Model code with GUI code!</b>دي القاعدة الذهبية للـ MVC. الـ Model لازم يكون pure logic بدون أي UI dependencies.</div></div>
+  </div>
+
+  <!-- Benefits -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">✨</span> MVC Benefits</div>
+    <ol>
+      <li><strong>Clarity of design</strong> — easier to implement and maintain.</li>
+      <li><strong>Modularity</strong> — changes to one module don't affect others. Can develop in parallel.</li>
+      <li><strong>Multiple views</strong> — same model can have many views (games, spreadsheets, PowerPoint, Eclipse, UML tools).</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 8 — MVC + Observer Link
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num teal">08</div>
+    <div class="ch-title">
+      <h2>MVC + Observer Pattern Connection</h2>
+      <p>الـ MVC بيستخدم الـ Observer pattern للـ communication بين Model و View.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🔗</span> Mapping</div>
+    <table class="tbl">
+      <tr><th>MVC Role</th><th>Observer Pattern Role</th></tr>
+      <tr><td><strong>Model</strong></td><td>Subject (Observable)</td></tr>
+      <tr><td><strong>View</strong></td><td>Observer (ConcreteObserver)</td></tr>
+      <tr><td><strong>Controller</strong></td><td>External trigger (calls Model.setState)</td></tr>
+    </table>
+    <div class="info"><div><b>💡 السؤال المتكرر</b>Q1.18 في Fall 2021-22 / Winter 2021 بيدي UML مع <code>@Observable</code> (1), <code>@EventListener</code> (2), <code>@Observer</code> (3) ويسأل ايه classes 1, 2, 3 بالترتيب؟ الإجابة: <strong>Model, Controller, View</strong>.</div></div>
+  </div>
+
+  <!-- TicTacToe MVC example -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🎮</span> Example — TicTacToe MVC</div>
+    <table class="tbl">
+      <tr><th>Layer</th><th>Class</th><th>Role</th></tr>
+      <tr><td><span class="badge badge-green">Model</span></td><td><code>Game</code></td><td>Grid arrays · game state · turn logic · rule evaluation</td></tr>
+      <tr><td><span class="badge badge-cyan">View</span></td><td><code>TextFieldView</code></td><td>Display rows/columns as text fields</td></tr>
+      <tr><td><span class="badge badge-cyan">View</span></td><td><code>DrawingView</code></td><td>Custom graphical X/O rendering</td></tr>
+      <tr><td><span class="badge badge-purple">Controller</span></td><td><code>MouseListener</code></td><td>Mouse input handler</td></tr>
+      <tr><td><span class="badge badge-purple">Controller</span></td><td><code>ActionListener</code></td><td>Button events</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:.85rem">Multiple views للـ same game model — text version أو drawing version. لما الـ Model يتغير، الاثنين يتم تحديث.</p>
+  </div>
+
+  <!-- Java Swing as MVC -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">☕</span> Java Swing as MVC</div>
+    <div class="diagram">
+      <pre style="font-family:var(--fc);font-size:.8rem;line-height:1.5;color:var(--t2);text-align:left;direction:ltr">
+   ┌──────────────────┐    notify    ┌──────────────────────────┐
+   │  TTTGame (Model) │ ──────────→  │ GameListener (Controller)│
+   │  observable      │              │ implements ActionListener │
+   └──────────────────┘              ├──────────────────────────┤
+                                     │ +actionPerformed()       │
+                                     └──────────────────────────┘
+                                                  ↑
+                                                  │ implements
+                                     ┌──────────────────────────┐
+                                     │  «interface» Observer    │
+                                     │    (ActionListener)      │
+                                     └──────────────────────────┘</pre>
+    </div>
+    <p style="font-size:.85rem;color:var(--t2);margin-top:8px">في Java Swing، الـ <code>JFrame</code> = view container, <code>ActionListener</code> = controller. الـ Game logic = Model — completely separate من الـ UI.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 9 — MVP
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="ch-header">
+    <div class="ch-num pink">09</div>
+    <div class="ch-title">
+      <h2>MVP Variation</h2>
+      <p>Model-View-Presenter — an updated MVC variation.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🆕</span> MVP — Modern Take</div>
+    <p>الـ MVP بيـ replace الـ Controller بـ <strong>Presenter</strong>. الـ Presenter:</p>
+    <ul>
+      <li>Communicates with <strong>both</strong> Model and View directly.</li>
+      <li>Mediates more strictly than Controller — لا تواصل مباشرة بين Model و View.</li>
+      <li>Updates the state in Model via <code>setState()</code> + retrieves data via <code>get</code>.</li>
+      <li>Instructs the View directly via <code>changeView()</code>.</li>
+    </ul>
+    <p style="margin-top:8px;font-size:.85rem"><strong>الفرق المهم:</strong> في MVC الـ View بيـ observe Model مباشرة. في MVP الـ View ما يعرفش الـ Model — كل التواصل يمر عبر الـ Presenter.</p>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">⚖️</span> MVC vs MVP</div>
+    <table class="tbl">
+      <tr><th>Aspect</th><th>MVC</th><th>MVP</th></tr>
+      <tr><td>3rd Component</td><td>Controller</td><td>Presenter</td></tr>
+      <tr><td>View ↔ Model</td><td>Direct (Observer)</td><td>Indirect (via Presenter)</td></tr>
+      <tr><td>Testability</td><td>Harder (View tied to Model)</td><td>Easier (Presenter is testable)</td></tr>
+      <tr><td>Common in</td><td>Web frameworks, classic GUI</td><td>Android (old), .NET</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ — EXAM BANK
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Exam Bank — Lecture 13</h3>
+      <p>8 أسئلة على Observer و MVC. Q3 Winter 2023 ضم Observer implementation كاملة.</p>
+    </div>
+  </div>
+
+  <!-- Q1 — Observer water company -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 1 <span class="q-src">Fall 2021–22 / Winter 2021 · Q1.17</span></div>
+    <div class="q-text">A water company has CRM, billing system, and messaging system. When a customer is created in CRM, billing &amp; messaging need to be <strong>notified</strong> and get a copy of customer data. Which pattern fits?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> GoF pattern (any)</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Publish-Subscribe (Observer)</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Strategy</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> MVC</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Publish-Subscribe (Observer)</b>
+      الـ CRM = Subject. Billing &amp; Messaging = Observers. عند event "new customer", subject calls <code>notifyObservers(customerData)</code> وكل observer يستجيب.
+    </div>
+  </div>
+
+  <!-- Q2 — MVC roles -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 2 <span class="q-src">Fall 2021–22 / Winter 2021 · Q1.18</span></div>
+    <div class="q-text">In the MVC pattern with classes labeled <code>@Observable</code> (1), <code>@EventListener</code> (2), <code>@Observer</code> (3), what are classes 1, 2, 3 in order?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> View, Controller, Model</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Model, View, Controller</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Model, Controller, View</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Controller, View, Model</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Model, Controller, View</b>
+      <ul style="margin-top:6px">
+        <li>Model = <code>@Observable</code> (notifies of state changes)</li>
+        <li>Controller = <code>@EventListener</code> (responds to events)</li>
+        <li>View = <code>@Observer</code> (receives notifications)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q3 — Observer Java -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 3 <span class="q-src">Practice — Observer implementation</span></div>
+    <div class="q-text">In Java's built-in Observer pattern, which method must be called <strong>before</strong> <code>notifyObservers()</code> for observers to actually be notified?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> addObserver()</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> update()</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> setChanged()</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> deleteObserver()</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — setChanged()</b>
+      الـ <code>Observable</code> class بيـ require إنك تـ call <code>setChanged()</code> أولاً لـ mark the observable as having been changed. لو ما قلتش بـ كده، <code>notifyObservers()</code> ما يفعلش شيء.
+      <div class="why-wrong">
+        <strong>A (addObserver)</strong> — يضيف observer بس مش بيـ trigger notification. ·
+        <strong>B (update)</strong> — هي اللي بتـ get called على الـ observer، مش الـ subject.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 — Observer 4 players -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 4 <span class="q-src">Practice — Observer roles</span></div>
+    <div class="q-text">In the Observer pattern, which class is responsible for <strong>maintaining the list of subscribers</strong>?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> ConcreteObserver</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Observer interface</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Client / Main</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Subject (or Observable)</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — Subject</b>
+      Subject = الـ source of changes. هو اللي بيحتفظ بـ <code>List&lt;Observer&gt;</code> ويـ provide methods لـ <code>attach()</code> و <code>detach()</code> الـ observers.
+    </div>
+  </div>
+
+  <!-- Q5 — MVC golden rule -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 5 <span class="q-src">Practice — MVC principle</span></div>
+    <div class="q-text">What is the <strong>golden rule</strong> of MVC?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Never mix Model code with GUI code</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Always have exactly one View</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Controller must extend View</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Model must implement Observer</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A</b>
+      الـ Model must remain <strong>pure</strong> — no UI dependencies. هذا بيخليك تقدر تـ swap views, test الـ logic independently, و reuse الـ model في other applications.
+    </div>
+  </div>
+
+  <!-- Q6 — MVC benefits -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 6 <span class="q-src">Practice — MVC benefits</span></div>
+    <div class="q-text">Which is <strong>NOT</strong> a benefit of MVC?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Multiple views can share the same model</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Reduces the total amount of code</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Modularity — changes to one don't affect others</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Parallel development is possible</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B</b>
+      MVC actually adds <em>more</em> code (separating into 3 layers, adding event handling). الـ benefit في الـ <strong>structure</strong>, مش الـ size. Trade-off acceptable للـ maintainability + parallel dev.
+    </div>
+  </div>
+
+  <!-- Q7 — Observer use case -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 7 <span class="q-src">Practice — Pattern matching</span></div>
+    <div class="q-text">In a stock trading application, multiple charts (bar, line, pie) must <strong>update in real-time</strong> when stock prices change. Which pattern is best?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Strategy</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Singleton</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Observer</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Adapter</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Observer</b>
+      الـ Subject = stock price feed. الـ Observers = the 3 chart views. كل chart بيـ subscribe ويـ get notified عند price update.
+    </div>
+  </div>
+
+  <!-- Q8 — Java Swing -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 8 <span class="q-src">Practice — Java Swing</span></div>
+    <div class="q-text">In Java Swing, <code>ActionListener</code> plays the role of:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Subject / Observable</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Observer (responds to events)</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Model</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> View only</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Observer</b>
+      ActionListener = Observer. الـ Button = Subject. لما تـ click الـ button (state change), فيـ notify الـ listeners (call <code>actionPerformed()</code>). ده exactly الـ Observer pattern.
+      <p style="margin-top:6px">في MVC: ActionListener = Controller. الـ Observer pattern یستخدم تحت بـ Java Swing implementation.</p>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet</h2>
+      <p>Observer + MVC quick reference.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="cheat">
+      <h3>📡 Observer Pattern — 4 Players</h3>
+      <div class="cheat-item"><div class="cheat-key">Subject</div><div class="cheat-val">Maintains list + attach/detach + notify</div></div>
+      <div class="cheat-item"><div class="cheat-key">Observer</div><div class="cheat-val">Interface with update() method</div></div>
+      <div class="cheat-item"><div class="cheat-key">ConcreteSubject</div><div class="cheat-val">Has state of interest, calls notify()</div></div>
+      <div class="cheat-item"><div class="cheat-key">ConcreteObserver</div><div class="cheat-val">Implements update(), holds ref to subject</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>☕ Java Observer API</h3>
+      <div class="cheat-item"><div class="cheat-key">interface Observer</div><div class="cheat-val">update(Observable, Object)</div></div>
+      <div class="cheat-item"><div class="cheat-key">class Observable</div><div class="cheat-val">addObserver, notifyObservers</div></div>
+      <div class="cheat-item"><div class="cheat-key">protected setChanged()</div><div class="cheat-val">⭐ Must call before notifyObservers!</div></div>
+      <div class="cheat-item"><div class="cheat-key">Q3 Winter 2023</div><div class="cheat-val">Subject extends Observable, Client implements Observer</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🏗️ MVC Architecture</h3>
+      <div class="cheat-item"><div class="cheat-key">Model</div><div class="cheat-val">Data + business logic = Observable (Subject)</div></div>
+      <div class="cheat-item"><div class="cheat-key">View</div><div class="cheat-val">Display + UI = Observer</div></div>
+      <div class="cheat-item"><div class="cheat-key">Controller</div><div class="cheat-val">User input → Model = Listener in Java</div></div>
+      <div class="cheat-item"><div class="cheat-key">Golden Rule</div><div class="cheat-val">Never mix Model with GUI code</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>✅ MVC Benefits</h3>
+      <div class="cheat-item"><div class="cheat-key">Clarity</div><div class="cheat-val">Easier to implement/maintain</div></div>
+      <div class="cheat-item"><div class="cheat-key">Modularity</div><div class="cheat-val">Changes don't propagate</div></div>
+      <div class="cheat-item"><div class="cheat-key">Multiple views</div><div class="cheat-val">Same model → different displays</div></div>
+      <div class="cheat-item"><div class="cheat-key">Parallel dev</div><div class="cheat-val">Once interfaces defined</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🆚 MVC vs MVP</h3>
+      <div class="cheat-item"><div class="cheat-key">MVC</div><div class="cheat-val">Controller + View can observe Model directly</div></div>
+      <div class="cheat-item"><div class="cheat-key">MVP</div><div class="cheat-val">Presenter mediates ALL communication</div></div>
+      <div class="cheat-item"><div class="cheat-key">View knows Model?</div><div class="cheat-val">MVC: yes · MVP: no</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🔗 Observer ↔ MVC Mapping</h3>
+      <div class="cheat-item"><div class="cheat-key">Subject</div><div class="cheat-val">= Model</div></div>
+      <div class="cheat-item"><div class="cheat-key">Observer</div><div class="cheat-val">= View</div></div>
+      <div class="cheat-item"><div class="cheat-key">Controller</div><div class="cheat-val">External trigger (user input → setState)</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     RAPID REVISION
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="revision" style="margin-top:60px">
+  <div class="ch-header">
+    <div class="ch-num pink">⚡</div>
+    <div class="ch-title">
+      <h2>Rapid Revision</h2>
+      <p>Flashcards · Common Mistakes · Doctor favorites.</p>
+    </div>
+  </div>
+
+  <div class="flashcards">
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Observer = ?</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Publish-Subscribe — Subject notifies many Observers of state change</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Observer 4 players؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Subject · Observer · ConcreteSubject · ConcreteObserver</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Java Observable method to call before notifyObservers?</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">setChanged() — MUST call first</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">MVC components؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Model · View · Controller</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Model in MVC = ?</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Observable / Subject — data + business logic</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">View in MVC = ?</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Observer — displays state</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Controller in Java؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Listeners (ActionListener, MouseListener)</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">MVC golden rule؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Never mix Model code with GUI code</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">MVP differs from MVC?</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Presenter mediates ALL Model↔View communication</div></div></div></div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
+  <div class="danger"><div><b>1. خلط Observer + Strategy</b>Observer = one-to-many notification. Strategy = swap behavior in one object.</div></div>
+  <div class="danger"><div><b>2. نسيان setChanged() قبل notifyObservers()</b>الـ Java Observable لازم setChanged() الأول، وإلا الـ notification ما تحصلش.</div></div>
+  <div class="danger"><div><b>3. Model يـ depend على View</b>Model مش لازم يعرف Views — هو just publishes changes. الـ View هو اللي بيـ subscribe.</div></div>
+  <div class="danger"><div><b>4. MVC = Design Pattern</b>غلط — MVC هو <em>Architectural pattern</em>، أعلى مستوى. أكبر من Strategy/Observer.</div></div>
+  <div class="danger"><div><b>5. خلط Controller و Listener</b>في Java specifically، Listeners (ActionListener, MouseListener) <strong>هم</strong> الـ Controllers في MVC.</div></div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--amber);margin:30px 0 12px">⭐ What Dr. El-Ramly Loves</h3>
+  <div class="info">
+    <div>
+      <b>🔥 Observer + MVC in exams</b>
+      <ol style="margin-top:6px;padding-left:22px">
+        <li><strong>Q1.17</strong> Pub-Sub scenario (water company / banking) — Observer.</li>
+        <li><strong>Q1.18</strong> MVC role identification — مرتبط بـ Observer terminology.</li>
+        <li><strong>Q3 Winter 2023</strong> Observer Pattern in Java with Subject + Observable + setChanged + notifyObservers.</li>
+        <li><strong>Recurring conceptual</strong> — when notify-many is needed, use Observer.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+</div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
