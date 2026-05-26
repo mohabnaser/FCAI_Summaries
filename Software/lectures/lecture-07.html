@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lecture 07 — UI Design, Usability &amp; Accessibility | CS251</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
   /* SUS calculator */
@@ -27,7 +27,7 @@
 
   /* Nielsen heuristics grid */
   .nielsen-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:14px 0}
-  .h-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;border-left:4px solid var(--accent,var(--cyan));transition:.25s}
+  .h-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;border-inline-start:4px solid var(--accent,var(--cyan));transition:.25s}
   .h-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.25)}
   .h-num{font-family:var(--fc);font-size:.7rem;color:var(--accent);font-weight:600;letter-spacing:.05em}
   .h-name{font-family:var(--fh);font-size:1.05rem;color:var(--t1);font-weight:700;margin-top:2px}
@@ -57,7 +57,7 @@
   @media(max-width:700px){.pour-grid{grid-template-columns:repeat(2,1fr)}}
 
   /* Bad design examples */
-  .bad-design{background:rgba(239,68,68,.05);border-left:3px solid var(--red);border-radius:0 10px 10px 0;padding:14px 18px;margin:10px 0}
+  .bad-design{background:rgba(239,68,68,.05);border-inline-start:3px solid var(--red);border-radius:0 10px 10px 0;padding:14px 18px;margin:10px 0}
   .bad-design-title{font-family:var(--fh);font-weight:600;color:var(--red);font-size:.95rem;margin-bottom:4px}
   .bad-design-desc{font-size:.85rem;color:var(--t2);line-height:1.5}
 
@@ -71,7 +71,7 @@
 
 <div id="prog-bar"></div>
 
-<nav id="sidebar">
+<nav id="sidebar" dir="ltr">
   <div class="sb-logo">
     <h2>🎨 CS251 — Lec 07</h2>
     <p>UI Design &amp; Usability</p>
@@ -103,7 +103,7 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main">
+<main id="main" dir="auto">
 
 <!-- HERO -->
 <section class="hero">
@@ -814,7 +814,7 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
     <div class="q-explain">
       <b>✅ الإجابة الصح: D — All four</b>
       كلهم بيـ communicate status:
-      <ul style="margin-top:6px;padding-left:22px">
+      <ul style="margin-top:6px;padding-inline-start:22px">
         <li><strong>Bell + badge</strong> — كم unread notification.</li>
         <li><strong>Cart count</strong> — كم item في الـ cart.</li>
         <li><strong>Step indicator</strong> — احنا في أي خطوة من الـ flow.</li>
@@ -863,7 +863,7 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
     <div class="q-explain">
       <b>✅ الإجابة الصح: D</b>
       الـ design (d) عنده:
-      <ul style="margin-top:6px;padding-left:22px">
+      <ul style="margin-top:6px;padding-inline-start:22px">
         <li><strong>Home + Cancel + Next</strong> = user can exit, undo, or proceed (User Control &amp; Freedom).</li>
         <li><strong>Universal icons</strong> for date, class, passengers (Understandable encoding).</li>
         <li><strong>Clean layout</strong> with separated sections (Uncluttered).</li>
@@ -1064,7 +1064,7 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
   <div class="info">
     <div>
       <b>🔥 الأسئلة المتكررة على Lec 7 (Winter 2025 جديد + قديم)</b>
-      <ol style="margin-top:6px;padding-left:22px">
+      <ol style="margin-top:6px;padding-inline-start:22px">
         <li><strong>SUS calculation</strong> — بيدي 10 responses ويطلب الـ score. <em>احفظ الـ formula كويس</em>.</li>
         <li><strong>Nielsen heuristic violated</strong> — بيدي screenshot لـ bad UI ويسأل أي rule بيخالف.</li>
         <li><strong>Encoding techniques</strong> — universal icons.</li>

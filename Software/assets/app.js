@@ -139,15 +139,25 @@
     });
   }
 
-  /* ─── ARABIC RTL MARKER FOR MIXED TEXT ─── */
+  /* ─── BIDI: set dir="auto" on mixed-language elements ─── */
   function fixBidi() {
+    /* Let the browser auto-detect direction per element.
+       Elements that contain Arabic will render RTL; pure-English ones stay LTR. */
     document.querySelectorAll(
-      'p, li, td, th, .topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div, .q-text, .q-explain, .cheat-val, .cmt, .q-opt, .hero p, .topic p, .q-num, .tl-desc, .cmp-card p, .kw-card .kw-desc'
+      'p, li, td, th, h1, h2, h3, h4, h5, h6, ' +
+      '.topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div, ' +
+      '.q-text, .q-explain, .cheat-val, .q-opt, .hero p, .topic p, .q-num, ' +
+      '.tl-desc, .cmp-card p, .kw-card .kw-desc, .lec-title, ' +
+      '.fc-q, .fc-a, .q-score, .invest-desc, .why-wrong'
     ).forEach(el => {
-      const text = el.textContent;
-      if (/[؀-ۿ]/.test(text) && !text.startsWith('‏') && !/^[\s]*[A-Za-z]/.test(text)) {
-        el.innerHTML = '&#x200F;' + el.innerHTML;
+      if (!el.closest('pre') && !el.closest('code') && !el.closest('.code-wrap')) {
+        el.setAttribute('dir', 'auto');
       }
+    });
+
+    /* Ensure code blocks, pre, and diagrams always stay LTR */
+    document.querySelectorAll('pre, code, .code-wrap, .diagram pre').forEach(el => {
+      el.setAttribute('dir', 'ltr');
     });
   }
 

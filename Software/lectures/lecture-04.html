@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lecture 04 — Modularity, Cohesion &amp; Coupling | CS251</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
   /* Cohesion / Coupling ladder */
@@ -44,7 +44,7 @@
 
 <div id="prog-bar"></div>
 
-<nav id="sidebar">
+<nav id="sidebar" dir="ltr">
   <div class="sb-logo">
     <h2>🧩 CS251 — Lec 04</h2>
     <p>Modularity, Cohesion &amp; Coupling</p>
@@ -73,7 +73,7 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main">
+<main id="main" dir="auto">
 
 <!-- HERO -->
 <section class="hero">
@@ -582,7 +582,7 @@
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: D — 1 for statement coverage, 4 for path coverage</b>
-      <ul style="margin-top:6px;padding-left:22px">
+      <ul style="margin-top:6px;padding-inline-start:22px">
         <li><strong>Statement coverage</strong>: لو الكود فيه عبارات executed مرة على الأقل بـ input واحد، test case واحد كفاية.</li>
         <li><strong>Path coverage</strong>: محتاج test case لكل <em>independent path</em>. عدد الـ paths = V(G). لو V(G) = 4، محتاج 4 test cases.</li>
       </ul>
@@ -730,7 +730,7 @@
   <div class="info">
     <div>
       <b>🔥 الأسئلة المتكررة على Lec 4 (Winter 2025 جديد)</b>
-      <ol style="margin-top:6px;padding-left:22px">
+      <ol style="margin-top:6px;padding-inline-start:22px">
         <li><strong>Cyclomatic Complexity</strong> — بيدي class وعليك تحسب الـ average per function.</li>
         <li><strong>Cohesion type</strong> — بيدي class وعليك تحدد type cohesion.</li>
         <li><strong>Coupling type</strong> — بيدي code snippet (global var, parameter, etc.) وعليك تحدد type coupling.</li>

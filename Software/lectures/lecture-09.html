@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lecture 09 — SOLID Principles | CS251</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
   /* SOLID letter grid */
@@ -40,7 +40,7 @@
 
 <div id="prog-bar"></div>
 
-<nav id="sidebar">
+<nav id="sidebar" dir="ltr">
   <div class="sb-logo">
     <h2>💎 CS251 — Lec 09</h2>
     <p>SOLID Principles</p>
@@ -68,7 +68,7 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main">
+<main id="main" dir="auto">
 
 <section class="hero">
   <div class="hero-badge">💎 Lecture 09 · Design Principles by Uncle Bob</div>
@@ -226,7 +226,7 @@
 
   <div class="topic" style="--accent:var(--green)">
     <div class="topic-title"><span class="icon">💡</span> Uncle Bob's Solution</div>
-    <blockquote style="border-left:3px solid var(--green);padding:10px 16px;background:rgba(16,185,129,.05);font-style:italic;color:var(--t2)">
+    <blockquote style="border-inline-start:3px solid var(--green);padding:10px 16px;background:rgba(16,185,129,.05);font-style:italic;color:var(--t2)">
       "When writing a class, ensure that when you need to extend its behavior, you <strong>don't have to change the class</strong> but to <strong>extend it</strong>."
     </blockquote>
     <p>الحل: استخدم <strong>Abstract Classes + concrete classes</strong> لتنفيذ behavior. ده الـ <strong>Strategy Pattern</strong> — هتشوفه تفصيلاً في Lecture 12.</p>
@@ -709,7 +709,7 @@
   <div class="info">
     <div>
       <b>🔥 SOLID في الامتحان</b>
-      <ol style="margin-top:6px;padding-left:22px">
+      <ol style="margin-top:6px;padding-inline-start:22px">
         <li><strong>Q3 (15-24 marks)</strong> — Apply Strategy + DIP + Adapter في كود يدوي. اقرأ Lec 12 كمان.</li>
         <li><strong>OCP scenario</strong> — يدي كود فيه if/else ويطلب identify الـ violation.</li>
         <li><strong>DIP code</strong> — Winter 2025 Q1.09 — أي كود implement DIP؟</li>

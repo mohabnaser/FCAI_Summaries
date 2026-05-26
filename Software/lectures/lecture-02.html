@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lecture 02 — Software Crisis & Characteristics | CS251</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
   /* Page-specific tweaks for Lecture 2 */
   .failure-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
-  .fg-item{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;border-left:3px solid var(--accent,var(--red));transition:.2s}
+  .fg-item{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;border-inline-start:3px solid var(--accent,var(--red));transition:.2s}
   .fg-item:hover{transform:translateY(-2px);border-color:var(--border2);box-shadow:0 8px 22px rgba(0,0,0,.25)}
   .fg-when{font-family:var(--fc);font-size:.7rem;color:var(--accent,var(--red));margin-bottom:4px;letter-spacing:.05em}
   .fg-name{font-family:var(--fh);font-size:.95rem;font-weight:600;color:var(--t1);margin-bottom:8px}
@@ -55,7 +55,7 @@
 <div id="prog-bar"></div>
 
 <!-- Sidebar -->
-<nav id="sidebar">
+<nav id="sidebar" dir="ltr">
   <div class="sb-logo">
     <h2>💥 CS251 — Lec 02</h2>
     <p>Software Crisis &amp; Characteristics</p>
@@ -96,7 +96,7 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main">
+<main id="main" dir="auto">
 
 <!-- ════════════════════════ HERO ════════════════════════ -->
 <section class="hero">
@@ -1157,7 +1157,7 @@ ANY CLAIM, DAMAGES OR OTHER LIABILITY...</span></code></pre>
   <div class="info">
     <div>
       <b>🔥 الأسئلة المتكررة على Lec 2</b>
-      <ol style="margin-top:6px;padding-left:22px">
+      <ol style="margin-top:6px;padding-inline-start:22px">
         <li><strong>اسم الـ failure + سببها</strong> — كل امتحان لازم فيه سؤال زي ده.</li>
         <li><strong>"What is NOT in the definition of software crisis"</strong> — متكرر جداً.</li>
         <li><strong>One of the 4 essential difficulties</strong> — بيختار خاصية ويسأل ايه التعريف بتاعها (أو العكس).</li>

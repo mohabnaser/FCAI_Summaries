@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lecture 12 — Design Patterns &amp; Strategy | CS251</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
   .gof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
@@ -19,7 +19,7 @@
   @media(max-width:700px){.gof-grid{grid-template-columns:1fr}}
 
   /* Pattern card */
-  .pattern-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:20px;margin:14px 0;border-left:5px solid var(--accent,var(--cyan))}
+  .pattern-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:20px;margin:14px 0;border-inline-start:5px solid var(--accent,var(--cyan))}
   .pattern-card .pc-cat{font-family:var(--fc);font-size:.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
   .pattern-card h3{font-family:var(--fh);font-size:1.2rem;color:var(--t1);font-weight:700;margin:4px 0 12px}
   .pattern-card .pc-section{margin:10px 0}
@@ -31,7 +31,7 @@
 
 <div id="prog-bar"></div>
 
-<nav id="sidebar">
+<nav id="sidebar" dir="ltr">
   <div class="sb-logo">
     <h2>🎯 CS251 — Lec 12</h2>
     <p>Design Patterns &amp; Strategy</p>
@@ -62,7 +62,7 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main">
+<main id="main" dir="auto">
 
 <section class="hero">
   <div class="hero-badge">🎯 Lecture 12 · The most important lecture for Q3</div>
@@ -101,7 +101,7 @@
       <li><strong>Gang of Four (GoF)</strong> book — 1995, by Gamma, Helm, Johnson, Vlissides.</li>
       <li>Described 23 recurring software designs.</li>
     </ul>
-    <blockquote style="border-left:3px solid var(--cyan);padding:10px 16px;background:rgba(0,212,255,.05);font-style:italic;color:var(--t2);margin-top:10px">
+    <blockquote style="border-inline-start:3px solid var(--cyan);padding:10px 16px;background:rgba(0,212,255,.05);font-style:italic;color:var(--t2);margin-top:10px">
       "Each pattern describes a problem which occurs over and over again, and then describes the core of the solution, in such a way that you can use this solution a million times over, without ever doing it in the same way twice."
       <br><span style="font-size:.78rem">— Christopher Alexander, A Pattern Language, 1977</span>
     </blockquote>
@@ -649,7 +649,7 @@ f.setLayout(<span class="kw">new</span> <span class="fn">BorderLayout</span>());
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: C — Model, Controller, View</b>
-      <ul style="margin-top:6px;padding-left:22px">
+      <ul style="margin-top:6px;padding-inline-start:22px">
         <li>الـ Model = <code>@Observable</code> (الـ source للـ data changes)</li>
         <li>الـ Controller = <code>@EventListener</code> (يستجيب لـ events)</li>
         <li>الـ View = <code>@Observer</code> (يتم notify عند changes)</li>
@@ -849,7 +849,7 @@ f.setLayout(<span class="kw">new</span> <span class="fn">BorderLayout</span>());
   <div class="info">
     <div>
       <b>🔥 Q3 Pattern (every exam)</b>
-      <ol style="margin-top:6px;padding-left:22px">
+      <ol style="margin-top:6px;padding-inline-start:22px">
         <li><strong>"What is the output?"</strong> — قرّاء الكود وحدد output الـ println.</li>
         <li><strong>"Explain OCP violation"</strong> — code with if/else for behavior = OCP violation.</li>
         <li><strong>"Draw UML"</strong> — Context + abstract Strategy + 2 concrete strategies.</li>

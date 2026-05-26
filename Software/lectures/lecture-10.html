@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lecture 10 — Model to Code | CS251</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
   .map-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
@@ -37,7 +37,7 @@
 
 <div id="prog-bar"></div>
 
-<nav id="sidebar">
+<nav id="sidebar" dir="ltr">
   <div class="sb-logo">
     <h2>🛠️ CS251 — Lec 10</h2>
     <p>Model to Code (UML → Java)</p>
@@ -71,7 +71,7 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main">
+<main id="main" dir="auto">
 
 <section class="hero">
   <div class="hero-badge">🛠️ Lecture 10 · UML → Java implementation</div>
@@ -633,7 +633,7 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     <div class="q-explain">
       <b>✅ الإجابة الصح: A — Code (a)</b>
       الـ multiplicity 1:* بتقول: Advertiser واحد ↔ Accounts كتيرة. Code (a) صح:
-      <ul style="margin-top:4px;padding-left:22px">
+      <ul style="margin-top:4px;padding-inline-start:22px">
         <li>Advertiser → <code>Set&lt;Account&gt; accounts</code> (collection).</li>
         <li>Account → <code>Advertiser owner</code> (single reference).</li>
         <li>addAccount + setOwner للحفاظ على bidirectional integrity.</li>

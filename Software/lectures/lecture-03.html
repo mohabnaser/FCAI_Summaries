@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lecture 03 — Requirements Engineering | CS251</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
   /* Page-specific tweaks */
@@ -23,7 +23,7 @@
 
   /* Good/Bad requirement comparison */
   .compare-req{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
-  .req-bad,.req-good{padding:14px 16px;border-radius:10px;border-left:3px solid;font-family:var(--fc);font-size:.85rem;line-height:1.6}
+  .req-bad,.req-good{padding:14px 16px;border-radius:10px;border-inline-start:3px solid;font-family:var(--fc);font-size:.85rem;line-height:1.6}
   .req-bad{background:rgba(239,68,68,.08);border-color:var(--red);color:#fca5a5}
   .req-good{background:rgba(16,185,129,.08);border-color:var(--green);color:#6ee7b7}
   .req-bad::before,.req-good::before{display:block;font-family:var(--fh);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
@@ -57,7 +57,7 @@
 
 <div id="prog-bar"></div>
 
-<nav id="sidebar">
+<nav id="sidebar" dir="ltr">
   <div class="sb-logo">
     <h2>📋 CS251 — Lec 03</h2>
     <p>Requirements Engineering</p>
@@ -89,7 +89,7 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main">
+<main id="main" dir="auto">
 
 <!-- ════════════════════════ HERO ════════════════════════ -->
 <section class="hero">
@@ -786,7 +786,7 @@ completing the purchase.</code></pre>
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: A — Verifiable: 1, 3 / Non-verifiable: 2, 4</b>
-      <ul style="margin-top:6px;padding-left:22px">
+      <ul style="margin-top:6px;padding-inline-start:22px">
         <li><strong>1 (V)</strong> — ممكن نتأكد بمراجعة عملية التطوير.</li>
         <li><strong>2 (NV)</strong> — "popular mobile platforms now" غامض. "popular" ايه معايير؟ "now" يعني امتى؟</li>
         <li><strong>3 (V)</strong> — رقم محدد: 1000 players. اختبار load testing.</li>
@@ -837,7 +837,7 @@ completing the purchase.</code></pre>
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: B — I and II</b>
-      <ul style="margin-top:6px;padding-left:22px">
+      <ul style="margin-top:6px;padding-inline-start:22px">
         <li><strong>I</strong> ✅ واضح — تغيير صورة البروفايل.</li>
         <li><strong>II</strong> ✅ واضح — 1000 simultaneous users. رقم محدد.</li>
         <li><strong>III</strong> ❌ غامض — "most popular browsers"؟ ايه هم؟ Chrome? Safari? IE6؟</li>
@@ -1090,7 +1090,7 @@ completing the purchase.</code></pre>
   <div class="info">
     <div>
       <b>🔥 الأسئلة المتكررة على Lec 3</b>
-      <ol style="margin-top:6px;padding-left:22px">
+      <ol style="margin-top:6px;padding-inline-start:22px">
         <li><strong>INVEST evaluation</strong> — بيدي 3 user stories و يسأل أيهم كويس. السر: الـ vague/high-level بيفشل.</li>
         <li><strong>Verifiable vs Non-verifiable</strong> — بيدي 4 requirements و يسأل أيهم verifiable. كلمات زي "fast" دايماً NV.</li>
         <li><strong>نوع الـ requirement</strong> — Functional? Transition? Stakeholder? اقرا الكلمات الـ trigger.</li>

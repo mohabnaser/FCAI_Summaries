@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lecture 08 — State Diagrams | CS251</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
   /* State diagram canvas */
@@ -43,7 +43,7 @@
 
   /* Action vs Activity comparison */
   .ax-compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
-  .ax-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;border-left:4px solid var(--accent)}
+  .ax-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;border-inline-start:4px solid var(--accent)}
   .ax-card.action{--accent:var(--amber)}
   .ax-card.activity{--accent:var(--green)}
   .ax-card h4{font-family:var(--fh);color:var(--accent);font-size:1.05rem;font-weight:700;margin-bottom:10px}
@@ -69,7 +69,7 @@
 
 <div id="prog-bar"></div>
 
-<nav id="sidebar">
+<nav id="sidebar" dir="ltr">
   <div class="sb-logo">
     <h2>🔄 CS251 — Lec 08</h2>
     <p>State Diagrams (State Machine)</p>
@@ -100,7 +100,7 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main">
+<main id="main" dir="auto">
 
 <!-- HERO -->
 <section class="hero">
@@ -915,7 +915,7 @@
   <div class="info">
     <div>
       <b>🔥 الأسئلة المتكررة على Lec 8</b>
-      <ol style="margin-top:6px;padding-left:22px">
+      <ol style="margin-top:6px;padding-inline-start:22px">
         <li><strong>Question 2 (2-4 marks)</strong> — بيدي object (Message, Order, Booking) ويطلب state diagram. ركز على Initial → states → Final + transitions مع events.</li>
         <li><strong>Message states</strong> (Winter 2025): Received → Read → Deleted → Purged.</li>
         <li><strong>Order states</strong> (Winter 2023): Placed → Pdf Valid → Confirmed → Processing → Shipped, مع Cancelled كـ alternate path.</li>

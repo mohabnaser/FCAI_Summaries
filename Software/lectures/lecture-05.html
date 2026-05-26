@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lecture 05 — Class Diagrams I | CS251</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
   /* UML class box rendering */
@@ -46,7 +46,7 @@
 
 <div id="prog-bar"></div>
 
-<nav id="sidebar">
+<nav id="sidebar" dir="ltr">
   <div class="sb-logo">
     <h2>📐 CS251 — Lec 05</h2>
     <p>Class Diagrams I</p>
@@ -78,7 +78,7 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main">
+<main id="main" dir="auto">
 
 <!-- HERO -->
 <section class="hero">
@@ -795,7 +795,7 @@
     <div class="q-explain">
       <b>✅ الإجابة الصح: A — Code (a)</b>
       الـ multiplicity <code>1 to *</code> معناها: Advertiser واحد ↔ Accounts كتير. الكود الصح:
-      <ul style="margin-top:6px;padding-left:22px">
+      <ul style="margin-top:6px;padding-inline-start:22px">
         <li>Advertiser فيه <code>Set&lt;Account&gt; accounts</code> (collection).</li>
         <li>Account فيه <code>Advertiser owner</code> (single reference, not Set).</li>
         <li>addAccount + setOwner بيشتغلوا معاً للحفاظ على الـ bidirectional integrity.</li>
@@ -824,7 +824,7 @@
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: A — Composition with 1:*</b>
-      <ul style="margin-top:6px;padding-left:22px">
+      <ul style="margin-top:6px;padding-inline-start:22px">
         <li><code>ArrayList&lt;OrderDetail&gt;</code> = Order has many OrderDetails (multiplicity *).</li>
         <li>Order owns OrderDetails completely (composition ◆).</li>
         <li>OrderDetail has single Product reference (1:1 association).</li>
@@ -938,7 +938,7 @@
     <div class="q-explain">
       <b>✅ الإجابة الصح: C</b>
       الـ multiplicity بتقرأ <strong>على الـ end الـ opposite</strong>:
-      <ul style="margin-top:6px;padding-left:22px">
+      <ul style="margin-top:6px;padding-inline-start:22px">
         <li><code>1..*</code> على Employee side → كل project لازم يكون عنده 1 employee أو أكتر.</li>
         <li><code>0..*</code> على Project side → كل employee ممكن يكون مع 0 أو أكتر من المشاريع.</li>
       </ul>
@@ -958,7 +958,7 @@
     <div class="q-explain">
       <b>✅ الإجابة الصح: B — Self-generalization</b>
       Class ما تقدرش ترث من نفسها — معناها loop infinite في الـ inheritance. الباقي valid:
-      <ul style="margin-top:6px;padding-left:22px">
+      <ul style="margin-top:6px;padding-inline-start:22px">
         <li>Self-association: Course → Course (prerequisite).</li>
         <li>Self-aggregation: Folder → SubFolder.</li>
         <li>Self-composition: Tree → SubTree.</li>
@@ -1120,7 +1120,7 @@
   <div class="info">
     <div>
       <b>🔥 الأسئلة المتكررة على Lec 5</b>
-      <ol style="margin-top:6px;padding-left:22px">
+      <ol style="margin-top:6px;padding-inline-start:22px">
         <li><strong>Code ↔ Class Diagram</strong> — بيدي Java/C++ code وعليك تختار الـ diagram الصح، أو العكس.</li>
         <li><strong>Aggregation vs Composition</strong> — بيدي scenario (book, car, building) وعليك تحدد الـ relation الصح.</li>
         <li><strong>Which class diagram is wrong?</strong> — self-generalization دايماً غلط.</li>

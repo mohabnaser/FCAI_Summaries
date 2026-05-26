@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lecture 13 — Observer Pattern &amp; MVC | CS251</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
   /* Subject/Observer visual */
@@ -23,7 +23,7 @@
   .mvc-card{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;border-top:4px solid var(--accent)}
   .mvc-letter{font-family:var(--fh);font-size:3rem;font-weight:800;color:var(--accent);line-height:1}
   .mvc-name{font-family:var(--fh);font-size:1.05rem;color:var(--t1);font-weight:700;margin:4px 0 10px}
-  .mvc-card ul{text-align:left;font-size:.85rem;color:var(--t2);padding-left:22px}
+  .mvc-card ul{text-align:left;font-size:.85rem;color:var(--t2);padding-inline-start:22px}
   .mvc-card:nth-child(1){--accent:var(--green)}
   .mvc-card:nth-child(2){--accent:var(--cyan)}
   .mvc-card:nth-child(3){--accent:var(--purple)}
@@ -42,7 +42,7 @@
 
 <div id="prog-bar"></div>
 
-<nav id="sidebar">
+<nav id="sidebar" dir="ltr">
   <div class="sb-logo">
     <h2>📡 CS251 — Lec 13</h2>
     <p>Observer Pattern &amp; MVC</p>
@@ -72,7 +72,7 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main">
+<main id="main" dir="auto">
 
 <section class="hero">
   <div class="hero-badge">📡 Lecture 13 · Pub-Sub &amp; MVC architecture</div>
@@ -917,7 +917,7 @@
   <div class="info">
     <div>
       <b>🔥 Observer + MVC in exams</b>
-      <ol style="margin-top:6px;padding-left:22px">
+      <ol style="margin-top:6px;padding-inline-start:22px">
         <li><strong>Q1.17</strong> Pub-Sub scenario (water company / banking) — Observer.</li>
         <li><strong>Q1.18</strong> MVC role identification — مرتبط بـ Observer terminology.</li>
         <li><strong>Q3 Winter 2023</strong> Observer Pattern in Java with Subject + Observable + setChanged + notifyObservers.</li>
