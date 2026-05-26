@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 12 — Design Patterns &amp; Strategy | CS251</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  .gof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+  .gof-cat{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;border-top:3px solid var(--accent)}
+  .gof-cat h4{font-family:var(--fh);font-size:1rem;color:var(--accent);font-weight:700;margin-bottom:8px}
+  .gof-cat ul{list-style:none;padding:0}
+  .gof-cat li{padding:3px 0;font-size:.85rem;color:var(--t2)}
+  .gof-cat li.featured{color:var(--cyan);font-weight:600}
+  .gof-cat:nth-child(1){--accent:var(--green)}
+  .gof-cat:nth-child(2){--accent:var(--amber)}
+  .gof-cat:nth-child(3){--accent:var(--purple)}
+  @media(max-width:700px){.gof-grid{grid-template-columns:1fr}}
+
+  /* Pattern card */
+  .pattern-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:20px;margin:14px 0;border-left:5px solid var(--accent,var(--cyan))}
+  .pattern-card .pc-cat{font-family:var(--fc);font-size:.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
+  .pattern-card h3{font-family:var(--fh);font-size:1.2rem;color:var(--t1);font-weight:700;margin:4px 0 12px}
+  .pattern-card .pc-section{margin:10px 0}
+  .pattern-card .pc-section h5{font-family:var(--fh);font-size:.85rem;color:var(--accent);font-weight:600;margin-bottom:4px}
+  .pattern-card .pc-section p{font-size:.88rem;color:var(--t2);line-height:1.6}
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>🎯 CS251 — Lec 12</h2>
+    <p>Design Patterns &amp; Strategy</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">Design Patterns</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Intro &amp; Motivation</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>GoF 23 Patterns</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>4 Elements</a>
+
+  <div class="sb-section">Java GUI</div>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Swing &amp; AWT</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>JavaFX (Modern)</a>
+
+  <div class="sb-section">Strategy Pattern ⭐</div>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Context · Problem · Solution</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Structure (UML)</a>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>TextEditor Example (Q3)</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Bank</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Rapid Revision</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main">
+
+<section class="hero">
+  <div class="hero-badge">🎯 Lecture 12 · The most important lecture for Q3</div>
+  <h1>Design Patterns &amp; <span>Strategy Pattern</span></h1>
+  <p><strong>Question 3 (15-24 marks)</strong> في كل امتحان final بيكون عن Strategy Pattern. هتبني full UML diagram + write all Java code. ركز جداً.</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">8</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">23</div><div class="lbl">GoF Patterns</div></div>
+    <div class="hstat"><div class="num">⭐</div><div class="lbl">Strategy = Q3</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Exam Qs</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — INTRO & MOTIVATION
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>Introduction to Design Patterns</h2>
+      <p>الـ pattern = recurring solution لـ common problem في specific context.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📜</span> History &amp; Origin</div>
+    <ul>
+      <li>Based on work by <strong>Christopher Alexander</strong> (Architect) on building homes/towns.</li>
+      <li><strong>Gang of Four (GoF)</strong> book — 1995, by Gamma, Helm, Johnson, Vlissides.</li>
+      <li>Described 23 recurring software designs.</li>
+    </ul>
+    <blockquote style="border-left:3px solid var(--cyan);padding:10px 16px;background:rgba(0,212,255,.05);font-style:italic;color:var(--t2);margin-top:10px">
+      "Each pattern describes a problem which occurs over and over again, and then describes the core of the solution, in such a way that you can use this solution a million times over, without ever doing it in the same way twice."
+      <br><span style="font-size:.78rem">— Christopher Alexander, A Pattern Language, 1977</span>
+    </blockquote>
+  </div>
+
+  <!-- Motivating problem -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">⚠️</span> Motivating Problem — Sort Method Evolution</div>
+    <p>تبدأ بكتابة ArrayList فيه <code>sort()</code> بـ bubble sort. تغيره لـ merge sort. تحاول الاتنين بـ <code>if/else</code>:</p>
+    <div class="code-wrap">
+<pre><code><span class="kw">public class</span> <span class="fn">ArrayList</span>&lt;<span class="fn">T</span>&gt; {
+  <span class="kw">public void</span> <span class="fn">sort</span>(<span class="kw">int</span> sortChoice) {
+    <span class="kw">if</span> (sortChoice == <span class="num">1</span>) { <span class="cmt">/* merge sort */</span> }
+    <span class="kw">if</span> (sortChoice == <span class="num">2</span>) { <span class="cmt">/* bubble sort */</span> }
+  }
+}</code></pre>
+    </div>
+    <div class="danger"><div><b>🔴 What's wrong?</b>
+      <ol style="margin-top:4px">
+        <li>Violates <strong>OCP</strong> — for any new algorithm, you modify the class.</li>
+        <li>Every change affects all <strong>clients</strong> that use it.</li>
+        <li>What about <strong>future algorithms</strong> you don't know yet? You'll keep editing.</li>
+      </ol>
+    </div></div>
+    <div class="info"><div><b>💡 Uncle Bob's wisdom</b>"When writing a class, ensure that when you need to extend its behavior you <strong>don't have to change the class</strong> but to <strong>extend it</strong>."</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — GOF 23 PATTERNS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num green">02</div>
+    <div class="ch-title">
+      <h2>GoF — 23 Design Patterns</h2>
+      <p>تنقسم لـ 3 categories.</p>
+    </div>
+  </div>
+
+  <div class="gof-grid">
+    <div class="gof-cat">
+      <h4>🏗️ Creational (5)</h4>
+      <p style="font-size:.78rem;color:var(--t3);margin-bottom:6px">About object creation</p>
+      <ul>
+        <li>Abstract Factory</li>
+        <li>Builder</li>
+        <li>Factory Method</li>
+        <li>Prototype</li>
+        <li class="featured">Singleton ⭐</li>
+      </ul>
+    </div>
+    <div class="gof-cat">
+      <h4>🏛️ Structural (7)</h4>
+      <p style="font-size:.78rem;color:var(--t3);margin-bottom:6px">About composition</p>
+      <ul>
+        <li class="featured">Adapter ⭐ (Q3 Winter 2023)</li>
+        <li>Bridge</li>
+        <li>Composite</li>
+        <li>Decorator</li>
+        <li>Façade</li>
+        <li>Flyweight</li>
+        <li>Proxy</li>
+      </ul>
+    </div>
+    <div class="gof-cat">
+      <h4>🎭 Behavioral (11)</h4>
+      <p style="font-size:.78rem;color:var(--t3);margin-bottom:6px">About interaction</p>
+      <ul>
+        <li>Chain of Responsibility</li>
+        <li>Command</li>
+        <li>Interpreter</li>
+        <li>Iterator</li>
+        <li>Mediator</li>
+        <li>Memento</li>
+        <li class="featured">Observer ⭐</li>
+        <li>State</li>
+        <li class="featured">Strategy ⭐⭐⭐</li>
+        <li class="featured">Template Method ⭐</li>
+        <li>Visitor</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn"><div><b>⚠️ اللي بيتسأل عليهم في الـ exams</b><strong>Strategy</strong> (Q3 in every exam), <strong>Observer / Publish-Subscribe</strong> (Q1.17 Fall 2021-22 / Winter 2021), <strong>Adapter</strong> (Q3 Winter 2023), <strong>Template Method</strong> (Q1.08 Winter 2025), <strong>Singleton</strong> (common interview question).</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — 4 ELEMENTS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>4 Essential Elements of a Pattern</h2>
+      <p>كل design pattern له 4 essential elements.</p>
+    </div>
+  </div>
+
+  <div class="grid4">
+    <div class="cmp-card" style="--accent:var(--cyan)"><h4>1. Name</h4><p>Handle لوصف problem · solution · consequences. Increases design vocabulary.</p></div>
+    <div class="cmp-card" style="--accent:var(--green)"><h4>2. Problem</h4><p>متى نطبق الـ pattern + the context + preconditions.</p></div>
+    <div class="cmp-card" style="--accent:var(--amber)"><h4>3. Solution</h4><p>Elements: design · relationships · responsibilities · collaborations.</p></div>
+    <div class="cmp-card" style="--accent:var(--purple)"><h4>4. Consequences</h4><p>الـ trade-offs والـ results من تطبيق الـ pattern.</p></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — JAVA SWING
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num purple">04</div>
+    <div class="ch-title">
+      <h2>Java GUI — Swing &amp; AWT</h2>
+      <p>الـ Java libraries للـ GUI. الـ AWT هي الأساس، الـ Swing بيـ extends.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🪟</span> Hierarchy</div>
+    <ul>
+      <li><strong>AWT (java.awt)</strong> — old, OS-dependent rendering.</li>
+      <li><strong>Swing (javax.swing)</strong> — new, classes start with <code>J</code> (e.g., <code>JFrame</code>, <code>JPanel</code>, <code>JButton</code>).</li>
+    </ul>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">Sample Java GUI Composition</h4>
+    <div class="diagram" style="text-align:center;padding:18px">
+      <div style="font-family:var(--fc);font-size:.85rem;color:var(--cyan)">JFrame (Window)</div>
+      <div style="color:var(--t3);margin:6px 0">↓ contains</div>
+      <div style="font-family:var(--fc);font-size:.85rem;color:var(--green)">JPanel × N</div>
+      <div style="color:var(--t3);margin:6px 0">↓ contains</div>
+      <div style="font-family:var(--fc);font-size:.85rem;color:var(--amber)">J* Components (JButton, JLabel, ...)</div>
+      <div style="color:var(--t3);margin:6px 0">+ organized by</div>
+      <div style="font-family:var(--fc);font-size:.85rem;color:var(--purple)">LayoutManager (FlowLayout, GridLayout, BorderLayout)</div>
+      <div style="color:var(--t3);margin:6px 0">+ react via</div>
+      <div style="font-family:var(--fc);font-size:.85rem;color:var(--pink)">ActionListener</div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">💻</span> Tic-Tac-Toe Example</div>
+    <div class="code-wrap">
+<pre><code><span class="kw">public class</span> <span class="fn">TicTacToe1</span> <span class="kw">extends</span> <span class="fn">JFrame</span> {
+  <span class="kw">public</span> <span class="fn">TicTacToe1</span>() {
+    setTitle(<span class="str">"Tic Tac Toe"</span>);
+    setSize(<span class="num">310</span>, <span class="num">210</span>);
+    setLayout(<span class="kw">new</span> <span class="fn">GridLayout</span>(<span class="num">2</span>, <span class="num">1</span>));
+
+    <span class="fn">JLabel</span> messageLabel = <span class="kw">new</span> <span class="fn">JLabel</span>(<span class="str">"It is X turn."</span>);
+    <span class="fn">JPanel</span> msgPanel = <span class="kw">new</span> <span class="fn">JPanel</span>(<span class="kw">new</span> <span class="fn">FlowLayout</span>());
+    msgPanel.add(messageLabel);
+
+    <span class="fn">JPanel</span> gamePanel = <span class="kw">new</span> <span class="fn">JPanel</span>(<span class="kw">new</span> <span class="fn">GridLayout</span>(<span class="num">3</span>, <span class="num">3</span>));
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; <span class="num">9</span>; i++) {
+      gamePanel.add(<span class="kw">new</span> <span class="fn">JButton</span>(<span class="str">""</span>));
+    }
+    add(msgPanel); add(gamePanel);
+    setVisible(<span class="kw">true</span>);
+  }
+}</code></pre>
+    </div>
+  </div>
+
+  <!-- Event Listener -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">👂</span> Event Listeners</div>
+    <p>الـ AWT/Swing components بتـ publish events. الـ <strong>EventListeners</strong> بتـ subscribe لها.</p>
+    <table class="tbl">
+      <tr><th>Component</th><th>Event</th><th>Listener</th></tr>
+      <tr><td>JButton</td><td>ActionEvent</td><td>ActionListener</td></tr>
+      <tr><td>JComponent</td><td>MouseEvent</td><td>MouseListener</td></tr>
+      <tr><td>JComponent</td><td>KeyEvent</td><td>KeyListener</td></tr>
+    </table>
+    <div class="code-wrap">
+<pre><code><span class="cmt">// Adding listener with anonymous inner class</span>
+<span class="fn">JButton</span> again = <span class="kw">new</span> <span class="fn">JButton</span>(<span class="str">"New game"</span>);
+again.addActionListener(<span class="kw">new</span> <span class="fn">ActionListener</span>() {
+  <span class="kw">public void</span> <span class="fn">actionPerformed</span>(<span class="fn">ActionEvent</span> e) {
+    newGame();
+  }
+});</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — JAVAFX
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num teal">05</div>
+    <div class="ch-title">
+      <h2>JavaFX — Modern UI</h2>
+      <p>Swing هو الـ Legacy. JavaFX هو الـ Modern Industry Standard.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">⚖️</span> Swing vs JavaFX Comparison</div>
+    <table class="tbl">
+      <tr><th>Feature</th><th>Swing (Legacy)</th><th>JavaFX (Modern)</th></tr>
+      <tr><td>Top-Level Container</td><td>JFrame</td><td>Stage</td></tr>
+      <tr><td>Content</td><td>JPanel / ContentPane</td><td>Scene</td></tr>
+      <tr><td>Component Base</td><td>JComponent</td><td>Node</td></tr>
+      <tr><td>Hierarchy</td><td>Flat: Frame→Panel→Comp</td><td>Scene Graph: Stage→Scene→Root→Nodes</td></tr>
+      <tr><td>Layout</td><td>setLayout()</td><td>setRoot(newParent)</td></tr>
+      <tr><td>Styling</td><td>Java code</td><td>CSS</td></tr>
+      <tr><td>Graphics Engine</td><td>CPU (software)</td><td>GPU accelerated</td></tr>
+      <tr><td>Layout Strategy</td><td>FlowLayout, GridLayout, BorderLayout</td><td>HBox, VBox, GridPane, StackPane</td></tr>
+      <tr><td>Visual Design</td><td>Code only</td><td>FXML + Scene Builder</td></tr>
+      <tr><td>Multimedia</td><td>Limited</td><td>3D, Video, Audio, WebKit built-in</td></tr>
+      <tr><td>Events</td><td>Anonymous inner classes</td><td>Lambda expressions</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — STRATEGY ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num red">06</div>
+    <div class="ch-title">
+      <h2>Strategy Pattern ⭐⭐⭐</h2>
+      <p>الـ Pattern الأهم في الـ course. Q3 في كل final fingerprint exam.</p>
+    </div>
+  </div>
+
+  <div class="pattern-card" style="--accent:var(--red)">
+    <div class="pc-cat">Behavioral Pattern · GoF</div>
+    <h3>🎯 Strategy</h3>
+
+    <div class="pc-section">
+      <h5>📍 Context</h5>
+      <p>Define a <strong>family of algorithms</strong>, encapsulate each one, and make them <strong>interchangeable</strong>. Strategy lets the algorithm <strong>vary independently</strong> from clients that use it.</p>
+    </div>
+
+    <div class="pc-section">
+      <h5>❓ Problem</h5>
+      <p>Allow <strong>different behaviors</strong> without changing the class of an object. Strategy/Algorithm can change at runtime within the same class.</p>
+    </div>
+
+    <div class="pc-section">
+      <h5>✅ Solution</h5>
+      <p>Represent each strategy by a <strong>separate class</strong>. Each strategy class implements the appropriate algorithm. At runtime, a class can <strong>change its strategy</strong>.</p>
+    </div>
+  </div>
+
+  <!-- Applicability -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🎯</span> When to Use Strategy</div>
+    <ul>
+      <li>Many related classes differ only in <strong>behavior</strong>.</li>
+      <li>You need <strong>different variants</strong> of an algorithm.</li>
+      <li>Algorithm uses <strong>data clients shouldn't know about</strong>.</li>
+      <li>A class has many behaviors as <strong>multiple conditional statements</strong> — move them into Strategy classes.</li>
+    </ul>
+    <div class="info"><div><b>💡 Key Trigger</b>لو في كود فيه <code>if/else</code> chain أو <code>switch</code> بيختار between behaviors → فكر في Strategy.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — STRUCTURE
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num pink">07</div>
+    <div class="ch-title">
+      <h2>Strategy Pattern — UML Structure</h2>
+      <p>3 elements: Context · Strategy interface · Concrete Strategies.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">📐</span> UML Class Diagram</div>
+    <div class="diagram">
+      <pre style="font-family:var(--fc);font-size:.82rem;line-height:1.5;color:var(--t2);text-align:left;direction:ltr">
+       ┌───────────────────┐         ┌────────────────────────┐
+       │     Context       │ ◇─ ────→│  «interface» Strategy  │
+       ├───────────────────┤ strategy├────────────────────────┤
+       │ -strategy:Strategy│         │ +algorithm() :          │
+       │ +contextOp()      │         └────────────────────────┘
+       └───────────────────┘                    △
+                                                │ implements
+                          ┌─────────────────────┼─────────────────────┐
+                          │                     │                     │
+              ┌───────────────────┐  ┌───────────────────┐  ┌───────────────────┐
+              │ ConcreteStrategyA │  │ ConcreteStrategyB │  │ ConcreteStrategyC │
+              ├───────────────────┤  ├───────────────────┤  ├───────────────────┤
+              │ +algorithm()      │  │ +algorithm()      │  │ +algorithm()      │
+              └───────────────────┘  └───────────────────┘  └───────────────────┘</pre>
+    </div>
+    <ul>
+      <li><strong>Context</strong>: holds reference to Strategy. Delegates algorithm work to it.</li>
+      <li><strong>Strategy</strong>: interface/abstract class defining the algorithm signature.</li>
+      <li><strong>ConcreteStrategies</strong>: each one implements a different variant of the algorithm.</li>
+    </ul>
+  </div>
+
+  <!-- Sort example -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📊</span> Sort Example (from motivation)</div>
+    <div class="diagram">
+      <pre style="font-family:var(--fc);font-size:.82rem;line-height:1.5;color:var(--t2);text-align:left;direction:ltr">
+       ┌──────────────┐         ┌──────────────────────┐
+       │  SortArray   │ ◇──────→│ «interface» SortStrategy │
+       ├──────────────┤sortStrat├──────────────────────┤
+       │ +sort()      │         │ +sort()              │
+       └──────────────┘         └──────────────────────┘
+                                          △
+                          ┌───────────────┼───────────────┐
+                  ┌───────────┐  ┌────────────┐  ┌──────────────┐
+                  │ BubbleSort│  │ QuickSort  │  │ InsertionSort│
+                  └───────────┘  └────────────┘  └──────────────┘</pre>
+    </div>
+  </div>
+
+  <!-- Java GUI as Strategy -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🪟</span> Java AWT LayoutManager = Strategy!</div>
+    <p>الـ Java AWT بيستخدم Strategy للـ Layout Managers. الـ Container = Context. الـ LayoutManager = Strategy.</p>
+    <div class="code-wrap">
+<pre><code><span class="fn">Frame</span> f = <span class="kw">new</span> <span class="fn">Frame</span>();
+f.setLayout(<span class="kw">new</span> <span class="fn">FlowLayout</span>());    <span class="cmt">// strategy 1</span>
+<span class="cmt">// or:</span>
+f.setLayout(<span class="kw">new</span> <span class="fn">GridLayout</span>(<span class="num">2</span>,<span class="num">3</span>));  <span class="cmt">// strategy 2</span>
+<span class="cmt">// or:</span>
+f.setLayout(<span class="kw">new</span> <span class="fn">BorderLayout</span>());  <span class="cmt">// strategy 3</span></code></pre>
+    </div>
+    <p style="margin-top:8px;font-size:.85rem">الـ Frame ما يعرفش إزاي بيتم الـ layout — هو بس يحفظ reference للـ LayoutManager. كل strategy class بيـ implement different layout algorithm.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 8 — TEXT EDITOR EXAMPLE
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num red">08</div>
+    <div class="ch-title">
+      <h2>TextEditor Strategy — Q3 Exam Solution ⭐</h2>
+      <p>الـ Question 3 في امتحانات Fall 2021-22 و Winter 2021. Practice these by heart.</p>
+    </div>
+  </div>
+
+  <!-- Original code (before Strategy) -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">📜</span> Original Code (before Strategy)</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">TextEditor.java — Bad design</div></div>
+<pre><code><span class="kw">public class</span> <span class="fn">TextEditor</span> {
+  <span class="kw">private String</span> text;
+
+  <span class="kw">public void</span> <span class="fn">formatText</span>(<span class="kw">int</span> choice) {
+    <span class="kw">if</span> (choice == <span class="num">1</span>) {
+      text = text.toUpperCase();
+    }
+    <span class="kw">else if</span> (choice == <span class="num">2</span>) {
+      text = text.toLowerCase();
+    }
+  }
+
+  <span class="kw">public void</span> <span class="fn">setText</span>(<span class="kw">String</span> newText) { text = newText; }
+  <span class="kw">public String</span> <span class="fn">getText</span>() { <span class="kw">return</span> text; }
+}
+
+<span class="kw">public class</span> <span class="fn">Test</span> {
+  <span class="kw">public static void</span> <span class="fn">main</span>(<span class="kw">String</span>[] args) {
+    <span class="fn">TextEditor</span> editor = <span class="kw">new</span> <span class="fn">TextEditor</span>();
+    editor.setText(<span class="str">"this Is My TeXt"</span>);
+    editor.formatText(<span class="num">1</span>);
+    <span class="fn">System.out</span>.println(editor.getText());  <span class="cmt">// THIS IS MY TEXT</span>
+    editor.formatText(<span class="num">2</span>);
+    <span class="fn">System.out</span>.println(editor.getText());  <span class="cmt">// this is my text</span>
+  }
+}</code></pre>
+    </div>
+  </div>
+
+  <!-- The 3 questions -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">❓</span> The 3 Parts of Question 3</div>
+    <ol>
+      <li><strong>Part a (1 mark):</strong> What is the output of the code? <br><em>Answer:</em> <code>THIS IS MY TEXT</code> on line 1, <code>this is my text</code> on line 2.</li>
+      <li><strong>Part b (2 marks):</strong> How does adding a choice for formatting violate OCP and affect existing classes? <br><em>Answer:</em> Code should be open for extensions, closed for modifications. But adding a new formatter requires <strong>modifying the existing class</strong> (add new if). This violates OCP. Also, all clients using the class must be updated.</li>
+      <li><strong>Part c (5 marks for diagram + 7 marks for code):</strong> Apply Strategy Pattern. Draw UML + Write Java code.</li>
+    </ol>
+  </div>
+
+  <!-- Solution UML -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📐</span> Solution — UML Class Diagram (5 marks)</div>
+    <div class="diagram">
+      <pre style="font-family:var(--fc);font-size:.8rem;line-height:1.5;color:var(--t2);text-align:left;direction:ltr">
+   ┌─────────┐         ┌───────────────┐        ┌──────────────────────────────┐
+   │  Test   │─────→─→│  TextEditor   │ ─◇────→│ «abstract» TextFormattingStrategy │
+   ├─────────┤         ├───────────────┤        ├──────────────────────────────┤
+   │  main() │         │ -text:String  │        │ +formatText(text:String):String │
+   └─────────┘         │ -formatter    │        └──────────────────────────────┘
+                       │ +setText()    │                       △
+                       │ +getText()    │                       │ extends
+                       │ +setFormatter()│         ┌─────────────┴──────────────┐
+                       │ +formatText() │         │                            │
+                       └───────────────┘  ┌──────────────────┐  ┌──────────────────┐
+                                          │ UpperCaseFormatter│  │ LowerCaseFormatter│
+                                          ├──────────────────┤  ├──────────────────┤
+                                          │ +formatText(text):│  │ +formatText(text):│
+                                          │   String         │  │   String         │
+                                          └──────────────────┘  └──────────────────┘</pre>
+    </div>
+  </div>
+
+  <!-- Solution Code -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">☕</span> Solution — Java Code (7 marks)</div>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:12px 0 6px">1️⃣ TextEditor (Context)</h4>
+    <div class="code-wrap">
+<pre><code><span class="kw">public class</span> <span class="fn">TextEditor</span> {
+  <span class="kw">private String</span> text;
+  <span class="kw">private</span> <span class="fn">TextFormattingStrategy</span> formatter;  <span class="cmt">// 1 mark</span>
+
+  <span class="kw">public void</span> <span class="fn">setFormatter</span>(<span class="fn">TextFormattingStrategy</span> formatter) {
+    <span class="kw">this</span>.formatter = formatter;  <span class="cmt">// 1 mark</span>
+  }
+
+  <span class="kw">public void</span> <span class="fn">setText</span>(<span class="kw">String</span> newText) { text = newText; }
+  <span class="kw">public String</span> <span class="fn">getText</span>() { <span class="kw">return</span> text; }
+
+  <span class="kw">public void</span> <span class="fn">formatText</span>() {
+    text = formatter.formatText(text);  <span class="cmt">// 1 mark</span>
+  }
+}</code></pre>
+    </div>
+
+    <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin:12px 0 6px">2️⃣ Abstract Strategy Class</h4>
+    <div class="code-wrap">
+<pre><code><span class="kw">abstract public class</span> <span class="fn">TextFormattingStrategy</span> {
+  <span class="kw">abstract public String</span> <span class="fn">formatText</span>(<span class="kw">String</span> text);
+}</code></pre>
+    </div>
+
+    <h4 style="font-family:var(--fh);color:var(--amber);font-size:.95rem;margin:12px 0 6px">3️⃣ Concrete Strategies</h4>
+    <div class="code-wrap">
+<pre><code><span class="kw">public class</span> <span class="fn">LowerCaseFormatter</span> <span class="kw">extends</span> <span class="fn">TextFormattingStrategy</span> {
+  <span class="kw">public String</span> <span class="fn">formatText</span>(<span class="kw">String</span> text) {
+    <span class="kw">return</span> text.toLowerCase();
+  }
+}
+
+<span class="kw">public class</span> <span class="fn">UpperCaseFormatter</span> <span class="kw">extends</span> <span class="fn">TextFormattingStrategy</span> {
+  <span class="kw">public String</span> <span class="fn">formatText</span>(<span class="kw">String</span> text) {
+    <span class="kw">return</span> text.toUpperCase();
+  }
+}</code></pre>
+    </div>
+
+    <h4 style="font-family:var(--fh);color:var(--pink);font-size:.95rem;margin:12px 0 6px">4️⃣ Test Client</h4>
+    <div class="code-wrap">
+<pre><code><span class="kw">public class</span> <span class="fn">Test</span> {
+  <span class="kw">public static void</span> <span class="fn">main</span>(<span class="kw">String</span>[] args) {
+    <span class="fn">TextEditor</span> editor = <span class="kw">new</span> <span class="fn">TextEditor</span>();
+    editor.setText(<span class="str">"this Is My TeXt"</span>);
+
+    editor.setFormatter(<span class="kw">new</span> <span class="fn">UpperCaseFormatter</span>());  <span class="cmt">// 0.5</span>
+    editor.formatText();
+    <span class="fn">System.out</span>.println(editor.getText());  <span class="cmt">// THIS IS MY TEXT</span>
+
+    editor.setFormatter(<span class="kw">new</span> <span class="fn">LowerCaseFormatter</span>());  <span class="cmt">// 0.5</span>
+    editor.formatText();
+    <span class="fn">System.out</span>.println(editor.getText());  <span class="cmt">// this is my text</span>
+  }
+}</code></pre>
+    </div>
+
+    <div class="tip"><div><b>💡 Benefits achieved</b>
+      <ol style="margin-top:4px">
+        <li><strong>OCP</strong> satisfied — add new formatter without touching TextEditor.</li>
+        <li><strong>Polymorphism</strong> — TextEditor doesn't know which formatter is used.</li>
+        <li><strong>Open for extension</strong> — create new ConcreteStrategy classes (e.g., TitleCaseFormatter).</li>
+      </ol>
+    </div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ — EXAM BANK
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Exam Bank — Lecture 12</h3>
+      <p>8 أسئلة من الـ exams الحقيقية. Strategy, Observer, Template Method, MVC.</p>
+    </div>
+  </div>
+
+  <!-- Q1 — Strategy concept -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 1 <span class="q-src">Practice — Strategy</span></div>
+    <div class="q-text">A class has multiple algorithms selected via <code>switch</code>. Which design pattern would best <strong>refactor</strong> this?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Observer</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Strategy</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Singleton</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Adapter</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Strategy</b>
+      Strategy pattern encapsulates each algorithm in its own class. الـ switch بيتم استبداله بـ polymorphism. ده classic refactor الـ Strategy.
+    </div>
+  </div>
+
+  <!-- Q2 — Water company (Observer/Pub-Sub) -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 2 <span class="q-src">Fall 2021–22 / Winter 2021 · Q1.17</span></div>
+    <div class="q-text">A water company has a CRM system, billing system, and messaging system. When a customer is created in CRM, billing &amp; messaging systems need to be <strong>notified</strong> and get a copy of customer data. Which design pattern suits this case?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> GoF pattern (any)</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Publish-Subscribe (Observer)</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Strategy</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> MVC</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Publish-Subscribe (Observer)</b>
+      الـ CRM يـ publish event ("new customer"). Billing &amp; Messaging يـ subscribe ويتم notify عند الحدث. Each subscriber يحصل على copy. Classic Pub-Sub / Observer pattern.
+      <div class="why-wrong">
+        <strong>A</strong> — too generic. ·
+        <strong>C (Strategy)</strong> — للـ swap algorithms. ·
+        <strong>D (MVC)</strong> — UI pattern.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 — MVC -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 3 <span class="q-src">Fall 2021–22 / Winter 2021 · Q1.18</span></div>
+    <div class="q-text">In the MVC pattern shown with components <code>@Observable</code> (1), <code>@EventListener</code> (2), <code>@Observer</code> (3) — what are classes 1, 2, and 3 in order?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> View, Controller, Model</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Model, View, Controller</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Model, Controller, View</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Controller, View, Model</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Model, Controller, View</b>
+      <ul style="margin-top:6px;padding-left:22px">
+        <li>الـ Model = <code>@Observable</code> (الـ source للـ data changes)</li>
+        <li>الـ Controller = <code>@EventListener</code> (يستجيب لـ events)</li>
+        <li>الـ View = <code>@Observer</code> (يتم notify عند changes)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q4 — Template Method (Winter 2025) -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 4 <span class="q-src">Winter 2025 · Q1.08</span></div>
+    <div class="q-text">A class <code>ReportBuilder</code> has a <code>buildReport()</code> method that calls <code>gatherData()</code>, <code>formatReport()</code>, <code>printReport()</code> in order. <code>formatReport()</code> is abstract. <code>SalesReport extends ReportBuilder</code> overrides specific methods. Which pattern is this?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Observer</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Strategy</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> MVC</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Template Method</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — Template Method</b>
+      Template Method = الـ base class defines a fixed algorithm (sequence) with some abstract steps. Subclasses override the abstract steps. الـ structure هنا exactly that.
+      <div class="why-wrong">
+        <strong>A (Observer)</strong> — مفيش notification mechanism. ·
+        <strong>B (Strategy)</strong> — Strategy = composition (HAS-A); Template = inheritance (IS-A) with hooks. ·
+        <strong>C (MVC)</strong> — مش UI pattern.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 — OCP/Strategy purpose -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 5 <span class="q-src">Practice — Strategy benefits</span></div>
+    <div class="q-text">Which SOLID principle is most directly <strong>satisfied</strong> by Strategy Pattern?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Open-Close Principle</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Liskov Substitution</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Interface Segregation</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Single Responsibility</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A — OCP</b>
+      Strategy = open for extension (add new strategy classes), closed for modification (Context class doesn't change). ده exact embodiment للـ OCP.
+    </div>
+  </div>
+
+  <!-- Q6 — Strategy element identification -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 6 <span class="q-src">Practice — Strategy structure</span></div>
+    <div class="q-text">In Strategy Pattern, which class holds the <strong>reference to the current strategy</strong>?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Strategy interface</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> ConcreteStrategy</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Context</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Test/Client</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Context</b>
+      Context = the class الـ delegating the algorithm (e.g., TextEditor, SortArray). It HAS-A Strategy as a field, calls strategy.algorithm() in its operation.
+    </div>
+  </div>
+
+  <!-- Q7 — Java AWT layout -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 7 <span class="q-src">Practice — Real-world Strategy</span></div>
+    <div class="q-text">Which Java AWT/Swing component uses the Strategy Pattern internally?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> ActionListener</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Container with LayoutManager</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> JComboBox</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> JFrame</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Container with LayoutManager</b>
+      Container = Context. LayoutManager = Strategy interface. FlowLayout, GridLayout, BorderLayout = ConcreteStrategies. <code>container.setLayout(new FlowLayout())</code> = swap strategy at runtime!
+      <div class="why-wrong">
+        <strong>A (ActionListener)</strong> — closer to Observer pattern (event listener).
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 — GoF categories -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 8 <span class="q-src">Practice — GoF</span></div>
+    <div class="q-text">Strategy belongs to which GoF category?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Creational</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Structural</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Architectural</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Behavioral</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — Behavioral</b>
+      Behavioral patterns deal with object interaction and responsibility distribution. Strategy + Observer + Template Method + Command + Iterator etc. كلهم behavioral.
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet</h2>
+      <p>Design Patterns + Strategy complete reference.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="cheat">
+      <h3>📚 GoF Categories</h3>
+      <div class="cheat-item"><div class="cheat-key">Creational (5)</div><div class="cheat-val">Abstract Factory · Builder · Factory Method · Prototype · Singleton</div></div>
+      <div class="cheat-item"><div class="cheat-key">Structural (7)</div><div class="cheat-val">Adapter · Bridge · Composite · Decorator · Façade · Flyweight · Proxy</div></div>
+      <div class="cheat-item"><div class="cheat-key">Behavioral (11)</div><div class="cheat-val">CoR · Command · Iterator · Mediator · Memento · <strong>Observer</strong> · State · <strong>Strategy</strong> · <strong>Template Method</strong> · Visitor · Interpreter</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🎯 Strategy Pattern (Q3)</h3>
+      <div class="cheat-item"><div class="cheat-key">Category</div><div class="cheat-val">Behavioral</div></div>
+      <div class="cheat-item"><div class="cheat-key">Intent</div><div class="cheat-val">Family of algorithms, encapsulated, interchangeable</div></div>
+      <div class="cheat-item"><div class="cheat-key">Structure</div><div class="cheat-val">Context + Strategy interface + ConcreteStrategies</div></div>
+      <div class="cheat-item"><div class="cheat-key">SOLID applied</div><div class="cheat-val">OCP + DIP</div></div>
+      <div class="cheat-item"><div class="cheat-key">Trigger</div><div class="cheat-val">if/else / switch chain for behavior</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🔄 Pattern → Use Case</h3>
+      <div class="cheat-item"><div class="cheat-key">Strategy</div><div class="cheat-val">Multiple algorithms (sort, format, layout)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Observer</div><div class="cheat-val">Notify many objects of state change</div></div>
+      <div class="cheat-item"><div class="cheat-key">Adapter</div><div class="cheat-val">Make incompatible interfaces work together</div></div>
+      <div class="cheat-item"><div class="cheat-key">Template Method</div><div class="cheat-val">Fixed algorithm steps + customizable parts</div></div>
+      <div class="cheat-item"><div class="cheat-key">Singleton</div><div class="cheat-val">Ensure ONE instance only</div></div>
+      <div class="cheat-item"><div class="cheat-key">MVC</div><div class="cheat-val">Separate Model · View · Controller</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📝 4 Elements of Pattern</h3>
+      <div class="cheat-item"><div class="cheat-key">1. Name</div><div class="cheat-val">Vocabulary handle</div></div>
+      <div class="cheat-item"><div class="cheat-key">2. Problem</div><div class="cheat-val">When to apply + context</div></div>
+      <div class="cheat-item"><div class="cheat-key">3. Solution</div><div class="cheat-val">Design + relationships</div></div>
+      <div class="cheat-item"><div class="cheat-key">4. Consequences</div><div class="cheat-val">Trade-offs &amp; results</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🪟 Java GUI</h3>
+      <div class="cheat-item"><div class="cheat-key">Old</div><div class="cheat-val">AWT (java.awt)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Standard</div><div class="cheat-val">Swing (javax.swing) — starts with J</div></div>
+      <div class="cheat-item"><div class="cheat-key">Modern</div><div class="cheat-val">JavaFX — Stage, Scene, Node</div></div>
+      <div class="cheat-item"><div class="cheat-key">Strategy in Java</div><div class="cheat-val">setLayout(new FlowLayout())</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>⏰ Q3 Exam Strategy</h3>
+      <div class="cheat-item"><div class="cheat-key">1 mark</div><div class="cheat-val">Read code output</div></div>
+      <div class="cheat-item"><div class="cheat-key">2 marks</div><div class="cheat-val">Explain OCP violation</div></div>
+      <div class="cheat-item"><div class="cheat-key">5 marks</div><div class="cheat-val">Draw UML (Context + abstract + 2 concretes)</div></div>
+      <div class="cheat-item"><div class="cheat-key">7 marks</div><div class="cheat-val">Java code (4 classes minimum)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Total Q3</div><div class="cheat-val">15-24 marks</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter" id="revision" style="margin-top:60px">
+  <div class="ch-header">
+    <div class="ch-num pink">⚡</div>
+    <div class="ch-title">
+      <h2>Rapid Revision</h2>
+      <p>Flashcards · Mistakes · Doctor favorites.</p>
+    </div>
+  </div>
+
+  <div class="flashcards">
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">3 GoF categories؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Creational · Structural · Behavioral</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Strategy = ?</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Family of algorithms, interchangeable</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Strategy structure؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Context + Strategy interface + ConcreteStrategies</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Observer / Pub-Sub use case؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Notify multiple systems of state change</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Template Method vs Strategy؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Template = inheritance + hooks. Strategy = composition + swap</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Java AWT example of Strategy؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">setLayout() with FlowLayout/GridLayout/BorderLayout</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">MVC roles؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Model · View · Controller</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">GoF book year؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">1995 (Gamma, Helm, Johnson, Vlissides)</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Strategy → which SOLID؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">OCP + DIP</div></div></div></div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
+  <div class="danger"><div><b>1. Strategy vs Template Method</b>Strategy uses composition (Context HAS-A Strategy). Template Method uses inheritance (Subclass IS-A Base, overrides hooks).</div></div>
+  <div class="danger"><div><b>2. Forgetting Test class in Q3 code</b>الـ exam بيدي 7 marks للـ code. لازم اربعة classes: Context · Abstract Strategy · 2 Concrete Strategies · Test (which uses them).</div></div>
+  <div class="danger"><div><b>3. Strategy as Observer</b>Strategy = swap behavior. Observer = notify changes. مختلفين بالكامل.</div></div>
+  <div class="danger"><div><b>4. لو UML بدون Concrete Strategies</b>UML للـ Strategy لازم تضم 2+ concrete strategy classes — مش بس Context + abstract.</div></div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--amber);margin:30px 0 12px">⭐ What Dr. El-Ramly Loves (Q3)</h3>
+  <div class="info">
+    <div>
+      <b>🔥 Q3 Pattern (every exam)</b>
+      <ol style="margin-top:6px;padding-left:22px">
+        <li><strong>"What is the output?"</strong> — قرّاء الكود وحدد output الـ println.</li>
+        <li><strong>"Explain OCP violation"</strong> — code with if/else for behavior = OCP violation.</li>
+        <li><strong>"Draw UML"</strong> — Context + abstract Strategy + 2 concrete strategies.</li>
+        <li><strong>"Write Java code"</strong> — full implementation of 4 classes.</li>
+        <li>التركيز على TextEditor formatText بشكل أساسي.</li>
+        <li>Winter 2023 Q3 was bigger: Observer + DIP + Adapter (24 marks total).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-top:24px">
+    <div><b>🎯 Final Tip</b>احفظ TextEditor Strategy implementation by heart. لو جا في الـ exam بأي شكل، تقدر تكتبه في 10 دقايق. الـ 15 mark دول guaranteed.</div>
+  </div>
+</div>
+
+</div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

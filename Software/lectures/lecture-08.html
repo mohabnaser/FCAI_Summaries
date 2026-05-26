@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 08 — State Diagrams | CS251</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  /* State diagram canvas */
+  .state-canvas{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:30px 20px;margin:14px 0;overflow-x:auto;text-align:center;font-family:var(--fc)}
+  .state-row{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin:14px 0}
+  .state-box{display:inline-block;background:var(--card2);border:2px solid var(--cyan);border-radius:18px;padding:10px 18px;color:var(--t1);font-size:.85rem;font-family:var(--fh);font-weight:600;min-width:100px;text-align:center;position:relative}
+  .state-box.composite{border:2px dashed var(--purple);padding:14px 22px;background:rgba(139,92,246,.05)}
+  .state-box .activity{display:block;font-size:.72rem;color:var(--green);font-family:var(--fc);margin-top:4px;font-weight:400;font-style:italic}
+  .state-box .action{display:block;font-size:.7rem;color:var(--amber);font-family:var(--fc);margin-top:2px;font-weight:400}
+  .state-start{display:inline-block;width:18px;height:18px;border-radius:50%;background:var(--t1);vertical-align:middle}
+  .state-end{display:inline-block;width:22px;height:22px;border-radius:50%;border:3px solid var(--t1);position:relative;vertical-align:middle}
+  .state-end::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--t1)}
+  .state-arrow{color:var(--cyan);font-size:1.3rem;display:inline-flex;align-items:center;gap:5px;font-family:var(--fc);font-size:.78rem;font-style:italic;color:var(--amber)}
+  .state-arrow::before{content:'';display:inline-block;width:36px;height:2px;background:var(--cyan)}
+  .state-arrow::after{content:'▶';color:var(--cyan);font-size:.9rem}
+  .state-arrow.guard::before{background:var(--green)}
+  .state-arrow.guard::after{color:var(--green)}
+
+  /* Element legend */
+  .elem-legend{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+  .elem-tile{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+  .elem-vis{font-size:1.6rem;color:var(--accent);margin-bottom:6px;line-height:1}
+  .elem-name{font-family:var(--fh);font-size:.9rem;font-weight:600;color:var(--t1)}
+  .elem-desc{font-size:.78rem;color:var(--t2);margin-top:4px;line-height:1.5}
+  @media(max-width:700px){.elem-legend{grid-template-columns:repeat(2,1fr)}}
+
+  /* Event types grid */
+  .event-types{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+  .event-type{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;border-top:3px solid var(--accent)}
+  .event-type:nth-child(1){--accent:var(--cyan)}
+  .event-type:nth-child(2){--accent:var(--green)}
+  .event-type:nth-child(3){--accent:var(--amber)}
+  .event-type h4{font-family:var(--fh);color:var(--accent);font-size:1rem;font-weight:700;margin-bottom:8px}
+  .event-type p{font-size:.85rem;color:var(--t2);line-height:1.6}
+  @media(max-width:700px){.event-types{grid-template-columns:1fr}}
+
+  /* Action vs Activity comparison */
+  .ax-compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+  .ax-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;border-left:4px solid var(--accent)}
+  .ax-card.action{--accent:var(--amber)}
+  .ax-card.activity{--accent:var(--green)}
+  .ax-card h4{font-family:var(--fh);color:var(--accent);font-size:1.05rem;font-weight:700;margin-bottom:10px}
+  .ax-card .ax-time{font-family:var(--fc);font-size:.78rem;color:var(--t3);margin-bottom:8px;font-style:italic}
+  @media(max-width:700px){.ax-compare{grid-template-columns:1fr}}
+
+  /* Transition syntax */
+  .trans-syntax{background:var(--code);border:1px solid #21262d;border-radius:10px;padding:18px;margin:14px 0;font-family:var(--fc);text-align:center;font-size:1.05rem}
+  .trans-syntax .ts-event{color:var(--cyan)}
+  .trans-syntax .ts-guard{color:var(--amber)}
+  .trans-syntax .ts-action{color:var(--green)}
+
+  /* Example dropdown selector */
+  .example-tabs{display:flex;gap:6px;margin:14px 0 0;flex-wrap:wrap}
+  .ex-tab{padding:6px 14px;background:var(--card2);border:1px solid var(--border);border-radius:8px 8px 0 0;cursor:pointer;font-family:var(--fh);font-size:.82rem;color:var(--t2);transition:.2s;font-weight:600}
+  .ex-tab:hover{color:var(--t1)}
+  .ex-tab.active{background:var(--card);border-color:var(--cyan);color:var(--cyan);border-bottom-color:var(--card)}
+  .ex-panel{background:var(--card);border:1px solid var(--border);border-radius:0 14px 14px 14px;padding:20px;margin-top:-1px;display:none}
+  .ex-panel.active{display:block}
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>🔄 CS251 — Lec 08</h2>
+    <p>State Diagrams (State Machine)</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">Foundation</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>What is a State Diagram?</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Basic Elements</a>
+
+  <div class="sb-section">Core Concepts</div>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Transitions &amp; Events</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>3 Event Types ⭐</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Activities vs Actions ⭐</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Guards &amp; Conditions</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Nested / Composite States</a>
+
+  <div class="sb-section">Worked Examples</div>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>5 Classic Examples</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Practice Quiz</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Rapid Revision</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🔄 Lecture 08 · State Machine Diagrams</div>
+  <h1>UML <span>State Diagrams</span></h1>
+  <p>الـ Class diagram = structure. الـ Sequence diagram = interaction between objects. الـ <strong>State diagram = behavior of one object over time</strong> — كيف بيتنقل من state لـ state. مهم في Question 2 (2 marks في Winter 2025، 4 marks في Winter 2023).</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 Practice Quiz</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">8</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">3</div><div class="lbl">Event Types</div></div>
+    <div class="hstat"><div class="num">5</div><div class="lbl">Worked Examples</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Practice Qs</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — WHAT IS A STATE DIAGRAM?
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>What is a State Diagram?</h2>
+      <p>3 أسامي لنفس الـ diagram: <strong>State Diagram</strong> = <strong>State Machine Diagram</strong> = <strong>Statechart</strong>.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📖</span> Definition</div>
+    <p>State diagram بيوصف <strong>الـ behavior</strong> بتاع:</p>
+    <ul>
+      <li>A whole system, or</li>
+      <li>Some part of a system, or</li>
+      <li>An <strong>individual object</strong> (الأكتر شيوعاً).</li>
+    </ul>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">🔑 الفكرة الأساسية</h4>
+    <ul>
+      <li>في أي point in time، النظام/الـ object في <strong>state معين</strong>.</li>
+      <li>كونه في state يعني أنه <strong>هيتصرف بشكل محدد</strong> ردًا على الـ events.</li>
+      <li>بعض الـ events بتسبب <strong>change of state</strong> (transition).</li>
+      <li>في الـ state الجديد، الـ behavior بيكون مختلف.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🧮</span> الـ Formal View</div>
+    <p>State diagram = <strong>directed graph</strong>:</p>
+    <ul>
+      <li><strong>Nodes</strong> = states (الحالات)</li>
+      <li><strong>Arcs (edges)</strong> = transitions (الانتقالات)</li>
+    </ul>
+    <div class="info"><div><b>💡 الفرق المهم عن الـ Sequence diagram</b>الـ Sequence = كيف objects كتيرة بتتفاعل لتنفيذ use case. الـ State = حياة object واحد بمرور الزمن. الاتنين dynamic بس بزاوية مختلفة.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — BASIC ELEMENTS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num green">02</div>
+    <div class="ch-title">
+      <h2>Basic Elements — الرموز الأساسية</h2>
+      <p>5 رموز لازم تعرفهم.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🎨</span> الرموز الـ 5</div>
+    <div class="elem-legend">
+      <div class="elem-tile" style="--accent:var(--cyan)">
+        <div class="elem-vis"><span class="state-box" style="padding:6px 14px;font-size:.78rem">StateName</span></div>
+        <div class="elem-name">State</div>
+        <div class="elem-desc">Rounded rectangle مع اسم الـ state</div>
+      </div>
+      <div class="elem-tile" style="--accent:var(--green)">
+        <div class="elem-vis"><span class="state-start"></span></div>
+        <div class="elem-name">Initial State</div>
+        <div class="elem-desc">Solid black circle — البداية</div>
+      </div>
+      <div class="elem-tile" style="--accent:var(--red)">
+        <div class="elem-vis"><span class="state-end"></span></div>
+        <div class="elem-name">Final / End State</div>
+        <div class="elem-desc">Black circle محاطة بـ ring — النهاية</div>
+      </div>
+      <div class="elem-tile" style="--accent:var(--amber)">
+        <div class="elem-vis" style="font-family:var(--fc);font-size:1rem;color:var(--cyan)">━━▶</div>
+        <div class="elem-name">Transition</div>
+        <div class="elem-desc">Arrow من state لـ state</div>
+      </div>
+      <div class="elem-tile" style="--accent:var(--purple)">
+        <div class="elem-vis" style="font-family:var(--fc);font-size:.85rem;color:var(--amber)">event [guard] / action</div>
+        <div class="elem-name">Label</div>
+        <div class="elem-desc">Event triggers the transition</div>
+      </div>
+      <div class="elem-tile" style="--accent:var(--pink)">
+        <div class="elem-vis"><span class="state-box" style="padding:6px 14px;font-size:.78rem;border-color:var(--pink)">⌽</span></div>
+        <div class="elem-name">Self-Transition</div>
+        <div class="elem-desc">Arrow من state لنفسها</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- State definition -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">💡</span> ايه يعني "State"؟</div>
+    <ul>
+      <li><strong>State = a set of values for the attributes</strong> of the given object.</li>
+      <li>الـ object بيفضل في الـ state ده لحد ما <strong>event</strong> يحصل ويسبب transition.</li>
+    </ul>
+    <p style="margin-top:8px"><strong>مثال:</strong> Traffic Light — الـ attributes ممكن تكون: <code>color = "red"</code>, <code>activeForSeconds = 0</code>. لو الـ color attribute اتغير لـ <code>"green"</code>، يبقى الـ state اتغير.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — TRANSITIONS & EVENTS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>Transitions &amp; Events</h2>
+      <p>Transition = change of state. Event = اللي بيسبب الـ transition.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">➡️</span> Transition</div>
+    <p>الـ Transition بيمثل <strong>تغيير في الـ state ردًا على event</strong>. الـ label على الـ transition بيوصف:</p>
+    <ol>
+      <li>الـ <strong>Event</strong> (الأهم).</li>
+      <li>[Guard] (شرط اختياري).</li>
+      <li>/ Action (action اختياري).</li>
+    </ol>
+    <div class="trans-syntax">
+      <span class="ts-event">event(parameters)</span>
+      <span class="ts-guard">[guard]</span>
+      <span style="color:var(--t2)">/</span>
+      <span class="ts-action">action</span>
+    </div>
+    <p style="margin-top:8px;font-size:.85rem"><strong>مثال:</strong> <code>requestToRegister(student) [classSize &lt; max] / createRegistration</code></p>
+  </div>
+
+  <!-- Mini example with terminology labeled -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📞</span> Mini Example — Telephone</div>
+    <div class="state-canvas">
+      <div class="state-row">
+        <span class="state-start" title="Initial state"></span>
+        <span class="state-arrow"></span>
+        <div class="state-box">idle</div>
+        <span class="state-arrow"><span style="margin-right:4px">off-hook</span></span>
+        <div class="state-box">dial tone</div>
+      </div>
+      <div style="margin-top:14px;font-size:.78rem;color:var(--t3);font-style:italic">
+        ⓘ <span style="color:var(--amber)">off-hook</span> = event · <span style="color:var(--cyan)">idle, dial tone</span> = states · <span style="color:var(--green)">━━▶</span> = transition
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — 3 EVENT TYPES ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num purple">04</div>
+    <div class="ch-title">
+      <h2>3 Event Types ⭐</h2>
+      <p>External · Internal · Temporal. الـ doctor بيحب يسأل عن الفرق.</p>
+    </div>
+  </div>
+
+  <div class="event-types">
+    <div class="event-type">
+      <h4>🌐 External Event</h4>
+      <p>= <strong>System Event</strong></p>
+      <p>سببه حاجة <strong>برّه الـ system boundary</strong>.</p>
+      <p><strong>مثال:</strong> Cashier بيضغط "enter item" button على POS terminal.</p>
+    </div>
+    <div class="event-type">
+      <h4>🔧 Internal Event</h4>
+      <p>سببه حاجة <strong>جوّه الـ system boundary</strong>.</p>
+      <p>Operation invoked via message من object تاني داخلي.</p>
+      <p><strong>مثال:</strong> Object بيـ call method على object تاني — ينتج عنه event.</p>
+    </div>
+    <div class="event-type">
+      <h4>⏰ Temporal Event</h4>
+      <p>سببه <strong>occurrence of a specific date/time</strong> or <strong>passage of time</strong>.</p>
+      <p>الـ syntax: <code>after(30s)</code> أو <code>at(midnight)</code>.</p>
+      <p><strong>مثال:</strong> Red light → Green light بعد 30s.</p>
+    </div>
+  </div>
+
+  <div class="info"><div><b>📌 ملحوظة</b>الـ Temporal events بتكتب بـ <code>after(...)</code> للـ duration أو <code>at(...)</code> لـ specific time. شائعة في الـ state diagrams.</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — ACTIVITIES vs ACTIONS ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num pink">05</div>
+    <div class="ch-title">
+      <h2>Activities vs Actions ⭐</h2>
+      <p>الفرق المهم: <strong>Action = instantaneous</strong>. <strong>Activity = takes time</strong>.</p>
+    </div>
+  </div>
+
+  <div class="ax-compare">
+    <div class="ax-card action">
+      <h4>⚡ Action</h4>
+      <div class="ax-time">Takes NO noticeable time (instantaneous)</div>
+      <p>الـ Action بيحصل في 3 حالات:</p>
+      <ul>
+        <li><strong>On transition</strong> — مع الانتقال نفسه</li>
+        <li><strong>On entry</strong> — لما ندخل state معين</li>
+        <li><strong>On exit</strong> — لما نخرج من state معين</li>
+      </ul>
+      <p style="margin-top:8px"><strong>أمثلة:</strong> <code>readCard</code>, <code>ejectCard</code>, <code>startMotor</code>, <code>stopMotor</code></p>
+      <p style="font-family:var(--fc);font-size:.78rem;color:var(--amber);margin-top:6px">
+        Syntax: <code>entry / actionName</code><br>
+        Or: <code>exit / actionName</code>
+      </p>
+    </div>
+
+    <div class="ax-card activity">
+      <h4>🏃 Activity</h4>
+      <div class="ax-time">Takes a period of time (ongoing)</div>
+      <p>الـ Activity بيحصل <strong>while in state</strong>:</p>
+      <ul>
+        <li>بياخد فترة زمنية ملحوظة</li>
+        <li>ممكن الـ system يخرج من الـ state لما يخلص الـ activity (completion)</li>
+        <li>أو يخرج لو event آخر يقطعها (interruption — early exit)</li>
+      </ul>
+      <p style="margin-top:8px"><strong>أمثلة:</strong> <code>play music</code>, <code>play dial tone</code>, <code>download file</code></p>
+      <p style="font-family:var(--fc);font-size:.78rem;color:var(--green);margin-top:6px">
+        Syntax: <code>do / activityName</code>
+      </p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)" style="margin-top:14px">
+    <div class="topic-title"><span class="icon">📝</span> Concrete Example — ATM</div>
+    <div class="state-canvas">
+      <div class="state-row">
+        <div class="state-box" style="text-align:left;min-width:200px;padding:14px 18px">
+          Serving Customer
+          <span class="action">entry / readCard</span>
+          <span class="action">exit / ejectCard</span>
+          <span class="activity">do / process transaction</span>
+        </div>
+      </div>
+    </div>
+    <ul style="margin-top:14px">
+      <li>الـ <code>entry / readCard</code> = action بتحصل <strong>مرة واحدة</strong> لما ندخل الـ state.</li>
+      <li>الـ <code>do / process transaction</code> = activity بتشتغل طول ما إحنا في الـ state.</li>
+      <li>الـ <code>exit / ejectCard</code> = action بتحصل لما نخرج من الـ state.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — GUARDS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num teal">06</div>
+    <div class="ch-title">
+      <h2>Guards &amp; Conditional Transitions</h2>
+      <p>Guard = شرط بوليان لازم يكون true عشان الـ transition تحصل.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🔒</span> Guard Syntax</div>
+    <div class="trans-syntax">
+      <span class="ts-event">event</span>
+      <span class="ts-guard">[boolean expression]</span>
+      <span style="color:var(--t2)">/</span>
+      <span class="ts-action">action</span>
+    </div>
+    <p style="margin-top:14px">الـ guard بين <code>[ ]</code>. لو الـ event حصل بس الـ guard مش true، الـ transition <strong>ما بتحصلش</strong>.</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">مثال: Course Registration</h4>
+    <div class="state-canvas">
+      <div class="state-row">
+        <div class="state-box">OpenNotEnoughStudents</div>
+        <span class="state-arrow guard" style="font-style:italic;color:var(--green)"><span style="font-size:.72rem;background:rgba(16,185,129,.1);padding:2px 6px;border-radius:4px;color:var(--green);margin-right:4px">[classSize ≥ minimum]</span></span>
+        <div class="state-box">OpenEnoughStudents</div>
+      </div>
+      <div style="margin-top:14px;font-size:.78rem;color:var(--t3);font-style:italic">
+        لو <code>classSize ≥ minimum</code> = true، الـ transition بتحصل. لو false، الـ state ما يتغيرش.
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">⚙️</span> Self-Transitions with Guards</div>
+    <p>State diagram ممكن يكون فيه transition من state لنفسها. مفيدة لما لازم عمل action بدون تغيير state.</p>
+    <p><strong>مثال:</strong> <code>requestToRegister(student) / createRegistration</code> — self-transition بـ action. الـ state يفضل OpenNotEnoughStudents بس createRegistration بيتعمل.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — NESTED / COMPOSITE STATES
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num red">07</div>
+    <div class="ch-title">
+      <h2>Nested / Composite States</h2>
+      <p>State جوّه state. مفيد لتنظيم complexity في الـ diagram.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🪆</span> Composite State (Substate)</div>
+    <p>الـ Composite state بيحتوي على <strong>substates</strong> داخله. شكلهم مستطيل أكبر بـ states أصغر جوّاه.</p>
+    <p>الفوائد:</p>
+    <ul>
+      <li><strong>تنظيم</strong> — تخفّض عدد transitions ظاهرة في الـ diagram.</li>
+      <li>الـ <strong>outer state</strong> بتنطبق على كل الـ substates (مثلاً exit من any substate = exit from composite).</li>
+      <li>Easier reading and maintenance.</li>
+    </ul>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">مثال: ATM "Serving Customer" composite</h4>
+    <div class="state-canvas">
+      <div class="state-row">
+        <div class="state-box composite" style="padding:18px 24px">
+          <div style="margin-bottom:8px;color:var(--purple);font-family:var(--fh)">Serving Customer</div>
+          <div style="font-size:.7rem;color:var(--amber);margin-bottom:10px;font-family:var(--fc)">entry / readCard · exit / ejectCard</div>
+          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;font-size:.75rem">
+            <span class="state-start" style="margin:4px"></span> →
+            <span class="state-box" style="padding:6px 12px;font-size:.72rem">Authenticate</span> →
+            <span class="state-box" style="padding:6px 12px;font-size:.72rem">Select Trans.</span> →
+            <span class="state-box" style="padding:6px 12px;font-size:.72rem">Transaction</span> →
+            <span class="state-end" style="margin:4px"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:10px;font-size:.85rem">الـ outer transitions (e.g., <code>cancel</code>) بتشتغل من <strong>أي substate</strong> داخل Serving Customer. مفيش حاجة نضيف cancel arrow من كل substate لوحده.</p>
+  </div>
+
+  <div class="info"><div><b>💡 متى نستخدم composite states؟</b>لما عندك مجموعة من الـ states ليها <em>common behavior</em> (مثلاً كلهم ممكن يـ cancel) أو بتنتمي لنفس الـ logical phase (مثل phases of serving customer).</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 8 — 5 WORKED EXAMPLES
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num cyan blue">08</div>
+    <div class="ch-title">
+      <h2>5 Worked Examples</h2>
+      <p>أمثلة كاملة من السلايدز: Tic-Tac-Toe · Traffic Light · Garage Door · Online Chess · ATM.</p>
+    </div>
+  </div>
+
+  <div class="example-tabs" id="ex-tabs">
+    <button class="ex-tab active" data-tab="t1">🎮 Tic-Tac-Toe</button>
+    <button class="ex-tab" data-tab="t2">🚦 Traffic Light</button>
+    <button class="ex-tab" data-tab="t3">🚪 Garage Door</button>
+    <button class="ex-tab" data-tab="t4">♟️ Online Chess</button>
+    <button class="ex-tab" data-tab="t5">🏧 ATM</button>
+  </div>
+
+  <!-- Tab 1: Tic-Tac-Toe -->
+  <div class="ex-panel active" id="t1">
+    <h3 style="font-family:var(--fh);color:var(--cyan);font-size:1.1rem;margin-bottom:10px">🎮 Tic-Tac-Toe Game</h3>
+    <div class="state-canvas">
+      <div class="state-row">
+        <span class="state-start"></span> →
+        <div class="state-box">XTurn</div>
+        <span class="state-arrow"><span style="margin-right:4px;font-size:.7rem">XPlays</span></span>
+        <div class="state-box">OTurn</div>
+      </div>
+      <div class="state-row" style="margin-top:14px;font-size:.78rem;color:var(--t2)">
+        <strong>Final states:</strong> XWin · OWin · Tie
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:var(--t2);margin-top:10px">Transitions with guards:</p>
+    <ul style="font-size:.85rem">
+      <li><code>XTurn → XWin [XPlays &amp; 3 X's in a row]</code></li>
+      <li><code>XTurn → Tie [XPlays &amp; Board Full &amp; Not 3 X's]</code></li>
+      <li><code>OTurn → OWin [OPlays &amp; 3 O's]</code></li>
+    </ul>
+  </div>
+
+  <!-- Tab 2: Traffic Light -->
+  <div class="ex-panel" id="t2">
+    <h3 style="font-family:var(--fh);color:var(--cyan);font-size:1.1rem;margin-bottom:10px">🚦 Traffic Light (Temporal Events)</h3>
+    <div class="state-canvas">
+      <div class="state-row">
+        <div class="state-box" style="border-color:var(--red);background:rgba(239,68,68,.1)">RedLight</div>
+        <span class="state-arrow"><span style="margin-right:4px;font-size:.7rem">after(30s)</span></span>
+        <div class="state-box" style="border-color:var(--green);background:rgba(16,185,129,.1)">GreenLight</div>
+        <span class="state-arrow"><span style="margin-right:4px;font-size:.7rem">after(25s)</span></span>
+        <div class="state-box" style="border-color:var(--amber);background:rgba(245,158,11,.1)">YellowLight</div>
+      </div>
+      <div class="state-row" style="margin-top:10px">
+        <div style="color:var(--t3);font-size:.8rem;font-style:italic">YellowLight → RedLight [after(5s)] — يكمل الدورة</div>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:var(--t2);margin-top:10px">كل الـ transitions تستخدم <strong>temporal events</strong> (<code>after(...)</code>). مفيش external triggers.</p>
+  </div>
+
+  <!-- Tab 3: Garage Door -->
+  <div class="ex-panel" id="t3">
+    <h3 style="font-family:var(--fh);color:var(--cyan);font-size:1.1rem;margin-bottom:10px">🚪 Automatic Garage Door (Actions)</h3>
+    <div class="state-canvas">
+      <div class="state-row" style="flex-direction:column;gap:14px">
+        <div class="state-box" style="text-align:left;min-width:240px">
+          Closed
+          <span class="action">entry / stop motor</span>
+        </div>
+        <div style="font-size:.75rem;color:var(--amber)">↕ pressButton ↕</div>
+        <div class="state-box" style="text-align:left;min-width:240px">
+          Opening
+          <span class="action">entry / run motor forwards</span>
+        </div>
+        <div style="font-size:.75rem;color:var(--amber)">↓ openingCompleted</div>
+        <div class="state-box" style="text-align:left;min-width:240px">
+          Open
+          <span class="action">entry / stop motor</span>
+        </div>
+        <div style="font-size:.75rem;color:var(--amber)">↓ pressButton</div>
+        <div class="state-box" style="text-align:left;min-width:240px">
+          Closing
+          <span class="action">entry / run motor in reverse</span>
+        </div>
+        <div style="font-size:.75rem;color:var(--amber)">↓ closingCompleted → Closed</div>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:var(--t2);margin-top:10px">كل state عنده <strong>entry action</strong> بـ "stop motor" أو "run motor". الـ pressButton ممكن يـ interrupt الـ opening لـ closing.</p>
+  </div>
+
+  <!-- Tab 4: Online Chess -->
+  <div class="ex-panel" id="t4">
+    <h3 style="font-family:var(--fh);color:var(--cyan);font-size:1.1rem;margin-bottom:10px">♟️ Online Chess (UI Screens)</h3>
+    <div class="state-canvas">
+      <div class="state-row" style="gap:8px;justify-content:flex-start;flex-wrap:wrap">
+        <span class="state-start"></span>
+        <span style="color:var(--t3);font-size:.7rem">Enter</span>
+        <div class="state-box" style="padding:8px 12px;font-size:.75rem">Welcome</div>
+        <div class="state-box" style="padding:8px 12px;font-size:.75rem">New Account</div>
+        <div class="state-box" style="padding:8px 12px;font-size:.75rem">Standings</div>
+        <div class="state-box" style="padding:8px 12px;font-size:.75rem">Play</div>
+        <div class="state-box" style="padding:8px 12px;font-size:.75rem">Results</div>
+        <span class="state-end"></span>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:var(--t2);margin-top:10px">Transitions: <code>Welcome → New Account [Create New Account]</code>, <code>Welcome → Standings [Login]</code>, <code>Standings → Play [Choose Opponent]</code>, <code>Play → Results [Finish Game]</code>, <code>Results → Standings [Continue]</code>.</p>
+    <p style="font-size:.85rem;color:var(--t3);margin-top:6px">دي state diagram لـ UI flow — بنشوفها في الـ apps.</p>
+  </div>
+
+  <!-- Tab 5: ATM -->
+  <div class="ex-panel" id="t5">
+    <h3 style="font-family:var(--fh);color:var(--cyan);font-size:1.1rem;margin-bottom:10px">🏧 ATM (Composite States)</h3>
+    <p style="font-size:.85rem;color:var(--t2);margin-bottom:14px">أكثر example معقد. فيه composite state للـ Serving Customer.</p>
+    <ul style="font-size:.85rem">
+      <li><code>Off → Self Test [turn on / startup]</code></li>
+      <li><code>Self Test → Idle</code> (success)</li>
+      <li><code>Idle → Serving Customer [cardInserted]</code></li>
+      <li>Inside <strong>Serving Customer</strong> (composite): Authenticate → Selecting → Transaction → end</li>
+      <li><code>Serving Customer → Idle [cancel]</code></li>
+      <li><code>Idle → Maintenance [service]</code></li>
+      <li><code>Maintenance → Out of Service [failure]</code></li>
+      <li><code>Out of Service → Off [turn off / shutDown]</code></li>
+    </ul>
+    <div class="info"><div><b>💡 Composite Pattern</b>الـ <code>Serving Customer</code> composite بتحتوي substates للـ authentication flow. لو حصل <code>cancel</code> من أي substate، الـ ATM يرجع لـ Idle. ده استخدام نظيف للـ composite.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ — PRACTICE
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Practice Quiz — Lecture 8</h3>
+      <p>8 أسئلة على State Diagrams. Question 2 من كل امتحان فيه 2-4 marks على state diagram.</p>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 1 <span class="q-src">Practice — concept</span></div>
+    <div class="q-text">A state diagram describes the behavior of:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Multiple interacting objects over time</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> An individual object (or a system) over time</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Static structure of the system</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Use case relationships</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Individual object / system</b>
+      State diagram = behavior of <strong>one object</strong> (أو one system as a whole) عبر الزمن.
+      <div class="why-wrong">
+        <strong>A</strong> — ده الـ <em>Sequence diagram</em> (multiple objects). ·
+        <strong>C</strong> — ده الـ <em>Class diagram</em>. ·
+        <strong>D</strong> — ده الـ <em>Use Case diagram</em>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 2 <span class="q-src">Practice — events</span></div>
+    <div class="q-text">A traffic light changes after 30 seconds. What type of event is this?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> External Event</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Internal Event</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Temporal Event</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Composite Event</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Temporal Event</b>
+      <code>after(30s)</code> = passage of time = Temporal event.
+      <div class="why-wrong">
+        <strong>A (External)</strong> — لما الـ trigger من برّه (مثل user click). ·
+        <strong>B (Internal)</strong> — من object داخلي. ·
+        <strong>D (Composite)</strong> — مفيش "composite event" — الـ composite للـ states.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 3 <span class="q-src">Practice — action vs activity</span></div>
+    <div class="q-text">Inside a state box, you see <code>do / play music</code>. This is:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> An activity (takes time)</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> An entry action</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> An exit action</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> A guard condition</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A — Activity</b>
+      الـ keyword <code>do /</code> يدل على activity (ongoing). الـ "play music" بياخد فترة.
+      <div class="why-wrong">
+        <strong>B</strong> — Entry action syntax: <code>entry / actionName</code>. ·
+        <strong>C</strong> — Exit action syntax: <code>exit / actionName</code>. ·
+        <strong>D</strong> — Guards بين <code>[ ]</code>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 4 <span class="q-src">Practice — transition syntax</span></div>
+    <div class="q-text">Given the transition label <code>buy(item) [funds &gt;= price] / debitAccount</code>, what does <code>[funds &gt;= price]</code> represent?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> An event</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> An action</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> A state name</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> A guard condition</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — Guard</b>
+      اللي بين <code>[ ]</code> = guard (boolean expression). لو true → transition تحصل.
+      <div class="why-wrong">
+        <strong>A (event)</strong> — هو <code>buy(item)</code> قبل الـ guard. ·
+        <strong>B (action)</strong> — <code>debitAccount</code> بعد الـ <code>/</code>. ·
+        <strong>C</strong> — مش state name.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 5 <span class="q-src">Practice — symbols</span></div>
+    <div class="q-text">What represents the <strong>start state</strong> in a state diagram?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> A circle with a ring around it</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A solid black circle</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> A rounded rectangle with "start" inside</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> A diamond shape</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Solid black circle</b>
+      الـ Initial state = filled black circle.
+      <div class="why-wrong">
+        <strong>A</strong> — هو الـ <em>end state</em> (black circle محاطة بـ ring). ·
+        <strong>C</strong> — Regular states are rounded rectangles مع اسمهم، مش "start". ·
+        <strong>D</strong> — Diamond ده في activity diagrams (decision).
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 6 <span class="q-src">Practice — composite</span></div>
+    <div class="q-text">An ATM diagram shows a composite state called <code>ServingCustomer</code> with substates inside, and a <code>cancel</code> transition from <code>ServingCustomer</code> to <code>Idle</code>. What does this mean?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Cancel only works in the first substate</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Cancel works only when there are no substates</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Cancel works from any substate inside ServingCustomer</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Cancel is forbidden inside the composite</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — From any substate</b>
+      الـ Transition من الـ <em>outer boundary</em> للـ composite بتشتغل من أي substate جوّاها. ده الفائدة الأساسية للـ composite states.
+      <div class="why-wrong">
+        <strong>A, B, D</strong> — كلهم بيناقضوا فكرة الـ composite states.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 7 <span class="q-src">Practice — when used</span></div>
+    <div class="q-text">When is a <strong>state diagram</strong> the most useful kind of UML diagram?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> When modeling many objects interacting</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> When modeling code structure</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> When modeling an object/system with distinct states and transitions between them</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> When listing all user actions</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C</b>
+      State diagram يبقى مفيد لما عندك object/system في حالات مختلفة (modes) ـ مع events بتسبب transitions. مثل: ATM, Order lifecycle, Door, Game.
+      <div class="why-wrong">
+        <strong>A</strong> — ده sequence diagram. ·
+        <strong>B</strong> — class diagram. ·
+        <strong>D</strong> — use case diagram.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 8 <span class="q-src">Practice — comprehensive</span></div>
+    <div class="q-text">An Order in an e-commerce site has states: <em>Placed → Paid → Shipped → Delivered</em>. The customer can <em>Cancel</em> from any state before Shipped. Which UML element best represents this?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Cancel transitions from each state separately to a Cancelled state</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A composite state grouping Placed+Paid, with a single Cancel transition from the composite to Cancelled</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> A guard condition on the Shipped state</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Mark Cancelled as the initial state</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Composite state</b>
+      الطريقة الأنظف: composite state يشمل Placed و Paid، والـ Cancel من الـ composite boundary. ده بيقلل عدد arrows وبيعكس الـ <em>logical grouping</em> (orders اللي ممكن تتلغى).
+      <div class="why-wrong">
+        <strong>A</strong> — يشتغل لكن بيـ clutter الـ diagram. الـ composite أنظف. ·
+        <strong>C</strong> — Guard على state غير منطقي هنا. ·
+        <strong>D</strong> — Cancelled لازم يكون final state، مش initial.
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet</h2>
+      <p>كل الرموز والـ syntax والمصطلحات.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+
+    <div class="cheat">
+      <h3>🎨 Symbols</h3>
+      <div class="cheat-item"><div class="cheat-key">●</div><div class="cheat-val">Initial state (solid black circle)</div></div>
+      <div class="cheat-item"><div class="cheat-key">⊙</div><div class="cheat-val">Final state (black circle + ring)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Rounded rect</div><div class="cheat-val">State (with name inside)</div></div>
+      <div class="cheat-item"><div class="cheat-key">━━▶</div><div class="cheat-val">Transition (arrow)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Big rect ⊃ rects</div><div class="cheat-val">Composite state with substates</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📝 Transition Label Syntax</h3>
+      <div class="cheat-item"><div class="cheat-key">event</div><div class="cheat-val">name of event (mandatory)</div></div>
+      <div class="cheat-item"><div class="cheat-key">event(params)</div><div class="cheat-val">event with parameters</div></div>
+      <div class="cheat-item"><div class="cheat-key">[guard]</div><div class="cheat-val">boolean condition (optional)</div></div>
+      <div class="cheat-item"><div class="cheat-key">/ action</div><div class="cheat-val">action to perform (optional)</div></div>
+      <div class="cheat-item"><div class="cheat-key">after(t)</div><div class="cheat-val">temporal event syntax</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>⚡ Action vs Activity</h3>
+      <div class="cheat-item"><div class="cheat-key">Action</div><div class="cheat-val">Instantaneous (no time)</div></div>
+      <div class="cheat-item"><div class="cheat-key">entry / x</div><div class="cheat-val">Action on entering state</div></div>
+      <div class="cheat-item"><div class="cheat-key">exit / x</div><div class="cheat-val">Action on exiting state</div></div>
+      <div class="cheat-item"><div class="cheat-key">/ x (on transition)</div><div class="cheat-val">Action during transition</div></div>
+      <div class="cheat-item"><div class="cheat-key">do / x</div><div class="cheat-val">Activity (ongoing, takes time)</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📢 3 Event Types</h3>
+      <div class="cheat-item"><div class="cheat-key">External</div><div class="cheat-val">From outside system (button click)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Internal</div><div class="cheat-val">From inside (object → object)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Temporal</div><div class="cheat-val">after(t) or at(time)</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🆚 Diagram Differences</h3>
+      <div class="cheat-item"><div class="cheat-key">Class Diagram</div><div class="cheat-val">Static structure</div></div>
+      <div class="cheat-item"><div class="cheat-key">Use Case Diagram</div><div class="cheat-val">User-system interactions (high level)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Sequence Diagram</div><div class="cheat-val">Multi-object dynamic flow</div></div>
+      <div class="cheat-item"><div class="cheat-key">State Diagram</div><div class="cheat-val">Single object/system behavior over time</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>✅ Question 2 Checklist (State part)</h3>
+      <div class="cheat-item"><div class="cheat-key">1.</div><div class="cheat-val">Initial state (●) + Final state(s)</div></div>
+      <div class="cheat-item"><div class="cheat-key">2.</div><div class="cheat-val">All meaningful states identified</div></div>
+      <div class="cheat-item"><div class="cheat-key">3.</div><div class="cheat-val">Each transition has event label</div></div>
+      <div class="cheat-item"><div class="cheat-key">4.</div><div class="cheat-val">Guards [in brackets] where needed</div></div>
+      <div class="cheat-item"><div class="cheat-key">5.</div><div class="cheat-val">Use composite for grouped behavior</div></div>
+      <div class="cheat-item"><div class="cheat-key">6.</div><div class="cheat-val">Use after(t) for time triggers</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     RAPID REVISION
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="revision" style="margin-top:60px">
+  <div class="ch-header">
+    <div class="ch-num pink">⚡</div>
+    <div class="ch-title">
+      <h2>Rapid Revision</h2>
+      <p>Flashcards · Common Mistakes · What the doctor loves.</p>
+    </div>
+  </div>
+
+  <div class="flashcards">
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">3 أسماء للـ State Diagram؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">State Diagram · State Machine · Statechart</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">3 Event Types؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">External · Internal · Temporal</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Action vs Activity؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">Action = instant · Activity = takes time (do /)</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Initial state symbol؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">● Solid black circle</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Final state symbol؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">⊙ Black circle with ring</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Transition label syntax؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">event(params) [guard] / action</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Temporal event syntax؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">after(30s) · at(midnight)</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Composite state — ايه فايدته؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">Group substates with common transitions (e.g., cancel from any)</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">State diagram describes؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">Behavior of one object/system over time</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Self-transition ايه؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">Arrow من state لنفسها (e.g., for actions)</div></div>
+    </div></div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
+
+  <div class="danger"><div><b>1. خلط Action و Activity</b>Action = instantaneous (entry/exit/on-transition). Activity = takes time (do /). الـ "do /" بيدل دايماً على activity.</div></div>
+
+  <div class="danger"><div><b>2. نسيان Initial State أو Final State</b>أي state diagram لازم يبدأ بـ ● initial state. لو فيه نهاية للـ behavior، حط ⊙ final state.</div></div>
+
+  <div class="danger"><div><b>3. نسيان labels على الـ transitions</b>كل transition لازم لها label (event). بدون event، الـ transition ما تحصلش بشكل مفهوم.</div></div>
+
+  <div class="danger"><div><b>4. خلط State Diagram و Sequence Diagram</b>State = behavior of ONE object over time. Sequence = interaction between MANY objects. لو سؤال عن "كيف objects بتتكلم"، ده Sequence. لو "كيف status بيتغير"، ده State.</div></div>
+
+  <div class="danger"><div><b>5. عدم استخدام composite states</b>لما عندك transition مشترك من كذا state (مثل cancel من أي state)، استخدم composite. غير كده الـ diagram هيبقى cluttered بأسهم كتيرة.</div></div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--amber);margin:30px 0 12px">⭐ What Dr. El-Ramly Loves</h3>
+  <div class="info">
+    <div>
+      <b>🔥 الأسئلة المتكررة على Lec 8</b>
+      <ol style="margin-top:6px;padding-left:22px">
+        <li><strong>Question 2 (2-4 marks)</strong> — بيدي object (Message, Order, Booking) ويطلب state diagram. ركز على Initial → states → Final + transitions مع events.</li>
+        <li><strong>Message states</strong> (Winter 2025): Received → Read → Deleted → Purged.</li>
+        <li><strong>Order states</strong> (Winter 2023): Placed → Pdf Valid → Confirmed → Processing → Shipped, مع Cancelled كـ alternate path.</li>
+        <li><strong>Composite states</strong> — للـ flows اللي فيها grouped behaviors.</li>
+        <li><strong>Guards</strong> — لما الـ transition مشروطة (e.g., classSize ≥ minimum).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-top:24px">
+    <div><b>🎯 نصيحة</b>لما ترسم state diagram في الامتحان: ابدأ بقائمة الـ states، بعدين الـ events اللي بتسبب transitions، بعدين ارسم. متبدأش بالـ drawing مباشرة — ممكن تنسى states أو transitions.</div>
+  </div>
+</div>
+
+</div><!-- /.content -->
+</main>
+
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+/* Example tab switching */
+document.querySelectorAll('#ex-tabs .ex-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const targetId = tab.dataset.tab;
+    document.querySelectorAll('#ex-tabs .ex-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.ex-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(targetId).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

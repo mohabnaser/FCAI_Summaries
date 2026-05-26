@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 11 — Corona Store Example | CS251</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  .crc-card{background:linear-gradient(135deg,#fff8e1,#fff3cd);color:#5c4500;border:2px solid #f59e0b;border-radius:10px;padding:14px;font-family:var(--fc);box-shadow:0 4px 12px rgba(245,158,11,.25);margin:12px 0}
+  .crc-card h4{color:#7c2d12;font-family:var(--fh);font-size:1rem;font-weight:800;margin-bottom:8px;text-align:center;padding-bottom:6px;border-bottom:1.5px dashed #f59e0b}
+  .crc-card .crc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .crc-card .crc-col h5{font-size:.78rem;font-weight:700;color:#7c2d12;text-transform:uppercase;margin-bottom:4px}
+  .crc-card .crc-col ul{list-style:none;padding:0}
+  .crc-card .crc-col li{font-size:.78rem;padding:2px 0;color:#5c4500}
+  @media(max-width:700px){.crc-card .crc-grid{grid-template-columns:1fr}}
+
+  .class-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+  .class-box{background:var(--card2);border:1.5px solid var(--accent,var(--cyan));border-radius:8px;padding:10px 12px;font-family:var(--fc);font-size:.78rem}
+  .class-box .cb-name{text-align:center;background:rgba(0,212,255,.05);padding:4px;margin:-10px -12px 8px;border-bottom:1px solid var(--accent,var(--cyan));font-family:var(--fh);font-weight:700;color:var(--accent,var(--cyan))}
+  .class-box.boundary{--accent:var(--green)}
+  .class-box.control{--accent:var(--amber)}
+  .class-box.entity{--accent:var(--purple)}
+  .class-box.enum-box{--accent:var(--pink)}
+  @media(max-width:700px){.class-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>🍫 CS251 — Lec 11</h2>
+    <p>Corona Store — Design Example</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">Problem</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Requirements</a>
+
+  <div class="sb-section">Design</div>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Use Case Model</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Use Case Descriptions</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Identify Classes (CRC)</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Class Diagram</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Sequence Diagram</a>
+
+  <div class="sb-section">Lessons</div>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Lessons for Question 2</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main">
+
+<section class="hero">
+  <div class="hero-badge">🍫 Lecture 11 · Practical worked example</div>
+  <h1>Corona Store <span>Design Example</span></h1>
+  <p>تطبيق كامل لكل اللي اتعلمناه: SRS → Use Cases → Class Diagram → Sequence → Code. ركز على الـ flow علشان Question 2 في كل امتحان final.</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="#cheat" class="btn btn-primary">📋 Cheat Sheet</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">7</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Classes</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">Use Cases</div></div>
+    <div class="hstat"><div class="num">5</div><div class="lbl">CRC Cards</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — REQUIREMENTS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>Corona Store — SRS</h2>
+      <p>الـ business: متجر إلكتروني لبسكويت وشوكولاتة Corona.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📋</span> Requirements Statement</div>
+    <ol>
+      <li>Corona قررت تعمل online store للعملاء يطلبوا منتجاتها.</li>
+      <li>العملاء يدفعوا بـ <strong>credit card</strong> أو <strong>cash on delivery</strong>.</li>
+      <li>المهمة: بناء <strong>core business logic</strong> (UI later).</li>
+      <li>النظام بيحتفظ بـ list من products. كل product: <code>code, name, unitPrice</code>.</li>
+      <li>العميل يعمل order = list of items + quantity per product. Order فيه <strong>delivery address</strong>.</li>
+      <li>كل order ياخد <strong>automatic ID</strong>.</li>
+      <li>Order open لحد ما يتدفع، بعدها closed.</li>
+      <li><strong>Cash:</strong> العميل بيدي مبلغ معين → الـ delivery person يرجع الباقي. لو الـ cash insufficient → message + order remains open.</li>
+      <li><strong>Credit Card:</strong> ممكن تكون valid · expired · invalid · insufficient funds. لو valid → payment + user notified. غير كده → error message.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — USE CASE MODEL
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num green">02</div>
+    <div class="ch-title">
+      <h2>Use Case Model</h2>
+      <p>الـ Actor الرئيسي = Buyer. الـ Use cases الأساسية.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🧍</span> Actors Identified</div>
+    <ul>
+      <li>✅ <strong>Buyer</strong> — main actor، بيـ make orders ويـ pays.</li>
+      <li>❓ Delivery Man? — مش actor للـ system، هو موظف بيستخدم external process. الـ exam answer: <strong>Buyer is the only system actor</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🎬</span> Use Cases</div>
+    <div class="grid2">
+      <div>
+        <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin-bottom:6px">Top Level</h4>
+        <ul>
+          <li><strong>UC1</strong> — Create Order</li>
+          <li><strong>UC2</strong> — Pay for Order</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin-bottom:6px">Specialized (Generalization)</h4>
+        <ul>
+          <li><strong>UC2a</strong> — Pay by Cash (extends UC2)</li>
+          <li><strong>UC2b</strong> — Pay by Credit Card (extends UC2)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="info"><div><b>💡 Use Case Generalization</b>"Pay for Order" هو الـ generic. "Pay by Cash" و "Pay by Credit Card" هم variants. النوع ده من العلاقات بيتمثل بـ <em>generalization arrow</em> (open triangle) من المخصص للعام.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — USE CASE DESCRIPTIONS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>Use Case Descriptions</h2>
+      <p>الـ flow التفصيلي لكل use case.</p>
+    </div>
+  </div>
+
+  <!-- UC1 -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🛒</span> UC1 — Create Order</div>
+    <ul style="font-size:.88rem">
+      <li><strong>Actor:</strong> Buyer</li>
+      <li><strong>Description:</strong> Buyer makes an order and decides products + quantities.</li>
+    </ul>
+    <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:10px 0 4px">Main Flow</h4>
+    <ol style="font-size:.85rem">
+      <li>Request to create order</li>
+      <li>Give delivery address</li>
+      <li>Generate automatic order ID</li>
+      <li>Enter item and quantity</li>
+      <li>Repeat 4 to enter all items</li>
+      <li>Create order and set status as <code>OPEN</code></li>
+      <li>Add to orders list</li>
+    </ol>
+    <h4 style="font-family:var(--fh);color:var(--red);font-size:.92rem;margin:10px 0 4px">Exceptional Flow — Cancel Order</h4>
+    <ol style="font-size:.85rem">
+      <li>Request to cancel order</li>
+      <li>If order is <code>OPEN</code> → delete it. Else → "Cannot cancel" message.</li>
+    </ol>
+  </div>
+
+  <!-- UC2 -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">💰</span> UC2 — Pay for Order (Generic)</div>
+    <ul style="font-size:.88rem">
+      <li><strong>Actor:</strong> Buyer</li>
+      <li><strong>Description:</strong> Pays for his order.</li>
+    </ul>
+    <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:10px 0 4px">Main Flow</h4>
+    <ol style="font-size:.85rem">
+      <li>Request to pay order</li>
+      <li>Calculate order total</li>
+      <li>Provide payment (cash/credit)</li>
+      <li>If successful → order is <code>CLOSED</code></li>
+    </ol>
+  </div>
+
+  <!-- UC2a -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">💵</span> UC2a — Pay by Cash</div>
+    <ol style="font-size:.85rem">
+      <li>Request to pay order</li>
+      <li>Calculate order total</li>
+      <li>Give cash amount</li>
+      <li>If cash &gt;= total → take payment</li>
+      <li>Order = <code>CLOSED</code></li>
+      <li>Return change = cash − total</li>
+      <li>Display message</li>
+    </ol>
+    <h4 style="font-family:var(--fh);color:var(--red);font-size:.92rem;margin:10px 0 4px">Exceptional Flow — Insufficient Cash</h4>
+    <p style="font-size:.85rem">1. Display message · 2. Order remains <code>OPEN</code></p>
+  </div>
+
+  <!-- UC2b -->
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">💳</span> UC2b — Pay by Credit Card</div>
+    <ol style="font-size:.85rem">
+      <li>Request to pay order</li>
+      <li>Calculate order total</li>
+      <li>Give card details</li>
+      <li>Validate card with Bank</li>
+      <li>Deduct amount from card</li>
+      <li>If successful → Order = <code>CLOSED</code></li>
+      <li>Display message</li>
+    </ol>
+    <h4 style="font-family:var(--fh);color:var(--red);font-size:.92rem;margin:10px 0 4px">Exceptional Flow — Card Failure</h4>
+    <p style="font-size:.85rem">If card is INVALID, EXPIRED, or INSUFFICIENT → Display message + Order remains OPEN.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — IDENTIFY CLASSES (CRC)
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num pink">04</div>
+    <div class="ch-title">
+      <h2>Class Identification — CRC Method</h2>
+      <p>Find nouns → candidate classes. Decide responsibility per class with <strong>CRC cards</strong> (Class-Responsibility-Collaboration).</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📝</span> Approach</div>
+    <ul>
+      <li>اقرا الـ requirements واستخرج <strong>nouns</strong> — كل noun candidate class.</li>
+      <li>قرر <strong>responsibility</strong> لكل class.</li>
+      <li>استخدم CRC cards (sticky notes) لكل candidate class.</li>
+      <li><strong>إذا الـ responsibilities ما تتفعش في card واحد</strong> = الـ class محتاج تتقسم.</li>
+    </ul>
+  </div>
+
+  <!-- CRC Cards -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🗂️</span> Sample CRC Cards</div>
+
+    <div class="crc-card">
+      <h4>📦 Order</h4>
+      <div class="crc-grid">
+        <div class="crc-col">
+          <h5>Attributes</h5>
+          <ul>
+            <li>delivery address</li>
+            <li>client name</li>
+            <li>date</li>
+            <li>status</li>
+          </ul>
+        </div>
+        <div class="crc-col">
+          <h5>Operations</h5>
+          <ul>
+            <li>create</li>
+            <li>cancel order</li>
+            <li>pay for order</li>
+            <li>calculate total</li>
+          </ul>
+        </div>
+        <div class="crc-col">
+          <h5>Collaborates with</h5>
+          <ul>
+            <li>OrderStatus (enum)</li>
+            <li>Payment</li>
+            <li>OrderDetail</li>
+            <li>OrderManager</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="crc-card">
+      <h4>🏪 OrderManager</h4>
+      <div class="crc-grid">
+        <div class="crc-col">
+          <h5>Attributes</h5>
+          <ul>
+            <li>store name</li>
+            <li>orderIDGenerator</li>
+            <li>list of orders</li>
+            <li>list of products</li>
+          </ul>
+        </div>
+        <div class="crc-col">
+          <h5>Operations</h5>
+          <ul>
+            <li>create order</li>
+            <li>cancel order</li>
+            <li>pay for order</li>
+            <li>add product</li>
+          </ul>
+        </div>
+        <div class="crc-col">
+          <h5>Collaborates with</h5>
+          <ul>
+            <li>Order</li>
+            <li>Products</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="crc-card">
+      <h4>🍫 Product</h4>
+      <div class="crc-grid">
+        <div class="crc-col">
+          <h5>Attributes</h5>
+          <ul>
+            <li>code</li>
+            <li>name</li>
+            <li>unitPrice</li>
+          </ul>
+        </div>
+        <div class="crc-col">
+          <h5>Operations</h5>
+          <ul>
+            <li>get info</li>
+          </ul>
+        </div>
+        <div class="crc-col">
+          <h5>Collaborates with</h5>
+          <ul>
+            <li>OrderDetail</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Class types -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🎭</span> Class Categorization (MVC / Boundary-Control-Entity)</div>
+    <div class="class-grid">
+      <div class="class-box entity">
+        <div class="cb-name">📦 Domain (Entity)</div>
+        Order · OrderDetail · OrderManager · Product · Payment · Cash · Credit · OrderStatus · CardStatus
+      </div>
+      <div class="class-box control">
+        <div class="cb-name">⚙️ Control</div>
+        OrderManager (also acts as controller)
+      </div>
+      <div class="class-box boundary">
+        <div class="cb-name">🪟 Boundary</div>
+        UI later — out of current scope
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — CLASS DIAGRAM
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num purple">05</div>
+    <div class="ch-title">
+      <h2>The Full Class Diagram</h2>
+      <p>Combine all classes + relationships.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🗺️</span> Relationships Identified</div>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:10px 0 4px">1. OrderManager ↔ Order (1 : *)</h4>
+    <p style="font-size:.85rem;color:var(--t2)">OrderManager aggregates Orders (open diamond ◇). The store has many orders.</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:10px 0 4px">2. OrderManager ↔ Product (1 : *)</h4>
+    <p style="font-size:.85rem;color:var(--t2)">Store has a catalog of products. Aggregation.</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:10px 0 4px">3. Order ↔ OrderDetail (1 : *) — Composition ◆</h4>
+    <p style="font-size:.85rem;color:var(--t2)">OrderDetail can't exist without Order (deleted with it). Strong composition.</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:10px 0 4px">4. OrderDetail ↔ Product (* : 1)</h4>
+    <p style="font-size:.85rem;color:var(--t2)">Each OrderDetail references one Product. Multiple OrderDetails can point to same Product.</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:10px 0 4px">5. Order ↔ Payment (1 : 1)</h4>
+    <p style="font-size:.85rem;color:var(--t2)">Each order has at most one Payment. Plain association.</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:10px 0 4px">6. Payment ← Cash, Credit (Generalization)</h4>
+    <p style="font-size:.85rem;color:var(--t2)">Payment is abstract; Cash and Credit are subclasses.</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:10px 0 4px">7. Order → OrderStatus (enum)</h4>
+    <p style="font-size:.85rem;color:var(--t2)">Order's status field references an OrderStatus enum (OPEN, CLOSED).</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:10px 0 4px">8. Credit → CardStatus (enum)</h4>
+    <p style="font-size:.85rem;color:var(--t2)">CardStatus = VALID, EXPIRED, INVALID, INSUFFICIENT.</p>
+  </div>
+
+  <!-- Code skeleton -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">☕</span> Java Code Skeleton</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Java — Order Management</div></div>
+<pre><code><span class="kw">public enum</span> <span class="fn">OrderStatus</span> { OPEN, CLOSED; }
+<span class="kw">public enum</span> <span class="fn">CardStatus</span> { VALID, EXPIRED, INVALID, INSUFFICIENT; }
+
+<span class="kw">public class</span> <span class="fn">Product</span> {
+  <span class="kw">private String</span> code, name;
+  <span class="kw">private float</span> unitPrice;
+}
+
+<span class="kw">public class</span> <span class="fn">OrderDetail</span> {
+  <span class="kw">private</span> <span class="fn">Product</span> product;
+  <span class="kw">private int</span> quantity;
+}
+
+<span class="kw">public class</span> <span class="fn">Order</span> {
+  <span class="kw">private int</span> id;
+  <span class="kw">private String</span> deliveryAddress;
+  <span class="kw">private</span> <span class="fn">OrderStatus</span> status = <span class="fn">OrderStatus</span>.OPEN;
+  <span class="kw">private</span> <span class="fn">ArrayList</span>&lt;<span class="fn">OrderDetail</span>&gt; details = <span class="kw">new</span> <span class="fn">ArrayList</span>&lt;&gt;();
+  <span class="kw">private</span> <span class="fn">Payment</span> payment;
+
+  <span class="kw">public void</span> <span class="fn">addProduct</span>(<span class="fn">Product</span> p, <span class="kw">int</span> qty) { ... }
+  <span class="kw">public float</span> <span class="fn">calculateTotal</span>() { ... }
+}
+
+<span class="kw">public abstract class</span> <span class="fn">Payment</span> {
+  <span class="kw">public abstract boolean</span> <span class="fn">processPayment</span>(<span class="kw">float</span> total);
+}
+
+<span class="kw">public class</span> <span class="fn">Cash</span> <span class="kw">extends</span> <span class="fn">Payment</span> { ... }
+<span class="kw">public class</span> <span class="fn">Credit</span> <span class="kw">extends</span> <span class="fn">Payment</span> {
+  <span class="kw">private</span> <span class="fn">CardStatus</span> status;
+}
+
+<span class="kw">public class</span> <span class="fn">OrderManager</span> {
+  <span class="kw">private</span> <span class="fn">ArrayList</span>&lt;<span class="fn">Order</span>&gt; orders;
+  <span class="kw">private</span> <span class="fn">ArrayList</span>&lt;<span class="fn">Product</span>&gt; products;
+  <span class="kw">private int</span> orderIDGenerator = <span class="num">0</span>;
+
+  <span class="kw">public</span> <span class="fn">Order</span> <span class="fn">createOrder</span>(<span class="kw">String</span> deliveryAddress) { ... }
+}</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — SEQUENCE DIAGRAM
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num teal">06</div>
+    <div class="ch-title">
+      <h2>Sequence Diagram — Create Order</h2>
+      <p>تحويل UC1 لـ sequence من method calls.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🎬</span> Create Order Flow</div>
+    <ol>
+      <li><code>Actor → OrderManager : createOrder(delivery_address)</code></li>
+      <li>OrderManager creates a new <code>:Order</code> instance (return order ref)</li>
+      <li>Loop for each product:
+        <ul>
+          <li><code>Actor → OrderManager : addProduct(orderID, prodID, quantity)</code></li>
+          <li>OrderManager creates new <code>OrderDetail</code></li>
+          <li>OrderManager → Order : <code>addItem(orderDetail)</code></li>
+        </ul>
+      </li>
+      <li>OrderManager returns confirmation to Actor</li>
+    </ol>
+
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Pseudo-sequence (Java method calls)</div></div>
+<pre><code><span class="cmt">// Step 1: Create order</span>
+<span class="fn">Order</span> myOrder = orderManager.createOrder(<span class="str">"Cairo, Egypt"</span>);
+
+<span class="cmt">// Step 2: Add items in loop</span>
+<span class="kw">for</span> (<span class="fn">ProductInput</span> p : userInputs) {
+  orderManager.addProduct(myOrder.getId(), p.code, p.quantity);
+}
+
+<span class="cmt">// Step 3: Pay for order</span>
+<span class="fn">Cash</span> payment = <span class="kw">new</span> <span class="fn">Cash</span>(<span class="num">100.0</span>);
+<span class="kw">boolean</span> success = orderManager.payForOrder(myOrder.getId(), payment);</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — LESSONS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num red">07</div>
+    <div class="ch-title">
+      <h2>Lessons for Question 2 ⭐</h2>
+      <p>الـ template اللي تتبعه في Question 2 في الـ final.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">📚</span> Step-by-Step Method</div>
+    <ol>
+      <li><strong>Read SRS carefully.</strong> Highlight nouns and actions.</li>
+      <li><strong>Identify actors</strong> — Who interacts with the system from outside? (1 mark)</li>
+      <li><strong>Identify use cases</strong> — What can each actor do? (4-6 marks)</li>
+      <li><strong>Draw use case diagram</strong> with relationships (extend, include, generalization).</li>
+      <li><strong>Detail one use case</strong> — main flow + exceptional flows (4-5 marks).</li>
+      <li><strong>Identify classes</strong> from nouns. Categorize as Domain/Control/Boundary.</li>
+      <li><strong>Draw class diagram</strong> with attributes, operations, relationships, multiplicities (8 marks).</li>
+      <li><strong>Draw sequence diagram</strong> for one use case showing methods used (4 marks).</li>
+      <li><strong>Draw state diagram</strong> (if asked, 2-4 marks) for an object's states.</li>
+    </ol>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">⏰</span> Time Allocation in Exam</div>
+    <p>Question 2 = ~20+ marks. ساعة من الـ 2 ساعات.</p>
+    <ul>
+      <li><strong>5 min</strong> — Read requirements + identify actors/use cases.</li>
+      <li><strong>15 min</strong> — Use case diagram + 1 detailed use case.</li>
+      <li><strong>25 min</strong> — Class diagram (the longest).</li>
+      <li><strong>10 min</strong> — Sequence diagram.</li>
+      <li><strong>5 min</strong> — State diagram if asked.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">✅</span> Mistakes to Avoid</div>
+    <ul>
+      <li>❌ Methods in sequence diagram <strong>not in class diagram</strong>.</li>
+      <li>❌ Missing multiplicities on associations.</li>
+      <li>❌ Confusing Aggregation ◇ vs Composition ◆.</li>
+      <li>❌ Forgetting <strong>OPEN/CLOSED</strong> states in state diagram.</li>
+      <li>❌ No "extend" relationship for conditional use cases (e.g., Bad Credit).</li>
+      <li>❌ Drawing actors as classes — actors are <strong>outside</strong> the system boundary.</li>
+    </ul>
+  </div>
+
+  <div class="info">
+    <div><b>💡 Final Tip</b>
+      <p>للـ Question 2: <em>اقرأ السؤال مرتين</em>، حدد الـ keywords للـ relationships (e.g., "consists of" = composition, "has many" = aggregation, "is a kind of" = generalization, "uses" = association). كل keyword بيدلك على relation معينة.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet</h2>
+      <p>Question 2 template + Corona Store key concepts.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="cheat">
+      <h3>🎯 Question 2 Template</h3>
+      <div class="cheat-item"><div class="cheat-key">1 mark</div><div class="cheat-val">Actors identification</div></div>
+      <div class="cheat-item"><div class="cheat-key">4-6 marks</div><div class="cheat-val">Use case diagram</div></div>
+      <div class="cheat-item"><div class="cheat-key">4-5 marks</div><div class="cheat-val">Detailed use case</div></div>
+      <div class="cheat-item"><div class="cheat-key">8 marks</div><div class="cheat-val">Class diagram</div></div>
+      <div class="cheat-item"><div class="cheat-key">4 marks</div><div class="cheat-val">Sequence diagram</div></div>
+      <div class="cheat-item"><div class="cheat-key">2-4 marks</div><div class="cheat-val">State diagram (if asked)</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🔑 Keyword → Relationship</h3>
+      <div class="cheat-item"><div class="cheat-key">"consists of"</div><div class="cheat-val">Composition ◆</div></div>
+      <div class="cheat-item"><div class="cheat-key">"has many"</div><div class="cheat-val">Aggregation ◇</div></div>
+      <div class="cheat-item"><div class="cheat-key">"is a kind of"</div><div class="cheat-val">Generalization △</div></div>
+      <div class="cheat-item"><div class="cheat-key">"uses"</div><div class="cheat-val">Association ━</div></div>
+      <div class="cheat-item"><div class="cheat-key">"only if X" (conditional)</div><div class="cheat-val">&lt;&lt;extend&gt;&gt; in use case</div></div>
+      <div class="cheat-item"><div class="cheat-key">"always X" (always done)</div><div class="cheat-val">&lt;&lt;include&gt;&gt; in use case</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🍫 Corona Classes</h3>
+      <div class="cheat-item"><div class="cheat-key">Domain</div><div class="cheat-val">Order, OrderDetail, Product, Payment, Cash, Credit</div></div>
+      <div class="cheat-item"><div class="cheat-key">Control</div><div class="cheat-val">OrderManager</div></div>
+      <div class="cheat-item"><div class="cheat-key">Enums</div><div class="cheat-val">OrderStatus, CardStatus</div></div>
+      <div class="cheat-item"><div class="cheat-key">Order — Status</div><div class="cheat-val">OPEN, CLOSED</div></div>
+      <div class="cheat-item"><div class="cheat-key">Credit — CardStatus</div><div class="cheat-val">VALID, EXPIRED, INVALID, INSUFFICIENT</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🏗️ CRC Method</h3>
+      <div class="cheat-item"><div class="cheat-key">CRC</div><div class="cheat-val">Class · Responsibility · Collaboration</div></div>
+      <div class="cheat-item"><div class="cheat-key">Find</div><div class="cheat-val">Nouns in SRS = candidate classes</div></div>
+      <div class="cheat-item"><div class="cheat-key">Each card</div><div class="cheat-val">Attributes + Operations + Collaborators</div></div>
+      <div class="cheat-item"><div class="cheat-key">Hint</div><div class="cheat-val">Can't fit on one card? Split the class.</div></div>
+    </div>
+  </div>
+</div>
+
+</div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
