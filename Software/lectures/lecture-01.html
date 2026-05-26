@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 01 — Intro to Software Engineering | CS251</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="prog-bar"></div>
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>🛠️ CS251 — Lec 01</h2>
+    <p>Intro to Software Engineering</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">Chapter 1</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Two Cautionary Tales</a>
+
+  <div class="sb-section">Chapter 2</div>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Software Chronic Crisis</a>
+
+  <div class="sb-section">Chapter 3</div>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>No Silver Bullet</a>
+
+  <div class="sb-section">Chapter 4</div>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>What is SE?</a>
+
+  <div class="sb-section">Chapter 5</div>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Coder vs Engineer</a>
+
+  <div class="sb-section">Chapter 6</div>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Stages of Producing SW</a>
+
+  <div class="sb-section">Chapter 7</div>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>SWEBOK 18 KAs</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Question Bank</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Rapid Revision</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main">
+
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<section class="hero">
+  <div class="hero-badge">⚙️ Lecture 01 · 73 slides · 8 real exam questions</div>
+  <h1>Intro to <span>Software Engineering</span></h1>
+  <p>ليه الـ Software بيفشل؟ ايه هو Software Engineering أصلاً؟ وايه فرق الـ Coder عن الـ Software Engineer؟ هنفهم كل ده مع أمثلة كوارث حقيقية كلفت بلايين الدولارات وأرواح.</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">7</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Exam Qs</div></div>
+    <div class="hstat"><div class="num">18</div><div class="lbl">SWEBOK KAs</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">Failure Cases</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — TWO CAUTIONARY TALES
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num red">01</div>
+    <div class="ch-title">
+      <h2>Two Cautionary Tales — قصتين بيبتدوا بيهم المنهج</h2>
+      <p>ليه دكتور الرملي بيبدأ بقصتين كوارث؟ علشان يثبت إن الـ Software مش مجرد كود — Software bugs بتقتل وبتفقّر.</p>
+    </div>
+  </div>
+
+  <!-- Story 1: Ariane 5 -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🚀</span> القصة الأولى — Ariane 5 (يونيو 1996)</div>
+    <p><strong>Ariane 5</strong> صاروخ فضاء أوروبي تابع لـ <code>ESA</code> (European Space Agency). بعد الإقلاع بـ <strong>37 ثانية</strong> فقط، الصاروخ خرج عن مساره وانفجر فوق غويانا الفرنسية، وضاع حوالي <strong>$370 مليون</strong>.</p>
+    <p><b style="color:var(--red)">السبب؟</b> سطر كود واحد. تحويل من <code>64-bit float</code> لـ <code>16-bit signed integer</code> بدون فحص للـ overflow. السرعة الحقيقية للصاروخ كانت أكبر من اللي يقدر يتحط في <code>16-bit int</code>.</p>
+
+    <!-- Code panels side by side -->
+    <div class="grid2">
+      <div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <div class="code-lang">Ada · Ariane 5 (slide 10)</div>
+          </div>
+<pre><code><span class="cmt">-- Horizontal velocity bias as measured by sensor</span>
+<span class="cmt">-- is converted to a 16 bit int WITHOUT checking</span>
+P_M_DERIVE(T_ALG.E_BH) :=
+  UC_16S_EN_16NS (TDB.T_ENTIER_16S
+    ((<span class="num">1.0</span>/C_M_LSB_BH) *
+    G_M_INFO_DERIVE(T_ALG.E_BH)));</code></pre>
+        </div>
+      </div>
+      <div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <div class="code-lang">Java equivalent (slide 11)</div>
+          </div>
+<pre><code><span class="kw">public class</span> <span class="fn">Overflow</span> {
+  <span class="kw">public static void</span> <span class="fn">main</span>(<span class="kw">String</span>[] args) {
+    <span class="kw">int</span> x;
+    <span class="kw">double</span> d = <span class="num">5000000000.0</span>;
+    x = (<span class="kw">int</span>) d;
+    <span class="fn">System.out.println</span>(<span class="str">"d="</span> + d
+      + <span class="str">" / x="</span> + x
+      + <span class="str">" / x+1="</span> + (x+<span class="num">1</span>));
+  }
+}
+<span class="cmt">// Output:</span>
+<span class="cmt">// d=5.0E9 / x=2147483647 / x+1=-2147483648</span></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated overflow visualizer -->
+    <div class="overflow-viz">
+      <p style="color:var(--t2);font-size:.88rem;margin-bottom:18px">▶️ اضغط الزرار وشوف الـ overflow بيحصل ازاي:</p>
+      <div class="ov-step" id="ov1">
+        <div class="ov-label">double d</div>
+        <div class="ov-val">5,000,000,000.0</div>
+      </div>
+      <span class="ov-arrow">→</span>
+      <div class="ov-step" id="ov2">
+        <div class="ov-label">cast to int</div>
+        <div class="ov-val">2,147,483,647</div>
+      </div>
+      <span class="ov-arrow">→</span>
+      <div class="ov-step" id="ov3">
+        <div class="ov-label">+ 1 → flip!</div>
+        <div class="ov-val">-2,147,483,648</div>
+      </div>
+      <br>
+      <button class="ov-trigger" id="ov-trigger">▶ Run Overflow</button>
+    </div>
+
+    <div class="danger">
+      <div><b>⚠️ الـ moral</b>عدم وجود <strong>error handling</strong> لـ overflow في تحويل الأنواع = صاروخ بـ 370 مليون دولار راح في 37 ثانية. Performance ≠ Safety.</div>
+    </div>
+  </div>
+
+  <!-- Story 2: Death GPS -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🗺️</span> القصة التانية — Death GPS</div>
+    <p>أزواج كبار في السن تابعوا تعليمات <strong>GPS</strong> على طريق ضيق وخطر، وانتهى المطاف بسيارتهم في وادي/منطقة وعرة بدون أي وسيلة للنجاة. ناس ماتت بسبب الـ GPS بيوديهم في طرق غلط.</p>
+    <div class="info">
+      <div><b>💡 الدرس</b>الـ Software اللي بياخد قرارات نيابة عن الناس لازم يتعمل بحذر شديد. حتى لو الـ algorithm شغال صح في 99% من الحالات، الـ 1% ممكن يكلف أرواح.</div>
+    </div>
+  </div>
+
+  <!-- Common Theme -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🎯</span> اللي يجمع القصتين</div>
+    <ul>
+      <li><strong>Software failures = real-world cost</strong> — مش مجرد bug في الـ terminal، ده ممكن يكلف فلوس وأرواح.</li>
+      <li><strong>Testing is critical</strong> — لو كان فيه اختبار كويس، الـ overflow كان اتلاقى قبل الإطلاق.</li>
+      <li><strong>Software Engineering موجود علشان كده</strong> — منهج منظم علشان نقلل الكوارث دي.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — SOFTWARE CHRONIC CRISIS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num amber">02</div>
+    <div class="ch-title">
+      <h2>Software Chronic Crisis — أزمة الـ Software</h2>
+      <p>المشاكل المزمنة في صناعة البرمجيات: مشاريع بتفشل، مواعيد بتتأخر، تكاليف بتزيد، ووظائف ناقصة.</p>
+    </div>
+  </div>
+
+  <!-- Definition -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📖</span> تعريف Software Crisis</div>
+    <p>الـ Software Crisis بيتضمن (وده اللي بيتسأل عليه في الامتحان):</p>
+    <ul>
+      <li>✅ <strong>Software fails</strong> to serve its purpose, or may cause harm.</li>
+      <li>✅ <strong>Project delivers reduced functional deliverables</strong> (المشروع بيتسلم وظايف ناقصة).</li>
+      <li>✅ <strong>Project cost overruns and schedule delays</strong> (تكلفة أكبر ومواعيد متأخرة).</li>
+    </ul>
+    <div class="warn">
+      <div><b>⚠️ Trap امتحان شائع</b>"Project staff leave the project before completion" — مش جزء من تعريف الـ Software Crisis. الناس بتسيب الشركة في أي مهنة، ده مش specific لأزمة الـ software.</div>
+    </div>
+  </div>
+
+  <!-- Timeline of failures -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">📜</span> Timeline of Famous Software Failures</div>
+    <div class="timeline">
+
+      <div class="tl-item" style="--accent:var(--red)">
+        <div class="tl-date">15 January 1990</div>
+        <div class="tl-title">AT&amp;T Long-Distance Network Crash</div>
+        <div class="tl-desc">شركة AT&amp;T فقدت <strong>70 مليون مكالمة</strong> وخسرت حوالي <strong>$1 billion</strong>. السبب؟ <strong>missing <code>break</code> statement in C switch</strong> — الكود كان بيقع في الـ case التانية بدون ما يخرج. هنشوف الكود الأصلي تحت.</div>
+      </div>
+
+      <div class="tl-item" style="--accent:var(--amber)">
+        <div class="tl-date">1991 (Gulf War)</div>
+        <div class="tl-title">Patriot MIM-104 Missile Failure</div>
+        <div class="tl-desc">صاروخ Patriot الأمريكي <strong>miscalculated the trajectory</strong> بتاع صاروخ <em>Scud</em> العراقي الجاي عليه، فلم يضربه. مات 28 جندي أمريكي. السبب: cumulative rounding error في حساب الوقت.</div>
+      </div>
+
+      <div class="tl-item" style="--accent:var(--red)">
+        <div class="tl-date">June 1996</div>
+        <div class="tl-title">Ariane 5 Rocket Self-Destruct</div>
+        <div class="tl-desc"><strong>Number conversion overflow</strong> (شفناه فوق). 64-bit float → 16-bit signed int بدون فحص. الصاروخ انفجر بعد 37 ثانية من الإقلاع.</div>
+      </div>
+
+      <div class="tl-item" style="--accent:var(--purple)">
+        <div class="tl-date">1985–1987</div>
+        <div class="tl-title">Therac-25 Radiation Overdose</div>
+        <div class="tl-desc">جهاز علاج إشعاعي طبي أعطى مرضى <strong>جرعات إشعاعية مميتة</strong> بسبب race condition في الـ software. مات على الأقل 3 مرضى. مثال كلاسيكي لخطورة الـ software في الـ safety-critical systems.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- AT&T Code -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🐛</span> الكود الأصلي لكارثة AT&amp;T 1990</div>
+    <p>المهم تشوف الكود ده وتعرف <strong>السطر اللي فيه البق</strong> — السؤال ده اتسأل في امتحان <code>Winter 2021 Q1.04</code>.</p>
+    <p>المشكلة: <em>"The program should NOT have dropped out of the switch statement if 'ring write buffer is not empty'"</em>. يعني الـ <code>break</code> في المكان الغلط.</p>
+
+    <div class="code-wrap">
+      <div class="code-header">
+        <div class="code-dots"><span></span><span></span><span></span></div>
+        <div class="code-lang">C-like pseudocode · AT&amp;T 1990</div>
+      </div>
+<pre><code><span class="line-num">1</span>  <span class="kw">while</span> (ring receive buffer not empty <span class="kw">and</span> side buffer not empty) DO
+<span class="line-num">2</span>    Initialize pointer to first message in side buffer
+<span class="line-num">3</span>    get copy of buffer
+<span class="line-num">4</span>    <span class="kw">switch</span> (message)
+<span class="line-num">5</span>      <span class="kw">case</span> (incoming_message):
+<span class="line-num">6</span>        <span class="kw">if</span> (sending switch is out of service) DO
+<span class="line-num">7</span>          <span class="kw">if</span> (ring write buffer is empty) DO
+<span class="line-num">8</span>            send <span class="str">"in service"</span> to status map
+<span class="line-num">9</span>          <span class="kw">else</span>
+<span class="line-bug"><span class="line-num">10</span>            <span class="kw">break</span>   <span class="cmt">// ⚠️ THE BUG — drops out of switch instead of just out of if!</span></span>
+<span class="line-num">11</span>          END IF
+<span class="line-num">12</span>        process incoming message
+<span class="line-num">13</span>      <span class="kw">break</span>
+<span class="line-num">14</span>    END SWITCH
+<span class="line-num">15</span>    <span class="kw">do</span> optional parameter work</code></pre>
+    </div>
+
+    <div class="danger">
+      <div><b>🔴 السطر 10 هو السبب</b><code>break</code> في C/C++ بتخرج من أقرب <code>switch</code> أو <code>loop</code>. هنا المبرمج كان قصده يخرج من الـ <code>if</code> بس الفعلياً خرج من الـ <code>switch</code> كله، فما عملش <em>process incoming message</em> وبدأ الـ system يتعطّل.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — NO SILVER BULLET & SOFTWARE CHARACTERISTICS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num purple">03</div>
+    <div class="ch-title">
+      <h2>No Silver Bullet — مفيش حل سحري</h2>
+      <p>Brooks (1986): مفيش technology واحدة هتحل كل مشاكل الـ software. لازم نتعامل مع طبيعة الـ software اللي بتميزه.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">🐺</span> "Werewolves" — مين هم؟</div>
+      <p>في كتاب Brooks الشهير، الـ <strong>"werewolves"</strong> هم <strong>المشاريع اللي بتبان عادية في الأول، لكن بعدين بتتحول لمشاكل معقدة ومرعبة</strong> — زي الإنسان اللي بيتحول لذئب فجأة.</p>
+      <div class="info"><div><b>📌 Winter 2025 Q1.21</b>اللي بيتسأل عليه: ايه معنى الـ werewolves في Brooks' metaphor؟ الإجابة: <em>Projects that seem normal but become complex and problematic</em>.</div></div>
+    </div>
+
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">🔄</span> Software Changeability</div>
+      <p>الـ Software بطبعه بيتغير كتير — وده ليه <strong>مميزات وعيوب</strong>:</p>
+      <ul>
+        <li>✅ <strong>It has advantages and disadvantages</strong>.</li>
+        <li>❌ NOT: "software is intangible and lacks a physical presence" (ده concept تاني).</li>
+        <li>❌ NOT: "software must adapt to existing hardware interfaces" (ده compatibility مش changeability).</li>
+        <li>✅ <strong>It often leads to frequent modifications and deviations from the initial design</strong>.</li>
+      </ul>
+      <div class="info"><div><b>📌 Winter 2023 Q1.03</b>الإجابة الصح: <strong>Only I &amp; IV</strong> — التغيير ليه مميزات وعيوب، وبيؤدي لتعديلات متكررة وانحراف عن التصميم الأصلي.</div></div>
+    </div>
+  </div>
+
+  <!-- Software failures stem from -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">📉</span> Software Failures Stem From... — أسباب الفشل</div>
+    <p>من امتحان <code>Winter 2023 Q1.02</code> — ايه الأسباب الحقيقية لفشل الـ software؟</p>
+    <table class="tbl">
+      <tr><th>السبب</th><th>صح / غلط</th><th>السبب</th></tr>
+      <tr><td>Poor management decisions or lack of decisions</td><td><span class="badge badge-green">✓ صح</span></td><td>المدير اللي مش بياخد قرارات أو بياخدها غلط = كارثة.</td></tr>
+      <tr><td>Poor software development practices</td><td><span class="badge badge-green">✓ صح</span></td><td>كود وحش، مفيش testing، مفيش version control = فشل مضمون.</td></tr>
+      <tr><td>Limited budget for the software project</td><td><span class="badge badge-red">✗ غلط</span></td><td>ميزانية محدودة مش هي السبب الرئيسي — ممكن تعمل كود ممتاز بميزانية قليلة.</td></tr>
+      <tr><td>Overconfidence in the software performance</td><td><span class="badge badge-green">✓ صح</span></td><td>"كل حاجة شغالة على جهازي" → في الإنتاج بتفجر.</td></tr>
+    </table>
+    <div class="info"><div><b>📌 الإجابة الصح</b>الأسباب الحقيقية هي <strong>I, II &amp; IV</strong> فقط — Poor management + Poor practices + Overconfidence.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — WHAT IS SOFTWARE / ENGINEERING / SE?
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num cyan blue">04</div>
+    <div class="ch-title">
+      <h2>What is Software Engineering?</h2>
+      <p>تعريفات رسمية مهمة جداً للامتحانات النظرية + لمحة تاريخية.</p>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">💾</span> What is Software?</div>
+      <p>الـ Software <strong>مش بس computer programs</strong> — هو:</p>
+      <ul>
+        <li><strong>Programs</strong> (الكود نفسه)</li>
+        <li><strong>Documentation</strong> (التوثيق)</li>
+        <li><strong>Configuration data</strong> (الإعدادات اللي بتشغّله صح)</li>
+      </ul>
+    </div>
+
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">⚙️</span> What is Engineering?</div>
+      <p>تطبيق المعرفة العلمية والتقنية مع الموارد الفيزيائية لتصميم وإنتاج <em>materials, structures, machines, systems</em> تحقق <strong>هدف محدد تحت قيود معينة</strong>.</p>
+    </div>
+
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">🏗️</span> Software Engineering</div>
+      <p>3 تعريفات لازم تحفظهم:</p>
+      <ul>
+        <li><strong>IEEE 610.12</strong>: "Application of a <em>systematic, disciplined, quantifiable</em> approach to the development, operation, and maintenance of software."</li>
+        <li><strong>Sommerville</strong>: "Designing, building and maintaining <em>large</em> software systems."</li>
+        <li><strong>Parnas</strong>: "<em>Multi-person</em> construction of <em>multi-version</em> software."</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">📅</span> When Did Software Engineering Start?</div>
+    <ul>
+      <li>المصطلح اتقال شوية مرات في الـ <strong>1950s و 1960s</strong>.</li>
+      <li>اتشهر في <strong>NATO Software Engineering Conference, 1968</strong>.</li>
+      <li>الـ NATO هو اللي خلى الـ field يبقى معترف بيه دولياً.</li>
+    </ul>
+  </div>
+
+  <!-- Great software viewpoints -->
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🌟</span> What Makes Great Software? — 4 viewpoints</div>
+    <p>كل واحد عنده تعريف مختلف لـ "الـ Software الممتاز":</p>
+    <div class="compare">
+      <div class="cmp-card" style="--accent:var(--cyan)">
+        <h4>👤 Customer</h4>
+        <p>بيحل المشكلة بتكلفة معقولة (وقت + موارد).</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--green)">
+        <h4>🙋 User</h4>
+        <p>سهل التعلم، استخدامه efficient، وبيخلّص الشغل.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--amber)">
+        <h4>👨‍💻 Developer</h4>
+        <p>سهل التصميم والصيانة، وتم نشره بنجاح.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--purple)">
+        <h4>👔 Manager</h4>
+        <p>بيبيع أكتر ويرضي العملاء، وتكلفته في التطوير قليلة.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — CODER vs HACKER vs PROGRAMMER vs SE
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num green">05</div>
+    <div class="ch-title">
+      <h2>Coder vs Hacker vs Programmer vs Software Engineer</h2>
+      <p>4 ألقاب الناس بتخلط بينها — هنا الفرق الحقيقي.</p>
+    </div>
+  </div>
+
+  <div class="compare">
+    <div class="cmp-card" style="--accent:var(--t3)">
+      <h4>🛠️ Coder</h4>
+      <p>بيقدر يخلّيه يشتغل... بس مش هيبقى شكله جميل. الـ code بيكون بدون structure أو design.</p>
+    </div>
+    <div class="cmp-card" style="--accent:var(--amber)">
+      <h4>🥷 Hacker</h4>
+      <p>low-level expert، عنده فهم عميق لمنطقة معينة بس. شاطر لكن متخصص جداً.</p>
+    </div>
+    <div class="cmp-card" style="--accent:var(--cyan)">
+      <h4>💻 Programmer</h4>
+      <p>بيكتب كود وبيفهم algorithms. غالباً بيشتغل لوحده وبيشتغل كويس.</p>
+    </div>
+    <div class="cmp-card" style="--accent:var(--green)">
+      <h4>🎯 Software Engineer</h4>
+      <p><strong>أفضل generalist</strong> — بيستخدم systems ولغات مختلفة ويخلّيهم يتكلموا مع بعض. <em>True professionals</em>: بيشتغل مع الناس وبيتواصل كويس.</p>
+    </div>
+  </div>
+
+  <div class="info">
+    <div><b>💡 الفرق الجوهري</b>الـ Programmer بيكتب كود. الـ Software Engineer بيبني <strong>نظام كامل</strong> — بيخطط، يصمم، يطور، يختبر، يوثّق، ويتواصل مع فريق وعملاء.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — KEY STAGES OF PRODUCING SOFTWARE
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num teal">06</div>
+    <div class="ch-title">
+      <h2>Key Stages of Producing Software</h2>
+      <p>5 مراحل أساسية + 4 أنشطة داعمة. حفظها بترتيب من تحت لفوق.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🏗️</span> The Production Stack — المراحل الـ 5</div>
+    <p>كل مرحلة <strong>output</strong> بتستخدمه المرحلة اللي بعدها. الترتيب من تحت (analysis) لفوق (test):</p>
+
+    <div class="stages-wrap">
+      <div class="stages-stack">
+        <div class="stage-row s1">
+          <span class="badge badge-cyan">1</span>
+          <span class="stage-name">Analysis</span>
+          <span class="stage-out">→ Gap Analysis, Market Segmentation, Feasibility Study</span>
+        </div>
+        <div class="stage-row s2">
+          <span class="badge badge-green">2</span>
+          <span class="stage-name">Requirements</span>
+          <span class="stage-out">→ SRS (Software Requirements Spec)</span>
+        </div>
+        <div class="stage-row s3">
+          <span class="badge badge-amber">3</span>
+          <span class="stage-name">Design</span>
+          <span class="stage-out">→ Design Document</span>
+        </div>
+        <div class="stage-row s4">
+          <span class="badge badge-purple">4</span>
+          <span class="stage-name">Implement</span>
+          <span class="stage-out">→ Code + Unit Tests</span>
+        </div>
+        <div class="stage-row s5">
+          <span class="badge badge-pink">5</span>
+          <span class="stage-name">Test</span>
+          <span class="stage-out">→ Test Suite</span>
+        </div>
+      </div>
+
+      <div class="pillars">
+        <div style="font-family:var(--fh);font-size:.78rem;color:var(--t3);text-align:center;margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em">Cross-cutting</div>
+        <div class="pillar">Project Management</div>
+        <div class="pillar">Process Management</div>
+        <div class="pillar">Configuration Mgmt</div>
+        <div class="pillar">Quality Assurance</div>
+      </div>
+    </div>
+
+    <div class="info">
+      <div><b>🔑 لاحظ</b>الـ 4 أنشطة على اليمين <strong>cross-cutting</strong> — يعني بتشتغل بالتوازي مع كل المراحل. مش مراحل منفصلة في الـ stack، بس بترافق كل مرحلة.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — SWEBOK 18 KNOWLEDGE AREAS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num blue">07</div>
+    <div class="ch-title">
+      <h2>SWEBOK — Software Engineering Body of Knowledge</h2>
+      <p>المرجع الرسمي اللي بيحدد المجالات اللي لازم أي software engineer يكون فاهمها.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📚</span> Timeline of SWEBOK Knowledge Areas</div>
+    <table class="tbl">
+      <tr><th>Version</th><th>Year</th><th>KAs added</th><th>Total</th></tr>
+      <tr><td>SWEBOK v3 (initial)</td><td>2004</td><td>10 original KAs</td><td><span class="badge badge-cyan">10</span></td></tr>
+      <tr><td>SWEBOK 2013</td><td>2013</td><td>+5 foundations KAs</td><td><span class="badge badge-amber">15</span></td></tr>
+      <tr><td>SWEBOK 2024/25</td><td>2024/25</td><td>+3 (Architecture, Security, Operations)</td><td><span class="badge badge-green">18</span></td></tr>
+    </table>
+  </div>
+
+  <!-- Original 10 -->
+  <h3 style="font-family:var(--fh);font-size:1.1rem;color:var(--cyan);margin:18px 0 12px">🔵 الـ 10 KAs الأصلية (2004)</h3>
+  <div class="swebok-grid">
+    <div class="kw-card"><div class="kw-tag">REQ</div><div class="kw-name">Software Requirements</div><div class="kw-desc">Elicitation, analysis, specification, validation للـ needs والـ constraints.</div></div>
+    <div class="kw-card"><div class="kw-tag">DES</div><div class="kw-name">Software Design</div><div class="kw-desc">تعريف architecture, components, interfaces — الـ blueprint قبل الكود.</div></div>
+    <div class="kw-card"><div class="kw-tag">CST</div><div class="kw-name">Software Construction</div><div class="kw-desc">Coding + verification + unit testing + integration testing + debugging.</div></div>
+    <div class="kw-card"><div class="kw-tag">TST</div><div class="kw-name">Software Testing</div><div class="kw-desc">Dynamic verification على finite set of test cases ضد الـ expected behavior.</div></div>
+    <div class="kw-card"><div class="kw-tag">MNT</div><div class="kw-name">Software Maintenance</div><div class="kw-desc">Change &amp; evolve بعد الـ release — defects, new requirements, env changes.</div></div>
+    <div class="kw-card"><div class="kw-tag">CNF</div><div class="kw-name">Configuration Management</div><div class="kw-desc">Tracking + controlling changes (Git, revision control, baselines).</div></div>
+    <div class="kw-card"><div class="kw-tag">MGT</div><div class="kw-name">SE Management</div><div class="kw-desc">Planning, coordinating, measuring, monitoring, controlling, reporting.</div></div>
+    <div class="kw-card"><div class="kw-tag">PRC</div><div class="kw-name">SE Process</div><div class="kw-desc">الـ work activities بتاعة كل مرحلة — مين بيعمل ايه وامتى.</div></div>
+    <div class="kw-card"><div class="kw-tag">TLS</div><div class="kw-name">SE Tools &amp; Methods</div><div class="kw-desc">الـ IDEs, modeling tools, testing frameworks اللي بنستخدمها.</div></div>
+    <div class="kw-card"><div class="kw-tag">QLY</div><div class="kw-name">Software Quality</div><div class="kw-desc">Monitoring الـ process &amp; methods لضمان جودة — ISO 9000, CMMI.</div></div>
+  </div>
+
+  <!-- 2013 additions -->
+  <h3 style="font-family:var(--fh);font-size:1.1rem;color:var(--amber);margin:24px 0 12px">🟡 +5 أضيفت في SWEBOK 2013</h3>
+  <div class="swebok-grid">
+    <div class="kw-card added-2013"><div class="kw-tag">PRF</div><div class="kw-name">Professional Practice</div><div class="kw-desc">Ethics, communication, teamwork — السلوك المهني.</div></div>
+    <div class="kw-card added-2013"><div class="kw-tag">ECN</div><div class="kw-name">SE Economics</div><div class="kw-desc">Cost estimation, ROI, budgeting للمشاريع.</div></div>
+    <div class="kw-card added-2013"><div class="kw-tag">CMP</div><div class="kw-name">Computing Foundations</div><div class="kw-desc">Data structures, algorithms, networking, OS basics.</div></div>
+    <div class="kw-card added-2013"><div class="kw-tag">MTH</div><div class="kw-name">Mathematical Foundations</div><div class="kw-desc">Discrete math, logic, probability, statistics.</div></div>
+    <div class="kw-card added-2013"><div class="kw-tag">ENG</div><div class="kw-name">Engineering Foundations</div><div class="kw-desc">Engineering principles applied to software.</div></div>
+  </div>
+
+  <!-- 2024 additions -->
+  <h3 style="font-family:var(--fh);font-size:1.1rem;color:var(--green);margin:24px 0 12px">🟢 +3 أضيفت في SWEBOK 2024/25</h3>
+  <div class="swebok-grid">
+    <div class="kw-card added-2024"><div class="kw-tag">ARC</div><div class="kw-name">Software Architecture</div><div class="kw-desc">Principles, structures, evaluation للـ system architecture.</div></div>
+    <div class="kw-card added-2024"><div class="kw-tag">SEC</div><div class="kw-name">Software Security</div><div class="kw-desc">Security fundamentals, threat modeling, secure engineering.</div></div>
+    <div class="kw-card added-2024"><div class="kw-tag">OPS</div><div class="kw-name">SE Operations</div><div class="kw-desc">DevOps, deployment, provisioning, governance, releases.</div></div>
+  </div>
+
+  <div class="tip">
+    <div><b>🔥 رقم سحري</b><strong>18 KAs</strong> هو المجموع النهائي (10 + 5 + 3). ده رقم محتمل ييجي في الـ MCQs.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ — EXAM QUESTION BANK
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Exam Question Bank — Lecture 1</h3>
+      <p>8 أسئلة حقيقية من امتحانات 2021 → 2025 · اختار إجابتك واضغط Check Answers</p>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 1 <span class="q-src">Fall 2021–22 · Q1.03</span></div>
+    <div class="q-text">In the case of <strong>AT&amp;T long-distance phone network crash</strong> (15/1/1990) which caused the loss of 70 million phone calls and $1B revenue loss — what was the reason behind this failure?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Bad UI design that confuses the operator</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A number conversion error</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Delay in software delivery by the contractor</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Missing <code>break</code> statement in C switch statement</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — Missing break in C switch</b>
+      الـ AT&amp;T crash بسببه سطر <code>break</code> في مكان غلط داخل <code>else</code>، فالـ control بتدخل في case تاني بدون ما يكمّل معالجة الـ message الحالي.
+      <div class="why-wrong">
+        <b>ليه باقي الإجابات غلط:</b>
+        <strong>A</strong> — مفيش علاقة بالـ UI، ده crash في الـ network logic. ·
+        <strong>B</strong> — Number conversion error دي حكاية <em>Ariane 5</em> مش AT&amp;T. ·
+        <strong>C</strong> — الـ delivery كان تم بالفعل، المشكلة كانت في الكود اللي اتسلم.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 2 <span class="q-src">Fall 2021–22 · Q1.04</span></div>
+    <div class="q-text">Which of these items is <strong>NOT included</strong> in the definition of software crisis?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Software fails to serve the purpose or may cause harm</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Project delivers reduced functional deliverables</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Project cost overruns and schedule delays</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Project staff leave the project before completion</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — Project staff leave</b>
+      الـ Software Crisis ليه 3 مظاهر بس: الـ software بيفشل في غرضه، وظائف ناقصة، تكلفة ومواعيد بتزيد. سيبان الموظفين دي مشكلة HR في أي مهنة، مش خاصة بأزمة الـ software.
+      <div class="why-wrong">
+        <b>ليه باقي الإجابات صح (يعني جزء من التعريف):</b>
+        <strong>A</strong> — Software fails to serve purpose — ده العنصر الرئيسي. ·
+        <strong>B</strong> — Reduced functionality — مظهر شائع. ·
+        <strong>C</strong> — Cost &amp; schedule overruns — أشهر مظاهر الأزمة.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 3 <span class="q-src">Winter 2021 · Q1.03</span></div>
+    <div class="q-text">In the case of <strong>Patriot MIM-104</strong>, a software bug caused the system to:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Not being able to see the attacking missile</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Not showing the trajectory of the attacking missile on the screen</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Miscalculate the trajectory of the attacking missile</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Fail to fire at the attacking missile</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Miscalculate the trajectory</b>
+      الـ Patriot شاف الـ Scud واطلق عليه، بس بسبب <em>cumulative rounding error</em> في حساب الوقت، حسب مكان الـ Scud غلط فالـ صاروخ راح في الفراغ.
+      <div class="why-wrong">
+        <strong>A/B</strong> — الـ radar شغّال، الـ Patriot شاف الصاروخ. ·
+        <strong>D</strong> — الـ Patriot فعلاً اطلق صاروخه، بس المسار كان غلط فلم يصب الهدف.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-item" data-correct="e">
+    <div class="q-num">Question 4 <span class="q-src">Winter 2021 · Q1.04</span></div>
+    <div class="q-text">Which line of code caused the failure of <strong>AT&amp;T telephone network</strong>? <em>(The program should NOT have dropped out of the switch statement if "ring write buffer is not empty")</em></div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Line 2</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Line 13</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Line 6</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Line 12</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Line 10</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: E — Line 10</b>
+      الـ <code>break</code> في السطر 10 بيخرج من الـ <strong>switch بالكامل</strong> مش بس من الـ if. اللي كان المفروض يحصل: استمرار في معالجة الـ incoming message بعد الـ else. بدلاً من كده، اتعمل break وخرج من كل حاجة.
+      <div class="why-wrong">
+        <strong>A (line 2)</strong> — مجرد initialization. ·
+        <strong>B (line 13)</strong> — الـ break ده الطبيعي للخروج من الـ case، مش هو السبب. ·
+        <strong>C (line 6)</strong> — مجرد if condition. ·
+        <strong>D (line 12)</strong> — هو اللي المفروض يتنفّذ بس مش بيوصله بسبب الـ break الغلط في line 10.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-item" data-correct="e">
+    <div class="q-num">Question 5 <span class="q-src">Winter 2023 · Q1.02</span></div>
+    <div class="q-text"><strong>Software failures stem from...</strong> اختار الإجابة الصح:
+      <br>I. Poor management decisions or lack of decisions
+      <br>II. Poor software development practices
+      <br>III. Limited budget for the software project
+      <br>IV. Overconfidence in the software performance
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Only I &amp; III</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Only II, III &amp; IV</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Only I, II &amp; III</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Only III &amp; IV</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Only I, II &amp; IV</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: E — Only I, II &amp; IV</b>
+      Software failures سببها <strong>قرارات إدارية وحشة</strong>، <strong>development practices سيئة</strong>، و<strong>overconfidence</strong> (ثقة زيادة في إن كل حاجة ماشية). الميزانية المحدودة (III) <em>مش</em> سبب رئيسي — ممكن تعمل كود ممتاز بميزانية محدودة لو الباقي مظبوط.
+      <div class="why-wrong">
+        أي إجابة فيها <strong>III</strong> (Limited budget) هي غلط بشكل مباشر.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 6 <span class="q-src">Winter 2023 · Q1.03</span></div>
+    <div class="q-text"><strong>Software changeability...</strong>
+      <br>I. It has advantages and disadvantages
+      <br>II. It means that software is intangible and lacks a physical presence
+      <br>III. It means that software must adapt to existing hardware interfaces
+      <br>IV. It often leads to frequent modifications and deviations from the initial design
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Only I &amp; III</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Only I, II &amp; III</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Only I &amp; IV</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Only II &amp; IV</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Only III &amp; IV</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Only I &amp; IV</b>
+      Changeability ليها مميزات (سهولة التطوير) وعيوب (انحراف عن التصميم). وبتأدي لتعديلات متكررة.
+      <div class="why-wrong">
+        <strong>II</strong> — "intangible" ده <em>intangibility</em>، خاصية تانية للـ software مش الـ changeability. ·
+        <strong>III</strong> — التكيف مع الـ hardware ده <em>compatibility</em>، مش changeability.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 7 <span class="q-src">Winter 2025 · Q1.21</span></div>
+    <div class="q-text">In <strong>Brooks' "No Silver Bullet" metaphor</strong>, what do <em>"werewolves"</em> represent in software engineering?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Bugs that are difficult to track</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Projects that seem normal but become complex and problematic</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Magical tools that promise to fix everything</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Software engineers who over-complicate systems</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Projects that seem normal but become complex</b>
+      الـ metaphor من فيلم الـ werewolf: الإنسان يبان عادي لكن بيتحول لذئب مرعب. كده المشاريع: تبدأ بسيطة وبعدين تتعقد بشكل كارثي.
+      <div class="why-wrong">
+        <strong>A</strong> — الـ bugs مش الـ werewolves في الـ metaphor. ·
+        <strong>C</strong> — الـ "silver bullet" نفسه هو الـ tool السحري — الـ werewolves هم الضحية مش العلاج. ·
+        <strong>D</strong> — الـ metaphor عن الـ projects مش الـ engineers.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 8 <span class="q-src">Winter 2025 · Q1.22</span></div>
+    <div class="q-text">What is <strong>common between</strong> the cases of software failure in <em>Ariane 5</em> and <em>London Ambulance System (LAS)</em>?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The company developing the software had no prior experience in this type of software</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A number conversion to a smaller type caused overflow and hence system failure</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Testing was inadequate and insufficient</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The decision to release the system was done on political not technical reasons</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Testing was inadequate and insufficient</b>
+      Ariane 5 ما اتعملش لها testing على السرعة الفعلية للصاروخ الجديد (الكود كان من Ariane 4 وما اتعادش testing له). LAS اتطلقت بدون load testing كافي. الـ <strong>قاسم المشترك = ضعف الـ testing</strong>.
+      <div class="why-wrong">
+        <strong>A</strong> — الشركات كان عندها خبرة، المشكلة في التطبيق مش الخبرة. ·
+        <strong>B</strong> — ده سبب Ariane 5 لوحده مش LAS. ·
+        <strong>D</strong> — السياسة مش العامل المشترك هنا.
+      </div>
+    </div>
+  </div>
+
+  <!-- Buttons + Score -->
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet — ورقة مذاكرة سريعة</h2>
+      <p>كل اللي محتاج تفتكره في ليلة الامتحان — أرقام، تواريخ، تعريفات.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="cheat">
+      <h3>📅 Software Failures Timeline</h3>
+      <div class="cheat-item"><div class="cheat-key">15 Jan 1990</div><div class="cheat-val">AT&amp;T crash — missing <code>break</code> in C switch — line 10. 70M calls lost, $1B.</div></div>
+      <div class="cheat-item"><div class="cheat-key">1991 Gulf War</div><div class="cheat-val">Patriot MIM-104 — miscalculated trajectory of Scud missile (cumulative rounding error).</div></div>
+      <div class="cheat-item"><div class="cheat-key">Jun 1996</div><div class="cheat-val">Ariane 5 — 64-bit float → 16-bit int overflow. Exploded 37s after launch. $370M lost.</div></div>
+      <div class="cheat-item"><div class="cheat-key">1985–1987</div><div class="cheat-val">Therac-25 — radiation overdose due to race condition. ≥3 deaths.</div></div>
+      <div class="cheat-item"><div class="cheat-key">NATO 1968</div><div class="cheat-val">The conference that <strong>popularized</strong> the term "Software Engineering".</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📚 SWEBOK Quick Facts</h3>
+      <div class="cheat-item"><div class="cheat-key">Original (2004)</div><div class="cheat-val">10 KAs: REQ, DES, CST, TST, MNT, CNF, MGT, PRC, TLS, QLY</div></div>
+      <div class="cheat-item"><div class="cheat-key">SWEBOK 2013</div><div class="cheat-val">+5 foundations: Prof Practice, Economics, Computing, Math, Engineering</div></div>
+      <div class="cheat-item"><div class="cheat-key">SWEBOK 2024/25</div><div class="cheat-val">+3: <strong>Architecture, Security, Operations</strong></div></div>
+      <div class="cheat-item"><div class="cheat-key">Total</div><div class="cheat-val"><strong>18 Knowledge Areas</strong></div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🧠 Key Definitions</h3>
+      <div class="cheat-item"><div class="cheat-key">Software</div><div class="cheat-val">Programs + Documentation + Configuration data</div></div>
+      <div class="cheat-item"><div class="cheat-key">SE (IEEE 610.12)</div><div class="cheat-val">Systematic, disciplined, quantifiable approach to dev, op, maintenance.</div></div>
+      <div class="cheat-item"><div class="cheat-key">SE (Sommerville)</div><div class="cheat-val">Designing, building and maintaining <strong>large</strong> software systems.</div></div>
+      <div class="cheat-item"><div class="cheat-key">SE (Parnas)</div><div class="cheat-val"><strong>Multi-person</strong> construction of <strong>multi-version</strong> software.</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📊 Software Crisis ≠ ...</h3>
+      <div class="cheat-item"><div class="cheat-key">جزء من التعريف</div><div class="cheat-val">Fails purpose · Reduced functionality · Cost &amp; schedule overruns</div></div>
+      <div class="cheat-item"><div class="cheat-key">✗ مش جزء منه</div><div class="cheat-val"><strong>Project staff leave</strong> — ده مشكلة HR عامة</div></div>
+      <div class="cheat-item"><div class="cheat-key">أسباب الفشل</div><div class="cheat-val">Poor mgmt · Poor practices · Overconfidence</div></div>
+      <div class="cheat-item"><div class="cheat-key">✗ ليس من الأسباب</div><div class="cheat-val">Limited budget — مش سبب رئيسي</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     RAPID REVISION + FLASHCARDS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="revision" style="margin-top:60px">
+  <div class="ch-header">
+    <div class="ch-num pink">⚡</div>
+    <div class="ch-title">
+      <h2>Rapid Revision — مراجعة سريعة</h2>
+      <p>Flashcards · Common Mistakes · What the doctor loves to ask</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--cyan);margin:12px 0 14px">🎴 اضغط على أي flashcard علشان تشوف الإجابة</h3>
+
+  <div class="flashcards">
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">امتى تم نشر مصطلح "Software Engineering"؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">NATO Conference · 1968</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">سبب كارثة AT&amp;T 1990؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Missing <code>break</code> in C switch (line 10)</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">سبب كارثة Ariane 5؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">64-bit float → 16-bit int overflow</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">عدد SWEBOK Knowledge Areas دلوقتي؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">18 (10 + 5 + 3)</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">معنى "Werewolves" عند Brooks؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Projects that look normal but become complex &amp; problematic</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">الـ Software ≠ مجرد programs. هو إيه؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Programs + Documentation + Configuration data</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">3 أسباب فشل الـ software؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Poor mgmt · Poor practices · Overconfidence</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">القاسم المشترك بين Ariane 5 و LAS؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Inadequate testing</div></div>
+    </div></div>
+
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">الفرق بين Programmer و Software Engineer؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">SE = generalist, multi-systems, team &amp; communication</div></div>
+    </div></div>
+  </div>
+
+  <!-- Common Mistakes -->
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes — أخطاء بتتعمل كتير في الامتحان</h3>
+  <div class="danger">
+    <div>
+      <b>1. خلط القصص ببعض</b>
+      AT&amp;T = missing break · Ariane 5 = number overflow · Patriot = miscalculated trajectory · Therac-25 = race condition.
+      الـ examiner بيخلطهم في الـ MCQ علشان يلخبطك.
+    </div>
+  </div>
+  <div class="danger">
+    <div>
+      <b>2. "Project staff leave" = software crisis؟</b>
+      <strong>لأ، مش جزء من التعريف.</strong> دي مشكلة HR. الـ crisis ليه 3 مظاهر بس: fail purpose / reduced functionality / cost &amp; schedule overruns.
+    </div>
+  </div>
+  <div class="danger">
+    <div>
+      <b>3. Limited budget = سبب رئيسي للفشل؟</b>
+      <strong>لأ.</strong> الميزانية المحدودة مش من أسباب فشل الـ software في امتحان CS251. الأسباب الـ 3 هي: Poor mgmt, Poor practices, Overconfidence.
+    </div>
+  </div>
+  <div class="danger">
+    <div>
+      <b>4. Changeability = Intangibility؟</b>
+      <strong>لأ، خاصيتين مختلفتين.</strong> Changeability = بيتغير كتير. Intangibility = ملوش وجود فيزيائي. الاتنين خصائص للـ software بس مش نفس الحاجة.
+    </div>
+  </div>
+  <div class="danger">
+    <div>
+      <b>5. السطر الغلط في كود AT&amp;T؟</b>
+      <strong>السطر 10</strong> (break داخل else). مش السطر 13 (ده break صح). دائماً اقرا الـ logic كله مش بس تشوف break وتختار.
+    </div>
+  </div>
+
+  <!-- What the doctor loves -->
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--amber);margin:30px 0 12px">⭐ What Dr. El-Ramly Loves to Ask</h3>
+  <div class="info">
+    <div>
+      <b>🔥 الأسئلة المتكررة في كل امتحان</b>
+      <ol style="margin-top:6px;padding-left:22px">
+        <li><strong>Famous software failure</strong> + سببها (AT&amp;T / Ariane / Patriot / Therac) — مضمونة في كل امتحان.</li>
+        <li><strong>تعريف Software Crisis</strong> أو "ايه مش جزء منه" — متكرر جداً.</li>
+        <li><strong>أسباب فشل الـ software</strong> — اختيار الـ I/II/III/IV الصح.</li>
+        <li><strong>NATO 1968</strong> أو "متى ظهر مصطلح SE" — قد ييجي.</li>
+        <li><strong>تعريفات SE</strong> (IEEE / Sommerville / Parnas) — احفظهم بـ keywords.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-top:24px">
+    <div>
+      <b>🎯 آخر نصيحة</b>
+      اللي اتسأل قبل كده ممكن يتسأل تاني بصيغ مختلفة. ركز على الـ <em>keywords</em>: missing break, overflow, miscalculate, Brooks, werewolves, NATO 1968, 18 KAs, multi-person multi-version, systematic disciplined quantifiable.
+    </div>
+  </div>
+</div>
+
+</div><!-- /.content -->
+
+</main>
+
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
