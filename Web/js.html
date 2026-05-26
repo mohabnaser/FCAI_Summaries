@@ -1,0 +1,2263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IS231 — JavaScript Complete Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070c18;--bg2:#0b1120;--card:#0f172a;--card2:#141e33;
+  --border:#1e3a5f;--border2:#253650;
+  --cyan:#00d4ff;--cyan2:#0ea5e9;--amber:#f59e0b;--green:#10b981;
+  --red:#ef4444;--purple:#8b5cf6;--pink:#f472b6;--orange:#fb923c;
+  --t1:#e2e8f0;--t2:#94a3b8;--t3:#64748b;
+  --code:#0d1117;--fw:280px;
+  --fh:'Outfit',sans-serif;--fb:'DM Sans',sans-serif;--fc:'Fira Code',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.75;overflow-x:hidden}
+
+#prog-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--orange),var(--pink),var(--purple));z-index:9999;transition:width .2s;width:0}
+
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--fw);background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;z-index:100;padding:20px 0;transition:.3s}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.sb-logo{padding:12px 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.sb-logo h2{font-family:var(--fh);font-size:1.05rem;color:var(--amber);font-weight:700}
+.sb-logo p{font-size:.68rem;color:var(--t3);margin-top:3px}
+.sb-section{padding:6px 20px 2px;font-size:.63rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-top:10px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 20px;font-size:.8rem;color:var(--t2);text-decoration:none;transition:.2s;border-left:3px solid transparent;position:relative}
+.sb-link:hover,.sb-link.active{color:var(--t1);background:rgba(245,158,11,.06);border-left-color:var(--amber)}
+.sb-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:.2s}
+.sb-link.active .sb-dot,.sb-link:hover .sb-dot{background:var(--amber)}
+
+#main{margin-left:var(--fw);padding:0 0 80px}
+.hero{background:linear-gradient(135deg,#060c1a 0%,#0a1220 40%,#150a2e 100%);padding:70px 60px 60px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(245,158,11,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-50px;left:200px;width:300px;height:300px;background:radial-gradient(circle,rgba(139,92,246,.07) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:20px;padding:5px 14px;font-size:.75rem;color:var(--amber);margin-bottom:20px;font-family:var(--fc)}
+.hero h1{font-family:var(--fh);font-size:2.8rem;font-weight:800;line-height:1.15;margin-bottom:14px}
+.hero h1 span{background:linear-gradient(135deg,var(--amber),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--t2);max-width:620px;font-size:.97rem}
+.hero-stats{display:flex;gap:30px;margin-top:30px;flex-wrap:wrap}
+.hstat .num{font-family:var(--fh);font-size:1.8rem;font-weight:700;color:var(--orange)}
+.hstat .lbl{font-size:.72rem;color:var(--t3);margin-top:2px}
+
+.content{padding:40px 60px}
+.chapter{margin-bottom:80px}
+
+.ch-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.ch-num{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:1rem;flex-shrink:0}
+.ch-num.pink{background:rgba(244,114,182,.12);color:var(--pink);border:1px solid rgba(244,114,182,.25)}
+.ch-num.cyan{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.25)}
+.ch-num.purple{background:rgba(139,92,246,.12);color:var(--purple);border:1px solid rgba(139,92,246,.25)}
+.ch-num.amber{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+.ch-num.green{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+.ch-num.orange{background:rgba(251,146,60,.12);color:var(--orange);border:1px solid rgba(251,146,60,.25)}
+.ch-title h2{font-family:var(--fh);font-size:1.55rem;font-weight:700}
+.ch-title p{color:var(--t3);font-size:.84rem;margin-top:3px}
+
+.topic{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden;transition:.25s}
+.topic::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--amber)),transparent);opacity:.6}
+.topic:hover{border-color:var(--border2);transform:translateY(-1px)}
+.topic-title{font-family:var(--fh);font-size:1.05rem;font-weight:600;margin-bottom:10px;color:var(--t1);display:flex;align-items:center;gap:10px}
+.topic-title .icon{font-size:1.1rem}
+.topic p{color:var(--t2);font-size:.9rem;margin-bottom:10px}
+.topic p:last-child{margin-bottom:0}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+.code-wrap{background:var(--code);border:1px solid #21262d;border-radius:10px;margin:14px 0;overflow:hidden}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid #21262d}
+.code-dots{display:flex;gap:6px}
+.code-dots span{width:10px;height:10px;border-radius:50%}
+.code-dots span:nth-child(1){background:#ff5f57}
+.code-dots span:nth-child(2){background:#febc2e}
+.code-dots span:nth-child(3){background:#28c840}
+.code-lang{font-family:var(--fc);font-size:.68rem;color:var(--t3)}
+.code-wrap pre{padding:16px 20px;font-family:var(--fc);font-size:.82rem;line-height:1.75;overflow-x:auto;color:#cdd6f4}
+.kw{color:#cba6f7}.str{color:#a6e3a1}.num{color:#fab387}.fn{color:#89b4fa}
+.cmt{color:#585b70;font-style:italic}.prop{color:#89dceb}.tag{color:#f38ba8}
+.attr{color:#fab387}.val{color:#a6e3a1}.sel{color:#cba6f7}
+.bool{color:#f38ba8}.op{color:#89dceb}
+
+code{font-family:var(--fc);background:rgba(245,158,11,.1);color:var(--amber);padding:2px 7px;border-radius:4px;font-size:.82em}
+
+.tip,.warn,.info,.danger,.note{display:flex;gap:12px;padding:14px 16px;border-radius:10px;margin:14px 0;font-size:.87rem}
+.tip{background:rgba(16,185,129,.08);border-left:3px solid var(--green);color:#6ee7b7}
+.warn{background:rgba(245,158,11,.08);border-left:3px solid var(--amber);color:#fcd34d}
+.info{background:rgba(0,212,255,.08);border-left:3px solid var(--cyan);color:#7dd3fc}
+.danger{background:rgba(239,68,68,.08);border-left:3px solid var(--red);color:#fca5a5}
+.note{background:rgba(244,114,182,.08);border-left:3px solid var(--pink);color:#f9a8d4}
+.tip b,.warn b,.info b,.danger b,.note b{display:block;margin-bottom:3px;font-weight:600}
+
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem}
+.tbl th{background:var(--card2);color:var(--amber);font-family:var(--fh);font-weight:600;padding:10px 14px;text-align:left;border-bottom:2px solid var(--border)}
+.tbl td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--t2)}
+.tbl tr:hover td{background:rgba(255,255,255,.02)}
+
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;font-family:var(--fc)}
+.badge-cyan{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
+.badge-green{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.badge-amber{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.badge-red{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.badge-purple{background:rgba(139,92,246,.1);color:var(--purple);border:1px solid rgba(139,92,246,.2)}
+.badge-pink{background:rgba(244,114,182,.1);color:var(--pink);border:1px solid rgba(244,114,182,.2)}
+.badge-orange{background:rgba(251,146,60,.1);color:var(--orange);border:1px solid rgba(251,146,60,.2)}
+
+/* ─── SCOPE VISUAL ─── */
+.scope-box{border-radius:12px;padding:16px;margin:8px 0;font-family:var(--fc);font-size:.8rem}
+.scope-global{background:rgba(139,92,246,.07);border:2px dashed rgba(139,92,246,.3);color:var(--purple)}
+.scope-function{background:rgba(0,212,255,.07);border:2px dashed rgba(0,212,255,.3);color:var(--cyan);margin:10px 10px}
+.scope-block{background:rgba(245,158,11,.07);border:2px dashed rgba(245,158,11,.3);color:var(--amber);margin:10px 10px}
+.scope-label{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-bottom:6px}
+
+/* ─── TYPE TABLE ─── */
+.type-row{display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:8px;margin:4px 0;background:var(--card2);border:1px solid var(--border)}
+.type-pill{min-width:90px;padding:3px 10px;border-radius:20px;font-family:var(--fc);font-size:.72rem;font-weight:700;text-align:center}
+
+/* ─── PRIORITY DIAGRAM ─── */
+.priority-stack{display:flex;flex-direction:column;gap:8px;max-width:480px;margin:0 auto}
+.prio-row{display:flex;align-items:center;gap:14px;padding:12px 18px;border-radius:10px;border:1px solid transparent;transition:.2s}
+.prio-row:hover{transform:translateX(4px)}
+.prio-1{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.25);color:#fca5a5}
+.prio-2{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:#fcd34d}
+.prio-3{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:#7dd3fc}
+.prio-4{background:rgba(100,116,139,.1);border-color:rgba(100,116,139,.25);color:var(--t3)}
+.prio-num{width:28px;height:28px;border-radius:8px;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-family:var(--fc);font-size:.75rem;font-weight:700;flex-shrink:0}
+.prio-name{font-family:var(--fh);font-weight:600;font-size:.9rem;min-width:100px}
+.prio-ex{font-family:var(--fc);font-size:.72rem;opacity:.8}
+
+/* ─── ARRAY METHOD VISUAL ─── */
+.pipeline{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin:14px 0;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;overflow-x:auto}
+.pipe-step{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-family:var(--fc);font-size:.75rem;min-width:110px;text-align:center}
+.pipe-arrow{color:var(--t3);font-size:1.2rem;padding:0 6px;flex-shrink:0}
+.pipe-step .ps-label{font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.pipe-step .ps-val{color:var(--green);font-size:.8rem}
+.pipe-step .ps-method{color:var(--amber);font-size:.7rem;margin-top:2px}
+
+/* ─── DOM TREE ─── */
+.dom-tree{font-family:var(--fc);font-size:.78rem;line-height:1.9;padding:16px;background:var(--code);border:1px solid #21262d;border-radius:10px;margin:14px 0}
+.dn-elem{color:#f38ba8}.dn-text{color:#a6e3a1}.dn-attr{color:#fab387}.dn-comment{color:#585b70;font-style:italic}
+.dn-indent{color:var(--border2)}
+
+/* ─── PROMISE STATE ─── */
+.promise-flow{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;padding:20px;background:var(--code);border:1px solid #21262d;border-radius:12px;margin:14px 0}
+.ps-node{padding:10px 18px;border-radius:10px;font-family:var(--fh);font-weight:600;font-size:.85rem;text-align:center}
+.ps-pending{background:rgba(100,116,139,.15);border:1px solid rgba(100,116,139,.3);color:var(--t2)}
+.ps-resolved{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:var(--green)}
+.ps-rejected{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+.ps-arrow{font-size:1.1rem;color:var(--t3)}
+
+/* ─── QUIZ ─── */
+.quiz-section{background:linear-gradient(135deg,#0c1428 0%,#0e1420 100%);border:1px solid var(--border);border-radius:16px;padding:30px;margin-top:40px}
+.quiz-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.quiz-icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--amber),var(--orange));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.quiz-header h3{font-family:var(--fh);font-size:1.2rem;font-weight:700}
+.quiz-header p{font-size:.8rem;color:var(--t3)}
+.q-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:14px;transition:.2s}
+.q-num{font-family:var(--fc);font-size:.7rem;color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.q-src{background:rgba(245,158,11,.1);color:var(--amber);padding:2px 8px;border-radius:4px;font-size:.65rem}
+.q-text{font-size:.9rem;color:var(--t1);margin-bottom:14px;line-height:1.6}
+.q-opts{display:flex;flex-direction:column;gap:8px}
+.q-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:.2s;font-size:.85rem;color:var(--t2);user-select:none}
+.q-opt:hover{border-color:var(--border2);color:var(--t1);background:rgba(255,255,255,.02)}
+.q-opt.selected{border-color:var(--amber);background:rgba(245,158,11,.06);color:var(--t1)}
+.q-opt.correct{border-color:var(--green)!important;background:rgba(16,185,129,.1)!important;color:#6ee7b7!important}
+.q-opt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important;color:#fca5a5!important}
+.q-opt-letter{width:22px;height:22px;border-radius:6px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-family:var(--fc);flex-shrink:0;font-weight:600}
+.q-explain{display:none;margin-top:12px;padding:12px 14px;background:rgba(245,158,11,.05);border-left:3px solid var(--amber);border-radius:0 8px 8px 0;font-size:.83rem;color:#fcd34d;line-height:1.6}
+.q-explain.show{display:block}
+.quiz-btn{display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:9px 22px;border-radius:8px;border:none;cursor:pointer;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s}
+.btn-check{background:linear-gradient(135deg,var(--amber),var(--orange));color:#000}
+.btn-check:hover{opacity:.9;transform:translateY(-1px)}
+.btn-reset{background:rgba(255,255,255,.06);color:var(--t2);margin-left:8px;border:1px solid var(--border)}
+.btn-reset:hover{background:rgba(255,255,255,.1);color:var(--t1)}
+.q-score{display:none;margin-top:16px;padding:14px 18px;border-radius:10px;font-family:var(--fh);font-weight:600;text-align:center}
+.q-score.good{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:var(--green)}
+.q-score.ok{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--amber)}
+.q-score.bad{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+
+/* ─── CHEAT SHEET ─── */
+.cheat{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:18px}
+.cheat h3{font-family:var(--fh);font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--amber);display:flex;align-items:center;gap:8px}
+.cheat-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem}
+.cheat-item:last-child{border-bottom:none}
+.cheat-key{min-width:180px;font-family:var(--fc);font-size:.74rem;color:var(--orange);flex-shrink:0}
+.cheat-val{color:var(--t2);line-height:1.5}
+
+/* ─── SCROLL & MOBILE ─── */
+#scroll-top{position:fixed;bottom:20px;right:20px;width:40px;height:40px;border-radius:10px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--amber);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s;z-index:200}
+#scroll-top.show{opacity:1}
+#menu-btn{position:fixed;bottom:20px;left:20px;z-index:200;width:46px;height:46px;border-radius:12px;background:var(--amber);border:none;cursor:pointer;color:#000;font-size:1.3rem;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(245,158,11,.4);display:none}
+
+@media(max-width:900px){
+  :root{--fw:0px}
+  #sidebar{transform:translateX(-280px)}
+  #sidebar.open{transform:translateX(0);width:280px;box-shadow:0 0 20px rgba(0,0,0,0.5)}
+  #main{margin-left:0}
+  .content{padding:24px 16px}
+  .hero{padding:40px 20px 32px}
+  .hero h1{font-size:1.8rem}
+  .grid2,.grid3{grid-template-columns:1fr}
+  #menu-btn{display:flex}
+  .hero-stats{gap:14px;flex-wrap:wrap}
+  .tbl{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .cheat-item{flex-direction:column;gap:6px}
+  .cheat-key{min-width:auto}
+  .pipeline{flex-direction:column;gap:12px}
+  .promise-flow{flex-direction:column;gap:12px}
+  .scope-box{margin:8px 0;padding:12px}
+}
+@media(max-width:400px){
+  .hero-stats{flex-direction:column;align-items:flex-start}
+}
+@media(min-width:901px){#menu-btn{display:none!important}}
+/* ─── BIDI FIX ─── */
+code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ─── GLOBAL NAV ─── */
+.global-nav{display:flex;justify-content:center;gap:12px;padding:16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:90;}
+.gn-link{display:flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;text-decoration:none;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s;border:1px solid transparent;}
+.gn-link:hover{transform:translateY(-2px);}
+.gn-html{background:rgba(0,212,255,.08);color:var(--cyan);border-color:rgba(0,212,255,.2);}
+.gn-html:hover, .gn-html.active{background:var(--cyan);color:#000;box-shadow:0 0 15px rgba(0,212,255,.3);}
+.gn-css{background:rgba(244,114,182,.08);color:var(--pink);border-color:rgba(244,114,182,.2);}
+.gn-css:hover, .gn-css.active{background:var(--pink);color:#000;box-shadow:0 0 15px rgba(244,114,182,.3);}
+.gn-js{background:rgba(245,158,11,.08);color:var(--amber);border-color:rgba(245,158,11,.2);}
+.gn-js:hover, .gn-js.active{background:var(--amber);color:#000;box-shadow:0 0 15px rgba(245,158,11,.3);}
+@media(max-width:900px){ .global-nav{padding:12px 10px;flex-wrap:wrap;gap:8px;} .gn-link{font-size:.78rem;padding:6px 14px;} }
+</style>
+</head>
+<body>
+<div id="prog-bar"></div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>⚡ IS231 — JavaScript Guide</h2>
+    <p>JavaScript · Slides JS-1 & JS-2 · All Exam Questions</p>
+  </div>
+  <div class="sb-section">JS Core</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>01 — What is JavaScript?</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>02 — Adding JS to HTML</a>
+  <a href="#quiz-foundations" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — Foundations</a>
+  <div class="sb-section">Variables & Functions</div>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>03 — Variables & Data Types</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>04 — Scope & use strict</a>
+  <a href="#quiz-vars" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — Variables</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>05 — Functions & Arrow</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>06 — eval · Rest · Spread</a>
+  <a href="#quiz-functions" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — Functions</a>
+  <div class="sb-section">Arrays & Objects</div>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>07 — Arrays & ES5 Methods</a>
+  <a href="#quiz-arrays" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — Arrays</a>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>08 — Objects & Operators</a>
+  <a href="#ch9" class="sb-link"><span class="sb-dot"></span>09 — Classes & OOP</a>
+  <a href="#quiz-oop" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — OOP</a>
+  <div class="sb-section">DOM & Advanced</div>
+  <a href="#ch10" class="sb-link"><span class="sb-dot"></span>10 — DOM Manipulation</a>
+  <a href="#quiz-dom" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — DOM</a>
+  <a href="#ch11" class="sb-link"><span class="sb-dot"></span>11 — JSON · Promises · Async</a>
+  <a href="#ch12" class="sb-link"><span class="sb-dot"></span>12 — AJAX & Fetch API</a>
+  <a href="#quiz-modern" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — Modern JS</a>
+  <div class="sb-section">Reference</div>
+  <a href="#cheatsheet" class="sb-link"><span class="sb-dot"></span>📋 Full Cheat Sheet</a>
+</nav>
+
+<button id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<main id="main">
+<!-- GLOBAL NAVIGATION -->
+<div class="global-nav">
+  <a href="index.html" class="gn-link gn-html"><span class="icon">📡</span> HTTP & HTML</a>
+  <a href="css.html" class="gn-link gn-css"><span class="icon">🎨</span> CSS Guide</a>
+  <a href="js.html" class="gn-link gn-js active"><span class="icon">⚡</span> JavaScript Guide</a>
+</div>
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="hero-badge">⚡ IS231 · JavaScript Complete Study Guide · Slides JS-1 & JS-2 · All Exam Questions</div>
+  <h1>JavaScript<br><span>الـ JS من الأساسيات للـ AJAX</span></h1>
+  <p></p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">2</div><div class="lbl">JS Slide Sets</div></div>
+    <div class="hstat"><div class="num">12</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">Exam Sources</div></div>
+    <div class="hstat"><div class="num">70+</div><div class="lbl">Exam Questions</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 1 — What is JavaScript
+══════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num amber">01</div>
+    <div class="ch-title">
+      <h2>What is JavaScript?</h2>
+      <p>Definition · History · ECMAScript Versions · What JS Can Do</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">⚡</span> JavaScript — ببساطة إيه ده؟</div>
+    <p>JavaScript هي لغة برمجة بتشتغل جوا الـ browser — يعني عند الـ client مش على الـ server. لو الـ HTML هو "العظام"، والـ CSS هو "الملابس"، فالـ JavaScript هو "الحركة والتفاعل"!</p>
+    <div class="grid2">
+      <div>
+        <div class="danger"><div><b>🚨 أهم غلطة اللي الكل بيعملها:</b><br>
+        JavaScript <strong>ليها علاقة بـ Java؟ ❌ لأ!</strong><br>
+        اتعملت 1995 في Netscape واسمها الأصلي كان "LiveScript" — Java لغة تانية خالص!</div></div>
+        <div class="info"><div><b>💡 JS بتشتغل فين؟</b><br>
+        Interpreter مدمج جوا الـ browser بيشغّلها. مش محتاج compilation زي Java أو C++.<br><br>
+        <strong>Client-side:</strong> بتشتغل عند المستخدم بعد ما الـ browser استلم الـ HTML<br>
+        <strong>Server-side:</strong> ممكن برضو بـ Node.js</div></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">FIRST JS PROGRAM</div></div>
+        <pre><code><span class="tag">&lt;html&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+  <span class="cmt">// بيكتب على الصفحة مباشرة</span>
+  document.<span class="fn">write</span>(<span class="str">"Hello World!"</span>);
+  
+  <span class="cmt">// بيكتب في الـ console</span>
+  console.<span class="fn">log</span>(<span class="str">"Hello Dev!"</span>);
+  
+  <span class="cmt">// Popup</span>
+  window.<span class="fn">alert</span>(<span class="str">"مرحبا يا عالم!"</span>);
+<span class="tag">&lt;/script&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🚀</span> ما اللي JS بتعمله؟ — What can JS Do?</div>
+    <div class="grid3">
+      <div style="background:var(--card2);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:14px">
+        <div style="color:var(--green);font-family:var(--fh);font-weight:700;margin-bottom:8px;font-size:.9rem">🎭 Dynamic HTML</div>
+        <p style="font-size:.82rem;color:var(--t2)">بتعدل في الـ HTML بعد ما الصفحة اتحملت — تضيف/تمسح/تغير elements</p>
+      </div>
+      <div style="background:var(--card2);border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:14px">
+        <div style="color:var(--cyan);font-family:var(--fh);font-weight:700;margin-bottom:8px;font-size:.9rem">🖱️ User Events</div>
+        <p style="font-size:.82rem;color:var(--t2)">بتتفاعل مع الكليك، الـ hover، الـ submit، الـ scroll</p>
+      </div>
+      <div style="background:var(--card2);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:14px">
+        <div style="color:var(--amber);font-family:var(--fh);font-weight:700;margin-bottom:8px;font-size:.9rem">✅ Validation</div>
+        <p style="font-size:.82rem;color:var(--t2)">بتتحقق من الـ forms قبل ما يتبعتوا للـ server</p>
+      </div>
+      <div style="background:var(--card2);border:1px solid rgba(139,92,246,.2);border-radius:10px;padding:14px">
+        <div style="color:var(--purple);font-family:var(--fh);font-weight:700;margin-bottom:8px;font-size:.9rem">🍪 Cookies</div>
+        <p style="font-size:.82rem;color:var(--t2)">بتعمل وتقرأ cookies عشان تحفظ بيانات المستخدم</p>
+      </div>
+      <div style="background:var(--card2);border:1px solid rgba(251,146,60,.2);border-radius:10px;padding:14px">
+        <div style="color:var(--orange);font-family:var(--fh);font-weight:700;margin-bottom:8px;font-size:.9rem">🔄 AJAX</div>
+        <p style="font-size:.82rem;color:var(--t2)">بتجيب بيانات من الـ server من غير ما تـreload الصفحة!</p>
+      </div>
+      <div style="background:var(--card2);border:1px solid rgba(244,114,182,.2);border-radius:10px;padding:14px">
+        <div style="color:var(--pink);font-family:var(--fh);font-weight:700;margin-bottom:8px;font-size:.9rem">🔢 Full Language</div>
+        <p style="font-size:.82rem;color:var(--t2)">لغة برمجة كاملة — variables, functions, classes, OOP</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📅</span> ECMAScript History — أهم Version Numbers</div>
+    <table class="tbl">
+      <tr><th>Version</th><th>Year</th><th>أهم Features</th></tr>
+      <tr><td><strong>ES3</strong></td><td>1999</td><td>Regular Expressions, try/catch</td></tr>
+      <tr><td><strong>ES5</strong></td><td>2009</td><td>"use strict", JSON, forEach, map, filter, reduce</td></tr>
+      <tr><td><strong>ES6 / ES2015</strong></td><td>2015</td><td>let/const, Arrow functions, Classes, Promises, Modules — الأهم!</td></tr>
+      <tr><td><strong>ES7–ES14</strong></td><td>2016–2023</td><td>async/await, flat, findIndex, الكثير</td></tr>
+    </table>
+    <div class="warn"><div><b>⚡ من الامتحان:</b> The newest version mentioned in slides = ES14 (ECMAScript 2023). Newest standard = ECMAScript 2024 (ES15).</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔄</span> JS fits where in the Web Cycle?</div>
+    <div class="priority-stack">
+      <div class="prio-row prio-1"><div class="prio-num">1</div><div class="prio-name">Client sends request</div><div class="prio-ex">Browser → Server (HTTP)</div></div>
+      <div class="prio-row prio-2"><div class="prio-num">2</div><div class="prio-name">Server responds</div><div class="prio-ex">HTML + CSS + JS files</div></div>
+      <div class="prio-row prio-3"><div class="prio-num">3</div><div class="prio-name">Browser renders HTML</div><div class="prio-ex">Displays the page structure</div></div>
+      <div class="prio-row" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:#fcd34d"><div class="prio-num" style="background:rgba(245,158,11,.2)">4</div><div class="prio-name" style="color:var(--amber)">JS runs ⚡</div><div class="prio-ex">JavaScript executes — user interaction begins!</div></div>
+    </div>
+    <div class="tip" style="margin-top:12px"><div><b>💡 Key Point:</b> JS user interaction doesn't require communication with the server — بيشتغل locally على الـ browser!</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 2 — Adding JS to HTML
+══════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num cyan">02</div>
+    <div class="ch-title">
+      <h2>Adding JavaScript to HTML</h2>
+      <p>Internal · External · Placement · console.log · window.alert</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📝</span> 3 طرق لإضافة JavaScript</div>
+    <div class="grid3">
+      <div style="background:var(--card2);border:1px solid rgba(0,212,255,.3);border-radius:12px;padding:16px">
+        <div style="color:var(--cyan);font-family:var(--fh);font-weight:700;margin-bottom:8px">1️⃣ Internal — في &lt;head&gt;</div>
+        <div class="code-wrap" style="margin:8px 0">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">HTML</div></div>
+          <pre><code><span class="tag">&lt;head&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+<span class="kw">function</span> <span class="fn">greet</span>() {
+  <span class="fn">alert</span>(<span class="str">"Hi!"</span>);
+}
+<span class="tag">&lt;/script&gt;</span>
+<span class="tag">&lt;/head&gt;</span></code></pre>
+        </div>
+        <p style="font-size:.75rem;color:var(--t3)">بيتحمل قبل الـ body — مناسب للـ functions</p>
+      </div>
+      <div style="background:var(--card2);border:1px solid rgba(245,158,11,.3);border-radius:12px;padding:16px">
+        <div style="color:var(--amber);font-family:var(--fh);font-weight:700;margin-bottom:8px">2️⃣ Internal — في &lt;body&gt;</div>
+        <div class="code-wrap" style="margin:8px 0">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">HTML</div></div>
+          <pre><code><span class="tag">&lt;body&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+  document.<span class="fn">write</span>(
+    <span class="str">"Hello!"</span>
+  );
+<span class="tag">&lt;/script&gt;</span>
+<span class="tag">&lt;/body&gt;</span></code></pre>
+        </div>
+        <p style="font-size:.75rem;color:var(--t3)">بيشتغل وهو الـ page بيتحمل</p>
+      </div>
+      <div style="background:var(--card2);border:1px solid rgba(16,185,129,.3);border-radius:12px;padding:16px">
+        <div style="color:var(--green);font-family:var(--fh);font-weight:700;margin-bottom:8px">3️⃣ External File ✅</div>
+        <div class="code-wrap" style="margin:8px 0">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">HTML</div></div>
+          <pre><code><span class="tag">&lt;script</span>
+  <span class="attr">src</span>=<span class="val">"myscript.js"</span>
+<span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="cmt">/* في myscript.js: */</span>
+<span class="cmt">/* JS code فقط — بدون HTML! */</span></code></pre>
+        </div>
+        <p style="font-size:.75rem;color:var(--t3)">الأفضل — ملف منفصل</p>
+      </div>
+    </div>
+    <div class="danger" style="margin-top:16px"><div><b>🚨 مهم جداً للامتحان:</b><br>
+    • External JS file → <code>&lt;script src="file.js"&gt;&lt;/script&gt;</code> مش <code>href</code> ولا <code>link</code>!<br>
+    • مش <code>&lt;import src="file.js"&gt;</code> ولا <code>&lt;script link="file.js"&gt;</code><br>
+    • External JS file = مش المفروض يحتوي على HTML tags!</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">💬</span> Built-in Interaction Methods</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">INTERACTION METHODS — من الامتحانات</div></div>
+        <pre><code><span class="cmt">// Console — للـ developers فقط</span>
+console.<span class="fn">log</span>(<span class="str">"Check this!"</span>);    <span class="cmt">← final-2024 Q11</span>
+
+<span class="cmt">// Alert Box — popup للمستخدم</span>
+window.<span class="fn">alert</span>(<span class="str">"Hello!"</span>);         <span class="cmt">← final-2024 Q12</span>
+
+<span class="cmt">// Confirm Box — Yes/No</span>
+window.<span class="fn">confirm</span>(<span class="str">"Are you sure?"</span>);
+
+<span class="cmt">// Prompt — input from user</span>
+window.<span class="fn">prompt</span>(<span class="str">"Your name?"</span>, <span class="str">"Ahmed"</span>);
+
+<span class="cmt">// Write to HTML page</span>
+document.<span class="fn">write</span>(<span class="str">"Hello World!"</span>);
+document.<span class="fn">writeln</span>(<span class="str">"With newline"</span>);</code></pre>
+      </div>
+      <div>
+        <div class="warn"><div><b>⚡ من الامتحانات:</b><br>
+        <strong>console.log()</strong> → بيكتب في الـ browser console<br>
+        <strong>window.alert()</strong> → بيعمل popup box<br><br>
+        <code>console.write()</code> ❌ — مش موجود!<br>
+        <code>console.output()</code> ❌ — مش موجود!<br>
+        <code>window.alertHTML()</code> ❌ — مش موجود!<br>
+        <code>window.alertBox()</code> ❌ — مش موجود!</div></div>
+        <div class="info"><div><b>💡 innerHTML — بتعمل إيه؟</b><br>
+        بتحدد أو بتقرأ محتوى الـ HTML element.<br><br>
+        <code>document.getElementById("demo").innerHTML = "New text";</code><br><br>
+        <strong>innerHTML</strong> vs <strong>innerText</strong>: innerHTML بيفسر HTML tags، innerText بيعاملها كـ text عادي.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ Foundations -->
+  <div class="quiz-section" id="quiz-foundations">
+    <div class="quiz-header"><div class="quiz-icon">🎯</div><div><h3>Quiz — JS Foundations</h3><p>أسئلة من final-2024 و final-2025</p></div></div>
+    <div id="qset-foundations">
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q1 <span class="q-src">final-2024 Q3</span></div>
+        <div class="q-text">Which of the following statement(s) is true about JavaScript?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> It is a scripting language used to make the website interactive</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> It is an advanced version of Java for Desktop and Mobile application development</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> It is a markup language of Java to develop webpages</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All of the above</div>
+        </div>
+        <div class="q-explain">✅ JavaScript = scripting language للـ interactivity. ليها علاقة بـ Java؟ لأ! JavaScript مش advanced version من Java، واسمها الأصلي كان LiveScript. مش markup language برضو (HTML هي الـ markup).</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q2 <span class="q-src">final-2024 Q7</span></div>
+        <div class="q-text">Which is the correct syntax to call an external JavaScript file in the current HTML document?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;script src="jsfile.js"&gt;&lt;/script&gt;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;script href="jsfile.js"&gt;&lt;/script&gt;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> &lt;import src="jsfile.js"&gt;&lt;/import&gt;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> &lt;script link="jsfile.js"&gt;&lt;/script&gt;</div>
+        </div>
+        <div class="q-explain">✅ External JS file = &lt;script src="file.js"&gt;&lt;/script&gt;. الـ attribute هو src مش href (href للـ links والـ CSS). مفيش &lt;import&gt; tag في HTML. مفيش link attribute في script.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3 <span class="q-src">final-2024 Q11</span></div>
+        <div class="q-text">Which JavaScript method is used to write on browser's console?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> console.write()</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> console.log()</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> console.output()</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> console.writeHTML()</div>
+        </div>
+        <div class="q-explain">✅ console.log() هي الـ method الوحيدة الصح. console.write() مش موجودة. console.output() مش موجودة. console.writeHTML() مش موجودة.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">final-2024 Q12</span></div>
+        <div class="q-text">Which JavaScript method is used to write into an alert box?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> window.alertHTML()</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> window.alert()</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> window.alertBox()</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> window.alertContent()</div>
+        </div>
+        <div class="q-explain">✅ window.alert() هو الـ method الصح. ممكن تكتبها بـ alert() فقط بدون window لأن window هو الـ global object. باقي الـ options مش موجودة.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q5 <span class="q-src">final-2024 Q9</span></div>
+        <div class="q-text">Which property is used to define the HTML content to an HTML element with a specific id?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> innerText</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> innerContent</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> elementText</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> innerHTML</div>
+        </div>
+        <div class="q-explain">✅ innerHTML هو الـ property المستخدم لتحديد أو قراءة HTML content. innerText موجود لكنه بيتعامل مع النص فقط مش الـ HTML tags. innerContent وelementText مش موجودين.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q6 <span class="q-src">final-2025 Q39</span></div>
+        <div class="q-text">Which of the following is true about JavaScript syntax?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> It is case-insensitive</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Semicolons are mandatory at the end of every statement</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> It is case-sensitive</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> White spaces are not allowed</div>
+        </div>
+        <div class="q-explain">✅ JavaScript is case-sensitive! يعني myVar ≠ MyVar ≠ MYVAR. Semicolons مش mandatory — JavaScript بيعملها ASI (Automatic Semicolon Insertion) بس الـ best practice تكتبها. White spaces مسموح بيها.</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-foundations','score-foundations')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-foundations','score-foundations')">Reset ↺</button>
+    <div class="q-score" id="score-foundations"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 3 — Variables & Data Types
+══════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num purple">03</div>
+    <div class="ch-title">
+      <h2>Variables & Data Types</h2>
+      <p>var · let · const · typeof · Type Conversion</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📦</span> var vs let vs const — الفرق الجوهري!</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">VAR vs LET vs CONST</div></div>
+      <pre><code><span class="cmt">// var — function-scoped (قديم)</span>
+<span class="kw">var</span> x = <span class="num">10</span>;
+<span class="kw">var</span> x = <span class="num">20</span>; <span class="cmt">// OK — ممكن تعيد التعريف</span>
+x = <span class="num">30</span>;    <span class="cmt">// OK — ممكن تعدّل</span>
+
+<span class="cmt">// let — block-scoped (ES6 ✅)</span>
+<span class="kw">let</span> y = <span class="num">10</span>;
+<span class="cmt">// let y = 20; ❌ لا يمكن إعادة التعريف</span>
+y = <span class="num">20</span>;    <span class="cmt">// OK — ممكن تعدّل</span>
+
+<span class="cmt">// const — block-scoped, read-only (ES6 ✅)</span>
+<span class="kw">const</span> PI = <span class="num">3.14</span>;
+<span class="cmt">// PI = 3.15; ❌ TypeError — لا يمكن التغيير!</span>
+<span class="cmt">// const PI; ❌ لازم تعطيها قيمة وقت التعريف!</span></code></pre>
+    </div>
+    <table class="tbl">
+      <tr><th>Feature</th><th>var</th><th>let</th><th>const</th></tr>
+      <tr><td>Scope</td><td>Function</td><td><strong>Block</strong></td><td><strong>Block</strong></td></tr>
+      <tr><td>Re-declare</td><td>✅ نعم</td><td>❌ لا</td><td>❌ لا</td></tr>
+      <tr><td>Re-assign</td><td>✅ نعم</td><td>✅ نعم</td><td>❌ لا</td></tr>
+      <tr><td>Hoisting</td><td>Yes (undefined)</td><td>Yes (TDZ)</td><td>Yes (TDZ)</td></tr>
+    </table>
+    <div class="danger"><div><b>🚨 من final-2024 Q15:</b><br>
+    <code>const VALUE = 10; VALUE = 20;</code> → يعطي <strong>TypeError</strong> لأن const لا يمكن إعادة تعيينه. مش ValueError!</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🎯</span> Scope Visualization — فين بيعيش الـ Variable?</div>
+    <div style="margin:14px 0">
+      <div class="scope-box scope-global">
+        <div class="scope-label">🌍 Global Scope — var x = 10 (accessible everywhere)</div>
+        <div style="color:var(--t1);font-family:var(--fc);font-size:.82rem">var globalVar = "I'm global";</div>
+        <div class="scope-box scope-function" style="margin-top:10px">
+          <div class="scope-label">🏠 Function Scope — var is trapped here</div>
+          <div style="color:var(--t1);font-family:var(--fc);font-size:.82rem">function myFunc() { var funcVar = "inside function"; }</div>
+          <div class="scope-box scope-block" style="margin-top:10px">
+            <div class="scope-label">🔒 Block Scope — let/const only!</div>
+            <div style="color:var(--t1);font-family:var(--fc);font-size:.82rem">if(true) { let blockVar = "only here!"; const BLOCK_CONST = 42; }</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">SCOPE EXAM EXAMPLE — final-2024 Q17</div></div>
+      <pre><code><span class="kw">var</span> X = <span class="num">10</span>;       <span class="cmt">// global variable</span>
+<span class="kw">function</span> <span class="fn">myfunc</span>() {
+  <span class="kw">let</span> x = <span class="num">20</span>;   <span class="cmt">// مختلف! lowercase 'x' وlet</span>
+}
+document.<span class="fn">write</span>(X);  <span class="cmt">// ⚡ Output: 10</span>
+
+<span class="cmt">// ليه؟ لأن:
+// 1. document.write بيقرأ X الـ global مش x الـ local
+// 2. X (uppercase) ≠ x (lowercase) — case-sensitive!
+// 3. الـ function مش اتنفذت حتى لو تعرفت</span></code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🎨</span> Data Types & typeof</div>
+    <div class="grid2">
+      <div>
+        <div class="type-row"><div class="type-pill" style="background:rgba(0,212,255,.15);color:var(--cyan)">number</div><div style="font-family:var(--fc);font-size:.8rem">42, 3.14, -7 → <span style="color:var(--amber)">typeof(3.14) = "number"</span></div></div>
+        <div class="type-row"><div class="type-pill" style="background:rgba(16,185,129,.15);color:var(--green)">string</div><div style="font-family:var(--fc);font-size:.8rem">"hello", 'world' → <span style="color:var(--amber)">typeof("x") = "string"</span></div></div>
+        <div class="type-row"><div class="type-pill" style="background:rgba(244,114,182,.15);color:var(--pink)">boolean</div><div style="font-family:var(--fc);font-size:.8rem">true, false → <span style="color:var(--amber)">typeof(true) = "boolean"</span></div></div>
+        <div class="type-row"><div class="type-pill" style="background:rgba(139,92,246,.15);color:var(--purple)">object</div><div style="font-family:var(--fc);font-size:.8rem">{}, [], null → <span style="color:var(--amber)">typeof([]) = "object"</span></div></div>
+        <div class="type-row"><div class="type-pill" style="background:rgba(100,116,139,.15);color:var(--t3)">undefined</div><div style="font-family:var(--fc);font-size:.8rem">var a; → <span style="color:var(--amber)">typeof(a) = "undefined"</span></div></div>
+        <div class="type-row"><div class="type-pill" style="background:rgba(245,158,11,.15);color:var(--amber)">function</div><div style="font-family:var(--fc);font-size:.8rem">function(){} → <span style="color:var(--amber)">typeof(fn) = "function"</span></div></div>
+      </div>
+      <div>
+        <div class="danger"><div><b>🚨 typeof الأكثر في الامتحانات:</b><br><br>
+        <code>typeof(12.34)</code> → <strong>"number"</strong> (مش "float" ولا "int"!)<br>
+        <code>typeof([1,2,3])</code> → <strong>"object"</strong> (arrays هي objects!)<br>
+        <code>typeof(null)</code> → <strong>"object"</strong> (معروف كـ JavaScript bug!)<br>
+        <code>typeof(undefined)</code> → <strong>"undefined"</strong></div></div>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">TYPEOF EXAMPLES</div></div>
+          <pre><code><span class="kw">var</span> x = <span class="num">12.34</span>;
+<span class="kw">typeof</span>(x);  <span class="cmt">→ "number"</span>
+
+<span class="kw">var</span> arr = [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>];
+<span class="kw">typeof</span>(arr); <span class="cmt">→ "object"</span>
+
+<span class="kw">function</span> <span class="fn">f</span>() {}
+<span class="kw">typeof</span>(f);  <span class="cmt">→ "function"</span>
+
+<span class="kw">var</span> a;
+<span class="kw">typeof</span>(a);  <span class="cmt">→ "undefined"</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🔄</span> Type Conversion — أكثر حاجة بتيجي في الامتحانات!</div>
+    <p>الـ <code>+</code> مع strings بيعمل concatenation. باقي الـ operators بيحوّل الـ string لـ number.</p>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">TYPE COERCION — الأمثلة اللي بتيجي في الامتحان</div></div>
+        <pre><code><span class="cmt">// + مع string = concatenation (من اليسار للليمين)</span>
+<span class="num">10</span> + <span class="num">20</span> + <span class="str">"5"</span>  <span class="cmt">→ "305"</span>  <span class="cmt">← final-2024 Q18</span>
+<span class="cmt">// ليه؟ 10+20=30 أولاً (numbers), ثم 30+"5"="305"</span>
+
+<span class="num">100</span> - <span class="num">20</span> + <span class="str">"5"</span> <span class="cmt">→ "805"</span>  <span class="cmt">← mid-2023 Q44</span>
+<span class="cmt">// ليه؟ 100-20=80 (arithmetic), ثم 80+"5"="805"</span>
+
+<span class="str">"20"</span> + <span class="num">10</span>       <span class="cmt">→ "2010"</span> <span class="cmt">← final-2024 Q60</span>
+<span class="str">"20"</span> - <span class="num">10</span>       <span class="cmt">→ 10</span>    <span class="cmt">← الـ - بيحوّل string لـ number!</span>
+
+<span class="str">"37"</span> - <span class="num">7</span>        <span class="cmt">→ 30</span>    <span class="cmt">← numeric subtraction</span>
+<span class="str">"37"</span> + <span class="num">7</span>        <span class="cmt">→ "377"</span> <span class="cmt">← string concatenation!</span></code></pre>
+      </div>
+      <div>
+        <div class="warn"><div><b>⚡ القاعدة:</b><br>
+        لو أي operand string + الـ operator هو <code>+</code> → string concatenation من وقت ما لقى الـ string<br><br>
+        <strong>لكن</strong> لو الـ operator هو <code>-</code> أو <code>*</code> أو <code>/</code> → يحوّل الـ string لـ number!</div></div>
+        <div class="danger"><div><b>🚨 Truthy/Falsy Values:</b><br>
+        <strong>False:</strong> null, undefined, 0, "" (empty string), false<br>
+        <strong>True:</strong> كل حاجة تانية — حتى "0" وarray فاضي []!</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 4 — Scope & use strict
+══════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num amber">04</div>
+    <div class="ch-title">
+      <h2>Scope & "use strict"</h2>
+      <p>Global Variables · Block Scope · Strict Mode</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔒</span> "use strict" — وضع الانضباط!</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">"USE STRICT" EXAMPLES</div></div>
+        <pre><code><span class="cmt">// بدون strict mode:</span>
+x = <span class="num">10</span>; <span class="cmt">// Works! (global variable)</span>
+
+<span class="cmt">// مع strict mode:</span>
+<span class="str">"use strict"</span>;
+x = <span class="num">10</span>; <span class="cmt">// ❌ ERROR! x is not declared</span>
+
+<span class="cmt">// الصح:</span>
+<span class="str">"use strict"</span>;
+<span class="kw">let</span> x = <span class="num">10</span>; <span class="cmt">// ✅</span>
+
+<span class="cmt">// ملاحظة: strict mode بيمنع:</span>
+<span class="cmt">// - استخدام variables بدون تعريف</span>
+<span class="cmt">// - حذف variables بـ delete</span>
+<span class="cmt">// - استخدام reserved words كـ variable names</span></code></pre>
+      </div>
+      <div>
+        <div class="info"><div><b>💡 "use strict" بتعمل إيه؟</b><br>
+        بتحوّل JS لـ "strict mode" اللي بيمنع الـ bad practices:<br><br>
+        • لا يسمح بـ undeclared variables<br>
+        • بيعطي errors بدل ما يتجاهل الأخطاء<br>
+        • بيحسّن الـ performance<br>
+        • بيجهّز الكود لـ future JS versions</div></div>
+        <div class="danger"><div><b>🚨 من final-2025 Q40 & Q41:</b><br>
+        <strong>'use strict' does:</strong> Enforces stricter parsing and error-handling rules<br><br>
+        <strong>In strict mode: x = 10;</strong> → Error: x is not defined<br>
+        (مش بيعطي 10 ولا undefined!)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🌐</span> Global Variables — Window Object</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">GLOBAL VARIABLES</div></div>
+      <pre><code><span class="kw">var</span> a = <span class="num">10</span>;  <span class="cmt">// property of window (var)</span>
+b = <span class="num">20</span>;      <span class="cmt">// implicit global (no var/let/const)</span>
+
+console.<span class="fn">log</span>(window.a); <span class="cmt">// 10</span>
+console.<span class="fn">log</span>(window.b); <span class="cmt">// 20</span>
+
+<span class="kw">delete</span> a; <span class="cmt">// false — var variables can't be deleted</span>
+<span class="kw">delete</span> b; <span class="cmt">// true — implicit globals CAN be deleted</span>
+
+console.<span class="fn">log</span>(a); <span class="cmt">// 10 (still exists)</span>
+console.<span class="fn">log</span>(b); <span class="cmt">// ReferenceError! (was deleted)</span>
+
+<span class="cmt">// عدد طرق تعريف الـ variable:</span>
+<span class="kw">var</span> x = <span class="num">1</span>;  <span class="cmt">// 1</span>
+<span class="kw">let</span> y = <span class="num">2</span>;  <span class="cmt">// 2</span>
+<span class="kw">const</span> z = <span class="num">3</span>; <span class="cmt">// 3 ← إجمالي: 3 طرق!</span></code></pre>
+    </div>
+    <div class="tip"><div><b>💡 من final-2025 Q48:</b> How many ways are there to declare a variable? → <strong>3</strong> (var, let, const)</div></div>
+  </div>
+
+  <!-- QUIZ Variables -->
+  <div class="quiz-section" id="quiz-vars">
+    <div class="quiz-header"><div class="quiz-icon">🎯</div><div><h3>Quiz — Variables & Scope</h3><p>أسئلة من final-2024 و final-2025</p></div></div>
+    <div id="qset-vars">
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q1 <span class="q-src">final-2024 Q14</span></div>
+        <div class="q-text">Which is the correct syntax to declare a constant in JavaScript?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> const constant_name;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> constant_name const;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> constant_name const = value;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> const constant_name = value;</div>
+        </div>
+        <div class="q-explain">✅ const اسمها = قيمة — الكلمة المحجوزة في الأول. const مش ممكن تُعرَّف بدون قيمة (A خطأ). اسم الـ constant مش ممكن يجي أول (B وC خطأ).</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q2 <span class="q-src">final-2024 Q15</span></div>
+        <div class="q-text">What will be the output of: const VALUE=10; VALUE=20;</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 10</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 20</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> ValueError</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> TypeError</div>
+        </div>
+        <div class="q-explain">✅ TypeError! لأن const بعد تعريفها مش ممكن تتغير قيمتها. الـ error هو TypeError (مش ValueError — ده Python). JavaScript بيرفع TypeError لما تحاول تعيين قيمة لـ const.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3 <span class="q-src">final-2024 Q17</span></div>
+        <div class="q-text">What will be the value of X?  var X=10; function myfunc(){ let x=20; } document.write(X);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 20</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 10</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> ValueError</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> TypeError</div>
+        </div>
+        <div class="q-explain">✅ Output = 10. لأن: X (uppercase) هو global variable بقيمة 10. x (lowercase) داخل myfunc هو local variable — JS case-sensitive! الـ function مش اتنفذت. document.write يقرأ X الـ global = 10.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">final-2024 Q18</span></div>
+        <div class="q-text">What is the output of: var a = 10 + 20 + "5";</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 35</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 305</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> TypeError</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> ValueError</div>
+        </div>
+        <div class="q-explain">✅ "305"! خطوة خطوة: (10 + 20) = 30 أولاً (كلاهم numbers), ثم (30 + "5") = "305" (string concatenation). لو كان "5" + 10 + 20 كان هيبقى "51020"!</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q5 <span class="q-src">final-2024 Q19</span></div>
+        <div class="q-text">What will be the output? var x = 12.34; document.getElementById("test").innerHTML = typeof(x);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> int</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> float</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> long</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> number</div>
+        </div>
+        <div class="q-explain">✅ "number"! JavaScript ليها type واحد للأرقام هو "number" — مفيش int, float, long, double. كل الأرقام (سواء 42 أو 3.14) هم "number".</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q6 <span class="q-src">final-2024 Q35</span></div>
+        <div class="q-text">What will be the output? var a; document.write(a);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 01234</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 0</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Error</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ None of the previous! var a بدون قيمة = undefined. document.write(undefined) → يكتب "undefined" على الصفحة. لا 0 ولا error ولا 01234.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q7 <span class="q-src">final-2025 Q42</span></div>
+        <div class="q-text">What is the difference between var, let, and const?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> var is block-scoped, let and const are function-scoped</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> var is function-scoped, let and const are block-scoped</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> var and let are block-scoped, const is function-scoped</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All are block-scoped</div>
+        </div>
+        <div class="q-explain">✅ var = function-scoped (بيبقى موجود في كل الـ function), let وconst = block-scoped (بيبقى موجود جوا {} بس). ده الفرق الجوهري!</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q8 <span class="q-src">final-2025 Q40</span></div>
+        <div class="q-text">What does 'use strict' do in JavaScript?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Prevents errors in the code</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Enforces stricter parsing and error-handling rules</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Allows use of old JavaScript syntax</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Removes debugging restrictions</div>
+        </div>
+        <div class="q-explain">✅ "use strict" بتطبّق قواعد أكثر صرامة في الـ parsing والـ error handling. مش بتمنع الأخطاء (A غلط) ومش بتسمح بـ old syntax (C غلط).</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q9 <span class="q-src">final-2025 Q41</span></div>
+        <div class="q-text">What is the result of running this code in strict mode?  "use strict"; x = 10; console.log(x);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 10</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Error: x is not defined</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> undefined</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> NaN</div>
+        </div>
+        <div class="q-explain">✅ Error! في strict mode، استخدام variable بدون تعريفها (بـ var/let/const) بيطلع ReferenceError. بدون strict mode كانت هتعمل implicit global variable وتطبع 10.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q10 <span class="q-src">final-2024 Q16</span></div>
+        <div class="q-text">Can we use a function as a variable value?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Yes</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> No</div>
+        </div>
+        <div class="q-explain">✅ Yes! Functions في JavaScript هم "first-class citizens" — ممكن تعمل: const f = function() {}; أو const f = () => {}; وبعدين تستخدمها زي أي variable!</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-vars','score-vars')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-vars','score-vars')">Reset ↺</button>
+    <div class="q-score" id="score-vars"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 5 — Functions & Arrow Functions
+══════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num green">05</div>
+    <div class="ch-title">
+      <h2>Functions & Arrow Functions</h2>
+      <p>Declaration · Expression · Default Params · Arrow Syntax</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔧</span> 3 طرق لكتابة Functions</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">FUNCTION STYLES — الـ 3 طرق</div></div>
+      <pre><code><span class="cmt">// 1. Function Declaration — التقليدي</span>
+<span class="kw">function</span> <span class="fn">add</span>(a, b) {
+  <span class="kw">return</span> a + b;
+}
+
+<span class="cmt">// 2. Function Expression — بتخزنها في variable</span>
+<span class="kw">const</span> add = <span class="kw">function</span>(a, b) {
+  <span class="kw">return</span> a + b;
+};
+
+<span class="cmt">// 3. Arrow Function (ES6) — الأقصر والأجمل!</span>
+<span class="kw">const</span> add = (a, b) => a + b;
+<span class="cmt">// لو statement واحدة: مش محتاج {} ولا return!</span>
+
+<span class="cmt">// Default Parameters (ES6)</span>
+<span class="kw">function</span> <span class="fn">greet</span>(name = <span class="str">"Guest"</span>) {
+  <span class="kw">return</span> <span class="str">"Hello "</span> + name;
+}
+<span class="fn">greet</span>();        <span class="cmt">→ "Hello Guest"</span>
+<span class="fn">greet</span>(<span class="str">"Ahmed"</span>); <span class="cmt">→ "Hello Ahmed"</span></code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">➡️</span> Arrow Functions — الـ Exam Example!</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">ARROW FUNCTION — final-2024 Q64</div></div>
+        <pre><code><span class="kw">const</span> f = (a, b) => a + b + <span class="num">5</span>;
+
+f(<span class="num">4</span>, <span class="num">5</span>)  <span class="cmt">= 4 + 5 + 5 = 14 ✅</span>
+f(<span class="num">3</span>, <span class="num">4</span>)  <span class="cmt">= 3 + 4 + 5 = 12</span>
+
+<span class="cmt">// Arrow syntax مختلفة:</span>
+<span class="kw">const</span> sq  = x => x * x;    <span class="cmt">// parameter واحد — بدون ()</span>
+<span class="kw">const</span> hi  = () => <span class="str">"Hello"</span>; <span class="cmt">// بدون params</span>
+<span class="kw">const</span> sum = (a,b) => {      <span class="cmt">// multi-line: لازم {} وreturn</span>
+  <span class="kw">let</span> result = a + b;
+  <span class="kw">return</span> result;
+};
+
+<span class="cmt">// map/filter مع Arrow — من الامتحانات!</span>
+myNumbers.<span class="fn">map</span>((value) => value * <span class="num">4</span>);
+myNumbers.<span class="fn">filter</span>((value) => value &lt; <span class="num">10</span>);</code></pre>
+      </div>
+      <div>
+        <div class="danger"><div><b>🚨 من final-2024 Q64:</b><br>
+        <code>const f = (a,b) => a+b+5;</code><br>
+        <code>f(4,5) = 4+5+5 = <strong>14</strong></code><br><br>
+        مش 9 (4+5) ومش 14 أو أي حاجة تانية!</div></div>
+        <div class="info"><div><b>💡 Map & Filter Syntax — final-2024 Q65 & Q66:</b><br><br>
+        <strong>Multiply by 4:</strong><br>
+        <code>myNumbers.map((value)=>value*4)</code> ✅<br>
+        <code>myNumbers.map(value*4)</code> ❌ — لازم function!<br><br>
+        <strong>Filter less than 10:</strong><br>
+        <code>myNumbers.filter((value)=>value&lt;10)</code> ✅<br>
+        <code>myNumbers.map(...)</code> ❌ — map مش filter!</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 6 — eval · Rest · Spread
+══════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num orange">06</div>
+    <div class="ch-title">
+      <h2>eval · Rest Parameter · Spread Operator</h2>
+      <p>eval() · ...rest · ...spread · arguments</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--orange)">
+    <div class="topic-title"><span class="icon">⚠️</span> eval() — بيشغّل String كـ JS Code</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EVAL — من الامتحانات</div></div>
+        <pre><code><span class="cmt">// Q30 — final-2024</span>
+<span class="kw">let</span> x = <span class="num">10</span>;
+<span class="kw">let</span> y = <span class="num">20</span>;
+<span class="kw">let</span> text = <span class="str">"x * y"</span>;
+<span class="kw">let</span> result = <span class="fn">eval</span>(text);
+<span class="cmt">// eval("x * y") = x * y = 10 * 20 = 200</span>
+document.<span class="fn">getElementById</span>(<span class="str">"demo"</span>).innerHTML = result;
+<span class="cmt">// Output: 200 ✅</span>
+
+<span class="cmt">// Q47 — mid-2023</span>
+<span class="kw">let</span> x = <span class="num">10</span>, y = <span class="num">20</span>;
+<span class="kw">let</span> text = <span class="str">"y-x"</span>;
+<span class="kw">let</span> result = <span class="fn">eval</span>(text); <span class="cmt">= y-x = 20-10 = 10</span>
+document.<span class="fn">write</span>(result); <span class="cmt">// Output: 10</span>
+
+<span class="cmt">// Q78 — final-2025 (الصعبة!)</span>
+<span class="kw">var</span> writeMe = <span class="str">"console.log('document.writeln(x);')"</span>
+<span class="kw">var</span> x = <span class="num">13</span>
+<span class="fn">eval</span>(writeMe);
+<span class="cmt">// eval runs: console.log('document.writeln(x);')</span>
+<span class="cmt">// → prints the STRING "document.writeln(x);" in console</span>
+<span class="cmt">// NOT x's value! Because x is inside single quotes</span></code></pre>
+      </div>
+      <div>
+        <div class="warn"><div><b>⚠️ eval() — Avoid in Production!</b><br>
+        Security risk — بيشغّل أي code!<br>
+        Performance problem — JS engine مش قادر يـoptimize.</div></div>
+        <div class="danger"><div><b>🚨 final-2025 Q78 — الفخ!</b><br>
+        <code>writeMe = "console.log('document.writeln(x);')"</code><br><br>
+        eval بيشغّل: <code>console.log('document.writeln(x);')</code><br><br>
+        النتيجة: بيكتب <strong>الـ string</strong> "document.writeln(x);" في الـ console — مش قيمة x!<br>
+        لأن 'document.writeln(x);' هو نص داخل single quotes.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📦</span> Rest Parameter (...) — يحوّل Arguments لـ Array</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">REST PARAMETER — من الامتحانات</div></div>
+        <pre><code><span class="cmt">// ...args يجمع كل الـ arguments في array</span>
+<span class="kw">function</span> <span class="fn">test</span>(...args) {
+  document.<span class="fn">write</span>(<span class="kw">typeof</span>(args)); <span class="cmt">→ "object"</span>
+  <span class="cmt">// ليه object؟ لأن arrays هم objects!</span>
+}
+<span class="fn">test</span>(<span class="num">12</span>); <span class="cmt">// args = [12]</span>
+
+<span class="cmt">// Sum example from slides:</span>
+<span class="kw">function</span> <span class="fn">sum</span>(...args) {
+  <span class="kw">let</span> total = <span class="num">0</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> arg <span class="kw">of</span> args) total += arg;
+  <span class="kw">return</span> total;
+}
+<span class="fn">sum</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>); <span class="cmt">→ 15</span>
+
+<span class="cmt">// Multiply example from final-2025:</span>
+<span class="kw">function</span> <span class="fn">multiply</span>(...myNumbers) {
+  <span class="kw">let</span> total = <span class="num">1</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> n <span class="kw">of</span> myNumbers) total *= n;
+  <span class="kw">return</span> total;
+}</code></pre>
+      </div>
+      <div>
+        <div class="info"><div><b>💡 ... يعمل إيه بالظبط؟</b><br>
+        الـ <code>...</code> في الـ function parameters:<br>
+        → <strong>Rest Parameter</strong> → يجمع arguments في array<br><br>
+        <strong>typeof(args) = "object"</strong><br>
+        لأن arrays في JS هم objects!</div></div>
+        <div class="warn"><div><b>⚡ من final-2025 Q38:</b><br>
+        The "..." will:<br>
+        → Allow the function to <strong>change the arguments to an array</strong> ✅<br><br>
+        مش "waiting for more arguments" ولا "distributing to separate numbers".</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ Functions -->
+  <div class="quiz-section" id="quiz-functions">
+    <div class="quiz-header"><div class="quiz-icon">🎯</div><div><h3>Quiz — Functions & eval</h3><p>أسئلة من final-2024 · mid-2023 · final-2025</p></div></div>
+    <div id="qset-functions">
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q1 <span class="q-src">final-2024 Q33 / final-2025 Q68</span></div>
+        <div class="q-text">What will be the output? function test(...args){ document.write(typeof(args)); } test(12);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> NaN</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> number</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> object</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> array</div>
+        </div>
+        <div class="q-explain">✅ "object"! الـ ...args بيحوّل كل الـ arguments لـ array. الـ array في JavaScript هو object. typeof([12]) = "object". مفيش type اسمه "array" في typeof!</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q2 <span class="q-src">final-2025 Q38</span></div>
+        <div class="q-text">In the following function: function multiply(...myNumbers){...}, the "..." will:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Allow the function to be waiting for more arguments</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Allow the function to change the arguments to an array</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Allow the function to distribute the arguments to separate numbers</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the answers</div>
+        </div>
+        <div class="q-explain">✅ الـ ... (Rest Parameter) بيجمع كل الـ arguments في array واحد. function multiply(...myNumbers) → myNumbers بيبقى array من كل الـ arguments.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q3 <span class="q-src">final-2024 Q64</span></div>
+        <div class="q-text">const f = (a,b) => a+b+5; — What will f(4,5) return?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> f(4,5) will return 9</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> f(3,4) will return 12</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> f(4,5) will return 14</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Not a correct syntax for an arrow function</div>
+        </div>
+        <div class="q-explain">✅ f(4,5) = 4+5+5 = 14 ✓. f(3,4) = 3+4+5 = 12 (مش 12 في الـ option B لأن B بيقول f(3,4) will return 12 وده صح فعلاً، لكن السؤال عن f(4,5) اللي = 14). السؤال بيسأل عن f(4,5)!</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">final-2024 Q30</span></div>
+        <div class="q-text">What is the output? let x=10; let y=20; let text="x * y"; let result=eval(text); innerHTML=result;</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> x * y</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 200</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> valueError</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ 200! eval("x * y") بيشغّل الـ string كـ JS code. هيلاقي x=10 وy=20 في الـ scope الحالي. 10 * 20 = 200.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q5 <span class="q-src">mid-2023 Q47</span></div>
+        <div class="q-text">What is the output? let x=10; let y=20; let text="y-x"; let result=eval(text); document.write(result);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> y-x</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> "10"</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> valueError</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ None of the previous! الإجابة هي الرقم 10 (y-x = 20-10 = 10). لكن "10" بالـ string في option B مش هي الإجابة الصح — النتيجة هي number 10. 10 مش موجود في الـ options → d.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q6 <span class="q-src">final-2025 Q78</span></div>
+        <div class="q-text">var writeMe = "console.log('document.writeln(x);')"; var x = 13; eval(writeMe); — What is the output?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Prints 13 in the console</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Writes 13 to the body of the document</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Writes "document.writeln(x);" to the body of the document</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Prints "document.writeln(x);" in the console</div>
+        </div>
+        <div class="q-explain">✅ d! eval بيشغّل: console.log('document.writeln(x);') → بيكتب في الـ console الـ STRING "document.writeln(x);" — لأن الـ string هي داخل single quotes ومش هتتـevaluate. x مش هيتعوّض بـ 13.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q7 <span class="q-src">final-2024 Q60</span></div>
+        <div class="q-text">x = "20"; y = 10; document.writeln(x + y, x - y); — What is the output?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 30, 10</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 30, NAN</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 2010, NAN</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 2010, 10</div>
+        </div>
+        <div class="q-explain">✅ "2010, 10"! x+"20"+10 = "2010" (string concatenation). x-y = "20"-10 = 10 (الـ - بيحوّل الـ string لـ number فعلاً!). writeln مع args متعددة بيفصل بينهم بمسافة.</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-functions','score-functions')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-functions','score-functions')">Reset ↺</button>
+    <div class="q-score" id="score-functions"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 7 — Arrays & Methods
+══════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num pink">07</div>
+    <div class="ch-title">
+      <h2>Arrays & ES5 Array Methods</h2>
+      <p>forEach · map · filter · reduce · find · indexOf · concat · flat</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">📊</span> Array Methods Overview — الخريطة الكاملة</div>
+    <table class="tbl">
+      <tr><th>Method</th><th>بيعمل إيه؟</th><th>بيرجع إيه؟</th><th>مثال</th></tr>
+      <tr><td><code>forEach(fn)</code></td><td>بيلف على كل element</td><td>undefined</td><td>arr.forEach(v => console.log(v))</td></tr>
+      <tr><td><code>map(fn)</code></td><td>بيحوّل كل element</td><td>Array جديد</td><td>[1,2,3].map(v=>v*2) → [2,4,6]</td></tr>
+      <tr><td><code>filter(fn)</code></td><td>بيصفّي العناصر</td><td>Array جديد</td><td>[1,2,3].filter(v=>v>1) → [2,3]</td></tr>
+      <tr><td><code>reduce(fn, init)</code></td><td>بيجمع لـ قيمة واحدة</td><td>Single value</td><td>[1,2,3].reduce((t,v)=>t+v, 0) → 6</td></tr>
+      <tr><td><code>find(fn)</code></td><td>أول element يطابق</td><td>Element أو undefined</td><td>[10,20,30].find(v=>v>10) → 20</td></tr>
+      <tr><td><code>some(fn)</code></td><td>لو أي element يطابق</td><td>boolean</td><td>[1,2,3].some(v=>v>2) → true</td></tr>
+      <tr><td><code>every(fn)</code></td><td>لو كل elements تطابق</td><td>boolean</td><td>[1,2,3].every(v=>v>0) → true</td></tr>
+      <tr><td><code>indexOf(v)</code></td><td>أول index لـ قيمة</td><td>number (-1 لو مش موجود)</td><td>[10,20,10].indexOf(10) → 0</td></tr>
+      <tr><td><code>lastIndexOf(v)</code></td><td>آخر index لـ قيمة</td><td>number (-1 لو مش موجود)</td><td>[10,20,10].lastIndexOf(10) → 2</td></tr>
+      <tr><td><code>concat(arr)</code></td><td>يدمج arrays</td><td>Array جديد</td><td>[1,2].concat(3,4) → [1,2,3,4]</td></tr>
+      <tr><td><code>flat(depth)</code></td><td>بيفرد nested arrays</td><td>Array جديد</td><td>[[1,2],[3]].flat() → [1,2,3]</td></tr>
+      <tr><td><code>pop()</code></td><td>يشيل آخر element</td><td>الـ element اللي اتشال</td><td>[1,2,3].pop() → 3</td></tr>
+    </table>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔗</span> Pipeline Visualization — map → filter → reduce</div>
+    <div class="pipeline">
+      <div class="pipe-step"><div class="ps-label">Input Array</div><div class="ps-val">[1, 2, 3, 4, 5]</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="ps-label">filter(v>2)</div><div class="ps-val">[3, 4, 5]</div><div class="ps-method">.filter()</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="ps-label">map(v*v)</div><div class="ps-val">[9, 16, 25]</div><div class="ps-method">.map()</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="ps-label">reduce(sum)</div><div class="ps-val">50</div><div class="ps-method">.reduce()</div></div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📉</span> reduce() — الأكثر في الامتحانات!</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">REDUCE — Exam Examples</div></div>
+      <pre><code><span class="cmt">// reduce(callback, initialValue)</span>
+<span class="cmt">// callback(accumulator, currentValue)</span>
+
+<span class="cmt">// Q21 final-2024: initial = 2</span>
+<span class="kw">var</span> numbers = [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>];
+<span class="kw">function</span> <span class="fn">myfunc</span>(total, value) { <span class="kw">return</span> total + value; }
+<span class="kw">var</span> sum = numbers.<span class="fn">reduce</span>(myfunc, <span class="num">2</span>);
+<span class="cmt">// Start: total=2 (initial), value=1 → 3</span>
+<span class="cmt">// Next:  total=3, value=2 → 5</span>
+<span class="cmt">// Next:  total=5, value=3 → 8</span>
+<span class="cmt">// End:   total=8, value=4 → 12 ✅</span>
+
+<span class="cmt">// Q22 final-2024: no initial value, subtraction</span>
+<span class="kw">var</span> numbers = [<span class="num">170</span>, <span class="num">50</span>, <span class="num">25</span>];
+<span class="kw">function</span> <span class="fn">myfunc</span>(total, value) { <span class="kw">return</span> total - value; }
+<span class="kw">var</span> sum = numbers.<span class="fn">reduce</span>(myfunc);
+<span class="cmt">// Start: total=170 (first element!), value=50 → 120</span>
+<span class="cmt">// End:   total=120, value=25 → 95 ✅</span>
+
+<span class="cmt">// Q45 mid-2023: initial = 3</span>
+<span class="kw">var</span> numbers = [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>];
+<span class="kw">var</span> sum = numbers.<span class="fn">reduce</span>(myfunc, <span class="num">3</span>);
+<span class="cmt">// 3+1+2+3+4 = 13 → None of previous (d)!</span></code></pre>
+    </div>
+    <div class="danger"><div><b>🚨 القاعدة الذهبية لـ reduce:</b><br>
+    • لو في initial value → تبدأ الـ accumulator بـ الـ initial value<br>
+    • لو مفيش initial value → الـ accumulator يبدأ بـ أول element والـ loop تبدأ من الـ second</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔎</span> find() vs filter() vs some()</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">FIND vs FILTER vs SOME</div></div>
+      <pre><code><span class="kw">var</span> numbers = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>];
+<span class="kw">function</span> <span class="fn">myFunction</span>(value) { <span class="kw">return</span> value > <span class="num">10</span>; }
+
+<span class="cmt">// find() → أول element يطابق فقط</span>
+numbers.<span class="fn">find</span>(myFunction);   <span class="cmt">→ 20 (not [20,30]!) ← Q28 final-2024</span>
+
+<span class="cmt">// filter() → كل elements تطابق</span>
+numbers.<span class="fn">filter</span>(myFunction); <span class="cmt">→ [20, 30] (array!)</span>
+<span class="kw">typeof</span>(numbers.<span class="fn">filter</span>(myFunction)) <span class="cmt">→ "object" ← Q31 final-2024</span>
+
+<span class="cmt">// some() → يرجع boolean</span>
+numbers.<span class="fn">some</span>(myFunction);   <span class="cmt">→ true (boolean, not array!)</span>
+<span class="kw">typeof</span>(numbers.<span class="fn">some</span>(myFunction)) <span class="cmt">→ "boolean" ← Q49 mid-2023</span>
+
+<span class="cmt">// map() مع boolean function (Q46 mid-2023):</span>
+[<span class="num">45</span>,<span class="num">4</span>,<span class="num">9</span>,<span class="num">16</span>,<span class="num">25</span>].<span class="fn">map</span>(v => v > <span class="num">18</span>)
+<span class="cmt">→ [true, false, false, false, true] ← مش [45,25]!</span></code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🔢</span> indexOf · lastIndexOf · concat · flat · pop</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">ARRAY METHODS — More Exam Questions</div></div>
+      <pre><code><span class="cmt">// indexOf vs lastIndexOf — Q32 final-2024</span>
+<span class="kw">var</span> numbers = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">10</span>, <span class="num">30</span>];
+<span class="cmt">//              0    1    2    3</span>
+<span class="kw">var</span> y = numbers.<span class="fn">lastIndexOf</span>(<span class="num">10</span>); <span class="cmt">→ 2 (last occurrence)</span>
+<span class="kw">var</span> z = numbers.<span class="fn">indexOf</span>(<span class="num">30</span>);     <span class="cmt">→ 3</span>
+document.<span class="fn">write</span>(y + z); <span class="cmt">→ 5 ✅</span>
+
+<span class="cmt">// concat — Q34 final-2024</span>
+<span class="kw">var</span> quiz = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
+<span class="kw">var</span> result = quiz.<span class="fn">concat</span>(<span class="num">6</span>, <span class="num">7</span>, <span class="num">8</span>);
+document.<span class="fn">write</span>(result); <span class="cmt">→ 1,2,3,6,7,8 ✅</span>
+
+<span class="cmt">// pop() — Q68/Q69 final-2024</span>
+<span class="kw">var</span> myNumbers = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
+<span class="kw">var</span> x = myNumbers.<span class="fn">pop</span>(); <span class="cmt">→ x = 3 (LAST element removed!)</span>
+<span class="cmt">// myNumbers is now [1, 2]</span>
+
+<span class="cmt">// flat() — Q78 final-2024</span>
+<span class="kw">const</span> myArr = [<span class="num">1</span>, <span class="num">2</span>, [<span class="num">3</span>, [<span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>], <span class="num">7</span>], <span class="num">8</span>];
+<span class="kw">const</span> newArr = myArr.<span class="fn">flat</span>(); <span class="cmt">// depth=1 by default</span>
+<span class="cmt">→ [1, 2, 3, [4, 5, 6], 7, 8] → written: 1,2,3,4,5,6,7,8</span>
+
+<span class="cmt">// flat(2) — Q79 final-2025</span>
+<span class="kw">const</span> myArr = [<span class="num">1</span>, <span class="num">2</span>, [<span class="num">3</span>, [<span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>, <span class="num">7</span>], <span class="num">8</span>]];
+myArr.<span class="fn">flat</span>(<span class="num">2</span>); <span class="cmt">→ [1, 2, 3, 4, 5, 6, 7, 8] ✅</span>
+
+<span class="cmt">// {1:"red"} is NOT an array! Q67 final-2024</span>
+<span class="kw">var</span> colors = {<span class="num">1</span>:<span class="str">"red"</span>, <span class="num">2</span>:<span class="str">"green"</span>}; <span class="cmt">← Object, not Array!</span>
+<span class="cmt">// Array uses []. Object uses {}.</span></code></pre>
+    </div>
+  </div>
+
+  <!-- QUIZ Arrays -->
+  <div class="quiz-section" id="quiz-arrays">
+    <div class="quiz-header"><div class="quiz-icon">🎯</div><div><h3>Quiz — Arrays & Methods</h3><p>أكتر جزء في الامتحانات — تمرن عليه كويس!</p></div></div>
+    <div id="qset-arrays">
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q1 <span class="q-src">final-2024 Q24</span></div>
+        <div class="q-text">const arr=[10,20,30]; let result=0; arr.forEach(myFunction); function myFunction(value){result+=value;} document.write("Result: "+result);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Result: 102030</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Result: 60</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Result: 10,20,30</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> ValueError</div>
+        </div>
+        <div class="q-explain">✅ Result: 60! forEach بيلف على كل element ويضيفه لـ result: 0+10=10, 10+20=30, 30+30=60. الـ result خارج الـ function عشان function بتشوفه (closure).</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q2 <span class="q-src">final-2024 Q25</span></div>
+        <div class="q-text">const values=[10,20,30]; const result=values.map(myFunction); function myFunction(value){return value*value;} document.write("Result: "+result);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Result: 10,20,30</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Result: 10*10, 20*20, 30*30</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Result: 100,400,900</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Result: 100400900</div>
+        </div>
+        <div class="q-explain">✅ Result: 100,400,900! map بيعمل array جديد: 10²=100, 20²=400, 30²=900. لما تكتب array بـ write بيعمله toString بيفصل بـ comma. مش 100400900 لأن مفيش + بين الأرقام.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3 <span class="q-src">final-2024 Q21</span></div>
+        <div class="q-text">var numbers=[1,2,3,4]; function myfunc(total,value){return total+value;} var sum=numbers.reduce(myfunc, 2);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 10</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 12</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 9</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ 12! Initial value = 2. 2+1=3, 3+2=5, 5+3=8, 8+4=12. لو مفيش initial كان: 1+2+3+4=10.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">final-2024 Q22</span></div>
+        <div class="q-text">var numbers=[170,50,25]; function myfunc(total,value){return total-value;} var sum=numbers.reduce(myfunc); document.write(sum);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 100</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 95</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 245</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ 95! بدون initial value: total يبدأ بـ 170 (first element). 170-50=120, 120-25=95.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q5 <span class="q-src">mid-2023 Q45</span></div>
+        <div class="q-text">var numbers=[1,2,3,4]; function myfunc(total,value){return total+value;} var sum=numbers.reduce(myfunc, 3);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 10</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 7</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 9</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ None of the previous! Initial=3: 3+1+2+3+4=13. 13 مش موجود في الـ options!</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q6 <span class="q-src">final-2024 Q28</span></div>
+        <div class="q-text">var x=[10,20,30]; function myFunction(value){return value>10;} var y=x.find(myFunction); document.write(y);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 20,30</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> [20,30]</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 20</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ 20! find() بترجع أول element فقط يطابق الشرط. 10>10 = false, 20>10 = true → يرجع 20 ويوقف. مش [20,30] — ده filter مش find!</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q7 <span class="q-src">final-2024 Q31</span></div>
+        <div class="q-text">var numbers=[10,20,30]; function myFunction(value){return value>10;} var y=numbers.filter(myFunction); document.write(typeof(y));</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> array</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> number</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> object</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ "object"! filter بترجع array (=[20,30]). typeof(array) = "object" في JavaScript. مفيش type اسمه "array" في typeof!</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q8 <span class="q-src">mid-2023 Q49</span></div>
+        <div class="q-text">var numbers=[10,20,30]; function myFunction(value){return value>10;} var y=numbers.some(myFunction); document.write(typeof(y));</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> array</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> number</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> object</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ None of the previous! some() بترجع boolean (true/false). typeof(true) = "boolean". مش موجودة في الـ options!</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q9 <span class="q-src">final-2024 Q32</span></div>
+        <div class="q-text">var numbers=[10,20,10,30]; var y=numbers.lastIndexOf(10); var z=numbers.indexOf(30); document.write(y+z);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 23</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 3</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 5</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ 5! [10,20,10,30] → indices: 0,1,2,3. lastIndexOf(10) = 2 (آخر 10 عند index 2). indexOf(30) = 3. 2+3 = 5!</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q10 <span class="q-src">final-2024 Q34 / mid-2023 Q42</span></div>
+        <div class="q-text">var quiz=[1,2,3]; var result=quiz.concat(6,7,8); document.write(result);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1,2,3,6,7,8</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> [1,2,3,6,7,8]</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 1,2,3</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ 1,2,3,6,7,8! concat بيدمج الأرقام في array جديد. document.write على array بيعمل toString بيفصل بـ comma بدون brackets.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q11 <span class="q-src">final-2024 Q69</span></div>
+        <div class="q-text">myNumbers=[1,2,3]; x=myNumbers.pop() — The removed item will be 3?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ True! pop() بيشيل ويرجع آخر element. آخر element في [1,2,3] هو 3. ∴ x=3 وصح.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q12 <span class="q-src">final-2024 Q67</span></div>
+        <div class="q-text">var colors = {1:"red", 2:"green", 3:"blue"} — Is this one of the ways of defining an array in JavaScript?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ False! {} هو Object (dictionary-like) مش Array. Array بيستخدم []. المثال ده = JavaScript Object بـ numeric keys. Array الصح: var colors = ["red","green","blue"];</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q13 <span class="q-src">final-2025 Q79</span></div>
+        <div class="q-text">const myArr=[1,2,[3,[4,5,6,7],8]]; const newArr=myArr.flat(2); — What is the output?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1, 2, 3, [4, 5, 6], 7, 8</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 1, 2, [3, 4, 5, 6], 7, 8</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 1, 2, 3, 4, 5, 6, 7, 8</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ 1,2,3,4,5,6,7,8! flat(2) بيفرد مستويين: Level 1: [1,2,3,[4,5,6,7],8]. Level 2: [1,2,3,4,5,6,7,8]. كل الـ nesting اتشالت!</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q14 <span class="q-src">mid-2023 Q55</span></div>
+        <div class="q-text">var h = [45,4,9,16,25].filter((value)=>value&lt;16); document.writeln("h: " + h + "&lt;br&gt;");</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> "h: " + 4 + 9 + "&lt;br&gt;"</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> h: 4,9</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> h: 13</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> h: 13&lt;br&gt;</div>
+        </div>
+        <div class="q-explain">✅ h: 4,9! filter يخد 4 و9 فقط (كلاهم أقل من 16). الـ array [4,9] + "h: " يطبع "h: 4,9". &lt;br&gt; بيتعامل كـ HTML tag فيظهر كـ line break مش كـ text.</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-arrays','score-arrays')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-arrays','score-arrays')">Reset ↺</button>
+    <div class="q-score" id="score-arrays"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 8 — Objects & Operators
+══════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num cyan">08</div>
+    <div class="ch-title">
+      <h2>Objects & Operators</h2>
+      <p>Object Literals · Property Access · delete · typeof · in</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🏗️</span> Object Literals — تعريف الـ Objects</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">OBJECTS — Definition & Access</div></div>
+        <pre><code><span class="cmt">// Object literal</span>
+<span class="kw">var</span> car = {
+  <span class="prop">color</span>: <span class="str">"red"</span>,
+  <span class="prop">weight</span>: <span class="num">2000</span>,
+  <span class="prop">mfr</span>: <span class="str">"Hyundai"</span>
+};
+
+<span class="cmt">// 3 طرق للوصول للـ properties:</span>
+car.<span class="prop">color</span>;         <span class="cmt">→ "red" ✅ dot notation</span>
+car[<span class="str">"color"</span>];     <span class="cmt">→ "red" ✅ bracket + string</span>
+<span class="kw">var</span> p = <span class="str">"color"</span>;
+car[p];           <span class="cmt">→ "red" ✅ bracket + variable</span>
+car[color];       <span class="cmt">→ ❌ ERROR! color not defined</span>
+
+<span class="cmt">// Properties are called... "Properties"!</span>
+<span class="cmt">// (Q52 mid-2023) Name وTelephonenumber = Properties</span>
+
+<span class="cmt">// delete operator:</span>
+<span class="kw">delete</span> car.color;
+car.color; <span class="cmt">→ undefined (not deleted from JS, just undefined)</span>
+
+<span class="cmt">// in operator:</span>
+<span class="str">"weight"</span> <span class="kw">in</span> car; <span class="cmt">→ true</span>
+<span class="str">"color"</span> <span class="kw">in</span> car;  <span class="cmt">→ false (was deleted)</span></code></pre>
+      </div>
+      <div>
+        <div class="warn"><div><b>⚡ من final-2024 Q29:</b><br>
+        <code>const cars = { company:"Honda", color:"white" };</code><br>
+        <code>var x = "color";</code><br>
+        <code>delete cars.company;</code><br>
+        <code>document.write(cars.company);</code> → "undefined"<br>
+        <code>document.write(cars[x]);</code> → "white"<br>
+        Combined: <strong>"undefinedwhite"</strong> ✅</div></div>
+        <div class="info"><div><b>💡 Object properties في الـ JSON format:</b><br>
+        <code>JSON.stringify(obj)</code> → Object to String<br>
+        <code>JSON.parse(str)</code> → String to Object<br><br>
+        <strong>stringify = to send to server</strong><br>
+        <strong>parse = to use received data</strong></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 9 — Classes & OOP
+══════════════════════════════════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="ch-header">
+    <div class="ch-num purple">09</div>
+    <div class="ch-title">
+      <h2>ES6 Classes & OOP</h2>
+      <p>class · constructor · extends · super · prototype · Getters</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🏛️</span> ES6 Classes — OOP في JavaScript</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CLASS — Definition & Instantiation</div></div>
+      <pre><code><span class="cmt">// Class Definition</span>
+<span class="kw">class</span> <span class="fn">Car</span> {
+  <span class="kw">constructor</span>(name, year) {
+    <span class="kw">this</span>.name = name;
+    <span class="kw">this</span>.year = year;
+  }
+  
+  <span class="cmt">// Getter - final-2025 Q44</span>
+  <span class="kw">get</span> <span class="fn">carName</span>() {
+    <span class="kw">return</span> <span class="kw">this</span>.name;
+  }
+}
+<span class="kw">let</span> myCar1 = <span class="kw">new</span> <span class="fn">Car</span>(<span class="str">"Ford"</span>, <span class="num">2014</span>);
+
+<span class="cmt">// Inheritance (extends & super)</span>
+<span class="kw">class</span> <span class="fn">Model</span> <span class="kw">extends</span> <span class="fn">Car</span> {
+  <span class="kw">constructor</span>(name, year, model) {
+    <span class="kw">super</span>(name, year); <span class="cmt">// ⚡ Calls parent's constructor!</span>
+    <span class="kw">this</span>.model = model;
+  }
+}
+<span class="cmt">// Constructor: function to initialize properties</span>
+<span class="cmt">// super(): calls the parent constructor</span></code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🧬</span> Prototypes & instanceof</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PROTOTYPES & INSTANCEOF</div></div>
+        <pre><code><span class="cmt">// Constructor function (ES5 OOP)</span>
+<span class="kw">function</span> <span class="fn">Cell</span>(r, c) {
+  <span class="kw">this</span>.row = r;
+  <span class="kw">this</span>.col = c;
+}
+
+<span class="cmt">// Adding property using prototype</span>
+<span class="fn">Cell</span>.prototype.width = <span class="num">20</span>;
+
+<span class="kw">var</span> c1 = <span class="kw">new</span> <span class="fn">Cell</span>(<span class="num">0</span>, <span class="num">0</span>);
+document.<span class="fn">write</span>(c1.width); <span class="cmt">→ 20</span>
+
+<span class="cmt">// instanceof checks if object is of a specific class</span>
+<span class="kw">if</span> (c1 <span class="kw">instanceof</span> <span class="fn">Cell</span>) {
+  <span class="cmt">// true!</span>
+}</code></pre>
+      </div>
+      <div>
+        <div class="info"><div><b>💡 Prototypes:</b><br>
+        بتسمحلك تضيف properties و methods لـ Object Constructors اللي موجودة قبل كدة.<br>
+        <code>Cell.prototype.width = 20;</code> بيخلي كل الـ objects من نوع Cell يمتلكوا <code>width</code>!</div></div>
+        <div class="warn"><div><b>⚡ instanceof:</b><br>
+        بيختبر إذا كان الـ object اتعمل من constructor معين.<br>
+        <code>c1 instanceof Cell</code> ➜ true</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ OOP -->
+  <div class="quiz-section" id="quiz-oop">
+    <div class="quiz-header"><div class="quiz-icon">🎯</div><div><h3>Quiz — Objects & Classes</h3><p>أسئلة الامتحانات (final-2024 & final-2025)</p></div></div>
+    <div id="qset-oop">
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q1 <span class="q-src">final-2024 Q20</span></div>
+        <div class="q-text">Which is the correct syntax to access an object property in JavaScript?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> objectName:propertyName</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> objectName[propertyName]</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> objectName["propertyName"]</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ objectName["propertyName"]! دي طريقة الـ bracket notation اللي بنقول فيها اسم الـ property كـ string. الـ option b صح لو كانت المتغير بدون تنصيص بس كقاعدة عامة للـ syntax المباشر بنحتاج النص.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q2 <span class="q-src">final-2025 Q43</span></div>
+        <div class="q-text">What is the purpose of the prototype property in JavaScript objects?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> To create new properties in an object</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> To define methods and properties for inheritance</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> To store the type of the object</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> To delete existing properties</div>
+        </div>
+        <div class="q-explain">✅ To define methods and properties for inheritance! الـ prototype هو أساس الوراثة في الـ JS، وهو بيسمح إن كل الـ objects المتكاريته تورث الخصائص دي.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q3 <span class="q-src">final-2025 Q44</span></div>
+        <div class="q-text">In JavaScript, which of the following is a valid getter in an object?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> get name() { return this._name; }</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> getter name() { return this._name; }</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> get: function() { return this.name; }</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> name.get { return this._name; }</div>
+        </div>
+        <div class="q-explain">✅ get name() {...}. بنستخدم الـ keyword اللى اسمها "get" قبل اسم الـ function مباشرة جوه الـ class أو الـ object.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">final-2025 Q46</span></div>
+        <div class="q-text">In JavaScript, What is the purpose of the constructor method in a class?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> To define static properties of a class</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> To initialize object properties</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> To inherit methods from another class</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> To execute a class directly</div>
+        </div>
+        <div class="q-explain">✅ To initialize object properties! الـ constructor فائدته الأولى اعطاء القيم الأولية للـ variables ساعة ما نعمل object من الـ class ده (باستخدام كلمة new).</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q5 <span class="q-src">final-2025 Q47</span></div>
+        <div class="q-text">In JavaScript, What does the super keyword do?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Creates a new object in the class</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Defines a static method</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Calls the parent class's constructor</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Overrides the parent class methods</div>
+        </div>
+        <div class="q-explain">✅ Calls the parent class's constructor! لما بنيجي نورث (extends) ونيجي نكتب جوا المتغيرات، لازم أول حاجة ننده على الـ <code>super()</code> عشان نشغل constructor الـ parent.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q6 <span class="q-src">final-2025 Q45</span></div>
+        <div class="q-text">What will the following JavaScript code log?  const obj={a:1, b:2}; delete obj.a; console.log(obj);</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> { b: 2 }</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> { a: null, b: 2 }</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> { a: undefined, b: 2 }</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Error</div>
+        </div>
+        <div class="q-explain">✅ { b: 2 }! كلمة <code>delete</code> بتمسح الـ property دي نهائياً من الـ object.. علشان كده بيتبقى `b: 2` بس.</div>
+      </div>
+      
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q7 <span class="q-src">final-2025 Q48</span></div>
+        <div class="q-text">How many ways are there with which we can declare a variable in javascript?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Only one</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Three</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Infinitely many</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</div>
+        </div>
+        <div class="q-explain">✅ Three! نقدر نعلن عنهم بثلاث كلمات رئيسية وهم: <code>var</code> و <code>let</code> و <code>const</code>.</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-oop','score-oop')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-oop','score-oop')">Reset ↺</button>
+    <div class="q-score" id="score-oop"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 10 — DOM Manipulation
+══════════════════════════════════════════════ -->
+<div class="chapter" id="ch10">
+  <div class="ch-header">
+    <div class="ch-num cyan">10</div>
+    <div class="ch-title">
+      <h2>DOM Manipulation</h2>
+      <p>document · Elements · NodeList · Navigation</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🌳</span> The HTML DOM Tree</div>
+    <p>الـ Document Object Model (DOM) هو هيكل تفريعي أو شجرة بيوصف فيها الـ HTML كـ objects (أو Nodes). ده بيتيح للـ JS إنه يتفاعل مع الـ HTML بسهولة.</p>
+    <div class="grid2">
+      <div class="dom-tree">
+<span class="dn-elem">Document</span>
+<span class="dn-indent">├─</span> <span class="dn-elem">&lt;html&gt;</span> <span class="cmt">(Root element)</span>
+<span class="dn-indent">│  ├─</span> <span class="dn-elem">&lt;head&gt;</span>
+<span class="dn-indent">│  └─</span> <span class="dn-elem">&lt;body&gt;</span>
+<span class="dn-indent">│     ├─</span> <span class="dn-elem">&lt;h2&gt;</span> <span class="dn-attr">id</span>=<span class="val">"id1"</span>
+<span class="dn-indent">│     │  └─</span> <span class="dn-text">"Welcome"</span> <span class="cmt">(Text Node)</span>
+<span class="dn-indent">│     └─</span> <span class="dn-elem">&lt;p&gt;</span>
+      </div>
+      <div>
+        <div class="info"><div><b>💡 Nodes Types:</b><br>
+        • <strong>Element Node:</strong> زي <code>&lt;p&gt;</code> و <code>&lt;h1&gt;</code>. (nodeType = 1)<br>
+        • <strong>Text Node:</strong> النص نفسه. (nodeType = 3)<br>
+        • <strong>Document Node:</strong> الـ document كله.<br>
+        • <strong>Attribute:</strong> الخصائص للـ elements.<br><br>
+        <code>element.firstChild.nodeValue</code> بيجيب النص اللي جوه أي عنصر.</div></div>
+        <div class="warn"><div><b>⚡ read-only properties:</b><br>
+        في الـ HTML DOM، الـ <code>nodeName</code> والـ <code>nodeType</code> هما خصائص <strong>read-only</strong>، مقدرش أغيرهم! (امتحان 2024 Q13)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔎</span> Finding HTML Elements</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">FINDING ELEMENTS</div></div>
+      <pre><code><span class="cmt">// 1. By ID (بيرجع Single Element)</span>
+document.<span class="fn">getElementById</span>(<span class="str">"demo"</span>);
+
+<span class="cmt">// 2. By Tag Name (بيرجع Collection of elements)</span>
+<span class="kw">var</span> p_list = document.<span class="fn">getElementsByTagName</span>(<span class="str">"p"</span>);
+<span class="kw">var</span> count = p_list.length; <span class="cmt">// عدد البرجرافات</span>
+
+<span class="cmt">// 3. By Class Name</span>
+document.<span class="fn">getElementsByClassName</span>(<span class="str">"center"</span>);
+
+<span class="cmt">// 4. By CSS Selectors</span>
+<span class="cmt">// querySelector: بيرجع أول عنصر بس!</span>
+<span class="cmt">// querySelectorAll: بيرجع NodeList (لكل العناصر اللي بتطابق)</span>
+<span class="kw">var</span> nodes = document.<span class="fn">querySelectorAll</span>(<span class="str">"div > p"</span>); <span class="cmt">← Q49 final-2025</span></code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🚶‍♂️</span> Navigating the DOM Tree / DOM Collection vs HTMLCollection</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CHILDREN & NODES</div></div>
+        <pre><code><span class="cmt">// childNodes بترجع كل الـ nodes (text و comments والمسافات!)</span>
+<span class="kw">var</span> n = myElement.<span class="prop">childNodes</span>;
+
+<span class="cmt">// children بترجع الـ Element nodes بس!</span>
+<span class="kw">var</span> x = document.body.<span class="prop">children</span>; <span class="cmt">// Collection of elements</span>
+<span class="kw">var</span> y = x[<span class="num">0</span>].<span class="prop">children</span>;        <span class="cmt">// Element nodes only</span>
+<span class="kw">var</span> z = y[<span class="num">0</span>].firstChild.<span class="prop">nodeValue</span>; <span class="cmt">// النص اللي جواه</span>
+
+<span class="cmt">// Removing element:</span>
+element.<span class="fn">remove</span>(); <span class="cmt">// Q52 final-2025</span>
+
+<span class="cmt">// Browser Window/History</span>
+window.location.<span class="prop">href</span>; <span class="cmt">// بيدينا الـ URL بتاع الصفحة الحالية</span>
+window.history.<span class="fn">back</span>(); <span class="cmt">// بيرجعنا للصفحة اللي كانت قبلها في الـ history</span></code></pre>
+      </div>
+      <div>
+        <div class="danger"><div><b>🚨 Exam Highlights (final-2025 Q59-Q61):</b><br>
+        <code>children</code>: بيرجع <strong>Collection of elements</strong>.<br>
+        <code>childNodes</code>: بيرجع <strong>Elements, texts, comments</strong>.<br>
+        لو العناصر كانت <code>&lt;li&gt;&lt;p&gt;List 1&lt;/p&gt;&lt;/li&gt;</code>:<br>
+        <code>firstLi.children</code> → Element nodes only (اللي هو <code>&lt;p&gt;</code>)!<br>
+        <code>P.firstChild.nodeValue</code> → بيطلع النص "List 1".</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ DOM -->
+  <div class="quiz-section" id="quiz-dom">
+    <div class="quiz-header"><div class="quiz-icon">🎯</div><div><h3>Quiz — DOM Manipulation</h3><p>كل أسئلة الامتحانات المرتبطة بـ DOM</p></div></div>
+    <div id="qset-dom">
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q1 <span class="q-src">final-2024 Q8</span></div>
+        <div class="q-text">Which JavaScript method is used to access an HTML element by id?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> getElementById()</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> getElement(id)</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> getElementById(id)</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> elementById(id)</div>
+        </div>
+        <div class="q-explain">✅ getElementById()! الـ function دي بتيجيب العنصر بالـ id بتاعه. في الاختيار c كاتب الـ variables جوة الأقواس بس كصحة عامة الميثود نفسها اسمها اللي في A.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q2 <span class="q-src">final-2025 Q49</span></div>
+        <div class="q-text">What does document.querySelectorAll() return?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> An array of elements</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A single element</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> A NodeList</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Undefined</div>
+        </div>
+        <div class="q-explain">✅ A NodeList! الـ querySelectorAll دايماً بترجع array-like structure بنسميه NodeList.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q3 <span class="q-src">final-2025 Q52</span></div>
+        <div class="q-text">How do you remove an element from the DOM?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> element.delete();</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> element.destroy();</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> element.remove();</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> element.clear();</div>
+        </div>
+        <div class="q-explain">✅ element.remove(); دي الـ method الصح اللي بنستخدمها عشان نمسح الـ element من الـ document خالص.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">final-2024 Q79</span></div>
+        <div class="q-text">To get the value of the text node of the h2 element node, you can use document.getElementById("id1").innerHTML which is equivalent to:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> document.getElementById("id1").text;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> document.getElementById("id1").firstChild.nodeValue;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> document.getElementById("id1").nodeValue;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> none of the above</div>
+        </div>
+        <div class="q-explain">✅ .firstChild.nodeValue! الـ nodeValue للـ tag نفسه (زي الـ h2) بيكون null! فلازم تروح للـ child الأول (اللي هو الـ Text node) وتجيب الـ nodeValue بتاعها.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q5 <span class="q-src">final-2024 Q13</span></div>
+        <div class="q-text">In HTML DOM, which of the following properties are read-only?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> nodeName</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> nodeValue</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> nodeName and nodeValue</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ nodeName! مقدرش أغير اسم الـ tag وأخليه من h1 لـ p! إنما text زي nodeValue عادي نعدل قيمته ونكتب كلام جديد.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q6 <span class="q-src">final-2024 Q84</span></div>
+        <div class="q-text">Using document.getElementById("id1").nodeType will return</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 3</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Element node</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Text node</div>
+        </div>
+        <div class="q-explain">✅ 1! الـ nodeType بترجع Integer / Number. للـ Tags والـ Elements بترجع دائما رقم 1.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q7 <span class="q-src">final-2025 Q58</span></div>
+        <div class="q-text">Based on HTML: <p>Wel.come</p> <div><p>p1</p><p>p2</p><section><p>p3</p></section><p>p4</p></div> <p class=center>p5</p> <p class=large>p6</p>. If we wrote "var x=document.getElementsByTagName('p')" inside a script tag, then the length of x will be:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 5</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 6</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 4</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ None of the previous! الحسبة الصح: برجراف واحد بره، 4 برجرافات جوا الـ div (في واحد استخبى جوا سيكشن)، واتنين بره في الأخر. الإجمالي 7! يعني لا 5 ولا 4 ولا 6!</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q8 <span class="q-src">final-2025 Q53</span></div>
+        <div class="q-text">What will be the output of "document.getElementById('id1').firstChild.nodeName;"? (where id1 is <h2 id="id1">Welcome to my page</h2>)</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> #text</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ #text! الـ firstChild هيكون هنا النص (Welcome to my page).. الـ nodeName الخاص بالنصوص مجرد String هو #text دائما.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q9 <span class="q-src">final-2025 Q60</span></div>
+        <div class="q-text">If we wrote this code, "y=x[0].children" then y will contain:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Element nodes only</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Element nodes and text nodes</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> null</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ Element nodes only! الـ property اللي اسمها children بتجيب العناصر الفعلية (Tags) ومش بتعتبر النصوص مجرد نودز للرجوع. (على عكس childNodes)</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q10 <span class="q-src">final-2025 Q50</span></div>
+        <div class="q-text">What does window.location.href return?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The browser's name</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> The URL of the current page</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> The history of visited pages</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The cookies of the website</div>
+        </div>
+        <div class="q-explain">✅ The URL of the current page! هترجع الرابط اللي إنت فاتحه حالياً في المتصفح بالكامل.</div>
+      </div>
+      
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q11 <span class="q-src">final-2025 Q51</span></div>
+        <div class="q-text">What is the purpose of window.history.back()?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> To reload the current page</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> To navigate to the previous page in history</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> To clear the browser's history</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</div>
+        </div>
+        <div class="q-explain">✅ To navigate to the previous page! بتوازي ضغطك على زر الـ Back في المتصفح بتاعك.</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-dom','score-dom')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-dom','score-dom')">Reset ↺</button>
+    <div class="q-score" id="score-dom"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 11 — JSON, Promises, Async
+══════════════════════════════════════════════ -->
+<div class="chapter" id="ch11">
+  <div class="ch-header">
+    <div class="ch-num pink">11</div>
+    <div class="ch-title">
+      <h2>JSON, Promises, Async</h2>
+      <p>JSON.parse · JSON.stringify · Promise · async / await</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">📝</span> JSON — JavaScript Object Notation</div>
+    <table class="tbl">
+      <tr><th>Method</th><th>بتعمل إيه؟</th><th>امتى نستخدمها؟</th></tr>
+      <tr><td><code>JSON.stringify(obj)</code></td><td>Object ➔ String</td><td>تحول الأوبجكت بتاعنا لنص عشان نرفعه للموقع (السيرفر).</td></tr>
+      <tr><td><code>JSON.parse(str)</code></td><td>String ➔ Object</td><td>تترجم البيانات اللي راجعة من الموقع عشان نعرف نقرأها.</td></tr>
+    </table>
+    <div class="tip"><div><b>💡 سؤال final-2024 Q26:</b><br>
+    "Which function is used to serialize an object into a JSON string in JavaScript?"<br>
+    الإجابة: <strong>stringify()</strong> ✅</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">⏳</span> Promises & Async/Await</div>
+    <p>بما إن لغة الـ JS سريعة ومش بتسحب حاجات بطيئة تعطلها، عشان ننفذ حاجات بتطول زي جلب معلومات من الإنترنت، بنلجأ استخدام وعود الـ Promise.</p>
+    
+    <div class="promise-flow">
+      <div class="ps-node ps-pending">Pending<br><span style="font-size:.65rem;font-weight:400">In progress...</span></div>
+      <div class="ps-arrow">→</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="ps-node ps-resolved">Fulfilled / Resolved<br><span style="font-size:.65rem;font-weight:400">.then()</span></div>
+        <div class="ps-node ps-rejected">Rejected<br><span style="font-size:.65rem;font-weight:400">.catch()</span></div>
+      </div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">ASYNC & AWAIT (final-2025 Q80)</div></div>
+      <pre><code><span class="kw">async function</span> <span class="fn">f</span>() {
+  <span class="kw">let</span> promise = <span class="kw">new</span> <span class="fn">Promise</span>((resolve, reject) => {
+    <span class="fn">setTimeout</span>(() => <span class="fn">resolve</span>(<span class="str">'done!'</span>), <span class="num">1000</span>);
+  });
+  
+  <span class="cmt">// الكلمة دي هتجبر الكود إنه يوقف انتظار للوعد ده أنه يتحقق!</span>
+  <span class="kw">let</span> result = <span class="kw">await</span> promise; 
+  console.<span class="fn">log</span>(result); <span class="cmt">// Output: done! (بعد مرور 1 ثانية)</span>
+}
+<span class="fn">f</span>();</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 12 — AJAX & Fetch API
+══════════════════════════════════════════════ -->
+<div class="chapter" id="ch12">
+  <div class="ch-header">
+    <div class="ch-num orange">12</div>
+    <div class="ch-title">
+      <h2>AJAX & Fetch API</h2>
+      <p>XMLHttpRequest · Fetch · Asynchronous Server Calls</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--orange)">
+    <div class="topic-title"><span class="icon">🔄</span> AJAX Definition</div>
+    <p>كلمة AJAX اختصارا لـ <strong>Asynchronous JavaScript And XML</strong>. ودي الطريقة اللي بندمج بيها اتصالنا بقاعدة البيانات من غير ما نضطر إننا نعمل Reload أو نحدث الـ Page <strong>(تحديث جزء بيتم بس!)</strong> (امتحان 2025 Q31)</p>
+    
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">OLD WAY: XMLHttpRequest</div></div>
+      <pre><code><span class="kw">function</span> <span class="fn">loadDoc</span>() {
+  <span class="kw">var</span> xhttp = <span class="kw">new</span> <span class="fn">XMLHttpRequest</span>();
+  xhttp.<span class="fn">onreadystatechange</span> = <span class="kw">function</span>() {
+    <span class="cmt">// 4 يعني الطلب خلص وكل حاجة تمام!</span>
+    <span class="cmt">// 200 يعني الـ Status طالعة Successful</span>
+    <span class="kw">if</span> (<span class="kw">this</span>.readyState == <span class="num">4</span> && <span class="kw">this</span>.status == <span class="num">200</span>) {
+      document.<span class="fn">getElementById</span>(<span class="str">"demo"</span>).innerHTML = <span class="kw">this</span>.responseText;
+    }
+  };
+  <span class="cmt">// true معناها ان الطلب Asynchronous (بيتم في الخلفية)</span>
+  xhttp.<span class="fn">open</span>(<span class="str">"GET"</span>, <span class="str">"data.txt"</span>, <span class="kw">true</span>);
+  xhttp.<span class="fn">send</span>();
+}</code></pre>
+    </div>
+
+    <div class="code-wrap" style="margin-top:20px">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">NEW WAY: Fetch API</div></div>
+      <pre><code><span class="cmt">// تقنية Fetch أحدث وأسهل بكتير لأنها بتعتمد على استخدام الـ Promises!</span>
+<span class="fn">fetch</span>(<span class="str">"data.txt"</span>)
+  .<span class="fn">then</span>(response => response.<span class="fn">text</span>())
+  .<span class="fn">then</span>(text_data => {
+    document.<span class="fn">getElementById</span>(<span class="str">"demo"</span>).innerHTML = text_data;
+  });</code></pre>
+    </div>
+  </div>
+
+  <!-- QUIZ Modern JS -->
+  <div class="quiz-section" id="quiz-modern">
+    <div class="quiz-header"><div class="quiz-icon">🎯</div><div><h3>Quiz — Modern JS & AJAX</h3></div></div>
+    <div id="qset-modern">
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q1 <span class="q-src">final-2024 Q26</span></div>
+        <div class="q-text">Which function is used to serialize an object into a JSON string in JavaScript?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> parse()</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> convert()</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> stringify()</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ stringify()! عشان نجهز الأوبجكت بتاعنا ونبعته للإنترنت لازم نحوله لشكل JSON وده اللي بتعمله بالظبط stringify.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q2 <span class="q-src">final-2025 Q31 (TF)</span></div>
+        <div class="q-text">AJAX is used for refreshing the page content by sending a request to the server and updating the whole HTML page from the response.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> False</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> True</div>
+        </div>
+        <div class="q-explain">✅ False! الـ AJAX اتخلق أساسا عشان ميحدثلكش الصفحة كلها بتاعت الـ (HTML page) ويعملك تعديل في جزئية صغيرة معينة من غير ما يضطر يعمل reload شامل للصفحة.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3 <span class="q-src">final-2025 Q80</span></div>
+        <div class="q-text">async function f() { let promise = new Promise((resolve) => setTimeout(()=>resolve('done!'), 1000)); let result = await promise; console.log(result); } f();</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> first!</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> done!</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> JavaScript error</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Something else</div>
+        </div>
+        <div class="q-explain">✅ done! طالما إننا كاتبين await، الكود هيستنى ثانية لحد ما الـ promise تخلص بنجاح وهتخزن النتيجة في متغير اسمه result وهتم طباعته على طول وهو done!</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-modern','score-modern')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-modern','score-modern')">Reset ↺</button>
+    <div class="q-score" id="score-modern"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHEAT SHEET SECTION
+══════════════════════════════════════════════ -->
+<div class="chapter" id="cheatsheet">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Exam Cheat Sheet</h2>
+      <p>Quick Reference for Final Revision</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="cheat">
+      <h3 style="color:var(--cyan)">⚡ Type Coercion rules</h3>
+      <div class="cheat-item"><div class="cheat-key">+ with string</div><div class="cheat-val">Concatenates left-to-right<br>"20"+10 ➔ "2010"<br>10+20+"5" ➔ "305"</div></div>
+      <div class="cheat-item"><div class="cheat-key">-, *, / with string</div><div class="cheat-val">Converts to number<br>"37"-7 ➔ 30<br>"10" * 2 ➔ 20</div></div>
+      <div class="cheat-item"><div class="cheat-key">eval("str")</div><div class="cheat-val">Executes string as JS. eval("x*y") uses current x and y.</div></div>
+    </div>
+    
+    <div class="cheat">
+      <h3 style="color:var(--pink)">🚀 Important typeofs</h3>
+      <div class="cheat-item"><div class="cheat-key">typeof(12.34)</div><div class="cheat-val">"number" (no float/int)</div></div>
+      <div class="cheat-item"><div class="cheat-key">typeof([1,2,3])</div><div class="cheat-val">"object"</div></div>
+      <div class="cheat-item"><div class="cheat-key">typeof(null)</div><div class="cheat-val">"object"</div></div>
+      <div class="cheat-item"><div class="cheat-key">typeof(undefined variable)</div><div class="cheat-val">"undefined"</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3 style="color:var(--green)">🔥 Scope & strict</h3>
+      <div class="cheat-item"><div class="cheat-key">var / let / const</div><div class="cheat-val">var = function scope<br>let/const = block scope</div></div>
+      <div class="cheat-item"><div class="cheat-key">const VALUE = 10; VALUE = 20;</div><div class="cheat-val">TypeError (re-assignment not allowed)</div></div>
+      <div class="cheat-item"><div class="cheat-key">"use strict"</div><div class="cheat-val">Stricter parsing. x = 10; without let/var triggers ReferenceError.</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3 style="color:var(--orange)">🔍 Array Methods Returns</h3>
+      <div class="cheat-item"><div class="cheat-key">map(), filter()</div><div class="cheat-val">Returns NEW Array</div></div>
+      <div class="cheat-item"><div class="cheat-key">some(), every()</div><div class="cheat-val">Returns Boolean</div></div>
+      <div class="cheat-item"><div class="cheat-key">find()</div><div class="cheat-val">Returns first matching Element / Value</div></div>
+      <div class="cheat-item"><div class="cheat-key">reduce(func, init)</div><div class="cheat-val">Without init: starts at index 1.<br>With init: starts at init.</div></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- End Content -->
+
+</main>
+
+<script>
+// Quiz Logic
+function checkQuiz(qset, scoreId) {
+  let score = 0;
+  const items = document.querySelectorAll('#' + qset + ' .q-item');
+  items.forEach(item => {
+    const correct = item.getAttribute('data-correct');
+    const selected = item.querySelector('.q-opt.selected');
+    item.querySelectorAll('.q-opt').forEach(opt => opt.classList.remove('wrong','correct'));
+    
+    if(selected) {
+      if(selected.getAttribute('data-val') === correct) {
+        selected.classList.add('correct');
+        score++;
+      } else {
+        selected.classList.add('wrong');
+        const correctOpt = item.querySelector('.q-opt[data-val="'+correct+'"]');
+        if(correctOpt) correctOpt.classList.add('correct');
+      }
+    } else {
+      const correctOpt = item.querySelector('.q-opt[data-val="'+correct+'"]');
+      if(correctOpt) correctOpt.classList.add('correct');
+    }
+    const exp = item.querySelector('.q-explain');
+    if(exp) exp.classList.add('show');
+  });
+
+  const scoreDiv = document.getElementById(scoreId);
+  scoreDiv.style.display = 'block';
+  scoreDiv.className = 'q-score ' + (score === items.length ? 'good' : score > items.length/2 ? 'ok' : 'bad');
+  scoreDiv.innerHTML = `You got ${score} out of ${items.length} correct!`;
+}
+
+function resetQuiz(qset, scoreId) {
+  const items = document.querySelectorAll('#' + qset + ' .q-item');
+  items.forEach(item => {
+    item.querySelectorAll('.q-opt').forEach(opt => {
+      opt.classList.remove('selected', 'wrong', 'correct');
+    });
+    const exp = item.querySelector('.q-explain');
+    if(exp) exp.classList.remove('show');
+  });
+  document.getElementById(scoreId).style.display = 'none';
+}
+
+// Select Options
+document.querySelectorAll('.q-opt').forEach(opt => {
+  opt.addEventListener('click', function() {
+    const parent = this.closest('.q-opts');
+    const allOpts = parent.querySelectorAll('.q-opt');
+    allOpts.forEach(o => o.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+
+// Scroll & Progress
+const scrollTop = document.getElementById('scroll-top');
+const progBar = document.getElementById('prog-bar');
+const sideLinks = document.querySelectorAll('.sb-link');
+const chapters = document.querySelectorAll('.chapter,.quiz-section');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) scrollTop.classList.add('show');
+  else scrollTop.classList.remove('show');
+
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  progBar.style.width = scrolled + '%';
+
+  let current = '';
+  chapters.forEach(ch => {
+    const top = ch.offsetTop;
+    if (window.scrollY >= top - 150) {
+      current = ch.getAttribute('id');
+    }
+  });
+
+  sideLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+});
+
+scrollTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+<!-- Auto-detect Arabic text and set RTL -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('p, li, td, th, .topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div, .note div, .q-text, .q-explain, .cheat-val, .cmt, .q-opt, .hero p, .topic p, .q-num').forEach(el => {
+    if (/[\u0600-\u06FF]/.test(el.textContent)) {
+      el.setAttribute('dir', 'rtl');
+      el.style.textAlign = 'right';
+    }
+  });
+});
+</script>
+</body>
+</html>

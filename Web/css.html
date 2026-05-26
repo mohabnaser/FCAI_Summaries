@@ -1,0 +1,2189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IS231 — CSS Complete Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070c18;--bg2:#0b1120;--card:#0f172a;--card2:#141e33;
+  --border:#1e3a5f;--border2:#253650;
+  --cyan:#00d4ff;--cyan2:#0ea5e9;--amber:#f59e0b;--green:#10b981;
+  --red:#ef4444;--purple:#8b5cf6;--pink:#f472b6;--orange:#fb923c;
+  --t1:#e2e8f0;--t2:#94a3b8;--t3:#64748b;
+  --code:#0d1117;--fw:280px;
+  --fh:'Outfit',sans-serif;--fb:'DM Sans',sans-serif;--fc:'Fira Code',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.75;overflow-x:hidden}
+
+#prog-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--amber));z-index:9999;transition:width .2s;width:0}
+
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--fw);background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;z-index:100;padding:20px 0;transition:.3s}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.sb-logo{padding:12px 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.sb-logo h2{font-family:var(--fh);font-size:1.05rem;color:var(--cyan);font-weight:700}
+.sb-logo p{font-size:.68rem;color:var(--t3);margin-top:3px}
+.sb-section{padding:6px 20px 2px;font-size:.63rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-top:10px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 20px;font-size:.8rem;color:var(--t2);text-decoration:none;transition:.2s;border-left:3px solid transparent;position:relative}
+.sb-link:hover,.sb-link.active{color:var(--t1);background:rgba(0,212,255,.06);border-left-color:var(--cyan)}
+.sb-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:.2s}
+.sb-link.active .sb-dot,.sb-link:hover .sb-dot{background:var(--cyan)}
+
+#main{margin-left:var(--fw);padding:0 0 80px}
+.hero{background:linear-gradient(135deg,#060d1e 0%,#0a1628 40%,#0e0a2e 100%);padding:70px 60px 60px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,212,255,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-50px;left:200px;width:300px;height:300px;background:radial-gradient(circle,rgba(139,92,246,.06) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:20px;padding:5px 14px;font-size:.75rem;color:var(--cyan);margin-bottom:20px;font-family:var(--fc)}
+.hero h1{font-family:var(--fh);font-size:2.8rem;font-weight:800;line-height:1.15;margin-bottom:14px}
+.hero h1 span{background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--t2);max-width:620px;font-size:.97rem}
+.hero-stats{display:flex;gap:30px;margin-top:30px;flex-wrap:wrap}
+.hstat{text-align:center}
+.hstat .num{font-family:var(--fh);font-size:1.8rem;font-weight:700;color:var(--pink)}
+.hstat .lbl{font-size:.72rem;color:var(--t3);margin-top:2px}
+
+.content{padding:40px 60px}
+.chapter{margin-bottom:80px}
+
+.ch-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.ch-num{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:1rem;flex-shrink:0}
+.ch-num.pink{background:rgba(244,114,182,.12);color:var(--pink);border:1px solid rgba(244,114,182,.25)}
+.ch-num.cyan{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.25)}
+.ch-num.purple{background:rgba(139,92,246,.12);color:var(--purple);border:1px solid rgba(139,92,246,.25)}
+.ch-num.amber{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+.ch-num.green{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+.ch-num.orange{background:rgba(251,146,60,.12);color:var(--orange);border:1px solid rgba(251,146,60,.25)}
+.ch-title h2{font-family:var(--fh);font-size:1.55rem;font-weight:700}
+.ch-title p{color:var(--t3);font-size:.84rem;margin-top:3px}
+
+.topic{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden;transition:.25s}
+.topic::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--pink)),transparent);opacity:.6}
+.topic:hover{border-color:var(--border2);transform:translateY(-1px)}
+.topic-title{font-family:var(--fh);font-size:1.05rem;font-weight:600;margin-bottom:10px;color:var(--t1);display:flex;align-items:center;gap:10px}
+.topic-title .icon{font-size:1.1rem}
+.topic p{color:var(--t2);font-size:.9rem;margin-bottom:10px}
+.topic p:last-child{margin-bottom:0}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+.code-wrap{background:var(--code);border:1px solid #21262d;border-radius:10px;margin:14px 0;overflow:hidden}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid #21262d}
+.code-dots{display:flex;gap:6px}
+.code-dots span{width:10px;height:10px;border-radius:50%}
+.code-dots span:nth-child(1){background:#ff5f57}
+.code-dots span:nth-child(2){background:#febc2e}
+.code-dots span:nth-child(3){background:#28c840}
+.code-lang{font-family:var(--fc);font-size:.68rem;color:var(--t3)}
+.code-wrap pre{padding:16px 20px;font-family:var(--fc);font-size:.82rem;line-height:1.75;overflow-x:auto;color:#cdd6f4}
+.kw{color:#cba6f7}.str{color:#a6e3a1}.num{color:#fab387}.fn{color:#89b4fa}
+.cmt{color:#585b70;font-style:italic}.prop{color:#89dceb}.tag{color:#f38ba8}
+.attr{color:#fab387}.val{color:#a6e3a1}.sel{color:#cba6f7}
+
+code{font-family:var(--fc);background:rgba(244,114,182,.1);color:var(--pink);padding:2px 7px;border-radius:4px;font-size:.82em}
+
+.tip,.warn,.info,.danger,.note{display:flex;gap:12px;padding:14px 16px;border-radius:10px;margin:14px 0;font-size:.87rem}
+.tip{background:rgba(16,185,129,.08);border-left:3px solid var(--green);color:#6ee7b7}
+.warn{background:rgba(245,158,11,.08);border-left:3px solid var(--amber);color:#fcd34d}
+.info{background:rgba(0,212,255,.08);border-left:3px solid var(--cyan);color:#7dd3fc}
+.danger{background:rgba(239,68,68,.08);border-left:3px solid var(--red);color:#fca5a5}
+.note{background:rgba(244,114,182,.08);border-left:3px solid var(--pink);color:#f9a8d4}
+.tip b,.warn b,.info b,.danger b,.note b{display:block;margin-bottom:3px;font-weight:600}
+
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem}
+.tbl th{background:var(--card2);color:var(--pink);font-family:var(--fh);font-weight:600;padding:10px 14px;text-align:left;border-bottom:2px solid var(--border)}
+.tbl td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--t2)}
+.tbl tr:hover td{background:rgba(255,255,255,.02)}
+
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;font-family:var(--fc)}
+.badge-cyan{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
+.badge-green{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.badge-amber{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.badge-red{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.badge-purple{background:rgba(139,92,246,.1);color:var(--purple);border:1px solid rgba(139,92,246,.2)}
+.badge-pink{background:rgba(244,114,182,.1);color:var(--pink);border:1px solid rgba(244,114,182,.2)}
+
+/* ─── CSS VISUAL DEMO ─── */
+.css-demo{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:20px;margin:14px 0;display:flex;align-items:center;justify-content:center}
+.specificity-chart{display:flex;gap:4px;align-items:flex-end;height:120px;justify-content:center;padding:10px}
+.spec-bar{display:flex;flex-direction:column;align-items:center;gap:8px}
+.spec-fill{width:60px;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center;font-family:var(--fc);font-size:.75rem;font-weight:700;color:#000}
+.spec-label{font-family:var(--fc);font-size:.68rem;color:var(--t3);text-align:center}
+
+/* ─── BOX MODEL ─── */
+.box-model-vis{display:flex;align-items:center;justify-content:center;padding:20px}
+.bm-outer{border:2px dashed var(--red);padding:20px;border-radius:10px;position:relative;text-align:center}
+.bm-border{border:8px solid var(--amber);padding:16px;border-radius:6px}
+.bm-padding{background:rgba(0,212,255,.1);border:2px dashed var(--cyan);padding:16px;border-radius:4px}
+.bm-content{background:rgba(16,185,129,.15);border:2px solid var(--green);padding:14px 24px;border-radius:2px;font-weight:700;font-size:.85rem;color:var(--green)}
+.bm-label{position:absolute;font-size:.65rem;font-family:var(--fc)}
+
+/* ─── COLOR SWATCHES ─── */
+.color-grid{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.color-swatch{width:80px;text-align:center}
+.color-box{width:80px;height:50px;border-radius:8px;border:1px solid rgba(255,255,255,.1);margin-bottom:5px}
+.color-name{font-size:.67rem;font-family:var(--fc);color:var(--t3)}
+
+/* ─── SELECTOR VISUAL ─── */
+.selector-demo{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;margin:12px 0;font-family:var(--fc);font-size:.8rem;line-height:2}
+.hit{color:var(--green);background:rgba(16,185,129,.1);padding:1px 6px;border-radius:4px;border:1px solid rgba(16,185,129,.2)}
+.miss{color:var(--t3)}
+.sel-tag{color:#f38ba8}
+.sel-attr{color:#fab387}
+
+/* ─── PRIORITY DIAGRAM ─── */
+.priority-stack{display:flex;flex-direction:column;gap:8px;max-width:450px;margin:0 auto}
+.prio-row{display:flex;align-items:center;gap:14px;padding:12px 18px;border-radius:10px;border:1px solid transparent;transition:.2s}
+.prio-row:hover{transform:translateX(4px)}
+.prio-1{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.25);color:#fca5a5}
+.prio-2{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:#fcd34d}
+.prio-3{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:#7dd3fc}
+.prio-4{background:rgba(100,116,139,.1);border-color:rgba(100,116,139,.25);color:var(--t3)}
+.prio-num{width:28px;height:28px;border-radius:8px;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-family:var(--fc);font-size:.75rem;font-weight:700;flex-shrink:0}
+.prio-name{font-family:var(--fh);font-weight:600;font-size:.9rem;min-width:120px}
+.prio-ex{font-family:var(--fc);font-size:.72rem;opacity:.8}
+
+/* ─── QUIZ ─── */
+.quiz-section{background:linear-gradient(135deg,#0c1830 0%,#0e1525 100%);border:1px solid var(--border);border-radius:16px;padding:30px;margin-top:40px}
+.quiz-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.quiz-icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.quiz-header h3{font-family:var(--fh);font-size:1.2rem;font-weight:700}
+.quiz-header p{font-size:.8rem;color:var(--t3)}
+.q-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:14px;transition:.2s}
+.q-num{font-family:var(--fc);font-size:.7rem;color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.q-src{background:rgba(139,92,246,.1);color:var(--purple);padding:2px 8px;border-radius:4px;font-size:.65rem}
+.q-text{font-size:.9rem;color:var(--t1);margin-bottom:14px;line-height:1.6}
+.q-opts{display:flex;flex-direction:column;gap:8px}
+.q-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:.2s;font-size:.85rem;color:var(--t2);user-select:none}
+.q-opt:hover{border-color:var(--border2);color:var(--t1);background:rgba(255,255,255,.02)}
+.q-opt.selected{border-color:var(--pink);background:rgba(244,114,182,.06);color:var(--t1)}
+.q-opt.correct{border-color:var(--green)!important;background:rgba(16,185,129,.1)!important;color:#6ee7b7!important}
+.q-opt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important;color:#fca5a5!important}
+.q-opt-letter{width:22px;height:22px;border-radius:6px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-family:var(--fc);flex-shrink:0;font-weight:600}
+.q-explain{display:none;margin-top:12px;padding:12px 14px;background:rgba(244,114,182,.05);border-left:3px solid var(--pink);border-radius:0 8px 8px 0;font-size:.83rem;color:#f9a8d4;line-height:1.6}
+.q-explain.show{display:block}
+.quiz-btn{display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:9px 22px;border-radius:8px;border:none;cursor:pointer;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s}
+.btn-check{background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff}
+.btn-check:hover{opacity:.9;transform:translateY(-1px)}
+.btn-reset{background:rgba(255,255,255,.06);color:var(--t2);margin-left:8px;border:1px solid var(--border)}
+.btn-reset:hover{background:rgba(255,255,255,.1);color:var(--t1)}
+.q-score{display:none;margin-top:16px;padding:14px 18px;border-radius:10px;font-family:var(--fh);font-weight:600;text-align:center}
+.q-score.good{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:var(--green)}
+.q-score.ok{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--amber)}
+.q-score.bad{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+
+/* ─── CHEAT SHEET ─── */
+.cheat{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:18px}
+.cheat h3{font-family:var(--fh);font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--pink);display:flex;align-items:center;gap:8px}
+.cheat-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem}
+.cheat-item:last-child{border-bottom:none}
+.cheat-key{min-width:170px;font-family:var(--fc);font-size:.74rem;color:var(--amber);flex-shrink:0}
+.cheat-val{color:var(--t2);line-height:1.5}
+
+/* ─── SCROLL & MOBILE ─── */
+#scroll-top{position:fixed;bottom:20px;right:20px;width:40px;height:40px;border-radius:10px;background:rgba(244,114,182,.15);border:1px solid rgba(244,114,182,.3);color:var(--pink);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s;z-index:200}
+#scroll-top.show{opacity:1}
+#menu-btn{position:fixed;bottom:20px;left:20px;z-index:200;width:46px;height:46px;border-radius:12px;background:var(--pink);border:none;cursor:pointer;color:#000;font-size:1.3rem;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(244,114,182,.4);display:none}
+
+@media(max-width:900px){
+  :root{--fw:0px}
+  #sidebar{transform:translateX(-280px)}
+  #sidebar.open{transform:translateX(0);width:280px;box-shadow:0 0 20px rgba(0,0,0,0.5)}
+  #main{margin-left:0}
+  .content{padding:24px 16px}
+  .hero{padding:40px 20px 32px}
+  .hero h1{font-size:1.8rem}
+  .grid2,.grid3{grid-template-columns:1fr}
+  #menu-btn{display:flex}
+  .hero-stats{gap:14px;flex-wrap:wrap}
+  .tbl{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .cheat-item{flex-direction:column;gap:6px}
+  .cheat-key{min-width:auto}
+  .sel-demo{flex-direction:column;gap:12px}
+  .css-demo{padding:12px;flex-direction:column}
+  .specificity-chart{height:auto;flex-wrap:wrap}
+  .box-model-vis{padding:10px;transform:scale(0.85)}
+}
+@media(max-width:400px){
+  .hero-stats{flex-direction:column;align-items:flex-start}
+}
+@media(min-width:901px){#menu-btn{display:none!important}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+/* ─── BIDI FIX ─── */
+code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ─── GLOBAL NAV ─── */
+.global-nav{display:flex;justify-content:center;gap:12px;padding:16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:90;}
+.gn-link{display:flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;text-decoration:none;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s;border:1px solid transparent;}
+.gn-link:hover{transform:translateY(-2px);}
+.gn-html{background:rgba(0,212,255,.08);color:var(--cyan);border-color:rgba(0,212,255,.2);}
+.gn-html:hover, .gn-html.active{background:var(--cyan);color:#000;box-shadow:0 0 15px rgba(0,212,255,.3);}
+.gn-css{background:rgba(244,114,182,.08);color:var(--pink);border-color:rgba(244,114,182,.2);}
+.gn-css:hover, .gn-css.active{background:var(--pink);color:#000;box-shadow:0 0 15px rgba(244,114,182,.3);}
+.gn-js{background:rgba(245,158,11,.08);color:var(--amber);border-color:rgba(245,158,11,.2);}
+.gn-js:hover, .gn-js.active{background:var(--amber);color:#000;box-shadow:0 0 15px rgba(245,158,11,.3);}
+@media(max-width:900px){ .global-nav{padding:12px 10px;flex-wrap:wrap;gap:8px;} .gn-link{font-size:.78rem;padding:6px 14px;} }
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>🎨 IS231 — CSS Guide</h2>
+    <p>Cascading Style Sheets — Cairo University</p>
+  </div>
+  <div class="sb-section">CSS Foundations</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>01 — What is CSS & Why</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>02 — Syntax & Cascade Order</a>
+  <a href="#quiz-ch1" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — Foundations</a>
+  <div class="sb-section">CSS Selectors</div>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>03 — Simple Selectors</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>04 — Combinator Selectors</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>05 — Pseudo-classes</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>06 — Pseudo-elements</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>07 — Attribute Selectors</a>
+  <a href="#quiz-sel" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — Selectors</a>
+  <div class="sb-section">CSS Visual</div>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>08 — Colors (RGB/HEX/HSL)</a>
+  <a href="#ch9" class="sb-link"><span class="sb-dot"></span>09 — Backgrounds & Borders</a>
+  <a href="#ch10" class="sb-link"><span class="sb-dot"></span>10 — Margin & Padding</a>
+  <a href="#quiz-visual" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — Visual</a>
+  <div class="sb-section">Modern CSS</div>
+  <a href="#ch11" class="sb-link"><span class="sb-dot"></span>11 — Responsive & Grid</a>
+  <a href="#ch12" class="sb-link"><span class="sb-dot"></span>12 — Variables & Flexbox</a>
+  <a href="#ch13" class="sb-link"><span class="sb-dot"></span>13 — Specificity Rules</a>
+  <a href="#quiz-modern" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — Modern CSS</a>
+  <div class="sb-section">Reference</div>
+  <a href="#cheatsheet" class="sb-link"><span class="sb-dot"></span>📋 Full Cheat Sheet</a>
+</nav>
+
+<button id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<main id="main">
+<!-- GLOBAL NAVIGATION -->
+<div class="global-nav">
+  <a href="index.html" class="gn-link gn-html"><span class="icon">📡</span> HTTP & HTML</a>
+  <a href="css.html" class="gn-link gn-css active"><span class="icon">🎨</span> CSS Guide</a>
+  <a href="js.html" class="gn-link gn-js"><span class="icon">⚡</span> JavaScript Guide</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <div class="hero-badge">🎨 IS231 · CSS Complete Study Guide · Slides 1–71 · All Exam Questions</div>
+  <h1>Cascading Style Sheets<br><span>CSS — المنهج كامل</span></h1>
+  <p></p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num" id="stat-slides">71</div><div class="lbl">CSS Slides</div></div>
+    <div class="hstat"><div class="num">13</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">Exam Sources</div></div>
+    <div class="hstat"><div class="num">50+</div><div class="lbl">Exam Questions</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 1 — What is CSS & Why
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num pink">01</div>
+    <div class="ch-title">
+      <h2>What is CSS & Why Do We Need It?</h2>
+      <p>CSS Introduction · Inline Styles · 3 Ways to Add CSS</p>
+    </div>
+  </div>
+
+  <!-- What is CSS -->
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🎨</span> What is CSS? — ببساطة إيه ده؟</div>
+    <p>CSS = <strong>Cascading Style Sheets</strong> — هي اللغة اللي بتتحكم في شكل صفحات الويب. يعني لو الـ HTML هو <em>"الهيكل العظمي"</em> للصفحة، فالـ CSS هو <em>"الملابس والديكور"</em> اللي بيخليها تبان حلوة.</p>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS SYNTAX</div></div>
+        <pre><code><span class="cmt">/* selector { property: value; } */</span>
+
+<span class="sel">h1</span> {
+  <span class="prop">color</span>: <span class="val">crimson</span>;
+  <span class="prop">font-size</span>: <span class="val">2em</span>;
+  <span class="prop">background</span>: <span class="val">#f0f0f0</span>;
+}
+
+<span class="sel">p</span> {
+  <span class="prop">font-family</span>: <span class="val">Verdana, sans-serif</span>;
+  <span class="prop">margin</span>: <span class="val">20px</span>;
+  <span class="prop">line-height</span>: <span class="val">1.6</span>;
+}</code></pre>
+      </div>
+      <div>
+        <div class="info"><div><b>💡 الـ 3 أسباب اللي بيذكرهم في الامتحان:</b><br><br>
+        <strong>What is CSS?</strong> = اللغة اللي بتستخدم لعمل style للـ HTML documents — بتتحكم في colors, fonts, layouts<br><br>
+        <strong>How does it work?</strong> = CSS rules بتستهدف HTML elements وبتحدد ازاي تتعرض<br><br>
+        <strong>Why use CSS?</strong> = ملف CSS واحد بيتحكم في صفحات كتير → وفر وقت وثبات</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why CSS -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🚨</span> Why CSS? — المشكلة اللي CSS حلّتها</div>
+    <div class="grid2">
+      <div>
+        <p><strong>المشكلة (قبل CSS):</strong></p>
+        <div class="danger"><div><b>❌ الطريقة القديمة — Messy HTML</b><br>
+        كل page كان فيها style attributes في كل element → كود كتير جداً ومش منظم<br><br>
+        <code>&lt;font color="red" size="3"&gt;</code> → كانوا بيحطوها في كل مكان!</div></div>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">HTML 3.2 — THE NIGHTMARE</div></div>
+          <pre><code><span class="cmt">&lt;!-- كل صفحة كانت زي دي! --&gt;</span>
+<span class="tag">&lt;h1&gt;&lt;font</span> <span class="attr">color</span>=<span class="val">"red"</span> <span class="attr">size</span>=<span class="val">"6"</span><span class="tag">&gt;</span>Title<span class="tag">&lt;/font&gt;&lt;/h1&gt;</span>
+<span class="tag">&lt;p&gt;&lt;font</span> <span class="attr">color</span>=<span class="val">"blue"</span><span class="tag">&gt;</span>Paragraph<span class="tag">&lt;/font&gt;&lt;/p&gt;</span>
+<span class="cmt">&lt;!-- ×100 pages = nightmare! --&gt;</span></code></pre>
+        </div>
+      </div>
+      <div>
+        <p><strong>الحل (CSS):</strong></p>
+        <div class="tip"><div><b>✅ الطريقة الصح — External CSS</b><br>
+        W3C عملت CSS عشان تفصل الـ structure (HTML) عن الـ presentation (CSS)</div></div>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">mystyle.css — كتبته مرة واحدة!</div></div>
+          <pre><code><span class="sel">h1</span> { <span class="prop">color</span>: <span class="val">red</span>; <span class="prop">font-size</span>: <span class="val">2em</span>; }
+<span class="sel">p</span>  { <span class="prop">color</span>: <span class="val">blue</span>; }
+
+<span class="cmt">/* غيّره مرة واحدة → اتغير للموقع كله! */</span></code></pre>
+        </div>
+        <div class="warn"><div><b>⚡ نقطة مهمة فالامتحان:</b><br>
+        الـ W3C هي اللي صممت CSS عشان تحل مشكلة الـ formatting في HTML</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inline Style -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">✍️</span> Inline Style — الـ style attribute</div>
+    <p>بتحط الـ CSS مباشرة على الـ element نفسه. مش موصى بيها إلا لو عايز تعمل تغيير لعنصر واحد بس.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">INLINE STYLE EXAMPLES — من السلايدز</div></div>
+      <pre><code><span class="cmt">Font Family Example:</span>
+<span class="tag">&lt;h1</span> <span class="attr">style</span>=<span class="val">"font-family:verdana;"</span><span class="tag">&gt;</span>This is a heading<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;p</span>  <span class="attr">style</span>=<span class="val">"font-family:courier;"</span><span class="tag">&gt;</span>This is a paragraph.<span class="tag">&lt;/p&gt;</span>
+
+<span class="cmt">Colors and Sizes:</span>
+<span class="tag">&lt;p&gt;</span>I am normal<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="val">"color:red;"</span><span class="tag">&gt;</span>I am red<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="val">"color:blue;"</span><span class="tag">&gt;</span>I am blue<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="val">"font-size:50px;"</span><span class="tag">&gt;</span>I am big<span class="tag">&lt;/p&gt;</span>
+
+<span class="cmt">Combined Styles:</span>
+<span class="tag">&lt;h1</span> <span class="attr">style</span>=<span class="val">"color:blue;text-align:center;"</span><span class="tag">&gt;</span>Styled Heading<span class="tag">&lt;/h1&gt;</span></code></pre>
+    </div>
+    <div class="note"><div><b>📌 مهم تعرف:</b> الـ inline style بيستخدم الـ <code>style</code> attribute مباشرة على الـ HTML element. ممكن تحط فيه أي CSS property.</div></div>
+  </div>
+
+  <!-- 3 Ways to Add CSS -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🔢</span> 3 Ways to Add CSS — دي من أكتر الأسئلة اللي بتيجي!</div>
+    <div class="grid3">
+      <div style="background:var(--card2);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:18px">
+        <div style="font-family:var(--fh);font-weight:700;color:var(--red);margin-bottom:10px;font-size:.9rem">1️⃣ Inline CSS</div>
+        <p style="font-size:.82rem;color:var(--t2);margin-bottom:10px">مباشرة على العنصر. بس لو عندك elements كتير ده بيكون مزعج.</p>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">INLINE</div></div>
+          <pre><code><span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="val">"color:red;"</span><span class="tag">&gt;</span>
+  Red text
+<span class="tag">&lt;/p&gt;</span></code></pre>
+        </div>
+        <div style="font-size:.75rem;color:var(--t3);margin-top:8px">أعلى أولوية (Priority #1)</div>
+      </div>
+      <div style="background:var(--card2);border:1px solid rgba(245,158,11,.3);border-radius:12px;padding:18px">
+        <div style="font-family:var(--fh);font-weight:700;color:var(--amber);margin-bottom:10px;font-size:.9rem">2️⃣ Internal CSS</div>
+        <p style="font-size:.82rem;color:var(--t2);margin-bottom:10px">جوا الـ &lt;head&gt; في &lt;style&gt; tag. كويس لو الصفحة دي ليها style مختلف.</p>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">INTERNAL</div></div>
+          <pre><code><span class="tag">&lt;head&gt;</span>
+<span class="tag">&lt;style&gt;</span>
+<span class="sel">p</span> { <span class="prop">color</span>: <span class="val">red</span>; }
+<span class="tag">&lt;/style&gt;</span>
+<span class="tag">&lt;/head&gt;</span></code></pre>
+        </div>
+        <div style="font-size:.75rem;color:var(--t3);margin-top:8px">Priority #2</div>
+      </div>
+      <div style="background:var(--card2);border:1px solid rgba(0,212,255,.3);border-radius:12px;padding:18px">
+        <div style="font-family:var(--fh);font-weight:700;color:var(--cyan);margin-bottom:10px;font-size:.9rem">3️⃣ External CSS</div>
+        <p style="font-size:.82rem;color:var(--t2);margin-bottom:10px">ملف .css منفصل. الأفضل لمواقع فيها صفحات كتير — غيّر ملف واحد يتغير كل حاجة!</p>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EXTERNAL</div></div>
+          <pre><code><span class="tag">&lt;head&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span>
+      <span class="attr">type</span>=<span class="val">"text/css"</span>
+      <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span></code></pre>
+        </div>
+        <div style="font-size:.75rem;color:var(--t3);margin-top:8px">Priority #3 (Lowest after browser default)</div>
+      </div>
+    </div>
+    <div class="danger" style="margin-top:16px"><div><b>🚨 مهم جداً من الامتحانات:</b><br>
+    • الـ External CSS file مش المفروض يحتوي على HTML tags — CSS فقط!<br>
+    • الـ link element بيتحط في الـ &lt;head&gt; section<br>
+    • الـ type="text/css" هو نوع الـ MIME للـ CSS files</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 2 — CSS Syntax & Cascade Order
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num cyan">02</div>
+    <div class="ch-title">
+      <h2>CSS Syntax & Cascading Order</h2>
+      <p>Rule Anatomy · Priority · Multiple Stylesheets · Comments</p>
+    </div>
+  </div>
+
+  <!-- CSS Rule anatomy -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔬</span> CSS Rule Anatomy — تشريح الـ CSS Rule</div>
+    <div class="grid2">
+      <div>
+        <div style="background:var(--code);border:1px solid #21262d;border-radius:12px;padding:24px;text-align:center;position:relative">
+          <div style="font-family:var(--fc);font-size:1.1rem;color:#cdd6f4;margin-bottom:20px">
+            <span style="color:#cba6f7;font-size:1.3rem">h1</span>
+            <span style="color:#585b70"> { </span>
+            <span style="color:#89dceb">color</span><span style="color:#585b70">:</span>
+            <span style="color:#a6e3a1">blue</span><span style="color:#585b70">;</span>
+            <span style="color:#89dceb">font-size</span><span style="color:#585b70">:</span>
+            <span style="color:#fab387">12px</span><span style="color:#585b70">; }</span>
+          </div>
+          <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;font-size:.72rem;font-family:var(--fc)">
+            <div style="text-align:center"><div style="width:40px;height:2px;background:var(--purple);margin:0 auto 6px"></div><div style="color:var(--purple)">Selector</div><div style="color:var(--t3)">h1</div></div>
+            <div style="text-align:center"><div style="width:40px;height:2px;background:var(--cyan);margin:0 auto 6px"></div><div style="color:var(--cyan)">Property</div><div style="color:var(--t3)">color</div></div>
+            <div style="text-align:center"><div style="width:40px;height:2px;background:var(--green);margin:0 auto 6px"></div><div style="color:var(--green)">Value</div><div style="color:var(--t3)">blue</div></div>
+            <div style="text-align:center"><div style="width:60px;height:2px;background:var(--amber);margin:0 auto 6px"></div><div style="color:var(--amber)">Declaration</div><div style="color:var(--t3)">color:blue</div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="info"><div><b>📌 التعريفات — محفوظة للامتحان:</b><br><br>
+        <strong>Selector</strong> = بيحدد <em>أنهي</em> HTML element هتطبق عليه الـ style<br><br>
+        <strong>Declaration Block</strong> = كل حاجة جوا الـ { } — ممكن يكون فيها declarations كتير<br><br>
+        <strong>Property</strong> = اسم الـ style اللي عايز تغيره (color, font-size, ...)<br><br>
+        <strong>Value</strong> = القيمة بتاعة الـ property (red, 12px, ...)<br><br>
+        <strong>Declaration</strong> = property + value مع بعض زي "color:red"</div></div>
+        <div class="warn"><div><b>⚡ من final-2024:</b><br>
+        "color:red" can be called = <strong>Declaration</strong> (مش Selector ومش Value)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cascading Order -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">⚡</span> Cascading Order — مين بيتغلب على مين؟</div>
+    <p>لما يبقى في conflict بين rules — أنهي rule يتطبق؟ في ترتيب محدد للـ priority:</p>
+    <div class="priority-stack" style="margin:16px auto">
+      <div class="prio-row prio-1">
+        <div class="prio-num">1</div>
+        <div class="prio-name">Inline Style</div>
+        <div class="prio-ex">style="color:red;" على الـ element نفسه</div>
+      </div>
+      <div style="text-align:center;color:var(--t3);font-size:.75rem">↓ لو مفيش inline</div>
+      <div class="prio-row prio-2">
+        <div class="prio-num">2</div>
+        <div class="prio-name">Internal CSS</div>
+        <div class="prio-ex">&lt;style&gt; في الـ &lt;head&gt;</div>
+      </div>
+      <div style="text-align:center;color:var(--t3);font-size:.75rem">↓ لو مفيش internal (أو External جاي بعدها)</div>
+      <div class="prio-row prio-3">
+        <div class="prio-num">3</div>
+        <div class="prio-name">External CSS</div>
+        <div class="prio-ex">ملف .css منفصل</div>
+      </div>
+      <div style="text-align:center;color:var(--t3);font-size:.75rem">↓ لو مفيش CSS خالص</div>
+      <div class="prio-row prio-4">
+        <div class="prio-num">4</div>
+        <div class="prio-name">Browser Default</div>
+        <div class="prio-ex">الـ default styling بتاع الـ browser</div>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CASCADING ORDER EXAMPLE</div></div>
+      <pre><code><span class="cmt">/* External file: mystyle.css */</span>
+<span class="sel">h1</span> { <span class="prop">color</span>: <span class="val">navy</span>; }   <span class="cmt">← Priority 3</span>
+
+<span class="cmt">/* Internal: inside &lt;style&gt; in &lt;head&gt; */</span>
+<span class="sel">h1</span> { <span class="prop">color</span>: <span class="val">orange</span>; } <span class="cmt">← Priority 2 (wins over external!)</span>
+
+<span class="cmt">/* Inline on element */</span>
+<span class="tag">&lt;h1</span> <span class="attr">style</span>=<span class="val">"color:pink"</span><span class="tag">&gt;</span>  <span class="cmt">← Priority 1 (WINS everything!)</span>
+
+<span class="cmt">/* Multiple stylesheets — last one wins! */</span>
+<span class="tag">&lt;link</span> <span class="attr">href</span>=<span class="val">"mystyle.css"</span><span class="tag">&gt;</span>   <span class="cmt">← h1: color blue</span>
+<span class="tag">&lt;link</span> <span class="attr">href</span>=<span class="val">"mystyle2.css"</span><span class="tag">&gt;</span>  <span class="cmt">← h1: color red → هذا يفوز!</span></code></pre>
+    </div>
+    <div class="danger"><div><b>🚨 External CSS has the highest priority? → FALSE!</b><br>
+    Inline style هو الأعلى دايماً. External هو قبل browser default بس.</div></div>
+  </div>
+
+  <!-- CSS Comments -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">💬</span> CSS Comments — المهم تعرف الـ Syntax</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS COMMENTS</div></div>
+        <pre><code><span class="cmt">/* Single-line comment */</span>
+<span class="sel">p</span> { <span class="prop">color</span>: <span class="val">red</span>; }
+
+<span class="cmt">/* This is
+   a multi-line
+   comment */</span>
+<span class="sel">p</span> { <span class="prop">color</span>: <span class="val">red</span>; }
+
+<span class="cmt">/* Temporarily disabled:
+p { color: blue; }
+*/</span></code></pre>
+      </div>
+      <div class="info"><div><b>💡 Comments في CSS:</b><br><br>
+      • بتبدأ بـ <code>/*</code> وبتخلص بـ <code>*/</code><br>
+      • الـ browser بيتجاهلها خالص<br>
+      • ممكن تكون single-line أو multi-line<br>
+      • بنستخدمها لشرح الكود أو لـ disable مؤقت لـ rules<br><br>
+      ⚠️ مفيش // comments في CSS زي JavaScript!</div></div>
+    </div>
+  </div>
+
+  <!-- QUIZ CH1-2 -->
+  <div class="quiz-section" id="quiz-ch1">
+    <div class="quiz-header">
+      <div class="quiz-icon">🎯</div>
+      <div><h3>Quiz — CSS Foundations</h3><p>أسئلة حقيقية من امتحانات mid-2022 / mid-2023 / final-2024 / final-2025</p></div>
+    </div>
+    <div id="qset-ch1">
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q1 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">One of the uses of Cascading Style is to ________</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Identify how elements will be displayed on paper</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Identify how elements will be saved to the server</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Identify how elements will be sent to the client</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the answers!</div>
+        </div>
+        <div class="q-explain">✅ CSS بتحدد كيفية عرض الـ HTML elements — سواء على الشاشة أو على الورق (print). الإجابة A لأن الـ CSS بتحدد presentation بما فيه "on paper".</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q2 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">(Multiple answers): CSS can be defined ________</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Internally inside the HTML by adding the styles in the &lt;style&gt; element</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Externally in a separate file</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Inline inside an HTML element using the "style" attribute</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> كل ما سبق (A + B + C)</div>
+        </div>
+        <div class="q-explain">✅ الـ CSS ممكن تتحط بـ 3 طرق: Internal (&lt;style&gt;)، External (ملف منفصل)، Inline (style attribute). كل الإجابات صح.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">&lt;link rel="stylesheet" type="text/css" href="style.css"&gt; is a declaration of ________</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Internal CSS</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> External CSS</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Inline CSS</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the answers!</div>
+        </div>
+        <div class="q-explain">✅ الـ &lt;link href="style.css"&gt; ده بيربط ملف CSS منفصل — يعني External CSS. Internal بيبقى &lt;style&gt; جوا الـ &lt;head&gt;.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q4 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Which of the following CSS styles has the HIGHEST priority?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> External style</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Internal style</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Inline style</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Browser default</div>
+        </div>
+        <div class="q-explain">✅ Inline → Internal → External → Browser default. الـ Inline style دايماً أعلى priority لأنه أكثر specific.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q5 <span class="q-src">final-2024</span></div>
+        <div class="q-text">External CSS style has the highest priority. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ FALSE! الـ Inline style هو الأعلى priority — مش الـ External. External له أدنى priority من Inline وInternal.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q6 <span class="q-src">final-2024</span></div>
+        <div class="q-text">In CSS, "color:red" can be called as:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Selector</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Declaration</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Rule</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Value</div>
+        </div>
+        <div class="q-explain">✅ Declaration = property + value مع بعض. "color:red" هو declaration واحد. الـ Rule = selector + { declarations }. الـ Value وحده = "red" بس.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q7 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Which of the following is the correct way to apply CSS Styles?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Inside an HTML element (inline)</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Inside the &lt;head&gt; section of an HTML page</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> In an external CSS file</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All of the mentioned</div>
+        </div>
+        <div class="q-explain">✅ كل الطرق الثلاث صح! Inline, Internal, External — كلها طرق valid لإضافة CSS.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q8 <span class="q-src">final-2025</span></div>
+        <div class="q-text">CSS can be defined externally in a separate file by adding the &lt;style&gt; element inside the &lt;head&gt;. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> False</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> True</div>
+        </div>
+        <div class="q-explain">✅ FALSE! الـ External CSS بيتربط بـ &lt;link&gt; tag مش &lt;style&gt;. الـ &lt;style&gt; tag هو Internal CSS.</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-ch1','score-ch1')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-ch1','score-ch1')">Reset ↺</button>
+    <div class="q-score" id="score-ch1"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 3 — Simple Selectors
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num purple">03</div>
+    <div class="ch-title">
+      <h2>Simple CSS Selectors</h2>
+      <p>Element · Class · ID · Universal · Grouping</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🎯</span> 5 نوع من الـ Simple Selectors</div>
+    <table class="tbl">
+      <tr><th>Selector</th><th>Syntax</th><th>بيستهدف إيه؟</th><th>مثال</th></tr>
+      <tr><td><strong>Element</strong></td><td><code>p { }</code></td><td>كل &lt;p&gt; elements في الصفحة</td><td>p { color: red; }</td></tr>
+      <tr><td><strong>Class</strong></td><td><code>.center { }</code></td><td>كل elements عندها class="center"</td><td>.center { text-align: center; }</td></tr>
+      <tr><td><strong>ID</strong></td><td><code>#para1 { }</code></td><td>element واحد فقط بـ id="para1"</td><td>#para1 { color: blue; }</td></tr>
+      <tr><td><strong>Universal</strong></td><td><code>* { }</code></td><td>كل الـ elements في الصفحة</td><td>* { margin: 0; }</td></tr>
+      <tr><td><strong>Grouping</strong></td><td><code>h1, h2, p { }</code></td><td>مجموعة selectors مع بعض</td><td>h1,h2,p { color: navy; }</td></tr>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <!-- Element Selector -->
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">📝</span> Element Selector</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS</div></div>
+        <pre><code><span class="sel">p</span> {
+  <span class="prop">text-align</span>: <span class="val">center</span>;
+  <span class="prop">color</span>: <span class="val">red</span>;
+}
+<span class="cmt">/* كل &lt;p&gt; في الصفحة بتتأثر */</span></code></pre>
+      </div>
+      <div class="selector-demo">
+        <span class="sel-tag">&lt;h1&gt;</span><span class="miss">Heading</span><span class="sel-tag">&lt;/h1&gt;</span><br>
+        <span class="sel-tag">&lt;p&gt;</span><span class="hit">Styled!</span><span class="sel-tag">&lt;/p&gt;</span><br>
+        <span class="sel-tag">&lt;div&gt;</span><span class="miss">Not styled</span><span class="sel-tag">&lt;/div&gt;</span><br>
+        <span class="sel-tag">&lt;p&gt;</span><span class="hit">Also Styled!</span><span class="sel-tag">&lt;/p&gt;</span>
+      </div>
+    </div>
+
+    <!-- ID Selector -->
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">#️⃣</span> ID Selector</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS</div></div>
+        <pre><code><span class="sel">#para1</span> {
+  <span class="prop">text-align</span>: <span class="val">center</span>;
+  <span class="prop">color</span>: <span class="val">red</span>;
+}
+<span class="cmt">/* element واحد بس بـ id="para1" */</span></code></pre>
+      </div>
+      <div class="selector-demo">
+        <span class="sel-tag">&lt;p </span><span class="sel-attr">id="para1"</span><span class="sel-tag">&gt;</span><span class="hit">Styled! (only this)</span><span class="sel-tag">&lt;/p&gt;</span><br>
+        <span class="sel-tag">&lt;p </span><span class="sel-attr">id="para2"</span><span class="sel-tag">&gt;</span><span class="miss">Not styled</span><span class="sel-tag">&lt;/p&gt;</span>
+      </div>
+      <div class="warn" style="margin-top:10px"><div><b>⚠️ Note:</b> CSS selectors مش بتبدأ بـ digit. #1para ✗ — #para1 ✓</div></div>
+    </div>
+
+    <!-- Class Selector -->
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">🏷️</span> Class Selector — الأكثر استخداماً!</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS — 3 طرق لاستخدام Class</div></div>
+        <pre><code><span class="cmt">/* 1. كل elements بالـ class */</span>
+<span class="sel">.center</span> { <span class="prop">text-align</span>: <span class="val">center</span>; }
+
+<span class="cmt">/* 2. نوع محدد بالـ class فقط */</span>
+<span class="sel">p.center</span> { <span class="prop">text-align</span>: <span class="val">center</span>; }
+<span class="cmt">/* بس &lt;p&gt; elements مع class="center" */</span>
+
+<span class="cmt">/* 3. Element بـ classes كتير */</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="val">"center large"</span><span class="tag">&gt;</span>Two classes!<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+      <div class="selector-demo">
+        <span class="sel-tag">&lt;h1 </span><span class="sel-attr">class="center"</span><span class="sel-tag">&gt;</span><span class="hit">Styled by .center</span><span class="sel-tag">&lt;/h1&gt;</span><br>
+        <span class="sel-tag">&lt;p </span><span class="sel-attr">class="center"</span><span class="sel-tag">&gt;</span><span class="hit">Styled by p.center</span><span class="sel-tag">&lt;/p&gt;</span><br>
+        <span class="sel-tag">&lt;div</span><span class="sel-tag">&gt;</span><span class="miss">Not styled</span><span class="sel-tag">&lt;/div&gt;</span>
+      </div>
+    </div>
+
+    <!-- Universal + Grouping -->
+    <div class="topic" style="--accent:var(--pink)">
+      <div class="topic-title"><span class="icon">⭐</span> Universal & Grouping</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS</div></div>
+        <pre><code><span class="cmt">/* Universal — كل حاجة في الصفحة */</span>
+<span class="sel">*</span> {
+  <span class="prop">text-align</span>: <span class="val">center</span>;
+  <span class="prop">color</span>: <span class="val">blue</span>;
+}
+
+<span class="cmt">/* Grouping — بدل ما تكرر */</span>
+<span class="cmt">/* قبل: */</span>
+<span class="sel">h1</span> { <span class="prop">text-align</span>: <span class="val">center</span>; <span class="prop">color</span>: <span class="val">red</span>; }
+<span class="sel">h2</span> { <span class="prop">text-align</span>: <span class="val">center</span>; <span class="prop">color</span>: <span class="val">red</span>; }
+<span class="sel">p</span>  { <span class="prop">text-align</span>: <span class="val">center</span>; <span class="prop">color</span>: <span class="val">red</span>; }
+
+<span class="cmt">/* بعد — بالـ Grouping: */</span>
+<span class="sel">h1, h2, p</span> {
+  <span class="prop">text-align</span>: <span class="val">center</span>;
+  <span class="prop">color</span>: <span class="val">red</span>;
+}</code></pre>
+      </div>
+      <div class="tip"><div><b>💡 Universal Selector (*) ≠ Styling all &lt;p&gt; elements</b><br>
+      الـ Universal بيستهدف كل الـ elements مش بس الـ p. عايز كل الـ p بس؟ استخدم element selector: <code>p { }</code></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 4 — Combinator Selectors
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num amber">04</div>
+    <div class="ch-title">
+      <h2>Combinator Selectors — النوع الأصعب!</h2>
+      <p>Descendant · Child · Adjacent Sibling · General Sibling</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔗</span> الـ 4 Combinators — جدول المقارنة</div>
+    <table class="tbl">
+      <tr><th>Combinator</th><th>Symbol</th><th>المعنى</th><th>مثال</th></tr>
+      <tr><td><strong>Descendant</strong></td><td><span class="badge badge-cyan">space</span></td><td>كل F جوا E بأي مستوى</td><td><code>div p</code></td></tr>
+      <tr><td><strong>Child</strong></td><td><span class="badge badge-green">&gt;</span></td><td>F اللي هو direct child لـ E فقط</td><td><code>div &gt; p</code></td></tr>
+      <tr><td><strong>Adjacent Sibling</strong></td><td><span class="badge badge-amber">+</span></td><td>أول F مباشرة بعد E (نفس الـ parent)</td><td><code>div + p</code></td></tr>
+      <tr><td><strong>General Sibling</strong></td><td><span class="badge badge-pink">~</span></td><td>كل F بعد E (نفس الـ parent)</td><td><code>div ~ p</code></td></tr>
+    </table>
+  </div>
+
+  <!-- The Critical Exam HTML -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🚨</span> الـ HTML الأساسي اللي الامتحانات بتسأل عليه!</div>
+    <p>دي الـ HTML اللي بتيجي في كل الامتحانات. لازم تحفظها وتعرف تحللها:</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EXAM HTML — mid-2023 / final-2024 / final-2025</div></div>
+      <pre><code><span class="tag">&lt;h2</span> <span class="attr">id</span>=<span class="val">"id1"</span><span class="tag">&gt;</span>Hello World<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;p&gt;</span>Welcome<span class="tag">&lt;/p&gt;</span>                        <span class="cmt">← p قبل الـ div</span>
+<span class="tag">&lt;div&gt;</span>
+  <span class="tag">&lt;p&gt;</span>Paragraph 1.<span class="tag">&lt;/p&gt;</span>             <span class="cmt">← direct child of div ✓</span>
+  <span class="tag">&lt;p&gt;</span>Paragraph 2.<span class="tag">&lt;/p&gt;</span>             <span class="cmt">← direct child of div ✓</span>
+  <span class="tag">&lt;section&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Paragraph 3.<span class="tag">&lt;/p&gt;</span>           <span class="cmt">← inside section, NOT direct child ✗</span>
+  <span class="tag">&lt;/section&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;p&gt;</span>Paragraph 4.<span class="tag">&lt;/p&gt;</span>                <span class="cmt">← sibling after div ✓</span>
+<span class="tag">&lt;p&gt;</span>Paragraph 5.<span class="tag">&lt;/p&gt;</span>                <span class="cmt">← sibling after div ✓</span></code></pre>
+    </div>
+    <div class="grid3" style="margin-top:16px">
+      <div style="background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:14px">
+        <div style="font-family:var(--fh);font-weight:700;color:var(--cyan);margin-bottom:8px;font-size:.88rem">div p { } — Descendant</div>
+        <div style="font-size:.8rem;color:var(--t2)">P1, P2, P3 → <span class="badge badge-cyan">3 elements</span><br>
+        كل &lt;p&gt; جوا الـ div بأي مستوى<br>
+        P3 جوا section جوا div → تحت.</div>
+      </div>
+      <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:14px">
+        <div style="font-family:var(--fh);font-weight:700;color:var(--green);margin-bottom:8px;font-size:.88rem">div &gt; p { } — Child</div>
+        <div style="font-size:.8rem;color:var(--t2)">P1, P2 فقط → <span class="badge badge-green">2 elements</span><br>
+        P3 جوا &lt;section&gt; — مش direct child<br>
+        ∴ مش بتتأثر!</div>
+      </div>
+      <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:14px">
+        <div style="font-family:var(--fh);font-weight:700;color:var(--amber);margin-bottom:8px;font-size:.88rem">div + p { } — Adjacent</div>
+        <div style="font-size:.8rem;color:var(--t2)">P4 فقط → <span class="badge badge-amber">1 element</span><br>
+        أول &lt;p&gt; مباشرة بعد &lt;div&gt;<br>
+        P5 مش immediately after.</div>
+      </div>
+    </div>
+    <div style="background:rgba(244,114,182,.06);border:1px solid rgba(244,114,182,.2);border-radius:10px;padding:14px;margin-top:14px">
+      <div style="font-family:var(--fh);font-weight:700;color:var(--pink);margin-bottom:8px;font-size:.88rem">div ~ p { } — General Sibling</div>
+      <div style="font-size:.8rem;color:var(--t2)">P4, P5 → <span class="badge badge-pink">2 elements</span> — كل &lt;p&gt; siblings بعد الـ div. "Welcome" قبل الـ div ✗ — مش بيتأثر!</div>
+    </div>
+    <div class="danger" style="margin-top:14px"><div><b>🚨 اللي بيغلط فيها الجميع:</b><br>
+    • div > p = <strong>2</strong> (مش 3!) — P3 جوا section<br>
+    • div ~ p = <strong>2</strong> (مش 3!) — P قبل div مش بيتحسب<br>
+    • div + p = <strong>1</strong> — الأولانية بس immediately بعد div</div></div>
+  </div>
+
+  <!-- Detailed Selector Examples -->
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">📦</span> Child Selector — div &gt; p</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS</div></div>
+        <pre><code><span class="sel">div > p</span> {
+  <span class="prop">background-color</span>: <span class="val">yellow</span>;
+}
+<span class="cmt">/* فقط &lt;p&gt; direct children of &lt;div&gt; */</span></code></pre>
+      </div>
+      <div class="selector-demo">
+        <span class="sel-tag">&lt;div&gt;</span><br>
+        &nbsp;&nbsp;<span class="sel-tag">&lt;p&gt;</span><span class="hit">✓ Direct child</span><span class="sel-tag">&lt;/p&gt;</span><br>
+        &nbsp;&nbsp;<span class="sel-tag">&lt;span&gt;&lt;p&gt;</span><span class="miss">✗ Grandchild</span><span class="sel-tag">&lt;/p&gt;&lt;/span&gt;</span><br>
+        <span class="sel-tag">&lt;/div&gt;</span>
+      </div>
+    </div>
+    <div class="topic" style="--accent:var(--pink)">
+      <div class="topic-title"><span class="icon">🔄</span> General Sibling — div ~ p</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS</div></div>
+        <pre><code><span class="sel">div ~ p</span> {
+  <span class="prop">background-color</span>: <span class="val">yellow</span>;
+}
+<span class="cmt">/* كل &lt;p&gt; siblings بعد &lt;div&gt; */</span></code></pre>
+      </div>
+      <div class="selector-demo">
+        <span class="sel-tag">&lt;p&gt;</span><span class="miss">✗ Before div</span><span class="sel-tag">&lt;/p&gt;</span><br>
+        <span class="sel-tag">&lt;div&gt;&lt;/div&gt;</span><br>
+        <span class="sel-tag">&lt;p&gt;</span><span class="hit">✓ After div</span><span class="sel-tag">&lt;/p&gt;</span><br>
+        <span class="sel-tag">&lt;p&gt;</span><span class="hit">✓ Also after div</span><span class="sel-tag">&lt;/p&gt;</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 5 — Pseudo-classes
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num green">05</div>
+    <div class="ch-title">
+      <h2>CSS Pseudo-classes</h2>
+      <p>:hover · :first-child · :empty · :focus · Anchor States</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔮</span> ما هي الـ Pseudo-class؟</div>
+    <p>الـ Pseudo-class بتحدد <strong>حالة خاصة</strong> للـ element — زي لما الماوس عليه، أو أول element في الـ parent. Syntax: <code>selector:pseudo-class { property: value; }</code></p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PSEUDO-CLASS EXAMPLES</div></div>
+      <pre><code><span class="sel">a:hover</span>        { <span class="prop">color</span>: <span class="val">hotpink</span>; }    <span class="cmt">/* hover state */</span>
+<span class="sel">input:focus</span>    { <span class="prop">border-color</span>: <span class="val">blue</span>; } <span class="cmt">/* focused input */</span>
+<span class="sel">li:first-child</span> { <span class="prop">font-weight</span>: <span class="val">bold</span>; }  <span class="cmt">/* first in list */</span>
+<span class="sel">p:empty</span>        { <span class="prop">display</span>: <span class="val">none</span>; }      <span class="cmt">/* p with no children */</span>
+<span class="sel">input:enabled</span>  { <span class="prop">color</span>: <span class="val">green</span>; }      <span class="cmt">/* enabled input */</span>
+<span class="sel">input:disabled</span> { <span class="prop">color</span>: <span class="val">gray</span>; }       <span class="cmt">/* disabled input */</span></code></pre>
+    </div>
+  </div>
+
+  <!-- Anchor Pseudo-classes -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔗</span> Anchor Pseudo-classes — Link States</div>
+    <p>الـ links ليها 4 states ممكن تستايلها:</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS — LINK STATES</div></div>
+      <pre><code><span class="sel">a:link</span>    { <span class="prop">color</span>: <span class="val">#FF0000</span>; } <span class="cmt">/* unvisited link — لم يزر بعد */</span>
+<span class="sel">a:visited</span> { <span class="prop">color</span>: <span class="val">#00FF00</span>; } <span class="cmt">/* visited link — زاره */</span>
+<span class="sel">a:hover</span>   { <span class="prop">color</span>: <span class="val">#FF00FF</span>; } <span class="cmt">/* mouse over — ماوس فوقه */</span>
+<span class="sel">a:active</span>  { <span class="prop">color</span>: <span class="val">#0000FF</span>; } <span class="cmt">/* selected link — لما بيكليك عليه */</span></code></pre>
+    </div>
+    <div class="warn"><div><b>⚡ من الامتحان:</b><br>
+    • <code>a:hover</code> = لما الماوس فوق الـ link (mouse over)<br>
+    • <code>a:link</code> = الـ link اللي مزاروش<br>
+    • <code>a:active</code> = وقت الـ click<br>
+    • <code>a::hover</code> بـ double colon → <strong>WRONG!</strong> — Pseudo-class بـ single colon</div></div>
+  </div>
+
+  <!-- first-child TRAP -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">⚠️</span> :first-child — الفخ الأكبر في الامتحانات!</div>
+    <p><code>p:first-child</code> بتستهدف &lt;p&gt; element <strong>بس لو ده أول child</strong> بتاع الـ parent بتاعه.</p>
+    <div class="grid2">
+      <div>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EXAM HTML — CSS Selector Section</div></div>
+          <pre><code><span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;h2&gt;</span>CSS Selector<span class="tag">&lt;/h2&gt;</span>   <span class="cmt">← أول child!</span>
+  <span class="tag">&lt;p&gt;</span>Hello I am Here:<span class="tag">&lt;/p&gt;</span>  <span class="cmt">← 2nd child</span>
+  <span class="tag">&lt;p&gt;</span>Paragraph 2<span class="tag">&lt;/p&gt;</span>        <span class="cmt">← 3rd child</span>
+  <span class="tag">&lt;p&gt;</span>Hello P3<span class="tag">&lt;/p&gt;</span>          <span class="cmt">← 4th child</span>
+<span class="tag">&lt;/body&gt;</span>
+
+<span class="sel">p:first-child</span> { <span class="prop">color</span>: <span class="val">red</span>; }</code></pre>
+        </div>
+      </div>
+      <div>
+        <div class="danger"><div><b>🚨 النتيجة = 0 elements!</b><br><br>
+        <code>p:first-child</code> تعني:<br>
+        "أي &lt;p&gt; هو أول child لـ parent بتاعه"<br><br>
+        في الـ body، أول child = &lt;h2&gt; مش &lt;p&gt;<br>
+        ∴ مفيش &lt;p&gt; هو first-child → 0 styled!<br><br>
+        لو كان في div جوا الـ body:<br>
+        <code>&lt;div&gt;&lt;p&gt;first&lt;/p&gt;&lt;/div&gt;</code><br>
+        هنا الـ p ده first-child ✓</div></div>
+        <div class="tip"><div><b>💡 انتبه!</b><br>
+        <code>h2:first-child</code> بيتطبق لأن h2 هو أول child لـ body. = 1 element ✓</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- :enabled Selector -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">✅</span> :enabled Selector</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS</div></div>
+        <pre><code><span class="sel">:enabled</span>  { <span class="prop">color</span>: <span class="val">green</span>; }
+<span class="sel">:disabled</span> { <span class="prop">color</span>: <span class="val">gray</span>; }
+<span class="sel">:checked</span>  { <span class="prop">accent-color</span>: <span class="val">blue</span>; }
+
+<span class="cmt">/* مش ::enabled (double colon) */</span>
+<span class="cmt">/* Pseudo-class = single colon : */</span></code></pre>
+      </div>
+      <div class="warn"><div><b>⚠️ من mid-2023:</b><br>
+      سألوا "Which CSS selector selects the elements that are enabled?"<br><br>
+      الإجابة الصح = <code>:enabled</code> (single colon)<br>
+      <code>::enabled</code> = WRONG (double colon للـ pseudo-elements مش pseudo-classes)</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 6 — Pseudo-elements
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num orange">06</div>
+    <div class="ch-title">
+      <h2>CSS Pseudo-elements</h2>
+      <p>::first-line · ::first-letter · ::before · ::after · ::selection</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--orange)">
+    <div class="topic-title"><span class="icon">✨</span> Pseudo-elements — بتستهدف جزء من الـ element</div>
+    <div class="grid2">
+      <div>
+        <p>الـ Pseudo-element بتستايل <strong>جزء معين</strong> من الـ element — زي أول حرف أو أول سطر. Syntax: <code>selector::pseudo-element { }</code></p>
+        <div class="warn"><div><b>⚡ الفرق المهم:</b><br>
+        Pseudo-class = <code>:</code> (single) — state بتاع الـ element<br>
+        Pseudo-element = <code>::</code> (double) — جزء من الـ element</div></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">ALL PSEUDO-ELEMENTS</div></div>
+        <pre><code><span class="sel">p::first-letter</span> { <span class="prop">font-size</span>: <span class="val">200%</span>; } <span class="cmt">← Drop cap</span>
+<span class="sel">p::first-line</span>   { <span class="prop">color</span>: <span class="val">#0000FF</span>; } <span class="cmt">← أول سطر</span>
+<span class="sel">h1::before</span>      { <span class="prop">content</span>: <span class="val">"★ "</span>; }  <span class="cmt">← قبل</span>
+<span class="sel">h2::after</span>       { <span class="prop">content</span>: <span class="val">" ★"</span>; }  <span class="cmt">← بعد</span>
+<span class="sel">::marker</span>        { <span class="prop">color</span>: <span class="val">red</span>; }      <span class="cmt">← list bullet</span>
+<span class="sel">::selection</span>     { <span class="prop">background</span>: <span class="val">yellow</span>; } <span class="cmt">← selected text</span></code></pre>
+      </div>
+    </div>
+    <table class="tbl">
+      <tr><th>Pseudo-element</th><th>بيعمل إيه؟</th></tr>
+      <tr><td><code>::first-line</code></td><td>بيستايل أول سطر في الـ text block — الـ browser بيحدد هو أول سطر إيه بناءً على عرض الـ viewport</td></tr>
+      <tr><td><code>::first-letter</code></td><td>بيستايل أول حرف — زي الـ Drop Cap في الجرايد</td></tr>
+      <tr><td><code>::before</code></td><td>بيضيف content قبل الـ element content — محتاج <code>content</code> property</td></tr>
+      <tr><td><code>::after</code></td><td>بيضيف content بعد الـ element content</td></tr>
+      <tr><td><code>::marker</code></td><td>بيستايل bullet أو number الـ list item</td></tr>
+      <tr><td><code>::selection</code></td><td>بيستايل الـ text اللي المستخدم بيسيلكته بالماوس</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 7 — Attribute Selectors
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num cyan">07</div>
+    <div class="ch-title">
+      <h2>CSS Attribute Selectors</h2>
+      <p>[attr] · [attr=val] · [attr^=val] · [attr$=val] · [attr*=val]</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🏷️</span> Attribute Selectors — بتستهدف بـ Attribute</div>
+    <table class="tbl">
+      <tr><th>Selector</th><th>المعنى</th><th>مثال</th></tr>
+      <tr><td><code>[attr]</code></td><td>كل elements عندها الـ attribute ده (بأي قيمة)</td><td><code>a[target]</code></td></tr>
+      <tr><td><code>[attr=v]</code></td><td>attribute بقيمة معينة exactly</td><td><code>a[target="_blank"]</code></td></tr>
+      <tr><td><code>[attr~=v]</code></td><td>attribute value فيها الـ word ده</td><td><code>[class~="note"]</code></td></tr>
+      <tr><td><code>[attr|=v]</code></td><td>attribute يساوي v أو يبدأ بـ v- (للغات)</td><td><code>[lang|="en"]</code></td></tr>
+      <tr><td><code>[attr^=v]</code></td><td>attribute <strong>يبدأ بـ</strong> v</td><td><code>a[href^="https"]</code></td></tr>
+      <tr><td><code>[attr$=v]</code></td><td>attribute <strong>ينتهي بـ</strong> v</td><td><code>a[href$=".pdf"]</code></td></tr>
+      <tr><td><code>[attr*=v]</code></td><td>attribute <strong>يحتوي على</strong> v في أي مكان</td><td><code>[class*="card"]</code></td></tr>
+    </table>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EXAM EXAMPLES</div></div>
+      <pre><code><span class="cmt">/* كل &lt;a&gt; عندها target attribute */</span>
+<span class="sel">a[target]</span>          { <span class="prop">background-color</span>: <span class="val">yellow</span>; }
+
+<span class="cmt">/* فقط target="_blank" */</span>
+<span class="sel">a[target="_blank"]</span> { <span class="prop">background-color</span>: <span class="val">green</span>; }
+
+<span class="cmt">/* type="text" inputs */</span>
+<span class="sel">input[type="text"]</span> { <span class="prop">border</span>: <span class="val">2px solid blue</span>; }</code></pre>
+    </div>
+    <div class="note"><div><b>🧪 من الامتحانات — تحليل:</b><br><br>
+    الـ HTML: &lt;a href="w3schools"&gt;, &lt;a href="disney" target="_blank"&gt;, &lt;a href="wiki" target="_top"&gt;<br><br>
+    <strong>a[target=_blank]</strong> → disney فقط = <strong>1 element</strong><br>
+    <strong>a[target]</strong> → disney + wiki = <strong>2 elements</strong> (أي target attr)<br>
+    <strong>a { }</strong> → كل الـ 3 links = <strong>3 elements</strong><br><br>
+    <strong>[target=_blank]</strong> = اسمه <strong>Attribute Selector</strong> (مش anchor selector)</div></div>
+  </div>
+
+  <!-- QUIZ — Selectors -->
+  <div class="quiz-section" id="quiz-sel">
+    <div class="quiz-header">
+      <div class="quiz-icon">🎯</div>
+      <div><h3>Quiz — CSS Selectors</h3><p>أصعب جزء في الامتحانات — تمرن كويس!</p></div>
+    </div>
+    <div id="qset-sel">
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q1 <span class="q-src">mid-2023 / final-2024</span></div>
+        <div class="q-text">By using this CSS selector <code>div &gt; p { color: red }</code>, how many p elements will be styled from the exam HTML?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 3</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 5</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 6</div>
+        </div>
+        <div class="q-explain">✅ div &gt; p = direct children فقط. P1 وP2 هم direct children. P3 جوا &lt;section&gt; مش direct child. الإجابة = 2.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q2 <span class="q-src">mid-2023 / final-2024</span></div>
+        <div class="q-text">By using this CSS selector <code>div ~ p {color: blue}</code>, the number of p elements that will be styled is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 3</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 5</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 6</div>
+        </div>
+        <div class="q-explain">✅ div ~ p = كل &lt;p&gt; siblings بعد الـ div. P4 وP5 جايين بعد div. "Welcome" قبل div ✗. الإجابة = 2.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q3 <span class="q-src">final-2025</span></div>
+        <div class="q-text">By using this CSS selector <code>div + p { color: red}</code>, how many p elements will be styled from the exam HTML?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 4</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 3</div>
+        </div>
+        <div class="q-explain">✅ div + p = أول &lt;p&gt; immediately بعد الـ div فقط. P4 هو الأولانية — P5 مش immediately. الإجابة = 1.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q4 <span class="q-src">mid-2023 / final-2024</span></div>
+        <div class="q-text">In "a[target=_blank]", the [target=_blank] is called:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Attribute selector</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Anchor selector</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Pseudo element selector</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</div>
+        </div>
+        <div class="q-explain">✅ [target=_blank] = Attribute Selector — بيستهدف elements اللي عندها attribute بقيمة محددة.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q5 <span class="q-src">mid-2023 / final-2024 / final-2025</span></div>
+        <div class="q-text">By using <code>p:first-child {color:red;}</code> on the CSS Selector exam HTML, how many elements will be styled?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 0 (None)</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 1</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 3</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 2</div>
+        </div>
+        <div class="q-explain">✅ p:first-child بتستهدف &lt;p&gt; اللي هو أول child لـ parent بتاعه. في body، أول child = &lt;h2&gt; مش &lt;p&gt;. ∴ مفيش p يتستايل = 0.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q6 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">To change the background color of ALL &lt;a&gt; elements to be yellow, you can use:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> a[target] {background-color: yellow;}</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> a.all{background-color: yellow;}</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> a[target=_blank target=_top] {background-color: yellow;}</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> a{background-color: yellow;}</div>
+        </div>
+        <div class="q-explain">✅ عايز كل الـ &lt;a&gt; → استخدم element selector: a { }. الـ a[target] بيستهدف بس اللي عندها target attribute مش كلها.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q7 <span class="q-src">mid-2023 / final-2024</span></div>
+        <div class="q-text">To change the color of &lt;a&gt; elements to yellow when the mouse moves over it, you can use:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> a::hover {background-color: yellow;}</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> a:hover {background-color: yellow;}</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> a:link {background-color: yellow;}</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> a:active {background-color: yellow;}</div>
+        </div>
+        <div class="q-explain">✅ :hover = pseudo-class بـ single colon للـ hover state. ::hover مش موجود (double colon للـ pseudo-elements). :link = unvisited. :active = while clicking.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q8 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Which of the following CSS selector selects the elements that are enabled?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> E ~ F</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> ::enabled</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> :enabled</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> b and c are correct</div>
+        </div>
+        <div class="q-explain">✅ :enabled = pseudo-class بـ single colon. ::enabled بـ double colon = WRONG! Pseudo-classes دايماً single colon.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q9 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which of the following selectors selects elements of type E with a particular class value?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">B</span> E.class</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">A</span> E~F</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> E#class</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Class(E)</div>
+        </div>
+        <div class="q-explain">✅ E.class = p.center مثلاً — بيستهدف &lt;p&gt; elements اللي عندها class="center" فقط. E~F = General sibling. E#class = element بـ id.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q10 <span class="q-src">final-2024 / final-2025</span></div>
+        <div class="q-text">Which of the following selectors selects an element that has NO children?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">B</span> :empty</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">A</span> :nochild</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> :no-child</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ :empty = بيستهدف elements مفيهاش أي children (حتى text nodes). :nochild و:no-child مش موجودين في CSS.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q11 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which of the following selectors selects all elements of E that have the attribute (attr) that ends with a given (value)?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> E[attr$=value]</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> E[attr^=value]</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> E[attr~=value]</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ $= ends with (فلوس في الآخر زي "end"). ^= starts with. ~= word in list. *=contains.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q12 <span class="q-src">final-2025</span></div>
+        <div class="q-text">By using this CSS selector <code>p.center {color: blue;}</code> on the final-2025 exam HTML (which has &lt;p class="center"&gt; and &lt;h1 class="center"&gt;), the number of elements that will be styled is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 3</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 0</div>
+        </div>
+        <div class="q-explain">✅ p.center = فقط &lt;p&gt; elements عندها class="center". الـ &lt;h1 class="center"&gt; مش بيتأثر لأن الـ selector بيحدد p بالتحديد. = 1 element.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q13 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">href is a/an ________ while "_blank" is a ________</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> value, attribute</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> link, value</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> value, attribute</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> attribute, value</div>
+        </div>
+        <div class="q-explain">✅ href = attribute (اسم الـ attribute). "_blank" = value (قيمة الـ target attribute). &lt;a href="url" target="_blank"&gt;</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-sel','score-sel')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-sel','score-sel')">Reset ↺</button>
+    <div class="q-score" id="score-sel"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 8 — CSS Colors
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num pink">08</div>
+    <div class="ch-title">
+      <h2>CSS Colors</h2>
+      <p>Named · HEX · RGB · HSL · RGBA · HSLA</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🎨</span> 4 طرق لتحديد الـ Color في CSS</div>
+    <div class="grid2">
+      <div>
+        <table class="tbl">
+          <tr><th>نوع الـ Color</th><th>مثال</th><th>Note</th></tr>
+          <tr><td><strong>Named</strong></td><td><code>color: Tomato;</code></td><td>اسم باللون الإنجليزي</td></tr>
+          <tr><td><strong>HEX</strong></td><td><code>color: #FF6347;</code></td><td>#rrggbb</td></tr>
+          <tr><td><strong>RGB</strong></td><td><code>color: rgb(255,99,71);</code></td><td>0–255 لكل channel</td></tr>
+          <tr><td><strong>HSL</strong></td><td><code>color: hsl(9,100%,64%);</code></td><td>Hue+Saturation+Lightness</td></tr>
+          <tr><td><strong>RGBA</strong></td><td><code>color: rgba(255,99,71,0.5);</code></td><td>+ Opacity (0–1)</td></tr>
+          <tr><td><strong>HSLA</strong></td><td><code>color: hsla(9,100%,64%,0.5);</code></td><td>+ Opacity (0–1)</td></tr>
+        </table>
+        <div class="warn"><div><b>⚡ من الامتحان:</b><br>
+        Valid color: <code>#000000</code> (6 digits hex) ✓<br>
+        Invalid: <code>#00000000</code> (8 digits) ✗<br>
+        <code>color: red</code> = <code>color: #ff0000</code> — نفس الشيء!</div></div>
+      </div>
+      <div>
+        <div class="color-grid">
+          <div class="color-swatch"><div class="color-box" style="background:#ff6347"></div><div class="color-name">#ff6347<br>Tomato</div></div>
+          <div class="color-swatch"><div class="color-box" style="background:#1e90ff"></div><div class="color-name">#1e90ff<br>DodgerBlue</div></div>
+          <div class="color-swatch"><div class="color-box" style="background:#ee82ee"></div><div class="color-name">#ee82ee<br>Violet</div></div>
+          <div class="color-swatch"><div class="color-box" style="background:#ff0000"></div><div class="color-name">#ff0000<br>Red</div></div>
+          <div class="color-swatch"><div class="color-box" style="background:#00ff00"></div><div class="color-name">#00ff00<br>Lime</div></div>
+          <div class="color-swatch"><div class="color-box" style="background:#0000ff"></div><div class="color-name">#0000ff<br>Blue</div></div>
+          <div class="color-swatch"><div class="color-box" style="background:#000000;border:1px solid #444"></div><div class="color-name">#000000<br>Black</div></div>
+          <div class="color-swatch"><div class="color-box" style="background:#ffffff;border:1px solid #444"></div><div class="color-name">#ffffff<br>White</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RGB -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔴🟢🔵</span> RGB Colors</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">RGB — 0 to 255</div></div>
+        <pre><code><span class="fn">rgb</span>(<span class="num">255</span>, <span class="num">0</span>,   <span class="num">0</span>)   <span class="cmt">/* Red   🔴 */</span>
+<span class="fn">rgb</span>(<span class="num">0</span>,   <span class="num">128</span>, <span class="num">0</span>)   <span class="cmt">/* Green 🟢 */</span>
+<span class="fn">rgb</span>(<span class="num">0</span>,   <span class="num">0</span>,   <span class="num">255</span>) <span class="cmt">/* Blue  🔵 */</span>
+<span class="fn">rgb</span>(<span class="num">0</span>,   <span class="num">0</span>,   <span class="num">0</span>)   <span class="cmt">/* Black ⚫ */</span>
+<span class="fn">rgb</span>(<span class="num">255</span>, <span class="num">255</span>, <span class="num">255</span>) <span class="cmt">/* White ⚪ */</span>
+<span class="fn">rgb</span>(<span class="num">128</span>, <span class="num">128</span>, <span class="num">128</span>) <span class="cmt">/* Gray  🩶 */</span></code></pre>
+      </div>
+      <div class="info"><div><b>💡 RGB Rules:</b><br><br>
+      • كل قيمة من 0 لـ 255<br>
+      • 0,0,0 = Black (كل الألوان absent)<br>
+      • 255,255,255 = White (كل الألوان full)<br>
+      • 128,128,128 = Gray (كل الألوان متساوية)<br>
+      • RGBA = نفس RGB + alpha (opacity) من 0 لـ 1</div></div>
+    </div>
+  </div>
+
+  <!-- HEX -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">#️⃣</span> HEX Colors — #rrggbb</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">HEX — 00 to ff</div></div>
+        <pre><code><span class="str">#ff0000</span>  <span class="cmt">/* Red   */</span>
+<span class="str">#00ff00</span>  <span class="cmt">/* Lime  */</span>
+<span class="str">#0000ff</span>  <span class="cmt">/* Blue  */</span>
+<span class="str">#000000</span>  <span class="cmt">/* Black */</span>
+<span class="str">#ffffff</span>  <span class="cmt">/* White */</span>
+
+<span class="cmt">/* Shorthand — لو الـ pairs متشابهة: */</span>
+<span class="str">#f00</span>  <span class="cmt">/* = #ff0000 */</span>
+<span class="str">#fff</span>  <span class="cmt">/* = #ffffff */</span>
+<span class="str">#000</span>  <span class="cmt">/* = #000000 */</span></code></pre>
+      </div>
+      <div class="info"><div><b>💡 HEX Rules:</b><br><br>
+      • 6 digits: <code>#rrggbb</code> (الصح)<br>
+      • <code>#00000000</code> → WRONG (8 digits)<br>
+      • <code>#0000000000</code> → WRONG (10 digits)<br>
+      • Shorthand: #fff بدل #ffffff<br>
+      • #ff0000 = red = rgb(255,0,0) = "red" — كلهم نفس اللون!</div></div>
+    </div>
+  </div>
+
+  <!-- HSL -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🌈</span> HSL Colors — Hue · Saturation · Lightness</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">HSL — hue(0-360) sat% light%</div></div>
+        <pre><code><span class="fn">hsl</span>(<span class="num">0</span>,   <span class="num">100%</span>, <span class="num">50%</span>) <span class="cmt">/* Red */</span>
+<span class="fn">hsl</span>(<span class="num">120</span>, <span class="num">100%</span>, <span class="num">50%</span>) <span class="cmt">/* Lime */</span>
+<span class="fn">hsl</span>(<span class="num">240</span>, <span class="num">100%</span>, <span class="num">50%</span>) <span class="cmt">/* Blue */</span>
+<span class="fn">hsl</span>(<span class="num">39</span>,  <span class="num">100%</span>, <span class="num">50%</span>) <span class="cmt">/* Orange */</span>
+<span class="fn">hsl</span>(<span class="num">0</span>,   <span class="num">0%</span>,   <span class="num">50%</span>) <span class="cmt">/* Gray */</span>
+<span class="fn">hsl</span>(<span class="num">0</span>,   <span class="num">0%</span>,   <span class="num">0%</span>)  <span class="cmt">/* Black */</span>
+<span class="fn">hsl</span>(<span class="num">0</span>,   <span class="num">0%</span>,   <span class="num">100%</span>) <span class="cmt">/* White */</span></code></pre>
+      </div>
+      <div>
+        <div class="info"><div><b>💡 HSL Reference:</b><br><br>
+        <strong>Hue</strong> (0–360°):<br>
+        0 = Red, 120 = Green, 240 = Blue<br><br>
+        <strong>Saturation</strong> (%):<br>
+        0% = gray, 100% = full color<br><br>
+        <strong>Lightness</strong> (%):<br>
+        0% = black, 50% = normal, 100% = white</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 9 — Backgrounds & Borders
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="ch-header">
+    <div class="ch-num purple">09</div>
+    <div class="ch-title">
+      <h2>CSS Backgrounds & Borders</h2>
+      <p>background-color · background-image · background-attachment · Borders</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">🖼️</span> CSS Background Properties</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS BACKGROUNDS</div></div>
+        <pre><code><span class="sel">body</span> {
+  <span class="cmt">/* لون الخلفية */</span>
+  <span class="prop">background-color</span>: <span class="val">lightblue</span>;
+
+  <span class="cmt">/* صورة خلفية — بتتكرر by default */</span>
+  <span class="prop">background-image</span>: <span class="val">url('bg.jpg')</span>;
+
+  <span class="cmt">/* إيه اللي بيحصل لو المسافة خلصت */</span>
+  <span class="prop">background-repeat</span>: <span class="val">no-repeat</span>;
+
+  <span class="cmt">/* موقع الصورة */</span>
+  <span class="prop">background-position</span>: <span class="val">center top</span>;
+
+  <span class="cmt">/* الصورة ثابتة ولا بتتحرك مع الـ scroll؟ */</span>
+  <span class="prop">background-attachment</span>: <span class="val">fixed</span>;
+}
+
+<span class="cmt">/* Shorthand */</span>
+<span class="sel">body</span> {
+  <span class="prop">background</span>: <span class="val">lightblue url('bg.jpg') no-repeat center</span>;
+}</code></pre>
+      </div>
+      <div class="warn"><div><b>⚡ مهم من final-2025:</b><br>
+      <code>background-attachment: fixed</code> = الصورة بتفضل في مكانها حتى لو الصفحة اتـscrolled<br>
+      <code>background-attachment: scroll</code> = بتتحرك مع الـ scroll</div></div>
+    </div>
+
+    <div class="topic" style="--accent:var(--orange)">
+      <div class="topic-title"><span class="icon">📦</span> CSS Borders</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS BORDERS</div></div>
+        <pre><code><span class="sel">p</span> {
+  <span class="prop">border-style</span>: <span class="val">solid</span>;
+  <span class="prop">border-width</span>: <span class="val">3px</span>;
+  <span class="prop">border-color</span>: <span class="val">tomato</span>;
+}
+
+<span class="cmt">/* Shorthand: width style color */</span>
+<span class="sel">p</span> { <span class="prop">border</span>: <span class="val">3px solid tomato</span>; }
+
+<span class="cmt">/* Per-side control */</span>
+<span class="sel">p</span> {
+  <span class="prop">border-top</span>: <span class="val">2px dotted blue</span>;
+  <span class="prop">border-right</span>: <span class="val">2px solid red</span>;
+  <span class="prop">border-bottom</span>: <span class="val">2px dashed green</span>;
+  <span class="prop">border-left</span>: <span class="val">2px double violet</span>;
+}</code></pre>
+      </div>
+      <div class="info"><div><b>💡 Border Styles:</b><br>
+      dotted, dashed, solid, double, groove, ridge, none, hidden</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 10 — Margin & Padding
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch10">
+  <div class="ch-header">
+    <div class="ch-num green">10</div>
+    <div class="ch-title">
+      <h2>CSS Margin & Padding — Box Model</h2>
+      <p>Margin (outside) · Padding (inside) · Shorthand</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📦</span> CSS Box Model — الـ Visual</div>
+    <div class="box-model-vis">
+      <div style="text-align:center;position:relative;width:100%;max-width:420px">
+        <div style="position:relative;padding:16px;text-align:center">
+          <div style="color:var(--red);font-size:.72rem;font-family:var(--fc);margin-bottom:4px">← MARGIN (outside) →</div>
+          <div style="border:2px dashed var(--red);padding:12px;border-radius:10px">
+            <div style="color:var(--amber);font-size:.72rem;font-family:var(--fc);margin-bottom:4px">← BORDER →</div>
+            <div style="border:6px solid var(--amber);padding:12px;border-radius:6px">
+              <div style="color:var(--cyan);font-size:.72rem;font-family:var(--fc);margin-bottom:4px">← PADDING (inside) →</div>
+              <div style="background:rgba(0,212,255,.1);border:2px dashed var(--cyan);padding:12px;border-radius:4px">
+                <div style="background:rgba(16,185,129,.15);border:2px solid var(--green);padding:16px;border-radius:2px;font-family:var(--fh);font-weight:700;color:var(--green);font-size:.9rem">
+                  CONTENT
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:10px">
+      <div class="danger"><div><b>🚨 الفرق الأساسي:</b><br>
+      <strong>Margin</strong> = مسافة من <em>بره</em> العنصر (بين العنصر وجيرانه)<br>
+      <strong>Padding</strong> = مسافة من <em>جوا</em> العنصر (بين الـ content والـ border)</div></div>
+      <div class="info"><div><b>💡 من الامتحان:</b><br>
+      "generate space around p element content, inside of any defined borders" → <strong>CSS Padding</strong><br><br>
+      "space between element and its neighboring element" → <strong>CSS Margin</strong></div></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--red)">
+      <div class="topic-title"><span class="icon">📐</span> CSS Margin</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">MARGIN</div></div>
+        <pre><code><span class="cmt">/* Per side */</span>
+<span class="sel">p</span> {
+  <span class="prop">margin-top</span>: <span class="val">100px</span>;
+  <span class="prop">margin-right</span>: <span class="val">150px</span>;
+  <span class="prop">margin-bottom</span>: <span class="val">100px</span>;
+  <span class="prop">margin-left</span>: <span class="val">80px</span>;
+}
+
+<span class="cmt">/* Shorthand: top right bottom left */</span>
+<span class="sel">p</span> { <span class="prop">margin</span>: <span class="val">100px 150px 100px 80px</span>; }
+
+<span class="cmt">/* Center horizontally */</span>
+<span class="sel">div</span> { <span class="prop">width</span>: <span class="val">300px</span>; <span class="prop">margin</span>: <span class="val">0 auto</span>; }</code></pre>
+      </div>
+    </div>
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">📏</span> CSS Padding</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PADDING</div></div>
+        <pre><code><span class="cmt">/* Per side */</span>
+<span class="sel">div</span> {
+  <span class="prop">padding-top</span>: <span class="val">50px</span>;
+  <span class="prop">padding-right</span>: <span class="val">30px</span>;
+  <span class="prop">padding-bottom</span>: <span class="val">50px</span>;
+  <span class="prop">padding-left</span>: <span class="val">80px</span>;
+}
+
+<span class="cmt">/* Shorthand: top right bottom left */</span>
+<span class="sel">div</span> { <span class="prop">padding</span>: <span class="val">50px 30px 50px 80px</span>; }
+
+<span class="cmt">/* Best practice: */</span>
+<span class="sel">*</span> { <span class="prop">box-sizing</span>: <span class="val">border-box</span>; }</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visual Quiz -->
+  <div class="quiz-section" id="quiz-visual">
+    <div class="quiz-header">
+      <div class="quiz-icon">🎯</div>
+      <div><h3>Quiz — CSS Visual Properties</h3><p>Colors, Backgrounds, Borders, Box Model</p></div>
+    </div>
+    <div id="qset-visual">
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q1 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">Which of the following is a valid colour code?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> #000000</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> #00000000</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> #0000000000</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> #000000000000</div>
+        </div>
+        <div class="q-explain">✅ الـ HEX color code بيكون 6 digits فقط (#rrggbb). #000000 = 6 digits ✓. الباقيين كلهم invalid.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q2 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">Which of the following is used to increase the width WITHIN an element (between content and border)?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Cellspacing</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Padding</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Row span</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Margin</div>
+        </div>
+        <div class="q-explain">✅ Padding = المسافة جوا العنصر (بين الـ content والـ border). Margin = خارج العنصر. Cellspacing = HTML table attribute قديم.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q3 <span class="q-src">mid-2023 / final-2025</span></div>
+        <div class="q-text">To generate space around p element content, INSIDE of any defined borders:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> CSS margin</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> CSS border</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> CSS padding</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> CSS Grid</div>
+        </div>
+        <div class="q-explain">✅ "inside of any defined borders" = Padding. Margin = خارج البorder.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">final-2024</span></div>
+        <div class="q-text">The _______ property is used in the positioning of the background image.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> background-image</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> background-position</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> padding</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All of the above</div>
+        </div>
+        <div class="q-explain">✅ background-position = بتحدد موقع الصورة (center, top, left, 50% 50%, إلخ). background-image = بتحدد الصورة نفسها.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q5 <span class="q-src">final-2025</span></div>
+        <div class="q-text">The CSS property background-attachment is used to specify whether the image should scroll or be fixed. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ TRUE! background-attachment: fixed = الصورة تفضل ثابتة. background-attachment: scroll = بتتحرك مع الـ scroll.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q6 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which is the correct HTML statement to define the red color of the paragraph text?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;p style="color: #ff0000;"&gt;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;p style="color: red;"&gt;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Both A and B</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ #ff0000 و "red" — كلاهما يمثل نفس اللون الأحمر. كلاهما صح!</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q7 <span class="q-src">final-2025</span></div>
+        <div class="q-text">If an element has margin: 10px; and padding: 20px;, what is the space between the element and its neighboring element?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 20px</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 10px</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 30px</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 40px</div>
+        </div>
+        <div class="q-explain">✅ المسافة بين العنصر وجيرانه = Margin = 10px. الـ Padding = المسافة جوا العنصر (بين الـ content والـ border).</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q8 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Can we use class name with multiple HTML elements?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Yes</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> No</div>
+        </div>
+        <div class="q-explain">✅ Yes! الـ class ممكن تتستخدم على elements كتير — ده الفرق بينها وبين الـ id اللي لازم يكون unique.</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-visual','score-visual')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-visual','score-visual')">Reset ↺</button>
+    <div class="q-score" id="score-visual"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 11 — Responsive & Grid
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch11">
+  <div class="ch-header">
+    <div class="ch-num cyan">11</div>
+    <div class="ch-title">
+      <h2>Responsive CSS & CSS Grid</h2>
+      <p>Media Queries · Mobile-First · Grid System</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📱</span> Responsive Design — @media Queries</div>
+    <p>الـ Responsive design بيخلي الموقع يشتغل كويس على أي حجم شاشة — desktop, tablet, mobile.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS MEDIA QUERIES — Mobile-First</div></div>
+      <pre><code><span class="cmt">/* Base styles — for mobile first */</span>
+<span class="sel">.container</span> { <span class="prop">width</span>: <span class="val">100%</span>; <span class="prop">padding</span>: <span class="val">10px</span>; }
+
+<span class="cmt">/* Tablet and above */</span>
+<span class="kw">@media</span> (<span class="prop">min-width</span>: <span class="val">768px</span>) {
+  <span class="sel">.container</span> { <span class="prop">max-width</span>: <span class="val">720px</span>; <span class="prop">margin</span>: <span class="val">0 auto</span>; }
+}
+
+<span class="cmt">/* Desktop and above */</span>
+<span class="kw">@media</span> (<span class="prop">min-width</span>: <span class="val">1024px</span>) {
+  <span class="sel">.container</span> { <span class="prop">max-width</span>: <span class="val">960px</span>; }
+}</code></pre>
+    </div>
+    <div class="info"><div><b>💡 Mobile-First Strategy:</b><br>
+    بتكتب الـ styles الأساسية للـ mobile أولاً، وبعدين بـ @media بتضيف styles للـ tablet والـ desktop. ده أفضل للـ performance.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🔲</span> CSS Grid — نظام المسافات ثنائي الأبعاد</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS GRID</div></div>
+        <pre><code><span class="sel">.grid-container</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="val">repeat(3, 1fr)</span>;
+  <span class="prop">gap</span>: <span class="val">10px</span>;
+}
+
+<span class="cmt">/* fr = fractional unit */</span>
+<span class="cmt">/* 3 equal columns */</span>
+
+<span class="cmt">/* Mix with other units: */</span>
+<span class="prop">grid-template-columns</span>: <span class="val">60% 1fr 2fr</span>;</code></pre>
+      </div>
+      <div>
+        <div class="info"><div><b>💡 Grid Concepts:</b><br><br>
+        <strong>Grid Container</strong>: display: grid (parent)<br>
+        <strong>Grid Items</strong>: كل direct children<br>
+        <strong>fr unit</strong>: fractional unit — بيقسم المساحة المتاحة<br>
+        <strong>gap</strong>: المسافة بين الـ cells<br><br>
+        <strong>1fr 2fr 1fr</strong> = الـ middle column ضعف الباقيين</div></div>
+        <div class="tip"><div><b>Grid vs Flexbox:</b><br>
+        Grid = 2D (rows + columns)<br>
+        Flexbox = 1D (row OR column)</div></div>
+      </div>
+    </div>
+    <div style="background:var(--code);border:1px solid #21262d;border-radius:10px;padding:16px;margin-top:14px">
+      <div style="font-family:var(--fh);font-size:.8rem;color:var(--t3);margin-bottom:12px">CSS Grid Preview — 60% 1fr 2fr</div>
+      <div style="display:grid;grid-template-columns:60% 1fr 2fr;gap:8px">
+        <div style="background:rgba(0,84,255,.25);border:1px solid rgba(0,84,255,.4);border-radius:6px;padding:12px;text-align:center;font-family:var(--fc);font-size:.75rem;color:#89b4fa">Block 1 (60%)</div>
+        <div style="background:rgba(239,68,68,.25);border:1px solid rgba(239,68,68,.4);border-radius:6px;padding:12px;text-align:center;font-family:var(--fc);font-size:.75rem;color:#fca5a5">Block 2 (1fr)</div>
+        <div style="background:rgba(16,185,129,.25);border:1px solid rgba(16,185,129,.4);border-radius:6px;padding:12px;text-align:center;font-family:var(--fc);font-size:.75rem;color:#6ee7b7">Block 3 (2fr)</div>
+        <div style="background:rgba(245,158,11,.25);border:1px solid rgba(245,158,11,.4);border-radius:6px;padding:12px;text-align:center;font-family:var(--fc);font-size:.75rem;color:#fcd34d">Block 4 (60%)</div>
+        <div style="background:rgba(139,92,246,.25);border:1px solid rgba(139,92,246,.4);border-radius:6px;padding:12px;text-align:center;font-family:var(--fc);font-size:.75rem;color:#c4b5fd">Block 5 (1fr)</div>
+        <div style="background:rgba(244,114,182,.25);border:1px solid rgba(244,114,182,.4);border-radius:6px;padding:12px;text-align:center;font-family:var(--fc);font-size:.75rem;color:#f9a8d4">Block 6 (2fr)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 12 — CSS Variables & Flexbox
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch12">
+  <div class="ch-header">
+    <div class="ch-num amber">12</div>
+    <div class="ch-title">
+      <h2>Modern CSS — Variables & Flexbox</h2>
+      <p>Custom Properties · CSS Variables · Flexbox · Transitions</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔧</span> CSS Custom Properties (Variables)</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS VARIABLES</div></div>
+        <pre><code><span class="cmt">/* Define in :root — global scope */</span>
+<span class="sel">:root</span> {
+  <span class="prop">--brand-color</span>: <span class="val">#00AD72</span>;
+  <span class="prop">--font-size-base</span>: <span class="val">16px</span>;
+  <span class="prop">--spacing-md</span>: <span class="val">1.5rem</span>;
+}
+
+<span class="cmt">/* Use with var() */</span>
+<span class="sel">h1</span> { <span class="prop">color</span>: <span class="kw">var</span>(--brand-color); }
+<span class="sel">p</span>  { <span class="prop">margin-bottom</span>: <span class="kw">var</span>(--spacing-md); }
+
+<span class="cmt">/* Dark mode override */</span>
+<span class="kw">@media</span> (prefers-color-scheme: dark) {
+  <span class="sel">:root</span> { <span class="prop">--brand-color</span>: <span class="val">#00FF99</span>; }
+}
+
+<span class="cmt">/* Shorter version: */</span>
+<span class="sel">:root</span> { <span class="prop">--primary</span>: <span class="val">#007BC4</span>; <span class="prop">--gap</span>: <span class="val">1rem</span>; }
+<span class="sel">p</span>     { <span class="prop">color</span>: <span class="kw">var</span>(--primary); <span class="prop">margin</span>: <span class="kw">var</span>(--gap); }</code></pre>
+      </div>
+      <div>
+        <div class="info"><div><b>💡 فايدة CSS Variables:</b><br><br>
+        • بتعرّف القيمة مرة واحدة وبتستخدمها في أي مكان<br>
+        • لو غيرت الـ variable، كل حاجة بتستخدمها بتتغير<br>
+        • مناسبة للـ theming (light/dark mode)<br>
+        • أسهل من Sass/Less في المشاريع الجديدة<br><br>
+        <strong>:root</strong> = أعلى element في الـ document (زي &lt;html&gt;)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📐</span> CSS Flexbox</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">FLEXBOX</div></div>
+      <pre><code><span class="sel">.container</span> {
+  <span class="prop">display</span>: <span class="val">flex</span>;
+  <span class="prop">justify-content</span>: <span class="val">space-between</span>; <span class="cmt">/* horizontal */</span>
+  <span class="prop">align-items</span>: <span class="val">center</span>;           <span class="cmt">/* vertical */</span>
+}
+
+<span class="cmt">/* Transitions */</span>
+<span class="sel">button</span> {
+  <span class="prop">transition</span>: <span class="val">background-color 0.3s ease</span>;
+}
+<span class="sel">button:hover</span> { <span class="prop">background</span>: <span class="val">navy</span>; }</code></pre>
+    </div>
+    <div class="tip"><div><b>💡 Grid vs Flexbox:</b><br>
+    Use <strong>Grid</strong> for 2D layouts (rows AND columns at the same time)<br>
+    Use <strong>Flexbox</strong> for 1D layouts (either row OR column)</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 13 — CSS Specificity
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch13">
+  <div class="ch-header">
+    <div class="ch-num pink">13</div>
+    <div class="ch-title">
+      <h2>CSS Specificity — Why Your Styles Get Overridden!</h2>
+      <p>Specificity Score · !important · Best Practices</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">⚖️</span> CSS Specificity — الـ Score System</div>
+    <p>لما في تعارض بين rules، الـ browser بيحسب "specificity score" ويطبق الـ rule اللي عنده أعلى score.</p>
+    <div class="grid2">
+      <div>
+        <div class="specificity-chart">
+          <div class="spec-bar">
+            <div class="spec-fill" style="height:30px;background:var(--t3)">0-0-1</div>
+            <div class="spec-label">Element<br><code>p{}</code></div>
+          </div>
+          <div class="spec-bar">
+            <div class="spec-fill" style="height:70px;background:var(--amber)">0-1-0</div>
+            <div class="spec-label">Class<br><code>.card{}</code></div>
+          </div>
+          <div class="spec-bar">
+            <div class="spec-fill" style="height:110px;background:var(--pink)">1-0-0</div>
+            <div class="spec-label">ID<br><code>#hdr{}</code></div>
+          </div>
+          <div class="spec-bar">
+            <div class="spec-fill" style="height:110px;background:var(--red)">∞</div>
+            <div class="spec-label">Inline<br><code>style=""</code></div>
+          </div>
+        </div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">SPECIFICITY EXAMPLES</div></div>
+        <pre><code><span class="sel">p</span>           { <span class="prop">color</span>: <span class="val">red</span>; }  <span class="cmt">/* 0-0-1 LOSES */</span>
+<span class="sel">.text</span>       { <span class="prop">color</span>: <span class="val">blue</span>; } <span class="cmt">/* 0-1-0 */</span>
+<span class="sel">#content p</span>  { <span class="prop">color</span>: <span class="val">green</span>;} <span class="cmt">/* 1-0-1 WINS vs above */</span>
+
+<span class="cmt">/* Inline style ALWAYS wins (except !important) */</span>
+<span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="val">"color:pink"</span><span class="tag">&gt;</span>
+
+<span class="cmt">/* !important overrides everything (last resort!) */</span>
+<span class="sel">p</span> { <span class="prop">color</span>: <span class="val">red</span> <span class="kw">!important</span>; }
+
+<span class="cmt">/* Best Practice Order: */</span>
+<span class="cmt">/* Inline > ID > Class > Element */</span></code></pre>
+      </div>
+    </div>
+    <div class="danger"><div><b>🚨 CSS Specificity — Common Mistakes:</b><br>
+    • استخدم .class للـ styling مش #id (ID specificity عالي جداً وصعب تـoverride)<br>
+    • ماتعمقش أكتر من 3 levels (div &gt; ul &gt; li &gt; a &gt; span — هيبقى صعب تتحكم فيه)<br>
+    • !important = آخر حل مش الحل الأول!</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🐛</span> CSS Syntax Errors — اللي بيغلط فيها الكل</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">COMMON CSS ERRORS</div></div>
+        <pre><code><span class="cmt">❌ WRONG — Missing colon in declaration</span>
+<span class="sel">.class</span> { <span class="prop">color</span>: <span class="val">blue</span>; <span class="prop">font-weight</span>; <span class="val">bold</span>; }
+<span class="cmt">                          ^ هنا missing : </span>
+
+<span class="cmt">✅ CORRECT</span>
+<span class="sel">.class</span> { <span class="prop">color</span>: <span class="val">blue</span>; <span class="prop">font-weight</span>: <span class="val">bold</span>; }
+
+<span class="cmt">❌ WRONG — CSS ID starting with digit</span>
+<span class="sel">#1para</span> { <span class="prop">color</span>: <span class="val">red</span>; }
+
+<span class="cmt">✅ CORRECT</span>
+<span class="sel">#para1</span> { <span class="prop">color</span>: <span class="val">red</span>; }</code></pre>
+      </div>
+      <div class="info"><div><b>💡 Why might CSS not apply?</b><br><br>
+      من الأسباب الشائعة اللي الـ CSS مش بتشتغل:<br><br>
+      1. More specific rule overriding it<br>
+      2. Syntax error (missing : أو ;)<br>
+      3. CSS file not linked properly<br>
+      4. Typo in selector name<br>
+      5. Property not supported in browser</div></div>
+    </div>
+  </div>
+
+  <!-- QUIZ Modern CSS -->
+  <div class="quiz-section" id="quiz-modern">
+    <div class="quiz-header">
+      <div class="quiz-icon">🎯</div>
+      <div><h3>Quiz — Modern CSS & Specificity</h3><p>Responsive, Grid, Variables, Specificity — أسئلة من final-2025</p></div>
+    </div>
+    <div id="qset-modern">
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q1 <span class="q-src">final-2025</span></div>
+        <div class="q-text">Identify the error in this CSS code: <code>.class { color: blue; font-weight; bold; }</code></div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Missing class name</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Syntax error in property declaration</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Incorrect property value</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> No error</div>
+        </div>
+        <div class="q-explain">✅ الـ error = مفيش : بين font-weight وbold. الصح: font-weight: bold; — Syntax error in property declaration.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q2 <span class="q-src">final-2025</span></div>
+        <div class="q-text">Why might the CSS rule <code>.container p {color: green;}</code> not apply to a paragraph inside a div with class "container"?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The div does not have the "container" class</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> The paragraph is not a direct child</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> There is a more specific rule overriding this</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The CSS file is not linked properly</div>
+        </div>
+        <div class="q-explain">✅ .container p هو descendant selector — بيستهدف كل &lt;p&gt; جوا .container على أي مستوى. السبب الأرجح = more specific rule overriding. A مش صح لأن السؤال بيقول "with class container".</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q3 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">By using this CSS selector <code>p:empty {width: 100px; height: 20px; background: red;}</code>, the number of elements that will be styled from the exam HTML (3 visible p tags, no empty ones) is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 3</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 0</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 1</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None — 0 is correct</div>
+        </div>
+        <div class="q-explain">✅ p:empty بيستهدف &lt;p&gt; elements مفيهاش أي children (حتى text). كل الـ p elements في الـ exam HTML عندها text → 0 elements متاثرة.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q4 <span class="q-src">final-2025</span></div>
+        <div class="q-text">In the following Python Statements (about CSS analogy), by using this CSS selector <code>p:empty {color:red;}</code>, how many elements will be styled from the final-2025 exam HTML?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 0 (None — no empty p elements)</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 3</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 2</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 7</div>
+        </div>
+        <div class="q-explain">✅ كل الـ p elements في الـ exam HTML عندها text content → مش empty → 0 elements يتستايلوا.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q5 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">(Multiple answers): A CSS rule-set consists of ________ and ________</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A+B</span> Selector + multiple declarations</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Selector, declaration</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Selector, value</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Selector, property</div>
+        </div>
+        <div class="q-explain">✅ CSS rule-set = Selector + Declaration Block (اللي ممكن يحتوي على declarations كتير). h1 { color: red; font-size: 2em; } — selector واحد وdeclarations كتير.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q6 <span class="q-src">final-2025</span></div>
+        <div class="q-text">By using this CSS selector <code>p:first-child { color: blue;}</code> on the final-2025 exam HTML that starts with &lt;h2&gt;, how many elements will be styled?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 5</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 1 (the p inside div is first-child of div)</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 6</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ في الـ final-2025 HTML: &lt;div&gt;&lt;p&gt;Paragraph 1&lt;/p&gt;... — الـ p الأولاني جوا الـ div هو first-child لـ div. = 1 element. أما في body، أول child = h2 مش p.</div>
+      </div>
+
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-modern','score-modern')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-modern','score-modern')">Reset ↺</button>
+    <div class="q-score" id="score-modern"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHEAT SHEET
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheatsheet">
+  <div class="ch-header">
+    <div class="ch-num pink">📋</div>
+    <div class="ch-title">
+      <h2>CSS Cheat Sheet — ملخص نهائي شامل</h2>
+      <p>احفظ الصفحة دي قبل الامتحان!</p>
+    </div>
+  </div>
+
+  <div class="cheat">
+    <h3>🎨 CSS Basics</h3>
+    <div class="cheat-item"><div class="cheat-key">What is CSS</div><div class="cheat-val">Cascading Style Sheets — بتتحكم في colors, fonts, layouts, spacing بتاعة HTML elements</div></div>
+    <div class="cheat-item"><div class="cheat-key">CSS Rule Anatomy</div><div class="cheat-val">selector { property: value; } — الـ "property: value" اسمه Declaration</div></div>
+    <div class="cheat-item"><div class="cheat-key">Inline CSS</div><div class="cheat-val">&lt;p style="color:red;"&gt; — أعلى priority</div></div>
+    <div class="cheat-item"><div class="cheat-key">Internal CSS</div><div class="cheat-val">&lt;style&gt; جوا &lt;head&gt; — Priority #2</div></div>
+    <div class="cheat-item"><div class="cheat-key">External CSS</div><div class="cheat-val">&lt;link rel="stylesheet" href="style.css"&gt; — Priority #3</div></div>
+    <div class="cheat-item"><div class="cheat-key">Browser Default</div><div class="cheat-val">أدنى priority — بيتطبق لو مفيش CSS</div></div>
+    <div class="cheat-item"><div class="cheat-key">Priority Order</div><div class="cheat-val">Inline &gt; Internal &gt; External &gt; Browser Default</div></div>
+    <div class="cheat-item"><div class="cheat-key">CSS Comments</div><div class="cheat-val">/* comment */ — مفيش // في CSS!</div></div>
+    <div class="cheat-item"><div class="cheat-key">External file rules</div><div class="cheat-val">مش المفروض يحتوي على HTML tags — CSS فقط!</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3>🎯 CSS Selectors — Simple</h3>
+    <div class="cheat-item"><div class="cheat-key">p { }</div><div class="cheat-val">Element selector — كل &lt;p&gt; elements</div></div>
+    <div class="cheat-item"><div class="cheat-key">.center { }</div><div class="cheat-val">Class selector — كل elements بـ class="center"</div></div>
+    <div class="cheat-item"><div class="cheat-key">#para1 { }</div><div class="cheat-val">ID selector — element واحد بـ id="para1"</div></div>
+    <div class="cheat-item"><div class="cheat-key">* { }</div><div class="cheat-val">Universal selector — كل الـ elements</div></div>
+    <div class="cheat-item"><div class="cheat-key">h1, h2, p { }</div><div class="cheat-val">Grouping selector — group selectors بفاصلة</div></div>
+    <div class="cheat-item"><div class="cheat-key">p.center { }</div><div class="cheat-val">E.class — بس &lt;p&gt; عندها class="center"</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3>🔗 CSS Combinators — الأهم في الامتحانات!</h3>
+    <div class="cheat-item"><div class="cheat-key">div p { }</div><div class="cheat-val">Descendant (space) — كل &lt;p&gt; جوا &lt;div&gt; بأي مستوى</div></div>
+    <div class="cheat-item"><div class="cheat-key">div &gt; p { }</div><div class="cheat-val">Child (&gt;) — فقط direct children. P3 جوا section ✗</div></div>
+    <div class="cheat-item"><div class="cheat-key">div + p { }</div><div class="cheat-val">Adjacent (+) — الـ &lt;p&gt; الأولانية immediately بعد div. = 1</div></div>
+    <div class="cheat-item"><div class="cheat-key">div ~ p { }</div><div class="cheat-val">General Sibling (~) — كل &lt;p&gt; siblings بعد div. قبل div ✗</div></div>
+    <div class="cheat-item"><div class="cheat-key">من الامتحان (exam HTML)</div><div class="cheat-val">div&gt;p = 2 | div~p = 2 | div+p = 1 | div p = 3</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3>🔮 Pseudo-classes</h3>
+    <div class="cheat-item"><div class="cheat-key">:hover</div><div class="cheat-val">Mouse over element. Single colon! ::hover = WRONG</div></div>
+    <div class="cheat-item"><div class="cheat-key">:first-child</div><div class="cheat-val">⚠️ Element لو هو first-child لـ parent بتاعه. p:first-child = 0 لو h2 جاي قبله!</div></div>
+    <div class="cheat-item"><div class="cheat-key">:empty</div><div class="cheat-val">Element مفيهوش children. :nochild مش موجود!</div></div>
+    <div class="cheat-item"><div class="cheat-key">:enabled / :disabled</div><div class="cheat-val">Single colon. ::enabled = WRONG</div></div>
+    <div class="cheat-item"><div class="cheat-key">a:link</div><div class="cheat-val">Unvisited link (لم يزر بعد)</div></div>
+    <div class="cheat-item"><div class="cheat-key">a:visited</div><div class="cheat-val">Visited link</div></div>
+    <div class="cheat-item"><div class="cheat-key">a:hover</div><div class="cheat-val">Mouse over link</div></div>
+    <div class="cheat-item"><div class="cheat-key">a:active</div><div class="cheat-val">Being clicked</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3>✨ Pseudo-elements</h3>
+    <div class="cheat-item"><div class="cheat-key">::first-line</div><div class="cheat-val">أول سطر في text block</div></div>
+    <div class="cheat-item"><div class="cheat-key">::first-letter</div><div class="cheat-val">أول حرف (drop cap)</div></div>
+    <div class="cheat-item"><div class="cheat-key">::before</div><div class="cheat-val">محتوى قبل الـ element (محتاج content property)</div></div>
+    <div class="cheat-item"><div class="cheat-key">::after</div><div class="cheat-val">محتوى بعد الـ element</div></div>
+    <div class="cheat-item"><div class="cheat-key">::selection</div><div class="cheat-val">الـ text اللي المستخدم بيسيلكته</div></div>
+    <div class="cheat-item"><div class="cheat-key">Pseudo-class vs element</div><div class="cheat-val">Pseudo-class = : (single) — Pseudo-element = :: (double)</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3>🏷️ Attribute Selectors</h3>
+    <div class="cheat-item"><div class="cheat-key">[attr]</div><div class="cheat-val">Has attribute (any value)</div></div>
+    <div class="cheat-item"><div class="cheat-key">[attr=val]</div><div class="cheat-val">Exactly equals val</div></div>
+    <div class="cheat-item"><div class="cheat-key">[attr^=val]</div><div class="cheat-val">Starts with val (^ = start)</div></div>
+    <div class="cheat-item"><div class="cheat-key">[attr$=val]</div><div class="cheat-val">Ends with val ($ = end)</div></div>
+    <div class="cheat-item"><div class="cheat-key">[attr*=val]</div><div class="cheat-val">Contains val anywhere</div></div>
+    <div class="cheat-item"><div class="cheat-key">[target=_blank]</div><div class="cheat-val">اسمه Attribute Selector (مش anchor selector)</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3>🎨 CSS Colors</h3>
+    <div class="cheat-item"><div class="cheat-key">Named</div><div class="cheat-val">color: red; — color: Tomato;</div></div>
+    <div class="cheat-item"><div class="cheat-key">HEX</div><div class="cheat-val">#rrggbb — 6 digits فقط. #ff0000 = red. #fff = #ffffff (shorthand)</div></div>
+    <div class="cheat-item"><div class="cheat-key">RGB</div><div class="cheat-val">rgb(255,0,0) = red. 0,0,0 = black. 255,255,255 = white</div></div>
+    <div class="cheat-item"><div class="cheat-key">HSL</div><div class="cheat-val">hsl(0,100%,50%) = red. Hue: 0=Red, 120=Green, 240=Blue</div></div>
+    <div class="cheat-item"><div class="cheat-key">RGBA / HSLA</div><div class="cheat-val">+ alpha (opacity) 0–1</div></div>
+    <div class="cheat-item"><div class="cheat-key">color:red = color:#ff0000</div><div class="cheat-val">نفس الشيء! كلاهما صح في الامتحان</div></div>
+    <div class="cheat-item"><div class="cheat-key">Valid HEX</div><div class="cheat-val">#000000 ✓ — #00000000 ✗ — #0000000000 ✗</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3>📦 Box Model</h3>
+    <div class="cheat-item"><div class="cheat-key">Content</div><div class="cheat-val">النص والصور جوا الـ element</div></div>
+    <div class="cheat-item"><div class="cheat-key">Padding</div><div class="cheat-val">المسافة INSIDE (بين content والـ border) — "inside of defined borders"</div></div>
+    <div class="cheat-item"><div class="cheat-key">Border</div><div class="cheat-val">الـ border حول الـ padding والـ content</div></div>
+    <div class="cheat-item"><div class="cheat-key">Margin</div><div class="cheat-val">المسافة OUTSIDE — بين العنصر وجيرانه</div></div>
+    <div class="cheat-item"><div class="cheat-key">margin: 10px;</div><div class="cheat-val">المسافة بين العنصر وجيرانه = 10px</div></div>
+    <div class="cheat-item"><div class="cheat-key">background-position</div><div class="cheat-val">بتحدد موقع الصورة</div></div>
+    <div class="cheat-item"><div class="cheat-key">background-attachment: fixed</div><div class="cheat-val">الصورة ثابتة حتى لو الصفحة اتـscrolled</div></div>
+  </div>
+
+  <div class="cheat" style="border-color:var(--red)">
+    <h3 style="color:var(--red)">🚨 Common Exam Traps — الفخاخ!</h3>
+    <div class="cheat-item"><div class="cheat-key">::hover</div><div class="cheat-val">WRONG! يبقى :hover (single colon). :: للـ pseudo-elements مش pseudo-classes</div></div>
+    <div class="cheat-item"><div class="cheat-key">p:first-child</div><div class="cheat-val">⚠️ فقط لو p هو first-child! لو h2 جاي قبله → 0 elements</div></div>
+    <div class="cheat-item"><div class="cheat-key">div ~ p = 3?</div><div class="cheat-val">WRONG! = 2. الـ p قبل div مش بيتحسب!</div></div>
+    <div class="cheat-item"><div class="cheat-key">div > p = 3?</div><div class="cheat-val">WRONG! = 2. P3 جوا section مش direct child</div></div>
+    <div class="cheat-item"><div class="cheat-key">External CSS = highest?</div><div class="cheat-val">FALSE! Inline = highest priority</div></div>
+    <div class="cheat-item"><div class="cheat-key">::enabled</div><div class="cheat-val">WRONG! يبقى :enabled (single colon)</div></div>
+    <div class="cheat-item"><div class="cheat-key">#00000000</div><div class="cheat-val">WRONG HEX! يبقى #000000 (6 digits فقط)</div></div>
+    <div class="cheat-item"><div class="cheat-key">color:red ≠ color:#ff0000</div><div class="cheat-val">WRONG! هما نفس الشيء — كلاهما أحمر</div></div>
+    <div class="cheat-item"><div class="cheat-key">p:empty = has children?</div><div class="cheat-val">WRONG! :empty = مفيهوش أي children (حتى text nodes)</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;link&gt; type="text/css"</div><div class="cheat-val">ده External CSS — مش Internal. Internal بيبقى &lt;style&gt;</div></div>
+  </div>
+
+  <div class="cheat">
+    <h3>⚡ CSS Specificity Quick Reference</h3>
+    <div class="cheat-item"><div class="cheat-key">Element (0-0-1)</div><div class="cheat-val">p { } — أدنى specificity</div></div>
+    <div class="cheat-item"><div class="cheat-key">Class (0-1-0)</div><div class="cheat-val">.card { } — Medium</div></div>
+    <div class="cheat-item"><div class="cheat-key">ID (1-0-0)</div><div class="cheat-val">#header { } — High — avoid for styling!</div></div>
+    <div class="cheat-item"><div class="cheat-key">Inline (∞)</div><div class="cheat-val">style="" — الأعلى (بعده !important)</div></div>
+    <div class="cheat-item"><div class="cheat-key">!important</div><div class="cheat-val">Overrides everything — آخر حل!</div></div>
+    <div class="cheat-item"><div class="cheat-key">Best Practice</div><div class="cheat-val">Use .class مش #id — ماتعمقش أكتر من 3 levels</div></div>
+  </div>
+</div>
+
+</div><!-- end content -->
+</main>
+
+<!-- ═══════════════════ JAVASCRIPT ═══════════════════ -->
+<script>
+/* ─── QUIZ ENGINE ─── */
+function checkQuiz(qsetId, scoreId) {
+  const qset = document.getElementById(qsetId);
+  const items = qset.querySelectorAll('.q-item');
+  let correct = 0, total = items.length;
+  items.forEach(item => {
+    const correctVal = item.dataset.correct;
+    const selected = item.querySelector('.q-opt.selected');
+    const explain = item.querySelector('.q-explain');
+    if (selected) {
+      const val = selected.dataset.val;
+      if (val === correctVal) { selected.classList.add('correct'); correct++; }
+      else {
+        selected.classList.add('wrong');
+        item.querySelectorAll('.q-opt').forEach(o => { if (o.dataset.val === correctVal) o.classList.add('correct'); });
+      }
+    } else {
+      item.querySelectorAll('.q-opt').forEach(o => { if (o.dataset.val === correctVal) o.classList.add('correct'); });
+    }
+    if (explain) explain.classList.add('show');
+    item.querySelectorAll('.q-opt').forEach(o => o.style.pointerEvents = 'none');
+  });
+  const pct = Math.round((correct / total) * 100);
+  const scoreDiv = document.getElementById(scoreId);
+  scoreDiv.style.display = 'block';
+  let cls = 'bad', emoji = '😔';
+  if (pct >= 80) { cls = 'good'; emoji = '🎉'; }
+  else if (pct >= 50) { cls = 'ok'; emoji = '💪'; }
+  scoreDiv.className = 'q-score ' + cls;
+  scoreDiv.innerHTML = `${emoji} Score: ${correct}/${total} (${pct}%) — ${pct >= 80 ? 'ممتاز! جاهز للامتحان 🚀' : pct >= 50 ? 'كويس، راجع الأجزاء الغلطانة' : 'راجع الشرح مرة تانية 💪'}`;
+}
+
+function resetQuiz(qsetId, scoreId) {
+  const qset = document.getElementById(qsetId);
+  qset.querySelectorAll('.q-opt').forEach(o => { o.classList.remove('selected','correct','wrong'); o.style.pointerEvents = ''; });
+  qset.querySelectorAll('.q-explain').forEach(e => e.classList.remove('show'));
+  const s = document.getElementById(scoreId);
+  s.style.display = 'none';
+  s.className = 'q-score';
+}
+
+document.addEventListener('click', e => {
+  const opt = e.target.closest('.q-opt');
+  if (!opt || opt.style.pointerEvents === 'none') return;
+  opt.closest('.q-opts').querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
+  opt.classList.add('selected');
+});
+
+/* ─── PROGRESS BAR ─── */
+window.addEventListener('scroll', () => {
+  const winH = window.innerHeight;
+  const docH = document.documentElement.scrollHeight - winH;
+  const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+  document.getElementById('prog-bar').style.width = pct + '%';
+
+  const btn = document.getElementById('scroll-top');
+  window.scrollY > 400 ? btn.classList.add('show') : btn.classList.remove('show');
+
+  // Active sidebar
+  const links = document.querySelectorAll('.sb-link');
+  const scrollPos = window.scrollY + 120;
+  let activeLink = null;
+  links.forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+    const target = document.getElementById(href.substring(1));
+    if (target && target.offsetTop <= scrollPos) activeLink = link;
+  });
+  links.forEach(l => l.classList.remove('active'));
+  if (activeLink) activeLink.classList.add('active');
+});
+
+/* ─── INTERSECTION OBSERVER ─── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.topic, .cheat, .quiz-section').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+  observer.observe(el);
+});
+
+/* ─── MOBILE ─── */
+document.querySelectorAll('.sb-link').forEach(l => l.addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+}));
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('sidebar').classList.remove('open');
+});
+</script>
+<!-- Auto-detect Arabic text and set RTL -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('p, li, td, th, .topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div, .note div, .q-text, .q-explain, .cheat-val, .cmt, .q-opt, .hero p, .topic p, .q-num').forEach(el => {
+    if (/[\u0600-\u06FF]/.test(el.textContent)) {
+      el.setAttribute('dir', 'rtl');
+      el.style.textAlign = 'right';
+    }
+  });
+});
+</script>
+</body>
+</html>
