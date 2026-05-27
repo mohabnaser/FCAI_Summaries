@@ -1,663 +1,962 @@
 <!DOCTYPE html>
 <html lang="ar" dir="auto">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lecture 15 — SE Ethics | CS251</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/styles.css">
-<style>
-  /* 8 principles grid */
-  .principles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
-  .principle-tile{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:18px 14px;text-align:center;border-top:4px solid var(--accent);transition:.25s;cursor:default}
-  .principle-tile:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.25)}
-  .principle-num{font-family:var(--fh);font-size:2.2rem;font-weight:800;color:var(--accent);line-height:1}
-  .principle-name{font-family:var(--fh);font-size:.92rem;color:var(--t1);font-weight:700;margin-top:4px}
-  .principle-tile:nth-child(1){--accent:var(--cyan)}
-  .principle-tile:nth-child(2){--accent:var(--green)}
-  .principle-tile:nth-child(3){--accent:var(--amber)}
-  .principle-tile:nth-child(4){--accent:var(--purple)}
-  .principle-tile:nth-child(5){--accent:var(--pink)}
-  .principle-tile:nth-child(6){--accent:var(--red)}
-  .principle-tile:nth-child(7){--accent:var(--teal)}
-  .principle-tile:nth-child(8){--accent:#0ea5e9}
-  @media(max-width:900px){.principles{grid-template-columns:repeat(2,1fr)}}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecture 15 — SE Ethics | CS251</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css">
+  <style>
+    /* 8 principles grid */
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 14px 0
+    }
 
-  /* Case study card */
-  .case-card{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(245,158,11,.05));border:1px solid var(--border);border-inline-start:5px solid var(--red);border-radius:12px;padding:20px;margin:14px 0}
-  .case-card h3{font-family:var(--fh);color:var(--red);font-size:1.1rem;font-weight:700;margin-bottom:8px}
-  .case-card p{font-size:.88rem;color:var(--t2);line-height:1.65}
+    .principle-tile {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 14px;
+      text-align: center;
+      border-top: 4px solid var(--accent);
+      transition: .25s;
+      cursor: default
+    }
 
-  /* Theory cards */
-  .theory-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:14px 0}
-  .theory-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;border-top:3px solid var(--accent)}
-  .theory-card h4{font-family:var(--fh);color:var(--accent);font-size:1rem;font-weight:700;margin-bottom:8px}
-  .theory-card:nth-child(1){--accent:var(--cyan)}
-  .theory-card:nth-child(2){--accent:var(--green)}
-  .theory-card:nth-child(3){--accent:var(--amber)}
-  .theory-card:nth-child(4){--accent:var(--purple)}
-  @media(max-width:700px){.theory-grid{grid-template-columns:1fr}}
-</style>
+    .principle-tile:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .25)
+    }
+
+    .principle-num {
+      font-family: var(--fh);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1
+    }
+
+    .principle-name {
+      font-family: var(--fh);
+      font-size: .92rem;
+      color: var(--t1);
+      font-weight: 700;
+      margin-top: 4px
+    }
+
+    .principle-tile:nth-child(1) {
+      --accent: var(--cyan)
+    }
+
+    .principle-tile:nth-child(2) {
+      --accent: var(--green)
+    }
+
+    .principle-tile:nth-child(3) {
+      --accent: var(--amber)
+    }
+
+    .principle-tile:nth-child(4) {
+      --accent: var(--purple)
+    }
+
+    .principle-tile:nth-child(5) {
+      --accent: var(--pink)
+    }
+
+    .principle-tile:nth-child(6) {
+      --accent: var(--red)
+    }
+
+    .principle-tile:nth-child(7) {
+      --accent: var(--teal)
+    }
+
+    .principle-tile:nth-child(8) {
+      --accent: #0ea5e9
+    }
+
+    @media(max-width:900px) {
+      .principles {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    /* Case study card */
+    .case-card {
+      background: linear-gradient(135deg, rgba(239, 68, 68, .08), rgba(245, 158, 11, .05));
+      border: 1px solid var(--border);
+      border-inline-start: 5px solid var(--red);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 14px 0
+    }
+
+    .case-card h3 {
+      font-family: var(--fh);
+      color: var(--red);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .case-card p {
+      font-size: .88rem;
+      color: var(--t2);
+      line-height: 1.65
+    }
+
+    /* Theory cards */
+    .theory-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin: 14px 0
+    }
+
+    .theory-card {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      border-top: 3px solid var(--accent)
+    }
+
+    .theory-card h4 {
+      font-family: var(--fh);
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .theory-card:nth-child(1) {
+      --accent: var(--cyan)
+    }
+
+    .theory-card:nth-child(2) {
+      --accent: var(--green)
+    }
+
+    .theory-card:nth-child(3) {
+      --accent: var(--amber)
+    }
+
+    .theory-card:nth-child(4) {
+      --accent: var(--purple)
+    }
+
+    @media(max-width:700px) {
+      .theory-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ====== RTL/LTR mixed-content fix ====== */
+    .topic p,
+    .topic li,
+    .ch-title p,
+    .hero>p,
+    .q-explain,
+    .info div,
+    .warn div,
+    .danger div {
+      direction: rtl;
+      text-align: right;
+      unicode-bidi: embed;
+    }
+
+    .code-wrap,
+    .terminal,
+    pre,
+    code,
+    .tbl td,
+    .tbl th,
+    .cheat-key,
+    .cheat-val,
+    .q-text,
+    .q-opt,
+    .q-num,
+    .q-src {
+      direction: ltr;
+      text-align: left;
+      unicode-bidi: embed;
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="prog-bar"></div>
+  <div id="prog-bar"></div>
 
-<nav id="sidebar" dir="ltr">
-  <div class="sb-logo">
-    <h2>⚖️ CS251 — Lec 15</h2>
-    <p>SE Ethics &amp; Professional Practice</p>
-  </div>
-  <a class="sb-back" href="../index.html">← All Lectures</a>
-  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+  <nav id="sidebar" dir="ltr">
+    <div class="sb-logo">
+      <h2>⚖️ CS251 — Lec 15</h2>
+      <p>SE Ethics &amp; Professional Practice</p>
+    </div>
+    <a class="sb-back" href="../index.html">← All Lectures</a>
+    <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
 
-  <div class="sb-section">Foundation</div>
-  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>What are Ethics?</a>
-  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Theories of Ethics</a>
-  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Need for SE Ethics</a>
+    <div class="sb-section">Foundation</div>
+    <a href="#ch1" class="sb-link"><span class="sb-dot"></span>What are Ethics?</a>
+    <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Theories of Ethics</a>
+    <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Need for SE Ethics</a>
 
-  <div class="sb-section">Code of Ethics</div>
-  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Preamble</a>
-  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>8 Principles ⭐</a>
+    <div class="sb-section">Code of Ethics</div>
+    <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Preamble</a>
+    <a href="#ch5" class="sb-link"><span class="sb-dot"></span>8 Principles ⭐</a>
 
-  <div class="sb-section">Case Studies</div>
-  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>LAS &amp; CONFIRM</a>
+    <div class="sb-section">Case Studies</div>
+    <a href="#ch6" class="sb-link"><span class="sb-dot"></span>LAS &amp; CONFIRM</a>
 
-  <div class="sb-section">Exam Prep</div>
-  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Bank</a>
-  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
-</nav>
+    <div class="sb-section">Exam Prep</div>
+    <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Bank</a>
+    <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  </nav>
 
-<button id="menu-btn">☰</button>
-<button id="scroll-top">↑</button>
+  <button id="menu-btn">☰</button>
+  <button id="scroll-top">↑</button>
 
-<main id="main" dir="auto">
+  <main id="main" dir="auto">
 
-<section class="hero">
-  <div class="hero-badge">⚖️ Lecture 15 · Professional ethics for SE</div>
-  <h1>SE Ethics &amp; <span>Professional Practice</span></h1>
-  <p>8 fundamental principles من ACM/IEEE. الـ Q1.19 / Q1.20 في كل امتحان عبارة عن ethics case study. تعلم تـ identify الـ violations.</p>
-  <div class="btn-row">
-    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
-    <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
-  </div>
-  <div class="hero-stats">
-    <div class="hstat"><div class="num">6</div><div class="lbl">Chapters</div></div>
-    <div class="hstat"><div class="num">8</div><div class="lbl">Principles</div></div>
-    <div class="hstat"><div class="num">2</div><div class="lbl">Case Studies</div></div>
-    <div class="hstat"><div class="num">8</div><div class="lbl">Exam Qs</div></div>
-  </div>
-</section>
+    <section class="hero">
+      <div class="hero-badge">⚖️ Lecture 15 · Professional ethics for SE</div>
+      <h1>SE Ethics &amp; <span>Professional Practice</span></h1>
+      <p>8 fundamental principles من ACM/IEEE. الـ Q1.19 / Q1.20 في كل امتحان بتجي فيها ethics case study. لازم تعرف
+        تحدد الـ violations بسرعة — عشان متتسوحش في الامتحان.</p>
+      <div class="btn-row">
+        <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+        <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="num">6</div>
+          <div class="lbl">Chapters</div>
+        </div>
+        <div class="hstat">
+          <div class="num">8</div>
+          <div class="lbl">Principles</div>
+        </div>
+        <div class="hstat">
+          <div class="num">2</div>
+          <div class="lbl">Case Studies</div>
+        </div>
+        <div class="hstat">
+          <div class="num">8</div>
+          <div class="lbl">Exam Qs</div>
+        </div>
+      </div>
+    </section>
 
-<div class="content">
+    <div class="content">
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 1 — WHAT ARE ETHICS?
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch1">
-  <div class="ch-header">
-    <div class="ch-num blue">01</div>
-    <div class="ch-title">
-      <h2>What Are Ethics?</h2>
-      <p>Definitions from philosophy → computer ethics → SE ethics.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch1">
+        <div class="ch-header">
+          <div class="ch-num blue">01</div>
+          <div class="ch-title">
+            <h2>What Are Ethics?</h2>
+            <p>Definitions from philosophy → computer ethics → SE ethics — خلينا نفهم الموضوع من أوله.</p>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">📖</span> Definitions</div>
-    <ul>
-      <li><strong>Ethics</strong> = "moral principles that govern a person's behavior or the conducting of an activity".</li>
-      <li>Or "the branch of knowledge that deals with moral principles".</li>
-      <li>Origin: Greek <em>ethos</em> = habitual character, custom.</li>
-    </ul>
+        <div class="topic" style="--accent:var(--cyan)">
+          <div class="topic-title"><span class="icon">📖</span> Definitions</div>
+          <ul>
+            <li><strong>Ethics</strong> = "moral principles that govern a person's behavior or the conducting of an
+              activity".</li>
+            <li>Or "the branch of knowledge that deals with moral principles".</li>
+            <li>Origin: Greek <em>ethos</em> = habitual character, custom.</li>
+          </ul>
 
-    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">Computer Ethics</h4>
-    <p>"The field of <strong>analyzing and solving dilemmas</strong> and ethical issues arising during using and developing computing systems in the light of ethical theories and professional practice."</p>
-  </div>
+          <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">Computer Ethics</h4>
+          <p>"The field of <strong>analyzing and solving dilemmas</strong> and ethical issues arising during using and
+            developing computing systems in the light of ethical theories and professional practice."</p>
+        </div>
 
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">👔</span> What is a Professional?</div>
-    <p>A professional = member of a profession defined by:</p>
-    <ul>
-      <li>Set of <strong>knowledge and skills</strong> acquired through education + training.</li>
-      <li><strong>License</strong> to practice the profession.</li>
-    </ul>
+        <div class="topic" style="--accent:var(--green)">
+          <div class="topic-title"><span class="icon">👔</span> What is a Professional?</div>
+          <p>الـ professional = حد اللي بيشتغل في مهنة محددة بـ:</p>
+          <ul>
+            <li dir="rtl"><strong>Knowledge and skills</strong> بيتعلمها من تعليم وتدريب.</li>
+            <li dir="rtl"><strong>License</strong> بتسمحله يمارس المهنة.</li>
+          </ul>
 
-    <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin:14px 0 6px">Professionalism Means...</h4>
-    <ul>
-      <li>Competence · Honesty · Integrity</li>
-      <li>Reliability and responsibility</li>
-      <li>Communication and collaboration</li>
-      <li>Self-development</li>
-      <li>Good judgment</li>
-    </ul>
-  </div>
-</div>
+          <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin:14px 0 6px">Professionalism
+            يعني...</h4>
+          <ul>
+            <li dir="rtl">Competence · Honesty · Integrity — كفاءة وأمانة ونزاهة.</li>
+            <li dir="rtl">Reliability and responsibility — موثوقية ومسؤولية.</li>
+            <li dir="rtl">Communication and collaboration — تواصل وتعاون.</li>
+            <li dir="rtl">Self-development — تطوير نفسك.</li>
+            <li dir="rtl">Good judgment — حكم كويس.</li>
+          </ul>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 2 — THEORIES OF ETHICS
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch2">
-  <div class="ch-header">
-    <div class="ch-num green">02</div>
-    <div class="ch-title">
-      <h2>Theories of Ethics</h2>
-      <p>4 main schools of ethical thought.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch2">
+        <div class="ch-header">
+          <div class="ch-num green">02</div>
+          <div class="ch-title">
+            <h2>Theories of Ethics</h2>
+            <p>4 مدارس فكرية في الأخلاق — لازم تعرف كل واحدة فيها إيه.</p>
+          </div>
+        </div>
 
-  <div class="theory-grid">
-    <div class="theory-card">
-      <h4>🎯 Consequences Theory</h4>
-      <p><strong>Egoism:</strong> action good/bad based on benefit/harm to individual.</p>
-      <p style="margin-top:6px"><strong>Utilitarianism:</strong> morally acceptable if it brings the greatest good for the greatest number.</p>
-    </div>
-    <div class="theory-card">
-      <h4>⚖️ Deontology (Duty-based)</h4>
-      <p>Actions are what matters — NOT consequences. Humans have <strong>duty to do what is good</strong>. Actions are good/bad in themselves.</p>
-    </div>
-    <div class="theory-card">
-      <h4>🌍 Relativism</h4>
-      <p>No universal ethical norms. Right and wrong differ between cultures, societies, generations.</p>
-    </div>
-    <div class="theory-card">
-      <h4>🕊️ Divine Command</h4>
-      <p>Humans are on Earth to serve God. Divine guidance is the source of ethics — defines what is right and wrong.</p>
-    </div>
-  </div>
-</div>
+        <div class="theory-grid">
+          <div class="theory-card">
+            <h4>🎯 Consequences Theory</h4>
+            <p><strong>Egoism:</strong> action good/bad based on benefit/harm to individual.</p>
+            <p style="margin-top:6px"><strong>Utilitarianism:</strong> morally acceptable if it brings the greatest good
+              for the greatest number.</p>
+          </div>
+          <div class="theory-card">
+            <h4>⚖️ Deontology (Duty-based)</h4>
+            <p>Actions are what matters — NOT consequences. Humans have <strong>duty to do what is good</strong>.
+              Actions are good/bad in themselves.</p>
+          </div>
+          <div class="theory-card">
+            <h4>🌍 Relativism</h4>
+            <p>No universal ethical norms. Right and wrong differ between cultures, societies, generations.</p>
+          </div>
+          <div class="theory-card">
+            <h4>🕊️ Divine Command</h4>
+            <p>Humans are on Earth to serve God. Divine guidance is the source of ethics — defines what is right and
+              wrong.</p>
+          </div>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 3 — NEED FOR SE ETHICS
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch3">
-  <div class="ch-header">
-    <div class="ch-num amber">03</div>
-    <div class="ch-title">
-      <h2>Why Do We Need SE Ethics?</h2>
-      <p>Unethical practices cause SW failures, project failures, and death.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch3">
+        <div class="ch-header">
+          <div class="ch-num amber">03</div>
+          <div class="ch-title">
+            <h2>Why Do We Need SE Ethics?</h2>
+            <p>الممارسات غير الأخلاقية بتسبّب فشل المشاريع، فشل الأنظمة، وحتى وفاة!</p>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">⚠️</span> Real Examples</div>
-    <ul>
-      <li><strong>London Ambulance System</strong> — Company took work it had no experience in. System released with known bugs.</li>
-      <li><strong>The Vasa</strong> (classical engineering ethics).</li>
-      <li><strong>Therac-25</strong> — Company denied the system had problems.</li>
-      <li><strong>Royal Mail / Fujitsu</strong> (UK, 1999-2021) — Faulty accounting software accused 700+ post office workers of theft.</li>
-    </ul>
-  </div>
+        <div class="topic" style="--accent:var(--amber)">
+          <div class="topic-title"><span class="icon">⚠️</span> Real Examples</div>
+          <ul>
+            <li><strong>London Ambulance System</strong> — Company took work it had no experience in. System released
+              with known bugs.</li>
+            <li><strong>The Vasa</strong> (classical engineering ethics).</li>
+            <li><strong>Therac-25</strong> — Company denied the system had problems.</li>
+            <li><strong>Royal Mail / Fujitsu</strong> (UK, 1999-2021) — Faulty accounting software accused 700+ post
+              office workers of theft.</li>
+          </ul>
+        </div>
 
-  <div class="topic" style="--accent:var(--red)">
-    <div class="topic-title"><span class="icon">❓</span> Ethical Questions</div>
-    <ol>
-      <li>Should you work on a product used in spying on political opponents?</li>
-      <li>Should you release a safety-critical product not fully tested because your manager pressures you?</li>
-      <li>Should you accept contracts you're <strong>not competent</strong> to do?</li>
-      <li>Should you sacrifice good SE practices to finish on time?</li>
-      <li>What if the project is behind schedule and your employer lies to the client?</li>
-      <li>What if the client approaches you for private work behind your employer's back?</li>
-    </ol>
-  </div>
-</div>
+        <div class="topic" style="--accent:var(--red)">
+          <div class="topic-title"><span class="icon">❓</span> أسئلة أخلاقية لازم تفكر فيها</div>
+          <ol>
+            <li>هتشتغل على منتج بيتتبع بيه في خصومهم السياسيين؟</li>
+            <li>هتطلع منتج حساس خالص من تستينغ ُكامل عشان المدير ضغط عليك؟</li>
+            <li>هتقبل عقود <strong>مش كفء تعملها</strong>؟</li>
+            <li>هتضحّي بممارسات الـ SE الصح عشان تخلص في الوقت؟</li>
+            <li>طب لو المشروع متأخر والشركة كدبت على العميل؟</li>
+            <li>طب لو العميل جه عليك مباشرة برا عن الشركة؟</li>
+          </ol>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 4 — PREAMBLE
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch4">
-  <div class="ch-header">
-    <div class="ch-num purple">04</div>
-    <div class="ch-title">
-      <h2>SE Code of Ethics — Preamble</h2>
-      <p>ACM/IEEE joint code. Authoritative reference for the profession.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch4">
+        <div class="ch-header">
+          <div class="ch-num purple">04</div>
+          <div class="ch-title">
+            <h2>SE Code of Ethics — Preamble</h2>
+            <p>ACM/IEEE joint code. Authoritative reference for the profession.</p>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">📜</span> Who is a SE?</div>
-    <p>"Software Engineers are those who contribute by <strong>direct participation</strong> or by <strong>teaching</strong>, to the analysis, specification, design, development, certification, maintenance, and testing of software systems."</p>
-    <p>"Because of their roles, software engineers have <strong>significant opportunities to do good or cause harm</strong>."</p>
-  </div>
+        <div class="topic" style="--accent:var(--purple)">
+          <div class="topic-title"><span class="icon">📜</span> Who is a SE?</div>
+          <p>"Software Engineers are those who contribute by <strong>direct participation</strong> or by
+            <strong>teaching</strong>, to the analysis, specification, design, development, certification, maintenance,
+            and testing of software systems."</p>
+          <p>"Because of their roles, software engineers have <strong>significant opportunities to do good or cause
+              harm</strong>."</p>
+        </div>
 
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">🎯</span> Code Scope</div>
-    <p>The Code applies to:</p>
-    <ul>
-      <li>Practitioners</li>
-      <li>Educators</li>
-      <li>Managers</li>
-      <li>Supervisors</li>
-      <li>Policy makers</li>
-      <li>Trainees and students of the profession</li>
-    </ul>
-  </div>
-</div>
+        <div class="topic" style="--accent:var(--cyan)">
+          <div class="topic-title"><span class="icon">🎯</span> Code Scope</div>
+          <p>The Code applies to:</p>
+          <ul>
+            <li>Practitioners</li>
+            <li>Educators</li>
+            <li>Managers</li>
+            <li>Supervisors</li>
+            <li>Policy makers</li>
+            <li>Trainees and students of the profession</li>
+          </ul>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 5 — 8 PRINCIPLES ⭐
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch5">
-  <div class="ch-header">
-    <div class="ch-num red">05</div>
-    <div class="ch-title">
-      <h2>The 8 Fundamental Principles ⭐</h2>
-      <p>احفظهم بترتيب. كل principle له clauses (3.01, 3.02, ...). الـ exam بيدي scenario ويسأل أي principle.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch5">
+        <div class="ch-header">
+          <div class="ch-num red">05</div>
+          <div class="ch-title">
+            <h2>The 8 Fundamental Principles ⭐</h2>
+            <p>احفظهم بالترتيب! كل principle ليه clauses (3.01, 3.02, ...). الـ exam بيديك scenario ويسأل أي principle —
+              لازم تبقى عارف كل clause بيعمل إيه.</p>
+          </div>
+        </div>
 
-  <div class="principles">
-    <div class="principle-tile"><div class="principle-num">1</div><div class="principle-name">Public</div></div>
-    <div class="principle-tile"><div class="principle-num">2</div><div class="principle-name">Client &amp; Employer</div></div>
-    <div class="principle-tile"><div class="principle-num">3</div><div class="principle-name">Product</div></div>
-    <div class="principle-tile"><div class="principle-num">4</div><div class="principle-name">Judgment</div></div>
-    <div class="principle-tile"><div class="principle-num">5</div><div class="principle-name">Management</div></div>
-    <div class="principle-tile"><div class="principle-num">6</div><div class="principle-name">Profession</div></div>
-    <div class="principle-tile"><div class="principle-num">7</div><div class="principle-name">Colleagues</div></div>
-    <div class="principle-tile"><div class="principle-num">8</div><div class="principle-name">Self</div></div>
-  </div>
+        <div class="principles">
+          <div class="principle-tile">
+            <div class="principle-num">1</div>
+            <div class="principle-name">Public</div>
+          </div>
+          <div class="principle-tile">
+            <div class="principle-num">2</div>
+            <div class="principle-name">Client &amp; Employer</div>
+          </div>
+          <div class="principle-tile">
+            <div class="principle-num">3</div>
+            <div class="principle-name">Product</div>
+          </div>
+          <div class="principle-tile">
+            <div class="principle-num">4</div>
+            <div class="principle-name">Judgment</div>
+          </div>
+          <div class="principle-tile">
+            <div class="principle-num">5</div>
+            <div class="principle-name">Management</div>
+          </div>
+          <div class="principle-tile">
+            <div class="principle-num">6</div>
+            <div class="principle-name">Profession</div>
+          </div>
+          <div class="principle-tile">
+            <div class="principle-num">7</div>
+            <div class="principle-name">Colleagues</div>
+          </div>
+          <div class="principle-tile">
+            <div class="principle-num">8</div>
+            <div class="principle-name">Self</div>
+          </div>
+        </div>
 
-  <!-- Principle 1 -->
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">🌍</span> Principle 1 — Public</div>
-    <p><em>"Software engineers shall act consistently with the <strong>public interest</strong>."</em></p>
-    <ul>
-      <li>Accept full responsibility for their work</li>
-      <li>Moderate interests of SE / employer / client / users with public good</li>
-      <li>Only approve software if good, safe, well-tested</li>
-      <li>Disclose any harm the software may cause</li>
-      <li>Be fair, avoid deception</li>
-      <li>Consider physical disabilities</li>
-    </ul>
-  </div>
+        <!-- Principle 1 -->
+        <div class="topic" style="--accent:var(--cyan)">
+          <div class="topic-title"><span class="icon">🌍</span> Principle 1 — Public</div>
+          <p><em>لازم مهندسين السوفتوير يتصرفوا دايماً بما يخدم <strong>المصلحة العامة</strong>.</em></p>
+          <ul>
+            <li dir="rtl">شيل المسئولية الكاملة عن شغلك.</li>
+            <li dir="rtl">وازن بين مصلحة الـ SE، الشركة، العميل، والمستخدمين بما لا يضر الصالح العام.</li>
+            <li dir="rtl">متوافقش على سوفتوير إلا لو كان آمن، ومتجرب كويس، ومفهوش مشاكل.</li>
+            <li dir="rtl">أعلن عن أي ضرر ممكن السوفتوير يسببه، متخبيش حاجة.</li>
+            <li dir="rtl">خليك فير ومتغشش حد.</li>
+            <li dir="rtl">اعمل حساب ذوي الاحتياجات الخاصة (Physical disabilities) في السوفتوير بتاعك.</li>
+          </ul>
+        </div>
 
-  <!-- Principle 2 -->
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">💼</span> Principle 2 — Client &amp; Employer</div>
-    <p><em>"Act in the best interests of client and employer, consistent with public interest."</em></p>
-    <ul>
-      <li><strong>2.01</strong> — Provide services only in your area of competence</li>
-      <li><strong>2.02</strong> — Do not use illegally obtained software</li>
-      <li><strong>2.03</strong> — Use property as authorized by owner</li>
-      <li><strong>2.04</strong> — Ensure documents you rely on are approved</li>
-      <li><strong>2.05</strong> — Honor confidentiality of information</li>
-      <li>Be honest about your limitations · Report violations · Accept no harmful work</li>
-    </ul>
-  </div>
+        <!-- Principle 2 -->
+        <div class="topic" style="--accent:var(--green)">
+          <div class="topic-title"><span class="icon">💼</span> Principle 2 &amp; Employer</div>
+          <p><em>اتصرف بما يحقق مصلحة العميل والشركة، بس من غير ما تضر المصلحة العامة.</em></p>
+          <ul>
+            <li dir="rtl"><strong>2.01</strong> — قدّم خدمات بس في مجال خبرتك — متقبلش شغل مش كفيله.</li>
+            <li dir="rtl"><strong>2.02</strong> — متستخدمش سوفتوير مسروق أو متكرك.</li>
+            <li dir="rtl"><strong>2.03</strong> — استخدم الملكية بالطريقة المرخصة من صاحبها.</li>
+            <li dir="rtl"><strong>2.04</strong> — تأكد إن المستندات اللي بتعتمد عليها معتمدة.</li>
+            <li dir="rtl"><strong>2.05</strong> — احترم سرية المعلومات — الـ NDA مش هزار.</li>
+            <li dir="rtl">خليك صريح في حدودك · بلّغ عن أي مخالفات تشوفها · متقبلش تشتغل في حاجة بتضر الناس.</li>
+          </ul>
+        </div>
 
-  <!-- Principle 3 -->
-  <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">📦</span> Principle 3 — Product</div>
-    <p><em>"Ensure products and modifications meet the highest professional standards."</em></p>
-    <ul>
-      <li><strong>3.02</strong> — Ensure proper and achievable goals</li>
-      <li><strong>3.04</strong> — Ensure they are qualified for any project</li>
-      <li><strong>3.07</strong> — Strive to fully understand specifications</li>
-      <li><strong>3.09</strong> — Ensure realistic quantitative estimates (cost, scheduling)</li>
-      <li><strong>3.10</strong> — Ensure adequate testing, debugging, and review ⭐</li>
-      <li>Plus: project mgmt, methodology use, documentation, privacy, data legitimacy</li>
-    </ul>
-  </div>
+        <!-- Principle 3 -->
+        <div class="topic" style="--accent:var(--amber)">
+          <div class="topic-title"><span class="icon">📦</span> Principle 3 — Product</div>
+          <p><em>اتأكد إن الـ products والتعديلات بتاعتك مطابقة لأعلى المعايير الاحترافية.</em></p>
+          <ul>
+            <li dir="rtl"><strong>3.02</strong> — تأكد إن الأهداف مناسبة وممكن تتحقق.</li>
+            <li dir="rtl"><strong>3.04</strong> — تأكد إنك مؤهّل لأي مشروع بتقبله.</li>
+            <li dir="rtl"><strong>3.07</strong> — افهم الـ specifications كويس من الأول.</li>
+            <li dir="rtl"><strong>3.09</strong> — اعمل تقديرات واقعية للتكلفة والوقت.</li>
+            <li dir="rtl"><strong>3.10</strong> — اتأكد من وجود تستينغ ومراجعة كافيين ⭐</li>
+            <li dir="rtl">اتعامل مع الداتا بأمانة، وثّق الشغل بتاعك كويس، واحمي خصوصية اليوزرز.</li>
+          </ul>
+        </div>
 
-  <!-- Principle 4 -->
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">⚖️</span> Principle 4 — Judgment</div>
-    <p><em>"Maintain integrity and independence in their professional judgment."</em></p>
-    <ul>
-      <li><strong>4.03</strong> — Maintain professional objectivity in evaluations</li>
-      <li><strong>4.04</strong> — Not engage in deceptive financial practices (bribery, double billing)</li>
-      <li><strong>4.05</strong> — Disclose conflicts of interest that cannot reasonably be avoided</li>
-      <li><strong>4.06</strong> — Refuse to participate in bodies with undisclosed conflicts</li>
-    </ul>
-  </div>
+        <!-- Principle 4 -->
+        <div class="topic" style="--accent:var(--purple)">
+          <div class="topic-title"><span class="icon">⚖️</span> Principle 4 — Judgment</div>
+          <p><em>حافظ على نزاهتك واستقلاليتك لما تيجي تقيّم أو تاخد قرار احترافي.</em></p>
+          <ul>
+            <li dir="rtl"><strong>4.03</strong> — احتفظ بموضوعيتك في التقييم — متتأثرش بعلاقاتك.</li>
+            <li dir="rtl"><strong>4.04</strong> — متقبلش رشاوي أو double billing أو أي ممارسة مالية غير سليمة.</li>
+            <li dir="rtl"><strong>4.05</strong> — أعلن عن أي conflict of interest عندك — متخبيش الموضوع ده.</li>
+            <li dir="rtl"><strong>4.06</strong> — متشتغلش في لجان فيها تضارب مصالح مخفي.</li>
+          </ul>
+        </div>
 
-  <!-- Principle 5 -->
-  <div class="topic" style="--accent:var(--pink)">
-    <div class="topic-title"><span class="icon">👔</span> Principle 5 — Management</div>
-    <p><em>"SE managers and leaders shall subscribe to and promote an ethical approach to management."</em></p>
-    <ul>
-      <li><strong>5.01</strong> — Ensure good management, effective procedures for quality and risk reduction</li>
-      <li><strong>5.02</strong> — Inform SEs of standards before holding them accountable</li>
-      <li><strong>5.03</strong> — Inform SEs of password/file/confidential info policies</li>
-      <li><strong>5.04</strong> — Assign work only after considering education and experience</li>
-      <li><strong>5.05</strong> — Ensure realistic estimates of cost, scheduling, quality</li>
-      <li><strong>5.06</strong> — Attract SEs only by accurate description of employment conditions</li>
-      <li><strong>5.07</strong> — Offer fair and just remuneration</li>
-      <li><strong>5.08</strong> — Not unjustly prevent someone from a suitable position</li>
-      <li><strong>5.10</strong> — Provide due process in hearing violations</li>
-      <li><strong>5.11</strong> — Not ask a SE to do anything inconsistent with this Code ⭐</li>
-    </ul>
-  </div>
+        <!-- Principle 5 -->
+        <div class="topic" style="--accent:var(--pink)">
+          <div class="topic-title"><span class="icon">👔</span> Principle 5 — Management</div>
+          <p><em>المديرين والـ leaders لازم يشجعوا ويطبقوا الأخلاقيات في الإدارة بتاعتهم.</em></p>
+          <ul>
+            <li dir="rtl"><strong>5.01</strong> — اضمن إدارة كويسة وإجراءات فعالة للجودة وتقليل المخاطر.</li>
+            <li dir="rtl"><strong>5.02</strong> — علّم الـ engineers بالمعايير قبل ما تحاسبهم.</li>
+            <li dir="rtl"><strong>5.04</strong> — وزّع الشغل حسب خبرة وتعليم كل واحد.</li>
+            <li dir="rtl"><strong>5.05</strong> — اضمن تقديرات واقعية للتكلفة والوقت والجودة.</li>
+            <li dir="rtl"><strong>5.11</strong> — متطلبش من الـ engineer يعمل حاجة تتعارض مع الـ Code ⭐</li>
+            <li dir="rtl">إدي رواتب عادلة · متتحيزش ضد حد · بلّغ عن المخالفات بطريقة صح.</li>
+          </ul>
+        </div>
 
-  <!-- Principle 6, 7, 8 -->
-  <div class="grid3">
-    <div class="topic" style="--accent:var(--red)">
-      <div class="topic-title"><span class="icon">🎓</span> 6 — Profession</div>
-      <p>"Advance the integrity and reputation of the profession consistent with public interest."</p>
-    </div>
-    <div class="topic" style="--accent:var(--teal)">
-      <div class="topic-title"><span class="icon">🤝</span> 7 — Colleagues</div>
-      <p>"Be fair to and supportive of colleagues."</p>
-      <ul style="font-size:.82rem;margin-top:6px">
-        <li>7.02 — Assist colleagues in professional development</li>
-        <li>Encourage following code</li>
-        <li>Credit fully the work of others</li>
-        <li>Review objectively</li>
-      </ul>
-    </div>
-    <div class="topic" style="--accent:#0ea5e9">
-      <div class="topic-title"><span class="icon">📚</span> 8 — Self</div>
-      <p>"Participate in <strong>lifelong learning</strong>."</p>
-      <ul style="font-size:.82rem;margin-top:6px">
-        <li>8.01 — Knowledge of dev, maintenance, testing</li>
-        <li>8.02 — Improve ability to create safe, reliable, useful SW</li>
-        <li>8.03 — Improve documentation</li>
-        <li>8.04 — Understand SW environments</li>
-        <li>8.05 — Knowledge of standards and laws</li>
-        <li>8.06 — Knowledge of this Code itself</li>
-      </ul>
-    </div>
-  </div>
-</div>
+        <!-- Principle 6, 7, 8 -->
+        <div class="grid3">
+          <div class="topic" style="--accent:var(--red)">
+            <div class="topic-title"><span class="icon">🎓</span> 6 — Profession</div>
+            <p>ارفع من نزاهة وسمعة المهنة بما يتماشى مع المصلحة العامة.</p>
+          </div>
+          <div class="topic" style="--accent:var(--teal)">
+            <div class="topic-title"><span class="icon">🤝</span> 7 — Colleagues</div>
+            <p>خليك فير وادعم زمايلك في الشغل.</p>
+            <ul style="font-size:.82rem;margin-top:6px">
+              <li dir="rtl"><strong>7.02</strong> — ساعد زمايلك إنهم يطوروا من نفسهم.</li>
+              <li dir="rtl">شجعهم يلتزموا بالـ Code of Ethics.</li>
+              <li dir="rtl">إدي credit للناس على شغلهم وماتسرقش مجهود حد.</li>
+              <li dir="rtl">اعمل review بموضوعية من غير شخصنة.</li>
+            </ul>
+          </div>
+          <div class="topic" style="--accent:#0ea5e9">
+            <div class="topic-title"><span class="icon">📚</span> 8 — Self</div>
+            <p>خليك دايماً بتتعلم وطور من نفسك (<strong>Lifelong learning</strong>).</p>
+            <ul style="font-size:.82rem;margin-top:6px">
+              <li dir="rtl"><strong>8.01</strong> — زوّد معرفتك في الـ dev والـ maintenance والـ testing.</li>
+              <li dir="rtl"><strong>8.02</strong> — حسّن قدرتك على عمل سوفتوير آمن ومفيد.</li>
+              <li dir="rtl"><strong>8.03</strong> — طوّر مهاراتك في الـ documentation.</li>
+              <li dir="rtl"><strong>8.04</strong> — افهم بيئات العمل كويس.</li>
+              <li dir="rtl"><strong>8.05</strong> — خليك على دراية بالـ standards والقوانين.</li>
+              <li dir="rtl"><strong>8.06</strong> — افهم الـ Code of Ethics ده نفسه كويس.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 6 — CASE STUDIES
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch6">
-  <div class="ch-header">
-    <div class="ch-num teal">06</div>
-    <div class="ch-title">
-      <h2>Case Studies</h2>
-      <p>LAS · CONFIRM · Royal Mail/Fujitsu — لمن نطبق الـ principles.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch6">
+        <div class="ch-header">
+          <div class="ch-num teal">06</div>
+          <div class="ch-title">
+            <h2>Case Studies</h2>
+            <p>LAS · CONFIRM · Royal Mail/Fujitsu — بنطبّق عليها الـ principles ونشوف فين الغلطة.</p>
+          </div>
+        </div>
 
-  <!-- LAS -->
-  <div class="case-card">
-    <h3>🚑 London Ambulance System</h3>
-    <p>The LAS automated system was deployed and failed catastrophically. The inquiry findings exposed multiple ethical violations:</p>
-    <ul style="font-size:.85rem;color:var(--t2);margin-top:8px">
-      <li>Schedule was <strong>set politically</strong>, not technically — unrealistic.</li>
-      <li>Bid evaluation team had little experience or motivation.</li>
-      <li><strong>System Options had no prior experience</strong> — yet tendered cheapest bid and won (violates 2.01).</li>
-      <li>Did not honestly report status to NHS management (violates 4.05).</li>
-      <li>System was not properly tested, had serious errors (violates 3.10).</li>
-      <li>"Go live" decision was political, not based on QA evaluation.</li>
-      <li>Staff were not sufficiently trained, no backup plan.</li>
-    </ul>
-  </div>
+        <!-- LAS -->
+        <div class="case-card">
+          <h3>🚑 London Ambulance System</h3>
+          <p>نظام الإسعاف الآلي في لندن نزل وفشل فشل ذريع. التحقيقات كشفت بلاوي ومخالفات أخلاقية كتير:</p>
+          <ul style="font-size:.85rem;color:var(--t2);margin-top:8px">
+            <li dir="rtl">الجدول الزمني <strong>اتحط لأسباب سياسية</strong>، مش تقنية — وكان غير واقعي تماماً.</li>
+            <li dir="rtl">تيم التقييم بتاع المناقصة كان معندوش خبرة ومكسل.</li>
+            <li dir="rtl">شركة <strong>System Options مكنش عندها أي خبرة سابقة</strong> — ورغم كده قدموا أرخص عرض وكسبوا (دي مخالفة لـ 2.01).</li>
+            <li dir="rtl">مبلغوش إدارة الـ NHS بالحالة الحقيقية للمشروع بأمانة (مخالفة لـ 4.05).</li>
+            <li dir="rtl">النظام متعملوش testing صح، وكان مليان errors خطيرة (مخالفة لـ 3.10).</li>
+            <li dir="rtl">قرار الـ "Go live" كان سياسي، مش مبني على تقييم الـ QA.</li>
+            <li dir="rtl">الموظفين متدربوش كفاية، ومكانش فيه خطة طوارئ (backup plan).</li>
+          </ul>
+        </div>
 
-  <!-- CONFIRM -->
-  <div class="case-card">
-    <h3>✈️ CONFIRM Project (ARMIS + Marriott + Hilton)</h3>
-    <p>ARMIS (owned by AMR — same company that built SABRE) built a hotel/car rental reservation system. Started 1988, cancelled 1992. <strong>Never delivered anything working</strong>.</p>
-    <ul style="font-size:.85rem;color:var(--t2);margin-top:8px">
-      <li><strong>ARMIS always lied</strong> about the status of the system (violates Principle 4).</li>
-      <li>Initial $55M investment → $125M.</li>
-      <li>Court cases settled with ARMIS paying $160M.</li>
-    </ul>
-  </div>
+        <!-- CONFIRM -->
+        <div class="case-card">
+          <h3>📥📦 CONFIRM Project (ARMIS + Marriott + Hilton)</h3>
+          <p>ARMIS بنت نظام حجز فنادق وسيارات — فضيحة مكملتش، بدأت 1988 واتلغت 1992. <strong>مسلموش أي حاجة شغّالة</strong> ليوم من الأيام.</p>
+          <ul style="font-size:.85rem;color:var(--t2);margin-top:8px">
+            <li><strong>ARMIS كانت بتكدب</strong> على حالة النظام طول الوقت (violates Principle 4).</li>
+            <li>الاستثمار من $55M طلع لـ $125M — والتسوية بـ $160M.</li>
+          </ul>
+        </div>
 
-  <!-- Royal Mail / Fujitsu -->
-  <div class="case-card">
-    <h3>📮 Royal Mail / Fujitsu (1999-2021)</h3>
-    <p>British Royal Mail deployed Fujitsu accounting software in 1999. Between 2000-2014:</p>
-    <ul style="font-size:.85rem;color:var(--t2);margin-top:8px">
-      <li>700+ post office workers wrongly accused of theft.</li>
-      <li>Many imprisoned, ruined financially, committed suicide.</li>
-      <li>2021: Court ruled software was <strong>faulty</strong>. £58M compensation to 555 employees.</li>
-      <li>Developers said code had <strong>no review, no coding style</strong>, many bugs.</li>
-      <li>Managers <strong>threatened</strong> developers ("continue or be fired") — violates 5.11.</li>
-      <li>Developers violated <strong>3.10</strong> (ensure adequate testing).</li>
-      <li>Managers violated <strong>5.01</strong>, <strong>5.05</strong>, <strong>5.11</strong>.</li>
-    </ul>
-  </div>
-</div>
+        <!-- Royal Mail / Fujitsu -->
+        <div class="case-card">
+          <h3>📮 Royal Mail / Fujitsu (1999-2021)</h3>
+          <p>البريد الملكي البريطاني نزّل سوفتوير حسابات من شركة Fujitsu سنة 1999. بين 2000 و 2014 حصلت الكارثة:</p>
+          <ul style="font-size:.85rem;color:var(--t2);margin-top:8px">
+            <li dir="rtl">أكتر من 700 موظف بريد اتهموهم بالغلط إنهم حرامية.</li>
+            <li dir="rtl">ناس كتير اتسجنت، واتدمرت مالياً، وفي منهم انتحر.</li>
+            <li dir="rtl">في 2021: المحكمة حكمت إن السوفتوير كان <strong>بايظ ومضروب</strong>. ودفعوا تعويضات 58 مليون إسترليني لـ 555 موظف.</li>
+            <li dir="rtl">الـ developers قالوا إن الكود كان <strong>مبيتراجعش، ومفيش coding style</strong>، ومليان bugs.</li>
+            <li dir="rtl">المديرين <strong>هددوا</strong> الـ developers ("كملوا شغل أو هتتطردوا") — وده مخالف لـ 5.11.</li>
+            <li dir="rtl">الـ developers خالفوا مبدأ <strong>3.10</strong> (اللي هو اتأكد من الـ testing).</li>
+            <li dir="rtl">والمديرين خالفوا المبادئ <strong>5.01</strong> و <strong>5.05</strong> و <strong>5.11</strong>.</li>
+          </ul>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      QUIZ — EXAM BANK
 ══════════════════════════════════════════════════════════ -->
-<div class="quiz-section" id="quiz">
-  <div class="quiz-header">
-    <div class="quiz-icon">🎯</div>
-    <div>
-      <h3>Exam Bank — Lecture 15</h3>
-      <p>الـ ethics scenarios متكررة. اقرأ الـ scenario, identify الـ violations.</p>
-    </div>
-  </div>
+      <div class="quiz-section" id="quiz">
+        <div class="quiz-header">
+          <div class="quiz-icon">🎯</div>
+          <div>
+            <h3>Exam Bank — Lecture 15</h3>
+            <p>الـ ethics scenarios بتتكرر دايماً. اقرا الـ scenario كويس، بعدين identify الـ violations — متديش وقت
+              تفكير.</p>
+          </div>
+        </div>
 
-  <!-- Q1 — Mina conflict of interest -->
-  <div class="q-item" data-correct="b">
-    <div class="q-num">Question 1 <span class="q-src">Fall 2021–22 · Q1.19</span></div>
-    <div class="q-text"><strong>Case:</strong> Mina works for public schools IT. He's friends with Aziz, uncle of Rami who owns FCAI Soft. Testing showed FCAI Soft's product is below standard. As a favor for Aziz, Mina accepts the bad software. Rami will hire Mina's brother in return.<br><br>Which clauses of Principle 4 (Judgment) are violated?
-      <br>4.03 — Maintain professional objectivity
-      <br>4.04 — No bribery/improper financial practices
-      <br>4.05 — Disclose conflicts of interest
-      <br>4.06 — Refuse private/governmental bodies with conflicts
-    </div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Only 4.03, 4.06</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Only 4.03, 4.04, 4.05</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Only 4.04, 4.05, 4.06</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All of them</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: B — 4.03, 4.04, 4.05</b>
-      <ul style="margin-top:6px">
-        <li>4.03 ❌ — Accepted bad software despite knowing — lacks objectivity.</li>
-        <li>4.04 ❌ — Receiving job for brother = bribery / improper financial practice.</li>
-        <li>4.05 ❌ — Did not disclose the conflict of interest (Aziz, Rami).</li>
-        <li>4.06 — Not directly applicable (no formal body involved).</li>
-      </ul>
-    </div>
-  </div>
+        <!-- Q1 — Mina conflict of interest -->
+        <div class="q-item" data-correct="b">
+          <div class="q-num">Question 1 <span class="q-src">Fall 2021–22 · Q1.19</span></div>
+          <div class="q-text"><strong>Case:</strong> Mina works for public schools IT. He's friends with Aziz, uncle of
+            Rami who owns FCAI Soft. Testing showed FCAI Soft's product is below standard. As a favor for Aziz, Mina
+            accepts the bad software. Rami will hire Mina's brother in return.<br><br>Which clauses of Principle 4
+            (Judgment) are violated?
+            <br>4.03 — Maintain professional objectivity
+            <br>4.04 — No bribery/improper financial practices
+            <br>4.05 — Disclose conflicts of interest
+            <br>4.06 — Refuse private/governmental bodies with conflicts
+          </div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Only 4.03, 4.06</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Only 4.03, 4.04, 4.05</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Only 4.04, 4.05, 4.06</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All of them</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: B — 4.03, 4.04, 4.05</b>
+            <ul style="margin-top:6px">
+              <li>4.03 ❌ — قبل السوفتوير الوحش — فيه لا موضوعية.</li>
+              <li>4.04 ❌ — إنك توظف حد قصاد خدمة دي تعتبر رشوة.</li>
+              <li>4.05 ❌ — معلنشش عن تضارب المصالح.</li>
+              <li>4.06 — مش منطبقة هنا.</li>
+            </ul>
+          </div>
+        </div>
 
-  <!-- Q2 — Samir illegal software -->
-  <div class="q-item" data-correct="c">
-    <div class="q-num">Question 2 <span class="q-src">Fall 2021–22 · Q1.20</span></div>
-    <div class="q-text"><strong>Case:</strong> Samir is great in Java but no C#/.NET experience. Client wants C#/.NET project — business secret, signed NDA. Samir accepts. Tells friend everything about project (NDA violation). Friend gives him cracked Visual Studio. Which Principle 2 clauses did Samir violate?
-      <br>2.01 — Provide services only where competent
-      <br>2.02 — Do not use illegally obtained software
-      <br>2.03 — Only use property as authorized
-      <br>2.04 — Documents relied on are approved
-      <br>2.05 — Honor confidentiality of information
-    </div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 2.01, 2.02, 2.03</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2.01, 2.04, 2.05</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 2.01, 2.02, 2.05</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 2.02, 2.03, 2.04</div>
-      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> All of them</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: C — 2.01, 2.02, 2.05</b>
-      <ul style="margin-top:6px">
-        <li>2.01 ❌ — Not competent in C#/.NET, accepted anyway.</li>
-        <li>2.02 ❌ — Used cracked Visual Studio = illegally obtained software.</li>
-        <li>2.05 ❌ — Shared NDA-protected project details with friend.</li>
-      </ul>
-    </div>
-  </div>
+        <!-- Q2 — Samir illegal software -->
+        <div class="q-item" data-correct="c">
+          <div class="q-num">Question 2 <span class="q-src">Fall 2021–22 · Q1.20</span></div>
+          <div class="q-text"><strong>Case:</strong> Samir is great in Java but no C#/.NET experience. Client wants
+            C#/.NET project — business secret, signed NDA. Samir accepts. Tells friend everything about project (NDA
+            violation). Friend gives him cracked Visual Studio. Which Principle 2 clauses did Samir violate?
+            <br>2.01 — Provide services only where competent
+            <br>2.02 — Do not use illegally obtained software
+            <br>2.03 — Only use property as authorized
+            <br>2.04 — Documents relied on are approved
+            <br>2.05 — Honor confidentiality of information
+          </div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 2.01, 2.02, 2.03</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2.01, 2.04, 2.05</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 2.01, 2.02, 2.05</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 2.02, 2.03, 2.04</div>
+            <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> All of them</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: C — 2.01, 2.02, 2.05</b>
+            <ul style="margin-top:6px">
+              <li>2.01 ❌ — مش كفيء في الـ C#/.NET وقبل الشغل — مخالفة واضحة.</li>
+              <li>2.02 ❌ — استخدم Visual Studio متكرك — وده سوفتوير غير قانوني.</li>
+              <li>2.05 ❌ — كشف تفاصيل المشروع المحمي بالـ NDA — مخالفة.</li>
+            </ul>
+          </div>
+        </div>
 
-  <!-- Q3 — Fujitsu Developers -->
-  <div class="q-item" data-correct="e">
-    <div class="q-num">Question 3 <span class="q-src">Winter 2021 · Q1.19</span></div>
-    <div class="q-text">In the Royal Mail / Fujitsu case (faulty accounting software, 700+ employees accused, suicides), which rules were violated <strong>by the Fujitsu developers</strong>?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 3.04 — Ensure they are qualified</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 3.09 — Realistic cost/schedule estimates</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 3.02 — Proper and achievable goals</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 3.07 — Fully understand specifications</div>
-      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> 3.10 — Ensure adequate testing, debugging, and review</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: E — 3.10 (Adequate Testing)</b>
-      Developers said: code wasn't reviewed, no coding style, testing showed many bugs but management forced delivery anyway. Direct violation of 3.10.
-    </div>
-  </div>
+        <!-- Q3 — Fujitsu Developers -->
+        <div class="q-item" data-correct="e">
+          <div class="q-num">Question 3 <span class="q-src">Winter 2021 · Q1.19</span></div>
+          <div class="q-text">In the Royal Mail / Fujitsu case (faulty accounting software, 700+ employees accused,
+            suicides), which rules were violated <strong>by the Fujitsu developers</strong>?</div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 3.04 — Ensure they are qualified</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 3.09 — Realistic cost/schedule estimates
+            </div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 3.02 — Proper and achievable goals</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 3.07 — Fully understand specifications
+            </div>
+            <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> 3.10 — Ensure adequate testing,
+              debugging, and review</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: E — 3.10 (الـ Testing الكافي)</b>
+            الـ developers قالوا: الكود متراجعش، مفيش كودينغ ستايل، والـ testing طلع bugs كتير بس المانجمنت ضغطت
+            على التسليم. دي مخالفة صريحة لـ 3.10.
+          </div>
+        </div>
 
-  <!-- Q4 — Fujitsu Managers -->
-  <div class="q-item" data-correct="e">
-    <div class="q-num">Question 4 <span class="q-src">Winter 2021 · Q1.20</span></div>
-    <div class="q-text">In the same case, which rule was violated <strong>by Fujitsu project managers</strong>?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 5.02 — Ensure SEs are informed of standards</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 5.04 — Assign work based on experience</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 5.06 — Accurate description of employment</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 5.07 — Fair remuneration</div>
-      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> 5.11 — Not ask SE to do anything inconsistent with this Code</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: E — 5.11</b>
-      Managers <strong>threatened developers</strong> ("continue or get fired") to release buggy code — explicitly inconsistent with the Code (3.10 on testing).
-    </div>
-  </div>
+        <!-- Q4 — Fujitsu Managers -->
+        <div class="q-item" data-correct="e">
+          <div class="q-num">Question 4 <span class="q-src">Winter 2021 · Q1.20</span></div>
+          <div class="q-text">In the same case, which rule was violated <strong>by Fujitsu project managers</strong>?
+          </div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 5.02 — Ensure SEs are informed of
+              standards</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 5.04 — Assign work based on experience
+            </div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 5.06 — Accurate description of
+              employment</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 5.07 — Fair remuneration</div>
+            <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> 5.11 — Not ask SE to do anything
+              inconsistent with this Code</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: E — 5.11</b>
+            المانجمنت <strong>هددت الـ developers</strong> — "كملوا ولا هنطردكم" — عشان يسلّموا كود فيه bugs. ده تماماً
+            مخالف لـ 5.11.
+          </div>
+        </div>
 
-  <!-- Q5 — Vulnerability Case (Winter 2025) -->
-  <div class="q-item" data-correct="d">
-    <div class="q-num">Question 5 <span class="q-src">Winter 2025 · Q1.14</span></div>
-    <div class="q-text">Sami discovered a vulnerability in healthcare software that could expose patient data. Fixing it would delay delivery. Manager threatens to fire him if not released on time. Which Principle 5 rules did the <strong>manager</strong> violate?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 5.03, 5.08, 5.10</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 5.01, 5.02, 5.03</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 5.03, 5.05, 5.10</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 5.01, 5.05, 5.11</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: D — 5.01, 5.05, 5.11</b>
-      <ul style="margin-top:6px">
-        <li>5.01 ❌ — No good management for quality/risk reduction (releasing with vulnerability).</li>
-        <li>5.05 ❌ — Unrealistic estimates (no time to fix the bug properly).</li>
-        <li>5.11 ❌ — Asking SE to do something inconsistent with the Code (release insecure software).</li>
-      </ul>
-    </div>
-  </div>
+        <!-- Q5 — Vulnerability Case (Winter 2025) -->
+        <div class="q-item" data-correct="d">
+          <div class="q-num">Question 5 <span class="q-src">Winter 2025 · Q1.14</span></div>
+          <div class="q-text">Sami discovered a vulnerability in healthcare software that could expose patient data.
+            Fixing it would delay delivery. Manager threatens to fire him if not released on time. Which Principle 5
+            rules did the <strong>manager</strong> violate?</div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 5.03, 5.08, 5.10</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 5.01, 5.02, 5.03</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 5.03, 5.05, 5.10</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 5.01, 5.05, 5.11</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: D — 5.01, 5.05, 5.11</b>
+            <ul style="margin-top:6px">
+              <li dir="rtl">5.01 ❌ — مفيش إدارة كويسة لتقليل المخاطر (هينزل البرنامج وفيه ثغرة).</li>
+              <li dir="rtl">5.05 ❌ — تقديرات مش واقعية (مفيش وقت كافي يتصلح الـ bug).</li>
+              <li dir="rtl">5.11 ❌ — المانجر بيطلب من الـ SE يعمل حاجة ضد قواعد الـ Code (إنهم ينزلوا برنامج مش متأمن).
+              </li>
+            </ul>
+          </div>
+        </div>
 
-  <!-- Q6 — Self Improvement Case 1 -->
-  <div class="q-item" data-correct="a">
-    <div class="q-num">Question 6 <span class="q-src">Winter 2025 · Q1.19</span></div>
-    <div class="q-text">A SE realizes he needs to learn a new <strong>security framework</strong> to keep up with industry. He enrolls in an online course. Which Principle 8 (Self) rules does he apply?
-      <br>8.01 — Further knowledge of analysis/dev/maintenance/testing
-      <br>8.02 — Improve ability to create safe, reliable, useful SW at reasonable cost &amp; time
-      <br>8.03 — Improve documentation
-      <br>8.04 — Understand SW environments
-      <br>8.05 — Knowledge of relevant standards and law
-      <br>8.06 — Knowledge of this Code itself
-    </div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 8.01 and 8.02</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 8.03 and 8.04</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 8.01 and 8.05</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Only 8.06</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: A — 8.01 and 8.02</b>
-      Learning a new security framework directly applies:
-      <ul style="margin-top:4px">
-        <li>8.01 ✅ — Furthering knowledge (security in dev/maintenance).</li>
-        <li>8.02 ✅ — Improving ability to create <strong>safe, reliable</strong> software.</li>
-      </ul>
-      <p>The framework isn't a law/standard (so 8.05 doesn't apply directly).</p>
-    </div>
-  </div>
+        <!-- Q6 — Self Improvement Case 1 -->
+        <div class="q-item" data-correct="a">
+          <div class="q-num">Question 6 <span class="q-src">Winter 2025 · Q1.19</span></div>
+          <div class="q-text">A SE realizes he needs to learn a new <strong>security framework</strong> to keep up with
+            industry. He enrolls in an online course. Which Principle 8 (Self) rules does he apply?
+            <br>8.01 — Further knowledge of analysis/dev/maintenance/testing
+            <br>8.02 — Improve ability to create safe, reliable, useful SW at reasonable cost &amp; time
+            <br>8.03 — Improve documentation
+            <br>8.04 — Understand SW environments
+            <br>8.05 — Knowledge of relevant standards and law
+            <br>8.06 — Knowledge of this Code itself
+          </div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 8.01 and 8.02</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 8.03 and 8.04</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 8.01 and 8.05</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Only 8.06</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: A — 8.01 and 8.02</b>
+            دراسة security framework جديد بتنطبق على:
+            <ul style="margin-top:4px">
+              <li dir="rtl">8.01 ✅ — بيزود معرفته (في الـ security والـ dev).</li>
+              <li dir="rtl">8.02 ✅ — بيحسّن قدرته إنه يعمل سوفتوير <strong>آمن وموثوق</strong>.</li>
+            </ul>
+            <p>الـ framework مش قانون ولا ستاندرد (عشان كده 8.05 مش بتنطبق مباشرة).</p>
+          </div>
+        </div>
 
-  <!-- Q7 — Self Improvement Case 2 -->
-  <div class="q-item" data-correct="d">
-    <div class="q-num">Question 7 <span class="q-src">Winter 2025 · Q1.20</span></div>
-    <div class="q-text">A SE realizes her company doesn't adopt any code of ethics. She studies the SE Code of Ethics on her own and applies it in her work and tells her colleagues. Which Principle 8 (Self) rule does she apply?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 8.01 and 8.02</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 8.03 and 8.04</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 8.01 and 8.05</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Only 8.06</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: D — Only 8.06</b>
-      Studying and applying <strong>this very Code of Ethics</strong> = clause 8.06 ("Improve their knowledge of this Code, its interpretation, and its application").
-    </div>
-  </div>
+        <!-- Q7 — Self Improvement Case 2 -->
+        <div class="q-item" data-correct="d">
+          <div class="q-num">Question 7 <span class="q-src">Winter 2025 · Q1.20</span></div>
+          <div class="q-text">A SE realizes her company doesn't adopt any code of ethics. She studies the SE Code of
+            Ethics on her own and applies it in her work and tells her colleagues. Which Principle 8 (Self) rule does
+            she apply?</div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 8.01 and 8.02</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 8.03 and 8.04</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 8.01 and 8.05</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Only 8.06</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: D — Only 8.06</b>
+            إنه يدرس ويطبّق <strong>الـ Code of Ethics نفسه</strong> = ده بيحقق قاعدة 8.06 ("Improve their knowledge of
+            this Code, its interpretation, and its application").
+          </div>
+        </div>
 
-  <!-- Q8 — Practice -->
-  <div class="q-item" data-correct="b">
-    <div class="q-num">Question 8 <span class="q-src">Practice — comprehensive</span></div>
-    <div class="q-text">Which principle requires that SEs <strong>provide services only in their area of competence</strong>?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Principle 1 — Public</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Principle 2 — Client and Employer (specifically 2.01)</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Principle 4 — Judgment</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Principle 6 — Profession</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: B — Principle 2 (2.01)</b>
-      "Provide services only where competent" is part of duty to client and employer. Also 3.04 covers a similar idea for product quality.
-    </div>
-  </div>
+        <!-- Q8 — Practice -->
+        <div class="q-item" data-correct="b">
+          <div class="q-num">Question 8 <span class="q-src">Practice — comprehensive</span></div>
+          <div class="q-text">Which principle requires that SEs <strong>provide services only in their area of
+              competence</strong>?</div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Principle 1 — Public</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Principle 2 — Client and Employer
+              (specifically 2.01)</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Principle 4 — Judgment</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Principle 6 — Profession</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: B — Principle 2 (2.01)</b>
+            "إنك تقدم خدمات في مجالك اللي إنت كفء فيه وبس" دي جزء من واجبك تجاه العميل وجهة العمل. وكمان 3.04 بتغطي نفس
+            الفكرة عشان جودة المنتج.
+          </div>
+        </div>
 
-  <div style="text-align:center;margin-top:24px">
-    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
-    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
-    <div class="q-score"></div>
-  </div>
-</div>
+        <div style="text-align:center;margin-top:24px">
+          <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+          <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+          <div class="q-score"></div>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CHEAT SHEET
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="cheat" style="margin-top:80px">
-  <div class="ch-header">
-    <div class="ch-num amber">📋</div>
-    <div class="ch-title">
-      <h2>Cheat Sheet</h2>
-    </div>
-  </div>
+      <div class="chapter" id="cheat" style="margin-top:80px">
+        <div class="ch-header">
+          <div class="ch-num amber">📋</div>
+          <div class="ch-title">
+            <h2>Cheat Sheet</h2>
+          </div>
+        </div>
 
-  <div class="grid2">
-    <div class="cheat">
-      <h3>⚖️ 8 Principles</h3>
-      <div class="cheat-item"><div class="cheat-key">1. Public</div><div class="cheat-val">Act in public interest</div></div>
-      <div class="cheat-item"><div class="cheat-key">2. Client/Employer</div><div class="cheat-val">2.01 competence · 2.02 legal SW · 2.05 confidential</div></div>
-      <div class="cheat-item"><div class="cheat-key">3. Product</div><div class="cheat-val">3.04 qualified · 3.10 adequate testing</div></div>
-      <div class="cheat-item"><div class="cheat-key">4. Judgment</div><div class="cheat-val">4.03 objectivity · 4.04 no bribery · 4.05 disclose conflicts</div></div>
-      <div class="cheat-item"><div class="cheat-key">5. Management</div><div class="cheat-val">5.01 good mgmt · 5.05 realistic estimates · 5.11 nothing inconsistent</div></div>
-      <div class="cheat-item"><div class="cheat-key">6. Profession</div><div class="cheat-val">Advance integrity of profession</div></div>
-      <div class="cheat-item"><div class="cheat-key">7. Colleagues</div><div class="cheat-val">Be fair, support, credit, review</div></div>
-      <div class="cheat-item"><div class="cheat-key">8. Self</div><div class="cheat-val">8.01-8.06 lifelong learning</div></div>
-    </div>
+        <div class="grid2">
+          <div class="cheat">
+            <h3>⚖️ 8 Principles</h3>
+            <div class="cheat-item">
+              <div class="cheat-key">1. Public</div>
+              <div class="cheat-val">Act in public interest</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">2. Client/Employer</div>
+              <div class="cheat-val">2.01 competence · 2.02 legal SW · 2.05 confidential</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">3. Product</div>
+              <div class="cheat-val">3.04 qualified · 3.10 adequate testing</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">4. Judgment</div>
+              <div class="cheat-val">4.03 objectivity · 4.04 no bribery · 4.05 disclose conflicts</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">5. Management</div>
+              <div class="cheat-val">5.01 good mgmt · 5.05 realistic estimates · 5.11 nothing inconsistent</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">6. Profession</div>
+              <div class="cheat-val">Advance integrity of profession</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">7. Colleagues</div>
+              <div class="cheat-val">Be fair, support, credit, review</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">8. Self</div>
+              <div class="cheat-val">8.01-8.06 lifelong learning</div>
+            </div>
+          </div>
 
-    <div class="cheat">
-      <h3>🎯 Pattern Matching</h3>
-      <div class="cheat-item"><div class="cheat-key">Accept job you can't do</div><div class="cheat-val">2.01 (competence)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Use cracked software</div><div class="cheat-val">2.02 (illegal SW)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Leak NDA info</div><div class="cheat-val">2.05 (confidentiality)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Release with known bugs</div><div class="cheat-val">3.10 (adequate testing)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Accept bribe / favor</div><div class="cheat-val">4.04 (improper financial)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Hide conflict of interest</div><div class="cheat-val">4.05 (disclose)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Manager threatens SE</div><div class="cheat-val">5.11 (nothing inconsistent)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Unrealistic deadline</div><div class="cheat-val">5.05 (realistic estimates)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Self-improvement</div><div class="cheat-val">8.01-8.06</div></div>
-    </div>
+          <div class="cheat">
+            <h3>🎯 Pattern Matching</h3>
+            <div class="cheat-item">
+              <div class="cheat-key">Accept job you can't do</div>
+              <div class="cheat-val">2.01 (competence)</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Use cracked software</div>
+              <div class="cheat-val">2.02 (illegal SW)</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Leak NDA info</div>
+              <div class="cheat-val">2.05 (confidentiality)</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Release with known bugs</div>
+              <div class="cheat-val">3.10 (adequate testing)</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Accept bribe / favor</div>
+              <div class="cheat-val">4.04 (improper financial)</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Hide conflict of interest</div>
+              <div class="cheat-val">4.05 (disclose)</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Manager threatens SE</div>
+              <div class="cheat-val">5.11 (nothing inconsistent)</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Unrealistic deadline</div>
+              <div class="cheat-val">5.05 (realistic estimates)</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Self-improvement</div>
+              <div class="cheat-val">8.01-8.06</div>
+            </div>
+          </div>
 
-    <div class="cheat">
-      <h3>📚 4 Ethics Theories</h3>
-      <div class="cheat-item"><div class="cheat-key">Consequences</div><div class="cheat-val">Egoism + Utilitarianism (outcomes matter)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Deontology</div><div class="cheat-val">Duty-based (actions matter)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Relativism</div><div class="cheat-val">No universal norms (cultural)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Divine Command</div><div class="cheat-val">God defines right/wrong</div></div>
-    </div>
+          <div class="cheat">
+            <h3>📚 4 Ethics Theories</h3>
+            <div class="cheat-item">
+              <div class="cheat-key">Consequences</div>
+              <div class="cheat-val">Egoism + Utilitarianism (outcomes matter)</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Deontology</div>
+              <div class="cheat-val">Duty-based (actions matter)</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Relativism</div>
+              <div class="cheat-val">No universal norms (cultural)</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Divine Command</div>
+              <div class="cheat-val">God defines right/wrong</div>
+            </div>
+          </div>
 
-    <div class="cheat">
-      <h3>📋 Famous Cases</h3>
-      <div class="cheat-item"><div class="cheat-key">LAS</div><div class="cheat-val">No experience + bad testing + political go-live</div></div>
-      <div class="cheat-item"><div class="cheat-key">CONFIRM</div><div class="cheat-val">$160M settlement · ARMIS lied about status</div></div>
-      <div class="cheat-item"><div class="cheat-key">Royal Mail/Fujitsu</div><div class="cheat-val">700+ wrongly accused · 5.11 violation</div></div>
-      <div class="cheat-item"><div class="cheat-key">Therac-25</div><div class="cheat-val">Company denied problem (Principle 1 violation)</div></div>
-    </div>
-  </div>
-</div>
+          <div class="cheat">
+            <h3>📋 Famous Cases</h3>
+            <div class="cheat-item">
+              <div class="cheat-key">LAS</div>
+              <div class="cheat-val">No experience + bad testing + political go-live</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">CONFIRM</div>
+              <div class="cheat-val">$160M settlement · ARMIS lied about status</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Royal Mail/Fujitsu</div>
+              <div class="cheat-val">700+ wrongly accused · 5.11 violation</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Therac-25</div>
+              <div class="cheat-val">Company denied problem (Principle 1 violation)</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-</div>
-</main>
-<script src="../assets/app.js"></script>
-<script src="../assets/quiz.js"></script>
+    </div>
+  </main>
+  <script src="../assets/app.js"></script>
+  <script src="../assets/quiz.js"></script>
 </body>
+
 </html>

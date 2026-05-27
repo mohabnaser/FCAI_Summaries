@@ -1,842 +1,1212 @@
 <!DOCTYPE html>
 <html lang="ar" dir="auto">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lecture 18 — Git Deep Dive | CS251</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/styles.css">
-<style>
-  /* Git 3 areas visual */
-  .git-areas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
-  .git-area{background:var(--card2);border:1.5px solid var(--accent);border-radius:12px;padding:18px;text-align:center}
-  .git-area:nth-child(1){--accent:var(--amber)}
-  .git-area:nth-child(2){--accent:var(--cyan)}
-  .git-area:nth-child(3){--accent:var(--green)}
-  .git-area h4{font-family:var(--fh);color:var(--accent);font-size:1rem;font-weight:700;margin-bottom:6px}
-  .git-area .area-type{font-family:var(--fc);font-size:.75rem;color:var(--t3);margin-bottom:8px}
-  .git-area p{font-size:.82rem;color:var(--t2);line-height:1.55}
-  @media(max-width:700px){.git-areas{grid-template-columns:1fr}}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecture 18 — Git Deep Dive | CS251</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css">
+  <style>
+    /* Git 3 areas visual */
+    .git-areas {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 14px 0
+    }
 
-  /* Lifecycle */
-  .lifecycle{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:24px;margin:14px 0}
-  .lc-flow{display:flex;align-items:center;justify-content:space-around;flex-wrap:wrap;gap:14px}
-  .lc-state{padding:10px 18px;border-radius:24px;font-family:var(--fh);font-weight:600;color:#fff;font-size:.85rem}
-  .lc-state.untracked{background:var(--red)}
-  .lc-state.unmodified{background:var(--green)}
-  .lc-state.modified{background:var(--amber)}
-  .lc-state.staged{background:var(--cyan);color:#000}
-  .lc-arrow{display:flex;flex-direction:column;align-items:center;font-size:.7rem;color:var(--t3);font-style:italic;text-align:center}
-  .lc-arrow::after{content:'→';font-size:1.3rem;color:var(--cyan);font-style:normal;display:block;margin-top:2px}
+    .git-area {
+      background: var(--card2);
+      border: 1.5px solid var(--accent);
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center
+    }
 
-  /* Branch tree */
-  .branch-vis{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:24px;margin:14px 0;font-family:var(--fc);font-size:.85rem;overflow-x:auto}
-  .branch-vis pre{color:var(--t2);line-height:1.6;direction:ltr;text-align:left}
+    .git-area:nth-child(1) {
+      --accent: var(--amber)
+    }
 
-  /* Terminal */
-  .terminal{background:#0a0e14;border:1px solid #21262d;border-radius:10px;padding:14px 18px;margin:10px 0;font-family:var(--fc);font-size:.82rem;line-height:1.6;color:#c9d1d9;direction:ltr;overflow-x:auto}
-  .terminal .prompt{color:var(--green)}
-  .terminal .output{color:#8b949e}
-  .terminal .branch-active{color:var(--amber)}
-  .terminal .branch-other{color:var(--t3)}
-</style>
+    .git-area:nth-child(2) {
+      --accent: var(--cyan)
+    }
+
+    .git-area:nth-child(3) {
+      --accent: var(--green)
+    }
+
+    .git-area h4 {
+      font-family: var(--fh);
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px
+    }
+
+    .git-area .area-type {
+      font-family: var(--fc);
+      font-size: .75rem;
+      color: var(--t3);
+      margin-bottom: 8px
+    }
+
+    .git-area p {
+      font-size: .82rem;
+      color: var(--t2);
+      line-height: 1.55
+    }
+
+    @media(max-width:700px) {
+      .git-areas {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* Lifecycle */
+    .lifecycle {
+      background: var(--code);
+      border: 1px solid #21262d;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 14px 0
+    }
+
+    .lc-flow {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 14px
+    }
+
+    .lc-state {
+      padding: 10px 18px;
+      border-radius: 24px;
+      font-family: var(--fh);
+      font-weight: 600;
+      color: #fff;
+      font-size: .85rem
+    }
+
+    .lc-state.untracked {
+      background: var(--red)
+    }
+
+    .lc-state.unmodified {
+      background: var(--green)
+    }
+
+    .lc-state.modified {
+      background: var(--amber)
+    }
+
+    .lc-state.staged {
+      background: var(--cyan);
+      color: #000
+    }
+
+    .lc-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: .7rem;
+      color: var(--t3);
+      font-style: italic;
+      text-align: center
+    }
+
+    .lc-arrow::after {
+      content: '→';
+      font-size: 1.3rem;
+      color: var(--cyan);
+      font-style: normal;
+      display: block;
+      margin-top: 2px
+    }
+
+    /* Branch tree */
+    .branch-vis {
+      background: var(--code);
+      border: 1px solid #21262d;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 14px 0;
+      font-family: var(--fc);
+      font-size: .85rem;
+      overflow-x: auto
+    }
+
+    .branch-vis pre {
+      color: var(--t2);
+      line-height: 1.6;
+      direction: ltr;
+      text-align: left
+    }
+
+    /* Terminal */
+    .terminal {
+      background: #0a0e14;
+      border: 1px solid #21262d;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 10px 0;
+      font-family: var(--fc);
+      font-size: .82rem;
+      line-height: 1.6;
+      color: #c9d1d9;
+      direction: ltr;
+      overflow-x: auto
+    }
+
+    .terminal .prompt {
+      color: var(--green)
+    }
+
+    .terminal .output {
+      color: #8b949e
+    }
+
+    .terminal .branch-active {
+      color: var(--amber)
+    }
+
+    .terminal .branch-other {
+      color: var(--t3)
+    }
+
+    /* ====== RTL/LTR mixed-content fix ====== */
+    .topic p,
+    .topic li,
+    .ch-title p,
+    .hero>p,
+    .q-explain,
+    .info div,
+    .warn div,
+    .danger div {
+      direction: rtl;
+      text-align: right;
+      unicode-bidi: embed;
+    }
+
+    .code-wrap,
+    .terminal,
+    pre,
+    code,
+    .tbl td,
+    .tbl th,
+    .cheat-key,
+    .cheat-val,
+    .q-text,
+    .q-opt,
+    .q-num,
+    .q-src,
+    .lc-state,
+    .git-area h4,
+    .git-area .area-type {
+      direction: ltr;
+      text-align: left;
+      unicode-bidi: embed;
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="prog-bar"></div>
+  <div id="prog-bar"></div>
 
-<nav id="sidebar" dir="ltr">
-  <div class="sb-logo">
-    <h2>🌳 CS251 — Lec 18</h2>
-    <p>Git Deep Dive</p>
-  </div>
-  <a class="sb-back" href="../index.html">← All Lectures</a>
-  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+  <nav id="sidebar" dir="ltr">
+    <div class="sb-logo">
+      <h2>🌳 CS251 — Lec 18</h2>
+      <p>Git Deep Dive</p>
+    </div>
+    <a class="sb-back" href="../index.html">← All Lectures</a>
+    <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
 
-  <div class="sb-section">Git Model</div>
-  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Distributed vs Central</a>
-  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>3 Areas ⭐</a>
-  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>File Lifecycle ⭐</a>
+    <div class="sb-section">Git Model</div>
+    <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Distributed vs Central</a>
+    <a href="#ch2" class="sb-link"><span class="sb-dot"></span>3 Areas ⭐</a>
+    <a href="#ch3" class="sb-link"><span class="sb-dot"></span>File Lifecycle ⭐</a>
 
-  <div class="sb-section">Operations</div>
-  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Local Commands</a>
-  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Branches ⭐</a>
-  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Merge Conflicts</a>
-  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Full Workflow</a>
+    <div class="sb-section">Operations</div>
+    <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Local Commands</a>
+    <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Branches ⭐</a>
+    <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Merge Conflicts</a>
+    <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Full Workflow</a>
 
-  <div class="sb-section">Visualization &amp; Remote</div>
-  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>git log Variations</a>
-  <a href="#ch9" class="sb-link"><span class="sb-dot"></span>Remote (GitHub/GitLab)</a>
+    <div class="sb-section">Visualization &amp; Remote</div>
+    <a href="#ch8" class="sb-link"><span class="sb-dot"></span>git log Variations</a>
+    <a href="#ch9" class="sb-link"><span class="sb-dot"></span>Remote (GitHub/GitLab)</a>
 
-  <div class="sb-section">Exam Prep</div>
-  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Practice Quiz</a>
-  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
-</nav>
+    <div class="sb-section">Exam Prep</div>
+    <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Practice Quiz</a>
+    <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  </nav>
 
-<button id="menu-btn">☰</button>
-<button id="scroll-top">↑</button>
+  <button id="menu-btn">☰</button>
+  <button id="scroll-top">↑</button>
 
-<main id="main" dir="auto">
+  <main id="main" dir="auto">
 
-<section class="hero">
-  <div class="hero-badge">🌳 Lecture 18 · Git mechanics &amp; collaboration</div>
-  <h1>Git <span>Deep Dive</span></h1>
-  <p>تكملة Lec 17. هنا نشوف: distributed model · file lifecycle · branches · merge conflicts · log variations · remote repos. الـ practical side.</p>
-  <div class="btn-row">
-    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
-    <a href="#quiz" class="btn btn-primary">🎯 Practice Quiz</a>
-  </div>
-  <div class="hero-stats">
-    <div class="hstat"><div class="num">9</div><div class="lbl">Chapters</div></div>
-    <div class="hstat"><div class="num">4</div><div class="lbl">File States</div></div>
-    <div class="hstat"><div class="num">3</div><div class="lbl">Git Areas</div></div>
-    <div class="hstat"><div class="num">8</div><div class="lbl">Practice Qs</div></div>
-  </div>
-</section>
+    <section class="hero">
+      <div class="hero-badge">🌳 Lecture 18 · Git mechanics &amp; collaboration</div>
+      <h1>Git <span>Deep Dive</span></h1>
+      <p>دي تكملة لـ Lec 17 يا ريس. هنا هنشوف الـ distributed model، والـ file lifecycle، وحوارات الـ branches، وإزاي
+        نحل الـ merge conflicts، وأنواع الـ log، وكمان الـ remote repos. شغل عملي من الآخر.</p>
+      <div class="btn-row">
+        <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+        <a href="#quiz" class="btn btn-primary">🎯 Practice Quiz</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="num">9</div>
+          <div class="lbl">Chapters</div>
+        </div>
+        <div class="hstat">
+          <div class="num">4</div>
+          <div class="lbl">File States</div>
+        </div>
+        <div class="hstat">
+          <div class="num">3</div>
+          <div class="lbl">Git Areas</div>
+        </div>
+        <div class="hstat">
+          <div class="num">8</div>
+          <div class="lbl">Practice Qs</div>
+        </div>
+      </div>
+    </section>
 
-<div class="content">
+    <div class="content">
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 1 — DISTRIBUTED MODEL
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch1">
-  <div class="ch-header">
-    <div class="ch-num blue">01</div>
-    <div class="ch-title">
-      <h2>Git's Distributed Model</h2>
-      <p>Every developer has the FULL repository. Many operations are local.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch1">
+        <div class="ch-header">
+          <div class="ch-num blue">01</div>
+          <div class="ch-title">
+            <h2>Git's Distributed Model</h2>
+            <p>Every developer has the FULL repository. Many operations are local.</p>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">🌐</span> Centralized vs Distributed</div>
-    <div class="grid2">
-      <div>
-        <h4 style="color:var(--red);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">🏛️ Centralized (SVN, CVS, Perforce)</h4>
-        <ul style="font-size:.85rem">
-          <li>Single <strong>central server</strong> stores all versions.</li>
-          <li>Clients <strong>check out</strong> working copies.</li>
-          <li>Network required for most operations.</li>
-          <li>Server fails = everyone blocked.</li>
-        </ul>
+        <div class="topic" style="--accent:var(--cyan)">
+          <div class="topic-title"><span class="icon">🌐</span> Centralized vs Distributed</div>
+          <div class="grid2">
+            <div>
+              <h4 style="color:var(--red);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">🏛️ Centralized
+                (SVN, CVS, Perforce)</h4>
+              <ul style="font-size:.85rem">
+                <li dir="rtl">سيرفر واحد مركزي بيخزن كل النسخ.</li>
+                <li dir="rtl">الـ Clients بياخدوا نسخة يشتغلوا عليها (check out).</li>
+                <li dir="rtl">لازم نت (Network) عشان أغلب العمليات.</li>
+                <li dir="rtl">لو السيرفر وقع = الشغل كله بيقف.</li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">🌳 Distributed
+                (Git, Mercurial)</h4>
+              <ul style="font-size:.85rem">
+                <li dir="rtl">كل جهاز بيبقى عليه <strong>نسخة كاملة</strong> من الريبو.</li>
+                <li dir="rtl"><strong>أغلب العمليات local</strong> — مش محتاج نت عشان تشتغل.</li>
+                <li dir="rtl">السيرفر مجرد نقطة عشان نعمل sync ونجمع الشغل.</li>
+                <li dir="rtl">لو السيرفر وقع، الناس تقدر تكمل شغل عادي ونقدر نرجعه من أي نسخة.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" style="--accent:var(--green)">
+          <div class="topic-title"><span class="icon">🎯</span> 2 Ways to Use Git</div>
+          <ol>
+            <li dir="rtl"><strong>لوحدك (Solo):</strong> على جهازك بس وعندك local repo وشغال مع نفسك.</li>
+            <li dir="rtl"><strong>مع تيم (Team):</strong> أجهزة كتير + سيرفر (زي GitHub أو GitLab). وكل جهاز عليه نسخة كاملة من الريبو.</li>
+          </ol>
+          <div class="warn">
+            <div><b>⚠️ Note</b>GitHub for personal projects is great, but for some academic work it might be restricted
+              (e.g., to avoid making coursework public).</div>
+          </div>
+        </div>
       </div>
-      <div>
-        <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">🌳 Distributed (Git, Mercurial)</h4>
-        <ul style="font-size:.85rem">
-          <li>Every machine has a <strong>full copy</strong> of the repository.</li>
-          <li><strong>Many operations are local</strong> — no network needed.</li>
-          <li>Server is just a sync point.</li>
-          <li>If server dies, devs can keep working / restore from any copy.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
 
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">🎯</span> 2 Ways to Use Git</div>
-    <ol>
-      <li><strong>Solo:</strong> Just on your computer with a local repo + Version DB.</li>
-      <li><strong>Team:</strong> Multiple computers + server (CSE GitLab, GitHub, etc.). Each computer has its own full copy.</li>
-    </ol>
-    <div class="warn"><div><b>⚠️ Note</b>GitHub for personal projects is great, but for some academic work it might be restricted (e.g., to avoid making coursework public).</div></div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 2 — 3 AREAS ⭐
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch2">
-  <div class="ch-header">
-    <div class="ch-num green">02</div>
-    <div class="ch-title">
-      <h2>The 3 Local Areas ⭐</h2>
-      <p>Working Directory · Staging Area · Git Directory. These 3 are the heart of Git mechanics.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch2">
+        <div class="ch-header">
+          <div class="ch-num green">02</div>
+          <div class="ch-title">
+            <h2>The 3 Local Areas ⭐</h2>
+            <p>عندك التلاتة دول: Working Directory و Staging Area و Git Directory. هما دول قلب وعصب الـ Git.</p>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">📍</span> The 3 Areas</div>
-    <div class="git-areas">
-      <div class="git-area">
-        <div class="area-type">"Working Tree"</div>
-        <h4>Working Directory</h4>
-        <p>Where you <strong>edit files</strong>. Files here are: untracked, modified, or unmodified.</p>
-      </div>
-      <div class="git-area">
-        <div class="area-type">"Index"</div>
-        <h4>Staging Area</h4>
-        <p>Files prepared for the <strong>next commit</strong>. Snapshot in waiting.</p>
-      </div>
-      <div class="git-area">
-        <div class="area-type">"Repository"</div>
-        <h4>Git Directory</h4>
-        <p>Where Git stores <strong>committed history</strong> (the <code>.git</code> folder).</p>
-      </div>
-    </div>
+        <div class="topic" style="--accent:var(--cyan)">
+          <div class="topic-title"><span class="icon">📍</span> The 3 Areas</div>
+          <div class="git-areas">
+            <div class="git-area">
+              <div class="area-type">"Working Tree"</div>
+              <h4>Working Directory</h4>
+              <p dir="rtl">ده المكان اللي <strong>بتعدل فيه الفايلات</strong>. الفايلات هنا ممكن تبقى untracked، أو modified، أو unmodified.</p>
+            </div>
+            <div class="git-area">
+              <div class="area-type">"Index"</div>
+              <h4>Staging Area</h4>
+              <p dir="rtl">ده المكان اللي الفايلات بتتجهز فيه للـ <strong>commit الجاي</strong>. تعتبر لقطة (Snapshot) مستنية الحفظ.</p>
+            </div>
+            <div class="git-area">
+              <div class="area-type">"Repository"</div>
+              <h4>Git Directory</h4>
+              <p dir="rtl">المكان اللي الـ Git بيخزن فيه <strong>الهيستوري والكوميتس</strong> (اللي هو فولدر <code>.git</code>).</p>
+            </div>
+          </div>
 
-    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">Operations between areas</h4>
-    <table class="tbl">
-      <tr><th>From → To</th><th>Command</th></tr>
-      <tr><td>Git Directory → Working Directory</td><td><code>git checkout</code> the project</td></tr>
-      <tr><td>Working Directory → Staging Area</td><td><code>git add</code> file</td></tr>
-      <tr><td>Staging Area → Git Directory</td><td><code>git commit</code></td></tr>
-    </table>
-  </div>
-</div>
+          <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">Operations between
+            areas</h4>
+          <table class="tbl">
+            <tr>
+              <th>From → To</th>
+              <th>Command</th>
+            </tr>
+            <tr>
+              <td>Git Directory → Working Directory</td>
+              <td><code>git checkout</code> the project</td>
+            </tr>
+            <tr>
+              <td>Working Directory → Staging Area</td>
+              <td><code>git add</code> file</td>
+            </tr>
+            <tr>
+              <td>Staging Area → Git Directory</td>
+              <td><code>git commit</code></td>
+            </tr>
+          </table>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 3 — FILE LIFECYCLE ⭐
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch3">
-  <div class="ch-header">
-    <div class="ch-num amber">03</div>
-    <div class="ch-title">
-      <h2>File Status Lifecycle ⭐</h2>
-      <p>Every file Git knows about is in one of 4 states.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch3">
+        <div class="ch-header">
+          <div class="ch-num amber">03</div>
+          <div class="ch-title">
+            <h2>File Status Lifecycle ⭐</h2>
+            <p>Every file Git knows about is in one of 4 states.</p>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">🔄</span> The 4 States</div>
-    <div class="lifecycle">
-      <div class="lc-flow">
-        <span class="lc-state untracked">untracked</span>
-        <div class="lc-arrow">add the file</div>
-        <span class="lc-state unmodified">unmodified</span>
-        <div class="lc-arrow">edit the file</div>
-        <span class="lc-state modified">modified</span>
-        <div class="lc-arrow">stage the file</div>
-        <span class="lc-state staged">staged</span>
+        <div class="topic" style="--accent:var(--amber)">
+          <div class="topic-title"><span class="icon">🔄</span> The 4 States</div>
+          <div class="lifecycle">
+            <div class="lc-flow">
+              <span class="lc-state untracked">untracked</span>
+              <div class="lc-arrow">add the file</div>
+              <span class="lc-state unmodified">unmodified</span>
+              <div class="lc-arrow">edit the file</div>
+              <span class="lc-state modified">modified</span>
+              <div class="lc-arrow">stage the file</div>
+              <span class="lc-state staged">staged</span>
+            </div>
+            <div style="text-align:center;margin-top:14px;font-size:.78rem;color:var(--t3);font-style:italic">
+              ← <strong>commit</strong> sends staged files back to <em>unmodified</em><br>
+              ← <strong>remove the file</strong> sends unmodified files back to <em>untracked</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div class="topic" style="--accent:var(--red)">
+            <div class="topic-title"><span class="icon">❓</span> Untracked</div>
+            <p>الـ Git <strong>ميعرفش حاجة</strong> عن الفايل ده. فايل جديد أو منسوخ ومتعملوش <code>add</code> خالص.</p>
+            <p>عشان تخليه يتتبع: <code>git add filename</code></p>
+          </div>
+          <div class="topic" style="--accent:var(--green)">
+            <div class="topic-title"><span class="icon">✅</span> Unmodified</div>
+            <p>الـ Git عارفه، ومتغيرش من آخر commit. يعني نظيف ومفيهوش تعديلات جديدة.</p>
+          </div>
+          <div class="topic" style="--accent:var(--amber)">
+            <div class="topic-title"><span class="icon">✏️</span> Modified</div>
+            <p>الـ Git عارفه، بس إنت عدلت فيه بعد آخر commit، ولسه التعديلات دي مدخلتش الـ Staging Area.</p>
+          </div>
+          <div class="topic" style="--accent:var(--cyan)">
+            <div class="topic-title"><span class="icon">📦</span> Staged</div>
+            <p>فايل إتعدل واتعمله <code>git add</code>. جاهز ومستني يدخل في الـ commit الجاي.</p>
+          </div>
+        </div>
       </div>
-      <div style="text-align:center;margin-top:14px;font-size:.78rem;color:var(--t3);font-style:italic">
-        ← <strong>commit</strong> sends staged files back to <em>unmodified</em><br>
-        ← <strong>remove the file</strong> sends unmodified files back to <em>untracked</em>
-      </div>
-    </div>
-  </div>
 
-  <div class="grid2">
-    <div class="topic" style="--accent:var(--red)">
-      <div class="topic-title"><span class="icon">❓</span> Untracked</div>
-      <p>Git <strong>doesn't know about</strong> this file. Created or copied, never <code>add</code>ed.</p>
-      <p>To track: <code>git add filename</code></p>
-    </div>
-    <div class="topic" style="--accent:var(--green)">
-      <div class="topic-title"><span class="icon">✅</span> Unmodified</div>
-      <p>Git knows about it. It hasn't changed since the last commit. Clean state.</p>
-    </div>
-    <div class="topic" style="--accent:var(--amber)">
-      <div class="topic-title"><span class="icon">✏️</span> Modified</div>
-      <p>Git tracks it, but you've edited it since the last commit. Changes are not staged yet.</p>
-    </div>
-    <div class="topic" style="--accent:var(--cyan)">
-      <div class="topic-title"><span class="icon">📦</span> Staged</div>
-      <p>Modified file that has been <code>git add</code>ed. Ready to be included in next commit.</p>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 4 — LOCAL COMMANDS
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch4">
-  <div class="ch-header">
-    <div class="ch-num purple">04</div>
-    <div class="ch-title">
-      <h2>Local Git Commands</h2>
-      <p>Complete cheat sheet for local repo operations.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch4">
+        <div class="ch-header">
+          <div class="ch-num purple">04</div>
+          <div class="ch-title">
+            <h2>Local Git Commands</h2>
+            <p>Complete cheat sheet for local repo operations.</p>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">⌨️</span> Setup &amp; Status</div>
-    <div class="terminal">
-<span class="prompt">$</span> mkdir site
-<span class="prompt">$</span> cd site
-<span class="prompt">$</span> git init
-<span class="output">Initialized empty Git repository in /home/user/site/.git/</span>
+        <div class="topic" style="--accent:var(--purple)">
+          <div class="topic-title"><span class="icon">⌨️</span> Setup &amp; Status</div>
+          <div class="terminal">
+            <span class="prompt">$</span> mkdir site
+            <span class="prompt">$</span> cd site
+            <span class="prompt">$</span> git init
+            <span class="output">Initialized empty Git repository in /home/user/site/.git/</span>
 
-<span class="prompt">$</span> ls -R .git
-<span class="output">branches/  config  HEAD  hooks/  info/  objects/  refs/</span>
+            <span class="prompt">$</span> ls -R .git
+            <span class="output">branches/ config HEAD hooks/ info/ objects/ refs/</span>
 
-<span class="prompt">$</span> git status
-<span class="output">On branch master
-No commits yet
-nothing to commit (create/copy files and use "git add" to track)</span>
-    </div>
-  </div>
+            <span class="prompt">$</span> git status
+            <span class="output">On branch master
+              No commits yet
+              nothing to commit (create/copy files and use "git add" to track)</span>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">📁</span> Staging Files</div>
-    <div class="terminal">
-<span class="prompt">$</span> echo <span style="color:#a6e3a1">"hello"</span> &gt; myfile
-<span class="prompt">$</span> git status
-<span class="output">Untracked files: myfile</span>
+        <div class="topic" style="--accent:var(--cyan)">
+          <div class="topic-title"><span class="icon">📁</span> Staging Files</div>
+          <div class="terminal">
+            <span class="prompt">$</span> echo <span style="color:#a6e3a1">"hello"</span> &gt; myfile
+            <span class="prompt">$</span> git status
+            <span class="output">Untracked files: myfile</span>
 
-<span class="prompt">$</span> git add myfile
-<span class="prompt">$</span> git status
-<span class="output">Changes to be committed: new file: myfile</span>
+            <span class="prompt">$</span> git add myfile
+            <span class="prompt">$</span> git status
+            <span class="output">Changes to be committed: new file: myfile</span>
 
-<span class="output">// To UN-stage a file:</span>
-<span class="prompt">$</span> git rm --cached myfile
-    </div>
-  </div>
+            <span class="output">// To UN-stage a file:</span>
+            <span class="prompt">$</span> git rm --cached myfile
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">💾</span> Committing</div>
-    <div class="terminal">
-<span class="output">// Add all + commit in one step:</span>
-<span class="prompt">$</span> git commit -a -m <span style="color:#a6e3a1">"my commit message"</span>
+        <div class="topic" style="--accent:var(--green)">
+          <div class="topic-title"><span class="icon">💾</span> Committing</div>
+          <div class="terminal">
+            <span class="output">// Add all + commit in one step:</span>
+            <span class="prompt">$</span> git commit -a -m <span style="color:#a6e3a1">"my commit message"</span>
 
-<span class="output">// First-time identity:</span>
-<span class="prompt">$</span> git config --global user.name <span style="color:#a6e3a1">"Your Name"</span>
-<span class="prompt">$</span> git config --global user.email <span style="color:#a6e3a1">"you@example.com"</span>
+            <span class="output">// First-time identity:</span>
+            <span class="prompt">$</span> git config --global user.name <span style="color:#a6e3a1">"Your Name"</span>
+            <span class="prompt">$</span> git config --global user.email <span
+              style="color:#a6e3a1">"you@example.com"</span>
 
-<span class="output">// Amend (modify) the LAST commit:</span>
-<span class="prompt">$</span> git commit --amend
-    </div>
-    <div class="info"><div><b>💡 -a vs -am</b><code>-a</code> = stage all tracked changes (not new files). <code>-m</code> = message inline. Common: <code>git commit -a -m "msg"</code>.</div></div>
-  </div>
-</div>
+            <span class="output">// Amend (modify) the LAST commit:</span>
+            <span class="prompt">$</span> git commit --amend
+          </div>
+          <div class="info">
+            <div><b>💡 -a vs -am</b><code>-a</code> = stage all tracked changes (not new files). <code>-m</code> =
+              message inline. Common: <code>git commit -a -m "msg"</code>.</div>
+          </div>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 5 — BRANCHES ⭐
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch5">
-  <div class="ch-header">
-    <div class="ch-num red">05</div>
-    <div class="ch-title">
-      <h2>Branches ⭐</h2>
-      <p>Independent lines of development. The killer feature of Git.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch5">
+        <div class="ch-header">
+          <div class="ch-num red">05</div>
+          <div class="ch-title">
+            <h2>Branches ⭐</h2>
+            <p>مسارات تطوير مستقلة. دي بقى الـ killer feature بتاعة الـ Git اللي مكسرة الدنيا.</p>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--red)">
-    <div class="topic-title"><span class="icon">🌿</span> Creating Branches</div>
-    <div class="terminal">
-<span class="prompt">$</span> git branch
-<span class="branch-other">  b1</span>
-<span class="branch-other">  b2</span>
-<span class="branch-active">* master</span>
+        <div class="topic" style="--accent:var(--red)">
+          <div class="topic-title"><span class="icon">🌿</span> Creating Branches</div>
+          <div class="terminal">
+            <span class="prompt">$</span> git branch
+            <span class="branch-other"> b1</span>
+            <span class="branch-other"> b2</span>
+            <span class="branch-active">* master</span>
+          <div class="topic-title"><span class="icon">🌿</span> إنشاء الـ Branches</div>
+          <div class="terminal">
+            <span class="prompt">$</span> git branch
+            <span class="branch-other"> b1</span>
+            <span class="branch-other"> b2</span>
+            <span class="branch-active">* master</span>
 
-<span class="prompt">$</span> git branch b3  <span class="output"># Create new branch</span>
-<span class="prompt">$</span> git branch
-<span class="branch-other">  b1</span>
-<span class="branch-other">  b2</span>
-<span class="branch-other">  b3</span>
-<span class="branch-active">* master</span>
-    </div>
-    <p style="margin-top:8px"><strong>The asterisk (*)</strong> indicates the current branch.</p>
-  </div>
+            <span class="prompt">$</span> git branch b3 <span class="output"># بتعمل برانش جديد</span>
+            <span class="prompt">$</span> git branch
+            <span class="branch-other"> b1</span>
+            <span class="branch-other"> b2</span>
+            <span class="branch-other"> b3</span>
+            <span class="branch-active">* master</span>
+          </div>
+          <p style="margin-top:8px"><strong>العلامة النجمة (*)</strong> دي معناها الـ branch اللي إنت واقف عليه حالياً.</p>
+        </div>
 
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">🔀</span> Switching Branches</div>
-    <div class="terminal">
-<span class="prompt">$</span> git checkout b1
-<span class="output">Switched to branch 'b1'</span>
+        <div class="topic" style="--accent:var(--cyan)">
+          <div class="topic-title"><span class="icon">🔀</span> التنقل بين الـ Branches</div>
+          <div class="terminal">
+            <span class="prompt">$</span> git checkout b1
+            <span class="output">Switched to branch 'b1'</span>
 
-<span class="prompt">$</span> git branch -l
-<span class="branch-active">* b1</span>
-<span class="branch-other">  master</span>
+            <span class="prompt">$</span> git branch -l
+            <span class="branch-active">* b1</span>
+            <span class="branch-other"> master</span>
 
-<span class="output">// Create + switch in one command:</span>
-<span class="prompt">$</span> git checkout -b feature-branch
-<span class="output">Switched to a new branch 'feature-branch'</span>
-    </div>
-  </div>
+            <span class="output">// Create + switch in one command:</span>
+            <span class="prompt">$</span> git checkout -b feature-branch
+            <span class="output">Switched to a new branch 'feature-branch'</span>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">🔗</span> Merging Branches</div>
-    <div class="terminal">
-<span class="output">// Switch to TARGET (the branch you merge INTO)</span>
-<span class="prompt">$</span> git checkout master
+        <div class="topic" style="--accent:var(--green)">
+          <div class="topic-title"><span class="icon">🔗</span> Merging Branches</div>
+          <div class="terminal">
+            <span class="output">// Switch to TARGET (the branch you merge INTO)</span>
+            <span class="prompt">$</span> git checkout master
 
-<span class="output">// Merge the source branch into it</span>
-<span class="prompt">$</span> git merge feature-branch
-<span class="output">Updating 46cc7e3..3a4af86
-Fast-forward
- file.txt | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)</span>
+            <span class="output">// Merge the source branch into it</span>
+            <span class="prompt">$</span> git merge feature-branch
+            <span class="output">Updating 46cc7e3..3a4af86
+              Fast-forward
+              file.txt | 7 +++++--
+              1 file changed, 5 insertions(+), 2 deletions(-)</span>
 
-<span class="output">// Delete branch after merge</span>
-<span class="prompt">$</span> git branch -d feature-branch
-    </div>
-    <div class="info"><div><b>💡 Fast-Forward Merge</b>If the target branch hasn't moved since the source branch was created, Git just "fast-forwards" the pointer. No new commit needed.</div></div>
-  </div>
+            <span class="output">// Delete branch after merge</span>
+            <span class="prompt">$</span> git branch -d feature-branch
+          </div>
+          <div class="info">
+            <div><b>💡 Fast-Forward Merge</b>If the target branch hasn't moved since the source branch was created, Git
+              just "fast-forwards" the pointer. No new commit needed.</div>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">📂</span> Branch Strategies</div>
-    <ul>
-      <li><strong>Feature Branches</strong> — develop new features in isolation.</li>
-      <li><strong>Release Branches</strong> — prepare a release.</li>
-      <li><strong>Hotfix Branches</strong> — urgent production fixes.</li>
-    </ul>
-  </div>
-</div>
+        <div class="topic" style="--accent:var(--purple)">
+          <div class="topic-title"><span class="icon">📂</span> Branch Strategies</div>
+          <ul>
+            <li><strong>Feature Branches</strong> — develop new features in isolation.</li>
+            <li><strong>Release Branches</strong> — prepare a release.</li>
+            <li><strong>Hotfix Branches</strong> — urgent production fixes.</li>
+          </ul>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 6 — MERGE CONFLICTS
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch6">
-  <div class="ch-header">
-    <div class="ch-num pink">06</div>
-    <div class="ch-title">
-      <h2>Merge Conflicts</h2>
-      <p>When the same lines were changed in both branches.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch6">
+        <div class="ch-header">
+          <div class="ch-num pink">06</div>
+          <div class="ch-title">
+            <h2>Merge Conflicts</h2>
+            <p>لما يتغير نفس السطر في أكتر من branch، هنا بيحصل الـ conflict وبتضرب مننا.</p>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--pink)">
-    <div class="topic-title"><span class="icon">⚠️</span> Detecting a Conflict</div>
-    <div class="terminal">
-<span class="prompt">$</span> git checkout b3
-<span class="output">readme2.txt: needs merge
-error: you need to resolve your current index first</span>
-    </div>
-    <p style="margin-top:8px">When Git can't auto-merge, it leaves conflict markers in the file like:</p>
-    <div class="code-wrap">
-<pre><code><span class="kw">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> HEAD
+        <div class="topic" style="--accent:var(--pink)">
+          <div class="topic-title"><span class="icon">⚠️</span> Detecting a Conflict</div>
+          <div class="terminal">
+            <span class="prompt">$</span> git checkout b3
+            <span class="output">readme2.txt: needs merge
+              error: you need to resolve your current index first</span>
+          </div>
+          <p style="margin-top:8px">When Git can't auto-merge, it leaves conflict markers in the file like:</p>
+          <div class="code-wrap">
+            <pre><code><span class="kw">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> HEAD
 Conflicting change from current branch
 <span class="kw">=======</span>
 Conflicting change from incoming branch
 <span class="kw">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> bugfix-branch</code></pre>
-    </div>
-  </div>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">🛠️</span> Resolving Conflicts</div>
-    <ol>
-      <li><strong>Open</strong> the conflicting file.</li>
-      <li><strong>Edit</strong> manually: keep, modify, or combine the changes.</li>
-      <li><strong>Remove</strong> the <code>&lt;&lt;&lt;</code>, <code>===</code>, <code>&gt;&gt;&gt;</code> markers.</li>
-      <li><strong>Stage</strong> the file: <code>git add filename</code></li>
-      <li><strong>Commit</strong>: <code>git commit -a -m "resolved"</code></li>
-    </ol>
-    <div class="terminal">
-<span class="prompt">$</span> <span class="output"># after editing the file</span>
-<span class="prompt">$</span> git add file.txt
-<span class="prompt">$</span> git commit -m <span style="color:#a6e3a1">"Resolve conflict and merge bugfix-branch"</span>
-    </div>
-  </div>
-</div>
+        <div class="topic" style="--accent:var(--green)">
+          <div class="topic-title"><span class="icon">🛠️</span> Resolving Conflicts</div>
+          <ol>
+            <li dir="rtl"><strong>افتح (Open)</strong> الفايل اللي فيه الـ conflict.</li>
+            <li dir="rtl"><strong>عدّله (Edit)</strong> بإيدك: اختار تسيب إيه وتمسح إيه، أو تدمجهم مع بعض.</li>
+            <li dir="rtl"><strong>امسح (Remove)</strong> العلامات دي <code>&lt;&lt;&lt;</code>, <code>===</code>, <code>&gt;&gt;&gt;</code>.</li>
+            <li dir="rtl"><strong>اعمله Stage</strong>: <code>git add filename</code></li>
+            <li dir="rtl"><strong>اعمله Commit</strong>: <code>git commit -m "resolved"</code></li>
+          </ol>
+          <div class="terminal">
+            <span class="prompt">$</span> <span class="output"># after editing the file</span>
+            <span class="prompt">$</span> git add file.txt
+            <span class="prompt">$</span> git commit -m <span style="color:#a6e3a1">"Resolve conflict and merge
+              bugfix-branch"</span>
+          </div>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 7 — FULL WORKFLOW
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch7">
-  <div class="ch-header">
-    <div class="ch-num teal">07</div>
-    <div class="ch-title">
-      <h2>Full Workflow Example</h2>
-      <p>End-to-end Git sequence: init → commit → branch → merge → conflict → resolve.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch7">
+        <div class="ch-header">
+          <div class="ch-num teal">07</div>
+          <div class="ch-title">
+            <h2>Full Workflow Example</h2>
+            <p>مسار كامل للـ Git من البداية للنهاية: init → commit → branch → merge → conflict → resolve.</p>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--teal)">
-    <div class="topic-title"><span class="icon">🎬</span> Step-by-Step Sequence</div>
+        <div class="topic" style="--accent:var(--teal)">
+          <div class="topic-title"><span class="icon">🎬</span> Step-by-Step Sequence</div>
 
-    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:10px 0 6px">1. Initialize</h4>
-    <div class="terminal">
-<span class="prompt">$</span> git init my-repo
-<span class="prompt">$</span> cd my-repo
-    </div>
+          <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:10px 0 6px">1. Initialize</h4>
+          <div class="terminal">
+            <span class="prompt">$</span> git init my-repo
+            <span class="prompt">$</span> cd my-repo
+          </div>
 
-    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">2. Initial commit on master</h4>
-    <div class="terminal">
-<span class="prompt">$</span> echo <span style="color:#a6e3a1">"Initial Commit"</span> &gt; file.txt
-<span class="prompt">$</span> git add file.txt
-<span class="prompt">$</span> git commit -m <span style="color:#a6e3a1">"Initial commit"</span>
-<span class="prompt">$</span> git log
-    </div>
+          <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">2. Initial commit on
+            master</h4>
+          <div class="terminal">
+            <span class="prompt">$</span> echo <span style="color:#a6e3a1">"Initial Commit"</span> &gt; file.txt
+            <span class="prompt">$</span> git add file.txt
+            <span class="prompt">$</span> git commit -m <span style="color:#a6e3a1">"Initial commit"</span>
+            <span class="prompt">$</span> git log
+          </div>
 
-    <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin:14px 0 6px">3. Create and switch to feature branch</h4>
-    <div class="terminal">
-<span class="prompt">$</span> git checkout -b feature-branch
-<span class="prompt">$</span> echo <span style="color:#a6e3a1">"Feature Work"</span> &gt; feature.txt
-<span class="prompt">$</span> git add feature.txt
-<span class="prompt">$</span> git commit -m <span style="color:#a6e3a1">"Add feature work"</span>
-    </div>
+          <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin:14px 0 6px">3. Create and switch
+            to feature branch</h4>
+          <div class="terminal">
+            <span class="prompt">$</span> git checkout -b feature-branch
+            <span class="prompt">$</span> echo <span style="color:#a6e3a1">"Feature Work"</span> &gt; feature.txt
+            <span class="prompt">$</span> git add feature.txt
+            <span class="prompt">$</span> git commit -m <span style="color:#a6e3a1">"Add feature work"</span>
+          </div>
 
-    <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin:14px 0 6px">4. Merge feature back to master</h4>
-    <div class="terminal">
-<span class="prompt">$</span> git checkout master
-<span class="prompt">$</span> git merge feature-branch
-    </div>
+          <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin:14px 0 6px">4. Merge feature back
+            to master</h4>
+          <div class="terminal">
+            <span class="prompt">$</span> git checkout master
+            <span class="prompt">$</span> git merge feature-branch
+          </div>
 
-    <h4 style="font-family:var(--fh);color:var(--amber);font-size:.95rem;margin:14px 0 6px">5. Modify both branches → create conflict</h4>
-    <div class="terminal">
-<span class="prompt">$</span> echo <span style="color:#a6e3a1">"Hotfix in main"</span> &gt;&gt; file.txt
-<span class="prompt">$</span> git commit -a -m <span style="color:#a6e3a1">"Apply hotfix"</span>
+          <h4 style="font-family:var(--fh);color:var(--amber);font-size:.95rem;margin:14px 0 6px">5. Modify both
+            branches → create conflict</h4>
+          <div class="terminal">
+            <span class="prompt">$</span> echo <span style="color:#a6e3a1">"Hotfix in main"</span> &gt;&gt; file.txt
+            <span class="prompt">$</span> git commit -a -m <span style="color:#a6e3a1">"Apply hotfix"</span>
 
-<span class="prompt">$</span> git checkout -b bugfix-branch
-<span class="prompt">$</span> echo <span style="color:#a6e3a1">"Bugfix Work"</span> &gt; file.txt
-<span class="prompt">$</span> git commit -a -m <span style="color:#a6e3a1">"Add bugfix work"</span>
+            <span class="prompt">$</span> git checkout -b bugfix-branch
+            <span class="prompt">$</span> echo <span style="color:#a6e3a1">"Bugfix Work"</span> &gt; file.txt
+            <span class="prompt">$</span> git commit -a -m <span style="color:#a6e3a1">"Add bugfix work"</span>
 
-<span class="prompt">$</span> git checkout master
-<span class="prompt">$</span> echo <span style="color:#a6e3a1">"Conflicting Change"</span> &gt;&gt; file.txt
-<span class="prompt">$</span> git commit -a -m <span style="color:#a6e3a1">"Conflicting change in main"</span>
-<span class="prompt">$</span> git merge bugfix-branch
-<span class="output">CONFLICT: Merge conflict in file.txt</span>
-    </div>
+            <span class="prompt">$</span> git checkout master
+            <span class="prompt">$</span> echo <span style="color:#a6e3a1">"Conflicting Change"</span> &gt;&gt; file.txt
+            <span class="prompt">$</span> git commit -a -m <span style="color:#a6e3a1">"Conflicting change in
+              main"</span>
+            <span class="prompt">$</span> git merge bugfix-branch
+            <span class="output">CONFLICT: Merge conflict in file.txt</span>
+          </div>
 
-    <h4 style="font-family:var(--fh);color:var(--red);font-size:.95rem;margin:14px 0 6px">6. Resolve conflict and finalize</h4>
-    <div class="terminal">
-<span class="output"># (edit file.txt manually, remove markers)</span>
-<span class="prompt">$</span> git add file.txt
-<span class="prompt">$</span> git commit -m <span style="color:#a6e3a1">"Resolve conflict and merge bugfix-branch"</span>
-<span class="prompt">$</span> git log --oneline --graph
-    </div>
-  </div>
-</div>
+          <h4 style="font-family:var(--fh);color:var(--red);font-size:.95rem;margin:14px 0 6px">6. Resolve conflict and
+            finalize</h4>
+          <div class="terminal">
+            <span class="output"># (edit file.txt manually, remove markers)</span>
+            <span class="prompt">$</span> git add file.txt
+            <span class="prompt">$</span> git commit -m <span style="color:#a6e3a1">"Resolve conflict and merge
+              bugfix-branch"</span>
+            <span class="prompt">$</span> git log --oneline --graph
+          </div>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 8 — GIT LOG
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch8">
-  <div class="ch-header">
-    <div class="ch-num cyan blue">08</div>
-    <div class="ch-title">
-      <h2>git log — Viewing History</h2>
-      <p>Many flags for different views.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch8">
+        <div class="ch-header">
+          <div class="ch-num cyan blue">08</div>
+          <div class="ch-title">
+            <h2>git log — Viewing History</h2>
+            <p>Many flags for different views.</p>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">📜</span> Common Flags</div>
-    <table class="tbl">
-      <tr><th>Flag</th><th>Purpose</th></tr>
-      <tr><td><code>git log</code></td><td>Default: full commit info, newest first</td></tr>
-      <tr><td><code>--pretty=short</code></td><td>Brief view (just hash, author, subject)</td></tr>
-      <tr><td><code>--pretty=full</code></td><td>Full view (author, committer, full message)</td></tr>
-      <tr><td><code>--pretty=reference</code></td><td>Reference format</td></tr>
-      <tr><td><code>-3</code></td><td>Last 3 commits</td></tr>
-      <tr><td><code>--oneline</code></td><td>One line per commit (hash + message)</td></tr>
-      <tr><td><code>--graph</code></td><td>ASCII graph of branch topology</td></tr>
-      <tr><td><code>--decorate</code></td><td>Adds branch names &amp; tags</td></tr>
-      <tr><td><code>--all</code></td><td>Show commits from ALL branches</td></tr>
-    </table>
-  </div>
+        <div class="topic" style="--accent:var(--cyan)">
+          <div class="topic-title"><span class="icon">📜</span> Common Flags</div>
+          <table class="tbl">
+            <tr>
+              <th>Flag</th>
+              <th>الاستخدام (Purpose)</th>
+            </tr>
+            <tr>
+              <td><code>git log</code></td>
+              <td dir="rtl">الافتراضي: بيعرض كل بيانات الـ commit، والجديد الأول</td>
+            </tr>
+            <tr>
+              <td><code>--pretty=short</code></td>
+              <td dir="rtl">عرض مختصر (الهاش، المؤلف، والموضوع بس)</td>
+            </tr>
+            <tr>
+              <td><code>--pretty=full</code></td>
+              <td dir="rtl">عرض كامل (المؤلف، الكوميتر، والرسالة كاملة)</td>
+            </tr>
+            <tr>
+              <td><code>--pretty=reference</code></td>
+              <td dir="rtl">بيعرض بصيغة مرجعية (Reference format)</td>
+            </tr>
+            <tr>
+              <td><code>-3</code></td>
+              <td dir="rtl">آخر 3 كوميتس بس</td>
+            </tr>
+            <tr>
+              <td><code>--oneline</code></td>
+              <td dir="rtl">سطر واحد لكل كوميت (الهاش + الرسالة)</td>
+            </tr>
+            <tr>
+              <td><code>--graph</code></td>
+              <td dir="rtl">بيرسم شكل توضيحي للـ branches</td>
+            </tr>
+            <tr>
+              <td><code>--decorate</code></td>
+              <td dir="rtl">بيضيف أسامي الـ branches والـ tags</td>
+            </tr>
+            <tr>
+              <td><code>--all</code></td>
+              <td dir="rtl">بيعرض الكوميتس من كل الـ branches</td>
+            </tr>
+          </table>
+        </div>
 
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">🎨</span> Examples</div>
+        <div class="topic" style="--accent:var(--purple)">
+          <div class="topic-title"><span class="icon">🎨</span> Examples</div>
 
-    <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:10px 0 6px">git log --oneline</h4>
-    <div class="terminal">
-<span style="color:var(--amber)">1234abc</span> Commit message 1
-<span style="color:var(--amber)">5678def</span> Commit message 2
-<span style="color:var(--amber)">9abc123</span> Commit message 3
-    </div>
+          <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:10px 0 6px">git log --oneline</h4>
+          <div class="terminal">
+            <span style="color:var(--amber)">1234abc</span> Commit message 1
+            <span style="color:var(--amber)">5678def</span> Commit message 2
+            <span style="color:var(--amber)">9abc123</span> Commit message 3
+          </div>
 
-    <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:14px 0 6px">git log --decorate</h4>
-    <div class="terminal">
-* <span style="color:var(--amber)">1234abc</span> <span style="color:var(--cyan)">(HEAD -&gt; master, origin/master)</span> Commit message
-* <span style="color:var(--amber)">5678def</span> <span style="color:var(--green)">(feature)</span> Commit message
-    </div>
+          <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:14px 0 6px">git log --decorate
+          </h4>
+          <div class="terminal">
+            * <span style="color:var(--amber)">1234abc</span> <span style="color:var(--cyan)">(HEAD -&gt; master,
+              origin/master)</span> Commit message
+            * <span style="color:var(--amber)">5678def</span> <span style="color:var(--green)">(feature)</span> Commit
+            message
+          </div>
 
-    <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:14px 0 6px">git log --graph --oneline --all</h4>
-    <div class="terminal">
-*   <span style="color:var(--amber)">3a4af86</span> <span style="color:var(--cyan)">(HEAD -&gt; master)</span> Resolve conflict
-|\
-| * <span style="color:var(--amber)">46cc7e3</span> <span style="color:var(--green)">(bugfix-branch)</span> Add bugfix
-* | <span style="color:var(--amber)">b7e2310</span> Hotfix in main
-|/
-* <span style="color:var(--amber)">9abc123</span> Initial commit
-    </div>
-    <p style="font-size:.85rem;color:var(--t3);margin-top:8px;font-style:italic">Tools like <strong>Ungit</strong> provide visual UI for this — interactive commit tree.</p>
-  </div>
-</div>
+          <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:14px 0 6px">git log --graph
+            --oneline --all</h4>
+          <div class="terminal">
+            * <span style="color:var(--amber)">3a4af86</span> <span style="color:var(--cyan)">(HEAD -&gt; master)</span>
+            Resolve conflict
+            |\
+            | * <span style="color:var(--amber)">46cc7e3</span> <span style="color:var(--green)">(bugfix-branch)</span>
+            Add bugfix
+            * | <span style="color:var(--amber)">b7e2310</span> Hotfix in main
+            |/
+            * <span style="color:var(--amber)">9abc123</span> Initial commit
+          </div>
+          <p dir="rtl" style="font-size:.85rem;color:var(--t3);margin-top:8px;font-style:italic">أدوات زي <strong>Ungit</strong> بتديلك واجهة بصرية للموضوع ده — شجرة كوميتس تفاعلية (interactive commit tree).</p>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CH 9 — REMOTE REPOS
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="ch9">
-  <div class="ch-header">
-    <div class="ch-num green">09</div>
-    <div class="ch-title">
-      <h2>Remote Repos — GitHub &amp; GitLab</h2>
-      <p>Shared projects, issue tracking, collaboration.</p>
-    </div>
-  </div>
+      <div class="chapter" id="ch9">
+        <div class="ch-header">
+          <div class="ch-num green">09</div>
+          <div class="ch-title">
+            <h2>Remote Repos — GitHub &amp; GitLab</h2>
+            <p>Shared projects, issue tracking, collaboration.</p>
+          </div>
+        </div>
 
-  <div class="grid2">
-    <div class="topic" style="--accent:var(--cyan)">
-      <div class="topic-title"><span class="icon">🐙</span> GitHub</div>
-      <p>Largest code hosting platform. Owned by Microsoft.</p>
-      <ul>
-        <li>Free public &amp; private repos</li>
-        <li>Issues + Pull Requests</li>
-        <li>GitHub Actions (CI/CD)</li>
-        <li>Marketplace, GitHub Pages</li>
-      </ul>
-    </div>
-    <div class="topic" style="--accent:var(--amber)">
-      <div class="topic-title"><span class="icon">🦊</span> GitLab</div>
-      <p>Self-hostable + cloud. Full DevOps suite.</p>
-      <ul>
-        <li>Integrated CI/CD pipelines</li>
-        <li>Issues + Merge Requests</li>
-        <li>Self-hosting option</li>
-        <li>Container registry built-in</li>
-      </ul>
-    </div>
-  </div>
+        <div class="grid2">
+          <div class="topic" style="--accent:var(--cyan)">
+            <div class="topic-title"><span class="icon">🐙</span> GitHub</div>
+            <p>أكبر منصة لاستضافة الكود. تبع شركة Microsoft.</p>
+            <ul>
+              <li dir="rtl">ريبوز عامة وخاصة ببلاش.</li>
+              <li dir="rtl">بيوفر ميزات زي Issues و Pull Requests.</li>
+              <li dir="rtl">فيه GitHub Actions للـ (CI/CD).</li>
+              <li dir="rtl">فيه Marketplace و GitHub Pages.</li>
+            </ul>
+          </div>
+          <div class="topic" style="--accent:var(--amber)">
+            <div class="topic-title"><span class="icon">🦊</span> GitLab</div>
+            <p>ممكن تسطبه عندك (Self-hostable) أو تستخدمه Cloud. بيوفر باكدج كاملة للـ DevOps.</p>
+            <ul>
+              <li dir="rtl">الـ CI/CD pipelines متكاملة جواه.</li>
+              <li dir="rtl">فيه Issues و Merge Requests.</li>
+              <li dir="rtl">ممكن تسطبه على السيرفر بتاعك (Self-hosting).</li>
+              <li dir="rtl">فيه Container registry مبني جواه.</li>
+            </ul>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">🧱</span> Common Remote Operations</div>
+        <div class="topic" style="--accent:var(--purple)">
+          <div class="topic-title"><span class="icon">🧱</span> Common Remote Operations</div>
 
-    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.92rem;margin:10px 0 6px">Clone existing remote repo</h4>
-    <div class="terminal">
-<span class="prompt">$</span> git clone https://github.com/user/repo.git
-    </div>
+          <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.92rem;margin:10px 0 6px">Clone existing remote
+            repo</h4>
+          <div class="terminal">
+            <span class="prompt">$</span> git clone https://github.com/user/repo.git
+          </div>
 
-    <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:14px 0 6px">Push to remote</h4>
-    <div class="terminal">
-<span class="output"># Standard workflow</span>
-<span class="prompt">$</span> git branch new-branch
-<span class="prompt">$</span> git checkout new-branch
-<span class="output"># ...make changes, then:</span>
-<span class="prompt">$</span> git add .
-<span class="prompt">$</span> git commit -m <span style="color:#a6e3a1">"Add new feature"</span>
-<span class="prompt">$</span> git checkout master
-<span class="prompt">$</span> git merge new-branch
-<span class="prompt">$</span> git push
-    </div>
+          <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:14px 0 6px">Push to remote</h4>
+          <div class="terminal">
+            <span class="output"># Standard workflow</span>
+            <span class="prompt">$</span> git branch new-branch
+            <span class="prompt">$</span> git checkout new-branch
+            <span class="output"># ...make changes, then:</span>
+            <span class="prompt">$</span> git add .
+            <span class="prompt">$</span> git commit -m <span style="color:#a6e3a1">"Add new feature"</span>
+            <span class="prompt">$</span> git checkout master
+            <span class="prompt">$</span> git merge new-branch
+            <span class="prompt">$</span> git push
+          </div>
 
-    <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:14px 0 6px">Pull latest changes</h4>
-    <div class="terminal">
-<span class="prompt">$</span> git pull
-<span class="output">// Fetches and merges remote changes into your current branch</span>
-    </div>
-  </div>
+          <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:14px 0 6px">Pull latest changes
+          </h4>
+          <div class="terminal">
+            <span class="prompt">$</span> git pull
+            <span class="output">// Fetches and merges remote changes into your current branch</span>
+          </div>
+        </div>
 
-  <div class="topic" style="--accent:var(--pink)">
-    <div class="topic-title"><span class="icon">🎫</span> Issues &amp; Collaboration</div>
-    <ul>
-      <li><strong>Issues</strong> — bug tracking, feature requests, discussions.</li>
-      <li><strong>Pull Requests (GitHub)</strong> / <strong>Merge Requests (GitLab)</strong> — proposed code changes with review.</li>
-      <li><strong>Code Review</strong> — comments, approvals, suggested changes.</li>
-      <li><strong>Labels &amp; Milestones</strong> — organize work.</li>
-    </ul>
-  </div>
-</div>
+        <div class="topic" style="--accent:var(--pink)">
+          <div class="topic-title"><span class="icon">🎫</span> Issues &amp; Collaboration</div>
+          <ul>
+            <li dir="rtl"><strong>Issues</strong> — عشان نتابع الـ bugs، نطلب features جديدة، ونتناقش.</li>
+            <li dir="rtl"><strong>Pull Requests (في GitHub)</strong> / <strong>Merge Requests (في GitLab)</strong> — تغييرات كود مقترحة ومعاها مراجعة (review).</li>
+            <li dir="rtl"><strong>Code Review</strong> — تعليقات، موافقات، وتغييرات مقترحة من التيم.</li>
+            <li dir="rtl"><strong>Labels &amp; Milestones</strong> — عشان ننظم الشغل.</li>
+          </ul>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      QUIZ — PRACTICE
 ══════════════════════════════════════════════════════════ -->
-<div class="quiz-section" id="quiz">
-  <div class="quiz-header">
-    <div class="quiz-icon">🎯</div>
-    <div>
-      <h3>Practice Quiz — Lecture 18</h3>
-      <p>8 أسئلة على Git mechanics, file lifecycle, branches, conflicts, remote.</p>
-    </div>
-  </div>
+      <div class="quiz-section" id="quiz">
+        <div class="quiz-header">
+          <div class="quiz-icon">🎯</div>
+          <div>
+            <h3>Practice Quiz — Lecture 18</h3>
+            <p>8 أسئلة على Git mechanics, file lifecycle, branches, conflicts, remote.</p>
+          </div>
+        </div>
 
-  <!-- Q1 -->
-  <div class="q-item" data-correct="c">
-    <div class="q-num">Question 1 <span class="q-src">Practice — distributed</span></div>
-    <div class="q-text">Which is the <strong>main difference</strong> between Centralized and Distributed VCS?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Distributed is more secure</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Centralized supports branches; Distributed doesn't</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> In Distributed, every machine has a full copy of the repository</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Distributed requires more disk space than Centralized (it doesn't)</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: C</b>
-      Each Git client has a complete copy = many operations are local. Centralized requires server for almost everything.
-    </div>
-  </div>
+        <!-- Q1 -->
+        <div class="q-item" data-correct="c">
+          <div class="q-num">Question 1 <span class="q-src">Practice — distributed</span></div>
+          <div class="q-text">Which is the <strong>main difference</strong> between Centralized and Distributed VCS?
+          </div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Distributed is more secure</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Centralized supports branches;
+              Distributed doesn't</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> In Distributed, every machine has a full
+              copy of the repository</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Distributed requires more disk space
+              than Centralized (it doesn't)</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: C</b>
+            كل client للـ Git بيبقى عنده نسخة كاملة = فمعظم الأوامر بتشتغل local. الـ Centralized بيحتاج سيرفر عشان كل
+            حاجة تقريباً.
+          </div>
+        </div>
 
-  <!-- Q2 -->
-  <div class="q-item" data-correct="b">
-    <div class="q-num">Question 2 <span class="q-src">Practice — areas</span></div>
-    <div class="q-text">In Git, what is the <strong>Staging Area</strong>?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Where final commits are stored permanently</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A snapshot of changes prepared for the next commit (also called the "Index")</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Where you edit files</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The remote repository</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: B</b>
-      Staging Area (a.k.a. <strong>Index</strong>) holds the files about to be committed. <code>git add</code> moves files INTO it.
-    </div>
-  </div>
+        <!-- Q2 -->
+        <div class="q-item" data-correct="b">
+          <div class="q-num">Question 2 <span class="q-src">Practice — areas</span></div>
+          <div class="q-text">In Git, what is the <strong>Staging Area</strong>?</div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Where final commits are stored
+              permanently</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A snapshot of changes prepared for the
+              next commit (also called the "Index")</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Where you edit files</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The remote repository</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: B</b>
+            الـ Staging Area (أو الـ <strong>Index</strong>) دي اللي بتشيل الفايلات اللي جاهزة يحصلها commit. الـ
+            <code>git add</code> بينقل الفايلات ليها.
+          </div>
+        </div>
 
-  <!-- Q3 -->
-  <div class="q-item" data-correct="b">
-    <div class="q-num">Question 3 <span class="q-src">Practice — lifecycle</span></div>
-    <div class="q-text">A file you just created but never added to Git is in which state?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Modified</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Untracked</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Staged</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Unmodified</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: B — Untracked</b>
-      Git doesn't know about the file until you <code>git add</code> it. Untracked → (add) → Unmodified.
-    </div>
-  </div>
+        <!-- Q3 -->
+        <div class="q-item" data-correct="b">
+          <div class="q-num">Question 3 <span class="q-src">Practice — lifecycle</span></div>
+          <div class="q-text">A file you just created but never added to Git is in which state?</div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Modified</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Untracked</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Staged</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Unmodified</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: B — Untracked</b>
+            الـ Git ميعرفش حاجة عن الفايل لحد ما تعمله <code>git add</code>. بيبدأ Untracked → (بعد الـ add) → بيبقى
+            Unmodified.
+          </div>
+        </div>
 
-  <!-- Q4 -->
-  <div class="q-item" data-correct="c">
-    <div class="q-num">Question 4 <span class="q-src">Practice — branches</span></div>
-    <div class="q-text">What does <code>git checkout -b feature</code> do?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Lists all branches</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Deletes a branch</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Creates a new branch AND switches to it</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Renames a branch</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: C</b>
-      <code>-b</code> means "create branch". <code>checkout</code> switches. Together = create + switch.
-    </div>
-  </div>
+        <!-- Q4 -->
+        <div class="q-item" data-correct="c">
+          <div class="q-num">Question 4 <span class="q-src">Practice — branches</span></div>
+          <div class="q-text">What does <code>git checkout -b feature</code> do?</div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Lists all branches</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Deletes a branch</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Creates a new branch AND switches to it
+            </div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Renames a branch</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: C</b>
+            الـ <code>-b</code> معناها "اكريت branch جديد". والـ <code>checkout</code> بتنقلك ليه. الاتنين مع بعض =
+            يكريت وينقلك عليه في خطوة واحدة.
+          </div>
+        </div>
 
-  <!-- Q5 -->
-  <div class="q-item" data-correct="d">
-    <div class="q-num">Question 5 <span class="q-src">Practice — conflicts</span></div>
-    <div class="q-text">After resolving a merge conflict, what is the correct next step?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Revert the merge</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Run git merge again</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Push immediately without committing</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> git add the resolved file, then git commit</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: D</b>
-      After editing the file to resolve conflicts and removing the <code>&lt;&lt;&lt;</code>/<code>===</code>/<code>&gt;&gt;&gt;</code> markers, stage it and commit. The commit finalizes the merge.
-    </div>
-  </div>
+        <!-- Q5 -->
+        <div class="q-item" data-correct="d">
+          <div class="q-num">Question 5 <span class="q-src">Practice — conflicts</span></div>
+          <div class="q-text">After resolving a merge conflict, what is the correct next step?</div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Revert the merge</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Run git merge again</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Push immediately without committing
+            </div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> git add the resolved file, then git
+              commit</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: D</b>
+            بعد ما تظبط الفايل اللي فيه الـ conflict وتمسح العلامات دي
+            <code>&lt;&lt;&lt;</code>/<code>===</code>/<code>&gt;&gt;&gt;</code>، بتعمله stage وبعدين commit. الـ commit
+            ده هو اللي بيفنّش الـ merge.
+          </div>
+        </div>
 
-  <!-- Q6 -->
-  <div class="q-item" data-correct="d">
-    <div class="q-num">Question 6 <span class="q-src">Practice — git log</span></div>
-    <div class="q-text">Which flag shows commits from <strong>all branches</strong> in a visual graph with one-line summaries?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> --pretty=full</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> --oneline</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> --graph</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> --graph --oneline --all</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: D</b>
-      Combine them: <code>--graph</code> for tree, <code>--oneline</code> for brief, <code>--all</code> for all branches. Most useful combo.
-    </div>
-  </div>
+        <!-- Q6 -->
+        <div class="q-item" data-correct="d">
+          <div class="q-num">Question 6 <span class="q-src">Practice — git log</span></div>
+          <div class="q-text">Which flag shows commits from <strong>all branches</strong> in a visual graph with
+            one-line summaries?</div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> --pretty=full</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> --oneline</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> --graph</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> --graph --oneline --all</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: D</b>
+            اجمعهم مع بعض: <code>--graph</code> عشان تشوف الـ tree، و <code>--oneline</code> عشان تخليها مختصرة، و
+            <code>--all</code> عشان تجيب كل الـ branches. دي أكتر تشكيلة بتنفعك.
+          </div>
+        </div>
 
-  <!-- Q7 -->
-  <div class="q-item" data-correct="b">
-    <div class="q-num">Question 7 <span class="q-src">Practice — remote</span></div>
-    <div class="q-text">To download an existing remote repository to your machine, you use:</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> git init</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> git clone &lt;url&gt;</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> git pull</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> git checkout &lt;url&gt;</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: B — git clone</b>
-      <code>clone</code> downloads a full copy of a remote repo to a new local directory. <code>init</code> creates an empty new repo. <code>pull</code> works on existing already-cloned repos.
-    </div>
-  </div>
+        <!-- Q7 -->
+        <div class="q-item" data-correct="b">
+          <div class="q-num">Question 7 <span class="q-src">Practice — remote</span></div>
+          <div class="q-text">To download an existing remote repository to your machine, you use:</div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> git init</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> git clone &lt;url&gt;</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> git pull</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> git checkout &lt;url&gt;</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: B — git clone</b>
+            الـ <code>clone</code> بينزل نسخة كاملة من الـ remote repo لفولدر جديد عندك. الـ <code>init</code> بيكريت
+            repo فاضي جديد. والـ <code>pull</code> بيسحب التحديثات في ريبو معموله clone أصلاً.
+          </div>
+        </div>
 
-  <!-- Q8 -->
-  <div class="q-item" data-correct="a">
-    <div class="q-num">Question 8 <span class="q-src">Practice — fast-forward</span></div>
-    <div class="q-text">A <strong>fast-forward merge</strong> happens when:</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The target branch hasn't moved since the source branch was created — Git just moves the pointer forward</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A merge results in a conflict</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> You force push to a remote</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Two branches have diverged commits</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: A</b>
-      No new merge commit is created — the target branch's pointer just "fast-forwards" to the source branch's tip. Possible only if target has no new commits.
-    </div>
-  </div>
+        <!-- Q8 -->
+        <div class="q-item" data-correct="a">
+          <div class="q-num">Question 8 <span class="q-src">Practice — fast-forward</span></div>
+          <div class="q-text">A <strong>fast-forward merge</strong> happens when:</div>
+          <div class="q-opts">
+            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The target branch hasn't moved since the
+              source branch was created — Git just moves the pointer forward</div>
+            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A merge results in a conflict</div>
+            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> You force push to a remote</div>
+            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Two branches have diverged commits</div>
+          </div>
+          <div class="q-explain">
+            <b>✅ الإجابة الصح: A</b>
+            مفيش merge commit جديد بيتكريت — الـ pointer بتاع الـ target branch مجرد إنه بيمشي لقدام (fast-forwards) لحد
+            آخر تحديث في الـ source branch. ده بينفع بس لو الـ target مفيش فيه أي commits جديدة.
+          </div>
+        </div>
 
-  <div style="text-align:center;margin-top:24px">
-    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
-    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
-    <div class="q-score"></div>
-  </div>
-</div>
+        <div style="text-align:center;margin-top:24px">
+          <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+          <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+          <div class="q-score"></div>
+        </div>
+      </div>
 
-<!-- ════════════════════════════════════════════════════════
+      <!-- ════════════════════════════════════════════════════════
      CHEAT SHEET
 ══════════════════════════════════════════════════════════ -->
-<div class="chapter" id="cheat" style="margin-top:80px">
-  <div class="ch-header">
-    <div class="ch-num amber">📋</div>
-    <div class="ch-title">
-      <h2>Cheat Sheet</h2>
-    </div>
-  </div>
+      <div class="chapter" id="cheat" style="margin-top:80px">
+        <div class="ch-header">
+          <div class="ch-num amber">📋</div>
+          <div class="ch-title">
+            <h2>Cheat Sheet</h2>
+          </div>
+        </div>
 
-  <div class="grid2">
-    <div class="cheat">
-      <h3>📍 3 Git Areas</h3>
-      <div class="cheat-item"><div class="cheat-key">Working Dir</div><div class="cheat-val">Where you edit files</div></div>
-      <div class="cheat-item"><div class="cheat-key">Staging (Index)</div><div class="cheat-val">Snapshot prepared for commit</div></div>
-      <div class="cheat-item"><div class="cheat-key">Git Dir (Repo)</div><div class="cheat-val">The .git folder, commit history</div></div>
-    </div>
+        <div class="grid2">
+          <div class="cheat">
+            <h3>📍 3 Git Areas</h3>
+            <div class="cheat-item">
+              <div class="cheat-key">Working Dir</div>
+              <div class="cheat-val">المكان اللي بتعدل فيه الفايلات</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Staging (Index)</div>
+              <div class="cheat-val">فايلات جاهزة للـ commit الجاي</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Git Dir (Repo)</div>
+              <div class="cheat-val">فولدر .git والهيستوري كله</div>
+            </div>
+          </div>
 
-    <div class="cheat">
-      <h3>🔄 4 File States</h3>
-      <div class="cheat-item"><div class="cheat-key">Untracked</div><div class="cheat-val">Git doesn't know it yet</div></div>
-      <div class="cheat-item"><div class="cheat-key">Unmodified</div><div class="cheat-val">Clean, matches last commit</div></div>
-      <div class="cheat-item"><div class="cheat-key">Modified</div><div class="cheat-val">Edited, not staged yet</div></div>
-      <div class="cheat-item"><div class="cheat-key">Staged</div><div class="cheat-val">git add'ed, ready to commit</div></div>
-    </div>
+          <div class="cheat">
+            <h3>🔄 4 File States</h3>
+            <div class="cheat-item">
+              <div class="cheat-key">Untracked</div>
+              <div class="cheat-val">Git لسه ميعرفوش خالص</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Unmodified</div>
+              <div class="cheat-val">نظيف ومطابق لآخر commit</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Modified</div>
+              <div class="cheat-val">اتعدل بس لسه ماتعملوش add</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Staged</div>
+              <div class="cheat-val">اتعمله add وجاهز للـ commit</div>
+            </div>
+          </div>
 
-    <div class="cheat">
-      <h3>🌿 Branch Commands</h3>
-      <div class="cheat-item"><div class="cheat-key">git branch</div><div class="cheat-val">List branches (* = current)</div></div>
-      <div class="cheat-item"><div class="cheat-key">git branch &lt;name&gt;</div><div class="cheat-val">Create branch</div></div>
-      <div class="cheat-item"><div class="cheat-key">git checkout &lt;n&gt;</div><div class="cheat-val">Switch to branch</div></div>
-      <div class="cheat-item"><div class="cheat-key">git checkout -b &lt;n&gt;</div><div class="cheat-val">Create + switch</div></div>
-      <div class="cheat-item"><div class="cheat-key">git merge &lt;n&gt;</div><div class="cheat-val">Merge into current branch</div></div>
-      <div class="cheat-item"><div class="cheat-key">git branch -d &lt;n&gt;</div><div class="cheat-val">Delete merged branch</div></div>
-    </div>
+          <div class="cheat">
+            <h3>🌿 Branch Commands</h3>
+            <div class="cheat-item">
+              <div class="cheat-key">git branch</div>
+              <div class="cheat-val">يعرض الـ branches (* = الحالي)</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">git branch &lt;name&gt;</div>
+              <div class="cheat-val">يكريت branch جديد</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">git checkout &lt;n&gt;</div>
+              <div class="cheat-val">يروح لـ branch تاني</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">git checkout -b &lt;n&gt;</div>
+              <div class="cheat-val">يكريت ويروحله في نفس الوقت</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">git merge &lt;n&gt;</div>
+              <div class="cheat-val">يدمج branch مع اللي إنت واقف عليه</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">git branch -d &lt;n&gt;</div>
+              <div class="cheat-val">يمسح branch بعد ما اندمج</div>
+            </div>
+          </div>
 
-    <div class="cheat">
-      <h3>⚔️ Conflict Resolution</h3>
-      <div class="cheat-item"><div class="cheat-key">Step 1</div><div class="cheat-val">Open conflicting file</div></div>
-      <div class="cheat-item"><div class="cheat-key">Step 2</div><div class="cheat-val">Edit, remove &lt;&lt;&lt; === &gt;&gt;&gt; markers</div></div>
-      <div class="cheat-item"><div class="cheat-key">Step 3</div><div class="cheat-val">git add file</div></div>
-      <div class="cheat-item"><div class="cheat-key">Step 4</div><div class="cheat-val">git commit (finalizes merge)</div></div>
-    </div>
+          <div class="cheat">
+            <h3>⚔️ Conflict Resolution</h3>
+            <div class="cheat-item">
+              <div class="cheat-key">Step 1</div>
+              <div class="cheat-val">افتح الفايل المضروب</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Step 2</div>
+              <div class="cheat-val">عدله وامسح علامات &lt;&lt;&lt; === &gt;&gt;&gt;</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Step 3</div>
+              <div class="cheat-val">git add للفايل المتصلح</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">Step 4</div>
+              <div class="cheat-val">git commit عشان تفنش الـ merge</div>
+            </div>
+          </div>
 
-    <div class="cheat">
-      <h3>📜 git log Flags</h3>
-      <div class="cheat-item"><div class="cheat-key">--oneline</div><div class="cheat-val">Brief, one line per commit</div></div>
-      <div class="cheat-item"><div class="cheat-key">--graph</div><div class="cheat-val">ASCII tree of branches</div></div>
-      <div class="cheat-item"><div class="cheat-key">--all</div><div class="cheat-val">All branches</div></div>
-      <div class="cheat-item"><div class="cheat-key">--decorate</div><div class="cheat-val">Show branch/tag names</div></div>
-      <div class="cheat-item"><div class="cheat-key">-N</div><div class="cheat-val">Last N commits</div></div>
-      <div class="cheat-item"><div class="cheat-key">Magic combo</div><div class="cheat-val">--graph --oneline --all</div></div>
-    </div>
+          <div class="cheat">
+            <h3>📜 git log Flags</h3>
+            <div class="cheat-item">
+              <div class="cheat-key">--oneline</div>
+              <div class="cheat-val">كل commit في سطر واحد مختصر</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">--graph</div>
+              <div class="cheat-val">بيرسم الـ branches كشجرة</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">--all</div>
+              <div class="cheat-val">بيجيب من كل الـ branches</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">--decorate</div>
+              <div class="cheat-val">بيعرض أسامي الـ branches والـ tags</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">-N</div>
+              <div class="cheat-val">بيعرض آخر N كوميتس</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">تشكيلة الدمار</div>
+              <div class="cheat-val">--graph --oneline --all</div>
+            </div>
+          </div>
 
-    <div class="cheat">
-      <h3>🌐 Remote Commands</h3>
-      <div class="cheat-item"><div class="cheat-key">git clone &lt;url&gt;</div><div class="cheat-val">Download remote repo</div></div>
-      <div class="cheat-item"><div class="cheat-key">git push</div><div class="cheat-val">Upload local commits</div></div>
-      <div class="cheat-item"><div class="cheat-key">git pull</div><div class="cheat-val">Fetch + merge from remote</div></div>
-      <div class="cheat-item"><div class="cheat-key">git fetch</div><div class="cheat-val">Download remote refs (no merge)</div></div>
-      <div class="cheat-item"><div class="cheat-key">GitHub</div><div class="cheat-val">Pull Requests</div></div>
-      <div class="cheat-item"><div class="cheat-key">GitLab</div><div class="cheat-val">Merge Requests</div></div>
-    </div>
-  </div>
-</div>
+          <div class="cheat">
+            <h3>🌐 Remote Commands</h3>
+            <div class="cheat-item">
+              <div class="cheat-key">git clone &lt;url&gt;</div>
+              <div class="cheat-val">بينزل نسخة من ريبو أونلاين</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">git push</div>
+              <div class="cheat-val">بيرفع الكوميتس بتاعتك للسيرفر</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">git pull</div>
+              <div class="cheat-val">بيسحب الجديد ويدمجه عندك</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">git fetch</div>
+              <div class="cheat-val">بينزل الداتا بس من غير ما يدمج</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">GitHub</div>
+              <div class="cheat-val">اسمه فيه Pull Requests</div>
+            </div>
+            <div class="cheat-item">
+              <div class="cheat-key">GitLab</div>
+              <div class="cheat-val">اسمه فيه Merge Requests</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-</div>
-</main>
-<script src="../assets/app.js"></script>
-<script src="../assets/quiz.js"></script>
+    </div>
+  </main>
+  <script src="../assets/app.js"></script>
+  <script src="../assets/quiz.js"></script>
 </body>
+
 </html>

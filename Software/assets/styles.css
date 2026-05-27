@@ -103,10 +103,10 @@ body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.75
 code{font-family:var(--fc);background:rgba(0,212,255,.08);color:var(--cyan);padding:2px 7px;border-radius:4px;font-size:.82em;direction:ltr;unicode-bidi:isolate;display:inline-block}
 
 /* ─── INFO BOXES ─── */
-.tip,.warn,.info,.danger{display:flex;gap:12px;padding:14px 16px;border-radius:10px;margin:14px 0;font-size:.87rem}
+.tip,.warn,.info,.danger{display:flex;gap:12px;padding:14px 16px;border-radius:10px;margin:14px 0;font-size:.87rem;display: flex;justify-content: flex-end;}
 .tip{background:rgba(16,185,129,.08);border-inline-start:3px solid var(--green);color:#6ee7b7}
 .warn{background:rgba(245,158,11,.08);border-inline-start:3px solid var(--amber);color:#fcd34d}
-.info{background:rgba(0,212,255,.08);border-inline-start:3px solid var(--cyan);color:#7dd3fc}
+.info{background:rgba(0,212,255,.08);border-inline-start:3px solid var(--cyan);color:#7dd3fc;display: flex;justify-content: flex-end;}
 .danger{background:rgba(239,68,68,.08);border-inline-start:3px solid var(--red);color:#fca5a5}
 .tip b,.warn b,.info b,.danger b{display:block;margin-bottom:3px;font-weight:600}
 
