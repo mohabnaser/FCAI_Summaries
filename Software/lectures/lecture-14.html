@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ar" dir="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 14 — Software Process Models | CS251</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  /* Process model visualization */
+  .process-vis{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:20px;margin:14px 0;text-align:center;font-family:var(--fc);overflow-x:auto}
+  .waterfall{display:flex;flex-direction:column-reverse;align-items:flex-start;gap:0;padding-left:0;min-width:350px;margin:auto;width:fit-content}
+  .wf-step{background:var(--card2);border:1.5px solid var(--accent);border-radius:8px;padding:10px 16px;color:var(--accent);font-weight:600;min-width:140px;font-family:var(--fh);font-size:.85rem;margin-bottom:-4px;position:relative}
+  .wf-step:nth-child(1){--accent:var(--cyan);align-self:flex-start}
+  .wf-step:nth-child(2){--accent:var(--green);margin-left:30px}
+  .wf-step:nth-child(3){--accent:var(--amber);margin-left:60px}
+  .wf-step:nth-child(4){--accent:var(--purple);margin-left:90px}
+  .wf-step:nth-child(5){--accent:var(--pink);margin-left:120px}
+
+  /* Scrum roles */
+  .scrum-roles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+  .scrum-role{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;border-top:4px solid var(--accent)}
+  .scrum-role-icon{font-size:2.5rem;margin-bottom:8px}
+  .scrum-role h4{font-family:var(--fh);font-size:1.05rem;color:var(--accent);font-weight:700;margin-bottom:6px}
+  .scrum-role p{font-size:.85rem;color:var(--t2);line-height:1.55}
+  .scrum-role:nth-child(1){--accent:var(--purple)}
+  .scrum-role:nth-child(2){--accent:var(--cyan)}
+  .scrum-role:nth-child(3){--accent:var(--green)}
+  @media(max-width:700px){.scrum-roles{grid-template-columns:1fr}}
+
+  /* Sprint visual */
+  .sprint-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0;font-family:var(--fh)}
+  .sprint-tile{background:linear-gradient(135deg,var(--accent),rgba(0,0,0,.15));color:#fff;border-radius:10px;padding:14px;text-align:center;font-weight:600;font-size:.85rem}
+  .sprint-tile:nth-child(1){--accent:#06b6d4}
+  .sprint-tile:nth-child(2){--accent:#0ea5e9}
+  .sprint-tile:nth-child(3){--accent:#8b5cf6}
+  .sprint-tile:nth-child(4){--accent:#a855f7}
+  @media(max-width:700px){.sprint-flow{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<nav id="sidebar" dir="ltr">
+  <div class="sb-logo">
+    <h2>🌊 CS251 — Lec 14</h2>
+    <p>Software Process Models</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">Foundation</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>SW Life Cycle</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Process Models</a>
+
+  <div class="sb-section">Models</div>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Waterfall</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Incremental / Iterative</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Agile + 12 Principles</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>RUP</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Scrum ⭐</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Bank</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Rapid Revision</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main" dir="auto">
+
+<section class="hero">
+  <div class="hero-badge">🌊 Lecture 14 · Process Models & Scrum</div>
+  <h1>Software <span>Process Models</span></h1>
+  <p>Waterfall · Iterative · Agile · RUP · <strong>Scrum</strong> (Q1.09-Q1.13 in every exam). الـ Scrum roles, sprints, retrospective — كلهم متكررين.</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">7</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">5</div><div class="lbl">Process Models</div></div>
+    <div class="hstat"><div class="num">12</div><div class="lbl">Agile Principles</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Exam Qs</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — SW LIFE CYCLE
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>Software Life Cycle</h2>
+      <p>المراحل الـ 9 الرئيسية اللي بيمر بيهم أي software product.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔄</span> 9 Phases</div>
+    <ol>
+      <li><strong>Conception</strong> — الفكرة الأولية.</li>
+      <li><strong>Feasibility Study / Domain Analysis</strong></li>
+      <li><strong>Requirements' Gathering</strong></li>
+      <li><strong>Overall Design</strong></li>
+      <li><strong>Detailed Design</strong></li>
+      <li><strong>Development</strong> (Coding, Programming)</li>
+      <li><strong>Testing</strong> (Unit, Integration, Acceptance)</li>
+      <li><strong>Deployment / Training</strong></li>
+      <li><strong>Maintenance and Evolution</strong></li>
+    </ol>
+    <div class="info"><div><b>💡 4 Core Activities</b>
+      <ul style="margin-top:4px">
+        <li><strong>Specification</strong>: phases 1-5</li>
+        <li><strong>Development</strong>: phase 6</li>
+        <li><strong>Validation</strong>: phase 7</li>
+        <li><strong>Evolution</strong>: phases 8-9</li>
+      </ul>
+    </div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — PROCESS MODELS INTRO
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num green">02</div>
+    <div class="ch-title">
+      <h2>Software Process Models</h2>
+      <p>كل process model بيوصف: activities · order · roles · deliverables.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📖</span> Definition</div>
+    <p>A <strong>software process model</strong> describes:</p>
+    <ul>
+      <li><strong>Activities</strong> performed to produce software.</li>
+      <li>The <strong>order</strong> of these activities.</li>
+      <li>The <strong>roles</strong> responsible for each.</li>
+      <li>The <strong>deliverables (artifacts)</strong> from each.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🌟</span> الـ 5 Main Models</div>
+    <div class="grid3">
+      <div class="cmp-card" style="--accent:var(--cyan)"><h4>🌊 Waterfall</h4><p>Linear · phase-by-phase</p></div>
+      <div class="cmp-card" style="--accent:var(--green)"><h4>🔂 Iterative / Incremental</h4><p>Mini-waterfalls per increment</p></div>
+      <div class="cmp-card" style="--accent:var(--amber)"><h4>🚀 Agile</h4><p>Continuous · flexible</p></div>
+      <div class="cmp-card" style="--accent:var(--purple)"><h4>🏗️ RUP</h4><p>Iterative framework</p></div>
+      <div class="cmp-card" style="--accent:var(--red)"><h4>⚡ Scrum</h4><p>Sprints · roles · ceremonies</p></div>
+    </div>
+    <div class="info"><div><b>📌 Winter 2023 Q1.06</b>"What is true about software process models?"<br>الإجابة الصح: <strong>All three</strong> — (I) Include linear and agile · (II) Define who/what/when/artifacts · (III) Different ways to organize SW dev activities.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — WATERFALL
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>Waterfall Model</h2>
+      <p>The classic linear model. Easy to understand, strict to enforce.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🌊</span> The Stages</div>
+    <div class="process-vis">
+      <div class="waterfall">
+        <div class="wf-step">5. Testing</div>
+        <div class="wf-step">4. Implementation</div>
+        <div class="wf-step">3. Design</div>
+        <div class="wf-step">2. Analysis</div>
+        <div class="wf-step">1. Requirements</div>
+      </div>
+    </div>
+    <p style="margin-top:8px;font-size:.85rem">Each phase produces a frozen deliverable before the next begins. No going back.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">✅</span> Strengths</div>
+      <ul>
+        <li>Easy to understand, easy to use.</li>
+        <li>Provides structure to inexperienced staff.</li>
+        <li>Milestones well understood.</li>
+        <li>Sets requirements stability.</li>
+        <li>Good for management control (plan, staff, track).</li>
+        <li>Works well when quality &gt; cost/schedule.</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--red)">
+      <div class="topic-title"><span class="icon">❌</span> Deficiencies</div>
+      <ul>
+        <li>All requirements must be known upfront.</li>
+        <li>Deliverables are frozen — no flexibility.</li>
+        <li>Can give false impression of progress.</li>
+        <li>Doesn't match real problem-solving nature.</li>
+        <li>Integration is one big bang at the end.</li>
+        <li>Customer can't preview the system early.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🎯</span> When to Use Waterfall</div>
+    <ul>
+      <li>Requirements are very well known.</li>
+      <li>Product definition is stable.</li>
+      <li>Technology is understood.</li>
+      <li>New version of an existing product.</li>
+      <li>Porting an existing product to a new platform.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — INCREMENTAL
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num purple">04</div>
+    <div class="ch-title">
+      <h2>Incremental / Iterative Model</h2>
+      <p>Multiple mini-waterfalls. Each increment delivers functioning software.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🔂</span> The Idea</div>
+    <ul>
+      <li>Construct a <strong>partial implementation</strong> of the system.</li>
+      <li>Slowly add more functionality over time.</li>
+      <li><strong>Prioritize requirements</strong> and implement them in groups.</li>
+      <li>Each release <strong>adds</strong> functions to previous, until complete.</li>
+    </ul>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">✅</span> Strengths</div>
+      <ul>
+        <li>Develop high-risk or major functions first.</li>
+        <li>Each release = operational product.</li>
+        <li>Customer can respond to each build.</li>
+        <li>Lowers initial delivery cost.</li>
+        <li>Initial product delivery is faster.</li>
+        <li>Customers get important functionality early.</li>
+        <li>Risk of changing requirements is reduced.</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--red)">
+      <div class="topic-title"><span class="icon">❌</span> Weaknesses</div>
+      <ul>
+        <li>Requires good planning &amp; design.</li>
+        <li>Need complete &amp; fully functional system early-defined.</li>
+        <li>Well-defined module interfaces required.</li>
+        <li>Total cost of complete system <strong>not lower</strong>.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — AGILE
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num pink">05</div>
+    <div class="ch-title">
+      <h2>Agile SDLCs</h2>
+      <p>Iterative · Incremental · Adaptive planning · Flexible to change.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🚀</span> Agile Properties</div>
+    <ul>
+      <li>Usually <strong>less formal</strong> + reduced scope.</li>
+      <li>Reduce documentation.</li>
+      <li>Embed quality activities <strong>in</strong> the development process.</li>
+      <li>Used for time-critical applications.</li>
+    </ul>
+  </div>
+
+  <!-- 12 principles -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📜</span> 12 Agile Principles (Agile Manifesto)</div>
+    <ol>
+      <li><strong>Highest priority</strong>: satisfy customer through early &amp; continuous delivery.</li>
+      <li>Welcome <strong>changing requirements</strong>, even late in development.</li>
+      <li>Deliver working software <strong>frequently</strong> (weeks vs months — prefer shorter).</li>
+      <li>Business people + developers work together <strong>daily</strong>.</li>
+      <li>Build around <strong>motivated individuals</strong> — give them environment + support + trust.</li>
+      <li><strong>Face-to-face conversation</strong> = most efficient method.</li>
+      <li><strong>Working software</strong> = primary measure of progress.</li>
+      <li>Promote <strong>sustainable</strong> development pace.</li>
+      <li>Continuous attention to <strong>technical excellence</strong> + good design.</li>
+      <li><strong>Simplicity</strong> — maximizing work NOT done.</li>
+      <li>Best architectures/requirements/designs emerge from <strong>self-organizing teams</strong>.</li>
+      <li>Team reflects regularly on <strong>how to improve</strong>.</li>
+    </ol>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🎭</span> Agile Methods</div>
+    <ul>
+      <li>ASD — Adaptive Software Development</li>
+      <li>FDD — Feature Driven Development</li>
+      <li>Crystal Clear</li>
+      <li>DSDM — Dynamic Software Development Method</li>
+      <li>RAD — Rapid Application Development</li>
+      <li><strong>Scrum</strong> ⭐</li>
+      <li>XP — Extreme Programming</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — RUP
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num teal">06</div>
+    <div class="ch-title">
+      <h2>RUP — Rational Unified Process</h2>
+      <p>Iterative framework by IBM. Adaptable, not prescriptive.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">📊</span> RUP — 4 Phases</div>
+    <ol>
+      <li><strong>Inception</strong> — Scope, vision, business case.</li>
+      <li><strong>Elaboration</strong> — Architecture, requirements refinement.</li>
+      <li><strong>Construction</strong> — Build the system.</li>
+      <li><strong>Transition</strong> — Deliver, train, deploy.</li>
+    </ol>
+    <p>Within each phase, multiple <strong>iterations</strong>. Each iteration involves Business Modeling, Requirements, Analysis, Design, Implementation, Test, Deployment — but with varying intensity.</p>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">👥</span> RUP Roles (UPEDU)</div>
+    <p>Analyst · Designer · Implementer · Integrator · Tester · Change Control Manager · Configuration Manager · Project Manager · Reviewer · Stakeholder</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — SCRUM ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num red">07</div>
+    <div class="ch-title">
+      <h2>Scrum ⭐⭐⭐</h2>
+      <p>الـ exam بيركز جداً عليه. 4-5 أسئلة في كل امتحان عن الـ Scrum.</p>
+    </div>
+  </div>
+
+  <!-- Scrum elements -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">⚡</span> Scrum Elements</div>
+    <ul>
+      <li><strong>Gathering Requirements</strong> — User Stories, Product Backlog.</li>
+      <li><strong>Team Roles</strong> — 3 roles.</li>
+      <li><strong>Release Planning</strong> — Pick stories, prioritize, estimate.</li>
+      <li><strong>Sprints</strong> — 3-30 days, usually 2 weeks.</li>
+      <li><strong>Daily Scrum Meeting</strong> — 15 min standup.</li>
+      <li><strong>Sprint Retrospective</strong> — End of sprint reflection.</li>
+      <li><strong>Burndown Chart</strong> — Track progress.</li>
+    </ul>
+  </div>
+
+  <!-- 3 Roles -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">👥</span> 3 Scrum Roles</div>
+    <div class="scrum-roles">
+      <div class="scrum-role">
+        <div class="scrum-role-icon">🦸</div>
+        <h4>Scrum Master</h4>
+        <p>The <strong>team leader</strong>. Facilitates the process, removes blockers, protects the team. NOT a manager.</p>
+      </div>
+      <div class="scrum-role">
+        <div class="scrum-role-icon">👔</div>
+        <h4>Product Owner</h4>
+        <p>Represents the customer/business. Owns the product backlog, prioritizes stories.</p>
+      </div>
+      <div class="scrum-role">
+        <div class="scrum-role-icon">👨‍💻</div>
+        <h4>Team (Everyone Else)</h4>
+        <p>Cross-functional members: devs, designers, testers. Self-organizing. NO sub-roles inside.</p>
+      </div>
+    </div>
+    <div class="warn"><div><b>📌 Fall 2021-22 Q1.09</b>"Team leader in Scrum" = <strong>Scrum Master</strong>. (Not project manager, not client rep.)</div></div>
+    <div class="warn"><div><b>📌 Winter 2021 Q1.09</b>"Roles in Scrum team" = <strong>Scrum master, product owner, and everyone else</strong>.</div></div>
+  </div>
+
+  <!-- Sprints -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🏃</span> Sprints</div>
+    <p>Split the release into <strong>sprints</strong> (typically 2 weeks). Each sprint delivers <strong>ship-ready</strong> user stories.</p>
+    <div class="sprint-flow">
+      <div class="sprint-tile">Sprint 1<br><small>Weeks 1-2</small></div>
+      <div class="sprint-tile">Sprint 2<br><small>Weeks 3-4</small></div>
+      <div class="sprint-tile">Sprint 3<br><small>Weeks 5-6</small></div>
+      <div class="sprint-tile">Sprint 4<br><small>Weeks 7-8</small></div>
+    </div>
+  </div>
+
+  <!-- Daily standup -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">☀️</span> Daily Standup Meeting</div>
+    <ul>
+      <li><strong>Time:</strong> 15 minutes max.</li>
+      <li><strong>When:</strong> Every morning before work.</li>
+      <li><strong>Standing up</strong> (to keep it short).</li>
+    </ul>
+    <p><strong>3 questions for each team member:</strong></p>
+    <ol>
+      <li>What did you do <strong>yesterday</strong>?</li>
+      <li>What will you do <strong>today</strong>?</li>
+      <li>What <strong>obstacles</strong> do you face?</li>
+    </ol>
+    <div class="info"><div><b>📌 Winter 2021 Q1.10</b>الإجابة: <strong>(1) What did you do yesterday? (2) What will you do today? (3) What obstacles do you face?</strong></div></div>
+  </div>
+
+  <!-- Retrospective -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔄</span> Sprint Retrospective</div>
+    <p>Happens at the <strong>END of each sprint</strong>. The team reflects:</p>
+    <ul>
+      <li>What was <strong>good</strong>?</li>
+      <li>What was <strong>bad</strong>?</li>
+      <li>How can we <strong>improve</strong>?</li>
+    </ul>
+    <div class="info"><div><b>📌 Fall 2021-22 Q1.10</b>Retrospective is done <strong>at the end of the sprint</strong> to reflect on what went well and what can be improved.</div></div>
+    <div class="info"><div><b>📌 Winter 2025 Q1.13</b>What is NOT true about Scrum Retrospective? — <strong>It discusses the plan of the next release with the client</strong>. The retrospective is internal to the team, not with client.</div></div>
+  </div>
+
+  <!-- Quick communication -->
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">📡</span> How Scrum Achieves Quick Client Communication</div>
+    <p>From <strong>Winter 2023 Q1.07</strong>:</p>
+    <ul>
+      <li>✅ Short <strong>release cycles</strong></li>
+      <li>❌ Daily stand-up (this is INTERNAL, not with client)</li>
+      <li>✅ <strong>Product Owner</strong> role (represents the client in the team)</li>
+    </ul>
+    <p style="margin-top:8px"><strong>Answer:</strong> Only I and III (short release cycles + product owner role).</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ — EXAM BANK
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Exam Bank — Lecture 14</h3>
+      <p>8 أسئلة حقيقية. Scrum بيدخل في كل امتحان final.</p>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 1 <span class="q-src">Fall 2021–22 · Q1.09</span></div>
+    <div class="q-text">The <strong>team leader</strong> in Scrum process is called:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Product owner</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Project manager</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Scrum master</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Scrum supervisor</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Client representative</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Scrum Master</b>
+      Scrum Master = facilitator/team leader. NOT a project manager (Scrum has no PM role). The Product Owner represents the client.
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 2 <span class="q-src">Fall 2021–22 · Q1.10</span></div>
+    <div class="q-text">Scrum <strong>retrospective</strong> meeting is done:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Every day for 15 minutes to discuss progress and plan of the day</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> At the beginning of the sprint to discuss priorities</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> At the end of the sprint to reflect on what went well and what can be improved</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> At the beginning of the project to discuss scope/duration/budget</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — End of sprint, reflection</b>
+      <strong>(A)</strong> describes the <em>daily standup</em>, not retrospective.
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 3 <span class="q-src">Winter 2021 · Q1.09</span></div>
+    <div class="q-text">The <strong>roles</strong> in the Scrum team are:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Requirements engineer, programmer, manager</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Scrum master, product owner, and everyone else (other team members)</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Business analyst, Scrum developer, tester</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Scrum analyst, client, software engineer</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B</b>
+      Scrum has exactly 3 roles: Scrum Master, Product Owner, Team. The team is cross-functional with NO sub-roles inside.
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 4 <span class="q-src">Winter 2021 · Q1.10</span></div>
+    <div class="q-text">Scrum <strong>daily meeting</strong> is done standing for 15 minutes to ask these questions for every team member:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> (1) What did you do yesterday? (2) What obstacles did you face? (3) What caused these obstacles?</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> (1) What stories did you finish? (2) Which next? (3) How long?</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> (1) What did you do yesterday? (2) What will you do today? (3) What obstacles do you face?</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> (1) What did you do yesterday? (2) What today? (3) Who was with you?</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Yesterday / Today / Obstacles</b>
+      الـ 3 questions الكلاسيكية للـ daily standup.
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-item" data-correct="e">
+    <div class="q-num">Question 5 <span class="q-src">Winter 2023 · Q1.06</span></div>
+    <div class="q-text">What is true about software process models?
+      <br>I. They include linear models like waterfall and agile models like XP.
+      <br>II. They define who does what and when to produce which artifacts.
+      <br>III. They are different ways for organizing the software development activities.
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Only I</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Only I and III</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Only II</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Only II and III</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> All three</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: E — All three</b>
+      كل العبارات صحيحة. Process models = ways to organize, define who/what/when, and span from linear to agile.
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-item" data-correct="e">
+    <div class="q-num">Question 6 <span class="q-src">Winter 2023 · Q1.07</span></div>
+    <div class="q-text">How does <strong>Scrum</strong> achieve effective and quick communication with the client?
+      <br>I. By adopting short release cycles
+      <br>II. By holding a daily stand-up meeting
+      <br>III. By having a product owner role
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Only I</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Only I and II</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Only II</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Only II and III</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Only I and III</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: E — Only I and III</b>
+      Short release cycles let the client see progress quickly. Product Owner is the dedicated client liaison.
+      <div class="why-wrong">
+        <strong>II (Daily standup)</strong> — INTERNAL meeting, client is NOT part of it.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 7 <span class="q-src">Winter 2025 · Q1.12</span></div>
+    <div class="q-text">Given diagrams: (1) staircase rising, (2) iterations with feedback at each, (3) many small repeated mini-cycles — which model is which?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> (1) Waterfall, (2) Agile, (3) Iterative</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> (1) Agile, (2) Iterative, (3) Waterfall</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> (1) Waterfall, (2) Iterative, (3) Agile</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> (1) Iterative, (2) Agile, (3) Waterfall</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C</b>
+      Staircase = Waterfall (linear). Few iterations = Iterative. Many tiny cycles = Agile.
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 8 <span class="q-src">Winter 2025 · Q1.13</span></div>
+    <div class="q-text">What is <strong>NOT true</strong> about Scrum Retrospective meeting?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> It discusses the plan of the next release with the client</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> It discusses what went good or bad in the last sprint</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> It discusses how we can improve in the next sprint</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> It is held after the sprint is finished</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A</b>
+      Retrospective is <strong>internal to the team</strong> — not with client. The client involvement comes through other means (Sprint Review, Product Owner). B, C, D are all true.
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet</h2>
+      <p>Process models + Scrum reference.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="cheat">
+      <h3>🌊 Waterfall</h3>
+      <div class="cheat-item"><div class="cheat-key">Phases</div><div class="cheat-val">Req → Design → Impl → Test → Maintain</div></div>
+      <div class="cheat-item"><div class="cheat-key">Use when</div><div class="cheat-val">Requirements stable, tech known</div></div>
+      <div class="cheat-item"><div class="cheat-key">Weakness</div><div class="cheat-val">No flexibility, big bang integration</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🔂 Incremental</h3>
+      <div class="cheat-item"><div class="cheat-key">Each increment</div><div class="cheat-val">Mini-waterfall</div></div>
+      <div class="cheat-item"><div class="cheat-key">Strength</div><div class="cheat-val">Customer responds to each build</div></div>
+      <div class="cheat-item"><div class="cheat-key">Total cost</div><div class="cheat-val">NOT lower than waterfall</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🚀 Agile</h3>
+      <div class="cheat-item"><div class="cheat-key">Manifesto</div><div class="cheat-val">12 principles</div></div>
+      <div class="cheat-item"><div class="cheat-key">Priority #1</div><div class="cheat-val">Satisfy customer through continuous delivery</div></div>
+      <div class="cheat-item"><div class="cheat-key">Best com.</div><div class="cheat-val">Face-to-face conversation</div></div>
+      <div class="cheat-item"><div class="cheat-key">Progress</div><div class="cheat-val">Working software</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>⚡ Scrum Roles (3)</h3>
+      <div class="cheat-item"><div class="cheat-key">Scrum Master</div><div class="cheat-val">Team leader, facilitates</div></div>
+      <div class="cheat-item"><div class="cheat-key">Product Owner</div><div class="cheat-val">Represents client, owns backlog</div></div>
+      <div class="cheat-item"><div class="cheat-key">Team</div><div class="cheat-val">Everyone else (devs, testers, etc.)</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📅 Scrum Ceremonies</h3>
+      <div class="cheat-item"><div class="cheat-key">Sprint</div><div class="cheat-val">3-30 days, usually 2 weeks</div></div>
+      <div class="cheat-item"><div class="cheat-key">Daily Standup</div><div class="cheat-val">15 min, 3 questions (yesterday/today/obstacles)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Retrospective</div><div class="cheat-val">End of sprint, internal — what went good/bad/improve</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🎯 Scrum Client Comm.</h3>
+      <div class="cheat-item"><div class="cheat-key">✓ Short release cycles</div><div class="cheat-val">Quick feedback</div></div>
+      <div class="cheat-item"><div class="cheat-key">✓ Product Owner</div><div class="cheat-val">Client representative</div></div>
+      <div class="cheat-item"><div class="cheat-key">✗ Daily standup</div><div class="cheat-val">Internal, NOT with client</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter" id="revision" style="margin-top:60px">
+  <div class="ch-header">
+    <div class="ch-num pink">⚡</div>
+    <div class="ch-title">
+      <h2>Rapid Revision</h2>
+    </div>
+  </div>
+
+  <div class="flashcards">
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">3 Scrum roles؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Scrum Master · Product Owner · Team</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Scrum team leader؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Scrum Master</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Daily standup duration؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">15 minutes max</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">3 daily standup questions؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Yesterday · Today · Obstacles</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Retrospective when؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">End of sprint</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Sprint duration؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">3-30 days, usually 2 weeks</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Agile priority #1؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Customer satisfaction through continuous delivery</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">RUP 4 phases؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Inception · Elaboration · Construction · Transition</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Waterfall when؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Stable requirements + known tech</div></div></div></div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
+  <div class="danger"><div><b>1. Scrum Master ≠ Project Manager</b>Scrum has NO PM role. Scrum Master facilitates, doesn't direct.</div></div>
+  <div class="danger"><div><b>2. Daily Standup ≠ Client Communication</b>It's INTERNAL only. Client communication is via short release cycles + Product Owner.</div></div>
+  <div class="danger"><div><b>3. Retrospective ≠ Sprint Planning</b>Retrospective = improving the process. Sprint Planning = picking stories. Both are separate.</div></div>
+</div>
+
+</div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

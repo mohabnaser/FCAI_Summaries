@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ar" dir="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 16 — Software Testing | CS251</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  /* TDD cycle visual */
+  .tdd-cycle{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin:14px 0;padding:24px;background:var(--code);border:1px solid #21262d;border-radius:14px}
+  .tdd-step{background:var(--card2);border:2px solid var(--accent);border-radius:50%;width:140px;height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;color:var(--accent);text-align:center;padding:10px;font-size:.85rem}
+  .tdd-step:nth-child(1){--accent:var(--red)}
+  .tdd-step:nth-child(3){--accent:var(--green)}
+  .tdd-step:nth-child(5){--accent:var(--cyan)}
+  .tdd-arrow{font-size:2rem;color:var(--cyan)}
+  @media(max-width:700px){.tdd-cycle{flex-direction:column}.tdd-arrow{transform:rotate(90deg)}}
+
+  /* Levels pyramid */
+  .test-pyramid{display:flex;flex-direction:column;gap:6px;max-width:500px;margin:14px auto}
+  .pyramid-level{padding:14px 20px;text-align:center;font-family:var(--fh);font-weight:600;border-radius:8px}
+  .pyramid-level:nth-child(1){width:60%;margin:0 auto;background:rgba(244,114,182,.15);color:var(--pink);border:1px solid var(--pink)}
+  .pyramid-level:nth-child(2){width:75%;margin:0 auto;background:rgba(139,92,246,.15);color:var(--purple);border:1px solid var(--purple)}
+  .pyramid-level:nth-child(3){width:90%;margin:0 auto;background:rgba(245,158,11,.15);color:var(--amber);border:1px solid var(--amber)}
+  .pyramid-level:nth-child(4){width:100%;background:rgba(16,185,129,.15);color:var(--green);border:1px solid var(--green)}
+
+  /* HTTP method badges */
+  .http-methods{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+  .http-method{padding:14px;border-radius:10px;text-align:center;border:2px solid var(--accent);background:var(--card2)}
+  .http-method .verb{font-family:var(--fh);font-size:1.4rem;font-weight:800;color:var(--accent)}
+  .http-method .desc{font-size:.78rem;color:var(--t2);margin-top:4px}
+  .http-method:nth-child(1){--accent:var(--green)}
+  .http-method:nth-child(2){--accent:var(--cyan)}
+  .http-method:nth-child(3){--accent:var(--amber)}
+  .http-method:nth-child(4){--accent:var(--red)}
+  @media(max-width:700px){.http-methods{grid-template-columns:repeat(2,1fr)}}
+
+  /* Severity table */
+  .sev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+  .sev-tile{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;border-top:3px solid var(--accent)}
+  .sev-tile:nth-child(1){--accent:var(--red)}
+  .sev-tile:nth-child(2){--accent:var(--amber)}
+  .sev-tile:nth-child(3){--accent:var(--cyan)}
+  .sev-tile:nth-child(4){--accent:var(--green)}
+  .sev-num{font-family:var(--fh);font-size:1.6rem;font-weight:800;color:var(--accent)}
+  .sev-label{font-family:var(--fh);font-size:.88rem;color:var(--t1);font-weight:600;margin-top:2px}
+  .sev-desc{font-size:.75rem;color:var(--t2);margin-top:4px}
+  @media(max-width:700px){.sev-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<nav id="sidebar" dir="ltr">
+  <div class="sb-logo">
+    <h2>🧪 CS251 — Lec 16</h2>
+    <p>Software Testing, TDD &amp; APIs</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">Testing</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Intro to Testing</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Bugs (Cost &amp; Types)</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Testing Levels</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Black-Box vs White-Box</a>
+
+  <div class="sb-section">TDD</div>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>TDD Cycle ⭐</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Python unittest</a>
+
+  <div class="sb-section">APIs</div>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>REST APIs ⭐</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Bank</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main" dir="auto">
+
+<section class="hero">
+  <div class="hero-badge">🧪 Lecture 16 · Quality assurance &amp; testing</div>
+  <h1>Software Testing, <span>TDD &amp; APIs</span></h1>
+  <p>Winter 2025 ضم 4 أسئلة من هنا: TDD steps, REST APIs, Black-box, White-box. لازم تعرف الـ TDD cycle و الـ HTTP methods كويس.</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">7</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">5</div><div class="lbl">Rules of Bugs</div></div>
+    <div class="hstat"><div class="num">3</div><div class="lbl">TDD Laws</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Exam Qs</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — INTRO
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>Introduction to Testing</h2>
+      <p>"Program testing can show the presence of bugs, but never their absence" — Dijkstra.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📖</span> Definitions</div>
+    <ul>
+      <li><strong>Software Testing</strong> = process of executing a program with the intent of <strong>finding errors</strong>.</li>
+      <li>Process of establishing <strong>confidence</strong> that a program does what it's supposed to do via running it on different test data.</li>
+      <li>QA activity that aims to find bugs in working code and fix them.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">👥</span> Tester vs QA Engineer</div>
+    <ul>
+      <li><strong>Tester</strong>: develops test cases and runs programs to find bugs.</li>
+      <li><strong>QA Engineer</strong>: plans QA activities; creates and enforces standards/methods to <strong>prevent</strong> bugs from occurring.</li>
+    </ul>
+    <div class="info"><div><b>💡 Lion King 1994 Disaster</b>Disney released "Lion King Animated Storybook" CD-ROM without testing on different PC models. After Christmas Day 1995, endless angry parent calls. Disney had to hire support, run another debug cycle, and ship thousands of replacement CDs.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — BUGS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num red">02</div>
+    <div class="ch-title">
+      <h2>Bugs — Cost &amp; Types</h2>
+      <p>Cost of bug grows exponentially as it's found later.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">💰</span> The Cost of Bugs (Ron Patton)</div>
+    <table class="tbl">
+      <tr><th>Phase</th><th>Cost to Fix</th></tr>
+      <tr><td>Specification</td><td>$1</td></tr>
+      <tr><td>Design</td><td>$10</td></tr>
+      <tr><td>Code</td><td>$100</td></tr>
+      <tr><td>Test</td><td>$1,000</td></tr>
+      <tr><td>Release</td><td>$1,000+</td></tr>
+    </table>
+    <p style="margin-top:8px"><strong>Goal:</strong> Find bugs as early as possible.</p>
+  </div>
+
+  <!-- 5 Rules -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📜</span> 5 Rules That Define a Bug</div>
+    <p>A bug occurs when <strong>one or more</strong> of these is true:</p>
+    <ol>
+      <li><strong>Rule 1:</strong> The software <strong>doesn't do something</strong> that the spec says it should.</li>
+      <li><strong>Rule 2:</strong> The software <strong>does something</strong> that the spec says it shouldn't.</li>
+      <li><strong>Rule 3:</strong> The software does something that the spec <strong>doesn't mention</strong>.</li>
+      <li><strong>Rule 4:</strong> The software doesn't do something the spec doesn't mention but <strong>should</strong>.</li>
+      <li><strong>Rule 5:</strong> The software is <strong>difficult to understand, hard to use, slow</strong> ... not right.</li>
+    </ol>
+  </div>
+
+  <!-- Severity & Priority -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🚨</span> Severity (How Bad)</div>
+    <div class="sev-grid">
+      <div class="sev-tile"><div class="sev-num">1</div><div class="sev-label">Critical</div><div class="sev-desc">System crashes, security breach</div></div>
+      <div class="sev-tile"><div class="sev-num">2</div><div class="sev-label">Major</div><div class="sev-desc">Wrong result, loss of functionality</div></div>
+      <div class="sev-tile"><div class="sev-num">3</div><div class="sev-label">Minor</div><div class="sev-desc">Misspelling, UI layout, rare occurrence</div></div>
+      <div class="sev-tile"><div class="sev-num">4</div><div class="sev-label">Suggestion</div><div class="sev-desc">Improvement idea</div></div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">⏰</span> Priority (How Soon)</div>
+    <ol>
+      <li><strong>Immediate fix</strong> — blocks further testing, very obvious</li>
+      <li>Must fix <strong>before release</strong></li>
+      <li>Should fix <strong>when time permits</strong></li>
+      <li>Would like to fix but <strong>can release as-is</strong></li>
+    </ol>
+    <div class="info"><div><b>💡 Sev vs Pri</b>Severity = impact. Priority = urgency. Misspelling causing thousands of support calls = Severity 3, Priority 2 (annoying but not critical, fix soon).</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — TESTING LEVELS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num green">03</div>
+    <div class="ch-title">
+      <h2>Testing Levels (Stages)</h2>
+      <p>4 levels من unit للـ acceptance.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📊</span> 4 Levels (Bottom-Up)</div>
+    <div class="test-pyramid">
+      <div class="pyramid-level">Acceptance Testing — System ready for delivery?</div>
+      <div class="pyramid-level">System Testing — Whole system vs requirements</div>
+      <div class="pyramid-level">Integration Testing — Combined units interactions</div>
+      <div class="pyramid-level">Unit Testing — Individual components</div>
+    </div>
+    <table class="tbl" style="margin-top:14px">
+      <tr><th>Level</th><th>Purpose</th></tr>
+      <tr><td><strong>Unit (UT)</strong></td><td>Test individual components; each unit performs as designed</td></tr>
+      <tr><td><strong>Integration (IT)</strong></td><td>Test groups of units to expose interaction faults</td></tr>
+      <tr><td><strong>System (ST)</strong></td><td>Complete integrated system vs specified requirements</td></tr>
+      <tr><td><strong>Acceptance (AT)</strong></td><td>Business requirements + delivery readiness</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — BLACK BOX vs WHITE BOX
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num amber">04</div>
+    <div class="ch-title">
+      <h2>Black-Box vs White-Box</h2>
+      <p>الـ exam Q1.04 Winter 2025 سأل عن Black-box equivalence partitioning.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">⬛</span> Black-Box (Specification-based)</div>
+      <ul>
+        <li>Checks conformance with <strong>specification</strong> → <em>function coverage</em>.</li>
+        <li><strong>Abstraction from details</strong>: source code not needed.</li>
+        <li><strong>Scales up</strong>: works at unit, integration, system, acceptance levels.</li>
+        <li>Reveals <strong>missing functionality</strong> (which white-box can't).</li>
+        <li>Technique: <strong>Equivalence Partitioning</strong> + Boundary Value Analysis.</li>
+      </ul>
+    </div>
+
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">⬜</span> White-Box (Structural)</div>
+      <ul>
+        <li>Tests against <strong>implementation</strong>.</li>
+        <li>Tester confident about <strong>code coverage</strong>.</li>
+        <li>Based on control and data flow — easier debugging.</li>
+        <li>Does NOT scale up — most useful at unit + integration.</li>
+        <li>Coverage types: <strong>Statement</strong>, <strong>Branch</strong>, <strong>Path</strong>.</li>
+        <li>Reveals <strong>unexpected functionality</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info"><div><b>💡 Best Practice</b><strong>USE BOTH!</strong> They reveal different defects.</div></div>
+
+  <!-- Equivalence partitioning -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📊</span> Equivalence Partitioning (BB)</div>
+    <p>Partition each input into <strong>2 or more groups</strong>:</p>
+    <ul>
+      <li><strong>Valid</strong> equivalence classes</li>
+      <li><strong>Invalid</strong> equivalence classes</li>
+    </ul>
+    <p>Test <strong>one value from each class</strong> as representative.</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">Example — Reward Points (Winter 2025 Q1.04)</h4>
+    <p>Function returns reward points. If purchase ≤ 1000 LE → 10%. If &gt; 1000 LE → 20%. If input is negative → throw exception.</p>
+    <p>Partitions:</p>
+    <ul>
+      <li>Input ≤ 0 → exception</li>
+      <li>Input (0, 1000] → 10% reward</li>
+      <li>Input &gt; 1000 → 20% reward</li>
+    </ul>
+    <p><strong>Test cases to cover all partitions:</strong></p>
+    <div class="code-wrap">
+<pre><code>TC1: input <span class="num">100</span>,  output <span class="num">10</span>     (10% partition)
+TC2: input <span class="num">1000</span>, output <span class="num">100</span>    (10% partition — boundary)
+TC3: input -<span class="num">100</span>, throw exception (invalid)
+<span class="cmt">// But this misses the 20% partition!</span>
+
+<span class="cmt">// Correct set:</span>
+TC1: <span class="num">10</span> &amp; <span class="num">M</span>, <span class="num">18</span> &amp; <span class="num">F</span>, <span class="num">75</span> &amp; <span class="num">F</span>     <span class="cmt">// (Winter 2025 example)</span>
+TC2: <span class="num">100</span> → <span class="num">10</span>,  <span class="num">2000</span> → <span class="num">400</span>,  -<span class="num">200</span> → throw</code></pre>
+    </div>
+  </div>
+
+  <!-- Boundary value -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🎯</span> Boundary Value Analysis</div>
+    <p>Bugs are common at <strong>boundaries</strong>. Test values <strong>at, just below, and just above</strong> the boundary.</p>
+    <p>Example for age range 18-65:</p>
+    <ul>
+      <li>17, 18, 19 (lower boundary)</li>
+      <li>64, 65, 66 (upper boundary)</li>
+      <li>-1, 0, 1 (special edge — invalid below)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — TDD CYCLE ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num purple">05</div>
+    <div class="ch-title">
+      <h2>Test-Driven Development (TDD) ⭐</h2>
+      <p>Winter 2025 Q1.01 سأل عن TDD steps order.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🔄</span> TDD Definition</div>
+    <p>TDD = software development practice that focuses on creating <strong>unit test cases BEFORE</strong> developing the actual code.</p>
+    <p>It's an <strong>iterative approach</strong> combining: programming + unit tests + refactoring.</p>
+  </div>
+
+  <!-- Cycle -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🔴🟢🔵</span> The TDD Cycle</div>
+    <div class="tdd-cycle">
+      <div class="tdd-step">🔴<br>1. RED<br><small>Write failing test</small></div>
+      <div class="tdd-arrow">→</div>
+      <div class="tdd-step">🟢<br>2. GREEN<br><small>Write minimal code to pass</small></div>
+      <div class="tdd-arrow">→</div>
+      <div class="tdd-step">🔵<br>3. REFACTOR<br><small>Improve without breaking</small></div>
+    </div>
+  </div>
+
+  <!-- 3 Laws -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📜</span> 3 Laws of TDD (Uncle Bob)</div>
+    <ol>
+      <li><strong>You may NOT write production code</strong> until you have written a <strong>failing test</strong>.</li>
+      <li>You may NOT write more of a test than is <strong>necessary to fail</strong>.</li>
+      <li>You may NOT write more production code than is <strong>necessary to pass</strong> the currently failing test.</li>
+    </ol>
+  </div>
+
+  <!-- TDD Step order -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📋</span> Step Order ⭐ (Winter 2025 Q1.01)</div>
+    <p>Given these 5 steps, the correct order is:</p>
+    <ol>
+      <li><strong>Write a test</strong> (step 2 of the original list)</li>
+      <li><strong>Test fails</strong> (step 3)</li>
+      <li><strong>Write code</strong> (step 5)</li>
+      <li><strong>Test passes</strong> (step 4)</li>
+      <li><strong>Refactor code</strong> (step 1)</li>
+    </ol>
+    <div class="info"><div><b>🎯 Answer:</b> <code>2 → 3 → 5 → 4 → 1</code> = (c) in the exam.</div></div>
+  </div>
+
+  <!-- Quick example -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">💻</span> Quick Example — abs() function</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">JavaScript — TDD cycle</div></div>
+<pre><code><span class="cmt">// 🔴 Step 1: Write failing test</span>
+<span class="kw">function</span> <span class="fn">testAbsoPos5</span>() {
+  <span class="kw">return</span> abso(<span class="num">5</span>) === <span class="num">5</span>;
+}
+
+<span class="cmt">// 🟢 Step 2: Write minimal code</span>
+<span class="kw">function</span> <span class="fn">abso</span>(num) {
+  <span class="kw">return</span> num;  <span class="cmt">// Just enough to pass</span>
+}
+
+<span class="cmt">// 🔴 Step 3: Write new failing test</span>
+<span class="kw">function</span> <span class="fn">testAbsoNeg5</span>() {
+  <span class="kw">return</span> abso(-<span class="num">5</span>) === <span class="num">5</span>;
+}
+
+<span class="cmt">// 🟢 Step 4: Extend code to pass</span>
+<span class="kw">function</span> <span class="fn">abso</span>(num) {
+  <span class="kw">if</span> (num &lt; <span class="num">0</span>) <span class="kw">return</span> -num;
+  <span class="kw">return</span> num;
+}
+
+<span class="cmt">// 🔵 Step 5: Refactor (if needed)</span></code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — Python unittest
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num teal">06</div>
+    <div class="ch-title">
+      <h2>Python unittest Library</h2>
+      <p>الـ standard library في Python للـ unit testing.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🐍</span> unittest Anatomy</div>
+    <ol>
+      <li><code>import unittest</code></li>
+      <li>Import code to test: <code>from my_module import my_function</code></li>
+      <li>Create test class: <code>class TestMyCode(unittest.TestCase)</code></li>
+      <li>Write test methods starting with <code>test_</code></li>
+    </ol>
+
+    <div class="code-wrap">
+<pre><code><span class="kw">import</span> unittest
+<span class="kw">class</span> <span class="fn">TestSomething</span>(unittest.TestCase):
+    <span class="kw">def</span> <span class="fn">test_pass</span>(self):
+        self.assertEqual(<span class="num">2</span> + <span class="num">2</span>, <span class="num">4</span>)
+    <span class="kw">def</span> <span class="fn">test_fail</span>(self):
+        self.assertEqual(<span class="num">2</span> + <span class="num">2</span>, <span class="num">42</span>)
+
+<span class="kw">if</span> __name__ == <span class="str">'__main__'</span>:
+    unittest.main()</code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">✓</span> Common assert Methods</div>
+    <table class="tbl">
+      <tr><th>Method</th><th>Use</th></tr>
+      <tr><td><code>assertEqual(a, b)</code></td><td>Passes if a == b</td></tr>
+      <tr><td><code>assertNotEqual(a, b)</code></td><td>Passes if a != b</td></tr>
+      <tr><td><code>assertTrue(x)</code></td><td>Passes if x is truthy</td></tr>
+      <tr><td><code>assertFalse(x)</code></td><td>Passes if x is falsy</td></tr>
+      <tr><td><code>assertIsNone(x)</code></td><td>Passes if x is None</td></tr>
+      <tr><td><code>assertIsNotNone(x)</code></td><td>Passes if x is not None</td></tr>
+      <tr><td><code>assertIn(a, list)</code></td><td>Passes if a is in list</td></tr>
+      <tr><td><code>assertAlmostEqual(a, b)</code></td><td>For floats (handles tiny diffs)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — REST APIs ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num pink">07</div>
+    <div class="ch-title">
+      <h2>REST APIs ⭐</h2>
+      <p>Winter 2025 Q1.02: REST APIs — which is FALSE?</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">📡</span> What is a REST API?</div>
+    <ul>
+      <li><strong>API (Application Programming Interface)</strong> = set of rules to interact with another software.</li>
+      <li><strong>REST (Representational State Transfer)</strong> = architectural style for web services serving <strong>data</strong> (not web pages).</li>
+      <li>Communicate over <strong>HTTP</strong> using standard methods.</li>
+      <li>Looks like a website BUT it's NOT a website. Has an <strong>endpoint</strong>.</li>
+      <li><strong>Serves data</strong>, not web pages. Accessed by software.</li>
+    </ul>
+  </div>
+
+  <!-- HTTP Methods -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🌐</span> HTTP Methods (CRUD)</div>
+    <div class="http-methods">
+      <div class="http-method"><div class="verb">GET</div><div class="desc">Read · retrieve data</div></div>
+      <div class="http-method"><div class="verb">POST</div><div class="desc">Create · new resource</div></div>
+      <div class="http-method"><div class="verb">PUT</div><div class="desc">Update existing</div></div>
+      <div class="http-method"><div class="verb">DELETE</div><div class="desc">Remove resource</div></div>
+    </div>
+    <table class="tbl">
+      <tr><th>Method</th><th>Example</th></tr>
+      <tr><td><strong>GET /users</strong></td><td>Fetches list of users</td></tr>
+      <tr><td><strong>POST /users</strong></td><td>Adds a new user</td></tr>
+      <tr><td><strong>PUT /users/1</strong></td><td>Updates user with ID 1</td></tr>
+      <tr><td><strong>DELETE /users/1</strong></td><td>Deletes user with ID 1</td></tr>
+    </table>
+  </div>
+
+  <!-- Architecture -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🏗️</span> REST Architecture</div>
+    <ul>
+      <li><strong>Resources</strong>: objects/data the API manipulates (users, posts).</li>
+      <li><strong>URIs (Uniform Resource Identifiers)</strong>: unique endpoint per resource (<code>/users/1</code>).</li>
+      <li><strong>HTTP Methods</strong>: GET, POST, PUT, DELETE.</li>
+      <li><strong>Stateless</strong>: each request must contain ALL information needed — <strong>no session state</strong> on server. ⭐</li>
+      <li><strong>Responses</strong>: status codes + data in JSON or XML.</li>
+    </ul>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">HTTP Status Codes</h4>
+    <table class="tbl">
+      <tr><th>Code</th><th>Meaning</th></tr>
+      <tr><td><strong>200 OK</strong></td><td>Successful GET</td></tr>
+      <tr><td><strong>201 Created</strong></td><td>Successful POST</td></tr>
+      <tr><td><strong>404 Not Found</strong></td><td>Resource doesn't exist</td></tr>
+    </table>
+
+    <div class="warn"><div><b>⚠️ Winter 2025 Q1.02 — FALSE statement</b>"They maintain state/session information from one API call to the next" is FALSE. REST is <strong>STATELESS</strong> by design — each request is independent.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">💻</span> Python REST Example</div>
+    <div class="code-wrap">
+<pre><code><span class="kw">import</span> requests
+
+url = <span class="str">"https://catfact.ninja/fact"</span>
+<span class="kw">try</span>:
+    response = requests.get(url)
+    response.raise_for_status()  <span class="cmt"># Raise on HTTP error</span>
+    data = response.json()
+    print(data)
+<span class="kw">except</span> requests.exceptions.RequestException <span class="kw">as</span> e:
+    print(<span class="fn">f</span><span class="str">"Error: {e}"</span>)</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ — EXAM BANK
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Exam Bank — Lecture 16</h3>
+      <p>4 أسئلة من Winter 2025 + 4 practice.</p>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 1 <span class="q-src">Winter 2025 · Q1.01</span></div>
+    <div class="q-text">Given these steps for TDD, what is the correct order?
+      <br>1) refactor code · 2) write a test · 3) test fails · 4) test passes · 5) write code
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 5, 1, 3, 2, 4</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 5, 3, 1, 2, 4</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 2, 3, 5, 4, 1</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 2, 3, 1, 4, 5</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — 2, 3, 5, 4, 1</b>
+      Write test (2) → Test fails (3) → Write code (5) → Test passes (4) → Refactor (1). الـ TDD cycle classic.
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 2 <span class="q-src">Winter 2025 · Q1.02</span></div>
+    <div class="q-text">What is <strong>FALSE</strong> about REST APIs?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> They are designed as end points to access programs via other programs</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> They maintain state/session information from one API call to the next</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> They have a unique URI for each endpoint</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> They can be implemented via HTTP requests returning JSON or XML</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B</b>
+      REST is <strong>STATELESS</strong> by definition. Each request must contain ALL information needed. The server does NOT keep session state.
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 3 <span class="q-src">Winter 2025 · Q1.04</span></div>
+    <div class="q-text">Function returns reward points: ≤1000 LE → 10%, &gt;1000 → 20%, negative → exception. Which test cases satisfy <strong>equivalence partitioning</strong> (covering all partitions)?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> TC1: 100→10 · TC2: 1000→100 · TC3: −100→exception</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> TC1: 0→0 · TC2: 100→10 · TC3: 1000→100</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> TC1: 1000→100 · TC2: −200→ex · TC3: −1000→ex</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> TC1: 200→20 · TC2: 2000→400 · TC3: −200→exception</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — All 3 partitions covered</b>
+      <ul style="margin-top:6px">
+        <li>200 → 20 (covers 10% partition for input ≤1000)</li>
+        <li>2000 → 400 (covers 20% partition for input &gt;1000)</li>
+        <li>−200 → exception (covers invalid partition)</li>
+      </ul>
+      <div class="why-wrong">
+        <strong>A</strong> — Only covers 10% &amp; invalid, missing 20%. ·
+        <strong>B</strong> — No invalid partition. ·
+        <strong>C</strong> — Two negatives (same partition), no 20%.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 — White-box (already in Lec 4) -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 4 <span class="q-src">Winter 2025 · Q1.03</span></div>
+    <div class="q-text">Min test cases for: (1) FULL statement coverage, (2) FULL path coverage (not branch)?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 2 for statement, 4 for path</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 1 for statement, 2 for path</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 2 for statement, 2 for path</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 1 for statement, 4 for path</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D</b>
+      Statement coverage = 1 TC can hit all statements. Path coverage = need 1 TC per independent path. ده classic distinction.
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 5 <span class="q-src">Practice — bug rules</span></div>
+    <div class="q-text">The software performs square roots but the spec doesn't mention this functionality. Is this a bug? Which rule?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Not a bug</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Rule 1 (didn't do what spec says)</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Rule 2 (did what spec says it shouldn't)</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Rule 3 (did something spec doesn't mention)</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — Rule 3</b>
+      Adding undocumented features is a bug. The spec is the source of truth — extra functionality is uncontrolled scope.
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 6 <span class="q-src">Practice — HTTP methods</span></div>
+    <div class="q-text">To update an existing user's profile, which HTTP method?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> GET</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> PUT</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> POST</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> DELETE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — PUT</b>
+      PUT updates existing resource. POST creates new. GET reads. DELETE removes.
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 7 <span class="q-src">Practice — testing levels</span></div>
+    <div class="q-text">Which testing level checks the system against business requirements before delivery?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Unit Testing</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Integration Testing</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Acceptance Testing</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> System Testing</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Acceptance Testing</b>
+      Acceptance Testing = "ready for delivery" → tests against business requirements. System Testing = compliance with specified (technical) requirements.
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 8 <span class="q-src">Practice — TDD law</span></div>
+    <div class="q-text">According to Uncle Bob's TDD laws, you may NOT write production code unless:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> You have written a failing test</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> You have approval from the manager</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> You have refactored the existing code</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> You have written documentation</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A — Failing test first</b>
+      Law 1 of TDD: production code only after a failing test exists.
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet</h2>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="cheat">
+      <h3>🐛 5 Bug Rules</h3>
+      <div class="cheat-item"><div class="cheat-key">Rule 1</div><div class="cheat-val">Doesn't do what spec says</div></div>
+      <div class="cheat-item"><div class="cheat-key">Rule 2</div><div class="cheat-val">Does what spec says it shouldn't</div></div>
+      <div class="cheat-item"><div class="cheat-key">Rule 3</div><div class="cheat-val">Does something spec doesn't mention</div></div>
+      <div class="cheat-item"><div class="cheat-key">Rule 4</div><div class="cheat-val">Doesn't do something it should (implicit)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Rule 5</div><div class="cheat-val">Hard to use / slow / unfriendly</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🔄 TDD Cycle</h3>
+      <div class="cheat-item"><div class="cheat-key">RED</div><div class="cheat-val">Write a failing test</div></div>
+      <div class="cheat-item"><div class="cheat-key">GREEN</div><div class="cheat-val">Write minimal code to pass</div></div>
+      <div class="cheat-item"><div class="cheat-key">REFACTOR</div><div class="cheat-val">Clean up code, tests still pass</div></div>
+      <div class="cheat-item"><div class="cheat-key">Order</div><div class="cheat-val">Test → Fail → Code → Pass → Refactor</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📊 Testing Levels</h3>
+      <div class="cheat-item"><div class="cheat-key">Unit (UT)</div><div class="cheat-val">Individual components</div></div>
+      <div class="cheat-item"><div class="cheat-key">Integration (IT)</div><div class="cheat-val">Combined units</div></div>
+      <div class="cheat-item"><div class="cheat-key">System (ST)</div><div class="cheat-val">Whole system vs specified req</div></div>
+      <div class="cheat-item"><div class="cheat-key">Acceptance (AT)</div><div class="cheat-val">Business req + delivery readiness</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>⬛⬜ Box Testing</h3>
+      <div class="cheat-item"><div class="cheat-key">Black-Box</div><div class="cheat-val">Spec-based, no code access, scales up</div></div>
+      <div class="cheat-item"><div class="cheat-key">BB Technique</div><div class="cheat-val">Equivalence Partitioning + Boundary Value</div></div>
+      <div class="cheat-item"><div class="cheat-key">White-Box</div><div class="cheat-val">Code-based, structural</div></div>
+      <div class="cheat-item"><div class="cheat-key">WB Coverage</div><div class="cheat-val">Statement &lt; Branch &lt; Path</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🌐 REST API</h3>
+      <div class="cheat-item"><div class="cheat-key">GET</div><div class="cheat-val">Read</div></div>
+      <div class="cheat-item"><div class="cheat-key">POST</div><div class="cheat-val">Create</div></div>
+      <div class="cheat-item"><div class="cheat-key">PUT</div><div class="cheat-val">Update</div></div>
+      <div class="cheat-item"><div class="cheat-key">DELETE</div><div class="cheat-val">Remove</div></div>
+      <div class="cheat-item"><div class="cheat-key">Stateless</div><div class="cheat-val">⭐ NO session on server</div></div>
+      <div class="cheat-item"><div class="cheat-key">Response format</div><div class="cheat-val">JSON or XML</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📜 3 TDD Laws (Uncle Bob)</h3>
+      <div class="cheat-item"><div class="cheat-key">Law 1</div><div class="cheat-val">No production code until failing test</div></div>
+      <div class="cheat-item"><div class="cheat-key">Law 2</div><div class="cheat-val">Test only enough to fail</div></div>
+      <div class="cheat-item"><div class="cheat-key">Law 3</div><div class="cheat-val">Production code only enough to pass</div></div>
+    </div>
+  </div>
+</div>
+
+</div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

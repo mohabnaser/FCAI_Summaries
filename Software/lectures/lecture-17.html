@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="ar" dir="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 17 — Version Control &amp; Git | CS251</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  /* Version label parser */
+  .version-parse{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:24px;margin:14px 0;text-align:center;font-family:var(--fc)}
+  .version-text{font-size:2rem;color:var(--cyan);font-weight:700;letter-spacing:.04em}
+  .version-text span{padding:4px 10px;margin:0 2px;border-radius:6px}
+  .vp-major{background:rgba(0,212,255,.15);color:var(--cyan);border:1px solid var(--cyan)}
+  .vp-minor{background:rgba(16,185,129,.15);color:var(--green);border:1px solid var(--green)}
+  .vp-milestone{background:rgba(245,158,11,.15);color:var(--amber);border:1px solid var(--amber)}
+  .vp-revision{background:rgba(139,92,246,.15);color:var(--purple);border:1px solid var(--purple)}
+  .vp-build{background:rgba(244,114,182,.15);color:var(--pink);border:1px solid var(--pink)}
+  .vp-legend{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px;font-size:.78rem;color:var(--t2)}
+  .vp-legend > div{display:flex;align-items:center;gap:6px}
+  .vp-dot{width:12px;height:12px;border-radius:3px}
+
+  /* Git commands */
+  .git-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+  .git-stage{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;border-top:3px solid var(--accent)}
+  .git-stage:nth-child(1){--accent:var(--cyan)}
+  .git-stage:nth-child(2){--accent:var(--amber)}
+  .git-stage:nth-child(3){--accent:var(--green)}
+  .git-stage:nth-child(4){--accent:var(--purple)}
+  .git-stage-name{font-family:var(--fh);font-size:.88rem;font-weight:600;color:var(--accent);margin-bottom:4px}
+  .git-stage-cmd{font-family:var(--fc);font-size:.78rem;color:var(--t1);background:var(--code);padding:4px 8px;border-radius:5px;display:inline-block;margin-top:4px}
+  @media(max-width:700px){.git-flow{grid-template-columns:repeat(2,1fr)}}
+
+  /* Milestone table */
+  .milestone-table .ms-row{display:grid;grid-template-columns:60px 1fr 1fr;gap:10px;align-items:center;padding:8px;border-bottom:1px solid var(--border);font-size:.85rem}
+  .milestone-table .ms-row:last-child{border-bottom:none}
+  .milestone-table .ms-num{font-family:var(--fh);font-size:1.2rem;font-weight:700;color:var(--accent);text-align:center}
+  .milestone-table .ms-name{color:var(--t1);font-family:var(--fh)}
+  .milestone-table .ms-desc{color:var(--t2);font-size:.8rem}
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<nav id="sidebar" dir="ltr">
+  <div class="sb-logo">
+    <h2>📦 CS251 — Lec 17</h2>
+    <p>Version Control &amp; Git</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">Foundation</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>SCM Definition</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Key Terms ⭐</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Version Control</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Versioning ⭐</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Change Control</a>
+
+  <div class="sb-section">Git</div>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Git Basics</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Workflow ⭐</a>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>Branching</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Bank</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main" dir="auto">
+
+<section class="hero">
+  <div class="hero-badge">📦 Lecture 17 · SCM &amp; Git</div>
+  <h1>Version Control &amp; <span>Git</span></h1>
+  <p>Q1.11-Q1.14 في كل امتحان عن SCM/Git. الـ version numbering, baseline, Git commands — كلهم متكررين.</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">8</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">15+</div><div class="lbl">Key Terms</div></div>
+    <div class="hstat"><div class="num">10+</div><div class="lbl">Git Commands</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Exam Qs</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — SCM
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>SCM — Software Configuration Management</h2>
+      <p>Practice of identifying artifacts &amp; handling changes systematically.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📖</span> SCM Definition</div>
+    <p>SCM = practice of identifying project artifacts and handling changes systematically so that a system can <strong>maintain its integrity</strong> over time.</p>
+    <p>Includes techniques for:</p>
+    <ul>
+      <li>Evaluating proposed changes</li>
+      <li>Tracking changes</li>
+      <li>Keeping copies of the system as it existed at various points in time</li>
+    </ul>
+    <p style="margin-top:8px">SCM = <strong>disciplines and techniques</strong> of initiating, evaluating, and controlling change to software products during and after a project.</p>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🛠️</span> SCM Has 2 Main Activities</div>
+    <ul>
+      <li><strong>Change Management</strong></li>
+      <li><strong>Configuration Management</strong></li>
+      <li>Sometimes also: Release Planning</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">❓</span> Typical SCM Questions</div>
+    <ul>
+      <li>"What is the correct version of the software module that I have to continue its coding?"</li>
+      <li>"What version of the design document matches the software version we are adapting?"</li>
+      <li>"What version is installed at ABC Industries?"</li>
+      <li>"What changes have been introduced in this version?"</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — KEY TERMS ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num green">02</div>
+    <div class="ch-title">
+      <h2>Key SCM Terms ⭐</h2>
+      <p>كل مصطلح ممكن ييجي في الـ exam. Baseline في كل امتحان تقريباً.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📚</span> Critical Definitions</div>
+    <table class="tbl">
+      <tr><th>Term</th><th>Definition</th></tr>
+      <tr><td><strong>Configuration Item (CI)</strong></td><td>Item or aggregation of HW/SW designed to be managed as a single entity (e.g., source code, test suites, docs).</td></tr>
+      <tr><td><strong>Version</strong></td><td>An identified instance of a CI.</td></tr>
+      <tr><td><strong>Baseline ⭐</strong></td><td>A specification or product that has been <strong>formally reviewed or agreed upon</strong>, thereafter serves as the basis for further development, and can be <strong>changed only through a formal change control process</strong>.</td></tr>
+      <tr><td><strong>Version Control</strong></td><td>Process for keeping different versions, without formal control of the changes between them.</td></tr>
+      <tr><td><strong>Workspace</strong></td><td>Configuration-controlled area copy where one works isolated for a task.</td></tr>
+      <tr><td><strong>Check-in</strong></td><td>Storing a CI in the controlled area.</td></tr>
+      <tr><td><strong>Check-out</strong></td><td>Copy of a CI from the controlled area.</td></tr>
+      <tr><td><strong>Branch</strong></td><td>A separate development line (e.g., bug fixing isolated from main dev).</td></tr>
+      <tr><td><strong>Merging</strong></td><td>The consolidation of different development branches.</td></tr>
+      <tr><td><strong>Build</strong></td><td>Operational version incorporating a specified subset of capabilities.</td></tr>
+      <tr><td><strong>Building</strong></td><td>Assembling a system from components placed under config mgmt.</td></tr>
+      <tr><td><strong>Release</strong></td><td>Formal notification and distribution of approved version.</td></tr>
+      <tr><td><strong>Change Request (CR)</strong></td><td>Formal request for change, approved by CCB based on registered event.</td></tr>
+      <tr><td><strong>CCB</strong></td><td>Configuration Control Board (or Change Control Board) — group with authority to make decisions on configuration.</td></tr>
+      <tr><td><strong>Impact Analysis</strong></td><td>Assessment of impact of a requested change on the layers of documentation &amp; components.</td></tr>
+    </table>
+    <div class="info"><div><b>📌 Baseline متكررة في كل exam</b>Fall 2021-22 / Winter 2021 / Winter 2023 / Winter 2025 — Q1.13 دايماً عن تعريف "specification formally reviewed... can only change through formal process" = <strong>Baseline</strong>.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — VERSION CONTROL
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>Version Control Systems</h2>
+      <p>Repository of files + tracking every change with who/when/what/why.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📦</span> What is VCS?</div>
+    <ul>
+      <li>VCS = <strong>repository of files</strong>.</li>
+      <li>Every change is tracked along with who made it.</li>
+      <li>Keeps track of versions and changes:
+        <ul>
+          <li><strong>When?</strong> When was the change made?</li>
+          <li><strong>Who?</strong> Who made the change?</li>
+          <li><strong>What?</strong> What did you change?</li>
+          <li><strong>Why?</strong> (Through commit messages)</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">✨</span> Why Use VCS?</div>
+    <ul>
+      <li><strong>Reversion</strong>: revert to a known-good version if change is bad.</li>
+      <li><strong>Change / Bug Tracking</strong>.</li>
+      <li><strong>Branches</strong>: introduce features without messing up working code.</li>
+      <li><strong>Merging branches</strong>: combine new code with good old code safely.</li>
+      <li><strong>Parallel work</strong>: multiple devs on the same file.</li>
+    </ul>
+    <div class="warn"><div><b>📌 Fall 2021-22 / Winter 2021 Q1.11</b>"Which is true about VCS?" — VCS allows tracking changes (a), retrieving older versions (d), working in parallel (c). It does NOT help discover bugs (b is FALSE).<br>Answer: <strong>(f) (a), (c), (d)</strong>.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🏛️</span> Centralized vs Distributed</div>
+    <div class="grid2">
+      <div>
+        <h4 style="color:var(--cyan);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">Centralized (SVN, CVS)</h4>
+        <p style="font-size:.85rem">Single server stores all versions. Clients check out working copies.</p>
+      </div>
+      <div>
+        <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">Distributed (Git, Mercurial)</h4>
+        <p style="font-size:.85rem">Each developer has a <strong>full copy</strong> of the repository. Work offline.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — VERSIONING ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num red">04</div>
+    <div class="ch-title">
+      <h2>Version Numbering ⭐ (Critical Exam Topic)</h2>
+      <p>Q1.12 / Q1.09 في كل امتحان عن parsing version numbers.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🔢</span> The Format</div>
+    <p>Standard format: <strong><code>major.minor.milestone.revision-build</code></strong></p>
+
+    <div class="version-parse">
+      <div class="version-text">
+        <span class="vp-major">2</span>.<span class="vp-minor">3</span>.<span class="vp-milestone">2</span>.<span class="vp-revision">5</span>-<span class="vp-build">33</span>
+      </div>
+      <div class="vp-legend">
+        <div><div class="vp-dot" style="background:var(--cyan)"></div>major</div>
+        <div><div class="vp-dot" style="background:var(--green)"></div>minor</div>
+        <div><div class="vp-dot" style="background:var(--amber)"></div>milestone</div>
+        <div><div class="vp-dot" style="background:var(--purple)"></div>revision</div>
+        <div><div class="vp-dot" style="background:var(--pink)"></div>build</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🎯</span> Milestone Numbering ⭐</div>
+    <div class="milestone-table">
+      <div class="ms-row" style="--accent:var(--red)"><div class="ms-num">0</div><div class="ms-name">Pre-alpha</div><div class="ms-desc">Very early dev</div></div>
+      <div class="ms-row" style="--accent:var(--amber)"><div class="ms-num">1</div><div class="ms-name">Alpha</div><div class="ms-desc">Internal testing</div></div>
+      <div class="ms-row" style="--accent:var(--purple)"><div class="ms-num">2</div><div class="ms-name">Beta</div><div class="ms-desc">External testing</div></div>
+      <div class="ms-row" style="--accent:var(--cyan)"><div class="ms-num">3</div><div class="ms-name">Release Candidate (RC)</div><div class="ms-desc">Almost final</div></div>
+      <div class="ms-row" style="--accent:var(--green)"><div class="ms-num">4</div><div class="ms-name">Final Release</div><div class="ms-desc">Production-ready</div></div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🧮</span> Parsing Practice</div>
+    <p>Given: <code>3.2.3.2</code> = ?</p>
+    <ul>
+      <li>major = 3 (3rd major version)</li>
+      <li>minor = 2 (2nd minor release of v3)</li>
+      <li>milestone = 3 → <strong>Release Candidate (RC)</strong></li>
+      <li>revision = 2 → <strong>second bug-fix</strong></li>
+    </ul>
+    <div class="info"><div><b>📌 Fall 2021-22 Q1.12</b>"Version 3.2.3.2 is what?" = <strong>Second bug-fix release for the release candidate of version 3.2</strong>. (a) is the right answer.</div></div>
+
+    <p style="margin-top:14px">Given: <code>3.2.4.2</code> = ?</p>
+    <ul>
+      <li>milestone = 4 → <strong>Final Release</strong></li>
+      <li>revision = 2 → <strong>second bug-fix</strong></li>
+    </ul>
+    <div class="info"><div><b>📌 Winter 2021 Q1.12</b>"Version 3.2.4.2 is what?" = <strong>Second bug-fix release for the final release of version 3.2</strong>.</div></div>
+
+    <p style="margin-top:14px">Given: Fifth bug-fix of the <strong>beta</strong> version of <strong>v2.3</strong> = ?</p>
+    <ul>
+      <li>beta → milestone = <strong>2</strong></li>
+      <li>fifth bug-fix → revision = <strong>5</strong></li>
+      <li>Format: <code>2.3.2.5</code> (with optional build like <code>-33</code>)</li>
+    </ul>
+    <div class="info"><div><b>📌 Winter 2025 Q1.09</b>الإجابة: <strong>(c) 2.3.2.5-33</strong></div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — CHANGE CONTROL
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num teal">05</div>
+    <div class="ch-title">
+      <h2>Change Control</h2>
+      <p>How changes are formally proposed, evaluated, and approved.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">📝</span> Change Request (CR)</div>
+    <p>A CR is a request to:</p>
+    <ul>
+      <li>Expand or reduce project scope</li>
+      <li>Modify policies, processes, plans, or procedures</li>
+      <li>Modify costs or budgets</li>
+      <li>Revise schedules</li>
+    </ul>
+    <p>CR can be originated by anyone at any point in the SW life cycle.</p>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔄</span> Types of Changes</div>
+    <ul>
+      <li><strong>Bug fixing</strong> (corrective action)</li>
+      <li><strong>Adding features</strong></li>
+      <li><strong>Simplifying code</strong> (refactoring)</li>
+      <li><strong>Changing schedule</strong></li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">⚙️</span> Change Control Process</div>
+    <ol>
+      <li>Someone <strong>submits</strong> a Change Request.</li>
+      <li>CR is logged in <strong>bug tracking</strong> system.</li>
+      <li><strong>Impact analysis</strong> done — cost, schedule, technical impact.</li>
+      <li><strong>CCB</strong> (Change Control Board) reviews and decides.</li>
+      <li>If approved: assigned, implemented, tested, deployed.</li>
+      <li>If rejected: documented with reasoning.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — GIT BASICS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num purple">06</div>
+    <div class="ch-title">
+      <h2>Git Basics</h2>
+      <p>Created by Linus Torvalds, 2005. For Linux Kernel development.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📜</span> Git History</div>
+    <ul>
+      <li>Created by <strong>Linus Torvalds</strong>.</li>
+      <li>Started in <strong>2005</strong>.</li>
+      <li>For managing <strong>Linux Kernel</strong> development.</li>
+      <li>Distributed VCS, fast, file corruption check.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🎯</span> Git Properties</div>
+    <ul>
+      <li><strong>Distributed</strong> version control system.</li>
+      <li>Tracks changes to files <strong>over time</strong>.</li>
+      <li>Allows collaboration on projects.</li>
+      <li><strong>Fast</strong> and efficient.</li>
+      <li>Supports <strong>non-linear</strong> development (branching).</li>
+      <li><strong>Open-source</strong> and free.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — GIT WORKFLOW ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num pink">07</div>
+    <div class="ch-title">
+      <h2>Git Workflow ⭐</h2>
+      <p>Q1.14 / Q1.11 / Q1.08 في كل امتحان عن trio: <code>add → commit → push</code>.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🔄</span> The 4 Stages</div>
+    <div class="git-flow">
+      <div class="git-stage">
+        <div class="git-stage-name">1. Working Directory</div>
+        <p style="font-size:.78rem;color:var(--t2)">Where you edit files</p>
+      </div>
+      <div class="git-stage">
+        <div class="git-stage-name">2. Staging Area</div>
+        <p style="font-size:.78rem;color:var(--t2)">Snapshot to commit</p>
+        <div class="git-stage-cmd">git add</div>
+      </div>
+      <div class="git-stage">
+        <div class="git-stage-name">3. Local Repo</div>
+        <p style="font-size:.78rem;color:var(--t2)">Where commits live</p>
+        <div class="git-stage-cmd">git commit</div>
+      </div>
+      <div class="git-stage">
+        <div class="git-stage-name">4. Remote Repo</div>
+        <p style="font-size:.78rem;color:var(--t2)">GitHub/GitLab</p>
+        <div class="git-stage-cmd">git push</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Common commands -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">⌨️</span> Common Git Commands</div>
+    <table class="tbl">
+      <tr><th>Command</th><th>Purpose</th></tr>
+      <tr><td><code>git status</code></td><td>Check status</td></tr>
+      <tr><td><code>git init</code></td><td>Creates new local Git repo</td></tr>
+      <tr><td><code>git add &lt;file&gt;</code></td><td>Stage file for commit</td></tr>
+      <tr><td><code>git add .</code></td><td>Stage all changes</td></tr>
+      <tr><td><code>git commit -m "msg"</code></td><td>Create commit with message</td></tr>
+      <tr><td><code>git commit -a -m "msg"</code></td><td>Commit all tracked files</td></tr>
+      <tr><td><code>git clone &lt;url&gt;</code></td><td>Clone existing repo</td></tr>
+      <tr><td><code>git push</code></td><td>Push commits to remote</td></tr>
+      <tr><td><code>git pull</code></td><td>Fetch + merge from remote</td></tr>
+      <tr><td><code>git log</code></td><td>Show commit history</td></tr>
+    </table>
+  </div>
+
+  <!-- The trio -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">⭐</span> The Trio: Add File to Shared Repo</div>
+    <p>Standard sequence to add a new untracked file to a shared Git repo:</p>
+    <ol>
+      <li><code>git add &lt;file&gt;</code> — stage the file</li>
+      <li><code>git commit -m "message"</code> — create commit locally</li>
+      <li><code>git push</code> — push to remote (shared) repo</li>
+    </ol>
+    <div class="info"><div><b>📌 Q1.14 Fall 2021-22 / Q1.14 Winter 2021 / Q1.08 Winter 2025</b>The sequence is <strong>add → commit → push</strong>. NOT init/commit/add (init creates a NEW repo, not for adding files to existing one).</div></div>
+  </div>
+
+  <!-- Full example -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">💻</span> Local Repo Workflow Example</div>
+    <div class="code-wrap">
+<pre><code><span class="cmt"># 1. Initialize a new repo</span>
+mkdir my-project
+cd my-project
+git init
+
+<span class="cmt"># 2. Add a file</span>
+echo <span class="str">"# My Project"</span> &gt; README.md
+git add README.md
+git status   <span class="cmt"># File now staged</span>
+
+<span class="cmt"># 3. Commit it</span>
+git commit -m <span class="str">"first commit"</span>
+
+<span class="cmt"># 4. First-time identity setup</span>
+git config --global user.email <span class="str">"you@example.com"</span>
+git config --global user.name <span class="str">"Your Name"</span>
+
+<span class="cmt"># 5. Check log</span>
+git log
+git log --pretty=full</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 8 — BRANCHING
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num teal">08</div>
+    <div class="ch-title">
+      <h2>Git Branching</h2>
+      <p>Separate development lines. Feature, Release, Hotfix branches.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🌿</span> What is a Branch?</div>
+    <p>A Branch = separate line of development within your repo. Allows working on features/experiments/bugfixes without affecting main code.</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">Creating &amp; Switching</h4>
+    <div class="code-wrap">
+<pre><code>git branch &lt;name&gt;        <span class="cmt"># Create branch</span>
+git checkout &lt;name&gt;      <span class="cmt"># Switch to it</span>
+
+<span class="cmt"># Or combined:</span>
+git checkout -b &lt;name&gt;   <span class="cmt"># Create + switch</span>
+
+<span class="cmt"># List branches</span>
+git branch -l</code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🔀</span> Branching Strategies</div>
+    <ul>
+      <li><strong>Feature Branches</strong>: developing new features.</li>
+      <li><strong>Release Branches</strong>: preparing a release.</li>
+      <li><strong>Hotfix Branches</strong>: urgent bug fixes.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔗</span> Merging Branches</div>
+    <div class="code-wrap">
+<pre><code><span class="cmt"># Switch to target branch (e.g. master/main)</span>
+git checkout master
+
+<span class="cmt"># Merge source branch into target</span>
+git merge first-branch
+
+<span class="cmt"># Verify with log</span>
+git log
+
+<span class="cmt"># Delete merged branch</span>
+git branch -d first-branch</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ — EXAM BANK
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Exam Bank — Lecture 17</h3>
+      <p>8 أسئلة من الـ exams الحقيقية. Versioning + Git workflow + Baseline.</p>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-item" data-correct="f">
+    <div class="q-num">Question 1 <span class="q-src">Fall 2021–22 / Winter 2021 · Q1.11</span></div>
+    <div class="q-text">Which of the following is true about VCS?
+      <br>(a) They allow tracking changes in the code
+      <br>(b) They helps discover bugs in the code
+      <br>(c) They allow developers to work in parallel, even on the same file
+      <br>(d) They allow retrieving an older version of the code
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> (a) only</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> (b) only</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> (c) only</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> (d) only</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> (a), (b), and (d)</div>
+      <div class="q-opt" data-val="f"><span class="q-opt-letter">F</span> (a), (c), and (d)</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: F — (a), (c), (d)</b>
+      <ul style="margin-top:6px">
+        <li>(a) ✓ — VCS tracks every change with who/when.</li>
+        <li>(b) ❌ — VCS doesn't discover bugs by itself.</li>
+        <li>(c) ✓ — Multiple devs can work in parallel via branches.</li>
+        <li>(d) ✓ — Revert to any older version any time.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 2 <span class="q-src">Fall 2021–22 · Q1.12</span></div>
+    <div class="q-text">Version <strong>3.2.3.2</strong> is: (milestone: 0=pre-alpha, 1=alpha, 2=beta, 3=RC, 4=final)</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Second bug-fix release for the release candidate of version 3.2</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Fourth bug-fix of the beta release of version 3.2</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> The beta version of release 3.2.3</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The third release of version 2.3, build number 2</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A</b>
+      Parse: major=3, minor=2, milestone=3 (RC), revision=2 (second bug-fix). So: "second bug-fix release for the release candidate of v3.2".
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 3 <span class="q-src">Winter 2021 · Q1.12</span></div>
+    <div class="q-text">Version <strong>3.2.4.2</strong> is:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Second bug-fix release for the final release of version 3.2</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Fourth bug-fix of the beta release of version 3.2</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> The beta version of release 3.2.4</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The third release of version 2.4, build number 2</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A</b>
+      milestone=4 → final release. revision=2 → second bug-fix.
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 4 <span class="q-src">Fall 2021–22 / Winter 2021 · Q1.13</span></div>
+    <div class="q-text">A specification or software product that has been <strong>formally reviewed</strong> or agreed upon, that thereafter serves as the basis for further development and that can be changed <strong>only through a formal change control process</strong> is called:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Workspace</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Baseline</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Configuration Item</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Branch</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Build</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Baseline</b>
+      Definition matches exactly. Workspace = work area. CI = managed entity. Branch = dev line. Build = operational version.
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 5 <span class="q-src">Fall 2021–22 / Winter 2021 · Q1.14</span></div>
+    <div class="q-text">The sequence of commands to add a <strong>new untracked file</strong> to the shared repo on the Git server is:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> git init, git commit, git add filename</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> git commit, git add filename, git push</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> git pull, git change filename, git push filename</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> git add filename, git commit, git push</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — add → commit → push</b>
+      Standard Git workflow for adding to a remote repo:
+      <ol style="margin-top:4px">
+        <li><code>git add filename</code> — stages it</li>
+        <li><code>git commit</code> — saves locally</li>
+        <li><code>git push</code> — uploads to remote</li>
+      </ol>
+      <div class="why-wrong">
+        <strong>A</strong> — <code>git init</code> creates a NEW repo (wrong for existing). ·
+        <strong>B</strong> — Can't commit before adding. ·
+        <strong>C</strong> — <code>git change</code> is not a real command.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 6 <span class="q-src">Winter 2025 · Q1.08</span></div>
+    <div class="q-text">The correct sequence of commands to add a file in to a Git repository?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> git add → git push → git commit</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> git commit → git add → git push</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> git push → git commit → git add</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> git add → git commit → git push</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — add → commit → push</b>
+      Same answer as Q5. Memorize this sequence.
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 7 <span class="q-src">Winter 2025 · Q1.09</span></div>
+    <div class="q-text">Version numbering: <code>major.minor.milestone.revision-build</code>. Milestone: 0=pre-alpha, 1=alpha, 2=beta, 3=RC, 4=final. Which is the <strong>fifth bug fix of the beta version of v2.3</strong>?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 2.3.5.2-121</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2.3.beta.5-132</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 2.3.2.5-33</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 2.3.2-5</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — 2.3.2.5-33</b>
+      <ul style="margin-top:6px">
+        <li>v2.3 → major=2, minor=3</li>
+        <li>beta → milestone=<strong>2</strong></li>
+        <li>fifth bug fix → revision=<strong>5</strong></li>
+        <li>Build number is optional (33 is just a build ID)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 8 <span class="q-src">Winter 2025 · Q1.10</span></div>
+    <div class="q-text">Which of these questions, a version control system <strong>CANNOT</strong> answer?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Who changed this source code file?</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Why was this file changed?</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> What changed in this source code file?</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> When was this file changed?</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Why</b>
+      VCS records <strong>who, what, when</strong>. The "why" depends on the quality of commit messages — VCS itself can't enforce/guarantee it. <em>(Bonus tip: write meaningful commit messages!)</em>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet</h2>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="cheat">
+      <h3>📚 SCM Definitions</h3>
+      <div class="cheat-item"><div class="cheat-key">CI</div><div class="cheat-val">Configuration Item — managed entity</div></div>
+      <div class="cheat-item"><div class="cheat-key">Baseline ⭐</div><div class="cheat-val">Formally reviewed, change only via formal process</div></div>
+      <div class="cheat-item"><div class="cheat-key">Workspace</div><div class="cheat-val">Isolated work area</div></div>
+      <div class="cheat-item"><div class="cheat-key">Check-in / out</div><div class="cheat-val">Save to / copy from controlled area</div></div>
+      <div class="cheat-item"><div class="cheat-key">Branch</div><div class="cheat-val">Separate dev line</div></div>
+      <div class="cheat-item"><div class="cheat-key">CCB</div><div class="cheat-val">Change Control Board</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🔢 Version Numbering</h3>
+      <div class="cheat-item"><div class="cheat-key">Format</div><div class="cheat-val">major.minor.milestone.revision-build</div></div>
+      <div class="cheat-item"><div class="cheat-key">0 = Pre-alpha</div><div class="cheat-val">Very early dev</div></div>
+      <div class="cheat-item"><div class="cheat-key">1 = Alpha</div><div class="cheat-val">Internal testing</div></div>
+      <div class="cheat-item"><div class="cheat-key">2 = Beta</div><div class="cheat-val">External testing</div></div>
+      <div class="cheat-item"><div class="cheat-key">3 = RC</div><div class="cheat-val">Release Candidate</div></div>
+      <div class="cheat-item"><div class="cheat-key">4 = Final</div><div class="cheat-val">Production release</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>⌨️ Git Commands</h3>
+      <div class="cheat-item"><div class="cheat-key">git init</div><div class="cheat-val">Create NEW repo (one-time)</div></div>
+      <div class="cheat-item"><div class="cheat-key">git status</div><div class="cheat-val">Check working state</div></div>
+      <div class="cheat-item"><div class="cheat-key">git add ⭐</div><div class="cheat-val">Stage file</div></div>
+      <div class="cheat-item"><div class="cheat-key">git commit ⭐</div><div class="cheat-val">Save locally</div></div>
+      <div class="cheat-item"><div class="cheat-key">git push ⭐</div><div class="cheat-val">Upload to remote</div></div>
+      <div class="cheat-item"><div class="cheat-key">git pull</div><div class="cheat-val">Fetch + merge from remote</div></div>
+      <div class="cheat-item"><div class="cheat-key">git clone &lt;url&gt;</div><div class="cheat-val">Copy remote repo</div></div>
+      <div class="cheat-item"><div class="cheat-key">git log</div><div class="cheat-val">View history</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🌿 Branching</h3>
+      <div class="cheat-item"><div class="cheat-key">git branch &lt;n&gt;</div><div class="cheat-val">Create branch</div></div>
+      <div class="cheat-item"><div class="cheat-key">git checkout &lt;n&gt;</div><div class="cheat-val">Switch branch</div></div>
+      <div class="cheat-item"><div class="cheat-key">git checkout -b &lt;n&gt;</div><div class="cheat-val">Create + switch</div></div>
+      <div class="cheat-item"><div class="cheat-key">git merge &lt;n&gt;</div><div class="cheat-val">Merge into current</div></div>
+      <div class="cheat-item"><div class="cheat-key">git branch -d &lt;n&gt;</div><div class="cheat-val">Delete branch</div></div>
+      <div class="cheat-item"><div class="cheat-key">Strategies</div><div class="cheat-val">Feature, Release, Hotfix branches</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🎯 The Trio (CRITICAL)</h3>
+      <div class="cheat-item"><div class="cheat-key">Step 1</div><div class="cheat-val">git add &lt;file&gt; — stage</div></div>
+      <div class="cheat-item"><div class="cheat-key">Step 2</div><div class="cheat-val">git commit -m "msg" — local save</div></div>
+      <div class="cheat-item"><div class="cheat-key">Step 3</div><div class="cheat-val">git push — to remote</div></div>
+      <div class="cheat-item"><div class="cheat-key">Memorize</div><div class="cheat-val">add → commit → push</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📊 VCS Capabilities</h3>
+      <div class="cheat-item"><div class="cheat-key">✓ Who</div><div class="cheat-val">Track who made changes</div></div>
+      <div class="cheat-item"><div class="cheat-key">✓ What</div><div class="cheat-val">Track what changed</div></div>
+      <div class="cheat-item"><div class="cheat-key">✓ When</div><div class="cheat-val">Track when changed</div></div>
+      <div class="cheat-item"><div class="cheat-key">✗ Why</div><div class="cheat-val">VCS can't enforce — depends on commit messages</div></div>
+      <div class="cheat-item"><div class="cheat-key">Git creator</div><div class="cheat-val">Linus Torvalds, 2005</div></div>
+    </div>
+  </div>
+</div>
+
+</div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
