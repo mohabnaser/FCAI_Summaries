@@ -57,7 +57,7 @@
   <a href="#ch6" class="sb-link"><span class="sb-dot"></span>D — DIP ⭐</a>
 
   <div class="sb-section">McConnell</div>
-  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>10 Design Characteristics</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>7 Design Characteristics</a>
 
   <div class="sb-section">Exam Prep</div>
   <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Practice Quiz</a>
@@ -80,7 +80,7 @@
   </div>
   <div class="hero-stats">
     <div class="hstat"><div class="num">5</div><div class="lbl">SOLID Letters</div></div>
-    <div class="hstat"><div class="num">10</div><div class="lbl">McConnell Traits</div></div>
+    <div class="hstat"><div class="num">7</div><div class="lbl">McConnell Traits</div></div>
     <div class="hstat"><div class="num">7</div><div class="lbl">Chapters</div></div>
     <div class="hstat"><div class="num">8</div><div class="lbl">Practice Qs</div></div>
   </div>
@@ -292,6 +292,32 @@
     </div>
     <div class="warn"><div><b>🤯 الـ paradox</b>في الـ math، square IS-A rectangle. بس في OOP، subclass = behavior. لو behavior بيكسر expectations، يبقى violation للـ LSP. الحل: ما تخليش Square ترث من Rectangle — اعملهم separate types أو حدد abstraction أعلى.</div></div>
   </div>
+
+  <!-- Example 2: Bird / Penguin -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🐧</span> Example 2 — Bird vs Penguin</div>
+    <p>لو عندك <code>Bird</code> class فيها <code>fly()</code>، و <code>Penguin extends Bird</code> — بس البطريق <strong>ما بيطيرش</strong>! → بيكسر الـ substitutability.</p>
+    <p><b>الحل:</b> افصل الطيور الطايرة عن غير الطايرة. استخدم interfaces / abstractions مناسبة (مثلاً <code>Flyable</code> منفصل).</p>
+  </div>
+
+  <!-- Example 3: Employee / VolunteerEmployee (from slides) -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🧑‍💼</span> Example 3 — Employee vs VolunteerEmployee ⭐</div>
+    <p>عندك <code>Employee</code> hierarchy، و <code>VolunteerEmployee extends Employee</code>. بس الـ VolunteerEmployee <strong>ملوش salary/payment</strong> → الـ <code>calcPay()</code> بتبقى مشكلة.</p>
+    <div class="danger"><div><b>🔴 ليه ده أسوأ؟</b>الكود اللي المفروض يشتغل على الـ <code>Employee</code> base class هيضطر يعمل <strong>explicit reference لواحد من الـ derivatives</strong> (يـ check: هل ده VolunteerEmployee؟). ده violation صريح للـ LSP:
+      <ul style="margin-top:6px;padding-inline-start:20px">
+        <li><code>VolunteerEmployee</code> مش <strong>substitutable</strong> لـ <code>Employee</code>.</li>
+        <li>الـ users بتوع <code>Employee</code> بيتأثروا بمجرد <strong>وجود</strong> الـ <code>VolunteerEmployee</code>.</li>
+      </ul>
+    </div></div>
+    <div class="info"><div><b>✅ الحل (من السلايدات)</b>
+      <ul style="margin:0;padding-inline-start:20px">
+        <li>الـ Volunteers <strong>مش</strong> employees أصلاً.</li>
+        <li><code>VolunteerEmployee</code> <strong>ما يورّثش</strong> من <code>Employee</code>.</li>
+        <li>ما يتبعتش لـ functions بتحتاج <code>calcPay()</code>.</li>
+      </ul>
+    </div></div>
+  </div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════
@@ -357,6 +383,58 @@
       </div>
     </div>
   </div>
+
+  <!-- Door / SecurityDoor example -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🚪</span> Example 2 — Door &amp; SecurityDoor</div>
+    <p>عندك <code>IDoor { lock(); unlock(); isOpen(); }</code>. جه عايز <code>SecurityDoor</code> تطلّق alarm لو فضلت مفتوحة → ضفت <code>timeOut()</code> للـ <code>IDoor</code>.</p>
+    <div class="danger"><div><b>🔴 المشكلة</b>مش كل الأبواب timed! إضافة <code>timeOut()</code> للـ <code>IDoor</code> بتلوّثه (polluted interface) وبتجبر كل door تعمل dummy implementation.</div></div>
+    <div class="ba-compare">
+      <div class="ba-good">
+        <h4>✅ Segregated</h4>
+        <div class="code-wrap">
+<pre><code><span class="kw">interface</span> <span class="fn">IDoor</span> {
+  <span class="kw">void</span> <span class="fn">lock</span>();
+  <span class="kw">void</span> <span class="fn">unlock</span>();
+  <span class="kw">bool</span> <span class="fn">isOpen</span>();
+}
+<span class="kw">interface</span> <span class="fn">ITimerClient</span> {
+  <span class="kw">void</span> <span class="fn">timeOut</span>();
+}
+
+<span class="kw">class</span> <span class="fn">SecurityDoor</span> <span class="kw">implements</span>
+              <span class="fn">IDoor</span>, <span class="fn">ITimerClient</span> {
+  <span class="kw">void</span> <span class="fn">timeOut</span>() {...}
+}</code></pre>
+        </div>
+      </div>
+      <div class="ba-good">
+        <h4>📋 Vehicle Example</h4>
+        <div class="code-wrap">
+<pre><code><span class="cmt">// ❌ Vehicle{ drive(); fly(); }</span>
+<span class="cmt">// Car.fly() → OOPS</span>
+<span class="cmt">// Drone.drive() → OOPS</span>
+
+<span class="cmt">// ✅ Split them:</span>
+<span class="kw">interface</span> <span class="fn">Drivable</span> { <span class="kw">void</span> <span class="fn">drive</span>(); }
+<span class="kw">interface</span> <span class="fn">Flyable</span>   { <span class="kw">void</span> <span class="fn">fly</span>(); }
+
+<span class="kw">class</span> <span class="fn">Car</span>      <span class="kw">implements</span> <span class="fn">Drivable</span>
+<span class="kw">class</span> <span class="fn">Airplane</span> <span class="kw">implements</span> <span class="fn">Drivable</span>, <span class="fn">Flyable</span>
+<span class="kw">class</span> <span class="fn">Drone</span>    <span class="kw">implements</span> <span class="fn">Flyable</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info"><div><b>📌 نقاط مهمة من السلايدات</b>
+    <ul style="margin:0;padding-inline-start:20px">
+      <li><strong>Many client-specific interfaces &gt; one general-purpose interface.</strong></li>
+      <li><strong>Fat interface = Fat class</strong> — حتى التغيير في method مش مستخدمة ممكن يأثر على الـ users.</li>
+      <li>ISP <strong>مش</strong> معناه interface واحد لكل class — المعنى: <strong>group clients by type</strong> (لو غيّرت لـ ClientA ما يأثرش على ClientB/ClientC).</li>
+      <li>مثال واقعي: <strong>ASP.NET Membership Provider</strong> أجبر الـ custom provider على implement <strong>27 method/property</strong> — fat interface كلاسيكي.</li>
+    </ul>
+  </div></div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════
@@ -427,31 +505,64 @@
   </div>
 
   <div class="info"><div><b>💡 Strongly Related to Strategy Pattern</b>الـ DIP بيعمل الـ foundation للـ Strategy. لما UserService بيعتمد على Database interface بدل concrete، تقدر تـ swap implementations في runtime — exactly الـ Strategy Pattern.</div></div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🧷</span> Practical Notes (من السلايدات)</div>
+    <ul>
+      <li><strong>ليه DIP؟</strong> الـ concrete classes بتتغير كتير (volatile)، الـ abstractions بتتغير أقل. الـ abstractions = <strong>"hinge points"</strong> (نقاط ارتكاز ثابتة). وبيدعم الـ Open/Close Principle.</li>
+      <li><strong>آمن</strong> إنك تعتمد على concrete classes مستقرة (stable) زي <code>String</code> و <code>Vector</code> — مش كل concrete class ممنوعة. تجنّب الـ <strong>volatile</strong> concrete classes بس.</li>
+      <li><strong>UML check:</strong> الـ dependency arrows المفروض تشاور على <strong>interfaces / abstract classes</strong> — مش على concrete classes.</li>
+    </ul>
+  </div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════
-     CH 7 — McConnell's 10 Characteristics
+     CH 7 — McConnell's 7 Characteristics
 ══════════════════════════════════════════════════════════ -->
 <div class="chapter" id="ch7">
   <div class="ch-header">
     <div class="ch-num teal">07</div>
     <div class="ch-title">
-      <h2>Steve McConnell — 10 Design Characteristics</h2>
-      <p>من كتاب <strong>"Code Complete"</strong> — design = "wicked problem" مالوش حل واحد best.</p>
+      <h2>Steve McConnell — Views on Design</h2>
+      <p>من كتاب <strong>"Code Complete" — Chapter 5</strong>. جوهر الـ design = <strong>managing complexity</strong>.</p>
     </div>
   </div>
 
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📍</span> Where Does Design Fit?</div>
+    <p>الـ design بيقع بين الـ requirements والـ code — مرحلتين:</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-family:var(--fh);font-size:.82rem;margin:12px 0">
+      <span style="padding:5px 12px;border:1px solid var(--cyan);border-radius:6px">Requirements</span> <span style="color:var(--t3)">→</span>
+      <span style="padding:5px 12px;border:1px solid var(--green);border-radius:6px">Architecture / High-Level Design</span> <span style="color:var(--t3)">→</span>
+      <span style="padding:5px 12px;border:1px solid var(--amber);border-radius:6px">Low-Level Design</span> <span style="color:var(--t3)">→</span>
+      <span style="padding:5px 12px;border:1px solid var(--pink)">Code</span>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🪜</span> Levels of Design</div>
+    <ul>
+      <li><strong>High-level design</strong> — الـ system components والـ connections بينهم.</li>
+      <li><strong>Low-level design</strong> — الـ objects · classes · algorithms · variables.</li>
+      <li>الحد بين الاتنين <strong>blurry</strong> (مش واضح تماماً).</li>
+    </ul>
+  </div>
+
+  <div class="info"><div><b>💬 Quotes عن الـ Design</b>
+    "The driving force behind design is <strong>managing complexity</strong>." ·
+    "The goal of software design techniques is <strong>breaking complicated problems into simple pieces</strong>." ·
+    "The key to performance is <strong>elegance, not battalions of special cases</strong>." — Bentley &amp; McIlroy
+  </div></div>
+
+  <h3 style="font-family:var(--fh);font-size:1.05rem;color:var(--teal);margin:26px 0 12px">7 Characteristics of Good Design</h3>
   <div class="char-list">
-    <div class="char-item"><div class="char-num">1</div><div class="char-content"><h4>Minimal Complexity</h4><p>Avoid clever designs. Simple > complex.</p></div></div>
-    <div class="char-item"><div class="char-num">2</div><div class="char-content"><h4>Ease of Maintenance</h4><p>Maintenance = most expensive phase.</p></div></div>
-    <div class="char-item"><div class="char-num">3</div><div class="char-content"><h4>Loose Coupling</h4><p>Modules independent. Easier test/debug/reuse.</p></div></div>
-    <div class="char-item"><div class="char-num">4</div><div class="char-content"><h4>Extensibility</h4><p>Easy to change/enhance/fix. OCP applies.</p></div></div>
-    <div class="char-item"><div class="char-num">5</div><div class="char-content"><h4>Reusability</h4><p>Reuse pieces في systems تانية.</p></div></div>
-    <div class="char-item"><div class="char-num">6</div><div class="char-content"><h4>High Fan-in</h4><p>Many modules call this (utility classes).</p></div></div>
-    <div class="char-item"><div class="char-num">7</div><div class="char-content"><h4>Low Fan-out</h4><p>This module calls few others. Reduces coupling.</p></div></div>
-    <div class="char-item"><div class="char-num">8</div><div class="char-content"><h4>Portability</h4><p>Easy to port to other environments.</p></div></div>
-    <div class="char-item"><div class="char-num">9</div><div class="char-content"><h4>Leanness</h4><p>No extra parts. "Finished when nothing more can be taken away" — Voltaire.</p></div></div>
-    <div class="char-item"><div class="char-num">10</div><div class="char-content"><h4>Stratification</h4><p>Organized in layers, each depends only on layers below.</p></div></div>
+    <div class="char-item"><div class="char-num">1</div><div class="char-content"><h4>Minimal Complexity</h4><p>Divide &amp; conquer · use abstractions · reduce coupling · increase cohesion · remove dead code · avoid clever tricks · comment · document.</p></div></div>
+    <div class="char-item"><div class="char-num">2</div><div class="char-content"><h4>Loose Coupling</h4><p>قلّل الـ connections بين أجزاء البرنامج. بيبسّط الـ integration / testing / maintenance.</p></div></div>
+    <div class="char-item"><div class="char-num">3</div><div class="char-content"><h4>Strong Cohesion</h4><p>الـ routines بتدعم الـ purpose المركزي للـ module. الهدف: maximize cohesion.</p></div></div>
+    <div class="char-item"><div class="char-num">4</div><div class="char-content"><h4>Extensibility</h4><p>تطوّر النظام من غير ما تخرّب structure-ه. التغييرات المتوقعة تسبب أقل trauma.</p></div></div>
+    <div class="char-item"><div class="char-num">5</div><div class="char-content"><h4>Reusability</h4><p>إعادة استخدام أجزاء في systems تانية.</p></div></div>
+    <div class="char-item"><div class="char-num">6</div><div class="char-content"><h4>Maintainability</h4><p>أسهل في إصلاح الـ bugs · التحسين · إضافة features.</p></div></div>
+    <div class="char-item"><div class="char-num">7</div><div class="char-content"><h4>Leanness</h4><p>مفيش أجزاء زيادة. Voltaire: "الكتاب يخلص لما مفيش حاجة تانية ممكن تتشال". الكود الزيادة بيزوّد effort الـ dev/review/testing/maintenance.</p></div></div>
   </div>
 </div>
 
@@ -582,18 +693,23 @@
   </div>
 
   <!-- Q7 -->
-  <div class="q-item" data-correct="c">
+  <div class="q-item" data-correct="b">
     <div class="q-num">Question 7 <span class="q-src">Practice — McConnell</span></div>
-    <div class="q-text">A utility module <code>StringUtils</code> is called by 50 other modules. This is an example of:</div>
+    <div class="q-text">According to McConnell (Code Complete), what is the <strong>driving force</strong> behind software design?</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Low fan-in</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> High fan-out</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> High fan-in</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Low fan-out</div>
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Maximizing performance</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Managing complexity</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Writing the fewest lines of code</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Using as many design patterns as possible</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: C — High fan-in</b>
-      <strong>Fan-in</strong> = how many modules call this. High fan-in is <em>good</em> for utilities. <strong>Fan-out</strong> = how many this calls; should be LOW for low coupling.
+      <b>✅ الإجابة الصح: B — Managing complexity</b>
+      McConnell: "The driving force behind design is <strong>managing complexity</strong>." الهدف تكسير المشاكل المعقّدة لأجزاء بسيطة. (الـ 7 characteristics بتخدم الهدف ده: minimal complexity, loose coupling, strong cohesion, extensibility, reusability, maintainability, leanness).
+      <div class="why-wrong">
+        <strong>A</strong> — "The key to performance is elegance, <em>not</em> battalions of special cases" — الأداء مش الـ driving force. ·
+        <strong>C</strong> — leanness مفيدة، بس مش "أقل سطور" بأي ثمن. ·
+        <strong>D</strong> — الـ patterns وسيلة، مش هدف.
+      </div>
     </div>
   </div>
 
@@ -643,17 +759,14 @@
     </div>
 
     <div class="cheat">
-      <h3>📐 McConnell Top 10</h3>
-      <div class="cheat-item"><div class="cheat-key">1. Min Complexity</div><div class="cheat-val">Simple &gt; clever</div></div>
-      <div class="cheat-item"><div class="cheat-key">2. Maintainability</div><div class="cheat-val">Most $$ phase</div></div>
-      <div class="cheat-item"><div class="cheat-key">3. Loose Coupling</div><div class="cheat-val">Independent modules</div></div>
-      <div class="cheat-item"><div class="cheat-key">4. Extensibility</div><div class="cheat-val">Easy to change (OCP)</div></div>
+      <h3>📐 McConnell — 7 Good Design Traits</h3>
+      <div class="cheat-item"><div class="cheat-key">1. Minimal Complexity</div><div class="cheat-val">Simple &gt; clever (driving force)</div></div>
+      <div class="cheat-item"><div class="cheat-key">2. Loose Coupling</div><div class="cheat-val">Few connections</div></div>
+      <div class="cheat-item"><div class="cheat-key">3. Strong Cohesion</div><div class="cheat-val">Routines serve one purpose</div></div>
+      <div class="cheat-item"><div class="cheat-key">4. Extensibility</div><div class="cheat-val">Change w/o damaging structure</div></div>
       <div class="cheat-item"><div class="cheat-key">5. Reusability</div><div class="cheat-val">Reuse parts elsewhere</div></div>
-      <div class="cheat-item"><div class="cheat-key">6. High Fan-in</div><div class="cheat-val">Many callers (utilities)</div></div>
-      <div class="cheat-item"><div class="cheat-key">7. Low Fan-out</div><div class="cheat-val">Few callees (low coupling)</div></div>
-      <div class="cheat-item"><div class="cheat-key">8. Portability</div><div class="cheat-val">Easy to move environments</div></div>
-      <div class="cheat-item"><div class="cheat-key">9. Leanness</div><div class="cheat-val">No extras</div></div>
-      <div class="cheat-item"><div class="cheat-key">10. Stratification</div><div class="cheat-val">Layered architecture</div></div>
+      <div class="cheat-item"><div class="cheat-key">6. Maintainability</div><div class="cheat-val">Easy fix/enhance/add</div></div>
+      <div class="cheat-item"><div class="cheat-key">7. Leanness</div><div class="cheat-val">No extra parts (Voltaire)</div></div>
     </div>
 
     <div class="cheat">
@@ -668,7 +781,7 @@
     <div class="cheat">
       <h3>👨‍💼 Authors</h3>
       <div class="cheat-item"><div class="cheat-key">Uncle Bob</div><div class="cheat-val">Robert C. Martin · Clean Code · SOLID</div></div>
-      <div class="cheat-item"><div class="cheat-key">McConnell</div><div class="cheat-val">Steve · Code Complete · 10 chars</div></div>
+      <div class="cheat-item"><div class="cheat-key">McConnell</div><div class="cheat-val">Steve · Code Complete · 7 design traits</div></div>
       <div class="cheat-item"><div class="cheat-key">Liskov</div><div class="cheat-val">Barbara Liskov · 1987 · LSP</div></div>
     </div>
   </div>
@@ -695,7 +808,7 @@
     <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">ISP in 1 line؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">No fat interfaces — split &amp; specialize</div></div></div></div>
     <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">DIP in 1 line؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Depend on abstractions, not concretes</div></div></div></div>
     <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">if/else chain for behavior = which violation؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">OCP — fix with Strategy</div></div></div></div>
-    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">High fan-in good for؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Utility classes (many use them)</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">McConnell: driving force of design؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Managing complexity</div></div></div></div>
   </div>
 
   <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
@@ -703,7 +816,7 @@
   <div class="danger"><div><b>1. خلط SRP و ISP</b>SRP عن الـ <em>class</em> (one job). ISP عن الـ <em>interface</em> (no fat APIs).</div></div>
   <div class="danger"><div><b>2. اعتبار "Square extends Rectangle" valid</b>في math نعم، في OOP لأ — بيكسر LSP.</div></div>
   <div class="danger"><div><b>3. DIP = "use interfaces"</b>مش بس استخدام interfaces. DIP = الـ high-level يعتمد على abstraction، و الـ low-level يعتمد على نفس الـ abstraction.</div></div>
-  <div class="danger"><div><b>4. Fan-in vs Fan-out</b>Fan-in = incoming calls (good high). Fan-out = outgoing (good low).</div></div>
+  <div class="danger"><div><b>4. McConnell's design traits = 7 مش 10</b>الـ 7 الصح: Minimal complexity · Loose coupling · Strong cohesion · Extensibility · Reusability · Maintainability · Leanness. (Fan-in/Fan-out مش ضمن الـ list بتاعة الدكتور).</div></div>
 
   <h3 style="font-family:var(--fh);font-size:1rem;color:var(--amber);margin:30px 0 12px">⭐ What Dr. El-Ramly Loves</h3>
   <div class="info">

@@ -384,7 +384,7 @@
     <div class="ch-num red">06</div>
     <div class="ch-title">
       <h2>Coupling — اعتماد الـ Modules على بعضها ⭐</h2>
-      <p>مدى اعتماد module على module تاني. <strong>Low coupling = جيد</strong>. 6 مستويات من الأسوأ (Content) للأفضل (Data).</p>
+      <p>مدى اعتماد module على module تاني. <strong>Low coupling = جيد</strong>. الدكتور بيذكر <strong>5 أنواع</strong>: Common Environment · Content · Control · Data · Pathological.</p>
     </div>
   </div>
 
@@ -395,46 +395,16 @@
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">📉</span> Levels of Coupling (من الأسوأ للأفضل)</div>
-    <div class="ladder">
-
-      <div class="ladder-row worst">
-        <div class="ladder-rank">6</div>
-        <div class="ladder-name">😈 Content <span class="level-tag tag-worst">WORST</span></div>
-        <div class="ladder-desc">Module A بيـ <strong>access مباشرةً</strong> للـ internals بتاع Module B (يقرا/يعدّل في variables داخلية). كارثة. مثال: في C، <code>goto</code> لـ label داخل function تانية.</div>
-      </div>
-
-      <div class="ladder-row bad">
-        <div class="ladder-rank">5</div>
-        <div class="ladder-name">Common (Environment)</div>
-        <div class="ladder-desc">الـ Modules بتشترك في <strong>global variables</strong>. أي module يعدّل في الـ global، كل الباقي يتأثروا.</div>
-      </div>
-
-      <div class="ladder-row weak">
-        <div class="ladder-rank">4</div>
-        <div class="ladder-name">External</div>
-        <div class="ladder-desc">الـ Modules بتشترك في external data format/protocol (مثل file format معين). تغيير الـ format يخرّب كل الـ modules.</div>
-      </div>
-
-      <div class="ladder-row ok">
-        <div class="ladder-rank">3</div>
-        <div class="ladder-name">Control</div>
-        <div class="ladder-desc">Module بيمرر <strong>flag/parameter</strong> اللي بيتحكم في الـ logic داخل module تاني. <code>process(data, flag)</code> حيث الـ flag بيقرر ايه يحصل.</div>
-      </div>
-
-      <div class="ladder-row good">
-        <div class="ladder-rank">2</div>
-        <div class="ladder-name">Stamp (Data-structure)</div>
-        <div class="ladder-desc">Module بيمرر <strong>data structure كاملة</strong> (object) للتاني، حتى لو محتاج جزء منها بس.</div>
-      </div>
-
-      <div class="ladder-row best">
-        <div class="ladder-rank">1</div>
-        <div class="ladder-name">🏆 Data <span class="level-tag tag-best">BEST</span></div>
-        <div class="ladder-desc">Module بيمرر بس الـ <strong>parameters اللي محتاجها</strong> للـ function (primitive values). مفيش data sharing تاني.</div>
-      </div>
-
-    </div>
+    <div class="topic-title"><span class="icon">📉</span> 5 أنواع Coupling (حسب السلايدات)</div>
+    <table class="tbl">
+      <tr><th>النوع</th><th>التصنيف</th><th>الوصف</th></tr>
+      <tr><td>😈 <strong>Content</strong></td><td><span class="badge badge-red">High — Worst</span></td><td>Module بيـ <strong>access/modify مباشرةً</strong> للـ internals بتاع module تاني. <strong>أعلى</strong> درجة coupling. بيكسر الـ encapsulation. fragile جداً.</td></tr>
+      <tr><td><strong>Pathological</strong></td><td><span class="badge badge-red">High</span></td><td>Module بيعتمد على الـ <strong>internal implementation</strong> بتاع module تاني / متشابكين بشدة. سلوك unpredictable. مؤشر على تصميم سيئ.</td></tr>
+      <tr><td><strong>Common Environment</strong></td><td><span class="badge badge-amber">Medium</span></td><td>الـ Modules بتشترك في <strong>global data / environment</strong>. أي تعديل في الـ global بيأثر على الكل. بيقلّل الـ encapsulation.</td></tr>
+      <tr><td><strong>Control</strong></td><td><span class="badge badge-amber">Medium</span></td><td>Module بيتحكم في module تاني عن طريق <strong>flags / control variables</strong>. مرونة في التنفيذ بس بتقلّل الـ clarity.</td></tr>
+      <tr><td>🏆 <strong>Data</strong></td><td><span class="badge badge-green">Low — Best</span></td><td>الـ Modules بتتواصل عن طريق <strong>parameters بس</strong>. مفيش shared internal state. النوع <strong>المرغوب</strong>.</td></tr>
+    </table>
+    <div class="info"><div><b>📊 ملخص الدكتور (3 tiers)</b> <strong>Low</strong> (Data) = جيد، بيحسّن الـ maintainability/modularity · <strong>Medium</strong> (Common Environment, Control) = tradeoffs مختلطة · <strong>High</strong> (Content, Pathological) = fragile وصعب الصيانة.</div></div>
   </div>
 
   <!-- JS Example -->
@@ -469,6 +439,37 @@
   console.log(<span class="str">"Count: "</span> + count);
 }</code></pre>
     </div>
+  </div>
+
+  <!-- Pathological example -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">☠️</span> مثال على Pathological Coupling</div>
+    <p>module خارجي بيتحكم في الـ <strong>internal state</strong> بتاع module تاني، والسلوك بيعتمد على الـ state ده → unpredictable.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">C++ — Pathological</div></div>
+<pre><code><span class="kw">class</span> <span class="fn">ModuleA</span> {
+  <span class="kw">int</span> state = <span class="num">0</span>;
+<span class="kw">public</span>:
+  <span class="kw">void</span> <span class="fn">setState</span>(<span class="kw">int</span> s) { state = s; }
+  <span class="kw">void</span> <span class="fn">execute</span>() {
+    <span class="kw">if</span> (state == <span class="num">1</span>)      { <span class="cmt">/* action 1 */</span> }
+    <span class="kw">else if</span> (state == <span class="num">2</span>) { <span class="cmt">/* action 2 */</span> }
+    <span class="kw">else</span>               { <span class="cmt">/* default */</span> }
+  }
+};
+
+<span class="kw">class</span> <span class="fn">ModuleB</span> {
+<span class="kw">public</span>:
+  <span class="kw">void</span> <span class="fn">changeModuleAState</span>(<span class="fn">ModuleA</span>&amp; a, <span class="kw">int</span> n) {
+    a.setState(n);   <span class="cmt">// ⚠️ B يتحكم في state بتاع A من بره</span>
+  }
+};
+
+<span class="cmt">// main: B بيغيّر حالة A قبل ما A.execute() — سلوك A بيعتمد على B</span>
+moduleB.changeModuleAState(moduleA, <span class="num">1</span>);
+moduleA.execute();</code></pre>
+    </div>
+    <div class="danger"><div><b>🔴 ليه ده Pathological؟</b>سلوك <code>ModuleA.execute()</code> بيعتمد كلياً على state اتحطّ من module تاني (<code>ModuleB</code>). الاتنين متشابكين، وأي تغيير في تسلسل الـ calls بيغيّر النتيجة بشكل غير متوقع.</div></div>
   </div>
 
   <!-- Goal -->
@@ -634,13 +635,12 @@
     </div>
 
     <div class="cheat">
-      <h3>📉 Coupling — Worst to Best</h3>
-      <div class="cheat-item"><div class="cheat-key">6. Content</div><div class="cheat-val">😈 access internals directly</div></div>
-      <div class="cheat-item"><div class="cheat-key">5. Common</div><div class="cheat-val">shared global variables</div></div>
-      <div class="cheat-item"><div class="cheat-key">4. External</div><div class="cheat-val">shared external format/protocol</div></div>
-      <div class="cheat-item"><div class="cheat-key">3. Control</div><div class="cheat-val">pass flag controls logic</div></div>
-      <div class="cheat-item"><div class="cheat-key">2. Stamp</div><div class="cheat-val">pass full data structure</div></div>
-      <div class="cheat-item"><div class="cheat-key">1. Data</div><div class="cheat-val">🏆 pass only what's needed</div></div>
+      <h3>📉 Coupling — 5 Types (El-Ramly)</h3>
+      <div class="cheat-item"><div class="cheat-key">Content</div><div class="cheat-val">😈 High — access internals directly</div></div>
+      <div class="cheat-item"><div class="cheat-key">Pathological</div><div class="cheat-val">High — controls another's internal state</div></div>
+      <div class="cheat-item"><div class="cheat-key">Common Env</div><div class="cheat-val">Medium — shared global data</div></div>
+      <div class="cheat-item"><div class="cheat-key">Control</div><div class="cheat-val">Medium — flag controls logic</div></div>
+      <div class="cheat-item"><div class="cheat-key">Data</div><div class="cheat-val">🏆 Low — pass only what's needed</div></div>
     </div>
 
     <div class="cheat">
@@ -674,8 +674,8 @@
     </div></div>
 
     <div class="flashcard"><div class="fc-inner">
-      <div class="fc-front"><div class="fc-q">6 levels of Coupling (worst to best)؟</div><div class="fc-hint">tap to flip</div></div>
-      <div class="fc-back"><div class="fc-a">Content · Common · External · Control · Stamp · Data</div></div>
+      <div class="fc-front"><div class="fc-q">5 types of Coupling (El-Ramly)؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-back"><div class="fc-a">Common Environment · Content · Control · Data · Pathological</div></div>
     </div></div>
 
     <div class="flashcard"><div class="fc-inner">
@@ -720,7 +720,7 @@
 
   <div class="danger"><div><b>2. خلط ترتيب Coupling</b>Data هو الـ best — لإن المعلومات اللي بتمرر بس اللي محتاجها. Content هو الأسوأ (access internals).</div></div>
 
-  <div class="danger"><div><b>3. خلط Common و External</b>Common = shared <em>global variables</em> (programming). External = shared external resources (file format, protocol).</div></div>
+  <div class="danger"><div><b>3. نسيان Pathological coupling</b>الدكتور بيذكر <strong>5 أنواع</strong>: Common Environment · Content · Control · Data · Pathological. (مش External/Stamp — دول من taxonomies تانية مش في سلايداته).</div></div>
 
   <div class="danger"><div><b>4. V(G) = decisions، مش decisions + 1</b>الصيغة هي <code>decisions + 1</code>. مش بس عدد الـ ifs.</div></div>
 
