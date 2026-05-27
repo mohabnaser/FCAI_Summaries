@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ar" dir="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 19 — Software Economics | CS251</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  /* License / model cards */
+  .lic-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:14px 0}
+  .lic-card{background:var(--card2);border:1.5px solid var(--accent,var(--cyan));border-radius:12px;padding:16px}
+  .lic-card h4{font-family:var(--fh);color:var(--accent,var(--cyan));font-size:.98rem;font-weight:700;margin-bottom:8px}
+  .lic-card ul{font-size:.83rem;margin:0;padding-inline-start:18px;line-height:1.6}
+  .lic-card .best{font-family:var(--fc);font-size:.74rem;color:var(--t3);margin-top:8px;display:block}
+  @media(max-width:700px){.lic-grid{grid-template-columns:1fr}}
+
+  /* Pro / con two columns */
+  .procon{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  .procon .col{border-radius:12px;padding:16px;border:1.5px solid}
+  .procon .pro{background:rgba(63,185,80,.06);border-color:var(--green)}
+  .procon .con{background:rgba(248,81,73,.06);border-color:var(--red)}
+  .procon h4{font-family:var(--fh);font-size:.95rem;font-weight:700;margin-bottom:8px}
+  .procon .pro h4{color:var(--green)}
+  .procon .con h4{color:var(--red)}
+  .procon ul{font-size:.83rem;margin:0;padding-inline-start:18px;line-height:1.65}
+  @media(max-width:700px){.procon{grid-template-columns:1fr}}
+
+  /* COCOMO formula box */
+  .formula{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:20px;margin:14px 0;text-align:center;direction:ltr}
+  .formula .eq{font-family:var(--fc);font-size:1.15rem;color:var(--cyan);font-weight:600;letter-spacing:.5px}
+
+  /* code block ltr */
+  .codeblk{background:#0a0e14;border:1px solid #21262d;border-radius:10px;padding:14px 18px;margin:10px 0;font-family:var(--fc);font-size:.82rem;line-height:1.6;color:#c9d1d9;direction:ltr;overflow-x:auto;white-space:pre}
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<nav id="sidebar" dir="ltr">
+  <div class="sb-logo">
+    <h2>💰 CS251 — Lec 19</h2>
+    <p>Software Economics</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">Economics &amp; IP</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Software Economics</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Intellectual Property ⭐</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Software Patents Debate</a>
+
+  <div class="sb-section">Case Studies</div>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Google v Oracle ⭐</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Monkey Selfie</a>
+
+  <div class="sb-section">Licensing &amp; Business</div>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Licensing Models</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Open Source Licenses ⭐</a>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>Business Models</a>
+
+  <div class="sb-section">Estimation</div>
+  <a href="#ch9" class="sb-link"><span class="sb-dot"></span>Cost Estimation ⭐</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Practice Quiz</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main" dir="auto">
+
+<section class="hero">
+  <div class="hero-badge">💰 Lecture 19 · Software Economics</div>
+  <h1>Software <span>Economics</span></h1>
+  <p>الجانب الاقتصادي والقانوني للـ software: قيمة وتكلفة المشروع · Intellectual Property &amp; licensing · business models · ازاي نقدّر الـ cost والـ effort. ده الـ pillar الأخير من أعمدة الـ SWEBOK.</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 Practice Quiz</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">9</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">IP Types</div></div>
+    <div class="hstat"><div class="num">6</div><div class="lbl">OSS Licenses</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Practice Qs</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — SOFTWARE ECONOMICS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>SWEBOK Software Economics</h2>
+      <p>الـ software مش مجرد كود — هو <strong>investment</strong>. لازم القيمة اللي بيرجّعها تكون أكبر من تكلفته.</p>
+    </div>
+  </div>
+
+  <div class="info"><div><b>📍 إحنا فين دلوقتي؟</b> Software Economics هو آخر <strong>support pillar</strong> جنب Process Management · Project Management · Configuration Management · Quality Assurance · Professional Ethics. بيشتغل بالطول على كل مراحل المشروع (Requirements → Test).</div></div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">⚖️</span> 1. Fundamentals of Value &amp; Cost</div>
+    <ul style="font-size:.88rem">
+      <li><strong>Value vs. Cost</strong> — الـ software عبارة عن investment؛ الـ <strong>utility (الفايدة) لازم تـ outweigh الـ effort</strong> (المجهود/التكلفة). لو مش هيرجّع قيمة أكبر من تكلفته، مش يستاهل.</li>
+      <li><strong>Opportunity Cost</strong> — القيمة اللي بتخسرها لما تختار مشروع وتسيب التاني. لو شغّلت الفريق على مشروع A، فـ اللي كان ممكن تكسبه من مشروع B ده هو الـ opportunity cost.</li>
+      <li><strong>Risk &amp; Uncertainty</strong> — إدارة التأثير المالي للـ technical unknowns (الحاجات اللي لسه مش متأكدين منها تقنياً).</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔄</span> 2. Life Cycle Economics</div>
+    <ul style="font-size:.88rem">
+      <li><strong>Total Cost of Ownership (TCO)</strong> — الميزانية على <strong>طول عمر المنتج</strong>، مش بس وقت التطوير: <code>Development + Maintenance + Retirement</code>. الـ maintenance غالباً بتكون أغلى من الـ development نفسه.</li>
+      <li><strong>Sunk Costs</strong> — التكاليف اللي اتدفعت ومش هترجع. القاعدة الاقتصادية: <strong>تجاهلها</strong> وانت بتاخد قرارات المستقبل. ما تكمّلش مشروع فاشل عشان "صرفت عليه كتير" — ده تفكير غلط.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📊</span> 3. Economic Analysis Methods</div>
+    <table class="tbl">
+      <tr><th>الطريقة</th><th>بتقيس إيه؟</th></tr>
+      <tr><td><strong>ROI</strong> (Return on Investment)</td><td>نسبة الربح للتكلفة (profit-to-cost ratio).</td></tr>
+      <tr><td><strong>NPV</strong> (Net Present Value)</td><td>حساب الأرباح المستقبلية بقيمة <strong>النهاردة</strong> (عشان فلوس بكره مش بتساوي فلوس النهاردة).</td></tr>
+      <tr><td><strong>Payback Period</strong></td><td>المدة لحد ما المشروع يـ <strong>"break even"</strong> (يغطّي تكلفته ويبدأ يربح).</td></tr>
+    </table>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🧭</span> 4. Practical Strategic Decisions</div>
+    <ul style="font-size:.88rem">
+      <li><strong>Build vs. Buy vs. Reuse</strong> — تكتب الكود بنفسك؟ تشتري حل جاهز؟ ولا تستخدم open-source؟</li>
+      <li><strong>Outsourcing</strong> — تقييم الـ cost-benefit لتشغيل عمالة خارجية.</li>
+      <li><strong>Legacy Systems</strong> — قرار: نـ <strong>maintain</strong> (نصلّح) ولا <strong>wrap</strong> (نلفّه بـ interface جديد) ولا <strong>replace</strong> (نعيد كتابته من الأول)؟</li>
+    </ul>
+  </div>
+
+  <div class="tip"><div><b>💡 الخلاصة</b> الـ economics بتجاوب على سؤال واحد: هل الفلوس والوقت اللي هندفعهم على المشروع ده هيرجّعوا قيمة أكبر؟ كل الأدوات (ROI / NPV / Payback / opportunity cost) موجودة عشان دا.</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — INTELLECTUAL PROPERTY
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num cyan">02</div>
+    <div class="ch-title">
+      <h2>Intellectual Property &amp; Software Protection</h2>
+      <p>الـ IP laws بتحمي الإبداع (software, algorithms, designs) من الاستخدام غير المصرّح. بتشجّع الابتكار — بس ممكن كمان تـ restrict-ه.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🛡️</span> أنواع الـ IP الأربعة في الـ Software</div>
+    <div class="lic-grid">
+      <div class="lic-card" style="--accent:var(--cyan)">
+        <h4>© Copyright</h4>
+        <ul><li>بيحمي <strong>source code · UI designs · graphics · documentation</strong> من النسخ غير المصرّح.</li><li>بيحمي <strong>التعبير (expression)</strong> عن الفكرة — <strong>مش الفكرة نفسها</strong>.</li></ul>
+      </div>
+      <div class="lic-card" style="--accent:var(--amber)">
+        <h4>📜 Patents</h4>
+        <ul><li>بتحمي الاختراعات التقنية الـ <strong>novel</strong> و الـ <strong>non-obvious</strong> + software processes.</li><li>شروط: <strong>Novelty</strong> + <strong>Usefulness</strong> + <strong>Non-obviousness</strong>.</li></ul>
+      </div>
+      <div class="lic-card" style="--accent:var(--green)">
+        <h4>™ Trademarks</h4>
+        <ul><li>بتحمي <strong>أسماء الـ software · اللوجوهات · brand identity</strong>.</li></ul>
+      </div>
+      <div class="lic-card" style="--accent:var(--purple)">
+        <h4>📄 Software Licenses</h4>
+        <ul><li>بتحدّد ازاي ممكن الـ software يـ <strong>used · modified · shared · distributed</strong>.</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">⚔️</span> Copyright vs Patent — الفرق المهم</div>
+    <table class="tbl">
+      <tr><th></th><th>Copyright</th><th>Patent</th></tr>
+      <tr><td>بيحمي إيه؟</td><td><strong>التعبير</strong> عن الفكرة (الكود المكتوب)</td><td>الـ <strong>حل التقني/process</strong> المبتكر نفسه</td></tr>
+      <tr><td>الشروط</td><td>أصلية فقط (تلقائي بمجرد الكتابة)</td><td>Novelty + Usefulness + Non-obviousness</td></tr>
+      <tr><td>مثال</td><td>كود برنامج معيّن</td><td>Amazon's <strong>One-Click Purchase</strong> patent</td></tr>
+    </table>
+    <div class="warn"><div><b>⚠️ التحديات</b> الـ patents فيها <strong>legal complexity</strong> + تكلفة عالية + <strong>patent trolling</strong> (هنشوفه في Ch3).</div></div>
+  </div>
+
+  <div class="info"><div><b>📌 تذكرة من Lec 19 (Software Economics)</b> قضية <strong>Oracle v. Google</strong> هي اللي <em>blurred the line</em> بين الكود الـ functional والـ creative. هنفصّلها في Ch4 — وهي مهمة جداً لفهم إن الـ APIs ممكن تتنسخ legally تحت fair use.</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — SOFTWARE PATENTS DEBATE
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>Software Patents — Catalyst or Cage?</h2>
+      <p>الـ patents بتدفع الابتكار ولا بتعطّله؟ سيف بحدّين (double-edged sword).</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📜</span> إيه هو الـ Software Patent؟</div>
+    <ul style="font-size:.88rem">
+      <li>بيدّي <strong>exclusive rights</strong> للاختراع (عادةً <strong>20 سنة</strong>).</li>
+      <li>بيمنع الناس التانية إنها تـ <strong>make · use · sell</strong> من غير إذن.</li>
+      <li>في الـ software: بيحمي كود معيّن · processes · functionality · technical methods.</li>
+    </ul>
+  </div>
+
+  <div class="procon">
+    <div class="col pro">
+      <h4>✅ مع الـ Patents (Pro-Innovation)</h4>
+      <ul>
+        <li>أساسية لتشجيع الابتكار.</li>
+        <li>بتمنع المنافسين من نسخ ابتكارات كلّفت كتير.</li>
+        <li>بتحفّز الاستثمار في تكنولوجيا جديدة (groundbreaking).</li>
+      </ul>
+    </div>
+    <div class="col con">
+      <h4>❌ ضد الـ Patents (Stifling)</h4>
+      <ul>
+        <li>patents بتتدّي لأفكار <strong>obvious</strong> أو منتشرة.</li>
+        <li>بتؤدّي لـ <strong>"Patent Trolls"</strong> — شركات بتقاضي بدل ما تبتكر.</li>
+        <li>دراسة EFF: كتير من الـ patented software عام/واسع زيادة.</li>
+        <li><strong>Legal minefield</strong> للمطورين الصغيرين.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📱</span> Case Study: Apple vs. Samsung</div>
+    <ul style="font-size:.88rem">
+      <li><strong>قلب القضية:</strong> Apple اتّهمت Samsung إنها خرقت patents بتاعة iPhone UI (زي الـ <strong>bounce-back effect</strong>).</li>
+      <li>سنة <strong>2012</strong>: الـ jury الأمريكي وافق مبدئياً وحكم لـ Apple بـ <strong>أكتر من $1 billion</strong>.</li>
+      <li><strong>النقد:</strong> features زي <em>tap-to-zoom</em> و <em>rubber-banding</em> أفكار بسيطة وبديهية — المفروض ما تتـ patent. patenting الـ basic functionalities بيضر المنافسة ويصعّب على الشركات الصغيرة الابتكار من غير خوف من القضايا.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">👹</span> Patent Trolls</div>
+    <ul style="font-size:.88rem">
+      <li>شركات بتشتري patents أساساً عشان <strong>تقاضي</strong> الناس أو تطلب licensing fees — مش عشان تنتج.</li>
+      <li>مثال: <strong>Unilock</strong> قاضت Microsoft و Google و Apple بـ patents واسعة.</li>
+      <li>التكتيك: استهداف <strong>الـ startups</strong> والمطورين الصغيرين اللي مش قادرين على تكاليف الدفاع القانوني.</li>
+      <li>الأثر: بتعطّل الابتكار وبتحوّل الموارد بعيد عن تطوير المنتج الحقيقي.</li>
+    </ul>
+  </div>
+
+  <div class="tip"><div><b>💡 الخلاصة</b> الـ software patents = double-edged sword. لو اتساء استخدامها → بتعطّل التقدم. لو اتطبّقت بحكمة → بتغذّي الابتكار. "التحدي مش في إلغاء الـ patents، لكن في إعادة تعريفها للعصر الرقمي."</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — GOOGLE V ORACLE
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num green">04</div>
+    <div class="ch-title">
+      <h2>Case Study: Google v. Oracle ⭐</h2>
+      <p>أشهر قضية في تاريخ الـ software copyright — استمرت 11 سنة (2010 → 2021) حوالين الـ Java APIs في Android.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📋</span> Google نسخت إيه بالظبط؟</div>
+    <ul style="font-size:.88rem">
+      <li>Google <strong>ما نسختش</strong> الـ source code بتاع Java ولا الـ implementation logic.</li>
+      <li>نسخت الـ <strong>Structure, Sequence, and Organization (SSO)</strong> بتاع <strong>37 Java API package</strong>.</li>
+      <li>يعني: <strong>class names · method names · package hierarchies</strong> — مش الكود اللي جوه.</li>
+    </ul>
+    <div class="codeblk">// Java (Oracle):
+package java.util;
+public class Arrays {
+    public static void sort(Object[] a) { ... }
+    public static int binarySearch(Object[] a, Object key) { ... }
+}
+
+// Android (Google) — نفس الـ structure، implementation مختلف:
+package java.util;
+public class Arrays {
+    public static void sort(Object[] a) {
+        // Google's own implementation
+    }
+    public static int binarySearch(Object[] a, Object key) {
+        // Google's own implementation
+    }
+}</div>
+    <div class="info"><div><b>📌 ليه Google عملت كده؟</b> عشان تخلّي Android متاح لملايين الـ Java developers — يقدروا يستخدموا API calls مألوفة زي <code>Arrays.sort()</code>. الـ compatibility دي سرّعت انتشار Android.</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--red)">
+      <div class="topic-title"><span class="icon">🏢</span> حجة Oracle</div>
+      <ul style="font-size:.85rem">
+        <li>الـ API structure حاجة <strong>creative expression</strong>، مش بس functional.</li>
+        <li>Google خرقت الـ copyright بنسخها للـ structure.</li>
+        <li>طلبت <strong>$9 billion</strong> تعويضات.</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">🟢</span> دفاع Google</div>
+      <ul style="font-size:.85rem">
+        <li>الـ APIs أدوات <strong>functional</strong> — زي توزيع حروف الكيبورد أو قواعد اللغة.</li>
+        <li>ما ينفعش تـ copyright interface ضروري للـ <strong>interoperability</strong>.</li>
+        <li>الاستخدام كان <strong>transformative</strong> — عمل بيئة موبايل جديدة.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">⚖️</span> Timeline القضية (5 جولات!)</div>
+    <div class="timeline">
+      <div class="tl-item" style="--accent:var(--amber)">
+        <div class="tl-date">2010</div>
+        <div class="tl-title">Oracle بترفع القضية</div>
+        <div class="tl-desc">بتدّعي إن Google نسخت 37 Java API package. بتطلب $9 billion.</div>
+      </div>
+      <div class="tl-item" style="--accent:var(--green)">
+        <div class="tl-date">2012 — District Court (Judge Alsup)</div>
+        <div class="tl-title">Google تكسب (Round 1)</div>
+        <div class="tl-desc">حكم إن الـ APIs ما ينفعش تتـ copyright لأنها functional.</div>
+      </div>
+      <div class="tl-item" style="--accent:var(--red)">
+        <div class="tl-date">2014 — Federal Circuit</div>
+        <div class="tl-title">Oracle تكسب (Round 2)</div>
+        <div class="tl-desc">ألغى حكم District Court — قال إن الـ APIs <strong>can</strong> be copyrighted.</div>
+      </div>
+      <div class="tl-item" style="--accent:var(--green)">
+        <div class="tl-date">2016 — Jury Trial (Fair Use)</div>
+        <div class="tl-title">Google تكسب (Round 3)</div>
+        <div class="tl-desc">الـ jury لقى إن استخدام Google كان <strong>fair use</strong>.</div>
+      </div>
+      <div class="tl-item" style="--accent:var(--red)">
+        <div class="tl-date">2018 — Federal Circuit (again)</div>
+        <div class="tl-title">Oracle تكسب (Round 4)</div>
+        <div class="tl-desc">ألغى حكم 2016 — قال إن الاستخدام كان NOT fair use.</div>
+      </div>
+      <div class="tl-item" style="--accent:var(--green)">
+        <div class="tl-date">2020–2021 — U.S. Supreme Court</div>
+        <div class="tl-title">Google تكسب نهائياً (Round 5) 🏆</div>
+        <div class="tl-desc">في 4/2021 المحكمة العليا حكمت إن استخدام Google = <strong>fair use</strong> لأنه transformative ومحدود في العناصر الـ functional.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip"><div><b>💡 الخلاصة + Implications</b> نسخ الـ <strong>structure</strong> عشان الـ <strong>interoperability</strong> = fair use مسموح. القضية أكّدت الـ fair use في الابتكار، وحافظت على الوصول المفتوح لـ API structures — بس سابت أسئلة مفتوحة عن حدود copyright الـ APIs في المستقبل.</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — MONKEY SELFIE
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num purple">05</div>
+    <div class="ch-title">
+      <h2>Case Study: Monkey Selfie (Naruto v. Slater)</h2>
+      <p>مين بيملك الـ copyright لو القرد هو اللي صوّر الصورة؟ 🐒</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📸</span> القصة</div>
+    <ul style="font-size:.88rem">
+      <li>مصوّر (Slater) راح إندونيسيا يصوّر قرود.</li>
+      <li>قرد خد الكاميرا وصوّر <strong>selfie</strong> لنفسه.</li>
+      <li>الراجل نشر الصورة. Wikipedia ومواقع أخدوها واستخدموها. طلب منهم يشيلوها بحجة إنه بيملكها → رفضوا.</li>
+      <li><strong>PETA</strong> (منظمة حقوق الحيوان) رفعت قضية عشان القرد ياخد الـ copyright والفلوس تتصرف على القرود.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">⚖️</span> حكم المحكمة</div>
+    <ul style="font-size:.88rem">
+      <li>القاضي حكم إن المصوّر <strong>ما يملكش</strong> الـ copyright — لأنه <strong>مش هو اللي صوّرها بنفسه</strong>.</li>
+      <li>وكمان القرد ما يملكش — لأن الـ <strong>copyright للبشر مش للحيوانات</strong>.</li>
+      <li>النتيجة: عملياً <strong>محدش يملك الـ copyright</strong> / الصورة ممكن أي حد يستخدمها (public domain).</li>
+    </ul>
+    <div class="info"><div><b>🎓 الدرس</b> الـ copyright بيتطلّب <strong>مؤلف بشري (human authorship)</strong>. ده سؤال مهم دلوقتي مع الـ AI-generated content برضه — مين بيملك حق الناتج؟</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — LICENSING MODELS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num blue">06</div>
+    <div class="ch-title">
+      <h2>Software Licensing Models</h2>
+      <p>الـ license بيأثّر على productivity الفريق · التكلفة · الـ scalability · والتعاون.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📄</span> الـ License بيحدّد إيه؟</div>
+    <table class="tbl">
+      <tr><th>العنصر</th><th>بيحدّد إيه</th></tr>
+      <tr><td><strong>Ownership</strong></td><td>مين يملكه</td></tr>
+      <tr><td><strong>Access</strong></td><td>مين يقدر يستخدمه وازاي</td></tr>
+      <tr><td><strong>Deployment</strong></td><td>فين ممكن يتنشر</td></tr>
+      <tr><td><strong>Scalability</strong></td><td>قابلية التوسّع</td></tr>
+    </table>
+    <p style="font-size:.85rem;margin-top:8px">الـ models الشائعة: <strong>Proprietary · Open-source · SaaS subscriptions · Freemium</strong>.</p>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🔑</span> أنواع الترخيص حسب طريقة الاستخدام</div>
+    <div class="lic-grid">
+      <div class="lic-card" style="--accent:var(--green)">
+        <h4>Perpetual License</h4>
+        <ul><li>شراء مرة واحدة (one-time).</li><li>مفيش updates إجبارية · أدوات stable.</li><li>المالك بيحتفظ بكل الحقوق؛ المستخدم بيشغّل بس — ما يشوفش الكود ولا يعدّله ولا يوزّعه.</li></ul>
+        <span class="best">Best for: long-term projects · أمثلة: Windows, Photoshop</span>
+      </div>
+      <div class="lic-card" style="--accent:var(--cyan)">
+        <h4>Subscription License</h4>
+        <ul><li>تكلفة متكررة (recurring).</li><li>updates مستمرة · scalable.</li></ul>
+        <span class="best">Best for: fast-paced teams</span>
+      </div>
+      <div class="lic-card" style="--accent:var(--amber)">
+        <h4>Node-Locked License</h4>
+        <ul><li>مربوط بـ <strong>جهاز واحد</strong>.</li><li>تحكّم قوي · حركة محدودة (limited mobility).</li></ul>
+        <span class="best">Best for: dedicated workstations</span>
+      </div>
+      <div class="lic-card" style="--accent:var(--red)">
+        <h4>Floating License</h4>
+        <ul><li>pool مشترك من الـ licenses · استخدام ديناميكي.</li><li>كفء وقت الـ peaks.</li></ul>
+        <span class="best">Best for: studios &amp; labs</span>
+      </div>
+    </div>
+    <table class="tbl">
+      <tr><th>المقارنة</th><th>الخيار الأول</th><th>الخيار التاني</th></tr>
+      <tr><td>User vs Device</td><td><strong>User-based:</strong> مرن · remote</td><td><strong>Device-based:</strong> ثابت · أجهزة مشتركة</td></tr>
+      <tr><td>Cloud vs On-Premises</td><td><strong>Cloud:</strong> scalable · remote-friendly</td><td><strong>On-premises:</strong> secure · controlled</td></tr>
+    </table>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🎯</span> اختيار الـ Model الصح (حسب الـ use case)</div>
+    <table class="tbl">
+      <tr><th>الفئة</th><th>الـ model المناسب</th></tr>
+      <tr><td>Freelancers</td><td>subscription / user-based</td></tr>
+      <tr><td>Agencies</td><td>floating / subscription</td></tr>
+      <tr><td>Studios</td><td>hybrid</td></tr>
+      <tr><td>Education</td><td>device / floating</td></tr>
+      <tr><td>Enterprises</td><td>mixed cloud / on-prem</td></tr>
+    </table>
+    <div class="tip"><div><b>💡</b> الـ decision بيعتمد على: team · usage · mobility · updates · compliance. وفّق الـ licensing مع الـ <strong>workflow</strong> — مش بس على التكلفة. الـ <strong>hybrid models</strong> هي الأكثر فعالية عملياً.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — OPEN SOURCE LICENSES
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num green">07</div>
+    <div class="ch-title">
+      <h2>Open Source Licenses ⭐</h2>
+      <p>بتدّي حرية الـ <strong>use · study · modify · distribute</strong>. الـ OSI بتحتفظ بالقائمة الرسمية المعتمدة.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🪪</span> فئتين أساسيتين</div>
+    <div class="grid2">
+      <div>
+        <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">🟢 Permissive</h4>
+        <p style="font-size:.85rem">بتسمح باستخدام الـ software بأي طريقة تقريباً — <strong>بما فيه دمجه في proprietary software</strong>.</p>
+      </div>
+      <div>
+        <h4 style="color:var(--amber);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">🔁 Copyleft</h4>
+        <p style="font-size:.85rem">بتشترط إن الـ <strong>derivative works</strong> تتوزّع تحت <strong>نفس الـ license</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🟢</span> Permissive Licenses</div>
+    <table class="tbl">
+      <tr><th>License</th><th>الشرط الأساسي</th><th>الاستخدام الشائع</th></tr>
+      <tr><td><strong>MIT</strong></td><td>تضمين الـ copyright notice</td><td>الأشهر للـ libraries والأدوات الخفيفة</td></tr>
+      <tr><td><strong>Apache 2.0</strong></td><td>copyright notice + <strong>patent grant</strong></td><td>مشاريع corporate-friendly · frameworks · enterprise</td></tr>
+      <tr><td><strong>BSD</strong> (2/3-clause)</td><td>تضمين الـ copyright notice</td><td>BSD-origin · مشاريع أكاديمية/permissive</td></tr>
+    </table>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔁</span> Copyleft Licenses</div>
+    <table class="tbl">
+      <tr><th>License</th><th>الشرط الأساسي</th><th>الاستخدام الشائع</th></tr>
+      <tr><td><strong>GPL v2/v3</strong></td><td>الـ derivative works لازم تكون GPL برضه (<strong>strong copyleft</strong>)</td><td>Linux kernel · GNU tools</td></tr>
+      <tr><td><strong>LGPL</strong></td><td>copyleft أضعف؛ بيسمح بالـ <strong>linking</strong> من غير ما يفرض GPL على المشروع كله</td><td>libraries واسعة الاستخدام (مثل GNU C Library)</td></tr>
+      <tr><td><strong>AGPL</strong></td><td>GPL + الـ copyleft بيتفعّل بالـ <strong>network use (SaaS)</strong></td><td>web applications · SaaS platforms</td></tr>
+    </table>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🎯</span> اختيار License لمشروع Open Source</div>
+    <ul style="font-size:.88rem">
+      <li><strong>MIT / Apache 2.0</strong> → أقصى انتشار (maximise adoption)؛ يسمح بالاستخدام في proprietary software.</li>
+      <li><strong>GPL</strong> → يضمن إن كل الـ derivatives تفضل open source.</li>
+      <li><strong>AGPL</strong> → يضمن إن حتى الـ SaaS deployments تنشر تعديلاتها.</li>
+    </ul>
+    <div class="danger"><div><b>🚨 مهم جداً: No license = All rights reserved</b> لو نشرت كود من غير license، الـ copyright law بيدّي <strong>محدش</strong> الحق إنه يستخدمه — حتى لو الكود ظاهر للعامة (publicly visible). لازم تحط license صريح.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🪤</span> Case Study: The AGPL Trap — MongoDB &amp; Elastic</div>
+    <ul style="font-size:.88rem">
+      <li><strong>MongoDB</strong> كانت بتستخدم AGPL. لكن cloud providers كانوا بيقدّموا MongoDB-as-a-service من غير ما يساهموا back → هدّد قدرتها التنافسية.</li>
+      <li>MongoDB حوّلت لـ <strong>SSPL (Server Side Public License)</strong> اللي بيمدّ الـ AGPL copyleft لكل الـ software المستخدم في تقديم الـ database كـ service.</li>
+      <li><strong>Elastic</strong> عملت نفس الحاجة مع Elasticsearch في <strong>2021</strong>.</li>
+      <li><b>الدرس للمهندس:</b> لو الـ SaaS بتاعك بيعتمد على component بـ AGPL أو SSPL، الـ copyleft ممكن يجبرك تنشر <strong>كل الـ source بتاعك</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">⚖️</span> Case Study: Enforcement — BusyBox &amp; Android</div>
+    <ul style="font-size:.88rem">
+      <li>الـ <strong>Software Freedom Conservancy</strong> رفعت قضايا enforcement ضد مصنّعين شحنوا Linux (GPL v2) و BusyBox (GPL v2) من غير ما يوزّعوا الـ source code المقابل — زي ما الـ GPL بتشترط. (قضايا ضد Best Buy و Samsung و شركات routers).</li>
+      <li><b>الدرس:</b> الـ GPL compliance للـ embedded/distributed software (firmware · IoT) بيتطلّب توزيع الـ source code أو إتاحته عند الطلب الكتابي.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 8 — BUSINESS MODELS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num cyan">08</div>
+    <div class="ch-title">
+      <h2>Example SW Business Models</h2>
+      <p>ازاي شركات الـ software بتكسب فلوس؟ نماذج حقيقية.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">💼</span> نماذج الإيرادات</div>
+    <table class="tbl">
+      <tr><th>الشركة</th><th>الـ Model</th><th>الـ Revenue / Why</th></tr>
+      <tr><td><strong>Salesforce</strong></td><td>SaaS subscription</td><td>اشتراكات CRM شهرية/سنوية — شالت تكاليف الـ license المقدّمة، خلّت الـ enterprise software متاح.</td></tr>
+      <tr><td><strong>Red Hat</strong></td><td>Open Source monetization</td><td>Linux code مجاني، بس بيبيعوا <strong>enterprise support</strong> + certified builds. الشركات عايزة reliability/security.</td></tr>
+      <tr><td><strong>Spotify</strong></td><td>Freemium funnel</td><td>إعلانات على الـ free tier + premium subscriptions. قلّل حاجز الدخول → scaled globally.</td></tr>
+      <tr><td><strong>Zoom</strong></td><td>Freemium + enterprise upsell</td><td>اجتماعات مجانية بتجذب، الخطط المدفوعة بتفتح features. نمو viral وقت الـ pandemic.</td></tr>
+      <tr><td><strong>Apple</strong></td><td>Skimming strategy</td><td>سعر premium وقت الإطلاق، بعدين بينزل عشان يلحق الـ mass market. بيبني prestige.</td></tr>
+      <tr><td><strong>Netflix</strong></td><td>Dynamic subscription pricing</td><td>بيظبط الأسعار حسب المنطقة والمنافسة. الـ streaming wars بتفرض تغييرات مستمرة.</td></tr>
+    </table>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🔄</span> Industry Playbook: Legacy Transformers</div>
+    <table class="tbl">
+      <tr><th>الشركة</th><th>التحوّل</th><th>الفايدة</th></tr>
+      <tr><td>Microsoft</td><td>Perpetual → Subscription (Office 365)</td><td>إيرادات متكررة متوقّعة + تحييد القرصنة.</td></tr>
+      <tr><td>Adobe</td><td>Creative Suite → Creative Cloud</td><td>تحسين retention + نمو ARR كبير ومتراكم.</td></tr>
+      <tr><td>Oracle</td><td>On-Premise → Cloud Infrastructure</td><td>الترويج بالـ TCO الأقل (صيانة/staffing/hardware أقل).</td></tr>
+      <tr><td>SAP</td><td>Value-Based Enterprise Pricing</td><td>استخدام حسابات ROI عميقة لتبرير تكاليف الـ ERP المقدّمة.</td></tr>
+    </table>
+  </div>
+
+  <div class="tip"><div><b>💡 Key Takeaways</b> SaaS → predictable recurring revenue · Open Source → monetized trust + support · Freemium → viral growth funnel · Skimming → prestige + mass adoption · Dynamic pricing → competitive survival.</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 9 — COST ESTIMATION
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="ch-header">
+    <div class="ch-num amber">09</div>
+    <div class="ch-title">
+      <h2>Software Cost Estimation ⭐</h2>
+      <p>تقدير: المشروع هياخد قد إيه وقت؟ كام effort؟ كام فلوس؟ "I've got bad news and bad news!"</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">😅</span> الحقيقة المؤلمة</div>
+    <ul style="font-size:.88rem">
+      <li>التقدير الدقيق لتكلفة المشاريع <strong>شبه مستحيل (NEARLY IMPOSSIBLE)</strong>.</li>
+      <li>ومع ذلك، <strong>كل project manager تقريباً</strong> بيتوقّع منك تقدير دقيق.</li>
+      <li>الوقت الوحيد اللي تقدر تكون فيه دقيق 100% هو <strong>بعد ما المشروع يخلص خالص</strong>.</li>
+      <li>الـ <strong>experience بتساعد</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">💵</span> Cost = Effort غالباً</div>
+    <ul style="font-size:.88rem">
+      <li>معظم تكلفة الـ software هي <strong>human effort</strong> → فالـ cost estimation هي في الحقيقة <strong>effort estimation</strong>. (بس فيه تكاليف تانية: AI · cloud · tools · APIs).</li>
+      <li>بديهياً، الـ effort متناسب مع <strong>complexity</strong> المشروع.</li>
+      <li><strong>الـ Complexity نسبية</strong> — مش بس مرتبطة بالـ size (domain · tools · language...). مشروع صغير بمهندسين جداد غير متعوّدين = معقّد. مشروع كبير بمهندسين خبرة عملوا مشاريع شبهه = مش معقّد أوي.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📐</span> Cone of Uncertainty</div>
+    <p style="font-size:.88rem">عدم اليقين (uncertainty) بيقل كل ما معلومات أكتر تتوفّر عبر مراحل المشروع:</p>
+    <table class="tbl">
+      <tr><th>المرحلة</th><th>المعلومات</th><th>عدم اليقين</th></tr>
+      <tr><td>Requirements</td><td>أقل معلومات</td><td><span class="badge badge-red">الأعلى</span></td></tr>
+      <tr><td>Design</td><td>معلومات أكتر</td><td><span class="badge badge-amber">أقل</span></td></tr>
+      <tr><td>Development</td><td>أكتر وأكتر</td><td><span class="badge badge-amber">أقل أكتر</span></td></tr>
+      <tr><td>Testing</td><td>معظم المعلومات</td><td><span class="badge badge-cyan">منخفض</span></td></tr>
+      <tr><td>Delivery</td><td>معلومات كاملة</td><td><span class="badge badge-green">الأدنى</span></td></tr>
+    </table>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🧠</span> Estimation Technique 1: Expert Judgement</div>
+    <ul style="font-size:.88rem">
+      <li>الدقة بتعتمد على <strong>competence · experience · objectivity · perception</strong> بتاع المقدّر. "educated guess" مبني على تحليل top-down أو bottom-up + analogies.</li>
+    </ul>
+    <div class="formula">
+      <div class="eq">Estimate = ( x + 4y + z ) / 6</div>
+    </div>
+    <p style="font-size:.85rem">نسأل عدة خبراء 3 تقديرات: <strong>x</strong> = متشائم (pessimistic) · <strong>y</strong> = الأرجح (most likely) · <strong>z</strong> = متفائل (optimistic). وندمجهم في <strong>beta probability distribution</strong> بالمعادلة دي.</p>
+    <div class="info"><div><b>🔮 Delphi variation</b> الخبراء بيدّوا تقديرات <strong>سرّية ومنفصلة</strong> → بيتحسب الـ average ويتعرض على المجموعة → كل خبير يقدر يعدّل تقديره → بنكرّر لحد ما محدش عايز يعدّل. (أحياناً بيُسمح بنقاش، أو الخبراء المتطرّفين يدافعوا عن قرارهم anonymously).</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🧮</span> Estimation Technique 2: COCOMO II (Algorithmic)</div>
+    <p style="font-size:.88rem">COCOMO II — estimator للـ <strong>development effort · project cost · required staff · development time</strong>. بيجاوب: "قد إيه وقت وفلوس وeffort المشروع ده هيحتاج؟". من تصميم <strong>Barry Boehm</strong>.</p>
+    <div class="formula">
+      <div class="eq">PM = A × (Size)<sup>E</sup> × ∏ EM<sub>i</sub></div>
+    </div>
+    <ul style="font-size:.85rem">
+      <li><strong>PM</strong>: Person-Months (الـ effort) · <strong>A</strong>: ثابت (≈ 2.94)</li>
+      <li><strong>Size</strong>: حجم المشروع بالـ KSLOC أو function points · <strong>E</strong>: scale factor (economies of scale)</li>
+      <li><strong>EM<sub>i</sub></strong>: Effort multipliers (cost drivers زي reliability · team experience · tools)</li>
+    </ul>
+    <div class="codeblk">// مثال السلايد:
+Size = 10 KSLOC,  A = 2.94,  E = 1.1,  ∏EM = 1.2
+
+PM = 2.94 × (10)^1.1 × 1.2
+   = 2.94 × 12.59 × 1.2
+   ≈ 44 person-months</div>
+    <div class="warn"><div><b>⚠️ ملاحظة دقّة</b> السلايد بتكتب الناتج ≈ <strong>41</strong>، لكن بالأرقام دي بالظبط الحساب الصح = <strong>~44 PM</strong> (لو ∏EM كانت 1.1 بدل 1.2 يطلع ≈41 — يعني فيه rounding/typo في السلايد). المهم تفهم <strong>الـ formula</strong> مش الرقم نفسه.</div></div>
+    <div class="danger"><div><b>🚨 نقد حديث مهم لـ SLOC-based estimation</b> الباحثين بينتقدوا التقدير المبني على الـ SLOC (عدد السطور) لأن: الـ frameworks بتولّد كود تلقائي · الـ AI tools بتولّد كود · فيه low-code/no-code tools · اللغات بتختلف كتير في الـ verbosity (Python بيحتاج سطور أقل بكتير من Java/C++ لنفس الـ functionality).</div></div>
+  </div>
+
+  <div class="tip"><div><b>💡 ابدأ من اليوم الأول</b> اعمل <strong>history</strong> لمجهود التطوير في شركتك · احتفظ بـ records للـ unexpected cost factors (العميل بيغيّر رأيه · الـ environment بيتغيّر · functionality إضافية بتتطلب) · خطّط تبقى expert في تقدير الـ effort.</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Practice Quiz — Lecture 19</h3>
+      <p>8 أسئلة على Software Economics · IP · licensing · business models · cost estimation.</p>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 1 <span class="q-src">Practice — economics</span></div>
+    <div class="q-text">ما هي الـ <strong>Opportunity Cost</strong> في الـ software economics؟</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> تكلفة الـ hardware والـ servers</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> التكاليف اللي اتدفعت ومش هترجع</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> القيمة اللي بتخسرها لما تختار مشروع وتسيب التاني</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> تكلفة الصيانة على طول عمر المنتج</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C</b>
+      Opportunity Cost = the value lost by choosing one project over another. (B هي تعريف الـ Sunk Cost، و D هي جزء من الـ TCO).
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 2 <span class="q-src">Practice — IP</span></div>
+    <div class="q-text">ما الفرق الأساسي بين الـ <strong>Copyright</strong> والـ <strong>Patent</strong>؟</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> الـ Copyright بيحمي الأفكار نفسها، والـ Patent بيحمي الأسماء</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> الـ Copyright بيحمي التعبير عن الفكرة (مش الفكرة)، والـ Patent بيحمي الحل التقني المبتكر</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> الـ Copyright للـ hardware والـ Patent للـ software بس</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> مفيش فرق، الاتنين نفس الحاجة</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B</b>
+      Copyright protects the <strong>expression</strong> of ideas, not the ideas themselves. Patents protect novel + useful + non-obvious technical solutions. (A غلط لأن الـ copyright تحديداً <em>مش</em> بيحمي الأفكار).
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 3 <span class="q-src">Practice — Google v Oracle</span></div>
+    <div class="q-text">في قضية Google v. Oracle، Google نسخت إيه بالظبط من Java؟</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> الـ source code والـ implementation logic بالكامل</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> الـ Java Virtual Machine</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> الـ Structure, Sequence &amp; Organization (SSO) — أسماء الـ classes/methods و package hierarchy لـ 37 API package</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> الـ Oracle database</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C</b>
+      Google نسخت الـ SSO (class names, method names, package hierarchies) — <strong>مش</strong> الكود اللي جوه. المحكمة العليا 2021 حكمت إن ده <strong>fair use</strong> لأنه transformative ولأغراض interoperability.
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 4 <span class="q-src">Practice — patents</span></div>
+    <div class="q-text">شروط الـ <strong>Software Patent</strong> هي:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Cheap, fast, open-source</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Popularity, profit, scalability</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Speed, security, simplicity</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Novelty, Usefulness, Non-obviousness</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D</b>
+      الـ patent بيتطلّب يكون <strong>novel</strong> (جديد) + <strong>useful</strong> (مفيد) + <strong>non-obvious</strong> (مش بديهي). وبيدّي exclusive rights لمدة ~20 سنة.
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 5 <span class="q-src">Practice — OSS licenses</span></div>
+    <div class="q-text">أي عبارة صحيحة عن الـ <strong>Copyleft licenses</strong> (زي GPL)؟</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> بتسمح بدمج الكود في proprietary software من غير قيود</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> بتشترط إن الـ derivative works تتوزّع تحت نفس الـ license</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> بتمنع تعديل الكود نهائياً</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> بتشيل الـ copyright عن الكود</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B</b>
+      Copyleft (GPL = strong copyleft) بيشترط إن الـ derivatives تفضل تحت نفس الـ license. (A ده وصف الـ <strong>Permissive</strong> licenses زي MIT/Apache). الـ <strong>AGPL</strong> بيوسّع ده للـ network/SaaS use.
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 6 <span class="q-src">Practice — licensing</span></div>
+    <div class="q-text">لو نشرت كودك على GitHub <strong>من غير أي license</strong>، إيه اللي بيحصل قانونياً؟</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> أي حد يقدر يستخدمه ويعدّله بحرية لأنه publicly visible</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> بيبقى تلقائياً MIT license</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> All rights reserved — محدش له الحق يستخدمه قانونياً</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> بيبقى public domain تلقائياً</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C</b>
+      <strong>No license = all rights reserved.</strong> الـ copyright law بيدّي محدش الحق يستخدم الكود حتى لو ظاهر للعامة. لازم license صريح عشان تدّي حقوق الاستخدام.
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 7 <span class="q-src">Practice — cost estimation</span></div>
+    <div class="q-text">في الـ Expert Judgement، التقديرات الثلاثة (x = pessimistic, y = most likely, z = optimistic) بتتدمج بالمعادلة:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> ( x + 4y + z ) / 6</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> ( x + y + z ) / 3</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> ( x + z ) / 2</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> x × y × z</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A</b>
+      الـ beta probability distribution (PERT) بتدّي وزن أكبر (×4) للتقدير الأرجح: <code>(x + 4y + z) / 6</code>.
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 8 <span class="q-src">Practice — Monkey Selfie</span></div>
+    <div class="q-text">في قضية الـ Monkey Selfie (Naruto v. Slater)، ليه القرد ما ملكش الـ copyright؟</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> لأن المصوّر سجّل الـ patent الأول</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> لأن الـ copyright بيتطلّب مؤلف بشري — الحيوانات لا تملك copyright</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> لأن الصورة كانت سيئة الجودة</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> لأن Wikipedia ملكت الصورة</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B</b>
+      المحكمة حكمت إن الـ copyright للبشر مش للحيوانات. وكمان المصوّر ما ملكهاش لأنه مش هو اللي صوّرها بنفسه — فالنتيجة عملياً محدش يملك الـ copyright.
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet</h2>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="cheat">
+      <h3>💰 Economics Concepts</h3>
+      <div class="cheat-item"><div class="cheat-key">Opportunity Cost</div><div class="cheat-val">قيمة الخيار اللي سبته</div></div>
+      <div class="cheat-item"><div class="cheat-key">Sunk Cost</div><div class="cheat-val">تكلفة دفعت ومش هترجع → تجاهلها</div></div>
+      <div class="cheat-item"><div class="cheat-key">TCO</div><div class="cheat-val">Dev + Maintenance + Retirement</div></div>
+      <div class="cheat-item"><div class="cheat-key">ROI</div><div class="cheat-val">profit-to-cost ratio</div></div>
+      <div class="cheat-item"><div class="cheat-key">NPV</div><div class="cheat-val">أرباح مستقبلية بقيمة النهاردة</div></div>
+      <div class="cheat-item"><div class="cheat-key">Payback Period</div><div class="cheat-val">المدة لحد الـ break even</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🛡️ IP Types</h3>
+      <div class="cheat-item"><div class="cheat-key">Copyright</div><div class="cheat-val">expression مش idea</div></div>
+      <div class="cheat-item"><div class="cheat-key">Patent</div><div class="cheat-val">novel + useful + non-obvious</div></div>
+      <div class="cheat-item"><div class="cheat-key">Trademark</div><div class="cheat-val">أسماء/لوجوهات/brand</div></div>
+      <div class="cheat-item"><div class="cheat-key">License</div><div class="cheat-val">use/modify/share/distribute</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>⚖️ Google v Oracle</h3>
+      <div class="cheat-item"><div class="cheat-key">نسخت إيه؟</div><div class="cheat-val">SSO of 37 APIs (مش الكود)</div></div>
+      <div class="cheat-item"><div class="cheat-key">المدة</div><div class="cheat-val">2010 → 2021 (11 سنة)</div></div>
+      <div class="cheat-item"><div class="cheat-key">الحكم النهائي</div><div class="cheat-val">SCOTUS 2021: fair use</div></div>
+      <div class="cheat-item"><div class="cheat-key">السبب</div><div class="cheat-val">transformative + interoperability</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🪪 OSS Licenses</h3>
+      <div class="cheat-item"><div class="cheat-key">MIT / Apache / BSD</div><div class="cheat-val">Permissive (يسمح proprietary)</div></div>
+      <div class="cheat-item"><div class="cheat-key">GPL</div><div class="cheat-val">strong copyleft</div></div>
+      <div class="cheat-item"><div class="cheat-key">LGPL</div><div class="cheat-val">weaker — linking مسموح</div></div>
+      <div class="cheat-item"><div class="cheat-key">AGPL</div><div class="cheat-val">copyleft بالـ network/SaaS</div></div>
+      <div class="cheat-item"><div class="cheat-key">No license</div><div class="cheat-val">= all rights reserved</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>💼 Business Models</h3>
+      <div class="cheat-item"><div class="cheat-key">SaaS</div><div class="cheat-val">recurring revenue (Salesforce)</div></div>
+      <div class="cheat-item"><div class="cheat-key">OSS monetization</div><div class="cheat-val">support paid (Red Hat)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Freemium</div><div class="cheat-val">viral funnel (Spotify, Zoom)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Skimming</div><div class="cheat-val">premium→mass (Apple)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Dynamic pricing</div><div class="cheat-val">حسب المنطقة (Netflix)</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🧮 Cost Estimation</h3>
+      <div class="cheat-item"><div class="cheat-key">Cost ≈</div><div class="cheat-val">human effort estimation</div></div>
+      <div class="cheat-item"><div class="cheat-key">Expert / PERT</div><div class="cheat-val">(x + 4y + z) / 6</div></div>
+      <div class="cheat-item"><div class="cheat-key">Delphi</div><div class="cheat-val">تقدير سري → average → تكرار</div></div>
+      <div class="cheat-item"><div class="cheat-key">COCOMO II</div><div class="cheat-val">PM = A·Size^E·∏EM (Boehm)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Cone of Uncertainty</div><div class="cheat-val">uncertainty ↓ مع المعلومات ↑</div></div>
+      <div class="cheat-item"><div class="cheat-key">نقد SLOC</div><div class="cheat-val">AI/low-code/verbosity</div></div>
+    </div>
+  </div>
+</div>
+
+</div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
