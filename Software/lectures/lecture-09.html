@@ -133,7 +133,7 @@
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">📖</span> الفكرة</div>
     <ul>
-      <li>كل class بيمثل <strong>concept واحد</strong> ويـ carry <strong>responsibility واحدة</strong>.</li>
+      <li>كل class بيمثل <strong>concept واحد</strong> ويحمل <strong>responsibility واحدة</strong>.</li>
       <li>لو فيه <strong>2 reasons لتغيير الـ class</strong>، يبقى لازم تقسمه لـ class اتنين.</li>
       <li>كل class يهتم بـ <strong>one responsibility + one reason to change</strong>.</li>
     </ul>
@@ -192,7 +192,7 @@
 
   <div class="topic" style="--accent:var(--green)">
     <div class="topic-title"><span class="icon">🔌</span> الفكرة</div>
-    <p>اقدر تـ <strong>add new functionality</strong> بدون ما تـ change existing code.</p>
+    <p>اقدر <strong>تضيف functionality جديد</strong> بدون ما تغيّر existing code.</p>
     <p>زي <strong>mixer kitchen</strong> — تقدر تغير الـ attachments بدون ما تغير الـ engine.</p>
 
     <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">كيف نطبقه؟</h4>
@@ -212,7 +212,7 @@
 }</code></pre>
     </div>
 
-    <p style="margin-top:14px">عايز تـ switch لـ merge sort؟ احذف bubble وضف merge. سهل.</p>
+    <p style="margin-top:14px">عايز تبدّل لـ merge sort؟ احذف bubble وضف merge. سهل.</p>
     <p style="margin-top:8px">عايز <strong>الاتنين متاحين</strong>؟ ضف if statement:</p>
     <div class="code-wrap">
 <pre><code><span class="kw">void</span> <span class="fn">sort</span>(<span class="kw">int</span> sortChoice) {
@@ -304,7 +304,7 @@
   <div class="topic" style="--accent:var(--red)">
     <div class="topic-title"><span class="icon">🧑‍💼</span> Example 3 — Employee vs VolunteerEmployee ⭐</div>
     <p>عندك <code>Employee</code> hierarchy، و <code>VolunteerEmployee extends Employee</code>. بس الـ VolunteerEmployee <strong>ملوش salary/payment</strong> → الـ <code>calcPay()</code> بتبقى مشكلة.</p>
-    <div class="danger"><div><b>🔴 ليه ده أسوأ؟</b>الكود اللي المفروض يشتغل على الـ <code>Employee</code> base class هيضطر يعمل <strong>explicit reference لواحد من الـ derivatives</strong> (يـ check: هل ده VolunteerEmployee؟). ده violation صريح للـ LSP:
+    <div class="danger"><div><b>🔴 ليه ده أسوأ؟</b>الكود اللي المفروض يشتغل على الـ <code>Employee</code> base class هيضطر يعمل <strong>explicit reference لواحد من الـ derivatives</strong> (يـفحص: هل ده VolunteerEmployee؟). ده violation صريح للـ LSP:
       <ul style="margin-top:6px;padding-inline-start:20px">
         <li><code>VolunteerEmployee</code> مش <strong>substitutable</strong> لـ <code>Employee</code>.</li>
         <li>الـ users بتوع <code>Employee</code> بيتأثروا بمجرد <strong>وجود</strong> الـ <code>VolunteerEmployee</code>.</li>
@@ -504,7 +504,7 @@
     </div>
   </div>
 
-  <div class="info"><div><b>💡 Strongly Related to Strategy Pattern</b>الـ DIP بيعمل الـ foundation للـ Strategy. لما UserService بيعتمد على Database interface بدل concrete، تقدر تـ swap implementations في runtime — exactly الـ Strategy Pattern.</div></div>
+  <div class="info"><div><b>💡 Strongly Related to Strategy Pattern</b>الـ DIP بيعمل الـ foundation للـ Strategy. لما UserService بيعتمد على Database interface بدل concrete، تقدر تستبدل implementations في runtime — exactly الـ Strategy Pattern.</div></div>
 
   <div class="topic" style="--accent:var(--pink)">
     <div class="topic-title"><span class="icon">🧷</span> Practical Notes (من السلايدات)</div>

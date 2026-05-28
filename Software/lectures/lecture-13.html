@@ -109,9 +109,9 @@
     <p>الـ Observer Pattern = pattern <strong>behavioral</strong> بـ <em>"publish/subscribe"</em>:</p>
     <ul>
       <li>عند ما object واحد <strong>بيتغير state</strong>، بيـ <strong>notify</strong> a collection of other objects.</li>
-      <li>الـ <strong>observers</strong> بيتـ register مع الـ <strong>observable / subject</strong>.</li>
+      <li>الـ <strong>observers</strong> بيسجّلوا نفسهم عند الـ <strong>observable / subject</strong>.</li>
       <li>الـ Subject بيحتفظ بـ <strong>collection of observers</strong>.</li>
-      <li>عند تغيير state، الـ Subject بيـ notify كل الـ observers تلقائياً.</li>
+      <li>عند تغيير state، الـ Subject بيخبّر كل الـ observers تلقائياً.</li>
     </ul>
   </div>
 
@@ -219,7 +219,7 @@
     <div class="topic" style="--accent:var(--cyan)">
       <div class="topic-title"><span class="icon">👁️</span> Observer (Interface)</div>
       <ul>
-        <li>Updating interface للـ objects اللي بتـ get notified.</li>
+        <li>Updating interface للـ objects اللي بيوصلها الـ notification.</li>
         <li>الـ method الأساسية: <code>update()</code>.</li>
         <li>Defines the <em>contract</em> لكل observer.</li>
       </ul>
@@ -266,7 +266,7 @@
       <li><code>:ConcreteSubject</code> sends <code>update()</code> message to <code>:ConcreteObserver-2</code>.</li>
       <li><code>:ConcreteObserver-2</code> responds by calling <code>getState()</code> back on <code>:ConcreteSubject</code> to fetch the new data.</li>
     </ol>
-    <div class="info"><div><b>💡 Pull Model</b>الـ flow ده pull-based: الـ Observer بيـ pull الـ state من الـ Subject بنفسه عن طريق <code>getState()</code>. في الـ push model، الـ Subject بيـ push الـ data كـ parameter في الـ <code>update()</code>.</div></div>
+    <div class="info"><div><b>💡 Pull Model</b>الـ flow ده pull-based: الـ Observer بيسحب (pull) الـ state من الـ Subject بنفسه عن طريق <code>getState()</code>. في الـ push model، الـ Subject بيدفع (push) الـ data كـ parameter في الـ <code>update()</code>.</div></div>
   </div>
 </div>
 
@@ -329,13 +329,13 @@
   }
 }</code></pre>
     </div>
-    <div class="warn"><div><b>⚠️ Problem</b>الـ client بيـ manually call update. لو الـ subject يتغير، الـ client مش بيعرف تلقائياً. محتاج <strong>auto-notification</strong>.</div></div>
+    <div class="warn"><div><b>⚠️ Problem</b>الـ client بيستدعي update يدوياً. لو الـ subject يتغير، الـ client مش بيعرف تلقائياً. محتاج <strong>auto-notification</strong>.</div></div>
   </div>
 
   <!-- Observer pattern applied -->
   <div class="topic" style="--accent:var(--green)">
     <div class="topic-title"><span class="icon">🎯</span> After Applying Observer Pattern</div>
-    <p>الـ goal: لما <code>Subject.getNumber()</code> يتعمل call، الـ Client يـ get notified automatically.</p>
+    <p>الـ goal: لما <code>Subject.getNumber()</code> يتعمل call، الـ Client يوصله notification تلقائياً.</p>
 
     <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:12px 0 6px">1️⃣ Imports + Client (implements Observer)</h4>
     <div class="code-wrap">
@@ -387,7 +387,7 @@
 }</code></pre>
     </div>
 
-    <div class="tip"><div><b>💡 الفايدة</b>الـ Main code أصبح أبسط: ما عادش محتاج يـ manually call update. الـ Client بيتم notify تلقائياً في كل iteration.</div></div>
+    <div class="tip"><div><b>💡 الفايدة</b>الـ Main code أصبح أبسط: ما عادش محتاج يـستدعي update يدوياً. الـ Client بيتم notify تلقائياً في كل iteration.</div></div>
   </div>
 
   <!-- Class diagram -->
@@ -430,7 +430,7 @@
     <div class="topic-title"><span class="icon">🏗️</span> Architectural vs Design Pattern</div>
     <ul>
       <li>MVC = <strong>Architectural pattern</strong> (high level). مش زي Strategy/Observer.</li>
-      <li>بيـ structure الـ <strong>whole application</strong> into 3 separate parts.</li>
+      <li>بيقسّم الـ <strong>whole application</strong> لـ 3 separate parts.</li>
       <li>معروف قبل GoF design patterns — موجود من 1979.</li>
       <li>Sun (Java): "MVC is the <strong>recommended architectural design pattern</strong> for interactive applications."</li>
     </ul>
@@ -643,14 +643,14 @@
 
   <div class="topic" style="--accent:var(--pink)">
     <div class="topic-title"><span class="icon">🆕</span> MVP — Modern Take</div>
-    <p>الـ MVP بيـ replace الـ Controller بـ <strong>Presenter</strong>. الـ Presenter:</p>
+    <p>الـ MVP بيستبدل الـ Controller بـ <strong>Presenter</strong>. الـ Presenter:</p>
     <ul>
       <li>Communicates with <strong>both</strong> Model and View directly.</li>
       <li>Mediates more strictly than Controller — لا تواصل مباشرة بين Model و View.</li>
       <li>Updates the state in Model via <code>setState()</code> + retrieves data via <code>get</code>.</li>
       <li>Instructs the View directly via <code>changeView()</code>.</li>
     </ul>
-    <p style="margin-top:8px;font-size:.85rem"><strong>الفرق المهم:</strong> في MVC الـ View بيـ observe Model مباشرة. في MVP الـ View ما يعرفش الـ Model — كل التواصل يمر عبر الـ Presenter.</p>
+    <p style="margin-top:8px;font-size:.85rem"><strong>الفرق المهم:</strong> في MVC الـ View بيراقب Model مباشرة. في MVP الـ View ما يعرفش الـ Model — كل التواصل يمر عبر الـ Presenter.</p>
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
@@ -725,10 +725,10 @@
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: C — setChanged()</b>
-      الـ <code>Observable</code> class بيـ require إنك تـ call <code>setChanged()</code> أولاً لـ mark the observable as having been changed. لو ما قلتش بـ كده، <code>notifyObservers()</code> ما يفعلش شيء.
+      الـ <code>Observable</code> class بيتطلّب إنك تستدعي <code>setChanged()</code> الأول لـ mark the observable as having been changed. لو ما قلتش بـ كده، <code>notifyObservers()</code> ما يفعلش شيء.
       <div class="why-wrong">
-        <strong>A (addObserver)</strong> — يضيف observer بس مش بيـ trigger notification. ·
-        <strong>B (update)</strong> — هي اللي بتـ get called على الـ observer، مش الـ subject.
+        <strong>A (addObserver)</strong> — يضيف observer بس مش بيشغّل notification. ·
+        <strong>B (update)</strong> — هي اللي بتتنده على الـ observer، مش الـ subject.
       </div>
     </div>
   </div>
@@ -745,7 +745,7 @@
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: D — Subject</b>
-      Subject = الـ source of changes. هو اللي بيحتفظ بـ <code>List&lt;Observer&gt;</code> ويـ provide methods لـ <code>attach()</code> و <code>detach()</code> الـ observers.
+      Subject = الـ source of changes. هو اللي بيحتفظ بـ <code>List&lt;Observer&gt;</code> ويوفّر methods لـ <code>attach()</code> و <code>detach()</code> الـ observers.
     </div>
   </div>
 
@@ -761,7 +761,7 @@
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: A</b>
-      الـ Model must remain <strong>pure</strong> — no UI dependencies. هذا بيخليك تقدر تـ swap views, test الـ logic independently, و reuse الـ model في other applications.
+      الـ Model must remain <strong>pure</strong> — no UI dependencies. هذا بيخليك تقدر تستبدل views, test الـ logic independently, و reuse الـ model في other applications.
     </div>
   </div>
 
@@ -793,7 +793,7 @@
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: C — Observer</b>
-      الـ Subject = stock price feed. الـ Observers = the 3 chart views. كل chart بيـ subscribe ويـ get notified عند price update.
+      الـ Subject = stock price feed. الـ Observers = the 3 chart views. كل chart بيشترك وبيتنبّه عند price update.
     </div>
   </div>
 
@@ -809,7 +809,7 @@
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: B — Observer</b>
-      ActionListener = Observer. الـ Button = Subject. لما تـ click الـ button (state change), فيـ notify الـ listeners (call <code>actionPerformed()</code>). ده exactly الـ Observer pattern.
+      ActionListener = Observer. الـ Button = Subject. لما تدوس الـ button (state change), بيخبّر الـ listeners (call <code>actionPerformed()</code>). ده exactly الـ Observer pattern.
       <p style="margin-top:6px">في MVC: ActionListener = Controller. الـ Observer pattern یستخدم تحت بـ Java Swing implementation.</p>
     </div>
   </div>
@@ -909,7 +909,7 @@
   <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
   <div class="danger"><div><b>1. خلط Observer + Strategy</b>Observer = one-to-many notification. Strategy = swap behavior in one object.</div></div>
   <div class="danger"><div><b>2. نسيان setChanged() قبل notifyObservers()</b>الـ Java Observable لازم setChanged() الأول، وإلا الـ notification ما تحصلش.</div></div>
-  <div class="danger"><div><b>3. Model يـ depend على View</b>Model مش لازم يعرف Views — هو just publishes changes. الـ View هو اللي بيـ subscribe.</div></div>
+  <div class="danger"><div><b>3. Model يعتمد على View</b>Model مش لازم يعرف Views — هو just publishes changes. الـ View هو اللي بيشترك.</div></div>
   <div class="danger"><div><b>4. MVC = Design Pattern</b>غلط — MVC هو <em>Architectural pattern</em>، أعلى مستوى. أكبر من Strategy/Observer.</div></div>
   <div class="danger"><div><b>5. خلط Controller و Listener</b>في Java specifically، Listeners (ActionListener, MouseListener) <strong>هم</strong> الـ Controllers في MVC.</div></div>
 

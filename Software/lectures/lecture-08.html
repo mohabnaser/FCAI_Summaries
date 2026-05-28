@@ -291,7 +291,7 @@
       <h4>🔧 Internal Event</h4>
       <p>سببه حاجة <strong>جوّه الـ system boundary</strong>.</p>
       <p>Operation invoked via message من object تاني داخلي.</p>
-      <p><strong>مثال:</strong> Object بيـ call method على object تاني — ينتج عنه event.</p>
+      <p><strong>مثال:</strong> Object بيستدعي method على object تاني — ينتج عنه event.</p>
     </div>
     <div class="event-type">
       <h4>⏰ Temporal Event</h4>
@@ -452,7 +452,7 @@
     <p style="margin-top:10px;font-size:.85rem">الـ outer transitions (e.g., <code>cancel</code>) بتشتغل من <strong>أي substate</strong> داخل Serving Customer. مفيش حاجة نضيف cancel arrow من كل substate لوحده.</p>
   </div>
 
-  <div class="info"><div><b>💡 متى نستخدم composite states؟</b>لما عندك مجموعة من الـ states ليها <em>common behavior</em> (مثلاً كلهم ممكن يـ cancel) أو بتنتمي لنفس الـ logical phase (مثل phases of serving customer).</div></div>
+  <div class="info"><div><b>💡 متى نستخدم composite states؟</b>لما عندك مجموعة من الـ states ليها <em>common behavior</em> (مثلاً كلهم ممكن يتلغوا/cancel) أو بتنتمي لنفس الـ logical phase (مثل phases of serving customer).</div></div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════
@@ -542,7 +542,7 @@
         <div style="font-size:.75rem;color:var(--amber)">↓ closingCompleted → Closed</div>
       </div>
     </div>
-    <p style="font-size:.85rem;color:var(--t2);margin-top:10px">كل state عنده <strong>entry action</strong> بـ "stop motor" أو "run motor". الـ pressButton ممكن يـ interrupt الـ opening لـ closing.</p>
+    <p style="font-size:.85rem;color:var(--t2);margin-top:10px">كل state عنده <strong>entry action</strong> بـ "stop motor" أو "run motor". الـ pressButton ممكن يقاطع (interrupt) الـ opening لـ closing.</p>
   </div>
 
   <!-- Tab 4: Online Chess -->
@@ -753,7 +753,7 @@
       <b>✅ الإجابة الصح: B — Composite state</b>
       الطريقة الأنظف: composite state يشمل Placed و Paid، والـ Cancel من الـ composite boundary. ده بيقلل عدد arrows وبيعكس الـ <em>logical grouping</em> (orders اللي ممكن تتلغى).
       <div class="why-wrong">
-        <strong>A</strong> — يشتغل لكن بيـ clutter الـ diagram. الـ composite أنظف. ·
+        <strong>A</strong> — يشتغل لكن بيلخبط الـ diagram. الـ composite أنظف. ·
         <strong>C</strong> — Guard على state غير منطقي هنا. ·
         <strong>D</strong> — Cancelled لازم يكون final state، مش initial.
       </div>

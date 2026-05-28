@@ -328,6 +328,15 @@ pre, .code-wrap, .diagram pre{
   text-align: start;
 }
 
+/* Explicit safety rule for the <bdi> elements that app.js wraps bare Latin
+   runs in. Defaults are already these per HTML spec, but stating them avoids
+   surprises with older browsers / overrides. */
+bdi{
+  display: inline;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
 /* ─── RESPONSIVE ─── */
 @media(max-width:1100px){
   .lectures-grid{grid-template-columns:repeat(3,1fr)}

@@ -161,6 +161,62 @@
     });
   }
 
+  /* ─── BIDI: wrap bare Latin runs in <bdi> so they don't reorder on wrap ─── */
+  /* Bare English phrases inside RTL Arabic paragraphs (e.g. "Software Crisis"
+     in the middle of a sentence) get reordered by the Unicode Bidi Algorithm
+     when a line wraps. <bdi> isolates each run as its own bidi atom. */
+  function wrapLatinRuns(root) {
+    if (!root) return;
+    const SKIP_TAGS = new Set(['SCRIPT','STYLE','PRE','CODE','BDI','TEXTAREA','INPUT','BUTTON']);
+    const LATIN_RUN = /[A-Za-z][A-Za-z0-9'\-_]*(?:[ \t][A-Za-z][A-Za-z0-9'\-_]*)*[.,;:!?)]?/g;
+    const ARABIC = /[؀-ۿ]/;
+
+    function inSkipAncestor(node) {
+      let p = node.parentNode;
+      while (p && p !== root && p.nodeType === 1) {
+        if (SKIP_TAGS.has(p.tagName)) return true;
+        if (p.classList && p.classList.contains('code-wrap')) return true;
+        if (p.getAttribute && p.getAttribute('dir') === 'ltr') return true;
+        p = p.parentNode;
+      }
+      return false;
+    }
+
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    const targets = [];
+    let n;
+    while ((n = walker.nextNode())) {
+      const v = n.nodeValue;
+      if (!v) continue;
+      /* Only wrap when text genuinely mixes Arabic + Latin in one node. */
+      if (!ARABIC.test(v) || !/[A-Za-z]/.test(v)) continue;
+      if (inSkipAncestor(n)) continue;
+      targets.push(n);
+    }
+
+    for (const tn of targets) {
+      const text = tn.nodeValue;
+      const frag = document.createDocumentFragment();
+      let last = 0, m;
+      LATIN_RUN.lastIndex = 0;
+      while ((m = LATIN_RUN.exec(text)) !== null) {
+        if (m[0].length === 0) { LATIN_RUN.lastIndex++; continue; }
+        if (m.index > last) {
+          frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        }
+        const bdi = document.createElement('bdi');
+        bdi.setAttribute('dir', 'ltr');
+        bdi.textContent = m[0];
+        frag.appendChild(bdi);
+        last = m.index + m[0].length;
+      }
+      if (last < text.length) {
+        frag.appendChild(document.createTextNode(text.slice(last)));
+      }
+      if (frag.childNodes.length) tn.parentNode.replaceChild(frag, tn);
+    }
+  }
+
   /* ─── INIT ─── */
   document.addEventListener('DOMContentLoaded', () => {
     updateProgress();
@@ -173,5 +229,6 @@
     bindFlashcards();
     bindOverflowViz();
     fixBidi();
+    wrapLatinRuns(document.getElementById('main') || document.body);
   });
 })();

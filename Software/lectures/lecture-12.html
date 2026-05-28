@@ -217,7 +217,7 @@
     <div class="ch-num purple">04</div>
     <div class="ch-title">
       <h2>Java GUI — Swing &amp; AWT</h2>
-      <p>الـ Java libraries للـ GUI. الـ AWT هي الأساس، الـ Swing بيـ extends.</p>
+      <p>الـ Java libraries للـ GUI. الـ AWT هي الأساس، الـ Swing بيرث منها.</p>
     </div>
   </div>
 
@@ -269,7 +269,7 @@
   <!-- Event Listener -->
   <div class="topic" style="--accent:var(--amber)">
     <div class="topic-title"><span class="icon">👂</span> Event Listeners</div>
-    <p>الـ AWT/Swing components بتـ publish events. الـ <strong>EventListeners</strong> بتـ subscribe لها.</p>
+    <p>الـ AWT/Swing components بتنشر events. الـ <strong>EventListeners</strong> بتشترك فيها.</p>
     <table class="tbl">
       <tr><th>Component</th><th>Event</th><th>Listener</th></tr>
       <tr><td>JButton</td><td>ActionEvent</td><td>ActionListener</td></tr>
@@ -432,7 +432,7 @@ f.setLayout(<span class="kw">new</span> <span class="fn">GridLayout</span>(<span
 <span class="cmt">// or:</span>
 f.setLayout(<span class="kw">new</span> <span class="fn">BorderLayout</span>());  <span class="cmt">// strategy 3</span></code></pre>
     </div>
-    <p style="margin-top:8px;font-size:.85rem">الـ Frame ما يعرفش إزاي بيتم الـ layout — هو بس يحفظ reference للـ LayoutManager. كل strategy class بيـ implement different layout algorithm.</p>
+    <p style="margin-top:8px;font-size:.85rem">الـ Frame ما يعرفش إزاي بيتم الـ layout — هو بس يحفظ reference للـ LayoutManager. كل strategy class بينفّذ layout algorithm مختلف.</p>
   </div>
 </div>
 
@@ -628,7 +628,7 @@ f.setLayout(<span class="kw">new</span> <span class="fn">BorderLayout</span>());
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: B — Publish-Subscribe (Observer)</b>
-      الـ CRM يـ publish event ("new customer"). Billing &amp; Messaging يـ subscribe ويتم notify عند الحدث. Each subscriber يحصل على copy. Classic Pub-Sub / Observer pattern.
+      الـ CRM ينشر event ("new customer"). Billing &amp; Messaging يشتركوا ويتم notify عند الحدث. Each subscriber يحصل على copy. Classic Pub-Sub / Observer pattern.
       <div class="why-wrong">
         <strong>A</strong> — too generic. ·
         <strong>C (Strategy)</strong> — للـ swap algorithms. ·
