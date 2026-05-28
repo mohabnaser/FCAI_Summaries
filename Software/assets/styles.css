@@ -370,3 +370,75 @@ bdi{
   .lectures-grid{grid-template-columns:1fr}
   .hero h1{font-size:1.55rem}
 }
+
+/* ─── RTL LAYOUT OVERRIDES ─── */
+html[dir="rtl"] body {
+  direction: rtl;
+}
+html[dir="rtl"] #sidebar {
+  left: auto;
+  right: 0;
+  border-right: none;
+  border-left: 1px solid var(--border);
+  direction: ltr;
+}
+html[dir="rtl"] #main {
+  margin-left: 0;
+  margin-right: var(--fw);
+}
+html[dir="rtl"] #prog-bar {
+  left: auto;
+  right: 0;
+}
+html[dir="rtl"] #scroll-top {
+  right: auto;
+  left: 20px;
+}
+html[dir="rtl"] #menu-btn {
+  left: auto;
+  right: 20px;
+}
+html[dir="rtl"] .hero::before {
+  right: auto;
+  left: -100px;
+}
+html[dir="rtl"] .hero::after {
+  left: auto;
+  right: 200px;
+}
+html[dir="rtl"] .timeline {
+  padding: 20px 30px 20px 0;
+}
+html[dir="rtl"] .timeline::before {
+  left: auto;
+  right: 6px;
+}
+html[dir="rtl"] .tl-item {
+  padding-left: 0;
+  padding-right: 20px;
+}
+html[dir="rtl"] .tl-item::before {
+  left: auto;
+  right: -30px;
+}
+html[dir="rtl"] .q-explain {
+  border-radius: 8px 0 0 8px;
+}
+html[dir="rtl"] .q-explain .why-wrong {
+  border-radius: 8px 0 0 8px;
+}
+html[dir="rtl"] .fc-hint {
+  right: auto;
+  left: 14px;
+}
+@media(max-width:900px){
+  html[dir="rtl"] #sidebar {
+    transform: translateX(280px);
+  }
+  html[dir="rtl"] #sidebar.open {
+    transform: translateX(0);
+  }
+  html[dir="rtl"] #main {
+    margin-right: 0;
+  }
+}
