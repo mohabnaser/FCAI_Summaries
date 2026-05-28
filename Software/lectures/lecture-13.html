@@ -143,11 +143,11 @@
   <div class="topic" style="--accent:var(--green)">
     <div class="topic-title"><span class="icon">☕</span> Manager &amp; Office Boy Analogy</div>
     <ol>
-      <li><strong>Office Boy:</strong> "I'm here at your service" (subscribe/register)</li>
-      <li><strong>Manager:</strong> "Thanks. I'll call you when I need you" (subject acknowledges)</li>
-      <li><strong>Manager (later):</strong> "Hey, I have something to ask you for." (notify)</li>
-      <li><strong>Office Boy:</strong> "Sure, what do you need?" (update)</li>
-      <li><strong>Manager:</strong> "Please, can I have a cup of tea?" (specific event)</li>
+      <li><strong>Office Boy:</strong> "I'm here at your service" (subscribe/register — بيسجّل نفسه عند الـ subject).</li>
+      <li><strong>Manager:</strong> "Thanks. I'll call you when I need you" (subject acknowledges — الـ subject بيقرّ بوجوده).</li>
+      <li><strong>Manager (later):</strong> "Hey, I have something to ask you for." (notify — بيخبّر الـ observers بحدث).</li>
+      <li><strong>Office Boy:</strong> "Sure, what do you need?" (update — الـ observer بيـستجيب).</li>
+      <li><strong>Manager:</strong> "Please, can I have a cup of tea?" (specific event — الحدث الفعلي).</li>
     </ol>
     <p style="margin-top:8px">الـ Manager (Subject) doesn't know exactly what each Office Boy (Observer) will do — they handle their own reactions.</p>
   </div>
@@ -213,7 +213,7 @@
       <ul>
         <li>يحتفظ بـ <strong>list of observers</strong>.</li>
         <li>Interfaces للـ attach / detach observers.</li>
-        <li><code>notify()</code> method = loop on observers and call update on each.</li>
+        <li><code>notify()</code> method = loop on observers and call update on each — يعمل loop على الـ observers ويستدعي update لكل واحد.</li>
       </ul>
     </div>
     <div class="topic" style="--accent:var(--cyan)">
@@ -221,7 +221,7 @@
       <ul>
         <li>Updating interface للـ objects اللي بيوصلها الـ notification.</li>
         <li>الـ method الأساسية: <code>update()</code>.</li>
-        <li>Defines the <em>contract</em> لكل observer.</li>
+        <li>Defines the <em>contract</em> لكل observer — بيحدّد الـ contract الموحّد للـ observers.</li>
       </ul>
     </div>
     <div class="topic" style="--accent:var(--purple)">

@@ -126,7 +126,7 @@
       <div>
         <h4 style="color:var(--cyan);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">🏗️ Static View</h4>
         <ul>
-          <li><strong>Class diagrams</strong> — describe classes &amp; relationships.</li>
+          <li><strong>Class diagrams</strong> — describe classes &amp; relationships — بتوصف الـ classes والعلاقات بينها.</li>
           <li>Component diagrams</li>
           <li>Deployment diagrams</li>
         </ul>
@@ -134,9 +134,9 @@
       <div>
         <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">🎬 Dynamic View</h4>
         <ul>
-          <li><strong>Sequence diagrams</strong> — object interactions.</li>
+          <li><strong>Sequence diagrams</strong> — object interactions — التفاعلات بين الـ objects.</li>
           <li>Communication diagrams</li>
-          <li>State diagrams (internal behavior)</li>
+          <li>State diagrams (internal behavior) — السلوك الداخلي للـ object.</li>
           <li>Activity diagrams</li>
         </ul>
       </div>
@@ -195,9 +195,9 @@
     <div class="topic-title"><span class="icon">🔄</span> Class Diagrams في الـ lifecycle</div>
     <p>الـ Class diagrams بتختلف حسب المرحلة:</p>
     <ul>
-      <li><strong>Domain Analysis</strong> — high-level, business concepts (no methods, just attributes).</li>
-      <li><strong>Requirements Specification</strong> — adds operations identified by use cases.</li>
-      <li><strong>Implementation</strong> — direct code blueprint with visibility, types, library classes.</li>
+      <li><strong>Domain Analysis</strong> — مفاهيم الـ business عالية المستوى (مفيش methods، attributes بس).</li>
+      <li><strong>Requirements Specification</strong> — بتضيف الـ operations اللي ظهرت من الـ use cases.</li>
+      <li><strong>Implementation</strong> — blueprint مباشر للكود مع visibility و types و library classes.</li>
     </ul>
     <p>بتتطور <strong>iteratively</strong> مع الوقت.</p>
   </div>
@@ -261,8 +261,8 @@
       <div class="uml-class"><div class="uml-name">Manager</div></div>
     </div>
     <ul>
-      <li>An assistant can work for many managers (1..*).</li>
-      <li>A manager can have many (or 0) assistants.</li>
+      <li>An assistant can work for many managers (1..*) — الـ assistant ممكن يشتغل لـ <strong>عدة managers</strong>.</li>
+      <li>A manager can have many (or 0) assistants — الـ manager ممكن يكون عنده <strong>كذا assistant أو ولا حد</strong>.</li>
       <li>Question: is it possible for assistant to have zero managers temporarily?</li>
     </ul>
   </div>
@@ -450,7 +450,7 @@
     <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin:12px 0 6px">✅ When to use Aggregation:</h4>
     <ul>
       <li>You can say "the parts <strong>are part of</strong> the aggregate" أو "the aggregate <strong>is composed of</strong> the parts".</li>
-      <li>When something owns/controls the aggregate, then it also owns/controls the parts.</li>
+      <li>When something owns/controls the aggregate, then it also owns/controls the parts — اللي بيمتلك الـ aggregate بيمتلك الأجزاء كمان.</li>
     </ul>
   </div>
 
@@ -575,13 +575,13 @@
     <div class="topic-title"><span class="icon">📋</span> The Requirements</div>
     <ol>
       <li>Employees are either <strong>developers</strong> or <strong>managers</strong> (generalization).</li>
-      <li>Each developer has a manager (1 manager per developer).</li>
-      <li>Project assigned a manager + a number of developers.</li>
-      <li>Developer/manager may be assigned to multiple projects or to none (0..*).</li>
+      <li>Each developer has a manager (1 manager per developer) — كل developer ليه manager واحد.</li>
+      <li>Project assigned a manager + a number of developers — كل project ليه manager وعدد من الـ developers.</li>
+      <li>Developer/manager may be assigned to multiple projects or to none (0..*) — الـ developer/manager ممكن يكون على projects كتير أو ولا واحد.</li>
       <li>Project consists of <strong>artifacts</strong> (domain analysis, SRS, code, test cases...) — aggregation.</li>
-      <li>Problem reports can be made on any artifact.</li>
+      <li>Problem reports can be made on any artifact — تقدر تعمل problem report على أي artifact.</li>
       <li>Each report contains: <em>problem description</em> and <em>status</em>.</li>
-      <li>Each problem can be assigned to someone by the project manager.</li>
+      <li>Each problem can be assigned to someone by the project manager — الـ project manager ممكن يـعيّن المشكلة لحد معيّن.</li>
       <li>Report has <strong>history entries</strong> (action/update logs) — aggregation.</li>
       <li>A special kind of reports: <strong>Code/Bug Reports</strong> with extra info (location, circumstances, failed tests) — generalization.</li>
     </ol>

@@ -775,13 +775,11 @@ TC2: <span class="num">100</span> → <span class="num">10</span>,  <span class=
         <div class="topic" style="--accent:var(--pink)">
           <div class="topic-title"><span class="icon">📡</span> What is a REST API?</div>
           <ul>
-            <li><strong>API (Application Programming Interface)</strong> = set of rules to interact with another
-              software.</li>
-            <li><strong>REST (Representational State Transfer)</strong> = architectural style for web services serving
-              <strong>data</strong> (not web pages).</li>
-            <li>Communicate over <strong>HTTP</strong> using standard methods.</li>
-            <li>Looks like a website BUT it's NOT a website. Has an <strong>endpoint</strong>.</li>
-            <li><strong>Serves data</strong>, not web pages. Accessed by software.</li>
+            <li><strong>API (Application Programming Interface)</strong> = مجموعة قواعد للتواصل مع software تاني.</li>
+            <li><strong>REST (Representational State Transfer)</strong> = نمط معماري لـ web services بتقدّم <strong>data</strong> (مش web pages).</li>
+            <li>Communicate over <strong>HTTP</strong> using standard methods — بيتواصل عبر HTTP بالـ standard methods.</li>
+            <li>Looks like a website BUT it's NOT a website — شكله زي website بس مش website. ليه <strong>endpoint</strong>.</li>
+            <li><strong>Serves data</strong>, not web pages. Accessed by software — بيقدّم data مش web pages؛ الـ software هو اللي بيستخدمه.</li>
           </ul>
         </div>
 
@@ -834,13 +832,11 @@ TC2: <span class="num">100</span> → <span class="num">10</span>,  <span class=
         <div class="topic" style="--accent:var(--green)">
           <div class="topic-title"><span class="icon">🏗️</span> REST Architecture</div>
           <ul>
-            <li><strong>Resources</strong>: objects/data the API manipulates (users, posts).</li>
-            <li><strong>URIs (Uniform Resource Identifiers)</strong>: unique endpoint per resource
-              (<code>/users/1</code>).</li>
+            <li><strong>Resources</strong>: objects/data the API manipulates (users, posts) — الـ objects/data اللي الـ API بيشتغل عليها.</li>
+            <li><strong>URIs (Uniform Resource Identifiers)</strong>: unique endpoint per resource — endpoint فريد لكل resource (<code>/users/1</code>).</li>
             <li><strong>HTTP Methods</strong>: GET, POST, PUT, DELETE.</li>
-            <li><strong>Stateless</strong>: each request must contain ALL information needed — <strong>no session
-                state</strong> on server. ⭐</li>
-            <li><strong>Responses</strong>: status codes + data in JSON or XML.</li>
+            <li><strong>Stateless</strong>: each request must contain ALL information needed — كل request لازم يحتوي على كل المعلومات المطلوبة، مفيش <strong>session state</strong> على الـ server. ⭐</li>
+            <li><strong>Responses</strong>: status codes + data in JSON or XML — الردود = status codes + data بصيغة JSON أو XML.</li>
           </ul>
 
           <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">HTTP Status Codes</h4>

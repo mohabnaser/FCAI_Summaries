@@ -137,8 +137,8 @@
     <div class="topic-title"><span class="icon">📖</span> Definition</div>
     <p>State diagram بيوصف <strong>الـ behavior</strong> بتاع:</p>
     <ul>
-      <li>A whole system, or</li>
-      <li>Some part of a system, or</li>
+      <li>A whole system — نظام كامل، أو</li>
+      <li>Some part of a system — جزء من نظام، أو</li>
       <li>An <strong>individual object</strong> (الأكتر شيوعاً).</li>
     </ul>
 
@@ -214,7 +214,7 @@
   <div class="topic" style="--accent:var(--green)">
     <div class="topic-title"><span class="icon">💡</span> ايه يعني "State"؟</div>
     <ul>
-      <li><strong>State = a set of values for the attributes</strong> of the given object.</li>
+      <li><strong>State = a set of values for the attributes</strong> of the given object — الـ State = <strong>مجموعة قيم الـ attributes</strong> للـ object في لحظة معيّنة.</li>
       <li>الـ object بيفضل في الـ state ده لحد ما <strong>event</strong> يحصل ويسبب transition.</li>
     </ul>
     <p style="margin-top:8px"><strong>مثال:</strong> Traffic Light — الـ attributes ممكن تكون: <code>color = "red"</code>, <code>activeForSeconds = 0</code>. لو الـ color attribute اتغير لـ <code>"green"</code>، يبقى الـ state اتغير.</p>
@@ -430,7 +430,7 @@
     <ul>
       <li><strong>تنظيم</strong> — تخفّض عدد transitions ظاهرة في الـ diagram.</li>
       <li>الـ <strong>outer state</strong> بتنطبق على كل الـ substates (مثلاً exit من any substate = exit from composite).</li>
-      <li>Easier reading and maintenance.</li>
+      <li>Easier reading and maintenance — القراءة والصيانة بتبقى أسهل.</li>
     </ul>
 
     <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">مثال: ATM "Serving Customer" composite</h4>

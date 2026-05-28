@@ -111,8 +111,8 @@
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">👨‍💼</span> Robert C. Martin — "Uncle Bob"</div>
     <ul>
-      <li>Author of <strong>Clean Code</strong> + <em>Agile Software Craftsmanship</em>.</li>
-      <li>SOLID = set of guidelines to avoid bad OOP design.</li>
+      <li>Author of <strong>Clean Code</strong> + <em>Agile Software Craftsmanship</em> — صاحب كتاب Clean Code و Agile Software Craftsmanship.</li>
+      <li>SOLID = set of guidelines to avoid bad OOP design — مجموعة <strong>إرشادات</strong> لتجنّب الـ OOP design السيّء.</li>
       <li>الـ goal: code <strong>maintainable, extensible, testable</strong>.</li>
     </ul>
   </div>
@@ -197,8 +197,8 @@
 
     <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">كيف نطبقه؟</h4>
     <ul>
-      <li>Use <strong>Interfaces / Abstract Classes</strong>.</li>
-      <li>Use <strong>Design Patterns</strong> (Strategy, Decorator, etc.).</li>
+      <li>استخدم <strong>Interfaces / Abstract Classes</strong>.</li>
+      <li>استخدم <strong>Design Patterns</strong> (Strategy, Decorator, إلخ).</li>
     </ul>
   </div>
 
@@ -429,7 +429,7 @@
 
   <div class="info"><div><b>📌 نقاط مهمة من السلايدات</b>
     <ul style="margin:0;padding-inline-start:20px">
-      <li><strong>Many client-specific interfaces &gt; one general-purpose interface.</strong></li>
+      <li><strong>Many client-specific interfaces &gt; one general-purpose interface</strong> — interfaces متخصّصة لكل client أحسن من interface واحد عام.</li>
       <li><strong>Fat interface = Fat class</strong> — حتى التغيير في method مش مستخدمة ممكن يأثر على الـ users.</li>
       <li>ISP <strong>مش</strong> معناه interface واحد لكل class — المعنى: <strong>group clients by type</strong> (لو غيّرت لـ ClientA ما يأثرش على ClientB/ClientC).</li>
       <li>مثال واقعي: <strong>ASP.NET Membership Provider</strong> أجبر الـ custom provider على implement <strong>27 method/property</strong> — fat interface كلاسيكي.</li>
@@ -452,8 +452,8 @@
   <div class="topic" style="--accent:var(--pink)">
     <div class="topic-title"><span class="icon">📖</span> الفكرة</div>
     <ul>
-      <li><strong>Abstractions should not depend on details</strong>.</li>
-      <li><strong>Details should depend on abstractions</strong>.</li>
+      <li><strong>Abstractions should not depend on details</strong> — الـ abstractions ما تعتمدش على التفاصيل.</li>
+      <li><strong>Details should depend on abstractions</strong> — التفاصيل تعتمد على الـ abstractions.</li>
     </ul>
     <p style="margin-top:14px">في الـ traditional design: high-level modules بتعتمد على low-level. أي تغيير في low-level بيخرب high-level.</p>
     <p>في الـ DIP: الاتنين بيعتمدوا على <strong>interface (abstraction)</strong>.</p>

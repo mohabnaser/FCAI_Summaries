@@ -97,9 +97,9 @@
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">📜</span> History &amp; Origin</div>
     <ul>
-      <li>Based on work by <strong>Christopher Alexander</strong> (Architect) on building homes/towns.</li>
-      <li><strong>Gang of Four (GoF)</strong> book — 1995, by Gamma, Helm, Johnson, Vlissides.</li>
-      <li>Described 23 recurring software designs.</li>
+      <li>Based on work by <strong>Christopher Alexander</strong> (Architect) on building homes/towns — مبني على شغل <strong>Christopher Alexander</strong> (مهندس معماري) في تصميم البيوت والمدن.</li>
+      <li><strong>Gang of Four (GoF)</strong> book — 1995, by Gamma, Helm, Johnson, Vlissides — كتاب الـ <strong>GoF</strong> سنة 1995، أربع مؤلّفين شهيرين.</li>
+      <li>Described 23 recurring software designs — وصف <strong>23 design pattern</strong> متكرّرة في الـ software.</li>
     </ul>
     <blockquote style="border-inline-start:3px solid var(--cyan);padding:10px 16px;background:rgba(0,212,255,.05);font-style:italic;color:var(--t2);margin-top:10px">
       "Each pattern describes a problem which occurs over and over again, and then describes the core of the solution, in such a way that you can use this solution a million times over, without ever doing it in the same way twice."
@@ -121,9 +121,9 @@
     </div>
     <div class="danger"><div><b>🔴 What's wrong?</b>
       <ol style="margin-top:4px">
-        <li>Violates <strong>OCP</strong> — for any new algorithm, you modify the class.</li>
-        <li>Every change affects all <strong>clients</strong> that use it.</li>
-        <li>What about <strong>future algorithms</strong> you don't know yet? You'll keep editing.</li>
+        <li>Violates <strong>OCP</strong> — for any new algorithm, you modify the class — بيخالف الـ OCP: كل ما تضيف algorithm جديد، تعدّل في الـ class.</li>
+        <li>Every change affects all <strong>clients</strong> that use it — كل تعديل بيأثر على كل الـ clients اللي بيستخدموها.</li>
+        <li>What about <strong>future algorithms</strong> you don't know yet? You'll keep editing — وايه عن الـ algorithms المستقبلية اللي مش عارفها لسه؟ هتفضل تعدّل في الكود.</li>
       </ol>
     </div></div>
     <div class="info"><div><b>💡 Uncle Bob's wisdom</b>"When writing a class, ensure that when you need to extend its behavior you <strong>don't have to change the class</strong> but to <strong>extend it</strong>."</div></div>
