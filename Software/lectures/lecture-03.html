@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lecture 03 — Requirements Engineering | CS251</title>
+<title><bdi>Lecture 03</bdi> — <bdi>Requirements Engineering</bdi> | <bdi>CS251</bdi></title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
   /* Page-specific tweaks */
-  .req-process{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:20px 0;position:relative}
+  .req-process{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:20px 0;position:relative;direction:ltr}
   .req-step{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center;border-top:3px solid var(--accent);position:relative}
   .req-step::after{content:'→';position:absolute;right:-12px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--cyan);z-index:2}
   .req-step:last-child::after{display:none}
@@ -77,7 +77,7 @@
 
   <div class="sb-section">Specifying</div>
   <a href="#ch7" class="sb-link"><span class="sb-dot"></span>6 Specification Methods</a>
-  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>User Stories &amp; INVEST</a>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>User Stories & INVEST</a>
   <a href="#ch9" class="sb-link"><span class="sb-dot"></span>Use Cases (Deep)</a>
 
   <div class="sb-section">Exam Prep</div>
@@ -91,660 +91,640 @@
 
 <main id="main" dir="rtl">
 
-<!-- ════════════════════════ HERO ════════════════════════ -->
+
 <section class="hero">
-  <div class="hero-badge">📋 Lecture 03 · 106 slides · أهم lecture في الترم</div>
-  <h1>Requirements <span>Engineering</span></h1>
-  <p>"إذا ما تعرفش رايح فين، مفيش جهد ولا سرعة هتوصلك" — د. الرملي. هنا هنتعلم ازاي نجمع requirements من العملاء، نوثقها، ونتحقق منها. كل أسئلة User Stories و SRS و Use Cases في الامتحانات بتيجي من هنا.</p>
+  <div class="hero-badge">📋 <bdi>Lecture 03</bdi> · <bdi>106 slides</bdi> · أهم <bdi>lecture</bdi> في الترم</div>
+  <h1><bdi>Requirements</bdi> <span><bdi>Engineering</bdi></span></h1>
+  <p>"إذا ما تعرفش رايح فين، مفيش جهد ولا سرعة هتوصلك" — د. الرملي. هنا هنتعلم ازاي نجمع <bdi>requirements</bdi> من العملاء، نوثقها، ونتحقق منها. كل أسئلة <bdi>User Stories</bdi> و <bdi>SRS</bdi> و <bdi>Use Cases</bdi> في الامتحانات بتيجي من هنا.</p>
   <div class="btn-row">
-    <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+    <a href="../index.html" class="btn btn-ghost">← <bdi>All Lectures</bdi></a>
     <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
   </div>
   <div class="hero-stats">
-    <div class="hstat"><div class="num">9</div><div class="lbl">Chapters</div></div>
-    <div class="hstat"><div class="num">5</div><div class="lbl">RE Stages</div></div>
-    <div class="hstat"><div class="num">6</div><div class="lbl">Spec Methods</div></div>
-    <div class="hstat"><div class="num">10</div><div class="lbl">Exam Qs</div></div>
+    <div class="hstat"><div class="num">9</div><div class="lbl"><bdi>Chapters</bdi></div></div>
+    <div class="hstat"><div class="num">5</div><div class="lbl"><bdi>RE Stages</bdi></div></div>
+    <div class="hstat"><div class="num">6</div><div class="lbl"><bdi>Spec Methods</bdi></div></div>
+    <div class="hstat"><div class="num">10</div><div class="lbl"><bdi>Exam Qs</bdi></div></div>
   </div>
 </section>
 
 <div class="content">
 
-<!-- ════════════════════════════════════════════════════════
-     CH 1 — TYPES OF SOFTWARE PRODUCTS
-══════════════════════════════════════════════════════════ -->
+
 <div class="chapter" id="ch1">
   <div class="ch-header">
     <div class="ch-num blue">01</div>
     <div class="ch-title">
-      <h2>Types of Software Products</h2>
-      <p>قبل ما نجمع requirements، لازم نعرف الـ software اللي بنبنيه نوعه ايه. النوع بيحدد كل الخطوات بعد كده.</p>
+      <h2><bdi>Types of Software Products</bdi></h2>
+      <p>قبل ما نجمع <bdi>requirements</bdi>، لازم نعرف الـ <bdi>software</bdi> اللي بنبنيه نوعه ايه. النوع بيحدد كل الخطوات بعد كده.</p>
     </div>
   </div>
 
   <div class="grid3">
     <div class="topic" style="--accent:var(--cyan)">
-      <div class="topic-title"><span class="icon">🎯</span> Custom Made</div>
-      <p>Software مخصص لـ <strong>عميل محدد</strong> — بيتبني حسب احتياجاته الفريدة.</p>
+      <div class="topic-title"><span class="icon">🎯</span> <bdi>Custom Made</bdi></div>
+      <p><bdi>Software</bdi> مخصص لـ <strong>عميل محدد</strong> — بيتبني حسب احتياجاته الفريدة.</p>
       <p>مثال: نظام محاسبي لشركة معينة.</p>
     </div>
     <div class="topic" style="--accent:var(--green)">
-      <div class="topic-title"><span class="icon">🏢</span> B-B (Business to Business)</div>
-      <p>Product <strong>narrow</strong> بيستهدف شركات معينة (clients محددين).</p>
-      <p>مثال: Salesforce, SAP.</p>
+      <div class="topic-title"><span class="icon">🏢</span> <bdi>B-B</bdi> (<bdi>Business to Business</bdi>)</div>
+      <p><bdi>Product</bdi> <strong><bdi>narrow</bdi></strong> بيستهدف شركات معينة (<bdi>clients</bdi> محددين).</p>
+      <p>مثال: <bdi>Salesforce, SAP.</bdi></p>
     </div>
     <div class="topic" style="--accent:var(--amber)">
-      <div class="topic-title"><span class="icon">👥</span> B-C (Business to Customer)</div>
-      <p>Product / Platform عام للجمهور العريض.</p>
-      <p>مثال: Word, Uber, Google Docs (cloud-based), WhatsApp.</p>
+      <div class="topic-title"><span class="icon">👥</span> <bdi>B-C</bdi> (<bdi>Business to Customer</bdi>)</div>
+      <p><bdi>Product</bdi> / <bdi>Platform</bdi> عام للجمهور العريض.</p>
+      <p>مثال: <bdi>Word, Uber, Google Docs</bdi> (<bdi>cloud-based</bdi>), <bdi>WhatsApp.</bdi></p>
     </div>
   </div>
 
   <div class="info">
-    <div><b>💡 ليه ده مهم؟</b>الـ Custom-made بيحتاج interviews كتيرة مع العميل. الـ B-C بيحتاج market research وsegmentation. النوع بيغير كل الخطوات بعد كده.</div>
+    <div><b>💡 ليه ده مهم؟</b>الـ <bdi>Custom-made</bdi> بيحتاج <bdi>interviews</bdi> كتيرة مع العميل. الـ <bdi>B-C</bdi> بيحتاج <bdi>market research</bdi> و<bdi>segmentation.</bdi> النوع بيغير كل الخطوات بعد كده.</div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     CH 2 — PRE-PROJECT ACTIVITIES
-══════════════════════════════════════════════════════════ -->
+
 <div class="chapter" id="ch2">
   <div class="ch-header">
     <div class="ch-num green">02</div>
     <div class="ch-title">
-      <h2>Pre-Project Activities — قبل ما نبدأ المشروع أصلاً</h2>
+      <h2><bdi>Pre-Project Activities</bdi> — قبل ما نبدأ المشروع أصلاً</h2>
       <p>4 أنشطة لازمة قبل ما نكتب أول سطر كود. كتير من المشاريع بتفشل لإنها بتتخطى الخطوات دي.</p>
     </div>
   </div>
 
   <div class="req-process">
-    <div class="req-step s1"><div class="rs-num">STEP 1</div><div class="rs-name">Market / Gap Analysis</div></div>
-    <div class="req-step s2"><div class="rs-num">STEP 2</div><div class="rs-name">Market Segmentation</div></div>
-    <div class="req-step s3"><div class="rs-num">STEP 3</div><div class="rs-name">Feasibility Study</div></div>
-    <div class="req-step s4"><div class="rs-num">STEP 4</div><div class="rs-name">High-Level Biz Plan</div></div>
-    <div class="req-step s5"><div class="rs-num">STEP 5</div><div class="rs-name">→ Project Start</div></div>
+    <div class="req-step s1"><div class="rs-num"><bdi>STEP 1</bdi></div><div class="rs-name"><bdi>Market</bdi> / <bdi>Gap Analysis</bdi></div></div>
+    <div class="req-step s2"><div class="rs-num"><bdi>STEP 2</bdi></div><div class="rs-name"><bdi>Market Segmentation</bdi></div></div>
+    <div class="req-step s3"><div class="rs-num"><bdi>STEP 3</bdi></div><div class="rs-name"><bdi>Feasibility Study</bdi></div></div>
+    <div class="req-step s4"><div class="rs-num"><bdi>STEP 4</bdi></div><div class="rs-name"><bdi>High-Level Biz Plan</bdi></div></div>
+    <div class="req-step s5"><div class="rs-num"><bdi>STEP 5</bdi></div><div class="rs-name">→ <bdi>Project Start</bdi></div></div>
   </div>
 
-  <!-- Market Analysis -->
+  
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">📊</span> 1. Market / Gap Analysis</div>
-    <p><strong>Market Analysis</strong>: تشوف كيف الناس في دول تانية بتحل المشكلة دي.</p>
+    <div class="topic-title"><span class="icon">📊</span> <bdi>1. Market</bdi> / <bdi>Gap Analysis</bdi></div>
+    <p><strong><bdi>Market Analysis</bdi></strong>: تشوف كيف الناس في دول تانية بتحل المشكلة دي.</p>
     <ul>
-      <li><strong>Global Practices</strong>: مثال — تبني تطبيق دفع، بص على كينيا (M-Pesa) ومصر (Vodafone Cash).</li>
-      <li><strong>Local Practices</strong>: الـ landscape المحلي — مثلاً في مصر: mobile wallets, government initiatives.</li>
+      <li><strong><bdi>Global Practices</bdi></strong>: مثال — تبني تطبيق دفع، بص على كينيا (<bdi>M-Pesa</bdi>) ومصر (<bdi>Vodafone Cash</bdi>).</li>
+      <li><strong><bdi>Local Practices</bdi></strong>: الـ <bdi>landscape</bdi> المحلي — مثلاً في مصر: <bdi>mobile wallets, government initiatives.</bdi></li>
     </ul>
-    <p><strong>Gap Analysis</strong>: بيحدد الفجوات بين <strong>الـ current state</strong> والـ <strong>desired future state</strong>.</p>
+    <p><strong><bdi>Gap Analysis</bdi></strong>: بيحدد الفجوات بين <strong>الـ <bdi>current state</bdi></strong> والـ <strong><bdi>desired future state</bdi></strong>.</p>
   </div>
 
-  <!-- Segmentation -->
+  
   <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">👥</span> 2. Market Segmentation &amp; Research</div>
-    <p>افهم مين هم العملاء الـ target:</p>
+    <div class="topic-title"><span class="icon">👥</span> <bdi>2. Market Segmentation</bdi> & <bdi>Research</bdi></div>
+    <p>افهم مين هم العملاء الـ <bdi>target</bdi>:</p>
     <ul>
-      <li><strong>Customer Segmentation</strong>: مين متأثر؟ (unbanked، أهالي، طلاب جامعة، SMEs، رِيف/مدينة).</li>
-      <li><strong>Demographics</strong>: العمر، الدخل، التعليم، عادات استخدام الـ tech.</li>
+      <li><strong><bdi>Customer Segmentation</bdi></strong>: مين متأثر؟ (<bdi>unbanked</bdi>، أهالي، طلاب جامعة، <bdi>SMEs</bdi>، رِيف/مدينة).</li>
+      <li><strong><bdi>Demographics</bdi></strong>: العمر، الدخل، التعليم، عادات استخدام الـ <bdi>tech.</bdi></li>
     </ul>
   </div>
 
-  <!-- Feasibility -->
+  
   <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">🔬</span> 3. Feasibility Study — 4 جوانب</div>
-    <table class="tbl">
+    <div class="topic-title"><span class="icon">🔬</span> <bdi>3. Feasibility Study</bdi> — 4 جوانب</div>
+    <table class="tbl" dir="ltr">
       <tr><th>النوع</th><th>السؤال اللي بيجاوب عليه</th></tr>
-      <tr><td><span class="badge badge-cyan">Technical</span></td><td>هل ممكن نبنيه بالـ technology والـ tools والـ skills المتاحة؟</td></tr>
-      <tr><td><span class="badge badge-green">Economic</span></td><td>هل المشروع مربح؟ (Cost vs Revenue, ROI)</td></tr>
-      <tr><td><span class="badge badge-amber">Legal &amp; Regulatory</span></td><td>هل بيلتزم بالقوانين واللوائح؟</td></tr>
-      <tr><td><span class="badge badge-purple">Schedule</span></td><td>هل ممكن نخلصه في الوقت المتاح؟</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><span class="badge badge-cyan"><bdi>Technical</bdi></span></td><td>هل ممكن نبنيه بالـ <bdi>technology</bdi> والـ <bdi>tools</bdi> والـ <bdi>skills</bdi> المتاحة؟</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><span class="badge badge-green"><bdi>Economic</bdi></span></td><td>هل المشروع مربح؟ (<bdi>Cost vs Revenue, ROI</bdi>)</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><span class="badge badge-amber"><bdi>Legal</bdi> & <bdi>Regulatory</bdi></span></td><td>هل بيلتزم بالقوانين واللوائح؟</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><span class="badge badge-purple"><bdi>Schedule</bdi></span></td><td>هل ممكن نخلصه في الوقت المتاح؟</td></tr>
     </table>
   </div>
 
-  <!-- Business Plan -->
+  
   <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">📝</span> 4. High-Level Business Plan — 3 أجزاء</div>
+    <div class="topic-title"><span class="icon">📝</span> <bdi>4. High-Level Business Plan</bdi> — 3 أجزاء</div>
 
-    <h4 style="color:var(--cyan);font-family:var(--fh);font-size:.95rem;margin:10px 0 6px">🎯 Project Goals (لازم تكون SMART)</h4>
-    <p><strong>S</strong>pecific · <strong>M</strong>easurable · <strong>A</strong>chievable · <strong>R</strong>elevant · <strong>T</strong>ime-bound</p>
-    <div class="info"><div><b>مثال:</b> "Build a mobile budgeting app, achieve 100,000 active users in 1st year, integrate with major banks by Q3."</div></div>
+    <h4 style="color:var(--cyan);font-family:var(--fh);font-size:.95rem;margin:10px 0 6px">🎯 <bdi>Project Goals</bdi> (لازم تكون <bdi>SMART</bdi>)</h4>
+    <p><strong><bdi>S</bdi></strong><bdi>pecific</bdi> · <strong><bdi>M</bdi></strong><bdi>easurable</bdi> · <strong><bdi>A</bdi></strong><bdi>chievable</bdi> · <strong><bdi>R</bdi></strong><bdi>elevant</bdi> · <strong><bdi>T</bdi></strong><bdi>ime-bound</bdi></p>
+    <div class="info"><div><b>مثال:</b> "<bdi>Build a mobile budgeting app, achieve 100,000 active users in 1st year, integrate with major banks by Q3.</bdi>"</div></div>
 
-    <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin:14px 0 6px">💎 Value Proposition</h4>
-    <p>ايه اللي بيخليك different عن المنافسين؟</p>
-    <div class="info"><div><b>مثال:</b> "AI-powered budgeting app that predicts monthly spending, auto-saves, and gives personalized financial advice — all in one place."</div></div>
+    <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin:14px 0 6px">💎 <bdi>Value Proposition</bdi></h4>
+    <p>ايه اللي بيخليك <bdi>different</bdi> عن المنافسين؟</p>
+    <div class="info"><div><b>مثال:</b> "<bdi>AI-powered budgeting app that predicts monthly spending, auto-saves, and gives personalized financial advice</bdi> — <bdi>all in one place.</bdi>"</div></div>
 
-    <h4 style="color:var(--amber);font-family:var(--fh);font-size:.95rem;margin:14px 0 6px">💰 Financial Outlook</h4>
+    <h4 style="color:var(--amber);font-family:var(--fh);font-size:.95rem;margin:14px 0 6px">💰 <bdi>Financial Outlook</bdi></h4>
     <ul>
-      <li>Dev Costs: $150K</li>
-      <li>Ongoing: $50K/year (hosting, support, marketing)</li>
-      <li>Revenue: $5/month × 20K users = <strong>$1.2M/year</strong></li>
+      <li><bdi>Dev Costs</bdi>: $<bdi>150K</bdi></li>
+      <li><bdi>Ongoing</bdi>: $<bdi>50K</bdi>/<bdi>year</bdi> (<bdi>hosting, support, marketing</bdi>)</li>
+      <li><bdi>Revenue</bdi>: $5/<bdi>month</bdi> × <bdi>20K users</bdi> = <strong>$<bdi>1.2M</bdi>/<bdi>year</bdi></strong></li>
     </ul>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     CH 3 — DOMAIN ANALYSIS
-══════════════════════════════════════════════════════════ -->
+
 <div class="chapter" id="ch3">
   <div class="ch-header">
     <div class="ch-num amber">03</div>
     <div class="ch-title">
-      <h2>Domain Analysis — افهم المجال قبل ما تبني</h2>
-      <p>قبل ما تجمع requirements، لازم تفهم الـ <em>domain</em> اللي شغّال فيه (طب، تعليم، بنوك، إلخ).</p>
+      <h2><bdi>Domain Analysis</bdi> — افهم المجال قبل ما تبني</h2>
+      <p>قبل ما تجمع <bdi>requirements</bdi>، لازم تفهم الـ <em><bdi>domain</bdi></em> اللي شغّال فيه (طب، تعليم، بنوك، إلخ).</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">🌐</span> ايه الـ Domain Analysis؟</div>
-    <p>العملية اللي بيها الـ software engineer بيتعلم عن الـ domain علشان يفهم المشكلة:</p>
+    <div class="topic-title"><span class="icon">🌐</span> ايه الـ <bdi>Domain Analysis</bdi>؟</div>
+    <p>العملية اللي بيها الـ <bdi>software engineer</bdi> بيتعلم عن الـ <bdi>domain</bdi> علشان يفهم المشكلة:</p>
     <ul>
-      <li>الـ <strong>domain</strong> = المجال العام بتاع البيزنس أو الـ tech اللي العميل هيستخدم فيه الـ software.</li>
-      <li>الـ <strong>domain expert</strong> = شخص عنده فهم عميق للـ domain.</li>
+      <li>الـ <strong><bdi>domain</bdi></strong> = المجال العام بتاع البيزنس أو الـ <bdi>tech</bdi> اللي العميل هيستخدم فيه الـ <bdi>software.</bdi></li>
+      <li>الـ <strong><bdi>domain expert</bdi></strong> = شخص عنده فهم عميق للـ <bdi>domain.</bdi></li>
     </ul>
 
-    <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin:14px 0 6px">✨ فوائد Domain Analysis</h4>
+    <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin:14px 0 6px">✨ فوائد <bdi>Domain Analysis</bdi></h4>
     <div class="grid4">
-      <div class="cmp-card" style="--accent:var(--cyan)"><h4>⚡ Faster Dev</h4><p>تطوير أسرع.</p></div>
-      <div class="cmp-card" style="--accent:var(--green)"><h4>🎯 Better System</h4><p>نظام أحسن.</p></div>
-      <div class="cmp-card" style="--accent:var(--amber)"><h4>🚫 No Misunderstanding</h4><p>تجنب سوء الفهم.</p></div>
-      <div class="cmp-card" style="--accent:var(--purple)"><h4>🔮 Anticipate Extensions</h4><p>توقع التوسعات المستقبلية.</p></div>
+      <div class="cmp-card" style="--accent:var(--cyan)"><h4>⚡ <bdi>Faster Dev</bdi></h4><p>تطوير أسرع.</p></div>
+      <div class="cmp-card" style="--accent:var(--green)"><h4>🎯 <bdi>Better System</bdi></h4><p>نظام أحسن.</p></div>
+      <div class="cmp-card" style="--accent:var(--amber)"><h4>🚫 <bdi>No Misunderstanding</bdi></h4><p>تجنب سوء الفهم.</p></div>
+      <div class="cmp-card" style="--accent:var(--purple)"><h4>🔮 <bdi>Anticipate Extensions</bdi></h4><p>توقع التوسعات المستقبلية.</p></div>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">📄</span> Domain Analysis Document — 8 أقسام</div>
-    <table class="tbl">
+    <div class="topic-title"><span class="icon">📄</span> <bdi>Domain Analysis Document</bdi> — 8 أقسام</div>
+    <table class="tbl" dir="ltr">
       <tr><th>القسم</th><th>المحتوى</th></tr>
-      <tr><td><strong>A. Introduction</strong></td><td>خلفية عامة + الغرض من الـ doc</td></tr>
-      <tr><td><strong>B. Glossary</strong></td><td>تعريفات للمصطلحات الخاصة بالـ domain (Open event, Fixed event, Recurrent event...)</td></tr>
-      <tr><td><strong>C. General knowledge</strong></td><td>قوانين الـ domain العامة</td></tr>
-      <tr><td><strong>D. Customers and users</strong></td><td>مين هم الـ clients (organizations) و users (staff, admins...)</td></tr>
-      <tr><td><strong>E. The environment</strong></td><td>البيئة المحيطة (HW, SW, network, regulatory)</td></tr>
-      <tr><td><strong>F. Tasks and procedures currently performed</strong></td><td>كيف بيشتغلوا دلوقتي بدون الـ software الجديد</td></tr>
-      <tr><td><strong>G. Competing software</strong></td><td>المنتجات المنافسة الموجودة</td></tr>
-      <tr><td><strong>H. Similarities to other domains</strong></td><td>أي domains تانية شبه ده ممكن نستفيد من خبرتها</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>A. Introduction</bdi></strong></td><td>خلفية عامة + الغرض من الـ <bdi>doc</bdi></td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>B. Glossary</bdi></strong></td><td>تعريفات للمصطلحات الخاصة بالـ <bdi>domain</bdi> (<bdi>Open event, Fixed event, Recurrent event...</bdi>)</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>C. General knowledge</bdi></strong></td><td>قوانين الـ <bdi>domain</bdi> العامة</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>D. Customers and users</bdi></strong></td><td>مين هم الـ <bdi>clients</bdi> (<bdi>organizations</bdi>) و <bdi>users</bdi> (<bdi>staff, admins...</bdi>)</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>E. The environment</bdi></strong></td><td>البيئة المحيطة (<bdi>HW, SW, network, regulatory</bdi>)</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>F. Tasks and procedures currently performed</bdi></strong></td><td>كيف بيشتغلوا دلوقتي بدون الـ <bdi>software</bdi> الجديد</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>G. Competing software</bdi></strong></td><td>المنتجات المنافسة الموجودة</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>H. Similarities to other domains</bdi></strong></td><td>أي <bdi>domains</bdi> تانية شبه ده ممكن نستفيد من خبرتها</td></tr>
     </table>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     CH 4 — RE PROCESS (5 STAGES)
-══════════════════════════════════════════════════════════ -->
+
 <div class="chapter" id="ch4">
   <div class="ch-header">
     <div class="ch-num purple">04</div>
     <div class="ch-title">
-      <h2>Requirements Engineering Process — 5 مراحل</h2>
-      <p>RE = تعريف، توثيق، وصيانة الـ requirements. 5 مراحل بترتيب: <strong>Elicit → Analyze → Specify → Validate → Manage</strong>.</p>
+      <h2><bdi>Requirements Engineering Process</bdi> — 5 مراحل</h2>
+      <p><bdi>RE</bdi> = تعريف، توثيق، وصيانة الـ <bdi>requirements. 5</bdi> مراحل بترتيب: <strong><bdi>Elicit</bdi> → <bdi>Analyze</bdi> → <bdi>Specify</bdi> → <bdi>Validate</bdi> → <bdi>Manage</bdi></strong>.</p>
     </div>
   </div>
 
   <div class="req-process">
-    <div class="req-step s1"><div class="rs-num">S1</div><div class="rs-name">Elicitation</div></div>
-    <div class="req-step s2"><div class="rs-num">S2</div><div class="rs-name">Analysis</div></div>
-    <div class="req-step s3"><div class="rs-num">S3</div><div class="rs-name">Specification</div></div>
-    <div class="req-step s4"><div class="rs-num">S4</div><div class="rs-name">Validation</div></div>
-    <div class="req-step s5"><div class="rs-num">S5</div><div class="rs-name">Management</div></div>
+    <div class="req-step s1"><div class="rs-num"><bdi>S1</bdi></div><div class="rs-name"><bdi>Elicitation</bdi></div></div>
+    <div class="req-step s2"><div class="rs-num"><bdi>S2</bdi></div><div class="rs-name"><bdi>Analysis</bdi></div></div>
+    <div class="req-step s3"><div class="rs-num"><bdi>S3</bdi></div><div class="rs-name"><bdi>Specification</bdi></div></div>
+    <div class="req-step s4"><div class="rs-num"><bdi>S4</bdi></div><div class="rs-name"><bdi>Validation</bdi></div></div>
+    <div class="req-step s5"><div class="rs-num"><bdi>S5</bdi></div><div class="rs-name"><bdi>Management</bdi></div></div>
   </div>
 
-  <!-- S1: Elicitation -->
+  
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">🎤</span> S1: Elicitation — جمع المعلومات</div>
-    <p>أول خطوة. الـ goal: نفهم الـ needs والـ desires والـ constraints من الـ stakeholders. الـ techniques:</p>
+    <div class="topic-title"><span class="icon">🎤</span> <bdi>S1</bdi>: <bdi>Elicitation</bdi> — جمع المعلومات</div>
+    <p>أول خطوة. الـ <bdi>goal</bdi>: نفهم الـ <bdi>needs</bdi> والـ <bdi>desires</bdi> والـ <bdi>constraints</bdi> من الـ <bdi>stakeholders.</bdi> الـ <bdi>techniques</bdi>:</p>
     <ol>
-      <li><strong>Interviews</strong> — مقابلات فردية. اسأل عن الـ details، الـ vision، الـ alternatives، مصادر المعلومات. مش كافي لوحدها.</li>
-      <li><strong>Surveys</strong> — استبيانات للوصول لعينة كبيرة.</li>
-      <li><strong>Workshops / Brainstorming</strong> — جلسات جماعية. moderator + trigger question + كل واحد يكتب إجابة ويمرر للجاي بعده.</li>
-      <li><strong>Focus Groups</strong> — مجموعات صغيرة لمناقشة عميقة.</li>
-      <li><strong>Observation of Users</strong> — تشوف الـ users بيشتغلوا في الحياة الحقيقية.</li>
-      <li><strong>Prototyping</strong> — mockups أو pictures للنظام لتوضيح الفكرة. مش بيعمل computations حقيقية، بس بيوضح الـ UI.</li>
+      <li><strong><bdi>Interviews</bdi></strong> — مقابلات فردية. اسأل عن الـ <bdi>details</bdi>، الـ <bdi>vision</bdi>، الـ <bdi>alternatives</bdi>، مصادر المعلومات. مش كافي لوحدها.</li>
+      <li><strong><bdi>Surveys</bdi></strong> — استبيانات للوصول لعينة كبيرة.</li>
+      <li><strong><bdi>Workshops</bdi> / <bdi>Brainstorming</bdi></strong> — جلسات جماعية<bdi>. moderator + trigger question +</bdi> كل واحد يكتب إجابة ويمرر للجاي بعده.</li>
+      <li><strong><bdi>Focus Groups</bdi></strong> — مجموعات صغيرة لمناقشة عميقة.</li>
+      <li><strong><bdi>Observation of Users</bdi></strong> — تشوف الـ <bdi>users</bdi> بيشتغلوا في الحياة الحقيقية.</li>
+      <li><strong><bdi>Prototyping</bdi></strong> — <bdi>mockups</bdi> أو <bdi>pictures</bdi> للنظام لتوضيح الفكرة. مش بيعمل <bdi>computations</bdi> حقيقية، بس بيوضح الـ <bdi>UI.</bdi></li>
     </ol>
-    <div class="warn"><div><b>📌 Winter 2025 Q1.23</b>السؤال: "Which are typically parts of requirements elicitation?" الإجابة: <strong>Stakeholder surveys + Role-playing scenarios + Prototyping</strong>. <em>Creating UML diagrams ليس elicitation</em> — ده specification.</div></div>
+    <div class="warn"><div><b>📌 <bdi>Winter 2025 Q1.23</bdi></b>السؤال: "<bdi>Which are typically parts of requirements elicitation</bdi>?" الإجابة: <strong><bdi>Stakeholder surveys + Role-playing scenarios + Prototyping</bdi></strong>. <em><bdi>Creating UML diagrams</bdi> ليس <bdi>elicitation</bdi></em> — ده <bdi>specification.</bdi></div></div>
   </div>
 
-  <!-- S2: Analysis -->
+  
   <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">🔍</span> S2: Analysis &amp; Negotiation</div>
-    <p>بعد ما جمعنا الـ requirements، نحللها ونتفاوض عليها:</p>
+    <div class="topic-title"><span class="icon">🔍</span> <bdi>S2</bdi>: <bdi>Analysis</bdi> & <bdi>Negotiation</bdi></div>
+    <p>بعد ما جمعنا الـ <bdi>requirements</bdi>، نحللها ونتفاوض عليها:</p>
     <ol>
-      <li>Identify <strong>conflicting requirements</strong>.</li>
-      <li><strong>Categorize</strong> requirements (FR, NFR, etc.).</li>
-      <li><strong>Prioritize</strong> based on importance (MoSCoW: Must, Should, Could, Won't).</li>
-      <li>Address <strong>ambiguity</strong>.</li>
+      <li><bdi>Identify</bdi> <strong><bdi>conflicting requirements</bdi></strong>.</li>
+      <li><strong><bdi>Categorize</bdi></strong> <bdi>requirements</bdi> (<bdi>FR, NFR, etc.</bdi>).</li>
+      <li><strong><bdi>Prioritize</bdi></strong> <bdi>based on importance</bdi> (<bdi>MoSCoW</bdi>: <bdi>Must, Should, Could, Won</bdi>'<bdi>t</bdi>).</li>
+      <li><bdi>Address</bdi> <strong><bdi>ambiguity</bdi></strong>.</li>
     </ol>
   </div>
 
-  <!-- S3: Specification -->
+  
   <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">📝</span> S3: Specification / Documentation</div>
+    <div class="topic-title"><span class="icon">📝</span> <bdi>S3</bdi>: <bdi>Specification</bdi> / <bdi>Documentation</bdi></div>
     <p>التوثيق الرسمي. طرق ممكنة:</p>
     <ul>
-      <li>Textual (Natural language, User Stories, Use Cases, EARS).</li>
-      <li>Models (UML diagrams).</li>
-      <li>Formal languages or logic (Z notation, pseudocode).</li>
-      <li>Prototypes / mockups (للـ UI).</li>
+      <li><bdi>Textual</bdi> (<bdi>Natural language, User Stories, Use Cases, EARS</bdi>).</li>
+      <li><bdi>Models</bdi> (<bdi>UML diagrams</bdi>).</li>
+      <li><bdi>Formal languages or logic</bdi> (<bdi>Z notation, pseudocode</bdi>).</li>
+      <li><bdi>Prototypes</bdi> / <bdi>mockups</bdi> (للـ <bdi>UI</bdi>).</li>
     </ul>
   </div>
 
-  <!-- S4: Validation -->
+  
   <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">✓</span> S4: Validation</div>
-    <p>نتأكد إن الـ requirements بتطابق احتياجات الـ stakeholders الحقيقية:</p>
+    <div class="topic-title"><span class="icon">✓</span> <bdi>S4</bdi>: <bdi>Validation</bdi></div>
+    <p>نتأكد إن الـ <bdi>requirements</bdi> بتطابق احتياجات الـ <bdi>stakeholders</bdi> الحقيقية:</p>
     <ul>
-      <li><strong>Reviews and inspections</strong> — مراجعة من فريق خارجي ("4 eyes are better than 2").</li>
-      <li><strong>Prototyping</strong> — لإظهار الفكرة قبل التنفيذ.</li>
-      <li><strong>Simulations / walkthroughs</strong> مع الـ stakeholders.</li>
-      <li><strong>User feedback</strong>.</li>
+      <li><strong><bdi>Reviews and inspections</bdi></strong> — مراجعة من فريق خارجي ("<bdi>4 eyes are better than 2</bdi>").</li>
+      <li><strong><bdi>Prototyping</bdi></strong> — لإظهار الفكرة قبل التنفيذ.</li>
+      <li><strong><bdi>Simulations</bdi> / <bdi>walkthroughs</bdi></strong> مع الـ <bdi>stakeholders.</bdi></li>
+      <li><strong><bdi>User feedback</bdi></strong>.</li>
     </ul>
   </div>
 
-  <!-- S5: Management -->
+  
   <div class="topic" style="--accent:var(--pink)">
-    <div class="topic-title"><span class="icon">📚</span> S5: Management — مستمرة طول حياة المشروع</div>
+    <div class="topic-title"><span class="icon">📚</span> <bdi>S5</bdi>: <bdi>Management</bdi> — مستمرة طول حياة المشروع</div>
     <ul>
-      <li><strong>Change Management</strong>: تتبع وموافقة على التغييرات.</li>
-      <li><strong>Traceability</strong>: كل requirement بنرجعه لمصدره ولينكه بـ design elements و tests.</li>
+      <li><strong><bdi>Change Management</bdi></strong>: تتبع وموافقة على التغييرات.</li>
+      <li><strong><bdi>Traceability</bdi></strong>: كل <bdi>requirement</bdi> بنرجعه لمصدره ولينكه بـ <bdi>design elements</bdi> و <bdi>tests.</bdi></li>
     </ul>
   </div>
 
-  <!-- Challenges -->
+  
   <div class="topic" style="--accent:var(--red)">
-    <div class="topic-title"><span class="icon">🚧</span> Challenges of RE</div>
+    <div class="topic-title"><span class="icon">🚧</span> <bdi>Challenges of RE</bdi></div>
     <ul>
-      <li><strong>Ambiguity</strong> — متطلبات غامضة → سوء فهم.</li>
-      <li><strong>Conflicting Requirements</strong> — stakeholders عندهم احتياجات متعارضة.</li>
-      <li><strong>Incomplete Requirements</strong> — متطلبات ناقصة → gaps في الـ functionality.</li>
-      <li><strong>Changing Requirements</strong> — المتطلبات بتتغير.</li>
-      <li><strong>Communication Barriers</strong> — لغات/مصطلحات مختلفة بين stakeholders.</li>
+      <li><strong><bdi>Ambiguity</bdi></strong> — متطلبات غامضة → سوء فهم.</li>
+      <li><strong><bdi>Conflicting Requirements</bdi></strong> — <bdi>stakeholders</bdi> عندهم احتياجات متعارضة.</li>
+      <li><strong><bdi>Incomplete Requirements</bdi></strong> — متطلبات ناقصة → <bdi>gaps</bdi> في الـ <bdi>functionality.</bdi></li>
+      <li><strong><bdi>Changing Requirements</bdi></strong> — المتطلبات بتتغير.</li>
+      <li><strong><bdi>Communication Barriers</bdi></strong> — لغات/مصطلحات مختلفة بين <bdi>stakeholders.</bdi></li>
     </ul>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     CH 5 — TYPES OF REQUIREMENTS
-══════════════════════════════════════════════════════════ -->
+
 <div class="chapter" id="ch5">
   <div class="ch-header">
     <div class="ch-num pink">05</div>
     <div class="ch-title">
-      <h2>Types of Requirements — أنواع المتطلبات</h2>
-      <p>5 أنواع رئيسية. ركز على الفرق بين Functional و Non-functional، وأيضاً Business، Transition، Stakeholder.</p>
+      <h2><bdi>Types of Requirements</bdi> — أنواع المتطلبات</h2>
+      <p>5 أنواع رئيسية. ركز على الفرق بين <bdi>Functional</bdi> و <bdi>Non-functional</bdi>، وأيضاً <bdi>Business</bdi>، <bdi>Transition</bdi>، <bdi>Stakeholder.</bdi></p>
     </div>
   </div>
 
-  <!-- FR vs NFR -->
+  
   <div class="grid2">
     <div class="topic" style="--accent:var(--green)">
-      <div class="topic-title"><span class="icon">⚙️</span> Functional Requirements (FR)</div>
-      <p>بتحدد <strong>الـ behavior والـ functions</strong> اللي النظام يعملها.</p>
+      <div class="topic-title"><span class="icon">⚙️</span> <bdi>Functional Requirements</bdi> (<bdi>FR</bdi>)</div>
+      <p>بتحدد <strong>الـ <bdi>behavior</bdi> والـ <bdi>functions</bdi></strong> اللي النظام يعملها.</p>
       <div class="code-wrap">
-        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">FR Examples</div></div>
-<pre><code><span class="cmt">// R1.1</span>
-The system must allow users to create
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang"><bdi>FR Examples</bdi></div></div>
+<pre><code><span class="cmt">// <bdi>R1.1</bdi></span>
+<bdi>The system must allow users to create
 a new account by entering email,
-username, and password.
+username, and password.</bdi>
 
-<span class="cmt">// R1.2</span>
-User must be able to log in with
+<span class="cmt">// <bdi>R1.2</bdi></span>
+<bdi>User must be able to log in with
 registered credentials and reset
-password via email link.
+password via email link.</bdi>
 
-<span class="cmt">// R3.2</span>
-System should calculate and display
+<span class="cmt">// <bdi>R3.2</bdi></span>
+<bdi>System should calculate and display
 shipping costs and taxes before
-completing the purchase.</code></pre>
+completing the purchase.</bdi></code></pre>
       </div>
     </div>
 
     <div class="topic" style="--accent:var(--cyan)">
-      <div class="topic-title"><span class="icon">🎚️</span> Non-Functional Requirements (NFR)</div>
+      <div class="topic-title"><span class="icon">🎚️</span> <bdi>Non-Functional Requirements</bdi> (<bdi>NFR</bdi>)</div>
       <p>بتوصف <strong>كيف</strong> النظام بيؤدي وظايفه، مش <strong>ايه</strong> اللي بيعمله.</p>
       <table class="tbl" style="font-size:.78rem">
         <tr><th>النوع</th><th>مثال</th></tr>
-        <tr><td><strong>Performance</strong></td><td>Speed, responsiveness</td></tr>
-        <tr><td><strong>Security</strong></td><td>Access control, encryption</td></tr>
-        <tr><td><strong>Scalability</strong></td><td>Handle 10K concurrent users</td></tr>
-        <tr><td><strong>Usability</strong></td><td>User-friendly, accessible</td></tr>
-        <tr><td><strong>Accessibility</strong></td><td>ALT text for blind users</td></tr>
-        <tr><td><strong>Compliance</strong></td><td>GDPR, HIPAA</td></tr>
+        <tr><td><strong><bdi>Performance</bdi></strong></td><td><bdi>Speed, responsiveness</bdi></td></tr>
+        <tr><td><strong><bdi>Security</bdi></strong></td><td><bdi>Access control, encryption</bdi></td></tr>
+        <tr><td><strong><bdi>Scalability</bdi></strong></td><td><bdi>Handle 10K concurrent users</bdi></td></tr>
+        <tr><td><strong><bdi>Usability</bdi></strong></td><td><bdi>User-friendly, accessible</bdi></td></tr>
+        <tr><td><strong><bdi>Accessibility</bdi></strong></td><td><bdi>ALT text for blind users</bdi></td></tr>
+        <tr><td><strong><bdi>Compliance</bdi></strong></td><td><bdi>GDPR, HIPAA</bdi></td></tr>
       </table>
     </div>
   </div>
 
-  <!-- Other Types -->
+  
   <div class="grid3">
     <div class="topic" style="--accent:var(--amber)">
-      <div class="topic-title"><span class="icon">📈</span> Business Requirements</div>
-      <p>أهداف عالية المستوى من الـ organization. بتعبر عن الـ <em>vision</em>.</p>
-      <p><strong>مثال:</strong> "Develop mobile app to increase customer engagement by 20% in the first year."</p>
-      <p>عادةً بيكتبها <strong>product owners, sponsors, marketing</strong>.</p>
+      <div class="topic-title"><span class="icon">📈</span> <bdi>Business Requirements</bdi></div>
+      <p>أهداف عالية المستوى من الـ <bdi>organization.</bdi> بتعبر عن الـ <em><bdi>vision</bdi></em>.</p>
+      <p><strong>مثال:</strong> "<bdi>Develop mobile app to increase customer engagement by 20</bdi>% <bdi>in the first year.</bdi>"</p>
+      <p>عادةً بيكتبها <strong><bdi>product owners, sponsors, marketing</bdi></strong>.</p>
     </div>
 
     <div class="topic" style="--accent:var(--purple)">
-      <div class="topic-title"><span class="icon">🔄</span> Transition Requirements</div>
-      <p>متطلبات <strong>مؤقتة</strong> خاصة بالانتقال من الـ current state للـ future state.</p>
-      <p>بتشمل: <strong>training, data conversion, reformatting, parallel system runs</strong>.</p>
+      <div class="topic-title"><span class="icon">🔄</span> <bdi>Transition Requirements</bdi></div>
+      <p>متطلبات <strong>مؤقتة</strong> خاصة بالانتقال من الـ <bdi>current state</bdi> للـ <bdi>future state.</bdi></p>
+      <p>بتشمل: <strong><bdi>training, data conversion, reformatting, parallel system runs</bdi></strong>.</p>
       <p>بعد التنفيذ، ما تبقاش محتاجة.</p>
-      <div class="info"><div><b>📌 Winter 2025 Q1.24</b>"All customer support staff must complete a 2-day training workshop on the new CRM system" = <strong>Transition Requirement</strong>.</div></div>
+      <div class="info"><div><b>📌 <bdi>Winter 2025 Q1.24</bdi></b>"<bdi>All customer support staff must complete a 2-day training workshop on the new CRM system</bdi>" = <strong><bdi>Transition Requirement</bdi></strong>.</div></div>
     </div>
 
     <div class="topic" style="--accent:var(--red)">
-      <div class="topic-title"><span class="icon">👤</span> Stakeholder Requirements</div>
-      <p>احتياجات وتوقعات وقيود الأطراف المختلفة (users, customers, sponsors, regulators).</p>
-      <p><strong>مثال:</strong> "Ambulance drivers should receive audio instructions about next case NOT on screen."</p>
+      <div class="topic-title"><span class="icon">👤</span> <bdi>Stakeholder Requirements</bdi></div>
+      <p>احتياجات وتوقعات وقيود الأطراف المختلفة (<bdi>users, customers, sponsors, regulators</bdi>).</p>
+      <p><strong>مثال:</strong> "<bdi>Ambulance drivers should receive audio instructions about next case NOT on screen.</bdi>"</p>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     CH 6 — CHARACTERISTICS OF GOOD REQUIREMENTS
-══════════════════════════════════════════════════════════ -->
+
 <div class="chapter" id="ch6">
   <div class="ch-header">
     <div class="ch-num cyan blue">06</div>
     <div class="ch-title">
-      <h2>Characteristics of Good Requirements — 5 صفات لازمة</h2>
-      <p>كل requirement لازم يحقق الـ 5 صفات دي. لو ناقص واحدة، بيبقى ضعيف.</p>
+      <h2><bdi>Characteristics of Good Requirements</bdi> — 5 صفات لازمة</h2>
+      <p>كل <bdi>requirement</bdi> لازم يحقق الـ 5 صفات دي. لو ناقص واحدة، بيبقى ضعيف.</p>
     </div>
   </div>
 
   <div class="grid3">
-    <div class="topic" style="--accent:var(--cyan)"><div class="topic-title">📦 1. Complete</div><p>بيدي كل المعلومات اللازمة للتنفيذ والاختبار.</p></div>
-    <div class="topic" style="--accent:var(--green)"><div class="topic-title">🎯 2. Unambiguous</div><p>تفسير واحد بس، مش مفتوح لتفسيرات متعددة.</p></div>
-    <div class="topic" style="--accent:var(--amber)"><div class="topic-title">🔗 3. Consistent</div><p>ما بيتعارضش مع متطلبات تانية.</p></div>
-    <div class="topic" style="--accent:var(--purple)"><div class="topic-title">✓ 4. Verifiable</div><p>ممكن نقيس / نختبر تحققه (fully or partially).</p></div>
-    <div class="topic" style="--accent:var(--pink)"><div class="topic-title">🔍 5. Traceable</div><p>بنرجعه لمصدره ولينكه بـ design و tests.</p></div>
+    <div class="topic" style="--accent:var(--cyan)"><div class="topic-title">📦 <bdi>1. Complete</bdi></div><p>بيدي كل المعلومات اللازمة للتنفيذ والاختبار.</p></div>
+    <div class="topic" style="--accent:var(--green)"><div class="topic-title">🎯 <bdi>2. Unambiguous</bdi></div><p>تفسير واحد بس، مش مفتوح لتفسيرات متعددة.</p></div>
+    <div class="topic" style="--accent:var(--amber)"><div class="topic-title">🔗 <bdi>3. Consistent</bdi></div><p>ما بيتعارضش مع متطلبات تانية.</p></div>
+    <div class="topic" style="--accent:var(--purple)"><div class="topic-title">✓ <bdi>4. Verifiable</bdi></div><p>ممكن نقيس / نختبر تحققه (<bdi>fully or partially</bdi>).</p></div>
+    <div class="topic" style="--accent:var(--pink)"><div class="topic-title">🔍 <bdi>5. Traceable</bdi></div><p>بنرجعه لمصدره ولينكه بـ <bdi>design</bdi> و <bdi>tests.</bdi></p></div>
   </div>
 
-  <!-- Examples -->
+  
   <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">🔎</span> أمثلة Complete</div>
+    <div class="topic-title"><span class="icon">🔎</span> أمثلة <bdi>Complete</bdi></div>
     <div class="compare-req">
-      <div class="req-bad">The system should allow users to log in.</div>
-      <div class="req-good">The system should require users to enter a valid username and password. If correct → dashboard. If incorrect → error message, allow up to 3 tries before temp lock.</div>
+      <div class="req-bad"><bdi>The system should allow users to log in.</bdi></div>
+      <div class="req-good"><bdi>The system should require users to enter a valid username and password. If correct</bdi> → <bdi>dashboard. If incorrect</bdi> → <bdi>error message, allow up to 3 tries before temp lock.</bdi></div>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">🔎</span> أمثلة Unambiguous</div>
+    <div class="topic-title"><span class="icon">🔎</span> أمثلة <bdi>Unambiguous</bdi></div>
     <div class="compare-req">
-      <div class="req-bad">The system shall show the name somewhere on the homepage.</div>
-      <div class="req-good">The system will display user's name on the <strong>top right corner</strong> of the homepage after login.</div>
+      <div class="req-bad"><bdi>The system shall show the name somewhere on the homepage.</bdi></div>
+      <div class="req-good"><bdi>The system will display user</bdi>'<bdi>s name on the</bdi> <strong><bdi>top right corner</bdi></strong> <bdi>of the homepage after login.</bdi></div>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">🔎</span> أمثلة Verifiable</div>
+    <div class="topic-title"><span class="icon">🔎</span> أمثلة <bdi>Verifiable</bdi></div>
     <div class="compare-req">
-      <div class="req-bad">The system should be secure.</div>
-      <div class="req-good">The system must encrypt all user passwords using <strong>AES-256</strong> before storing in the database.</div>
+      <div class="req-bad"><bdi>The system should be secure.</bdi></div>
+      <div class="req-good"><bdi>The system must encrypt all user passwords using</bdi> <strong><bdi>AES-256</bdi></strong> <bdi>before storing in the database.</bdi></div>
     </div>
     <div class="compare-req">
-      <div class="req-bad">The system should be fast and efficient.</div>
-      <div class="req-good">System should process <strong>1,000 transactions per second</strong> under normal operating conditions.</div>
+      <div class="req-bad"><bdi>The system should be fast and efficient.</bdi></div>
+      <div class="req-good"><bdi>System should process</bdi> <strong><bdi>1,000 transactions per second</bdi></strong> <bdi>under normal operating conditions.</bdi></div>
     </div>
-    <div class="warn"><div><b>⚠️ exam trap</b>كلمات زي "fast", "easy", "popular platforms" = <em>NOT verifiable</em>. أرقام محددة وأسماء محددة = verifiable.</div></div>
+    <div class="warn"><div><b>⚠️ <bdi>exam trap</bdi></b>كلمات زي "<bdi>fast</bdi>", "<bdi>easy</bdi>", "<bdi>popular platforms</bdi>" = <em><bdi>NOT verifiable</bdi></em>. أرقام محددة وأسماء محددة = <bdi>verifiable.</bdi></div></div>
   </div>
 
   <div class="topic" style="--accent:var(--red)">
-    <div class="topic-title"><span class="icon">🔎</span> أمثلة Consistent</div>
+    <div class="topic-title"><span class="icon">🔎</span> أمثلة <bdi>Consistent</bdi></div>
     <div class="danger"><div><b>تعارض واضح:</b>
-      <br>R1: "System shall allow one-click shopping by clicking purchase button and using stored credit card."
-      <br>R2: "System should NOT store credit card details after purchase."
+      <br><bdi>R1</bdi>: "<bdi>System shall allow one-click shopping by clicking purchase button and using stored credit card.</bdi>"
+      <br><bdi>R2</bdi>: "<bdi>System should NOT store credit card details after purchase.</bdi>"
       <br>الاتنين ما يقدرش يتحققوا في نفس الوقت.</div></div>
   </div>
 
   <div class="topic" style="--accent:var(--pink)">
-    <div class="topic-title"><span class="icon">🔎</span> أمثلة Traceable</div>
+    <div class="topic-title"><span class="icon">🔎</span> أمثلة <bdi>Traceable</bdi></div>
     <div class="compare-req">
-      <div class="req-bad">The system shall encrypt user data.</div>
-      <div class="req-good">The system shall ensure all user data is encrypted using AES-256 to comply with GDPR (Requirement ID: <code>GDPR-001</code>).</div>
+      <div class="req-bad"><bdi>The system shall encrypt user data.</bdi></div>
+      <div class="req-good"><bdi>The system shall ensure all user data is encrypted using AES-256 to comply with GDPR</bdi> (<bdi>Requirement ID</bdi>: <code><bdi>GDPR-001</bdi></code>).</div>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     CH 7 — 6 SPECIFICATION METHODS
-══════════════════════════════════════════════════════════ -->
+
 <div class="chapter" id="ch7">
   <div class="ch-header">
     <div class="ch-num amber">07</div>
     <div class="ch-title">
-      <h2>6 Methods for Specifying Requirements</h2>
-      <p>كل طريقة ليها استخدام مختلف. اللي بيتسأل عليه في الامتحان: User Stories, Use Cases, EARS.</p>
+      <h2><bdi>6 Methods for Specifying Requirements</bdi></h2>
+      <p>كل طريقة ليها استخدام مختلف. اللي بيتسأل عليه في الامتحان: <bdi>User Stories, Use Cases, EARS.</bdi></p>
     </div>
   </div>
 
-  <table class="tbl">
-    <tr><th>Method</th><th>الخصائص</th><th>الاستخدام</th></tr>
-    <tr><td><strong>1. Natural Language</strong></td><td>بسيط لكن غامض</td><td>للنقاشات الأولية والـ general audience</td></tr>
-    <tr><td><strong>2. Formal Specs (Z, pseudocode)</strong></td><td>دقيق، machine-readable</td><td>Critical systems / formal analysis</td></tr>
-    <tr><td><strong>3. IEEE 830 SRS Template</strong></td><td>مفصل ومنظم</td><td>المشاريع الكبيرة</td></tr>
-    <tr><td><strong>4. User Stories</strong></td><td>User-centric + acceptance criteria</td><td>Agile teams, backlog</td></tr>
-    <tr><td><strong>5. Use Cases</strong></td><td>تفاعل user-system بخطوات</td><td>OO design</td></tr>
-    <tr><td><strong>6. EARS</strong></td><td>Structured natural language</td><td>متطلبات دقيقة وtestable</td></tr>
+  <table class="tbl" dir="ltr">
+    <tr><th><bdi>Method</bdi></th><th>الخصائص</th><th>الاستخدام</th></tr>
+    <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>1. Natural Language</bdi></strong></td><td>بسيط لكن غامض</td><td>للنقاشات الأولية والـ <bdi>general audience</bdi></td></tr>
+    <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>2. Formal Specs</bdi> (<bdi>Z, pseudocode</bdi>)</strong></td><td>دقيق، <bdi>machine-readable</bdi></td><td><bdi>Critical systems</bdi> / <bdi>formal analysis</bdi></td></tr>
+    <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>3. IEEE 830 SRS Template</bdi></strong></td><td>مفصل ومنظم</td><td>المشاريع الكبيرة</td></tr>
+    <tr><td><strong><bdi>4. User Stories</bdi></strong></td><td><bdi>User-centric + acceptance criteria</bdi></td><td><bdi>Agile teams, backlog</bdi></td></tr>
+    <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>5. Use Cases</bdi></strong></td><td>تفاعل <bdi>user-system</bdi> بخطوات</td><td><bdi>OO design</bdi></td></tr>
+    <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>6. EARS</bdi></strong></td><td><bdi>Structured natural language</bdi></td><td>متطلبات دقيقة و<bdi>testable</bdi></td></tr>
   </table>
 
-  <!-- IEEE 830 -->
+  
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">📑</span> IEEE 830-1998 SRS Template</div>
+    <div class="topic-title"><span class="icon">📑</span> <bdi>IEEE 830-1998 SRS Template</bdi></div>
     <p>3 أقسام رئيسية:</p>
     <ol>
-      <li><strong>Introduction</strong>: Purpose, Scope, Definitions, References, Overview</li>
-      <li><strong>Overall Description</strong>: Product Perspective, Functions, User Characteristics, Constraints, Assumptions</li>
-      <li><strong>Specific Requirements</strong>: External interfaces, FR, Performance, Design constraints, Quality, Other</li>
+      <li><strong><bdi>Introduction</bdi></strong>: <bdi>Purpose, Scope, Definitions, References, Overview</bdi></li>
+      <li><strong><bdi>Overall Description</bdi></strong>: <bdi>Product Perspective, Functions, User Characteristics, Constraints, Assumptions</bdi></li>
+      <li><strong><bdi>Specific Requirements</bdi></strong>: <bdi>External interfaces, FR, Performance, Design constraints, Quality, Other</bdi></li>
     </ol>
-    <div class="info"><div><b>📌 Update</b>تم تحديث الـ standard لـ <strong>IEEE 29148-2011</strong> (ISO/IEC/IEEE 29148).</div></div>
+    <div class="info"><div><b>📌 <bdi>Update</bdi></b>تم تحديث الـ <bdi>standard</bdi> لـ <strong><bdi>IEEE 29148-2011</bdi></strong> (<bdi>ISO</bdi>/<bdi>IEC</bdi>/<bdi>IEEE 29148</bdi>).</div></div>
   </div>
 
-  <!-- EARS -->
+  
   <div class="topic" style="--accent:var(--pink)">
-    <div class="topic-title"><span class="icon">🎯</span> EARS Method — Easy Approach to Requirements Syntax</div>
-    <p>Structure ثابت بـ 5 كلمات: <strong>When · then · If · then · Else</strong></p>
+    <div class="topic-title"><span class="icon">🎯</span> <bdi>EARS Method</bdi> — <bdi>Easy Approach to Requirements Syntax</bdi></div>
+    <p><bdi>Structure</bdi> ثابت بـ 5 كلمات: <strong><bdi>When</bdi> · <bdi>then</bdi> · <bdi>If</bdi> · <bdi>then</bdi> · <bdi>Else</bdi></strong></p>
     <div class="code-wrap">
-      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EARS example</div></div>
-<pre><code><span class="kw">When</span> a user enters their username and password,
-<span class="kw">then</span> the system checks the credentials.
-<span class="kw">If</span> the credentials are valid,
-<span class="kw">then</span> the user is granted access to the dashboard.
-<span class="kw">Else</span> the system displays an error message and allows retry.</code></pre>
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang"><bdi>EARS example</bdi></div></div>
+<pre><code><span class="kw"><bdi>When</bdi></span> <bdi>a user enters their username and password</bdi>,
+<span class="kw"><bdi>then</bdi></span> <bdi>the system checks the credentials.</bdi>
+<span class="kw"><bdi>If</bdi></span> <bdi>the credentials are valid</bdi>,
+<span class="kw"><bdi>then</bdi></span> <bdi>the user is granted access to the dashboard.</bdi>
+<span class="kw"><bdi>Else</bdi></span> <bdi>the system displays an error message and allows retry.</bdi></code></pre>
     </div>
-    <p>الـ structure: <code>When &lt;trigger&gt;, then &lt;response&gt;. If &lt;cond&gt;, then &lt;response&gt;. Else &lt;opposite&gt;</code>.</p>
+    <p>الـ <bdi>structure</bdi>: <code><bdi>When</bdi> <<bdi>trigger</bdi>>, <bdi>then</bdi> <<bdi>response</bdi>><bdi>. If</bdi> <<bdi>cond</bdi>>, <bdi>then</bdi> <<bdi>response</bdi>><bdi>. Else</bdi> <<bdi>opposite</bdi>></code>.</p>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     CH 8 — USER STORIES & INVEST
-══════════════════════════════════════════════════════════ -->
+
 <div class="chapter" id="ch8">
   <div class="ch-header">
     <div class="ch-num green">08</div>
     <div class="ch-title">
-      <h2>User Stories &amp; INVEST Criteria ⭐</h2>
-      <p>أهم سؤال متكرر في الامتحان. لازم تعرف الـ format والـ INVEST كويس جداً.</p>
+      <h2><bdi>User Stories</bdi> & <bdi>INVEST Criteria</bdi> ⭐</h2>
+      <p>أهم سؤال متكرر في الامتحان. لازم تعرف الـ <bdi>format</bdi> والـ <bdi>INVEST</bdi> كويس جداً.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">📝</span> User Story Format</div>
+    <div class="topic-title"><span class="icon">📝</span> <bdi>User Story Format</bdi></div>
     <div class="code-wrap">
-      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Standard format</div></div>
-<pre><code><span class="kw">As a</span> [user role],
-<span class="kw">I want</span> [some functionality]
-<span class="kw">so that</span> [I achieve some benefit / value].</code></pre>
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang"><bdi>Standard format</bdi></div></div>
+<pre><code><span class="kw"><bdi>As a</bdi></span> [<bdi>user role</bdi>],
+<span class="kw"><bdi>I want</bdi></span> [<bdi>some functionality</bdi>]
+<span class="kw"><bdi>so that</bdi></span> [<bdi>I achieve some benefit</bdi> / <bdi>value</bdi>].</code></pre>
     </div>
 
     <p style="margin-top:14px"><strong>مثال:</strong></p>
     <div class="code-wrap">
-      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Example user story</div></div>
-<pre><code><span class="kw">As a</span> user,
-<span class="kw">I want</span> to log into the application
-<span class="kw">so that</span> I can access my dashboard securely.
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang"><bdi>Example user story</bdi></div></div>
+<pre><code><span class="kw"><bdi>As a</bdi></span> <bdi>user</bdi>,
+<span class="kw"><bdi>I want</bdi></span> <bdi>to log into the application</bdi>
+<span class="kw"><bdi>so that</bdi></span> <bdi>I can access my dashboard securely.</bdi>
 
-<span class="cmt">Acceptance Criteria:</span>
-1. System should accept username &amp; password.
+<span class="cmt"><bdi>Acceptance Criteria</bdi>:</span>
+<bdi>1. System should accept username</bdi> & <bdi>password.
 2. System should authenticate credentials.
-3. If valid → redirect to dashboard.
-4. If invalid → display error message.</code></pre>
+3. If valid</bdi> → <bdi>redirect to dashboard.
+4. If invalid</bdi> → <bdi>display error message.</bdi></code></pre>
     </div>
   </div>
 
-  <!-- INVEST -->
+  
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">⭐</span> INVEST — 6 صفات اللي بتخلي user story كويس</div>
+    <div class="topic-title"><span class="icon">⭐</span> <bdi>INVEST</bdi> — 6 صفات اللي بتخلي <bdi>user story</bdi> كويس</div>
     <div class="invest-grid">
-      <div class="invest-tile"><div class="invest-letter">I</div><div class="invest-word">Independent</div><div class="invest-desc">مستقل عن stories تانية</div></div>
-      <div class="invest-tile"><div class="invest-letter">N</div><div class="invest-word">Negotiable</div><div class="invest-desc">قابل للنقاش والتعديل</div></div>
-      <div class="invest-tile"><div class="invest-letter">V</div><div class="invest-word">Valuable</div><div class="invest-desc">يضيف قيمة للـ user</div></div>
-      <div class="invest-tile"><div class="invest-letter">E</div><div class="invest-word">Estimable</div><div class="invest-desc">سهل تقدير الجهد المطلوب</div></div>
-      <div class="invest-tile"><div class="invest-letter">S</div><div class="invest-word">Small</div><div class="invest-desc">صغير، يخلص في sprint واحد</div></div>
-      <div class="invest-tile"><div class="invest-letter">T</div><div class="invest-word">Testable</div><div class="invest-desc">عنده acceptance criteria واضحة</div></div>
+      <div class="invest-tile"><div class="invest-letter"><bdi>I</bdi></div><div class="invest-word"><bdi>Independent</bdi></div><div class="invest-desc">مستقل عن <bdi>stories</bdi> تانية</div></div>
+      <div class="invest-tile"><div class="invest-letter"><bdi>N</bdi></div><div class="invest-word"><bdi>Negotiable</bdi></div><div class="invest-desc">قابل للنقاش والتعديل</div></div>
+      <div class="invest-tile"><div class="invest-letter"><bdi>V</bdi></div><div class="invest-word"><bdi>Valuable</bdi></div><div class="invest-desc">يضيف قيمة للـ <bdi>user</bdi></div></div>
+      <div class="invest-tile"><div class="invest-letter"><bdi>E</bdi></div><div class="invest-word"><bdi>Estimable</bdi></div><div class="invest-desc">سهل تقدير الجهد المطلوب</div></div>
+      <div class="invest-tile"><div class="invest-letter"><bdi>S</bdi></div><div class="invest-word"><bdi>Small</bdi></div><div class="invest-desc">صغير، يخلص في <bdi>sprint</bdi> واحد</div></div>
+      <div class="invest-tile"><div class="invest-letter"><bdi>T</bdi></div><div class="invest-word"><bdi>Testable</bdi></div><div class="invest-desc">عنده <bdi>acceptance criteria</bdi> واضحة</div></div>
     </div>
-    <div class="warn"><div><b>⚠️ Exam trap</b>الـ doctor بيدي 3 user stories و يسأل أيهم INVEST. الـ stories اللي بتيجي من <strong>perspective عالي جداً</strong> (مدير المدرسة) ومتعريفة بشكل مفتوح زي "monitor progress" — بتفشل في <strong>S</strong> (Small) و <strong>E</strong> (Estimable).</div></div>
+    <div class="warn"><div><b>⚠️ <bdi>Exam trap</bdi></b>الـ <bdi>doctor</bdi> بيدي <bdi>3 user stories</bdi> و يسأل أيهم <bdi>INVEST.</bdi> الـ <bdi>stories</bdi> اللي بتيجي من <strong><bdi>perspective</bdi> عالي جداً</strong> (مدير المدرسة) ومتعريفة بشكل مفتوح زي "<bdi>monitor progress</bdi>" — بتفشل في <strong><bdi>S</bdi></strong> (<bdi>Small</bdi>) و <strong><bdi>E</bdi></strong> (<bdi>Estimable</bdi>).</div></div>
   </div>
 
-  <!-- Enriched User Stories -->
+  
   <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">💎</span> Enriched User Stories</div>
-    <p>User Story + prototype + data dictionary + textual use case + acceptance criteria — كل ده في document واحد.</p>
-    <p><strong>الميزة:</strong> Enhanced team communication — كل اللي محتاجه الـ dev team والـ stakeholders في مكان واحد.</p>
+    <div class="topic-title"><span class="icon">💎</span> <bdi>Enriched User Stories</bdi></div>
+    <p><bdi>User Story + prototype + data dictionary + textual use case + acceptance criteria</bdi> — كل ده في <bdi>document</bdi> واحد.</p>
+    <p><strong>الميزة:</strong> <bdi>Enhanced team communication</bdi> — كل اللي محتاجه الـ <bdi>dev team</bdi> والـ <bdi>stakeholders</bdi> في مكان واحد.</p>
     <p>بيشمل:</p>
     <ul>
-      <li>Description, Focal point, Other Actors</li>
-      <li>Location (path في الـ UI), Pre/Post-conditions</li>
-      <li>Main Path table (2-column: Actor Action / System Response)</li>
-      <li>Data dictionary (Field name, Type, Validation, Business Rules)</li>
-      <li>UI Mockup</li>
+      <li><bdi>Description, Focal point, Other Actors</bdi></li>
+      <li><bdi>Location</bdi> (<bdi>path</bdi> في الـ <bdi>UI</bdi>), <bdi>Pre</bdi>/<bdi>Post-conditions</bdi></li>
+      <li><bdi>Main Path table</bdi> (<bdi>2-column</bdi>: <bdi>Actor Action</bdi> / <bdi>System Response</bdi>)</li>
+      <li><bdi>Data dictionary</bdi> (<bdi>Field name, Type, Validation, Business Rules</bdi>)</li>
+      <li><bdi>UI Mockup</bdi></li>
     </ul>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     CH 9 — USE CASES DEEP
-══════════════════════════════════════════════════════════ -->
+
 <div class="chapter" id="ch9">
   <div class="ch-header">
     <div class="ch-num red">09</div>
     <div class="ch-title">
-      <h2>Use Cases — تفصيلي</h2>
-      <p>أهم Diagram في الامتحان (Question 2 في كل امتحان فيه use case modeling). 3 خطوات: Actors → Use Cases → Diagram.</p>
+      <h2><bdi>Use Cases</bdi> — تفصيلي</h2>
+      <p>أهم <bdi>Diagram</bdi> في الامتحان (<bdi>Question 2</bdi> في كل امتحان فيه <bdi>use case modeling</bdi>). 3 خطوات: <bdi>Actors</bdi> → <bdi>Use Cases</bdi> → <bdi>Diagram.</bdi></p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">📖</span> What is a Use Case?</div>
+    <div class="topic-title"><span class="icon">📖</span> <bdi>What is a Use Case</bdi>?</div>
     <ul>
-      <li>تسلسل الـ <strong>actions</strong> اللي الـ user بيعملها لإتمام مهمة معينة.</li>
-      <li>بيغطي الـ <strong>full sequence</strong> من البداية للنهاية.</li>
-      <li>بيوصف <strong>user-system interaction</strong>، مش الحسابات الداخلية.</li>
-      <li>مكتوب بشكل <strong>independent من UI design</strong>.</li>
-      <li>بس <strong>user-computer actions</strong>، مش manual أو internal.</li>
+      <li>تسلسل الـ <strong><bdi>actions</bdi></strong> اللي الـ <bdi>user</bdi> بيعملها لإتمام مهمة معينة.</li>
+      <li>بيغطي الـ <strong><bdi>full sequence</bdi></strong> من البداية للنهاية.</li>
+      <li>بيوصف <strong><bdi>user-system interaction</bdi></strong>، مش الحسابات الداخلية.</li>
+      <li>مكتوب بشكل <strong><bdi>independent</bdi> من <bdi>UI design</bdi></strong>.</li>
+      <li>بس <strong><bdi>user-computer actions</bdi></strong>، مش <bdi>manual</bdi> أو <bdi>internal.</bdi></li>
     </ul>
   </div>
 
-  <!-- 3 Steps -->
+  
   <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">📋</span> Step 1: Identify Actors</div>
-    <p>الـ Actor = كيان (شخص أو نظام) بيتفاعل مع الـ system. اسأل:</p>
+    <div class="topic-title"><span class="icon">📋</span> <bdi>Step 1</bdi>: <bdi>Identify Actors</bdi></div>
+    <p>الـ <bdi>Actor</bdi> = كيان (شخص أو نظام) بيتفاعل مع الـ <bdi>system.</bdi> اسأل:</p>
     <ul>
-      <li>Who uses / starts / maintains / shuts down the system?</li>
-      <li>What other systems use this system?</li>
-      <li>Who gets information from / provides information to the system?</li>
+      <li><bdi>Who uses</bdi> / <bdi>starts</bdi> / <bdi>maintains</bdi> / <bdi>shuts down the system</bdi>?</li>
+      <li><bdi>What other systems use this system</bdi>?</li>
+      <li><bdi>Who gets information from</bdi> / <bdi>provides information to the system</bdi>?</li>
     </ul>
   </div>
 
   <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">📋</span> Step 2: Identify Use Cases</div>
-    <p>بعد ما عرفت الـ actors، اسأل لكل واحد:</p>
+    <div class="topic-title"><span class="icon">📋</span> <bdi>Step 2</bdi>: <bdi>Identify Use Cases</bdi></div>
+    <p>بعد ما عرفت الـ <bdi>actors</bdi>، اسأل لكل واحد:</p>
     <ul>
-      <li>What functions will the actor want?</li>
-      <li>Does the system store information? Who CRUDs it?</li>
-      <li>Does the actor need to be informed of state changes?</li>
-      <li>External events?</li>
+      <li><bdi>What functions will the actor want</bdi>?</li>
+      <li><bdi>Does the system store information</bdi>? <bdi>Who CRUDs it</bdi>?</li>
+      <li><bdi>Does the actor need to be informed of state changes</bdi>?</li>
+      <li><bdi>External events</bdi>?</li>
     </ul>
   </div>
 
-  <!-- Mini Diagram -->
+  
   <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">📊</span> Step 3: Build the Diagram</div>
-    <p>عناصر الـ Use Case Diagram:</p>
+    <div class="topic-title"><span class="icon">📊</span> <bdi>Step 3</bdi>: <bdi>Build the Diagram</bdi></div>
+    <p>عناصر الـ <bdi>Use Case Diagram</bdi>:</p>
     <div class="uc-diagram">
       <div class="uc-actor">
         <div class="uc-actor-icon">🧍</div>
-        <div>Actor</div>
+        <div><bdi>Actor</bdi></div>
       </div>
       <div class="uc-box">
-        <div style="text-align:center;font-family:var(--fc);font-size:.7rem;color:var(--t3);margin-bottom:6px;text-transform:uppercase">System Boundary</div>
-        <div class="uc-bubble">Use Case 1</div>
-        <div class="uc-bubble">Use Case 2</div>
+        <div style="text-align:center;font-family:var(--fc);font-size:.7rem;color:var(--t3);margin-bottom:6px;text-transform:uppercase"><bdi>System Boundary</bdi></div>
+        <div class="uc-bubble"><bdi>Use Case 1</bdi></div>
+        <div class="uc-bubble"><bdi>Use Case 2</bdi></div>
       </div>
     </div>
     <table class="tbl" style="margin-top:14px">
       <tr><th>العنصر</th><th>المعنى</th></tr>
-      <tr><td><strong>Actor</strong> (stick figure)</td><td>كيان خارجي بيتفاعل مع الـ system</td></tr>
-      <tr><td><strong>Use Case</strong> (oval)</td><td>وظيفة بيقدر الـ user يعملها</td></tr>
-      <tr><td><strong>System Boundary</strong> (rectangle)</td><td>حدود الـ system</td></tr>
-      <tr><td><strong>Generalization</strong> (solid arrow with open triangle)</td><td>Actor/Use case بيرث من أب</td></tr>
-      <tr><td><strong>&lt;&lt;Include&gt;&gt;</strong> (dashed arrow)</td><td>Use case <em>دايماً</em> بتستخدم use case تانية (مثل Login مع كل use case)</td></tr>
-      <tr><td><strong>&lt;&lt;Extend&gt;&gt;</strong> (dashed arrow)</td><td>Use case ممكن <em>أحياناً</em> تستخدم use case تانية (شرط معين)</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>Actor</bdi></strong> (<bdi>stick figure</bdi>)</td><td>كيان خارجي بيتفاعل مع الـ <bdi>system</bdi></td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>Use Case</bdi></strong> (<bdi>oval</bdi>)</td><td>وظيفة بيقدر الـ <bdi>user</bdi> يعملها</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>System Boundary</bdi></strong> (<bdi>rectangle</bdi>)</td><td>حدود الـ <bdi>system</bdi></td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><bdi>Generalization</bdi></strong> (<bdi>solid arrow with open triangle</bdi>)</td><td><bdi>Actor</bdi>/<bdi>Use case</bdi> بيرث من أب</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><<<bdi>Include</bdi>>></strong> (<bdi>dashed arrow</bdi>)</td><td><bdi>Use case</bdi> <em>دايماً</em> بتستخدم <bdi>use case</bdi> تانية (مثل <bdi>Login</bdi> مع كل <bdi>use case</bdi>)</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><strong><<<bdi>Extend</bdi>>></strong> (<bdi>dashed arrow</bdi>)</td><td><bdi>Use case</bdi> ممكن <em>أحياناً</em> تستخدم <bdi>use case</bdi> تانية (شرط معين)</td></tr>
     </table>
-    <div class="info"><div><b>📌 Winter 2023 Q1.04</b>"Customers with bad credit history should pay an extra down payment" → الإجابة هي <strong>&lt;&lt;extend&gt;&gt; من Bad Credit Customer لـ Pay Extra Down Payment</strong>. الـ extend بيستخدم لما الحالة <em>conditional</em>.</div></div>
+    <div class="info"><div><b>📌 <bdi>Winter 2023 Q1.04</bdi></b>"<bdi>Customers with bad credit history should pay an extra down payment</bdi>" → الإجابة هي <strong><<<bdi>extend</bdi>>> من <bdi>Bad Credit Customer</bdi> لـ <bdi>Pay Extra Down Payment</bdi></strong>. الـ <bdi>extend</bdi> بيستخدم لما الحالة <em><bdi>conditional</bdi></em>.</div></div>
   </div>
 
-  <!-- Use Case Description -->
+  
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">📝</span> Use Case Description — 8 عناصر</div>
-    <table class="tbl">
+    <div class="topic-title"><span class="icon">📝</span> <bdi>Use Case Description</bdi> — 8 عناصر</div>
+    <table class="tbl" dir="ltr">
       <tr><th>#</th><th>العنصر</th><th>المحتوى</th></tr>
-      <tr><td>A ⭐</td><td><strong>Name</strong></td><td>اسم قصير ووصفي</td></tr>
-      <tr><td>B</td><td><strong>Actors</strong></td><td>مين بيعمل الـ use case</td></tr>
-      <tr><td>C</td><td><strong>Goals</strong></td><td>ايه اللي الـ actor بيحاول يحققه</td></tr>
-      <tr><td>D</td><td><strong>Preconditions</strong></td><td>حالة النظام قبل الـ use case</td></tr>
-      <tr><td>E</td><td><strong>Summary</strong></td><td>وصف غير رسمي قصير</td></tr>
-      <tr><td>F</td><td><strong>Related use cases</strong></td><td>include / extend</td></tr>
-      <tr><td>G ⭐</td><td><strong>Steps</strong></td><td>2-column: Actor Actions / System Responses</td></tr>
-      <tr><td>H</td><td><strong>Postconditions</strong></td><td>حالة النظام بعد الانتهاء</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><bdi>A</bdi> ⭐</td><td><strong><bdi>Name</bdi></strong></td><td>اسم قصير ووصفي</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><bdi>B</bdi></td><td><strong><bdi>Actors</bdi></strong></td><td>مين بيعمل الـ <bdi>use case</bdi></td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><bdi>C</bdi></td><td><strong><bdi>Goals</bdi></strong></td><td>ايه اللي الـ <bdi>actor</bdi> بيحاول يحققه</td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><bdi>D</bdi></td><td><strong><bdi>Preconditions</bdi></strong></td><td>حالة النظام قبل الـ <bdi>use case</bdi></td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><bdi>E</bdi></td><td><strong><bdi>Summary</bdi></strong></td><td>وصف غير رسمي قصير</td></tr>
+      <tr><td><bdi>F</bdi></td><td><strong><bdi>Related use cases</bdi></strong></td><td><bdi>include</bdi> / <bdi>extend</bdi></td></tr>
+      <tr><td><bdi>G</bdi> ⭐</td><td><strong><bdi>Steps</bdi></strong></td><td><bdi>2-column</bdi>: <bdi>Actor Actions</bdi> / <bdi>System Responses</bdi></td></tr>
+      <tr><td dir="rtl" style="direction: rtl; text-align: right;"><bdi>H</bdi></td><td><strong><bdi>Postconditions</bdi></strong></td><td>حالة النظام بعد الانتهاء</td></tr>
     </table>
-    <div class="tip"><div><b>💡</b><strong>A والـ G هما الأهم</strong> — في exam questions كتيرة، بيطلبوا منك Use Case Description كاملة، الـ Name والـ Steps هما المعيار الرئيسي للتقدير.</div></div>
+    <div class="tip"><div><b>💡</b><strong><bdi>A</bdi> والـ <bdi>G</bdi> هما الأهم</strong> — في <bdi>exam questions</bdi> كتيرة، بيطلبوا منك <bdi>Use Case Description</bdi> كاملة، الـ <bdi>Name</bdi> والـ <bdi>Steps</bdi> هما المعيار الرئيسي للتقدير.</div></div>
   </div>
 
-  <!-- Example UC -->
+  
   <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">📚</span> Example: Library "Check Out Item"</div>
+    <div class="topic-title"><span class="icon">📚</span> <bdi>Example</bdi>: <bdi>Library</bdi> "<bdi>Check Out Item</bdi>"</div>
     <ul>
-      <li><strong>Actor:</strong> Clerk</li>
-      <li><strong>Goal:</strong> Lend a book to a borrower</li>
-      <li><strong>Preconditions:</strong> User is allowed to borrow</li>
-      <li><strong>Postconditions:</strong> Item is checked out &amp; recorded on user's borrowing records</li>
+      <li><strong><bdi>Actor</bdi>:</strong> <bdi>Clerk</bdi></li>
+      <li><strong><bdi>Goal</bdi>:</strong> <bdi>Lend a book to a borrower</bdi></li>
+      <li><strong><bdi>Preconditions</bdi>:</strong> <bdi>User is allowed to borrow</bdi></li>
+      <li><strong><bdi>Postconditions</bdi>:</strong> <bdi>Item is checked out</bdi> & <bdi>recorded on user</bdi>'<bdi>s borrowing records</bdi></li>
     </ul>
 
-    <table class="tbl">
-      <tr><th>Actor</th><th>System</th></tr>
-      <tr><td>1- Enter user's ID (or scan)</td><td>2- Open user page</td></tr>
-      <tr><td>3- Choose "borrow an item"</td><td></td></tr>
-      <tr><td>4- Enter book's barcode &amp; click borrow</td><td>5- Add book to user's records, due date displayed</td></tr>
+    <table class="tbl" dir="ltr">
+      <tr><th><bdi>Actor</bdi></th><th><bdi>System</bdi></th></tr>
+      <tr><td><bdi>1- Enter user</bdi>'<bdi>s ID</bdi> (<bdi>or scan</bdi>)</td><td><bdi>2- Open user page</bdi></td></tr>
+      <tr><td><bdi>3- Choose</bdi> "<bdi>borrow an item</bdi>"</td><td></td></tr>
+      <tr><td><bdi>4- Enter book</bdi>'<bdi>s barcode</bdi> & <bdi>click borrow</bdi></td><td><bdi>5- Add book to user</bdi>'<bdi>s records, due date displayed</bdi></td></tr>
     </table>
 
-    <h4 style="font-family:var(--fh);color:var(--red);font-size:.95rem;margin:14px 0 6px">Exceptional Flow — User suspended:</h4>
-    <table class="tbl">
-      <tr><th>Actor</th><th>System</th></tr>
-      <tr><td>1- Enter/Scan user ID</td><td>2- Open user page (Suspended / Max num reached)</td></tr>
-      <tr><td>3- Borrow option disabled</td><td></td></tr>
-      <tr><td>4- Cancel</td><td></td></tr>
+    <h4 style="font-family:var(--fh);color:var(--red);font-size:.95rem;margin:14px 0 6px"><bdi>Exceptional Flow</bdi> — <bdi>User suspended</bdi>:</h4>
+    <table class="tbl" dir="ltr">
+      <tr><th><bdi>Actor</bdi></th><th><bdi>System</bdi></th></tr>
+      <tr><td><bdi>1- Enter</bdi>/<bdi>Scan user ID</bdi></td><td><bdi>2- Open user page</bdi> (<bdi>Suspended</bdi> / <bdi>Max num reached</bdi>)</td></tr>
+      <tr><td><bdi>3- Borrow option disabled</bdi></td><td></td></tr>
+      <tr><td><bdi>4- Cancel</bdi></td><td></td></tr>
     </table>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     QUIZ — EXAM BANK
-══════════════════════════════════════════════════════════ -->
+
 <div class="quiz-section" id="quiz">
   <div class="quiz-header">
     <div class="quiz-icon">🎯</div>
     <div>
-      <h3>Exam Question Bank — Lecture 3</h3>
-      <p>10 أسئلة حقيقية من امتحانات 2021 → 2025 · User Stories, INVEST, SRS, Use Cases, Verifiability</p>
+      <h3><bdi>Exam Question Bank</bdi> — <bdi>Lecture 3</bdi></h3>
+      <p>10 أسئلة حقيقية من امتحانات 2021 → 2025 · <bdi>User Stories, INVEST, SRS, Use Cases, Verifiability</bdi></p>
     </div>
   </div>
 
-  <!-- Q1 — INVEST -->
+  
   <div class="q-item" data-correct="d">
     <div class="q-num">Question 1 <span class="q-src">Fall 2021–22 · Q1.01 (also Winter 2021)</span></div>
     <div class="q-text">A good user story should be <strong>INVEST</strong>. Which of the following is a good user story?
@@ -769,7 +749,7 @@ completing the purchase.</code></pre>
     </div>
   </div>
 
-  <!-- Q2 — Verifiable (Fall 21-22 version) -->
+  
   <div class="q-item" data-correct="a">
     <div class="q-num">Question 2 <span class="q-src">Fall 2021–22 · Q1.02</span></div>
     <div class="q-text">Which requirements are <strong>verifiable (V)</strong> and which are <strong>non-verifiable (NV)</strong>?
@@ -790,12 +770,12 @@ completing the purchase.</code></pre>
         <li><strong>1 (V)</strong> — ممكن نتأكد بمراجعة عملية التطوير.</li>
         <li><strong>2 (NV)</strong> — "popular mobile platforms now" غامض. "popular" ايه معايير؟ "now" يعني امتى؟</li>
         <li><strong>3 (V)</strong> — رقم محدد: 1000 players. اختبار load testing.</li>
-        <li><strong>4 (NV)</strong> — "fast and respond quickly" مفيش معيار. كان لازم يكون "response time &lt; 200ms".</li>
+        <li><strong>4 (NV)</strong> — "fast and respond quickly" مفيش معيار. كان لازم يكون "response time < 200ms".</li>
       </ul>
     </div>
   </div>
 
-  <!-- Q3 — Verifiable (Winter 2021 version) -->
+  
   <div class="q-item" data-correct="c">
     <div class="q-num">Question 3 <span class="q-src">Winter 2021 · Q1.02</span></div>
     <div class="q-text">Same question but item 2 is now:
@@ -819,7 +799,7 @@ completing the purchase.</code></pre>
     </div>
   </div>
 
-  <!-- Q4 — Unambiguous (Winter 2023) -->
+  
   <div class="q-item" data-correct="b">
     <div class="q-num">Question 4 <span class="q-src">Winter 2023 · Q1.01</span></div>
     <div class="q-text">Which of these are <strong>unambiguous</strong> (clear) requirements that developers can understand easily?
@@ -846,7 +826,7 @@ completing the purchase.</code></pre>
     </div>
   </div>
 
-  <!-- Q5 — Elicitation (Winter 2025) -->
+  
   <div class="q-item" data-correct="c">
     <div class="q-num">Question 5 <span class="q-src">Winter 2025 · Q1.23</span></div>
     <div class="q-text">Which of the following are typically parts of <strong>requirements elicitation</strong>?
@@ -870,7 +850,7 @@ completing the purchase.</code></pre>
     </div>
   </div>
 
-  <!-- Q6 — Transition Req (Winter 2025) -->
+  
   <div class="q-item" data-correct="d">
     <div class="q-num">Question 6 <span class="q-src">Winter 2025 · Q1.24</span></div>
     <div class="q-text">Classify the following requirement: <em>"All customer support staff must complete a 2-day training workshop on the new CRM system's features before the system goes live."</em></div>
@@ -891,7 +871,7 @@ completing the purchase.</code></pre>
     </div>
   </div>
 
-  <!-- Q7 — AI Tools (Winter 2025) -->
+  
   <div class="q-item" data-correct="a">
     <div class="q-num">Question 7 <span class="q-src">Winter 2025 · Q1.25</span></div>
     <div class="q-text">Which AI assistant tools can be <strong>most helpful in requirements engineering</strong>?</div>
@@ -910,19 +890,19 @@ completing the purchase.</code></pre>
     </div>
   </div>
 
-  <!-- Q8 — Use case extend (Winter 2023 Q1.04) -->
+  
   <div class="q-item" data-correct="d">
     <div class="q-num">Question 8 <span class="q-src">Winter 2023 · Q1.04</span></div>
     <div class="q-text">Customers of a car sales shop can buy cars. Customers with a bad credit history should pay an extra down payment. Which use case relation is correct?</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;&lt;include&gt;&gt; from Bad Credit Customer's "Buy a car" to "Pay extra down payment"</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;&lt;include&gt;&gt; on the Customer side</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> &lt;&lt;extend&gt;&gt; on the Customer side</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> &lt;&lt;extend&gt;&gt; from "Pay extra down payment" to "Buy a car" on the <strong>Bad Credit Customer</strong> side</div>
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> <<include>> from Bad Credit Customer's "Buy a car" to "Pay extra down payment"</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> <<include>> on the Customer side</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> <<extend>> on the Customer side</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> <<extend>> from "Pay extra down payment" to "Buy a car" on the <strong>Bad Credit Customer</strong> side</div>
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: D</b>
-      <strong>&lt;&lt;extend&gt;&gt;</strong> بيستخدم لما الـ use case الإضافية <em>conditional</em> — يعني بتحصل في حالات معينة (هنا: لما العميل عنده bad credit). الـ relation بيتعمل من <strong>Bad Credit Customer</strong> لأنه هو اللي بيدفع الـ extra.
+      <strong><<extend>></strong> بيستخدم لما الـ use case الإضافية <em>conditional</em> — يعني بتحصل في حالات معينة (هنا: لما العميل عنده bad credit). الـ relation بيتعمل من <strong>Bad Credit Customer</strong> لأنه هو اللي بيدفع الـ extra.
       <div class="why-wrong">
         <strong>A, B</strong> — <code>include</code> بيستخدم لما الـ use case الإضافية <em>إلزامية دايماً</em>. هنا مش الحالة. ·
         <strong>C</strong> — extend صح بس على الـ Customer العادي غلط — الـ extra بيدفعه bad credit بس.
@@ -930,10 +910,10 @@ completing the purchase.</code></pre>
     </div>
   </div>
 
-  <!-- Q9 — Code → Class Diagram (touches use case) - skip, in lec 5 -->
+  
 
-  <!-- Q9 — INVEST detail/MoSCoW combination — replace with another -->
-  <!-- Skip; we have 8 strong ones -->
+  
+  
 
   <div style="text-align:center;margin-top:24px">
     <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
@@ -942,9 +922,7 @@ completing the purchase.</code></pre>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     CHEAT SHEET
-══════════════════════════════════════════════════════════ -->
+
 <div class="chapter" id="cheat" style="margin-top:80px">
   <div class="ch-header">
     <div class="ch-num amber">📋</div>
@@ -958,21 +936,21 @@ completing the purchase.</code></pre>
 
     <div class="cheat">
       <h3>🎯 INVEST Criteria</h3>
-      <div class="cheat-item"><div class="cheat-key">I</div><div class="cheat-val"><strong>Independent</strong> — لا يعتمد على stories تانية</div></div>
-      <div class="cheat-item"><div class="cheat-key">N</div><div class="cheat-val"><strong>Negotiable</strong> — قابل للنقاش</div></div>
-      <div class="cheat-item"><div class="cheat-key">V</div><div class="cheat-val"><strong>Valuable</strong> — يضيف قيمة</div></div>
-      <div class="cheat-item"><div class="cheat-key">E</div><div class="cheat-val"><strong>Estimable</strong> — قابل لتقدير الجهد</div></div>
-      <div class="cheat-item"><div class="cheat-key">S</div><div class="cheat-val"><strong>Small</strong> — يخلص في sprint</div></div>
-      <div class="cheat-item"><div class="cheat-key">T</div><div class="cheat-val"><strong>Testable</strong> — عنده acceptance criteria</div></div>
+      <div class="cheat-item"><div class="cheat-key">I</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;"><strong>Independent</strong> — لا يعتمد على stories تانية</div></div>
+      <div class="cheat-item"><div class="cheat-key">N</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;"><strong>Negotiable</strong> — قابل للنقاش</div></div>
+      <div class="cheat-item"><div class="cheat-key">V</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;"><strong>Valuable</strong> — يضيف قيمة</div></div>
+      <div class="cheat-item"><div class="cheat-key">E</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;"><strong>Estimable</strong> — قابل لتقدير الجهد</div></div>
+      <div class="cheat-item"><div class="cheat-key">S</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;"><strong>Small</strong> — يخلص في sprint</div></div>
+      <div class="cheat-item"><div class="cheat-key">T</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;"><strong>Testable</strong> — عنده acceptance criteria</div></div>
     </div>
 
     <div class="cheat">
       <h3>✅ Good Requirement = 5 صفات</h3>
-      <div class="cheat-item"><div class="cheat-key">1. Complete</div><div class="cheat-val">معلومات كاملة للتنفيذ والاختبار</div></div>
-      <div class="cheat-item"><div class="cheat-key">2. Unambiguous</div><div class="cheat-val">تفسير واحد، أرقام/أسماء محددة</div></div>
-      <div class="cheat-item"><div class="cheat-key">3. Consistent</div><div class="cheat-val">ما يتعارضش مع requirements تانية</div></div>
-      <div class="cheat-item"><div class="cheat-key">4. Verifiable</div><div class="cheat-val">ممكن قياسه/اختباره</div></div>
-      <div class="cheat-item"><div class="cheat-key">5. Traceable</div><div class="cheat-val">له ID وبنرجعه لمصدره</div></div>
+      <div class="cheat-item"><div class="cheat-key">1. Complete</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;">معلومات كاملة للتنفيذ والاختبار</div></div>
+      <div class="cheat-item"><div class="cheat-key">2. Unambiguous</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;">تفسير واحد، أرقام/أسماء محددة</div></div>
+      <div class="cheat-item"><div class="cheat-key">3. Consistent</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;">ما يتعارضش مع requirements تانية</div></div>
+      <div class="cheat-item"><div class="cheat-key">4. Verifiable</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;">ممكن قياسه/اختباره</div></div>
+      <div class="cheat-item"><div class="cheat-key">5. Traceable</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;">له ID وبنرجعه لمصدره</div></div>
     </div>
 
     <div class="cheat">
@@ -986,11 +964,11 @@ completing the purchase.</code></pre>
 
     <div class="cheat">
       <h3>📚 Types of Requirements</h3>
-      <div class="cheat-item"><div class="cheat-key">Functional (FR)</div><div class="cheat-val">ايه اللي النظام يعمله (login, search...)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Non-Functional (NFR)</div><div class="cheat-val">كيف يعمله (performance, security, scalability, usability)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Business</div><div class="cheat-val">أهداف الـ org (vision, ROI)</div></div>
-      <div class="cheat-item"><div class="cheat-key">Transition</div><div class="cheat-val">مؤقتة — training, data migration, parallel runs</div></div>
-      <div class="cheat-item"><div class="cheat-key">Stakeholder</div><div class="cheat-val">احتياجات أطراف محددة</div></div>
+      <div class="cheat-item"><div class="cheat-key">Functional (FR)</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;">ايه اللي النظام يعمله (login, search...)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Non-Functional (NFR)</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;">كيف يعمله (performance, security, scalability, usability)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Business</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;">أهداف الـ org (vision, ROI)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Transition</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;">مؤقتة — training, data migration, parallel runs</div></div>
+      <div class="cheat-item"><div class="cheat-key">Stakeholder</div><div class="cheat-val" dir="rtl" style="direction: rtl; text-align: right;">احتياجات أطراف محددة</div></div>
     </div>
 
     <div class="cheat">
@@ -998,25 +976,23 @@ completing the purchase.</code></pre>
       <div class="cheat-item"><div class="cheat-key">Actor</div><div class="cheat-val">Stick figure · external entity</div></div>
       <div class="cheat-item"><div class="cheat-key">Use Case</div><div class="cheat-val">Oval · user goal</div></div>
       <div class="cheat-item"><div class="cheat-key">System Boundary</div><div class="cheat-val">Rectangle around use cases</div></div>
-      <div class="cheat-item"><div class="cheat-key">&lt;&lt;include&gt;&gt;</div><div class="cheat-val"><strong>Always</strong> uses another UC (Login)</div></div>
-      <div class="cheat-item"><div class="cheat-key">&lt;&lt;extend&gt;&gt;</div><div class="cheat-val"><strong>Sometimes</strong> (conditional) — bad credit case</div></div>
+      <div class="cheat-item"><div class="cheat-key"><<include>></div><div class="cheat-val"><strong>Always</strong> uses another UC (Login)</div></div>
+      <div class="cheat-item"><div class="cheat-key"><<extend>></div><div class="cheat-val"><strong>Sometimes</strong> (conditional) — bad credit case</div></div>
       <div class="cheat-item"><div class="cheat-key">Generalization</div><div class="cheat-val">Inheritance between actors/UCs</div></div>
     </div>
 
     <div class="cheat">
       <h3>📝 EARS Method</h3>
-      <div class="cheat-item"><div class="cheat-key">Keyword 1</div><div class="cheat-val"><strong>When</strong> &lt;trigger&gt;</div></div>
-      <div class="cheat-item"><div class="cheat-key">Keyword 2</div><div class="cheat-val"><strong>then</strong> &lt;system response&gt;</div></div>
-      <div class="cheat-item"><div class="cheat-key">Keyword 3</div><div class="cheat-val"><strong>If</strong> &lt;condition&gt;</div></div>
-      <div class="cheat-item"><div class="cheat-key">Keyword 4</div><div class="cheat-val"><strong>then</strong> &lt;another response&gt;</div></div>
-      <div class="cheat-item"><div class="cheat-key">Keyword 5</div><div class="cheat-val"><strong>Else</strong> &lt;negative response&gt;</div></div>
+      <div class="cheat-item"><div class="cheat-key">Keyword 1</div><div class="cheat-val"><strong>When</strong> <trigger></div></div>
+      <div class="cheat-item"><div class="cheat-key">Keyword 2</div><div class="cheat-val"><strong>then</strong> <system response></div></div>
+      <div class="cheat-item"><div class="cheat-key">Keyword 3</div><div class="cheat-val"><strong>If</strong> <condition></div></div>
+      <div class="cheat-item"><div class="cheat-key">Keyword 4</div><div class="cheat-val"><strong>then</strong> <another response></div></div>
+      <div class="cheat-item"><div class="cheat-key">Keyword 5</div><div class="cheat-val"><strong>Else</strong> <negative response></div></div>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     RAPID REVISION
-══════════════════════════════════════════════════════════ -->
+
 <div class="chapter" id="revision" style="margin-top:60px">
   <div class="ch-header">
     <div class="ch-num pink">⚡</div>
@@ -1078,7 +1054,7 @@ completing the purchase.</code></pre>
 
   <div class="danger"><div><b>1. خلط Include و Extend</b>Include = mandatory dependency. Extend = optional/conditional. لو فيه شرط زي "if customer has bad credit", استخدم <strong>extend</strong>.</div></div>
 
-  <div class="danger"><div><b>2. اعتبار "easy", "fast", "popular" verifiable</b>دي كلمات <em>غامضة</em>. للـ verifiability محتاج أرقام أو أسماء محددة (1000 users, AES-256, Chrome &amp; Safari).</div></div>
+  <div class="danger"><div><b>2. اعتبار "easy", "fast", "popular" verifiable</b>دي كلمات <em>غامضة</em>. للـ verifiability محتاج أرقام أو أسماء محددة (1000 users, AES-256, Chrome & Safari).</div></div>
 
   <div class="danger"><div><b>3. التفريق بين Transition وStakeholder</b>Transition = activities مؤقتة للـ go-live (training, migration). Stakeholder = احتياجات specific لـ user types (ambulance drivers want audio).</div></div>
 
@@ -1101,7 +1077,7 @@ completing the purchase.</code></pre>
   </div>
 </div>
 
-</div><!-- /.content -->
+</div>
 </main>
 
 <script src="../assets/app.js"></script>
