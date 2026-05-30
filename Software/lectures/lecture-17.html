@@ -1,13 +1,11 @@
-<!DOCTYPE html>
+
 <html lang="ar" dir="auto">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lecture 17 — Version Control &amp; Git | CS251</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
+  <title><bdi>Lecture 17</bdi> — <bdi>Version Control</bdi> & <bdi>Git</bdi> | <bdi>CS251</bdi></title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/styles.css">
   <style>
     /* Version label parser */
@@ -227,7 +225,7 @@
   <nav id="sidebar" dir="ltr">
     <div class="sb-logo">
       <h2>📦 CS251 — Lec 17</h2>
-      <p>Version Control &amp; Git</p>
+      <p>Version Control & Git</p>
     </div>
     <a class="sb-back" href="../index.html">← All Lectures</a>
     <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
@@ -255,434 +253,419 @@
   <main id="main" dir="auto">
 
     <section class="hero">
-      <div class="hero-badge">📦 Lecture 17 · SCM &amp; Git</div>
-      <h1>Version Control &amp; <span>Git</span></h1>
-      <p>يا هندسة، أسئلة من Q1.11 لـ Q1.14 بتيجي في كل امتحان عن الـ SCM والـ Git. حوارات الـ version numbering والـ
-        baseline وأوامر الـ Git دي كلها متكررة وثابتة.</p>
+      <div class="hero-badge">📦 <bdi>Lecture 17</bdi> · <bdi>SCM</bdi> & <bdi>Git</bdi></div>
+      <h1><bdi>Version Control</bdi> & <span><bdi>Git</bdi></span></h1>
+      <p>يا هندسة، أسئلة من <bdi>Q1.11</bdi> لـ <bdi>Q1.14</bdi> بتيجي في كل امتحان عن الـ <bdi>SCM</bdi> والـ <bdi>Git.</bdi> حوارات الـ <bdi>version numbering</bdi> والـ
+        <bdi>baseline</bdi> وأوامر الـ <bdi>Git</bdi> دي كلها متكررة وثابتة.</p>
       <div class="btn-row">
-        <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
+        <a href="../index.html" class="btn btn-ghost">← <bdi>All Lectures</bdi></a>
         <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
       </div>
       <div class="hero-stats">
         <div class="hstat">
           <div class="num">8</div>
-          <div class="lbl">Chapters</div>
+          <div class="lbl"><bdi>Chapters</bdi></div>
         </div>
         <div class="hstat">
           <div class="num">15+</div>
-          <div class="lbl">Key Terms</div>
+          <div class="lbl"><bdi>Key Terms</bdi></div>
         </div>
         <div class="hstat">
           <div class="num">10+</div>
-          <div class="lbl">Git Commands</div>
+          <div class="lbl"><bdi>Git Commands</bdi></div>
         </div>
         <div class="hstat">
           <div class="num">8</div>
-          <div class="lbl">Exam Qs</div>
+          <div class="lbl"><bdi>Exam Qs</bdi></div>
         </div>
       </div>
     </section>
 
     <div class="content">
 
-      <!-- ════════════════════════════════════════════════════════
-     CH 1 — SCM
-══════════════════════════════════════════════════════════ -->
+      
       <div class="chapter" id="ch1">
         <div class="ch-header">
           <div class="ch-num blue">01</div>
           <div class="ch-title">
-            <h2>SCM — Software Configuration Management</h2>
-            <p>Practice of identifying artifacts &amp; handling changes systematically.</p>
+            <h2><bdi>SCM</bdi> — <bdi>Software Configuration Management</bdi></h2>
+            <p><bdi>Practice of identifying artifacts</bdi> & <bdi>handling changes systematically.</bdi></p>
           </div>
         </div>
 
         <div class="topic" style="--accent:var(--cyan)">
-          <div class="topic-title"><span class="icon">📖</span> SCM Definition</div>
-          <p>الـ SCM هو إنك تعرف تحدد الـ artifacts بتاعة المشروع وتتعامل مع التغييرات اللي بتحصل بنظام عشان النظام <strong>يحافظ على سلامته (maintain its integrity)</strong> على المدى الطويل.</p>
+          <div class="topic-title"><span class="icon">📖</span> <bdi>SCM Definition</bdi></div>
+          <p>الـ <bdi>SCM</bdi> هو إنك تعرف تحدد الـ <bdi>artifacts</bdi> بتاعة المشروع وتتعامل مع التغييرات اللي بتحصل بنظام عشان النظام <strong>يحافظ على سلامته (<bdi>maintain its integrity</bdi>)</strong> على المدى الطويل.</p>
           <p>بيشمل تقنيات عشان:</p>
           <ul>
             <li dir="rtl">تقيّم التغييرات المقترحة.</li>
-            <li dir="rtl">تتتبع التغييرات (Tracking).</li>
+            <li dir="rtl">تتتبع التغييرات (<bdi>Tracking</bdi>).</li>
             <li dir="rtl">تحتفظ بنسخ من النظام زي ما كان في أوقات مختلفة.</li>
           </ul>
-          <p style="margin-top:8px">من الآخر الـ SCM = <strong>تخصص وتقنيات</strong> لبدء وتقييم والتحكم في التغييرات اللي بتحصل في السوفتوير أثناء وبعد المشروع.</p>
+          <p style="margin-top:8px">من الآخر الـ <bdi>SCM</bdi> = <strong>تخصص وتقنيات</strong> لبدء وتقييم والتحكم في التغييرات اللي بتحصل في السوفتوير أثناء وبعد المشروع.</p>
         </div>
 
         <div class="topic" style="--accent:var(--green)">
-          <div class="topic-title"><span class="icon">🛠️</span> SCM Has 2 Main Activities</div>
+          <div class="topic-title"><span class="icon">🛠️</span> <bdi>SCM Has 2 Main Activities</bdi></div>
           <ul>
-            <li dir="rtl"><strong>Change Management</strong> (إدارة التغييرات).</li>
-            <li dir="rtl"><strong>Configuration Management</strong> (إدارة التكوين).</li>
-            <li dir="rtl">وأحياناً بيدخل معاهم الـ Release Planning.</li>
+            <li dir="rtl"><strong><bdi>Change Management</bdi></strong> (إدارة التغييرات).</li>
+            <li dir="rtl"><strong><bdi>Configuration Management</bdi></strong> (إدارة التكوين).</li>
+            <li dir="rtl">وأحياناً بيدخل معاهم الـ <bdi>Release Planning.</bdi></li>
           </ul>
         </div>
 
         <div class="topic" style="--accent:var(--amber)">
-          <div class="topic-title"><span class="icon">❓</span> Typical SCM Questions</div>
+          <div class="topic-title"><span class="icon">❓</span> <bdi>Typical SCM Questions</bdi></div>
           <ul>
-            <li dir="rtl">"إيه هي النسخة الصح من الـ module اللي المفروض أكمل كود عليها؟"</li>
-            <li dir="rtl">"إيه نسخة الـ design document اللي ماشية مع نسخة السوفتوير اللي شغالين عليها؟"</li>
-            <li dir="rtl">"إيه النسخة اللي متسطبة عند شركة ABC دلوقتي؟"</li>
+            <li dir="rtl">"إيه هي النسخة الصح من الـ <bdi>module</bdi> اللي المفروض أكمل كود عليها؟"</li>
+            <li dir="rtl">"إيه نسخة الـ <bdi>design document</bdi> اللي ماشية مع نسخة السوفتوير اللي شغالين عليها؟"</li>
+            <li dir="rtl">"إيه النسخة اللي متسطبة عند شركة <bdi>ABC</bdi> دلوقتي؟"</li>
             <li dir="rtl">"إيه التغييرات اللي نزلت في النسخة دي؟"</li>
           </ul>
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════════════════
-     CH 2 — KEY TERMS ⭐
-══════════════════════════════════════════════════════════ -->
+      
       <div class="chapter" id="ch2">
         <div class="ch-header">
           <div class="ch-num green">02</div>
           <div class="ch-title">
-            <h2>Key SCM Terms ⭐</h2>
-            <p>كل مصطلح ممكن ييجي في الـ exam. الـ Baseline ده بييجي في كل امتحان تقريباً يا ريس.</p>
+            <h2><bdi>Key SCM Terms</bdi> ⭐</h2>
+            <p>كل مصطلح ممكن ييجي في الـ <bdi>exam.</bdi> الـ <bdi>Baseline</bdi> ده بييجي في كل امتحان تقريباً يا ريس.</p>
           </div>
         </div>
 
         <div class="topic" style="--accent:var(--green)">
-          <div class="topic-title"><span class="icon">📚</span> Critical Definitions</div>
-          <table class="tbl">
+          <div class="topic-title"><span class="icon">📚</span> <bdi>Critical Definitions</bdi></div>
+          <table class="tbl" dir="ltr">
             <tr>
-              <th>Term</th>
-              <th>Definition</th>
+              <th><bdi>Term</bdi></th>
+              <th><bdi>Definition</bdi></th>
             </tr>
             <tr>
-              <td><strong>Configuration Item (CI)</strong></td>
-              <td>أي حاجة HW/SW بنعاملها ككيان واحد عشان نديرها (زي source code، test suites، docs).</td>
+              <td><strong><bdi>Configuration Item</bdi> (<bdi>CI</bdi>)</strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">أي حاجة <bdi>HW</bdi>/<bdi>SW</bdi> بنعاملها ككيان واحد عشان نديرها (زي <bdi>source code</bdi>، <bdi>test suites</bdi>، <bdi>docs</bdi>).</td>
             </tr>
             <tr>
-              <td><strong>Version</strong></td>
-              <td>نسخة معينة ومحددة من الـ CI.</td>
+              <td><strong><bdi>Version</bdi></strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">نسخة معينة ومحددة من الـ <bdi>CI.</bdi></td>
             </tr>
             <tr>
-              <td><strong>Baseline ⭐</strong></td>
-              <td>specification أو product <strong>اتراجع بشكل رسمي واتفقنا عليه</strong>، وبيبقى الأساس اللي هنكمل تطوير عليه، ومينفعش يتغير إلا بـ <strong>formal change control process</strong>.</td>
+              <td><strong><bdi>Baseline</bdi> ⭐</strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;"><bdi>specification</bdi> أو <bdi>product</bdi> <strong>اتراجع بشكل رسمي واتفقنا عليه</strong>، وبيبقى الأساس اللي هنكمل تطوير عليه، ومينفعش يتغير إلا بـ <strong><bdi>formal change control process</bdi></strong>.</td>
             </tr>
             <tr>
-              <td><strong>Version Control</strong></td>
-              <td>إنك تحتفظ بنسخ مختلفة، بس من غير تحكم رسمي أوي في التغييرات اللي بينهم.</td>
+              <td><strong><bdi>Version Control</bdi></strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">إنك تحتفظ بنسخ مختلفة، بس من غير تحكم رسمي أوي في التغييرات اللي بينهم.</td>
             </tr>
             <tr>
-              <td><strong>Workspace</strong></td>
-              <td>مكان معزول بتاخد فيه نسخة عشان تشتغل براحتك.</td>
+              <td><strong><bdi>Workspace</bdi></strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">مكان معزول بتاخد فيه نسخة عشان تشتغل براحتك.</td>
             </tr>
             <tr>
-              <td><strong>Check-in</strong></td>
-              <td>إنك تحفظ الـ CI في الـ controlled area (الريبو الأساسي).</td>
+              <td><strong><bdi>Check-in</bdi></strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">إنك تحفظ الـ <bdi>CI</bdi> في الـ <bdi>controlled area</bdi> (الريبو الأساسي).</td>
             </tr>
             <tr>
-              <td><strong>Check-out</strong></td>
-              <td>تاخد نسخة من الـ CI من الريبو وتشتغل عليها.</td>
+              <td><strong><bdi>Check-out</bdi></strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">تاخد نسخة من الـ <bdi>CI</bdi> من الريبو وتشتغل عليها.</td>
             </tr>
             <tr>
-              <td><strong>Branch</strong></td>
-              <td>خط تطوير منفصل (مثلاً فرع عشان نصلح فيه bug بعيد عن الـ main).</td>
+              <td><strong><bdi>Branch</bdi></strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">خط تطوير منفصل (مثلاً فرع عشان نصلح فيه <bdi>bug</bdi> بعيد عن الـ <bdi>main</bdi>).</td>
             </tr>
             <tr>
-              <td><strong>Merging</strong></td>
-              <td>إنك تدمج الـ branches دي تاني مع بعض.</td>
+              <td><strong><bdi>Merging</bdi></strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">إنك تدمج الـ <bdi>branches</bdi> دي تاني مع بعض.</td>
             </tr>
             <tr>
-              <td><strong>Build</strong></td>
-              <td>نسخة شغالة فيها مجموعة قدرات معينة جاهزة.</td>
+              <td><strong><bdi>Build</bdi></strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">نسخة شغالة فيها مجموعة قدرات معينة جاهزة.</td>
             </tr>
             <tr>
-              <td><strong>Building</strong></td>
-              <td>إنك تجمّع النظام من مكوناته اللي تحت الـ config mgmt.</td>
+              <td><strong><bdi>Building</bdi></strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">إنك تجمّع النظام من مكوناته اللي تحت الـ <bdi>config mgmt.</bdi></td>
             </tr>
             <tr>
-              <td><strong>Release</strong></td>
-              <td>الإعلان الرسمي وتوزيع النسخة المعتمدة.</td>
+              <td><strong><bdi>Release</bdi></strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">الإعلان الرسمي وتوزيع النسخة المعتمدة.</td>
             </tr>
             <tr>
-              <td><strong>Change Request (CR)</strong></td>
-              <td>طلب رسمي للتغيير، لازم يوافق عليه الـ CCB بناءً على حدث متسجل.</td>
+              <td><strong><bdi>Change Request</bdi> (<bdi>CR</bdi>)</strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">طلب رسمي للتغيير، لازم يوافق عليه الـ <bdi>CCB</bdi> بناءً على حدث متسجل.</td>
             </tr>
             <tr>
-              <td><strong>CCB</strong></td>
-              <td>مجموعة الأشخاص (Board) اللي عندهم الصلاحية ياخدوا قرارات في تغييرات الـ configuration.</td>
+              <td><strong><bdi>CCB</bdi></strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">مجموعة الأشخاص (<bdi>Board</bdi>) اللي عندهم الصلاحية ياخدوا قرارات في تغييرات الـ <bdi>configuration.</bdi></td>
             </tr>
             <tr>
-              <td><strong>Impact Analysis</strong></td>
-              <td>بندرس تأثير التغيير المطلوب على كل طبقات الـ docs والـ components قبل ما نعمله.</td>
+              <td><strong><bdi>Impact Analysis</bdi></strong></td>
+              <td dir="rtl" style="direction: rtl; text-align: right;">بندرس تأثير التغيير المطلوب على كل طبقات الـ <bdi>docs</bdi> والـ <bdi>components</bdi> قبل ما نعمله.</td>
             </tr>
           </table>
           <div class="info">
-            <div><b>📌 Baseline متكررة في كل exam</b>Fall 2021-22 / Winter 2021 / Winter 2023 / Winter 2025 — Q1.13
-              دايماً عن تعريف "specification formally reviewed... can only change through formal process" =
-              <strong>Baseline</strong>.</div>
+            <div><b>📌 <bdi>Baseline</bdi> متكررة في كل <bdi>exam</bdi></b><bdi>Fall 2021-22</bdi> / <bdi>Winter 2021</bdi> / <bdi>Winter 2023</bdi> / <bdi>Winter 2025</bdi> — <bdi>Q1.13</bdi>
+              دايماً عن تعريف "<bdi>specification formally reviewed... can only change through formal process</bdi>" =
+              <strong><bdi>Baseline</bdi></strong>.</div>
           </div>
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════════════════
-     CH 3 — VERSION CONTROL
-══════════════════════════════════════════════════════════ -->
+      
       <div class="chapter" id="ch3">
         <div class="ch-header">
           <div class="ch-num amber">03</div>
           <div class="ch-title">
-            <h2>Version Control Systems</h2>
-            <p>Repository of files + tracking every change with who/when/what/why.</p>
+            <h2><bdi>Version Control Systems</bdi></h2>
+            <p><bdi>Repository of files + tracking every change with who</bdi>/<bdi>when</bdi>/<bdi>what</bdi>/<bdi>why.</bdi></p>
           </div>
         </div>
 
         <div class="topic" style="--accent:var(--amber)">
-          <div class="topic-title"><span class="icon">📦</span> What is VCS?</div>
+          <div class="topic-title"><span class="icon">📦</span> <bdi>What is VCS</bdi>?</div>
           <ul>
-            <li dir="rtl">الـ VCS عبارة عن <strong>مخزن ملفات (repository)</strong>.</li>
+            <li dir="rtl">الـ <bdi>VCS</bdi> عبارة عن <strong>مخزن ملفات (<bdi>repository</bdi>)</strong>.</li>
             <li dir="rtl">كل تغيير بيتحفظ وبنعرف مين اللي عمله.</li>
             <li dir="rtl">بيتتبع النسخ والتغييرات من خلال إجابة الأسئلة دي:
               <ul style="direction:ltr">
                 <li dir="rtl"><strong>إمتى؟</strong> التغيير حصل إمتى؟</li>
                 <li dir="rtl"><strong>مين؟</strong> مين اللي عمل التغيير ده؟</li>
                 <li dir="rtl"><strong>إيه؟</strong> إيه اللي اتغير بالظبط؟</li>
-                <li dir="rtl"><strong>ليه؟</strong> (وده بنكتبه في الـ commit messages)</li>
+                <li dir="rtl"><strong>ليه؟</strong> (وده بنكتبه في الـ <bdi>commit messages</bdi>)</li>
               </ul>
             </li>
           </ul>
         </div>
 
         <div class="topic" style="--accent:var(--green)">
-          <div class="topic-title"><span class="icon">✨</span> Why Use VCS?</div>
+          <div class="topic-title"><span class="icon">✨</span> <bdi>Why Use VCS</bdi>?</div>
           <ul>
-            <li dir="rtl"><strong>Reversion</strong>: تقدر ترجع لنسخة كانت شغالة وكويسة لو التغيير اللي عملته بوّظ الدنيا.</li>
-            <li dir="rtl"><strong>Change / Bug Tracking</strong>: بتتتبع التغييرات ومين صلح الـ bug.</li>
-            <li dir="rtl"><strong>Branches</strong>: تقدر تعمل features جديدة من غير ما تبوظ الكود الشغال.</li>
-            <li dir="rtl"><strong>Merging branches</strong>: بتدمج الكود الجديد مع القديم في أمان.</li>
-            <li dir="rtl"><strong>Parallel work</strong>: كذا developer يقدروا يشتغلوا على نفس الفايل مع بعض.</li>
+            <li dir="rtl"><strong><bdi>Reversion</bdi></strong>: تقدر ترجع لنسخة كانت شغالة وكويسة لو التغيير اللي عملته بوّظ الدنيا.</li>
+            <li dir="rtl"><strong><bdi>Change</bdi> / <bdi>Bug Tracking</bdi></strong>: بتتتبع التغييرات ومين صلح الـ <bdi>bug.</bdi></li>
+            <li dir="rtl"><strong><bdi>Branches</bdi></strong>: تقدر تعمل <bdi>features</bdi> جديدة من غير ما تبوظ الكود الشغال.</li>
+            <li dir="rtl"><strong><bdi>Merging branches</bdi></strong>: بتدمج الكود الجديد مع القديم في أمان.</li>
+            <li dir="rtl"><strong><bdi>Parallel work</bdi></strong>: كذا <bdi>developer</bdi> يقدروا يشتغلوا على نفس الفايل مع بعض.</li>
           </ul>
           <div class="warn">
-            <div><b>📌 Fall 2021-22 / Winter 2021 Q1.11</b>"Which is true about VCS?" — VCS allows tracking changes (a),
-              retrieving older versions (d), working in parallel (c). It does NOT help discover bugs (b is
-              FALSE).<br>Answer: <strong>(f) (a), (c), (d)</strong>.</div>
+            <div><b>📌 <bdi>Fall 2021-22</bdi> / <bdi>Winter 2021 Q1.11</bdi></b>"<bdi>Which is true about VCS</bdi>?" — <bdi>VCS allows tracking changes</bdi> (<bdi>a</bdi>),
+              <bdi>retrieving older versions</bdi> (<bdi>d</bdi>), <bdi>working in parallel</bdi> (<bdi>c</bdi>)<bdi>. It does NOT help discover bugs</bdi> (<bdi>b is
+              FALSE</bdi>).<br><bdi>Answer</bdi>: <strong>(<bdi>f</bdi>) (<bdi>a</bdi>), (<bdi>c</bdi>), (<bdi>d</bdi>)</strong>.</div>
           </div>
         </div>
 
         <div class="topic" style="--accent:var(--purple)">
-          <div class="topic-title"><span class="icon">🏛️</span> Centralized vs Distributed</div>
+          <div class="topic-title"><span class="icon">🏛️</span> <bdi>Centralized vs Distributed</bdi></div>
           <div class="grid2">
             <div>
-              <h4 style="color:var(--cyan);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">Centralized (SVN,
-                CVS)</h4>
-              <p style="font-size:.85rem" dir="rtl">سيرفر واحد فيه كل النسخ، وكل client بياخد نسخة يشتغل عليها. لو السيرفر وقع كله بيقف.</p>
+              <h4 style="color:var(--cyan);font-family:var(--fh);font-size:.95rem;margin-bottom:6px"><bdi>Centralized</bdi> (<bdi>SVN,
+                CVS</bdi>)</h4>
+              <p style="font-size:.85rem" dir="rtl">سيرفر واحد فيه كل النسخ، وكل <bdi>client</bdi> بياخد نسخة يشتغل عليها. لو السيرفر وقع كله بيقف.</p>
             </div>
             <div>
-              <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">Distributed (Git,
-                Mercurial)</h4>
-              <p style="font-size:.85rem" dir="rtl">كل developer بيبقى عنده <strong>نسخة كاملة (full copy)</strong> من الريبو. وتقدر تشتغل offline عادي.</p>
+              <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin-bottom:6px"><bdi>Distributed</bdi> (<bdi>Git,
+                Mercurial</bdi>)</h4>
+              <p style="font-size:.85rem" dir="rtl">كل <bdi>developer</bdi> بيبقى عنده <strong>نسخة كاملة (<bdi>full copy</bdi>)</strong> من الريبو. وتقدر تشتغل <bdi>offline</bdi> عادي.</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════════════════
-     CH 4 — VERSIONING ⭐
-══════════════════════════════════════════════════════════ -->
+      
       <div class="chapter" id="ch4">
         <div class="ch-header">
           <div class="ch-num red">04</div>
           <div class="ch-title">
-            <h2>Version Numbering ⭐ (Critical Exam Topic)</h2>
-            <p>Q1.12 / Q1.09 في كل امتحان بتلاقي أسئلة عن إزاي تفك وتفهم الـ version numbers دي.</p>
+            <h2><bdi>Version Numbering</bdi> ⭐ (<bdi>Critical Exam Topic</bdi>)</h2>
+            <p><bdi>Q1.12</bdi> / <bdi>Q1.09</bdi> في كل امتحان بتلاقي أسئلة عن إزاي تفك وتفهم الـ <bdi>version numbers</bdi> دي.</p>
           </div>
         </div>
 
         <div class="topic" style="--accent:var(--red)">
-          <div class="topic-title"><span class="icon">🔢</span> The Format</div>
-          <p>Standard format: <strong><code>major.minor.milestone.revision-build</code></strong></p>
+          <div class="topic-title"><span class="icon">🔢</span> <bdi>The Format</bdi></div>
+          <p><bdi>Standard format</bdi>: <strong><code><bdi>major.minor.milestone.revision-build</bdi></code></strong></p>
 
           <div class="version-parse">
             <div class="version-text">
-              <span class="vp-major">2</span>.<span class="vp-minor">3</span>.<span class="vp-milestone">2</span>.<span
-                class="vp-revision">5</span>-<span class="vp-build">33</span>
+              <span class="vp-major">2</span>.<span class="vp-minor">3</span>.<span class="vp-milestone">2</span>.<span class="vp-revision">5</span>-<span class="vp-build">33</span>
             </div>
             <div class="vp-legend">
               <div>
-                <div class="vp-dot" style="background:var(--cyan)"></div>major
+                <div class="vp-dot" style="background:var(--cyan)"></div><bdi>major</bdi>
               </div>
               <div>
-                <div class="vp-dot" style="background:var(--green)"></div>minor
+                <div class="vp-dot" style="background:var(--green)"></div><bdi>minor</bdi>
               </div>
               <div>
-                <div class="vp-dot" style="background:var(--amber)"></div>milestone
+                <div class="vp-dot" style="background:var(--amber)"></div><bdi>milestone</bdi>
               </div>
               <div>
-                <div class="vp-dot" style="background:var(--purple)"></div>revision
+                <div class="vp-dot" style="background:var(--purple)"></div><bdi>revision</bdi>
               </div>
               <div>
-                <div class="vp-dot" style="background:var(--pink)"></div>build
+                <div class="vp-dot" style="background:var(--pink)"></div><bdi>build</bdi>
               </div>
             </div>
           </div>
         </div>
 
         <div class="topic" style="--accent:var(--amber)">
-          <div class="topic-title"><span class="icon">🎯</span> Milestone Numbering ⭐</div>
+          <div class="topic-title"><span class="icon">🎯</span> <bdi>Milestone Numbering</bdi> ⭐</div>
           <div class="milestone-table">
             <div class="ms-row" style="--accent:var(--red)">
               <div class="ms-num">0</div>
               <div class="ms-name">Pre-alpha</div>
-              <div class="ms-desc">مرحلة بدري جداً في التطوير</div>
+              <div class="ms-desc" dir="rtl" style="direction: rtl; text-align: right;">مرحلة بدري جداً في التطوير</div>
             </div>
             <div class="ms-row" style="--accent:var(--amber)">
               <div class="ms-num">1</div>
               <div class="ms-name">Alpha</div>
-              <div class="ms-desc">بنجرب داخلياً في الشركة</div>
+              <div class="ms-desc" dir="rtl" style="direction: rtl; text-align: right;">بنجرب داخلياً في الشركة</div>
             </div>
             <div class="ms-row" style="--accent:var(--purple)">
               <div class="ms-num">2</div>
               <div class="ms-name">Beta</div>
-              <div class="ms-desc">بنجرب مع ناس من بره (يوزرز)</div>
+              <div class="ms-desc" dir="rtl" style="direction: rtl; text-align: right;">بنجرب مع ناس من بره (يوزرز)</div>
             </div>
             <div class="ms-row" style="--accent:var(--cyan)">
               <div class="ms-num">3</div>
               <div class="ms-name">Release Candidate (RC)</div>
-              <div class="ms-desc">خلاص بنفنش وبنجهزها للنزول</div>
+              <div class="ms-desc" dir="rtl" style="direction: rtl; text-align: right;">خلاص بنفنش وبنجهزها للنزول</div>
             </div>
             <div class="ms-row" style="--accent:var(--green)">
               <div class="ms-num">4</div>
               <div class="ms-name">Final Release</div>
-              <div class="ms-desc">النسخة النهائية اللي هتنزل للسوق</div>
+              <div class="ms-desc" dir="rtl" style="direction: rtl; text-align: right;">النسخة النهائية اللي هتنزل للسوق</div>
             </div>
           </div>
         </div>
 
         <div class="topic" style="--accent:var(--purple)">
-          <div class="topic-title"><span class="icon">🧮</span> Parsing Practice</div>
-          <p>Given: <code>3.2.3.2</code> = ?</p>
+          <div class="topic-title"><span class="icon">🧮</span> <bdi>Parsing Practice</bdi></div>
+          <p><bdi>Given</bdi>: <code>3.2.3.2</code> = ?</p>
           <ul>
-            <li dir="rtl">major = 3 (الإصدار الأساسي التالت)</li>
-            <li dir="rtl">minor = 2 (تاني تحديث فرعي في v3)</li>
-            <li dir="rtl">milestone = 3 → <strong>يعني Release Candidate (RC)</strong></li>
-            <li dir="rtl">revision = 2 → <strong>تاني تصليح للـ bugs (second bug-fix)</strong></li>
+            <li dir="rtl"><bdi>major</bdi> = 3 (الإصدار الأساسي التالت)</li>
+            <li dir="rtl"><bdi>minor</bdi> = 2 (تاني تحديث فرعي في <bdi>v3</bdi>)</li>
+            <li dir="rtl"><bdi>milestone</bdi> = 3 → <strong>يعني <bdi>Release Candidate</bdi> (<bdi>RC</bdi>)</strong></li>
+            <li dir="rtl"><bdi>revision</bdi> = 2 → <strong>تاني تصليح للـ <bdi>bugs</bdi> (<bdi>second bug-fix</bdi>)</strong></li>
           </ul>
           <div class="info">
-            <div><b>📌 Fall 2021-22 Q1.12</b>"Version 3.2.3.2 is what?" = <strong>Second bug-fix release for the release
-                candidate of version 3.2</strong>. (a) is the right answer.</div>
+            <div><b>📌 <bdi>Fall 2021-22 Q1.12</bdi></b>"<bdi>Version 3.2.3.2 is what</bdi>?" = <strong><bdi>Second bug-fix release for the release
+                candidate of version 3.2</bdi></strong>. (<bdi>a</bdi>) <bdi>is the right answer.</bdi></div>
           </div>
 
-          <p style="margin-top:14px">Given: <code>3.2.4.2</code> = ?</p>
+          <p style="margin-top:14px"><bdi>Given</bdi>: <code>3.2.4.2</code> = ?</p>
           <ul>
-            <li dir="rtl">milestone = 4 → <strong>يعني Final Release</strong></li>
-            <li dir="rtl">revision = 2 → <strong>تاني تصليح للـ bugs (second bug-fix)</strong></li>
+            <li dir="rtl"><bdi>milestone</bdi> = 4 → <strong>يعني <bdi>Final Release</bdi></strong></li>
+            <li dir="rtl"><bdi>revision</bdi> = 2 → <strong>تاني تصليح للـ <bdi>bugs</bdi> (<bdi>second bug-fix</bdi>)</strong></li>
           </ul>
           <div class="info">
-            <div><b>📌 Winter 2021 Q1.12</b>"Version 3.2.4.2 is what?" = <strong>Second bug-fix release for the final
-                release of version 3.2</strong>.</div>
+            <div><b>📌 <bdi>Winter 2021 Q1.12</bdi></b>"<bdi>Version 3.2.4.2 is what</bdi>?" = <strong><bdi>Second bug-fix release for the final
+                release of version 3.2</bdi></strong>.</div>
           </div>
 
-          <p style="margin-top:14px">Given: Fifth bug-fix of the <strong>beta</strong> version of <strong>v2.3</strong>
+          <p style="margin-top:14px"><bdi>Given</bdi>: <bdi>Fifth bug-fix of the</bdi> <strong><bdi>beta</bdi></strong> <bdi>version of</bdi> <strong><bdi>v2.3</bdi></strong>
             = ?</p>
           <ul>
-            <li dir="rtl">عشان beta → يبقى milestone = <strong>2</strong></li>
-            <li dir="rtl">عشان fifth bug-fix → يبقى revision = <strong>5</strong></li>
-            <li dir="rtl">الشكل النهائي هيبقى: <code>2.3.2.5</code> (وممكن يتحط build اختياري في الآخر زي <code>-33</code>)</li>
+            <li dir="rtl">عشان <bdi>beta</bdi> → يبقى <bdi>milestone</bdi> = <strong>2</strong></li>
+            <li dir="rtl">عشان <bdi>fifth bug-fix</bdi> → يبقى <bdi>revision</bdi> = <strong>5</strong></li>
+            <li dir="rtl">الشكل النهائي هيبقى: <code>2.3.2.5</code> (وممكن يتحط <bdi>build</bdi> اختياري في الآخر زي <code>-33</code>)</li>
           </ul>
           <div class="info">
-            <div><b>📌 Winter 2025 Q1.09</b>الإجابة: <strong>(c) 2.3.2.5-33</strong> دي الإجابة الصح يا باشا.</div>
+            <div><b>📌 <bdi>Winter 2025 Q1.09</bdi></b>الإجابة: <strong>(<bdi>c</bdi>) 2.3.2.5-33</strong> دي الإجابة الصح يا باشا.</div>
           </div>
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════════════════
-     CH 5 — CHANGE CONTROL
-══════════════════════════════════════════════════════════ -->
+      
       <div class="chapter" id="ch5">
         <div class="ch-header">
           <div class="ch-num teal">05</div>
           <div class="ch-title">
-            <h2>Change Control</h2>
-            <p>How changes are formally proposed, evaluated, and approved.</p>
+            <h2><bdi>Change Control</bdi></h2>
+            <p><bdi>How changes are formally proposed, evaluated, and approved.</bdi></p>
           </div>
         </div>
 
         <div class="topic" style="--accent:var(--teal)">
-          <div class="topic-title"><span class="icon">📝</span> Change Request (CR)</div>
-          <p>الـ CR ده بيبقى طلب عشان:</p>
+          <div class="topic-title"><span class="icon">📝</span> <bdi>Change Request</bdi> (<bdi>CR</bdi>)</div>
+          <p>الـ <bdi>CR</bdi> ده بيبقى طلب عشان:</p>
           <ul>
-            <li dir="rtl">نكبّر أو نصغّر الـ scope بتاع المشروع.</li>
-            <li dir="rtl">نعدل سياسات، خطوات، خطط، أو إجراءات (policies/processes).</li>
+            <li dir="rtl">نكبّر أو نصغّر الـ <bdi>scope</bdi> بتاع المشروع.</li>
+            <li dir="rtl">نعدل سياسات، خطوات، خطط، أو إجراءات (<bdi>policies</bdi>/<bdi>processes</bdi>).</li>
             <li dir="rtl">نغير في التكلفة أو الميزانية.</li>
-            <li dir="rtl">نراجع أو نعدل الجدول الزمني (schedules).</li>
+            <li dir="rtl">نراجع أو نعدل الجدول الزمني (<bdi>schedules</bdi>).</li>
           </ul>
-          <p dir="rtl">الـ CR ممكن أي حد يعمله في أي وقت خلال الـ SW life cycle.</p>
+          <p dir="rtl">الـ <bdi>CR</bdi> ممكن أي حد يعمله في أي وقت خلال الـ <bdi>SW life cycle.</bdi></p>
         </div>
 
         <div class="topic" style="--accent:var(--cyan)">
-          <div class="topic-title"><span class="icon">🔄</span> Types of Changes</div>
+          <div class="topic-title"><span class="icon">🔄</span> <bdi>Types of Changes</bdi></div>
           <ul>
-            <li dir="rtl"><strong>تصليح Bugs</strong> (إجراء تصحيحي).</li>
-            <li dir="rtl"><strong>إضافة Features</strong> (حاجات جديدة).</li>
-            <li dir="rtl"><strong>تبسيط الكود</strong> (اللي هو الـ refactoring).</li>
+            <li dir="rtl"><strong>تصليح <bdi>Bugs</bdi></strong> (إجراء تصحيحي).</li>
+            <li dir="rtl"><strong>إضافة <bdi>Features</bdi></strong> (حاجات جديدة).</li>
+            <li dir="rtl"><strong>تبسيط الكود</strong> (اللي هو الـ <bdi>refactoring</bdi>).</li>
             <li dir="rtl"><strong>تغيير الجدول الزمني</strong>.</li>
           </ul>
         </div>
 
         <div class="topic" style="--accent:var(--amber)">
-          <div class="topic-title"><span class="icon">⚙️</span> Change Control Process</div>
+          <div class="topic-title"><span class="icon">⚙️</span> <bdi>Change Control Process</bdi></div>
           <ol>
-            <li dir="rtl">حد <strong>بيقدم (submits)</strong> طلب تغيير CR.</li>
-            <li dir="rtl">الـ CR بيتسجل في الـ <strong>bug tracking system</strong>.</li>
-            <li dir="rtl">بيتعمل <strong>Impact analysis</strong> عشان نشوف تأثيره (تكلفة، وقت، وتأثير فني).</li>
-            <li dir="rtl">الـ <strong>CCB</strong> (مجلس إدارة التغييرات) بيراجع ويقرر.</li>
-            <li dir="rtl">لو توافق عليه: بيتوزع على حد، يتنفذ، يتجرب (tested)، وينزل (deployed).</li>
+            <li dir="rtl">حد <strong>بيقدم (<bdi>submits</bdi>)</strong> طلب تغيير <bdi>CR.</bdi></li>
+            <li dir="rtl">الـ <bdi>CR</bdi> بيتسجل في الـ <strong><bdi>bug tracking system</bdi></strong>.</li>
+            <li dir="rtl">بيتعمل <strong><bdi>Impact analysis</bdi></strong> عشان نشوف تأثيره (تكلفة، وقت، وتأثير فني).</li>
+            <li dir="rtl">الـ <strong><bdi>CCB</bdi></strong> (مجلس إدارة التغييرات) بيراجع ويقرر.</li>
+            <li dir="rtl">لو توافق عليه: بيتوزع على حد، يتنفذ، يتجرب (<bdi>tested</bdi>)، وينزل (<bdi>deployed</bdi>).</li>
             <li dir="rtl">لو اترفض: بيتسجل الرفض مع الأسباب.</li>
           </ol>
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════════════════
-     CH 6 — GIT BASICS
-══════════════════════════════════════════════════════════ -->
+      
       <div class="chapter" id="ch6">
         <div class="ch-header">
           <div class="ch-num purple">06</div>
           <div class="ch-title">
-            <h2>Git Basics</h2>
-            <p>Created by Linus Torvalds, 2005. For Linux Kernel development.</p>
+            <h2><bdi>Git Basics</bdi></h2>
+            <p><bdi>Created by Linus Torvalds, 2005. For Linux Kernel development.</bdi></p>
           </div>
         </div>
 
         <div class="topic" style="--accent:var(--purple)">
-          <div class="topic-title"><span class="icon">📜</span> Git History</div>
+          <div class="topic-title"><span class="icon">📜</span> <bdi>Git History</bdi></div>
           <ul>
-            <li dir="rtl">اللي عمله هو <strong>Linus Torvalds</strong>.</li>
+            <li dir="rtl">اللي عمله هو <strong><bdi>Linus Torvalds</bdi></strong>.</li>
             <li dir="rtl">ابتدى سنة <strong>2005</strong>.</li>
-            <li dir="rtl">كان معمول عشان يديروا بيه تطوير الـ <strong>Linux Kernel</strong>.</li>
-            <li dir="rtl">هو Distributed VCS، سريع جداً، وفيه check عشان الفايلات متبوظش.</li>
+            <li dir="rtl">كان معمول عشان يديروا بيه تطوير الـ <strong><bdi>Linux Kernel</bdi></strong>.</li>
+            <li dir="rtl">هو <bdi>Distributed VCS</bdi>، سريع جداً، وفيه <bdi>check</bdi> عشان الفايلات متبوظش.</li>
           </ul>
         </div>
 
         <div class="topic" style="--accent:var(--cyan)">
-          <div class="topic-title"><span class="icon">🎯</span> Git Properties</div>
+          <div class="topic-title"><span class="icon">🎯</span> <bdi>Git Properties</bdi></div>
           <ul>
-            <li dir="rtl">نظام <strong>Distributed</strong> للـ version control.</li>
-            <li dir="rtl">بيتتبع التغييرات في الفايلات <strong>على مر الوقت (over time)</strong>.</li>
-            <li dir="rtl">بيسمح للناس تشتغل وتتعاون مع بعض في المشاريع (collaboration).</li>
+            <li dir="rtl">نظام <strong><bdi>Distributed</bdi></strong> للـ <bdi>version control.</bdi></li>
+            <li dir="rtl">بيتتبع التغييرات في الفايلات <strong>على مر الوقت (<bdi>over time</bdi>)</strong>.</li>
+            <li dir="rtl">بيسمح للناس تشتغل وتتعاون مع بعض في المشاريع (<bdi>collaboration</bdi>).</li>
             <li dir="rtl"><strong>سريع</strong> وكفاءته عالية.</li>
-            <li dir="rtl">بيدعم التطوير اللي مش خطي <strong>(non-linear)</strong> يعني تقدر تعمل branches.</li>
-            <li dir="rtl">مفتوح المصدر <strong>(Open-source)</strong> ومجاني.</li>
+            <li dir="rtl">بيدعم التطوير اللي مش خطي <strong>(<bdi>non-linear</bdi>)</strong> يعني تقدر تعمل <bdi>branches.</bdi></li>
+            <li dir="rtl">مفتوح المصدر <strong>(<bdi>Open-source</bdi>)</strong> ومجاني.</li>
           </ul>
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════════════════
-     CH 7 — GIT WORKFLOW ⭐
-══════════════════════════════════════════════════════════ -->
+      
       <div class="chapter" id="ch7">
         <div class="ch-header">
           <div class="ch-num pink">07</div>
           <div class="ch-title">
-            <h2>Git Workflow ⭐</h2>
-            <p>أسئلة منورة في كل امتحان عن التلاتة دول مع بعض: <code>add → commit → push</code>.</p>
+            <h2><bdi>Git Workflow</bdi> ⭐</h2>
+            <p>أسئلة منورة في كل امتحان عن التلاتة دول مع بعض: <code><bdi>add</bdi> → <bdi>commit</bdi> → <bdi>push</bdi></code>.</p>
           </div>
         </div>
 
         <div class="topic" style="--accent:var(--pink)">
-          <div class="topic-title"><span class="icon">🔄</span> The 4 Stages</div>
+          <div class="topic-title"><span class="icon">🔄</span> <bdi>The 4 Stages</bdi></div>
           <div class="git-flow">
             <div class="git-stage">
               <div class="git-stage-name">1. Working Directory</div>
@@ -690,7 +673,7 @@
             </div>
             <div class="git-stage">
               <div class="git-stage-name">2. Staging Area</div>
-              <p style="font-size:.78rem;color:var(--t2)">مرحلة التجهيز للـ commit</p>
+              <p style="font-size:.78rem;color:var(--t2)">مرحلة التجهيز للـ <bdi>commit</bdi></p>
               <div class="git-stage-cmd">git add</div>
             </div>
             <div class="git-stage">
@@ -700,177 +683,173 @@
             </div>
             <div class="git-stage">
               <div class="git-stage-name">4. Remote Repo</div>
-              <p style="font-size:.78rem;color:var(--t2)">مرفوع على GitHub/GitLab</p>
+              <p style="font-size:.78rem;color:var(--t2)">مرفوع على <bdi>GitHub</bdi>/<bdi>GitLab</bdi></p>
               <div class="git-stage-cmd">git push</div>
             </div>
           </div>
         </div>
 
-        <!-- Common commands -->
+        
         <div class="topic" style="--accent:var(--cyan)">
-          <div class="topic-title"><span class="icon">⌨️</span> Common Git Commands</div>
-          <table class="tbl">
+          <div class="topic-title"><span class="icon">⌨️</span> <bdi>Common Git Commands</bdi></div>
+          <table class="tbl" dir="ltr">
             <tr>
-              <th>Command</th>
-              <th>Purpose</th>
+              <th><bdi>Command</bdi></th>
+              <th><bdi>Purpose</bdi></th>
             </tr>
             <tr>
-              <td><code>git status</code></td>
-              <td>Check status</td>
+              <td><code><bdi>git status</bdi></code></td>
+              <td><bdi>Check status</bdi></td>
             </tr>
             <tr>
-              <td><code>git init</code></td>
-              <td>Creates new local Git repo</td>
+              <td><code><bdi>git init</bdi></code></td>
+              <td><bdi>Creates new local Git repo</bdi></td>
             </tr>
             <tr>
-              <td><code>git add &lt;file&gt;</code></td>
-              <td>Stage file for commit</td>
+              <td><code><bdi>git add</bdi> <<bdi>file</bdi>></code></td>
+              <td><bdi>Stage file for commit</bdi></td>
             </tr>
             <tr>
-              <td><code>git add .</code></td>
-              <td>Stage all changes</td>
+              <td><code><bdi>git add .</bdi></code></td>
+              <td><bdi>Stage all changes</bdi></td>
             </tr>
             <tr>
-              <td><code>git commit -m "msg"</code></td>
-              <td>Create commit with message</td>
+              <td><code><bdi>git commit -m</bdi> "<bdi>msg</bdi>"</code></td>
+              <td><bdi>Create commit with message</bdi></td>
             </tr>
             <tr>
-              <td><code>git commit -a -m "msg"</code></td>
-              <td>Commit all tracked files</td>
+              <td><code><bdi>git commit -a -m</bdi> "<bdi>msg</bdi>"</code></td>
+              <td><bdi>Commit all tracked files</bdi></td>
             </tr>
             <tr>
-              <td><code>git clone &lt;url&gt;</code></td>
-              <td>Clone existing repo</td>
+              <td><code><bdi>git clone</bdi> <<bdi>url</bdi>></code></td>
+              <td><bdi>Clone existing repo</bdi></td>
             </tr>
             <tr>
-              <td><code>git push</code></td>
-              <td>Push commits to remote</td>
+              <td><code><bdi>git push</bdi></code></td>
+              <td><bdi>Push commits to remote</bdi></td>
             </tr>
             <tr>
-              <td><code>git pull</code></td>
-              <td>Fetch + merge from remote</td>
+              <td><code><bdi>git pull</bdi></code></td>
+              <td><bdi>Fetch + merge from remote</bdi></td>
             </tr>
             <tr>
-              <td><code>git log</code></td>
-              <td>Show commit history</td>
+              <td><code><bdi>git log</bdi></code></td>
+              <td><bdi>Show commit history</bdi></td>
             </tr>
           </table>
         </div>
 
-        <!-- The trio -->
+        
         <div class="topic" style="--accent:var(--red)">
-          <div class="topic-title"><span class="icon">⭐</span> The Trio: Add File to Shared Repo</div>
-          <p>Standard sequence to add a new untracked file to a shared Git repo:</p>
+          <div class="topic-title"><span class="icon">⭐</span> <bdi>The Trio</bdi>: <bdi>Add File to Shared Repo</bdi></div>
+          <p><bdi>Standard sequence to add a new untracked file to a shared Git repo</bdi>:</p>
           <ol>
-            <li><code>git add &lt;file&gt;</code> — stage the file</li>
-            <li><code>git commit -m "message"</code> — create commit locally</li>
-            <li><code>git push</code> — push to remote (shared) repo</li>
+            <li><code><bdi>git add</bdi> <<bdi>file</bdi>></code> — <bdi>stage the file</bdi></li>
+            <li><code><bdi>git commit -m</bdi> "<bdi>message</bdi>"</code> — <bdi>create commit locally</bdi></li>
+            <li><code><bdi>git push</bdi></code> — <bdi>push to remote</bdi> (<bdi>shared</bdi>) <bdi>repo</bdi></li>
           </ol>
           <div class="info">
-            <div><b>📌 Q1.14 Fall 2021-22 / Q1.14 Winter 2021 / Q1.08 Winter 2025</b>The sequence is <strong>add →
-                commit → push</strong>. NOT init/commit/add (init creates a NEW repo, not for adding files to existing
-              one).</div>
+            <div><b>📌 <bdi>Q1.14 Fall 2021-22</bdi> / <bdi>Q1.14 Winter 2021</bdi> / <bdi>Q1.08 Winter 2025</bdi></b><bdi>The sequence is</bdi> <strong><bdi>add</bdi> →
+                <bdi>commit</bdi> → <bdi>push</bdi></strong><bdi>. NOT init</bdi>/<bdi>commit</bdi>/<bdi>add</bdi> (<bdi>init creates a NEW repo, not for adding files to existing
+              one</bdi>).</div>
           </div>
         </div>
 
-        <!-- Full example -->
+        
         <div class="topic" style="--accent:var(--green)">
-          <div class="topic-title"><span class="icon">💻</span> Local Repo Workflow Example</div>
+          <div class="topic-title"><span class="icon">💻</span> <bdi>Local Repo Workflow Example</bdi></div>
           <div class="code-wrap">
-            <pre><code><span class="cmt"># 1. Initialize a new repo</span>
-mkdir my-project
+            <pre><code><span class="cmt"># <bdi>1. Initialize a new repo</bdi></span>
+<bdi>mkdir my-project
 cd my-project
-git init
+git init</bdi>
 
-<span class="cmt"># 2. Add a file</span>
-echo <span class="str">"# My Project"</span> &gt; README.md
+<span class="cmt"># <bdi>2. Add a file</bdi></span>
+<bdi>echo</bdi> <span class="str">"# <bdi>My Project</bdi>"</span> > <bdi>README.md
 git add README.md
-git status   <span class="cmt"># File now staged</span>
+git status</bdi>   <span class="cmt"># <bdi>File now staged</bdi></span>
 
-<span class="cmt"># 3. Commit it</span>
-git commit -m <span class="str">"first commit"</span>
+<span class="cmt"># <bdi>3. Commit it</bdi></span>
+<bdi>git commit -m</bdi> <span class="str">"<bdi>first commit</bdi>"</span>
 
-<span class="cmt"># 4. First-time identity setup</span>
-git config --global user.email <span class="str">"you@example.com"</span>
-git config --global user.name <span class="str">"Your Name"</span>
+<span class="cmt"># <bdi>4. First-time identity setup</bdi></span>
+<bdi>git config --global user.email</bdi> <span class="str">"<bdi>you</bdi>@<bdi>example.com</bdi>"</span>
+<bdi>git config --global user.name</bdi> <span class="str">"<bdi>Your Name</bdi>"</span>
 
-<span class="cmt"># 5. Check log</span>
-git log
-git log --pretty=full</code></pre>
+<span class="cmt"># <bdi>5. Check log</bdi></span>
+<bdi>git log
+git log --pretty</bdi>=<bdi>full</bdi></code></pre>
           </div>
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════════════════
-     CH 8 — BRANCHING
-══════════════════════════════════════════════════════════ -->
+      
       <div class="chapter" id="ch8">
         <div class="ch-header">
           <div class="ch-num teal">08</div>
           <div class="ch-title">
-            <h2>Git Branching</h2>
-            <p>Separate development lines. Feature, Release, Hotfix branches.</p>
+            <h2><bdi>Git Branching</bdi></h2>
+            <p><bdi>Separate development lines. Feature, Release, Hotfix branches.</bdi></p>
           </div>
         </div>
 
         <div class="topic" style="--accent:var(--teal)">
-          <div class="topic-title"><span class="icon">🌿</span> What is a Branch?</div>
-          <p>الـ Branch = مسار تطوير منفصل جوه الريبو بتاعك. بيسمحلك تشتغل على features أو تجارب أو تصليح bugs من غير ما تأثر على الكود الأساسي (الـ main).</p>
+          <div class="topic-title"><span class="icon">🌿</span> <bdi>What is a Branch</bdi>?</div>
+          <p>الـ <bdi>Branch</bdi> = مسار تطوير منفصل جوه الريبو بتاعك. بيسمحلك تشتغل على <bdi>features</bdi> أو تجارب أو تصليح <bdi>bugs</bdi> من غير ما تأثر على الكود الأساسي (الـ <bdi>main</bdi>).</p>
 
-          <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">Creating &amp;
-            Switching</h4>
+          <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px"><bdi>Creating</bdi> &
+            <bdi>Switching</bdi></h4>
           <div class="code-wrap">
-            <pre><code>git branch &lt;name&gt;        <span class="cmt"># Create branch</span>
-git checkout &lt;name&gt;      <span class="cmt"># Switch to it</span>
+            <pre><code><bdi>git branch</bdi> <<bdi>name</bdi>>        <span class="cmt"># <bdi>Create branch</bdi></span>
+<bdi>git checkout</bdi> <<bdi>name</bdi>>      <span class="cmt"># <bdi>Switch to it</bdi></span>
 
-<span class="cmt"># Or combined:</span>
-git checkout -b &lt;name&gt;   <span class="cmt"># Create + switch</span>
+<span class="cmt"># <bdi>Or combined</bdi>:</span>
+<bdi>git checkout -b</bdi> <<bdi>name</bdi>>   <span class="cmt"># <bdi>Create + switch</bdi></span>
 
-<span class="cmt"># List branches</span>
-git branch -l</code></pre>
+<span class="cmt"># <bdi>List branches</bdi></span>
+<bdi>git branch -l</bdi></code></pre>
           </div>
         </div>
 
         <div class="topic" style="--accent:var(--purple)">
-          <div class="topic-title"><span class="icon">🔀</span> Branching Strategies</div>
+          <div class="topic-title"><span class="icon">🔀</span> <bdi>Branching Strategies</bdi></div>
           <ul>
-            <li dir="rtl"><strong>Feature Branches</strong>: عشان نطور features جديدة.</li>
-            <li dir="rtl"><strong>Release Branches</strong>: عشان نجهز نسخة هتنزل للسوق.</li>
-            <li dir="rtl"><strong>Hotfix Branches</strong>: عشان نصلح bugs عاجلة جداً في الكود الشغال.</li>
+            <li dir="rtl"><strong><bdi>Feature Branches</bdi></strong>: عشان نطور <bdi>features</bdi> جديدة.</li>
+            <li dir="rtl"><strong><bdi>Release Branches</bdi></strong>: عشان نجهز نسخة هتنزل للسوق.</li>
+            <li dir="rtl"><strong><bdi>Hotfix Branches</bdi></strong>: عشان نصلح <bdi>bugs</bdi> عاجلة جداً في الكود الشغال.</li>
           </ul>
         </div>
 
         <div class="topic" style="--accent:var(--amber)">
-          <div class="topic-title"><span class="icon">🔗</span> Merging Branches</div>
+          <div class="topic-title"><span class="icon">🔗</span> <bdi>Merging Branches</bdi></div>
           <div class="code-wrap">
-            <pre><code><span class="cmt"># Switch to target branch (e.g. master/main)</span>
-git checkout master
+            <pre><code><span class="cmt"># <bdi>Switch to target branch</bdi> (<bdi>e.g. master</bdi>/<bdi>main</bdi>)</span>
+<bdi>git checkout master</bdi>
 
-<span class="cmt"># Merge source branch into target</span>
-git merge first-branch
+<span class="cmt"># <bdi>Merge source branch into target</bdi></span>
+<bdi>git merge first-branch</bdi>
 
-<span class="cmt"># Verify with log</span>
-git log
+<span class="cmt"># <bdi>Verify with log</bdi></span>
+<bdi>git log</bdi>
 
-<span class="cmt"># Delete merged branch</span>
-git branch -d first-branch</code></pre>
+<span class="cmt"># <bdi>Delete merged branch</bdi></span>
+<bdi>git branch -d first-branch</bdi></code></pre>
           </div>
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════════════════
-     QUIZ — EXAM BANK
-══════════════════════════════════════════════════════════ -->
+      
       <div class="quiz-section" id="quiz">
         <div class="quiz-header">
           <div class="quiz-icon">🎯</div>
           <div>
-            <h3>Exam Bank — Lecture 17</h3>
-            <p>8 أسئلة من امتحانات حقيقية. ركز على الـ Versioning والـ Git workflow والـ Baseline.</p>
+            <h3><bdi>Exam Bank</bdi> — <bdi>Lecture 17</bdi></h3>
+            <p>8 أسئلة من امتحانات حقيقية. ركز على الـ <bdi>Versioning</bdi> والـ <bdi>Git workflow</bdi> والـ <bdi>Baseline.</bdi></p>
           </div>
         </div>
 
-        <!-- Q1 -->
+        
         <div class="q-item" data-correct="f">
           <div class="q-num">Question 1 <span class="q-src">Fall 2021–22 / Winter 2021 · Q1.11</span></div>
           <div class="q-text">Which of the following is true about VCS?
@@ -898,7 +877,7 @@ git branch -d first-branch</code></pre>
           </div>
         </div>
 
-        <!-- Q2 -->
+        
         <div class="q-item" data-correct="a">
           <div class="q-num">Question 2 <span class="q-src">Fall 2021–22 · Q1.12</span></div>
           <div class="q-text">Version <strong>3.2.3.2</strong> is: (milestone: 0=pre-alpha, 1=alpha, 2=beta, 3=RC,
@@ -919,7 +898,7 @@ git branch -d first-branch</code></pre>
           </div>
         </div>
 
-        <!-- Q3 -->
+        
         <div class="q-item" data-correct="a">
           <div class="q-num">Question 3 <span class="q-src">Winter 2021 · Q1.12</span></div>
           <div class="q-text">Version <strong>3.2.4.2</strong> is:</div>
@@ -938,7 +917,7 @@ git branch -d first-branch</code></pre>
           </div>
         </div>
 
-        <!-- Q4 -->
+        
         <div class="q-item" data-correct="b">
           <div class="q-num">Question 4 <span class="q-src">Fall 2021–22 / Winter 2021 · Q1.13</span></div>
           <div class="q-text">A specification or software product that has been <strong>formally reviewed</strong> or
@@ -958,7 +937,7 @@ git branch -d first-branch</code></pre>
           </div>
         </div>
 
-        <!-- Q5 -->
+        
         <div class="q-item" data-correct="d">
           <div class="q-num">Question 5 <span class="q-src">Fall 2021–22 / Winter 2021 · Q1.14</span></div>
           <div class="q-text">The sequence of commands to add a <strong>new untracked file</strong> to the shared repo
@@ -989,7 +968,7 @@ git branch -d first-branch</code></pre>
           </div>
         </div>
 
-        <!-- Q6 -->
+        
         <div class="q-item" data-correct="d">
           <div class="q-num">Question 6 <span class="q-src">Winter 2025 · Q1.08</span></div>
           <div class="q-text">The correct sequence of commands to add a file in to a Git repository?</div>
@@ -1005,7 +984,7 @@ git branch -d first-branch</code></pre>
           </div>
         </div>
 
-        <!-- Q7 -->
+        
         <div class="q-item" data-correct="c">
           <div class="q-num">Question 7 <span class="q-src">Winter 2025 · Q1.09</span></div>
           <div class="q-text">Version numbering: <code>major.minor.milestone.revision-build</code>. Milestone:
@@ -1028,7 +1007,7 @@ git branch -d first-branch</code></pre>
           </div>
         </div>
 
-        <!-- Q8 -->
+        
         <div class="q-item" data-correct="b">
           <div class="q-num">Question 8 <span class="q-src">Winter 2025 · Q1.10</span></div>
           <div class="q-text">Which of these questions, a version control system <strong>CANNOT</strong> answer?</div>
@@ -1053,9 +1032,7 @@ git branch -d first-branch</code></pre>
         </div>
       </div>
 
-      <!-- ════════════════════════════════════════════════════════
-     CHEAT SHEET
-══════════════════════════════════════════════════════════ -->
+      
       <div class="chapter" id="cheat" style="margin-top:80px">
         <div class="ch-header">
           <div class="ch-num amber">📋</div>
@@ -1148,7 +1125,7 @@ git branch -d first-branch</code></pre>
               <div class="cheat-val">Fetch + merge from remote</div>
             </div>
             <div class="cheat-item">
-              <div class="cheat-key">git clone &lt;url&gt;</div>
+              <div class="cheat-key">git clone <url></div>
               <div class="cheat-val">Copy remote repo</div>
             </div>
             <div class="cheat-item">
@@ -1160,23 +1137,23 @@ git branch -d first-branch</code></pre>
           <div class="cheat">
             <h3>🌿 Branching</h3>
             <div class="cheat-item">
-              <div class="cheat-key">git branch &lt;n&gt;</div>
+              <div class="cheat-key">git branch <n></div>
               <div class="cheat-val">Create branch</div>
             </div>
             <div class="cheat-item">
-              <div class="cheat-key">git checkout &lt;n&gt;</div>
+              <div class="cheat-key">git checkout <n></div>
               <div class="cheat-val">Switch branch</div>
             </div>
             <div class="cheat-item">
-              <div class="cheat-key">git checkout -b &lt;n&gt;</div>
+              <div class="cheat-key">git checkout -b <n></div>
               <div class="cheat-val">Create + switch</div>
             </div>
             <div class="cheat-item">
-              <div class="cheat-key">git merge &lt;n&gt;</div>
+              <div class="cheat-key">git merge <n></div>
               <div class="cheat-val">Merge into current</div>
             </div>
             <div class="cheat-item">
-              <div class="cheat-key">git branch -d &lt;n&gt;</div>
+              <div class="cheat-key">git branch -d <n></div>
               <div class="cheat-val">Delete branch</div>
             </div>
             <div class="cheat-item">
@@ -1189,7 +1166,7 @@ git branch -d first-branch</code></pre>
             <h3>🎯 The Trio (CRITICAL)</h3>
             <div class="cheat-item">
               <div class="cheat-key">Step 1</div>
-              <div class="cheat-val">git add &lt;file&gt; — stage</div>
+              <div class="cheat-val">git add <file> — stage</div>
             </div>
             <div class="cheat-item">
               <div class="cheat-key">Step 2</div>
