@@ -16,7 +16,7 @@
   .uml-attrs .vis-priv{color:var(--red)} .uml-attrs .vis-pub{color:var(--green)}
 
   /* relations visualization */
-  .relation-demo{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:20px;margin:14px 0;text-align:center;overflow-x:auto}
+  .relation-demo{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:20px;margin:14px 0;text-align:center;overflow-x:auto;direction:ltr}
   .rel-line{display:inline-flex;align-items:center;gap:6px;font-family:var(--fc);font-size:.85rem;color:var(--t2);margin:8px 0}
   .rel-mul{color:var(--amber);font-weight:600;padding:2px 6px;background:rgba(245,158,11,.1);border-radius:3px}
   .rel-label{font-style:italic;color:var(--cyan);font-size:.78rem}
@@ -78,13 +78,13 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main" dir="auto">
+<main id="main" dir="rtl">
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-badge">📐 Lecture 05 · 70 slides · The biggest exam topic (Question 2)</div>
   <h1>UML <span>Class Diagrams I</span></h1>
-  <p>أهم Diagram في الـ UML — هتاخده في Question 2 من الامتحان (20 مارك). هنغطي Associations, Multiplicity, Generalization, Aggregation, Composition، وكل الـ relations اللي ممكن تيجي.</p>
+  <p>أهم رسم في <bdi>UML</bdi>، وبييجي غالباً في <bdi>Question 2</bdi> من الامتحان (20 مارك). هنغطي أنواع العلاقات: <span dir="ltr">Associations, Multiplicity, Generalization, Aggregation, Composition</span>، وكل <bdi>relations</bdi> ممكن تيجي.</p>
   <div class="btn-row">
     <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
     <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
@@ -107,21 +107,21 @@
     <div class="ch-num blue">01</div>
     <div class="ch-title">
       <h2>What is UML?</h2>
-      <p>الـ Unified Modeling Language — لغة رسومية معيارية لنمذجة الـ OO software.</p>
+      <p><bdi>UML</bdi> اختصار لـ <bdi>Unified Modeling Language</bdi>: لغة رسومية معيارية لنمذجة برمجيات <bdi>OO</bdi>.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">📖</span> الخلفية</div>
     <ul>
-      <li>طوّروها <strong>Rumbaugh, Booch, Jacobson</strong> (الـ "Three Amigos").</li>
-      <li>أسّسوا <strong>Rational Software Corporation</strong>، اللي اشترتها IBM بعد كده.</li>
-      <li>في <strong>1997</strong>، الـ <strong>Object Management Group (OMG)</strong> بدأت standardization process.</li>
+      <li>طوّرها <strong><bdi>Rumbaugh</bdi>, <bdi>Booch</bdi>, <bdi>Jacobson</bdi></strong>، والمعروفين باسم <bdi>Three Amigos</bdi>.</li>
+      <li>أسّسوا <strong><bdi>Rational Software Corporation</bdi></strong>، واللي اشترتها <bdi>IBM</bdi> بعد كده.</li>
+      <li>في <strong>1997</strong>، بدأت منظمة <strong><bdi>Object Management Group (OMG)</bdi></strong> عملية <bdi>standardization</bdi>.</li>
     </ul>
   </div>
 
   <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">📚</span> أنواع UML Diagrams</div>
+    <div class="topic-title"><span class="icon">📚</span> أنواع <bdi>UML Diagrams</bdi></div>
     <div class="grid2">
       <div>
         <h4 style="color:var(--cyan);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">🏗️ Static View</h4>
@@ -141,7 +141,7 @@
         </ul>
       </div>
     </div>
-    <div class="info"><div><b>💡 هذا الـ lecture</b>هنركز على <strong>Class Diagrams</strong> (static structure). الـ Sequence/State diagrams في lectures جاية.</div></div>
+    <div class="info"><div><b>💡 في المحاضرة دي</b> هنركز على <strong><bdi>Class Diagrams</bdi></strong> (<bdi>static structure</bdi>). <bdi>Sequence diagrams</bdi> و <bdi>State diagrams</bdi> في محاضرات جاية.</div></div>
   </div>
 </div>
 
@@ -153,12 +153,12 @@
     <div class="ch-num green">02</div>
     <div class="ch-title">
       <h2>Class Diagram Essentials</h2>
-      <p>5 رموز: Classes · Attributes · Operations · Associations · Generalizations.</p>
+      <p>5 رموز أساسية: <span dir="ltr">Classes · Attributes · Operations · Associations · Generalizations</span>.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">📦</span> Class Box — 3 أقسام</div>
+    <div class="topic-title"><span class="icon">📦</span> <bdi>Class Box</bdi> — 3 أقسام</div>
     <div class="relation-demo">
       <div class="uml-class">
         <div class="uml-name">Rectangle</div>
@@ -177,9 +177,9 @@
       </div>
     </div>
     <ul style="margin-top:10px">
-      <li><strong>اسم الـ class</strong> فقط (مستوى مجرد).</li>
-      <li><strong>+ Attributes + Operations</strong> (متوسط).</li>
-      <li><strong>Full signature</strong> مع visibility (<code>+</code> = public, <code>−</code> = private) والـ types (للـ implementation).</li>
+      <li><strong>اسم الـ <bdi>class</bdi></strong> فقط (مستوى مجرد).</li>
+      <li><strong><bdi>Attributes</bdi> + <bdi>Operations</bdi></strong> (مستوى متوسط).</li>
+      <li><strong><bdi>Full signature</bdi></strong> مع الـ <bdi>visibility</bdi> (<code>+</code> = <bdi>public</bdi>, <code>−</code> = <bdi>private</bdi>) والـ <bdi>types</bdi> (مفيد للـ <bdi>implementation</bdi>).</li>
     </ul>
   </div>
 
@@ -192,14 +192,14 @@
   </div>
 
   <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">🔄</span> Class Diagrams في الـ lifecycle</div>
-    <p>الـ Class diagrams بتختلف حسب المرحلة:</p>
+    <div class="topic-title"><span class="icon">🔄</span> <bdi>Class Diagrams</bdi> خلال <bdi>lifecycle</bdi></div>
+    <p>رسومات <bdi>Class diagram</bdi> بتختلف حسب المرحلة:</p>
     <ul>
-      <li><strong>Domain Analysis</strong> — high-level, business concepts (no methods, just attributes).</li>
-      <li><strong>Requirements Specification</strong> — adds operations identified by use cases.</li>
-      <li><strong>Implementation</strong> — direct code blueprint with visibility, types, library classes.</li>
+      <li><strong><bdi>Domain Analysis</bdi></strong> — مستوى عالي، ومفاهيم <bdi>business</bdi> (من غير <bdi>methods</bdi>، غالباً <bdi>attributes</bdi> بس).</li>
+      <li><strong><bdi>Requirements Specification</bdi></strong> — بتضيف الـ <bdi>operations</bdi> اللي ظهرت من الـ <bdi>use cases</bdi>.</li>
+      <li><strong><bdi>Implementation</bdi></strong> — شبه خريطة مباشرة للكود، وفيها <bdi>visibility</bdi> و <bdi>types</bdi> و <bdi>library classes</bdi>.</li>
     </ul>
-    <p>بتتطور <strong>iteratively</strong> مع الوقت.</p>
+    <p>بتتطور بشكل <strong><bdi>iterative</bdi></strong> مع الوقت.</p>
   </div>
 </div>
 
@@ -211,7 +211,7 @@
     <div class="ch-num amber">03</div>
     <div class="ch-title">
       <h2>Associations &amp; Multiplicity</h2>
-      <p>الـ Associations بتربط classes ببعضها. الـ Multiplicity بتقول كم instance من كل side.</p>
+      <p>الـ <bdi>Associations</bdi> بتربط الـ <bdi>classes</bdi> ببعضها. والـ <bdi>Multiplicity</bdi> بتوضح كام <bdi>instance</bdi> مسموح من كل <bdi>side</bdi>.</p>
     </div>
   </div>
 
@@ -285,7 +285,7 @@
         </div>
       </div>
     </div>
-    <p style="margin-top:10px">لو الـ 1:1 إلزامية دايماً، اعملها <strong>attribute</strong> داخل الـ class الواحدة، مش relation منفصلة.</p>
+    <p style="margin-top:10px">لو علاقة الـ <bdi>1:1</bdi> إلزامية دايماً، خلّيها <strong><bdi>attribute</bdi></strong> داخل نفس الـ <bdi>class</bdi> بدل ما تعمل <bdi>relation</bdi> منفصلة.</p>
   </div>
 </div>
 
@@ -297,15 +297,15 @@
     <div class="ch-num purple">04</div>
     <div class="ch-title">
       <h2>Special Associations</h2>
-      <p>Association classes · Reflexive associations · Directionality.</p>
+      <p><bdi>Association classes</bdi> · <bdi>Reflexive associations</bdi> · <bdi>Directionality</bdi>.</p>
     </div>
   </div>
 
   <!-- Association Class -->
   <div class="topic" style="--accent:var(--purple)">
     <div class="topic-title"><span class="icon">📎</span> Association Class</div>
-    <p>أحياناً، فيه attribute بيخص العلاقة بين 2 classes، مش الـ classes نفسها.</p>
-    <p>مثال: <em>grade</em> للـ student في course. مش property للـ student (عنده grades كتيرة)، ومش property للـ course (فيه students كتير). هو property للـ <strong>registration</strong>.</p>
+    <p>أحياناً بيكون فيه <bdi>attribute</bdi> يخص العلاقة بين 2 <bdi>classes</bdi>، مش الـ <bdi>classes</bdi> نفسها.</p>
+    <p>مثال: <em><bdi>grade</bdi></em> الطالب في <bdi>course</bdi>. الدرجة مش <bdi>property</bdi> للـ <bdi>student</bdi> لأنه عنده درجات كتير، ومش <bdi>property</bdi> للـ <bdi>course</bdi> لأنه فيه طلاب كتير. هي <bdi>property</bdi> للـ <strong><bdi>registration</bdi></strong>.</p>
     <div class="relation-demo">
       <div class="uml-class"><div class="uml-name">Student</div></div>
       <span class="rel-mul">*</span> ━━ <span class="rel-mul">*</span>
@@ -313,7 +313,7 @@
       <div style="margin-top:8px;color:var(--t3)">↓ Association class</div>
       <div class="uml-class" style="margin-top:6px"><div class="uml-name">Registration</div><div class="uml-attrs">grade</div></div>
     </div>
-    <p style="margin-top:8px">هذا equivalent بـ:</p>
+    <p style="margin-top:8px">ده مكافئ لـ:</p>
     <div class="relation-demo">
       <div class="uml-class"><div class="uml-name">Student</div></div>
       <span class="rel-mul">1</span> ━ <span class="rel-mul">*</span>
@@ -326,7 +326,7 @@
   <!-- Reflexive -->
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">🔄</span> Reflexive Associations</div>
-    <p>Class بتربط نفسها بـ نفسها. مثال: <code>Course</code>:</p>
+    <p>الـ <bdi>Class</bdi> ممكن تربط نفسها بنفسها. مثال: <code>Course</code>:</p>
     <div class="relation-demo">
       <div class="uml-class"><div class="uml-name">Course</div></div>
       <div style="margin-top:10px;color:var(--t2);font-size:.85rem">
@@ -335,20 +335,20 @@
         ↩ <span class="rel-label">isMutuallyExclusiveWith</span> (* to *)
       </div>
     </div>
-    <p>مثال للـ instances:</p>
+    <p>مثال على الـ <bdi>instances</bdi>:</p>
     <p style="font-family:var(--fc);font-size:.85rem;color:var(--t2)">CS251 (prerequisite) → CS352 (successor)</p>
   </div>
 
   <!-- Directionality -->
   <div class="topic" style="--accent:var(--green)">
     <div class="topic-title"><span class="icon">➡️</span> Directionality</div>
-    <p>Associations افتراضياً <strong>bi-directional</strong>. تقدر تحدد direction بـ arrow في end.</p>
+    <p>الـ <bdi>Associations</bdi> افتراضياً <strong><bdi>bi-directional</bdi></strong>. تقدر تحدد الـ <bdi>direction</bdi> بسهم عند الـ <bdi>end</bdi>.</p>
     <div class="relation-demo">
       <div class="uml-class"><div class="uml-name">Day</div></div>
       <span class="rel-mul">1</span> <span class="rel-symbol" style="color:var(--cyan)">━━→</span> <span class="rel-mul">*</span>
       <div class="uml-class"><div class="uml-name">Note</div></div>
     </div>
-    <p style="margin-top:8px">يعني <code>Day</code> بيعرف الـ <code>Notes</code> اللي ليه، بس الـ Note ما يعرفش الـ Day بتاعه.</p>
+    <p style="margin-top:8px">يعني <code>Day</code> بيعرف الـ <code>Notes</code> اللي تخصه، لكن الـ <code>Note</code> ما يعرفش الـ <code>Day</code> بتاعه.</p>
   </div>
 </div>
 
@@ -360,7 +360,7 @@
     <div class="ch-num pink">05</div>
     <div class="ch-title">
       <h2>Generalization (Inheritance)</h2>
-      <p>Superclass → Subclasses. <strong>Open triangle arrow</strong> point لـ superclass.</p>
+      <p>الـ <bdi>Superclass</bdi> هو الأب، والـ <bdi>Subclasses</bdi> ترث منه. سهم الـ <strong><bdi>open triangle</bdi></strong> بيشير ناحية الـ <bdi>superclass</bdi>.</p>
     </div>
   </div>
 
@@ -375,25 +375,25 @@
         <div class="uml-class"><div class="uml-name">LandAnimal</div></div>
       </div>
     </div>
-    <p>Subclasses <strong>بترث</strong> attributes و operations من الـ superclass.</p>
-    <p><strong>Generalization Set</strong> = grouping of subclasses based on a <strong>discriminator</strong> (criterion of specialization).</p>
+    <p>الـ <bdi>Subclasses</bdi> <strong>بترث</strong> الـ <bdi>attributes</bdi> والـ <bdi>operations</bdi> من الـ <bdi>superclass</bdi>.</p>
+    <p><strong><bdi>Generalization Set</bdi></strong> = تجميع للـ <bdi>subclasses</bdi> بناءً على <strong><bdi>discriminator</bdi></strong> (معيار التخصص).</p>
   </div>
 
   <!-- Multiple discriminators -->
   <div class="topic" style="--accent:var(--purple)">
     <div class="topic-title"><span class="icon">🔀</span> Multiple Discriminators</div>
-    <p>Animals يتقسموا بأكتر من معيار: habitat (aquatic/land) و typeOfFood (carnivore/herbivore). حلين:</p>
+    <p>الـ <bdi>Animals</bdi> ممكن يتقسموا بأكتر من معيار: <bdi>habitat</bdi> (<bdi>aquatic</bdi>/<bdi>land</bdi>) و <bdi>typeOfFood</bdi> (<bdi>carnivore</bdi>/<bdi>herbivore</bdi>). عندنا حلين:</p>
 
     <div class="grid2">
       <div>
         <h4 style="color:var(--cyan);font-family:var(--fh);font-size:.92rem;margin-bottom:8px">Option 1: Higher-level Generalization</h4>
-        <p style="font-size:.82rem;color:var(--t2)">Animal → AquaticAnimal → AquaticCarnivore + AquaticHerbivore (وكذلك Land).</p>
-        <p style="font-size:.78rem;color:var(--t3);margin-top:6px">⚠️ بيعمل classes كتيرة (4 leaves).</p>
+        <p style="font-size:.82rem;color:var(--t2)"><bdi>Animal → AquaticAnimal → AquaticCarnivore + AquaticHerbivore</bdi>، ونفس الفكرة مع <bdi>Land</bdi>.</p>
+        <p style="font-size:.78rem;color:var(--t3);margin-top:6px">⚠️ بيعمل <bdi>classes</bdi> كتيرة (4 <bdi>leaves</bdi>).</p>
       </div>
       <div>
         <h4 style="color:var(--green);font-family:var(--fh);font-size:.92rem;margin-bottom:8px">Option 2: Multiple Inheritance</h4>
-        <p style="font-size:.82rem;color:var(--t2)">AquaticCarnivore <strong>inherits from both</strong> AquaticAnimal and Carnivore.</p>
-        <p style="font-size:.78rem;color:var(--t3);margin-top:6px">⚠️ مش كل اللغات بتدعمها (Java لا، C++ يدعمها).</p>
+        <p style="font-size:.82rem;color:var(--t2)">الـ <bdi>AquaticCarnivore</bdi> تعمل <strong><bdi>inherits from both</bdi></strong> من <bdi>AquaticAnimal</bdi> و <bdi>Carnivore</bdi>.</p>
+        <p style="font-size:.78rem;color:var(--t3);margin-top:6px">⚠️ مش كل اللغات بتدعمها (<bdi>Java</bdi> لا، <bdi>C++</bdi> يدعمها).</p>
       </div>
     </div>
   </div>
@@ -401,7 +401,7 @@
   <!-- Avoid class change -->
   <div class="topic" style="--accent:var(--amber)">
     <div class="topic-title"><span class="icon">🚫</span> Avoid Instances Changing Class</div>
-    <p>لو الـ instance ممكن يتغير من type لـ type تاني، لا تستخدم inheritance. استخدم attribute بدالها.</p>
+    <p>لو الـ <bdi>instance</bdi> ممكن يتغير من <bdi>type</bdi> لـ <bdi>type</bdi> تاني، ما تستخدمش <bdi>inheritance</bdi>. استخدم <bdi>attribute</bdi> بدالها.</p>
     <div class="diagram-compare">
       <div>
         <h4 style="color:var(--red);font-family:var(--fh);font-size:.9rem;margin-bottom:8px">❌ Avoid</h4>
@@ -409,12 +409,12 @@
         <div style="color:var(--green);margin:6px 0">△</div>
         <div class="uml-class"><div class="uml-name">FullTimeStudent</div></div>
         <div class="uml-class"><div class="uml-name">PartTimeStudent</div></div>
-        <p style="font-size:.78rem;color:var(--red);margin-top:6px">طالب ممكن يتحول من part لـ full → مشكلة</p>
+        <p style="font-size:.78rem;color:var(--red);margin-top:6px">طالب ممكن يتحول من <bdi>part-time</bdi> لـ <bdi>full-time</bdi> → مشكلة</p>
       </div>
       <div>
         <h4 style="color:var(--green);font-family:var(--fh);font-size:.9rem;margin-bottom:8px">✅ Do</h4>
         <div class="uml-class"><div class="uml-name">Student</div><div class="uml-attrs">name<br>attendance: enum</div></div>
-        <p style="font-size:.78rem;color:var(--green);margin-top:6px">attendance attribute يتغير بسهولة</p>
+        <p style="font-size:.78rem;color:var(--green);margin-top:6px">الـ <bdi>attendance</bdi> كـ <bdi>attribute</bdi> يتغير بسهولة</p>
       </div>
     </div>
   </div>
@@ -428,13 +428,13 @@
     <div class="ch-num red">06</div>
     <div class="ch-title">
       <h2>Aggregation vs Composition ⭐</h2>
-      <p>"Part-whole" relationships. الفرق بينهم: <strong>هل الـ part تقدر تعيش بدون الـ whole؟</strong></p>
+      <p>دي علاقات <bdi>part-whole</bdi>. الفرق الأساسي بينهم: <strong>هل الـ <bdi>part</bdi> تقدر تعيش بدون الـ <bdi>whole</bdi>؟</strong></p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">💠</span> Aggregation (Open Diamond ◇)</div>
-    <p>"part-whole" بس الـ parts <strong>تقدر تعيش مستقلة</strong> عن الـ whole.</p>
+    <p>الـ <bdi>Aggregation</bdi> علاقة <bdi>part-whole</bdi>، لكن الـ <bdi>parts</bdi> <strong>تقدر تعيش مستقلة</strong> عن الـ <bdi>whole</bdi>.</p>
     <div class="relation-demo">
       <div class="uml-class"><div class="uml-name">Vehicle</div></div>
       <span class="rel-mul">1</span>
@@ -443,20 +443,20 @@
       <div class="uml-class"><div class="uml-name">VehiclePart</div></div>
     </div>
     <ul>
-      <li>Vehicle parts ممكن تنبع من cars مختلفة (reused).</li>
-      <li>لو الـ Vehicle اتدمر، الـ parts ممكن تستخدم في Vehicle تاني.</li>
+      <li>الـ <bdi>Vehicle parts</bdi> ممكن تيجي من <bdi>cars</bdi> مختلفة وتُستخدم تاني (<bdi>reused</bdi>).</li>
+      <li>لو الـ <bdi>Vehicle</bdi> اتدمر، الـ <bdi>parts</bdi> ممكن تستخدم في <bdi>Vehicle</bdi> تاني.</li>
     </ul>
 
     <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin:12px 0 6px">✅ When to use Aggregation:</h4>
     <ul>
-      <li>You can say "the parts <strong>are part of</strong> the aggregate" أو "the aggregate <strong>is composed of</strong> the parts".</li>
-      <li>When something owns/controls the aggregate, then it also owns/controls the parts.</li>
+      <li>تقدر تقول إن الـ <bdi>parts</bdi> <strong><bdi>are part of</bdi></strong> الـ <bdi>aggregate</bdi>، أو إن الـ <bdi>aggregate</bdi> <strong><bdi>is composed of</bdi></strong> الـ <bdi>parts</bdi>.</li>
+      <li>لما شيء يملك أو يتحكم في الـ <bdi>aggregate</bdi>، فهو غالباً يملك أو يتحكم في الـ <bdi>parts</bdi> كمان.</li>
     </ul>
   </div>
 
   <div class="topic" style="--accent:var(--red)">
     <div class="topic-title"><span class="icon">♦️</span> Composition (Filled Diamond ◆)</div>
-    <p><strong>Strong</strong> aggregation. لو الـ aggregate اتدمر، الـ parts اتدمرت معاه. الـ part ما تقدرش تعيش بدون الـ whole.</p>
+    <p>الـ <bdi>Composition</bdi> هي <strong><bdi>strong aggregation</bdi></strong>. لو الـ <bdi>aggregate</bdi> اتدمر، الـ <bdi>parts</bdi> اتدمرت معاه. الـ <bdi>part</bdi> ما تقدرش تعيش بدون الـ <bdi>whole</bdi>.</p>
     <div class="relation-demo">
       <div class="uml-class"><div class="uml-name">Building</div></div>
       <span class="rel-mul">1</span>
@@ -465,14 +465,14 @@
       <div class="uml-class"><div class="uml-name">Room</div></div>
     </div>
     <ul>
-      <li>الـ Rooms ما تقدرش توجد بدون الـ Building.</li>
-      <li>لو الـ Building اتهد، الـ Rooms راحت معاه.</li>
+      <li>الـ <bdi>Rooms</bdi> ما تقدرش توجد بدون الـ <bdi>Building</bdi>.</li>
+      <li>لو الـ <bdi>Building</bdi> اتهد، الـ <bdi>Rooms</bdi> راحت معاه.</li>
     </ul>
   </div>
 
   <!-- Summary comparison -->
   <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">⚖️</span> Aggregation vs Composition — جدول مقارنة</div>
+    <div class="topic-title"><span class="icon">⚖️</span> <bdi>Aggregation vs Composition</bdi> — جدول مقارنة</div>
     <table class="tbl">
       <tr><th>Aspect</th><th>Aggregation ◇</th><th>Composition ◆</th></tr>
       <tr><td>Symbol</td><td>Open (hollow) diamond</td><td>Filled (solid) diamond</td></tr>
@@ -499,7 +499,7 @@
           <div class="uml-name">Employee</div>
           <div class="uml-attrs">address: Address</div>
         </div>
-        <p style="font-size:.78rem;color:var(--t3);margin-top:8px">أبسط لو Address ما عندهاش complexity كبيرة</p>
+        <p style="font-size:.78rem;color:var(--t3);margin-top:8px">أبسط لو الـ <bdi>Address</bdi> ما عندهاش <bdi>complexity</bdi> كبيرة</p>
       </div>
     </div>
   </div>
@@ -507,9 +507,9 @@
   <!-- Propagation -->
   <div class="topic" style="--accent:var(--amber)">
     <div class="topic-title"><span class="icon">🔄</span> Propagation</div>
-    <p><strong>Mechanism</strong>: operation في الـ aggregate بتنفذ بأن الـ aggregate يـ <strong>perform نفس الـ operation</strong> على parts بتاعته.</p>
-    <p>مثال: <code>Polygon.draw()</code> بينفذ بأن الـ Polygon يطلب من كل <code>LineSegment</code> أن يـ <code>draw()</code>.</p>
-    <p>وعكسياً: properties للـ parts بتنتشر للـ aggregate.</p>
+    <p><strong><bdi>Mechanism</bdi></strong>: الـ <bdi>operation</bdi> في الـ <bdi>aggregate</bdi> بتتنفذ بأن الـ <bdi>aggregate</bdi> يعمل <strong><bdi>perform</bdi></strong> لنفس الـ <bdi>operation</bdi> على الـ <bdi>parts</bdi> بتاعته.</p>
+    <p>مثال: <code>Polygon.draw()</code> بتتنفذ بأن الـ <bdi>Polygon</bdi> يطلب من كل <code>LineSegment</code> إنها تعمل <code>draw()</code>.</p>
+    <p>وعكسياً: الـ <bdi>properties</bdi> الخاصة بالـ <bdi>parts</bdi> ممكن تنتشر للـ <bdi>aggregate</bdi>.</p>
   </div>
 </div>
 
@@ -521,7 +521,7 @@
     <div class="ch-num teal">07</div>
     <div class="ch-title">
       <h2>Object Diagrams</h2>
-      <p>Object = instance of a class. Link = instance of association.</p>
+      <p>الـ <bdi>Object</bdi> هو <bdi>instance</bdi> من <bdi>class</bdi>. والـ <bdi>Link</bdi> هو <bdi>instance</bdi> من <bdi>association</bdi>.</p>
     </div>
   </div>
 
@@ -552,9 +552,9 @@
       </div>
     </div>
     <ul style="margin-top:10px">
-      <li>Pat والـ Wayne <strong>instances</strong> من Employee.</li>
-      <li>OOCorp <strong>instance</strong> من Company.</li>
-      <li>الـ Links بتعكس الـ "worksFor" association اللي في الـ class diagram.</li>
+      <li><bdi>Pat</bdi> و <bdi>Wayne</bdi> <strong><bdi>instances</bdi></strong> من <bdi>Employee</bdi>.</li>
+      <li><bdi>OOCorp</bdi> <strong><bdi>instance</bdi></strong> من <bdi>Company</bdi>.</li>
+      <li>الـ <bdi>Links</bdi> بتعكس علاقة <bdi>worksFor</bdi> اللي موجودة في الـ <bdi>class diagram</bdi>.</li>
     </ul>
   </div>
 </div>
@@ -567,7 +567,7 @@
     <div class="ch-num blue">08</div>
     <div class="ch-title">
       <h2>Full Example: Problem Report Tool</h2>
-      <p>CASE tool لتخزين وتتبع problem reports. مثال شامل لكل ال relations.</p>
+      <p>أداة <bdi>CASE tool</bdi> لتخزين وتتبع الـ <bdi>problem reports</bdi>. ده مثال شامل لكل الـ <bdi>relations</bdi>.</p>
     </div>
   </div>
 
@@ -618,12 +618,12 @@
                   "History Log"
       </pre>
     </div>
-    <div class="info"><div><b>💡 الـ relations الـ 5 الموجودة في المثال</b><br>
-      1. <strong>Generalization</strong> — Manager &amp; Developer extend Employee. CodeBugReport extends Problem Report.<br>
-      2. <strong>Associations</strong> — Developer managedBy Manager, Employee assignedTo Project, Manager responsibleFor Problem Report, Artifact "About" Problem Report.<br>
-      3. <strong>Aggregation</strong> — Project ◇ Artifact, Problem Report ◇ History Entry.<br>
-      4. <strong>Multiplicities</strong> — كلهم: 1, *, 0..*, 1..*, 0..n.<br>
-      5. <strong>Labels</strong> — "Managed By", "Assigned To", "Responsible For", "About", "History Log".
+    <div class="info"><div><b>💡 الـ <bdi>relations</bdi> الـ 5 الموجودة في المثال</b><br>
+      1. <strong><bdi>Generalization</bdi></strong> — الـ <bdi>Manager</bdi> والـ <bdi>Developer</bdi> بيرثوا من <bdi>Employee</bdi>، والـ <bdi>CodeBugReport</bdi> بيرث من <bdi>Problem Report</bdi>.<br>
+      2. <strong><bdi>Associations</bdi></strong> — مثل <bdi>Developer managedBy Manager</bdi>، و <bdi>Employee assignedTo Project</bdi>، و <bdi>Artifact About Problem Report</bdi>.<br>
+      3. <strong><bdi>Aggregation</bdi></strong> — <bdi>Project ◇ Artifact</bdi>، و <bdi>Problem Report ◇ History Entry</bdi>.<br>
+      4. <strong><bdi>Multiplicities</bdi></strong> — زي: <bdi>1</bdi>، <bdi>*</bdi>، <bdi>0..*</bdi>، <bdi>1..*</bdi>، <bdi>0..n</bdi>.<br>
+      5. <strong><bdi>Labels</bdi></strong> — <bdi>Managed By</bdi>، <bdi>Assigned To</bdi>، <bdi>Responsible For</bdi>، <bdi>About</bdi>، <bdi>History Log</bdi>.
     </div></div>
   </div>
 </div>
@@ -636,14 +636,14 @@
     <div class="ch-num green">📝</div>
     <div class="ch-title">
       <h2>13 Slide Exercises — Practice</h2>
-      <p>التمارين اللي د. الرملي عاملها في السلايدز. لازم تحلهم كلهم — كل واحد بيختبر concept مختلف.</p>
+      <p>دي التمارين اللي د. الرملي حاططها في السلايدز. لازم تحلهم كلهم، لأن كل تمرين بيختبر <bdi>concept</bdi> مختلف.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--green)">
     <div class="topic-title"><span class="ex-badge">Ex 1</span> Shape Class &amp; Square — What relation?</div>
     <p>Shape ← Triangle, Square (open-triangle generalization arrow).</p>
-    <div class="tip"><div><b>الإجابة:</b> <strong>Generalization (Inheritance)</strong> — Square inherits from Shape. Triangle inherits from Shape.</div></div>
+    <div class="tip"><div><b>الإجابة:</b> <strong><bdi>Generalization (Inheritance)</bdi></strong> — الـ <bdi>Square</bdi> والـ <bdi>Triangle</bdi> بيرثوا من <bdi>Shape</bdi>.</div></div>
   </div>
 
   <div class="topic" style="--accent:var(--green)">
@@ -713,18 +713,18 @@
 
   <div class="topic" style="--accent:var(--amber)">
     <div class="topic-title"><span class="ex-badge">Ex 9</span> Book / Volume / Chapter (Aggregation vs Composition)</div>
-    <p>الـ scenario: Book has volumes, volumes have chapters. <strong>Chapters can be sold alone</strong>, even if book not available.</p>
+    <p>الـ <bdi>scenario</bdi>: الـ <bdi>Book</bdi> فيه <bdi>volumes</bdi>، والـ <bdi>volumes</bdi> فيها <bdi>chapters</bdi>. والـ <strong><bdi>Chapters can be sold alone</bdi></strong> حتى لو الـ <bdi>book</bdi> مش متاح.</p>
     <ul>
-      <li>Fig 1 (Composition 1:* / 1:*) — ❌ wrong because composition means parts can't exist alone.</li>
-      <li>Fig 2 (Composition 1..* / 1..*) — ❌ wrong for same reason.</li>
-      <li>Fig 3 (<strong>Aggregation</strong> 1..* / 1..*) — ✅ <strong>correct</strong> — parts can exist independently.</li>
+      <li><bdi>Fig 1</bdi> (<bdi>Composition 1:* / 1:*</bdi>) — ❌ غلط لأن الـ <bdi>composition</bdi> معناها إن الـ <bdi>parts</bdi> ما تقدرش توجد لوحدها.</li>
+      <li><bdi>Fig 2</bdi> (<bdi>Composition 1..* / 1..*</bdi>) — ❌ غلط لنفس السبب.</li>
+      <li><bdi>Fig 3</bdi> (<strong><bdi>Aggregation</bdi></strong> <bdi>1..* / 1..*</bdi>) — ✅ <strong>صح</strong> لأن الـ <bdi>parts</bdi> ممكن توجد مستقلة.</li>
     </ul>
-    <div class="tip"><div><b>الإجابة: Figure 3</b> — Aggregation is correct because chapters/volumes can be sold/exist independent of the book.</div></div>
+    <div class="tip"><div><b>الإجابة: <bdi>Figure 3</bdi></b> — الـ <bdi>Aggregation</bdi> صح لأن الـ <bdi>chapters</bdi> والـ <bdi>volumes</bdi> ممكن يتباعوا أو يوجدوا بشكل مستقل عن الـ <bdi>book</bdi>.</div></div>
   </div>
 
   <div class="topic" style="--accent:var(--pink)">
     <div class="topic-title"><span class="ex-badge">Ex 10</span> Event/Schedule/Display system — multiple relations</div>
-    <p>قراءة الـ diagram بدقة:</p>
+    <p>اقرأ الـ <bdi>diagram</bdi> بدقة:</p>
     <ul>
       <li>CurrentEventDisplay can display both SpecialEvents and RegularEvents? <strong>✓ True</strong> — both inherit from Event, and Event is displayed.</li>
       <li>CurrentEventDisplay can display multiple events? <strong>✓ True</strong> if multiplicity supports it.</li>
@@ -738,13 +738,13 @@
   <div class="topic" style="--accent:var(--purple)">
     <div class="topic-title"><span class="ex-badge">Ex 11</span> Writer ↔ Document (Object diagram match)</div>
     <p>Class diagram: <code>Writer [*] ━ [1] Document</code></p>
-    <p>الـ multiplicity على Writer side هي * (يعني document واحد ممكن يكون لـ writers كتير، ومش لازم).</p>
+    <p>الـ <bdi>multiplicity</bdi> على ناحية الـ <bdi>Writer</bdi> هي <bdi>*</bdi>، يعني <bdi>document</bdi> واحد ممكن يكون له <bdi>writers</bdi> كتير أو ولا واحد.</p>
     <ul>
       <li><strong>Figure I</strong>: 1 Writer ↔ 1 Document ✓ valid</li>
       <li><strong>Figure II</strong>: 2 Writers ↔ 1 Document ✓ valid (matches * to 1)</li>
       <li><strong>Figure III</strong>: 1 Writer ↔ 1 Document ✓ valid</li>
     </ul>
-    <div class="tip"><div><b>الإجابة:</b> Figure II is the best match for showing * multiplicity. الـ الكل valid but II demonstrates the multiplicity properly.</div></div>
+    <div class="tip"><div><b>الإجابة:</b> <bdi>Figure II</bdi> هي أفضل واحدة لأنها بتوضح <bdi>* multiplicity</bdi>. كل الرسومات <bdi>valid</bdi>، لكن <bdi>II</bdi> بتعرض الـ <bdi>multiplicity</bdi> بشكل أوضح.</div></div>
   </div>
 
   <div class="topic" style="--accent:var(--red)">
@@ -775,7 +775,7 @@
     <div class="quiz-icon">🎯</div>
     <div>
       <h3>Exam Question Bank — Lecture 5</h3>
-      <p>4 أسئلة حقيقية من الامتحانات الـ MCQ على Class Diagrams. Question 2 من كل امتحان (UML Modeling, 20 marks) بياخد كل الـ concepts دي.</p>
+      <p>4 أسئلة حقيقية من امتحانات الـ <bdi>MCQ</bdi> على <bdi>Class Diagrams</bdi>. الـ <bdi>Question 2</bdi> في كل امتحان (<bdi>UML Modeling</bdi>, 20 <bdi>marks</bdi>) بيعتمد على الـ <bdi>concepts</bdi> دي.</p>
     </div>
   </div>
 
@@ -793,16 +793,16 @@
       <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Code (c)</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: A — Code (a)</b>
-      الـ multiplicity <code>1 to *</code> معناها: Advertiser واحد ↔ Accounts كتير. الكود الصح:
+      <b>✅ الإجابة الصح: A — <bdi>Code (a)</bdi></b>
+      الـ <bdi>multiplicity</bdi> <code>1 to *</code> معناها: <bdi>Advertiser</bdi> واحد ↔ <bdi>Accounts</bdi> كتير. الكود الصح:
       <ul style="margin-top:6px;padding-inline-start:22px">
-        <li>Advertiser فيه <code>Set&lt;Account&gt; accounts</code> (collection).</li>
-        <li>Account فيه <code>Advertiser owner</code> (single reference, not Set).</li>
-        <li>addAccount + setOwner بيشتغلوا معاً للحفاظ على الـ bidirectional integrity.</li>
+        <li>الـ <bdi>Advertiser</bdi> فيه <code>Set&lt;Account&gt; accounts</code> (<bdi>collection</bdi>).</li>
+        <li>الـ <bdi>Account</bdi> فيه <code>Advertiser owner</code> (<bdi>single reference</bdi>، مش <bdi>Set</bdi>).</li>
+        <li><code>addAccount</code> و <code>setOwner</code> بيشتغلوا معاً للحفاظ على الـ <bdi>bidirectional integrity</bdi>.</li>
       </ul>
       <div class="why-wrong">
-        <strong>B</strong> — استخدم <code>Account account</code> (single) في Advertiser بدل Set. غلط — كل Advertiser لازم يقدر يحمل multiple accounts. ·
-        <strong>C</strong> — جعل Account فيه Set من Advertisers (multiple owners). ده many-to-many، مش 1-to-*.
+        <strong>B</strong> — استخدم <code>Account account</code> (<bdi>single</bdi>) في <bdi>Advertiser</bdi> بدل <bdi>Set</bdi>. غلط لأن كل <bdi>Advertiser</bdi> لازم يقدر يمتلك <bdi>multiple accounts</bdi>. ·
+        <strong>C</strong> — خلى الـ <bdi>Account</bdi> فيه <bdi>Set</bdi> من <bdi>Advertisers</bdi> (<bdi>multiple owners</bdi>). ده <bdi>many-to-many</bdi>، مش <bdi>1-to-*</bdi>.
       </div>
     </div>
   </div>
@@ -823,7 +823,7 @@
       <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> (d) Order [*:*] OrderDetail (many-to-many)</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: A — Composition with 1:*</b>
+      <b>✅ الإجابة الصح: A — <bdi>Composition with 1:*</bdi></b>
       <ul style="margin-top:6px;padding-inline-start:22px">
         <li><code>ArrayList&lt;OrderDetail&gt;</code> = Order has many OrderDetails (multiplicity *).</li>
         <li>Order owns OrderDetails completely (composition ◆).</li>
@@ -831,9 +831,9 @@
         <li>Order has OrderStatus enum.</li>
       </ul>
       <div class="why-wrong">
-        <strong>B</strong> — 1:1 غلط، الـ ArrayList معناها متعدد. ·
-        <strong>C</strong> — Order has OrderDetails as part of itself (composition), not just an association. ·
-        <strong>D</strong> — Many-to-many غلط، OrderDetail belongs to one Order only.
+        <strong>B</strong> — <bdi>1:1</bdi> غلط، لأن الـ <code>ArrayList</code> معناها عناصر متعددة. ·
+        <strong>C</strong> — الـ <bdi>Order</bdi> يملك <bdi>OrderDetails</bdi> كجزء منه (<bdi>composition</bdi>)، مش مجرد <bdi>association</bdi>. ·
+        <strong>D</strong> — <bdi>Many-to-many</bdi> غلط، لأن الـ <bdi>OrderDetail</bdi> بيخص <bdi>Order</bdi> واحد فقط.
       </div>
     </div>
   </div>
@@ -850,10 +850,10 @@
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: D</b>
-      <strong>extend</strong> = conditional ("should pay if bad credit"). الـ Bad Credit Customer هو الـ actor المختص بالـ extra payment، فالـ extend بيكون على side بتاعه.
+      <strong><bdi>extend</bdi></strong> = حالة مشروطة (<bdi>should pay if bad credit</bdi>). الـ <bdi>Bad Credit Customer</bdi> هو الـ <bdi>actor</bdi> المختص بالـ <bdi>extra payment</bdi>، فالـ <bdi>extend</bdi> بيكون على الـ <bdi>side</bdi> بتاعه.
       <div class="why-wrong">
-        <strong>A, B</strong> — include = always. هنا الـ extra payment مش always (only for bad credit). ·
-        <strong>C</strong> — extend صح، بس على side بتاع Customer العادي غلط.
+        <strong>A, B</strong> — الـ <bdi>include</bdi> معناها <bdi>always</bdi>. هنا الـ <bdi>extra payment</bdi> مش دايماً، هي بس لـ <bdi>bad credit</bdi>. ·
+        <strong>C</strong> — الـ <bdi>extend</bdi> صح، لكن على ناحية الـ <bdi>Customer</bdi> العادي غلط.
       </div>
     </div>
   </div>
@@ -874,11 +874,11 @@
       <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> (d)</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: C — Self-generalization is invalid</b>
-      <strong>Class ما تقدرش ترث من نفسها</strong> — يعني <code>A extends A</code> = infinite loop semantically. هذا مستحيل في OO design.
+      <b>✅ الإجابة الصح: C — <bdi>Self-generalization is invalid</bdi></b>
+      <strong>الـ <bdi>Class</bdi> ما تقدرش ترث من نفسها</strong> — يعني <code>A extends A</code> = <bdi>infinite loop</bdi> من ناحية المعنى. ده مستحيل في <bdi>OO design</bdi>.
       <div class="why-wrong">
-        <strong>A, B</strong> — Reflexive associations valid (e.g., Course "prerequisite" Course). ·
-        <strong>D</strong> — Reflexive aggregation valid (e.g., Folder contains subfolders).
+        <strong>A, B</strong> — الـ <bdi>Reflexive associations</bdi> صحيحة، مثل <bdi>Course prerequisite Course</bdi>. ·
+        <strong>D</strong> — الـ <bdi>Reflexive aggregation</bdi> صحيحة، مثل <bdi>Folder contains subfolders</bdi>.
       </div>
     </div>
   </div>
@@ -894,12 +894,12 @@
       <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Plain association</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: B — Aggregation</b>
-      "Parts can be sold separately" → parts can exist independently → <strong>Aggregation</strong> (open diamond ◇). لو Composition، الـ chapter ما تقدرش توجد بدون الـ book.
+      <b>✅ الإجابة الصح: B — <bdi>Aggregation</bdi></b>
+      <bdi>Parts can be sold separately</bdi> → الـ <bdi>parts</bdi> ممكن توجد مستقلة → <strong><bdi>Aggregation</bdi></strong> (<bdi>open diamond</bdi> ◇). لو <bdi>Composition</bdi>، فالـ <bdi>chapter</bdi> ما تقدرش توجد بدون الـ <bdi>book</bdi>.
       <div class="why-wrong">
-        <strong>A</strong> — Composition means parts can't exist alone, contradicts the requirement. ·
-        <strong>C</strong> — Chapter IS-NOT-A Book. ·
-        <strong>D</strong> — Plain association لا يعبر عن "part-whole".
+        <strong>A</strong> — الـ <bdi>Composition</bdi> معناها إن الـ <bdi>parts</bdi> ما تقدرش توجد لوحدها، وده عكس المطلوب. ·
+        <strong>C</strong> — الـ <bdi>Chapter</bdi> مش نوع من <bdi>Book</bdi>. ·
+        <strong>D</strong> — الـ <bdi>Plain association</bdi> ما بيعبرش عن علاقة <bdi>part-whole</bdi>.
       </div>
     </div>
   </div>
@@ -915,12 +915,12 @@
       <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Plain association</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: A — Composition</b>
-      الـ body parts ما تقدرش تعيش بدون الـ Person. لما الـ Person يموت، الـ body parts ما تكونش entities مستقلة.
+      <b>✅ الإجابة الصح: A — <bdi>Composition</bdi></b>
+      الـ <bdi>body parts</bdi> ما تقدرش تعيش بدون الـ <bdi>Person</bdi>. لما الـ <bdi>Person</bdi> يموت، الـ <bdi>body parts</bdi> ما بتكونش <bdi>entities</bdi> مستقلة.
       <div class="why-wrong">
-        <strong>B</strong> — Aggregation معناها parts independent — مش الحالة. ·
-        <strong>C</strong> — Hand IS-NOT-A Person. ·
-        <strong>D</strong> — لا يعكس الـ "is part of".
+        <strong>B</strong> — الـ <bdi>Aggregation</bdi> معناها إن الـ <bdi>parts</bdi> مستقلة، وده مش الحالة هنا. ·
+        <strong>C</strong> — الـ <bdi>Hand</bdi> مش نوع من <bdi>Person</bdi>. ·
+        <strong>D</strong> — ما بيعكسش معنى <bdi>is part of</bdi>.
       </div>
     </div>
   </div>
@@ -937,10 +937,10 @@
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: C</b>
-      الـ multiplicity بتقرأ <strong>على الـ end الـ opposite</strong>:
+      الـ <bdi>multiplicity</bdi> بتتقرأ <strong>على الـ <bdi>opposite end</bdi></strong>:
       <ul style="margin-top:6px;padding-inline-start:22px">
-        <li><code>1..*</code> على Employee side → كل project لازم يكون عنده 1 employee أو أكتر.</li>
-        <li><code>0..*</code> على Project side → كل employee ممكن يكون مع 0 أو أكتر من المشاريع.</li>
+        <li><code>1..*</code> على ناحية الـ <bdi>Employee</bdi> → كل <bdi>project</bdi> لازم يكون عنده <bdi>employee</bdi> واحد أو أكتر.</li>
+        <li><code>0..*</code> على ناحية الـ <bdi>Project</bdi> → كل <bdi>employee</bdi> ممكن يكون مرتبط بـ 0 أو أكتر من المشاريع.</li>
       </ul>
     </div>
   </div>
@@ -956,8 +956,8 @@
       <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Self-composition (Tree contains Tree)</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: B — Self-generalization</b>
-      Class ما تقدرش ترث من نفسها — معناها loop infinite في الـ inheritance. الباقي valid:
+      <b>✅ الإجابة الصح: B — <bdi>Self-generalization</bdi></b>
+      الـ <bdi>Class</bdi> ما تقدرش ترث من نفسها، لأن معناها <bdi>infinite loop</bdi> في الـ <bdi>inheritance</bdi>. الباقي <bdi>valid</bdi>:
       <ul style="margin-top:6px;padding-inline-start:22px">
         <li>Self-association: Course → Course (prerequisite).</li>
         <li>Self-aggregation: Folder → SubFolder.</li>
@@ -989,7 +989,7 @@
 
     <div class="cheat">
       <h3>🎨 UML Symbols</h3>
-      <div class="cheat-item"><div class="cheat-key">Class</div><div class="cheat-val">Rectangle بـ 3 أقسام (name / attrs / ops)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Class</div><div class="cheat-val"><bdi>Rectangle</bdi> بـ 3 أقسام (<bdi>name</bdi> / <bdi>attrs</bdi> / <bdi>ops</bdi>)</div></div>
       <div class="cheat-item"><div class="cheat-key">+</div><div class="cheat-val">public</div></div>
       <div class="cheat-item"><div class="cheat-key">−</div><div class="cheat-val">private</div></div>
       <div class="cheat-item"><div class="cheat-key">#</div><div class="cheat-val">protected</div></div>
@@ -1074,64 +1074,64 @@
     </div></div>
 
     <div class="flashcard"><div class="fc-inner">
-      <div class="fc-front"><div class="fc-q">Multiplicity 0..1 معناها؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-front"><div class="fc-q"><bdi>Multiplicity 0..1</bdi> معناها؟</div><div class="fc-hint">tap to flip</div></div>
       <div class="fc-back"><div class="fc-a">Optional — zero or one</div></div>
     </div></div>
 
     <div class="flashcard"><div class="fc-inner">
-      <div class="fc-front"><div class="fc-q">Multiplicity 1..* معناها؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-front"><div class="fc-q"><bdi>Multiplicity 1..*</bdi> معناها؟</div><div class="fc-hint">tap to flip</div></div>
       <div class="fc-back"><div class="fc-a">At least one (mandatory minimum)</div></div>
     </div></div>
 
     <div class="flashcard"><div class="fc-inner">
-      <div class="fc-front"><div class="fc-q">Reflexive association مثال؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-front"><div class="fc-q">مثال على <bdi>Reflexive association</bdi>؟</div><div class="fc-hint">tap to flip</div></div>
       <div class="fc-back"><div class="fc-a">Course → Course (prerequisite/successor)</div></div>
     </div></div>
 
     <div class="flashcard"><div class="fc-inner">
-      <div class="fc-front"><div class="fc-q">Association Class مثال؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-front"><div class="fc-q">مثال على <bdi>Association Class</bdi>؟</div><div class="fc-hint">tap to flip</div></div>
       <div class="fc-back"><div class="fc-a">Student ↔ CourseSection with Registration (grade)</div></div>
     </div></div>
 
     <div class="flashcard"><div class="fc-inner">
-      <div class="fc-front"><div class="fc-q">Building &amp; Room: ايه الـ relation؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-front"><div class="fc-q"><bdi>Building</bdi> و <bdi>Room</bdi>: ايه الـ <bdi>relation</bdi>؟</div><div class="fc-hint">tap to flip</div></div>
       <div class="fc-back"><div class="fc-a">Composition ◆ (room can't exist without building)</div></div>
     </div></div>
 
     <div class="flashcard"><div class="fc-inner">
-      <div class="fc-front"><div class="fc-q">Car &amp; Engine (engine sold separately): ايه الـ relation؟</div><div class="fc-hint">tap to flip</div></div>
+      <div class="fc-front"><div class="fc-q"><bdi>Car</bdi> و <bdi>Engine</bdi> (<bdi>engine sold separately</bdi>): ايه الـ <bdi>relation</bdi>؟</div><div class="fc-hint">tap to flip</div></div>
       <div class="fc-back"><div class="fc-a">Aggregation ◇ (parts can exist alone)</div></div>
     </div></div>
   </div>
 
   <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
 
-  <div class="danger"><div><b>1. خلط Open vs Filled diamond</b><strong>Open ◇</strong> = Aggregation (independent parts). <strong>Filled ◆</strong> = Composition (part dies with whole). تذكر: "Filled = Final".</div></div>
+  <div class="danger"><div><b>1. خلط <bdi>Open</bdi> و <bdi>Filled diamond</bdi></b><strong><bdi>Open</bdi> ◇</strong> = <bdi>Aggregation</bdi> (<bdi>independent parts</bdi>). <strong><bdi>Filled</bdi> ◆</strong> = <bdi>Composition</bdi> (الـ <bdi>part</bdi> بتنتهي مع الـ <bdi>whole</bdi>). افتكرها: <bdi>Filled = Final</bdi>.</div></div>
 
-  <div class="danger"><div><b>2. قراءة Multiplicity من الجانب الغلط</b>الـ multiplicity على side A بتقول كم instance من A لكل instance من B (الـ opposite). لو <code>A [1] ━ [*] B</code>: لكل B واحد، فيه A واحد بس.</div></div>
+  <div class="danger"><div><b>2. قراءة <bdi>Multiplicity</bdi> من الجانب الغلط</b>الـ <bdi>multiplicity</bdi> على <bdi>side A</bdi> بتقول كام <bdi>instance</bdi> من <bdi>A</bdi> لكل <bdi>instance</bdi> من <bdi>B</bdi> (الـ <bdi>opposite</bdi>). لو <code>A [1] ━ [*] B</code>: لكل <bdi>B</bdi> واحد، فيه <bdi>A</bdi> واحد بس.</div></div>
 
-  <div class="danger"><div><b>3. استخدام Generalization لما Composition هي الصح</b>Hand IS-NOT-A Person. Hand IS PART OF Person. لما تشوف "part of" → فكر في Aggregation/Composition، مش Generalization.</div></div>
+  <div class="danger"><div><b>3. استخدام <bdi>Generalization</bdi> لما <bdi>Composition</bdi> هي الصح</b>الـ <bdi>Hand</bdi> مش نوع من <bdi>Person</bdi>، لكنها جزء من <bdi>Person</bdi>. لما تشوف <bdi>part of</bdi> → فكر في <bdi>Aggregation</bdi>/<bdi>Composition</bdi>، مش <bdi>Generalization</bdi>.</div></div>
 
-  <div class="danger"><div><b>4. Include vs Extend في Use Cases</b>(جا في Lec 3 بس بيتسأل كتير): Include = always uses. Extend = sometimes (conditional).</div></div>
+  <div class="danger"><div><b>4. <bdi>Include</bdi> vs <bdi>Extend</bdi> في <bdi>Use Cases</bdi></b>(جا في <bdi>Lec 3</bdi> بس بيتسأل كتير): <bdi>Include</bdi> = استخدام دائم. <bdi>Extend</bdi> = أحياناً، بشرط معين (<bdi>conditional</bdi>).</div></div>
 
-  <div class="danger"><div><b>5. ينساش Multiplicity على الـ ends</b>أي association لازم لها multiplicity على الـ end (1, *, 0..1, إلخ). لو نسيت، بتفقد marks في Question 2.</div></div>
+  <div class="danger"><div><b>5. نسيان الـ <bdi>Multiplicity</bdi> على الـ <bdi>ends</bdi></b>أي <bdi>association</bdi> لازم لها <bdi>multiplicity</bdi> على الـ <bdi>end</bdi> (<bdi>1</bdi>, <bdi>*</bdi>, <bdi>0..1</bdi>, إلخ). لو نسيتها، هتفقد <bdi>marks</bdi> في <bdi>Question 2</bdi>.</div></div>
 
   <h3 style="font-family:var(--fh);font-size:1rem;color:var(--amber);margin:30px 0 12px">⭐ What Dr. El-Ramly Loves to Ask</h3>
   <div class="info">
     <div>
-      <b>🔥 الأسئلة المتكررة على Lec 5</b>
+      <b>🔥 الأسئلة المتكررة على <bdi>Lec 5</bdi></b>
       <ol style="margin-top:6px;padding-inline-start:22px">
-        <li><strong>Code ↔ Class Diagram</strong> — بيدي Java/C++ code وعليك تختار الـ diagram الصح، أو العكس.</li>
-        <li><strong>Aggregation vs Composition</strong> — بيدي scenario (book, car, building) وعليك تحدد الـ relation الصح.</li>
-        <li><strong>Which class diagram is wrong?</strong> — self-generalization دايماً غلط.</li>
-        <li><strong>Multiplicity questions</strong> — تفسير diagram معطى (manager-developer, project-employee).</li>
-        <li><strong>Question 2 (UML Modeling)</strong> — 20+ مارك على بناء use case diagram + class diagram + sequence diagram + state diagram لـ system معين. <strong>ركز عليه</strong> — هتجيله في كل امتحان final.</li>
+        <li><strong><bdi>Code ↔ Class Diagram</bdi></strong> — بيدي <bdi>Java/C++ code</bdi> وعليك تختار الـ <bdi>diagram</bdi> الصح، أو العكس.</li>
+        <li><strong><bdi>Aggregation vs Composition</bdi></strong> — بيدي <bdi>scenario</bdi> مثل <bdi>book</bdi> أو <bdi>car</bdi> أو <bdi>building</bdi>، وعليك تحدد الـ <bdi>relation</bdi> الصح.</li>
+        <li><strong><bdi>Which class diagram is wrong?</bdi></strong> — الـ <bdi>self-generalization</bdi> دايماً غلط.</li>
+        <li><strong><bdi>Multiplicity questions</bdi></strong> — تفسير <bdi>diagram</bdi> معطى مثل <bdi>manager-developer</bdi> أو <bdi>project-employee</bdi>.</li>
+        <li><strong><bdi>Question 2 (UML Modeling)</bdi></strong> — 20+ مارك على بناء <bdi>use case diagram</bdi> + <bdi>class diagram</bdi> + <bdi>sequence diagram</bdi> + <bdi>state diagram</bdi> لنظام معين. <strong>ركز عليه</strong> لأنه بيتكرر في كل امتحان <bdi>final</bdi>.</li>
       </ol>
     </div>
   </div>
 
   <div class="tip" style="margin-top:24px">
-    <div><b>🎯 آخر نصيحة</b>للـ Question 2: ابدأ بـ <strong>actors</strong>، بعدين <strong>use cases</strong>، بعدين <strong>class diagram</strong> فيها كل الـ classes اللي ذُكرت في الـ requirements مع multiplicities وأسماء relations واضحة.</div>
+    <div><b>🎯 آخر نصيحة</b> للـ <bdi>Question 2</bdi>: ابدأ بـ <strong><bdi>actors</bdi></strong>، بعدين <strong><bdi>use cases</bdi></strong>، بعدين <strong><bdi>class diagram</bdi></strong> فيها كل الـ <bdi>classes</bdi> اللي اتذكرت في الـ <bdi>requirements</bdi>، مع <bdi>multiplicities</bdi> وأسماء <bdi>relations</bdi> واضحة.</div>
   </div>
 </div>
 

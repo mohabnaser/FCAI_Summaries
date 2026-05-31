@@ -151,6 +151,8 @@
       '.fc-q, .fc-a, .q-score, .invest-desc, .why-wrong'
     ).forEach(el => {
       if (!el.closest('pre') && !el.closest('code') && !el.closest('.code-wrap')) {
+        if (el.hasAttribute('dir')) return;
+        if (el.parentElement && el.parentElement.closest('[dir="rtl"], [dir="ltr"]')) return;
         el.setAttribute('dir', 'auto');
       }
     });
