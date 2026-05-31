@@ -31,6 +31,9 @@
   .mul-map .mul-row > div:first-child{font-family:var(--fc);color:var(--amber);font-weight:700;text-align:center;background:rgba(245,158,11,.08);padding:6px;border-radius:6px}
   .mul-map .mul-row > div:nth-child(2){color:var(--t2)}
   .mul-map .mul-row > div:nth-child(3){font-family:var(--fc);color:var(--green)}
+  .map-grid,.step-flow,.mul-map,.q-text,.q-opts{direction:ltr;text-align:left}
+  .q-explain{direction:rtl;text-align:right}
+  .cheat-key{direction:ltr;text-align:left}
 </style>
 </head>
 <body>
@@ -71,12 +74,12 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main" dir="auto">
+<main id="main" dir="rtl">
 
 <section class="hero">
   <div class="hero-badge">🛠️ Lecture 10 · UML → Java implementation</div>
   <h1>Model to <span>Code</span></h1>
-  <p>إزاي تحول الـ <code>UML class diagrams</code> و <code>state diagrams</code> لـ <code>Java code</code> شغّال. <strong><code>Question 1.07</code> و <code>Q1.08</code> في كل امتحان</strong> بتعتمد على المهارة دي.</p>
+  <p>إزاي تحول الـ <bdi>UML class diagrams</bdi> و <bdi>state diagrams</bdi> لـ <bdi>Java code</bdi> شغّال. <strong><bdi>Question 1.07</bdi> و <bdi>Q1.08</bdi> في كل امتحان</strong> بيعتمدوا على المهارة دي.</p>
   <div class="btn-row">
     <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
     <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
@@ -99,24 +102,24 @@
     <div class="ch-num blue">01</div>
     <div class="ch-title">
       <h2>Basic Implementation Steps</h2>
-      <p>3 خطوات لتحويل الـ design لـ code شغّال.</p>
+      <p>3 خطوات لتحويل الـ <bdi>design</bdi> لـ <bdi>code</bdi> شغّال.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">📦</span> Inputs &amp; Output</div>
+    <div class="topic-title"><span class="icon">📦</span> <bdi>Inputs &amp; Output</bdi></div>
     <div class="grid2">
       <div>
         <h4 style="color:var(--cyan);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">📥 Inputs</h4>
         <ul>
-          <li>Detailed UML <strong>Class Diagram</strong></li>
-          <li>UML <strong>Sequence Diagram</strong></li>
-          <li>UML <strong>State Diagram</strong> (لو محتاج)</li>
+          <li><bdi>Detailed UML</bdi> <strong><bdi>Class Diagram</bdi></strong></li>
+          <li><bdi>UML</bdi> <strong><bdi>Sequence Diagram</bdi></strong></li>
+          <li><bdi>UML</bdi> <strong><bdi>State Diagram</bdi></strong> (لو محتاج)</li>
         </ul>
       </div>
       <div>
         <h4 style="color:var(--green);font-family:var(--fh);font-size:.95rem;margin-bottom:6px">📤 Output</h4>
-        <p dir="rtl"><code>Code — implementation</code> للـ <code>model</code> كما هو موصوف.</p>
+        <p><bdi>Code — implementation</bdi> للـ <bdi>model</bdi> كما هو موصوف.</p>
         <p style="font-size:.82rem;color:var(--t3);margin-top:4px">Other aspects: data structures, algorithms, database, UI.</p>
       </div>
     </div>
@@ -142,11 +145,11 @@
 
   <!-- Operation Contract -->
   <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">📜</span> Operation Contract — Step 1 Detail</div>
-    <p>الـ <code>method interface = name + parameters + return + visibility</code>. الـ <strong>functionality</strong> بتحدد عن طريق <code>contract</code>:</p>
+    <div class="topic-title"><span class="icon">📜</span> <bdi>Operation Contract</bdi> — <bdi>Step 1 Detail</bdi></div>
+    <p>الـ <code>method interface = name + parameters + return + visibility</code>. الـ <strong><bdi>functionality</bdi></strong> بتتحدد عن طريق <bdi>contract</bdi>:</p>
     <ul>
-      <li dir="rtl"><strong>Precondition</strong> — قيود على <code>attributes</code> والـ <code>actual parameters</code> قبل الـ <code>call</code>.</li>
-      <li dir="rtl"><strong>Postcondition</strong> — <code>effects</code> بعد الـ <code>call</code>: <code>instance creation/deletion</code> · <code>attribute modification</code> · <code>association formed/broken</code>.</li>
+      <li><strong><bdi>Precondition</bdi></strong> — قيود على <code>attributes</code> والـ <code>actual parameters</code> قبل الـ <code>call</code>.</li>
+      <li><strong><bdi>Postcondition</bdi></strong> — <code>effects</code> بعد الـ <code>call</code>: <code>instance creation/deletion</code> · <code>attribute modification</code> · <code>association formed/broken</code>.</li>
     </ul>
     <div class="code-wrap">
       <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">BankAccount.withdraw() contract</div></div>
@@ -168,41 +171,41 @@
     <div class="ch-num green">02</div>
     <div class="ch-title">
       <h2>Order of Implementation</h2>
-      <p>Top-Down vs Bottom-Up.</p>
+      <p><span dir="ltr">Top-Down vs Bottom-Up</span>.</p>
     </div>
   </div>
 
   <div class="grid2">
     <div class="topic" style="--accent:var(--cyan)">
       <div class="topic-title"><span class="icon">⬇️</span> Top-Down</div>
-      <p>ابدأ بالـ <strong><code>high-level components</code></strong> <code>(e.g., OrderManager)</code> → بعدين الـ <code>dependent components</code>.</p>
+      <p>ابدأ بالـ <strong><bdi>high-level components</bdi></strong> (<bdi>e.g., OrderManager</bdi>) → بعدين الـ <bdi>dependent components</bdi>.</p>
       <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:10px 0 4px">✅ Advantages</h4>
       <ul>
-        <li>Class A = higher level component، makes use of others.</li>
-        <li>Early validation of overall system.</li>
+        <li><bdi>Class A</bdi> = <bdi>higher level component</bdi> و <bdi>makes use of others</bdi>.</li>
+        <li><bdi>Early validation of overall system</bdi>.</li>
       </ul>
       <h4 style="font-family:var(--fh);color:var(--red);font-size:.92rem;margin:10px 0 4px">❌ Disadvantages</h4>
       <ul>
-        <li dir="rtl">محتاج <strong>stubs</strong> <code>(temporary implementations)</code> للـ <code>lower classes</code>.</li>
+        <li>محتاج <strong><bdi>stubs</bdi></strong> (<bdi>temporary implementations</bdi>) للـ <bdi>lower classes</bdi>.</li>
       </ul>
     </div>
 
     <div class="topic" style="--accent:var(--amber)">
       <div class="topic-title"><span class="icon">⬆️</span> Bottom-Up</div>
-      <p>ابدأ بالـ <strong><code>lower-level classes</code></strong> <code>(e.g., Item, Product)</code> → بعدين الـ <code>higher-level</code>.</p>
+      <p>ابدأ بالـ <strong><bdi>lower-level classes</bdi></strong> (<bdi>e.g., Item, Product</bdi>) → بعدين الـ <bdi>higher-level</bdi>.</p>
       <h4 style="font-family:var(--fh);color:var(--green);font-size:.92rem;margin:10px 0 4px">✅ Advantages</h4>
       <ul>
-        <li>Low-level classes stand alone.</li>
-        <li dir="rtl">مفيش <code>stubs</code> محتاجة.</li>
+        <li><bdi>Low-level classes stand alone</bdi>.</li>
+        <li>مفيش <bdi>stubs</bdi> محتاجة.</li>
       </ul>
       <h4 style="font-family:var(--fh);color:var(--red);font-size:.92rem;margin:10px 0 4px">❌ Disadvantages</h4>
       <ul>
-        <li dir="rtl">الـ <code>complete executable</code> يتأخر للنهاية.</li>
+        <li>الـ <bdi>complete executable</bdi> يتأخر للنهاية.</li>
       </ul>
     </div>
   </div>
 
-  <div class="info"><div dir="rtl"><b>💡 الـ practical answer</b>غالباً <code>hybrid</code>: ابدأ بـ <code>utility/value classes (Bottom-Up partially)</code>، بعدين <code>main flow Top-Down</code> مع <code>stubs</code> بسيطة.</div></div>
+  <div class="info"><div><b>💡 الـ <bdi>practical answer</bdi></b>غالباً <bdi>hybrid</bdi>: ابدأ بـ <bdi>utility/value classes</bdi> (<bdi>Bottom-Up partially</bdi>)، بعدين <bdi>main flow Top-Down</bdi> مع <bdi>stubs</bdi> بسيطة.</div></div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════
@@ -218,17 +221,17 @@
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">🔄</span> Direct Mappings</div>
+    <div class="topic-title"><span class="icon">🔄</span> <bdi>Direct Mappings</bdi></div>
     <ul>
-      <li>UML <strong>Class</strong> → Java <code>class</code></li>
-      <li>UML <strong>Attributes</strong> → Java <code>fields</code></li>
-      <li>UML <strong>Operations</strong> → Java <code>methods</code></li>
+      <li><bdi>UML</bdi> <strong><bdi>Class</bdi></strong> → <bdi>Java</bdi> <code>class</code></li>
+      <li><bdi>UML</bdi> <strong><bdi>Attributes</bdi></strong> → <bdi>Java</bdi> <code>fields</code></li>
+      <li><bdi>UML</bdi> <strong><bdi>Operations</bdi></strong> → <bdi>Java</bdi> <code>methods</code></li>
     </ul>
   </div>
 
   <!-- Abstract / Interface / Enum -->
   <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">🧬</span> Abstract · Interface · Enum</div>
+    <div class="topic-title"><span class="icon">🧬</span> <span dir="ltr">Abstract · Interface · Enum</span></div>
     <div class="map-grid">
       <div class="map-uml">
         <h4>📐 UML</h4>
@@ -259,7 +262,7 @@ Account <span class="kw">{abstract}</span>
 
   <!-- Generalization -->
   <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">🌳</span> Generalization → extends / implements</div>
+    <div class="topic-title"><span class="icon">🌳</span> <span dir="ltr">Generalization → extends / implements</span></div>
     <div class="code-wrap">
 <pre><code><span class="cmt">// SavingsAccount extends Account</span>
 <span class="kw">class</span> <span class="fn">Account</span> { ... }
@@ -280,20 +283,20 @@ Account <span class="kw">{abstract}</span>
     <div class="ch-num purple">04</div>
     <div class="ch-title">
       <h2>UML Types → Java Types</h2>
-      <p>Direct type translations.</p>
+      <p><bdi>Direct type translations</bdi>.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">📊</span> Type Conversion Table</div>
-    <table class="tbl">
+    <div class="topic-title"><span class="icon">📊</span> <bdi>Type Conversion Table</bdi></div>
+    <table class="tbl" dir="ltr">
       <tr><th>UML Type</th><th>Java Type</th></tr>
       <tr><td>Boolean</td><td><code>boolean</code></td></tr>
       <tr><td>Integer</td><td><code>int</code></td></tr>
       <tr><td>Real</td><td><code>float</code> or <code>double</code></td></tr>
       <tr><td>String</td><td><code>String</code></td></tr>
     </table>
-    <p style="margin-top:8px;font-size:.85rem">Default depends on the modeling tool. Some tools default to <code>int</code> for unspecified return values.</p>
+    <p style="margin-top:8px;font-size:.85rem"><bdi>Default</bdi> بيعتمد على الـ <bdi>modeling tool</bdi>. بعض الأدوات بتستخدم <code>int</code> كـ <bdi>default</bdi> لو الـ <bdi>return value</bdi> مش متحدد.</p>
   </div>
 </div>
 
@@ -305,13 +308,13 @@ Account <span class="kw">{abstract}</span>
     <div class="ch-num teal">05</div>
     <div class="ch-title">
       <h2>Unidirectional Associations</h2>
-      <p dir="rtl"><code>Associations</code> في <code>UML → references</code> في <code>Java</code>. الـ <code>default multiplicity = "0..1" (reference can be null)</code>.</p>
+      <p>الـ <bdi>Associations</bdi> في <bdi>UML</bdi> بتتحول لـ <bdi>references</bdi> في <bdi>Java</bdi>. الـ <bdi>default multiplicity</bdi> = <code>0..1</code> (<bdi>reference can be null</bdi>).</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--teal)">
-    <div class="topic-title"><span class="icon">🔗</span> Optional 0..1 Association</div>
-    <p>UML: <code>Account [1] ━→ [0..1] DebitCard</code></p>
+    <div class="topic-title"><span class="icon">🔗</span> <bdi>Optional 0..1 Association</bdi></div>
+    <p><bdi>UML</bdi>: <code>Account [1] ━→ [0..1] DebitCard</code></p>
     <div class="code-wrap">
 <pre><code><span class="kw">public class</span> <span class="fn">Account</span> {
   <span class="kw">private</span> <span class="fn">DebitCard</span> theCard;  <span class="cmt">// 0..1 = good match for ref</span>
@@ -325,8 +328,8 @@ Account <span class="kw">{abstract}</span>
 
   <!-- Immutable -->
   <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">🔒</span> Immutable Association {Immutable}</div>
-    <p>الـ <code>link</code> مرة واحدة <code>set</code> ومش بيتغير. لازم <code>explicit check</code>:</p>
+    <div class="topic-title"><span class="icon">🔒</span> <bdi>Immutable Association</bdi> <code>{Immutable}</code></div>
+    <p>الـ <bdi>link</bdi> بيتعمله <bdi>set</bdi> مرة واحدة ومش بيتغير. لازم <bdi>explicit check</bdi>:</p>
     <div class="code-wrap">
 <pre><code><span class="kw">public void</span> <span class="fn">setCard</span>(<span class="fn">DebitCard</span> card) {
   <span class="kw">if</span> (theCard != <span class="kw">null</span>) {
@@ -339,8 +342,8 @@ Account <span class="kw">{abstract}</span>
 
   <!-- Compulsory -->
   <div class="topic" style="--accent:var(--red)">
-    <div class="topic-title"><span class="icon">❗</span> Compulsory Association (multiplicity 1)</div>
-    <p>الـ <code>link</code> لازم مش <code>null</code> أبدًا. <code>enforce</code> في الـ <code>constructor</code>:</p>
+    <div class="topic-title"><span class="icon">❗</span> <bdi>Compulsory Association</bdi> (<bdi>multiplicity 1</bdi>)</div>
+    <p>الـ <bdi>link</bdi> لازم مايبقاش <code>null</code> أبدًا. اعمل <bdi>enforce</bdi> في الـ <bdi>constructor</bdi>:</p>
     <div class="code-wrap">
 <pre><code><span class="kw">public</span> <span class="fn">Account</span>(<span class="fn">Guarantor</span> g) {
   <span class="kw">if</span> (g == <span class="kw">null</span>) {
@@ -360,14 +363,14 @@ Account <span class="kw">{abstract}</span>
     <div class="ch-num red">06</div>
     <div class="ch-title">
       <h2>Bidirectional Associations ⭐</h2>
-      <p>اللي بتيجي في Question 1.07 من امتحانات Fall 2021-22 / Winter 2021.</p>
+      <p>دي بتيجي في <bdi>Question 1.07</bdi> من امتحانات <span dir="ltr">Fall 2021-22 / Winter 2021</span>.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--red)">
-    <div class="topic-title"><span class="icon">↔️</span> Implementation Strategy</div>
-    <p dir="rtl"><code>References</code> في <code>Java unidirectional</code>. علشان <code>bidirectional</code> محتاج <strong><code>2 references</code></strong> — واحد في كل <code>class</code>.</p>
-    <p>الـ <code>key concept</code>: <strong><code>Referential Integrity</code></strong> — الـ <code>links</code> لازم تكون <code>consistent</code>.</p>
+    <div class="topic-title"><span class="icon">↔️</span> <bdi>Implementation Strategy</bdi></div>
+    <p>الـ <bdi>References</bdi> في <bdi>Java</bdi> بطبيعتها <bdi>unidirectional</bdi>. علشان تعمل <bdi>bidirectional</bdi> محتاج <strong><bdi>2 references</bdi></strong> — واحد في كل <bdi>class</bdi>.</p>
+    <p>الـ <bdi>key concept</bdi>: <strong><bdi>Referential Integrity</bdi></strong> — الـ <bdi>links</bdi> لازم تفضل <bdi>consistent</bdi>.</p>
 
     <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">⚠️ Referential Integrity Violation</h4>
     <div class="code-wrap">
@@ -402,13 +405,13 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     <div class="ch-num cyan blue">07</div>
     <div class="ch-title">
       <h2>1-to-Many &amp; Many-to-Many</h2>
-      <p dir="rtl"><code>ArrayList / collection</code> للـ <code>multiple references</code>. الـ <code>exam Q1.07</code> الـ <code>Code (a)</code>.</p>
+      <p><bdi>ArrayList / collection</bdi> للـ <bdi>multiple references</bdi>. ده شكل <bdi>Code (a)</bdi> في <bdi>exam Q1.07</bdi>.</p>
     </div>
   </div>
 
   <!-- Multiplicity → Code -->
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">🔢</span> Multiplicity → Code Pattern</div>
+    <div class="topic-title"><span class="icon">🔢</span> <span dir="ltr">Multiplicity → Code Pattern</span></div>
     <div class="mul-map">
       <div class="mul-row"><div>1</div><div>One reference, never null</div><div>private Class field;<br>(check in constructor)</div></div>
       <div class="mul-row"><div>0..1</div><div>One reference, can be null</div><div>private Class field;</div></div>
@@ -420,9 +423,9 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
 
   <!-- 1-to-many example (Q1.07) -->
   <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">💻</span> Q1.07 Style — Advertiser ↔ Account (1:*)</div>
-    <p>الـ <code>UML</code>: <code>Advertiser [1] ━━ [*] Account</code></p>
-    <p>الكود الصح (هو <code>Code A</code> في <code>exam</code>):</p>
+    <div class="topic-title"><span class="icon">💻</span> <bdi>Q1.07 Style</bdi> — <span dir="ltr">Advertiser ↔ Account (1:*)</span></div>
+    <p>الـ <bdi>UML</bdi>: <code>Advertiser [1] ━━ [*] Account</code></p>
+    <p>الكود الصح (هو <bdi>Code A</bdi> في الـ <bdi>exam</bdi>):</p>
     <div class="code-wrap">
       <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Correct implementation</div></div>
 <pre><code><span class="kw">public class</span> <span class="fn">Advertiser</span> {
@@ -449,20 +452,20 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
   }
 }</code></pre>
     </div>
-    <div class="warn"><div><b>⚠️ Common Wrong Versions</b>
+    <div class="warn"><div><b>⚠️ <bdi>Common Wrong Versions</bdi></b>
       <ul style="margin-top:4px">
-        <li>Code B: <code>Advertiser</code> has single <code>Account account</code> field — wrong, should be Set.</li>
-        <li>Code C: <code>Account</code> has Set of <code>Advertiser</code> owners — wrong, that would be many-to-many, not 1-to-many.</li>
+        <li><bdi>Code B</bdi>: <code>Advertiser</code> عنده <code>Account account</code> واحد — غلط، المفروض <code>Set</code>.</li>
+        <li><bdi>Code C</bdi>: <code>Account</code> عنده <bdi>Set of Advertiser owners</bdi> — غلط، كده تبقى <bdi>many-to-many</bdi> مش <bdi>1-to-many</bdi>.</li>
       </ul>
     </div></div>
   </div>
 
   <!-- Many-to-many -->
   <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">⛓️</span> Many-to-Many — Two strategies</div>
+    <div class="topic-title"><span class="icon">⛓️</span> <bdi>Many-to-Many</bdi> — <bdi>Two strategies</bdi></div>
     <ol>
-      <li><strong>Direct</strong> — Both classes hold collections. Choose <em>one</em> class to maintain referential integrity.</li>
-      <li><strong>Reify the association</strong> — Create an intermediate class (e.g., <code>Signatory</code>) holding the relationship. Often cleaner.</li>
+      <li><strong><bdi>Direct</bdi></strong> — كل <bdi>class</bdi> يحتفظ بـ <bdi>collection</bdi>. اختار <em>واحد</em> يحافظ على الـ <bdi>referential integrity</bdi>.</li>
+      <li><strong><bdi>Reify the association</bdi></strong> — اعمل <bdi>intermediate class</bdi> مثل <code>Signatory</code> يمسك العلاقة. غالباً أنضف.</li>
     </ol>
   </div>
 </div>
@@ -475,13 +478,13 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     <div class="ch-num pink">08</div>
     <div class="ch-title">
       <h2>Qualified Associations &amp; Association Classes</h2>
-      <p dir="rtl"><code>HashMap</code> للـ <code>qualifiers</code>. <code>Reification</code> للـ <code>association classes</code>.</p>
+      <p><code>HashMap</code> للـ <bdi>qualifiers</bdi>. و <bdi>Reification</bdi> للـ <bdi>association classes</bdi>.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">🔑</span> Qualified Association → HashMap</div>
-    <p dir="rtl"><code>UML</code>: <code>Bank [accno] → Account [0..1]</code> — <code>efficient lookup by accno</code>.</p>
+    <div class="topic-title"><span class="icon">🔑</span> <span dir="ltr">Qualified Association → HashMap</span></div>
+    <p><bdi>UML</bdi>: <code>Bank [accno] → Account [0..1]</code> — <bdi>efficient lookup by accno</bdi>.</p>
     <div class="code-wrap">
 <pre><code><span class="kw">public class</span> <span class="fn">Bank</span> {
   <span class="kw">private</span> <span class="fn">HashMap</span>&lt;<span class="fn">Integer</span>, <span class="fn">Account</span>&gt; accounts;
@@ -498,9 +501,9 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
   </div>
 
   <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">📎</span> Association Class → 2 Associations + Reified Class</div>
-    <p>UML: <code>Module *──*── Student</code> + attached <code>Registration {mark}</code></p>
-    <p>Implementation: Transform into two associations through a new class.</p>
+    <div class="topic-title"><span class="icon">📎</span> <span dir="ltr">Association Class → 2 Associations + Reified Class</span></div>
+    <p><bdi>UML</bdi>: <code>Module *──*── Student</code> + attached <code>Registration {mark}</code></p>
+    <p><bdi>Implementation</bdi>: حوّلها لعلاقتين من خلال <bdi>new class</bdi>.</p>
     <div class="code-wrap">
 <pre><code><span class="kw">class</span> <span class="fn">Registration</span> {
   <span class="kw">private</span> <span class="fn">Student</span> student;
@@ -531,22 +534,22 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     <div class="ch-num red">09</div>
     <div class="ch-title">
       <h2>State Diagram → Code</h2>
-      <p>3 steps: define states · track current state · switch on state per operation.</p>
+      <p>3 خطوات: <span dir="ltr">define states · track current state · switch on state per operation</span>.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">🔢</span> Implementation Steps</div>
+    <div class="topic-title"><span class="icon">🔢</span> <bdi>Implementation Steps</bdi></div>
     <ol>
-      <li><strong>Define States</strong> — enumerate as constants (or use State pattern).</li>
-      <li><strong>Track Current State</strong> — initial in constructor.</li>
-      <li><strong>Operation-by-Operation</strong> — <code>switch</code> with case per state.</li>
+      <li><strong><bdi>Define States</bdi></strong> — اعملها <bdi>constants</bdi> (أو استخدم <bdi>State pattern</bdi>).</li>
+      <li><strong><bdi>Track Current State</bdi></strong> — حدد الـ <bdi>initial state</bdi> في الـ <bdi>constructor</bdi>.</li>
+      <li><strong><bdi>Operation-by-Operation</bdi></strong> — استخدم <code>switch</code> وفيه <bdi>case</bdi> لكل <bdi>state</bdi>.</li>
     </ol>
   </div>
 
   <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">💻</span> Example — Account class</div>
-    <p>States: InCredit, OverDrawn, Suspended. Operations: deposit, withdraw, suspend, unsuspend.</p>
+    <div class="topic-title"><span class="icon">💻</span> <bdi>Example</bdi> — <bdi>Account class</bdi></div>
+    <p><bdi>States</bdi>: <span dir="ltr">InCredit, OverDrawn, Suspended</span>. <bdi>Operations</bdi>: <span dir="ltr">deposit, withdraw, suspend, unsuspend</span>.</p>
     <div class="code-wrap">
 <pre><code><span class="kw">public class</span> <span class="fn">Account</span> {
   <span class="cmt">// Step 1: define states</span>
@@ -581,8 +584,8 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
 
   <!-- Entry/Exit actions -->
   <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">⚡</span> Entry / Exit Actions</div>
-    <p>Entry action تتنفذ لما تدخل state. Exit action لما تخرج.</p>
+    <div class="topic-title"><span class="icon">⚡</span> <bdi>Entry / Exit Actions</bdi></div>
+    <p>الـ <bdi>Entry action</bdi> بتتنفذ لما تدخل <bdi>state</bdi>. والـ <bdi>Exit action</bdi> لما تخرج.</p>
     <div class="code-wrap">
 <pre><code><span class="kw">public void</span> <span class="fn">eventF</span>() {  <span class="cmt">// transition INTO state S</span>
   <span class="kw">switch</span> (state) {
@@ -613,7 +616,7 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     <div class="quiz-icon">🎯</div>
     <div>
       <h3>Exam Bank — Lecture 10</h3>
-      <p>أسئلة <code>Code ↔ Class Diagram</code> من <code>Fall 2021-22</code> و <code>Winter 2021</code>. هاي في كل امتحان <code>final</code>.</p>
+      <p>أسئلة <bdi>Code ↔ Class Diagram</bdi> من <span dir="ltr">Fall 2021-22</span> و <bdi>Winter 2021</bdi>. هاي في كل امتحان <bdi>final</bdi>.</p>
     </div>
   </div>
 
@@ -632,15 +635,15 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: A — Code (a)</b>
-      الـ <code>multiplicity 1:*</code> بتقول: <code>Advertiser</code> واحد ↔ <code>Accounts</code> كتيرة. <code>Code (a)</code> صح:
+      الـ <code>multiplicity 1:*</code> بتقول: <code>Advertiser</code> واحد ↔ <code>Accounts</code> كتيرة. <bdi>Code (a)</bdi> صح:
       <ul style="margin-top:4px;padding-inline-start:22px">
-        <li>Advertiser → <code>Set&lt;Account&gt; accounts</code> (collection).</li>
-        <li>Account → <code>Advertiser owner</code> (single reference).</li>
-        <li>addAccount + setOwner للحفاظ على bidirectional integrity.</li>
+        <li><bdi>Advertiser</bdi> → <code>Set&lt;Account&gt; accounts</code> (<bdi>collection</bdi>).</li>
+        <li><bdi>Account</bdi> → <code>Advertiser owner</code> (<bdi>single reference</bdi>).</li>
+        <li><code>addAccount</code> + <code>setOwner</code> للحفاظ على <bdi>bidirectional integrity</bdi>.</li>
       </ul>
       <div class="why-wrong">
-        <strong>B</strong> — <code>single field</code> غلط، <code>Advertiser</code> المفروض يحمل <code>multiple</code>. ·
-        <strong>C</strong> — <code>Account has Set of Advertisers = many-to-many</code>، مش <code>1-to-*</code>.
+        <strong>B</strong> — <bdi>single field</bdi> غلط؛ <code>Advertiser</code> المفروض يحمل <bdi>multiple</bdi>. ·
+        <strong>C</strong> — <bdi>Account has Set of Advertisers = many-to-many</bdi>، مش <code>1-to-*</code>.
       </div>
     </div>
   </div>
@@ -662,7 +665,7 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: A</b>
-      <code>ArrayList&lt;OrderDetail&gt;</code> = <code>Order has many OrderDetails (multiplicity *)</code>. <code>Order owns OrderDetails</code> فا <code>composition ◆</code>. <code>OrderDetail has 1 Product. Order has OrderStatus enum.</code>
+      <code>ArrayList&lt;OrderDetail&gt;</code> = <bdi>Order has many OrderDetails</bdi> (<bdi>multiplicity *</bdi>). و <bdi>Order owns OrderDetails</bdi>، فالعلاقة <bdi>composition ◆</bdi>. كمان <bdi>OrderDetail has 1 Product</bdi>، و <bdi>Order has OrderStatus enum</bdi>.
     </div>
   </div>
 
@@ -678,7 +681,7 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: B — Preconditions + Postconditions</b>
-      الـ contract بيوصف functionality formally: ما هو لازم يكون true قبل (precondition)، وما هو الـ effect (postcondition).
+      الـ <bdi>contract</bdi> بيوصف الـ <bdi>functionality</bdi> بشكل رسمي: إيه لازم يكون <bdi>true</bdi> قبل التنفيذ (<bdi>precondition</bdi>)، وإيه الـ <bdi>effect</bdi> بعده (<bdi>postcondition</bdi>).
     </div>
   </div>
 
@@ -694,10 +697,10 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: C — ArrayList</b>
-      Multiplicity * = many → collection (ArrayList/Set).
+      <bdi>Multiplicity *</bdi> = <bdi>many</bdi> → <bdi>collection</bdi> (<bdi>ArrayList/Set</bdi>).
       <div class="why-wrong">
-        <strong>A</strong> — single ref, doesn't model "many". ·
-        <strong>D</strong> — HashMap للـ <em>qualified</em> associations فقط.
+        <strong>A</strong> — <bdi>single ref</bdi> وما بيمثلش <bdi>many</bdi>. ·
+        <strong>D</strong> — <code>HashMap</code> للـ <em><bdi>qualified</bdi></em> <bdi>associations</bdi> فقط.
       </div>
     </div>
   </div>
@@ -714,7 +717,7 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: B — HashMap</b>
-      الـ qualifier للـ efficient lookup. HashMap بيعطي O(1) lookup بالـ key.
+      الـ <bdi>qualifier</bdi> معمول للـ <bdi>efficient lookup</bdi>. <code>HashMap</code> بيدي <bdi>O(1) lookup</bdi> بالـ <bdi>key</bdi>.
     </div>
   </div>
 
@@ -730,8 +733,8 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: D</b>
-      Steps: (1) constants for states, (2) initial state in constructor, (3) switch by state in each operation.
-      <p style="margin-top:6px;font-size:.85rem">(C) ممكن يُطبق بـ <code>State Pattern</code>، أنظف لكن أعقد. الـ <code>doctor</code> بيوصي بـ (D) للبساطة.</p>
+      <bdi>Steps</bdi>: (1) <bdi>constants for states</bdi>، (2) <bdi>initial state in constructor</bdi>، (3) <code>switch</code> حسب الـ <bdi>state</bdi> في كل <bdi>operation</bdi>.
+      <p style="margin-top:6px;font-size:.85rem">(C) ممكن يُطبق بـ <bdi>State Pattern</bdi>، أنظف لكن أعقد. الدكتور بيوصي بـ (D) للبساطة.</p>
     </div>
   </div>
 
@@ -747,9 +750,9 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: A — Stubs needed</b>
-      <div dir="rtl"><code>Top-Down</code> يبدأ بـ <code>high-level</code>. الـ <code>high-level methods</code> بتعتمد على <code>lower classes</code> → محتاج <code>temporary stubs</code> لتجربتها.</div>
+      <div><bdi>Top-Down</bdi> يبدأ بـ <bdi>high-level</bdi>. الـ <bdi>high-level methods</bdi> بتعتمد على <bdi>lower classes</bdi> → محتاج <bdi>temporary stubs</bdi> لتجربتها.</div>
       <div class="why-wrong">
-        <strong>B</strong> — actually advantage of top-down: early validation. ·
+        <strong>B</strong> — دي ميزة في <bdi>top-down</bdi>: <bdi>early validation</bdi>. ·
         <strong>D</strong> — مش متعلق.
       </div>
     </div>
@@ -767,7 +770,7 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: C</b>
-      <div dir="rtl"><code>Java doesn't allow simultaneous creation</code>. لازم تخالف الـ <code>constraint</code> مؤقتاً: ابدأ بـ <code>default Guarantor, then Account(g), then g.setAccount(a) — finalize bidirectional link</code>.</div>
+      <div><bdi>Java doesn't allow simultaneous creation</bdi>. لازم تخالف الـ <bdi>constraint</bdi> مؤقتاً: ابدأ بـ <code>default Guarantor</code>، بعدين <code>Account(g)</code>، بعدين <code>g.setAccount(a)</code> — كده بتكمل الـ <bdi>bidirectional link</bdi>.</div>
     </div>
   </div>
 
@@ -786,7 +789,7 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
     <div class="ch-num amber">📋</div>
     <div class="ch-title">
       <h2>Cheat Sheet</h2>
-      <p>UML → Code quick reference.</p>
+      <p><bdi>UML → Code quick reference</bdi>.</p>
     </div>
   </div>
 
@@ -840,20 +843,20 @@ acc2.setCard(aCard);                          <span class="cmt">// acc2 → card
   </div>
 
   <div class="flashcards">
-    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">3 implementation steps؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Method interface · Order · Implement</div></div></div></div>
-    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Top-Down disadvantage؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Need stubs for lower classes</div></div></div></div>
-    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Multiplicity * → Java؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">ArrayList / Set / List</div></div></div></div>
-    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Qualified → Java؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">HashMap (O(1) lookup)</div></div></div></div>
-    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Bidirectional integrity solution؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Delegate maintenance to ONE class</div></div></div></div>
-    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">UML abstract → Java؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">abstract class</div></div></div></div>
-    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Operation contract؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Pre + Post conditions</div></div></div></div>
-    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">State Diagram → ?</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">constants + switch in operations</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">3 <bdi>implementation steps</bdi>؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a"><span dir="ltr">Method interface · Order · Implement</span></div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q"><bdi>Top-Down disadvantage</bdi>؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a"><bdi>Need stubs for lower classes</bdi></div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q"><bdi>Multiplicity *</bdi> → <bdi>Java</bdi>؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a"><span dir="ltr">ArrayList / Set / List</span></div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q"><bdi>Qualified</bdi> → <bdi>Java</bdi>؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a"><bdi>HashMap</bdi> (<bdi>O(1) lookup</bdi>)</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q"><bdi>Bidirectional integrity solution</bdi>؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a"><bdi>Delegate maintenance to ONE class</bdi></div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q"><bdi>UML abstract</bdi> → <bdi>Java</bdi>؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a"><bdi>abstract class</bdi></div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q"><bdi>Operation contract</bdi>؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a"><bdi>Pre + Post conditions</bdi></div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q"><bdi>State Diagram</bdi> → ?</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a"><bdi>constants + switch in operations</bdi></div></div></div></div>
   </div>
 
   <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
-  <div class="danger"><div><b>1. خلط 1:* بـ many-to-many</b>1:* = one side has collection, other has single ref. m:n = both have collections.</div></div>
-  <div class="danger"><div><b>2. نسيان referential integrity</b>في bidirectional، لو غيرت reference في واحد، لازم تحدث reference في التاني.</div></div>
-  <div class="danger"><div><b>3. استخدام HashMap للـ * association</b>HashMap للـ qualified بس. الـ * العادي يستخدم ArrayList/Set.</div></div>
+  <div class="danger"><div><b>1. خلط <code>1:*</code> بـ <bdi>many-to-many</bdi></b><code>1:*</code> = طرف عنده <bdi>collection</bdi> والطرف التاني عنده <bdi>single ref</bdi>. أما <code>m:n</code> = الطرفين عندهم <bdi>collections</bdi>.</div></div>
+  <div class="danger"><div><b>2. نسيان <bdi>referential integrity</bdi></b>في <bdi>bidirectional</bdi>، لو غيرت <bdi>reference</bdi> في طرف، لازم تحدث الـ <bdi>reference</bdi> في الطرف التاني.</div></div>
+  <div class="danger"><div><b>3. استخدام <code>HashMap</code> للـ <code>*</code> <bdi>association</bdi></b><code>HashMap</code> للـ <bdi>qualified</bdi> بس. الـ <code>*</code> العادي يستخدم <bdi>ArrayList/Set</bdi>.</div></div>
 </div>
 
 </div>
