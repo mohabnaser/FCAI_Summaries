@@ -271,24 +271,39 @@ code{font-family:var(--fc);background:rgba(0,212,255,.08);color:var(--cyan);padd
 .topic{animation:fadeIn .35s ease forwards}
 
 /* ─── BIDI FIX (Arabic / English mix) ─── */
-/* Auto-detect text direction per paragraph using unicode-bidi:plaintext.
-   text-align:start ensures alignment follows the detected direction. */
-p, h1, h2, h3, h4, h5, h6, li, td, th,
-.topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div,
-.q-text, .q-explain, .cheat-val, .q-opt, .hero p, .hero-badge,
-.topic p, .ch-title h2, .sb-logo p, .sb-logo h2, .q-num,
-.tl-desc, .cmp-card p, .kw-card .kw-desc, .lec-title,
-.fc-q, .fc-a, .q-score, .invest-desc, .req-bad, .req-good,
-.why-wrong, .pillar, .stage-out, .cheat-key{
-  unicode-bidi: plaintext;
+/* Lecture text is mostly Arabic with embedded English terms. Keep Arabic
+   containers RTL, then isolate inline English so punctuation and wrapping
+   remain readable. Pure English elements are set to LTR by app.js. */
+#main p, #main h1, #main h2, #main h3, #main h4, #main h5, #main h6,
+#main li, #main td, #main th,
+#main .topic-title, #main .ch-title p,
+#main .tip div, #main .warn div, #main .info div, #main .danger div,
+#main .q-text, #main .q-explain, #main .cheat-val, #main .q-opt,
+#main .hero p, #main .hero-badge, #main .topic p, #main .ch-title h2,
+#main .q-num, #main .tl-desc, #main .cmp-card p, #main .kw-card .kw-desc,
+#main .lec-title, #main .fc-q, #main .fc-a, #main .q-score,
+#main .invest-desc, #main .req-bad, #main .req-good,
+#main .why-wrong, #main .pillar, #main .stage-out, #main .cheat-key{
+  direction: rtl;
+  unicode-bidi: isolate;
   text-align: start;
+}
+
+#main [dir="rtl"]{
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+#main [dir="ltr"]{
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 /* LTR isolation for inline English technical content.
    Prevents code, keywords, etc. from being reordered by bidi algorithm. */
 code, .kw, .str, .num, .fn, .prop, .tag, .cmt,
 .badge, .code-lang, .line-num, .q-opt-letter, .q-src,
-.lec-num, .lec-status, .sb-section, .hero-badge,
+.lec-num, .lec-status, .sb-section,
 .hstat .num, .hstat .lbl, .sb-link, .sb-back,
 .ov-label, .ov-val, .rs-num, .rs-name,
 .kw-tag, .kw-name, .mul-val, .mul-mean,
@@ -316,15 +331,15 @@ pre, .code-wrap, .diagram pre{
   direction: ltr;
 }
 
-/* Quiz options: keep LTR for letter-based answers */
+/* Quiz options often mix Arabic explanations with English terms. */
 .q-opt{
-  direction: ltr;
+  direction: rtl;
 }
 
-/* Quiz explanation and score: Arabic text, auto-detect */
+/* Quiz explanation and score: Arabic-first text. */
 .q-explain, .q-score{
   direction: rtl;
-  unicode-bidi: plaintext;
+  unicode-bidi: isolate;
   text-align: start;
 }
 

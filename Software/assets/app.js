@@ -139,21 +139,30 @@
     });
   }
 
-  /* ─── BIDI: set dir="auto" on mixed-language elements ─── */
+  /* ─── BIDI: set stable direction on mixed-language elements ─── */
   function fixBidi() {
-    /* Let the browser auto-detect direction per element.
-       Elements that contain Arabic will render RTL; pure-English ones stay LTR. */
-    document.querySelectorAll(
-      'p, li, td, th, h1, h2, h3, h4, h5, h6, ' +
-      '.topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div, ' +
-      '.q-text, .q-explain, .cheat-val, .q-opt, .hero p, .topic p, .q-num, ' +
-      '.tl-desc, .cmp-card p, .kw-card .kw-desc, .lec-title, ' +
-      '.fc-q, .fc-a, .q-score, .invest-desc, .why-wrong'
-    ).forEach(el => {
-      if (!el.closest('pre') && !el.closest('code') && !el.closest('.code-wrap')) {
-        if (el.hasAttribute('dir')) return;
-        if (el.parentElement && el.parentElement.closest('[dir="rtl"], [dir="ltr"]')) return;
-        el.setAttribute('dir', 'auto');
+    /* Any element containing Arabic should render RTL, even when the line starts
+       with an English technical term. Pure-English labels remain LTR. */
+    const ARABIC = /[\u0600-\u06FF]/;
+    const LATIN = /[A-Za-z]/;
+    const root = document.getElementById('main') || document.body;
+    const SKIP_SELECTOR = 'script, style, pre, code, .code-wrap, textarea, input, button';
+
+    root.querySelectorAll('*').forEach(el => {
+      if (el.matches(SKIP_SELECTOR) || el.closest(SKIP_SELECTOR)) return;
+
+      const directText = Array.from(el.childNodes)
+        .filter(node => node.nodeType === Node.TEXT_NODE)
+        .map(node => node.nodeValue)
+        .join(' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      if (!directText) return;
+
+      if (ARABIC.test(directText)) {
+        el.setAttribute('dir', 'rtl');
+      } else if (LATIN.test(directText)) {
+        el.setAttribute('dir', 'ltr');
       }
     });
 
@@ -170,7 +179,9 @@
   function wrapLatinRuns(root) {
     if (!root) return;
     const SKIP_TAGS = new Set(['SCRIPT','STYLE','PRE','CODE','BDI','TEXTAREA','INPUT','BUTTON']);
-    const LATIN_RUN = /[A-Za-z][A-Za-z0-9'\-_]*(?:[ \t][A-Za-z][A-Za-z0-9'\-_]*)*[.,;:!?)]?/g;
+    const PAREN_RUN = /\([^()]{1,120}\)/g;
+    const LATIN_RUN = /[A-Za-z][A-Za-z0-9'_\-]*(?:\([A-Za-z0-9+\-*/_. ]+\))?(?:[ \t][A-Za-z][A-Za-z0-9'_\-]*(?:\([A-Za-z0-9+\-*/_. ]+\))?)*[.,;:!?]?/g;
+    const FORMULA_RUN = /(?:[A-Za-z][A-Za-z0-9'_\-]*(?:\([A-Za-z0-9+\-*/_. ]+\))?|\d+)\s*(?:[=+\-−*/<>]\s*(?:[A-Za-z][A-Za-z0-9'_\-]*(?:\([A-Za-z0-9+\-*/_. ]+\))?|\d+(?:\([A-Za-z0-9+\-*/_. ]+\))?))+/g;
     const ARABIC = /[؀-ۿ]/;
 
     function inSkipAncestor(node) {
@@ -184,38 +195,108 @@
       return false;
     }
 
+    function hasRtlAncestor(node) {
+      let p = node.parentNode;
+      while (p && p !== root && p.nodeType === 1) {
+        if (p.getAttribute && p.getAttribute('dir') === 'rtl') return true;
+        p = p.parentNode;
+      }
+      return document.documentElement.dir === 'rtl';
+    }
+
+    function collectRuns(text) {
+      const runs = [];
+      const FORMULA_CONTEXT = /[A-Za-z0-9()=+\-−*/<>_.\s]/;
+      const FORMULA_SIGNAL = /[=+−*/<>]|(?:^|[\s\d])-(?=[\s\d])|\([A-Za-z0-9+\-*/_. ]+\)/;
+      const OPERATOR_SIGNAL = /[=+−*/<>]|(?:^|[\s\d])-(?=[\s\d])/;
+      function directionFor(value, fallback = 'ltr') {
+        const firstStrong = value.match(/[A-Za-z؀-ۿ]/);
+        if (!firstStrong) return fallback;
+        return ARABIC.test(firstStrong[0]) ? 'rtl' : 'ltr';
+      }
+
+      function pushMatches(regex, dirForMatch, kind = 'text') {
+        regex.lastIndex = 0;
+        let m;
+        while ((m = regex.exec(text)) !== null) {
+          if (!m[0]) { regex.lastIndex++; continue; }
+          runs.push({
+            start: m.index,
+            end: m.index + m[0].length,
+            dir: dirForMatch ? dirForMatch(m[0]) : 'ltr',
+            kind
+          });
+        }
+      }
+
+      function expandFormulaRun(run) {
+        if (run.kind === 'paren') return run;
+        const around = text.slice(Math.max(0, run.start - 2), Math.min(text.length, run.end + 2));
+        const current = text.slice(run.start, run.end);
+        if (!FORMULA_SIGNAL.test(current) && !OPERATOR_SIGNAL.test(around)) return run;
+
+        let start = run.start;
+        let end = run.end;
+        while (start > 0 && FORMULA_CONTEXT.test(text[start - 1])) start--;
+        while (end < text.length && FORMULA_CONTEXT.test(text[end])) end++;
+        while (start < end && /\s/.test(text[start])) start++;
+        while (end > start && /\s/.test(text[end - 1])) end--;
+        return { start, end, dir: run.dir, kind: run.kind };
+      }
+
+      pushMatches(PAREN_RUN, value => directionFor(value.slice(1, -1)), 'paren');
+      pushMatches(FORMULA_RUN, () => 'ltr', 'formula');
+      pushMatches(LATIN_RUN, () => 'ltr', 'latin');
+      const expandedRuns = runs.map(expandFormulaRun);
+      expandedRuns.sort((a, b) => a.start - b.start || b.end - a.end);
+
+      const merged = [];
+      for (const run of expandedRuns) {
+        const prev = merged[merged.length - 1];
+        if (!prev || run.start > prev.end) {
+          merged.push({ ...run });
+        } else if (run.end > prev.end) {
+          prev.end = run.end;
+          if (run.start < prev.start) prev.dir = run.dir;
+        }
+      }
+      return merged;
+    }
+
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
     const targets = [];
     let n;
     while ((n = walker.nextNode())) {
       const v = n.nodeValue;
       if (!v) continue;
-      /* Only wrap when text genuinely mixes Arabic + Latin in one node. */
-      if (!ARABIC.test(v) || !/[A-Za-z]/.test(v)) continue;
+      /* Wrap mixed Arabic/Latin text, parenthesized text, and formula-like text
+         inside RTL content. Parenthesis groups need isolation as a whole. */
+      if (!/[A-Za-z]/.test(v) && !(hasRtlAncestor(n) && /[()]/.test(v))) continue;
+      if (!ARABIC.test(v) && !(hasRtlAncestor(n) && /[()=+\-−*/<>]/.test(v))) continue;
       if (inSkipAncestor(n)) continue;
       targets.push(n);
     }
 
     for (const tn of targets) {
       const text = tn.nodeValue;
+      const runs = collectRuns(text);
+      if (!runs.length) continue;
       const frag = document.createDocumentFragment();
-      let last = 0, m;
-      LATIN_RUN.lastIndex = 0;
-      while ((m = LATIN_RUN.exec(text)) !== null) {
-        if (m[0].length === 0) { LATIN_RUN.lastIndex++; continue; }
-        if (m.index > last) {
-          frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+      let last = 0;
+      for (const run of runs) {
+        if (run.start > last) {
+          frag.appendChild(document.createTextNode(text.slice(last, run.start)));
         }
         const bdi = document.createElement('bdi');
-        bdi.setAttribute('dir', 'ltr');
-        bdi.textContent = m[0];
+        bdi.setAttribute('dir', run.dir);
+        bdi.textContent = text.slice(run.start, run.end);
         frag.appendChild(bdi);
-        last = m.index + m[0].length;
+        last = run.end;
       }
       if (last < text.length) {
         frag.appendChild(document.createTextNode(text.slice(last)));
       }
-      if (frag.childNodes.length) tn.parentNode.replaceChild(frag, tn);
+      tn.parentNode.replaceChild(frag, tn);
     }
   }
 
