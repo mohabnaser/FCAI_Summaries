@@ -72,7 +72,11 @@
         align-items: center;
         border-radius: 18px;
         margin-bottom: 18px;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
         border: 1px solid rgba(255, 255, 255, 0.03);
       }
       .hero h1 {
@@ -215,6 +219,26 @@
           min-height: 140px;
         }
       }
+      .ai-disclaimer {
+        margin: 28px 60px 0;
+        padding: 16px 18px;
+        border-radius: 10px;
+        border-inline-start: 3px solid var(--amber);
+        background: rgba(245, 158, 11, 0.09);
+        color: #fcd34d;
+        font-size: 0.9rem;
+        line-height: 1.7;
+      }
+      .ai-disclaimer strong {
+        font-family: var(--fh);
+        color: #fde68a;
+      }
+      @media (max-width: 700px) {
+        .ai-disclaimer {
+          margin: 20px 16px 0;
+          font-size: 0.84rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -224,7 +248,7 @@
     <main class="wrap">
       <section class="hero" aria-labelledby="home-title">
         <p>
-          <img src="1.png">
+          <img src="1.png" />
         </p>
       </section>
       <div class="grid">
@@ -268,6 +292,14 @@
     >
       <div style="margin-top: 8px; opacity: 0.9; font-size: 0.95rem">
         Created by Mohab Nasr, Yousef Mohsen, Alaa Okasha, Sayed Ashraf
+      </div>
+
+      <div class="ai-disclaimer" dir="rtl">
+        <strong>تنبيه مهم:</strong>
+        محتوى الموقع تم إنشاؤه وتنظيمه بمساعدة الذكاء الاصطناعي، وقد يحتوي على
+        أخطاء أو تبسيط زائد. استخدمه كأداة مراجعة ومساعدة، لكن لا تعتمد عليه
+        وحده أثناء المذاكرة. ارجع للمحاضرات الرسمية، السلايدز، ملاحظات الدكتور،
+        والمراجع المطلوبة للتأكد من أي معلومة مهمة.
       </div>
     </footer>
   </body>
