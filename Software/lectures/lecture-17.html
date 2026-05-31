@@ -1,10 +1,10 @@
 
-<html lang="ar" dir="auto">
+<html lang="ar" dir="rtl">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><bdi>Lecture 17</bdi> — <bdi>Version Control</bdi> & <bdi>Git</bdi> | <bdi>CS251</bdi></title>
+  <title>Lecture 17 — Version Control &amp; Git | CS251</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/styles.css">
   <style>
@@ -20,6 +20,9 @@
     }
 
     .version-text {
+      direction: ltr;
+      unicode-bidi: isolate;
+      text-align: center;
       font-size: 2rem;
       color: var(--cyan);
       font-weight: 700;
@@ -63,6 +66,7 @@
     }
 
     .vp-legend {
+      direction: ltr;
       display: flex;
       gap: 12px;
       justify-content: center;
@@ -70,13 +74,19 @@
       margin-top: 14px;
       font-size: .78rem;
       color: var(--t2);
-      flex-direction: row-reverse;
     }
 
     .vp-legend>div {
       display: flex;
       align-items: center;
       gap: 6px
+    }
+
+    .q-item.q-english .q-text,
+    .q-item.q-english .q-opt {
+      direction: ltr;
+      text-align: left;
+      unicode-bidi: isolate;
     }
 
     .vp-dot {
@@ -146,12 +156,13 @@
     /* Milestone table */
     .milestone-table .ms-row {
       display: grid;
-      grid-template-columns: 60px 1fr 1fr;
+      grid-template-columns: 70px minmax(180px, .7fr) 1fr;
       gap: 10px;
       align-items: center;
       padding: 8px;
       border-bottom: 1px solid var(--border);
-      font-size: .85rem
+      font-size: .85rem;
+      direction: rtl
     }
 
     .milestone-table .ms-row:last-child {
@@ -163,20 +174,28 @@
       font-size: 1.2rem;
       font-weight: 700;
       color: var(--accent);
-      text-align: center
+      text-align: center;
+      direction: ltr;
+      unicode-bidi: isolate
     }
 
     .milestone-table .ms-name {
       color: var(--t1);
-      font-family: var(--fh)
+      font-family: var(--fh);
+      direction: ltr;
+      text-align: left;
+      unicode-bidi: isolate
     }
 
     .milestone-table .ms-desc {
       color: var(--t2);
-      font-size: .8rem
+      font-size: .8rem;
+      direction: rtl;
+      text-align: right;
+      unicode-bidi: isolate
     }
 
-    /* ====== RTL/LTR mixed-content fix ====== */
+    /* ====== Page-specific bidi safety ====== */
     .topic p,
     .topic li,
     .ch-title p,
@@ -186,35 +205,26 @@
     .warn div,
     .danger div {
       direction: rtl;
-      text-align: right;
-      unicode-bidi: embed;
+      text-align: start;
+      unicode-bidi: isolate;
     }
 
     .code-wrap,
     .terminal,
     pre,
     code,
-    .tbl td,
-    .tbl th,
     .cheat-key,
-    .cheat-val,
-    .q-text,
-    .q-opt,
-    .q-num,
     .q-src,
     .ms-num,
-    .ms-name,
-    .ms-desc,
-    .git-stage-name,
     .git-stage-cmd,
+    .version-text,
     .vp-major,
     .vp-minor,
     .vp-milestone,
     .vp-revision,
     .vp-build {
       direction: ltr;
-      text-align: left;
-      unicode-bidi: embed;
+      unicode-bidi: isolate;
     }
   </style>
 </head>
@@ -251,7 +261,7 @@
   <button id="menu-btn">☰</button>
   <button id="scroll-top">↑</button>
 
-  <main id="main" dir="auto">
+  <main id="main" dir="rtl">
 
     <section class="hero">
       <div class="hero-badge">📦 <bdi>Lecture 17</bdi> · <bdi>SCM</bdi> & <bdi>Git</bdi></div>
@@ -483,7 +493,8 @@
 
         <div class="topic" style="--accent:var(--red)">
           <div class="topic-title"><span class="icon">🔢</span> <bdi>The Format</bdi></div>
-          <p><bdi>Standard format</bdi>: <strong><code><bdi>major.minor.milestone.revision-build</bdi></code></strong></p>
+          <p dir="rtl">الشكل القياسي للـ <bdi>version number</bdi> هو:
+            <strong><code>major.minor.milestone.revision-build</code></strong></p>
 
           <div class="version-parse">
             <div class="version-text">
@@ -542,33 +553,32 @@
 
         <div class="topic" style="--accent:var(--purple)">
           <div class="topic-title"><span class="icon">🧮</span> <bdi>Parsing Practice</bdi></div>
-          <p><bdi>Given</bdi>: <code>3.2.3.2</code> = ?</p>
+          <p dir="rtl">المعطى: <code>3.2.3.2</code> = ؟</p>
           <ul>
-            <li dir="rtl"><bdi>major</bdi> = 3 (الإصدار الأساسي التالت)</li>
-            <li dir="rtl"><bdi>minor</bdi> = 2 (تاني تحديث فرعي في <bdi>v3</bdi>)</li>
-            <li dir="rtl"><bdi>milestone</bdi> = 3 → <strong>يعني <bdi>Release Candidate</bdi> (<bdi>RC</bdi>)</strong></li>
-            <li dir="rtl"><bdi>revision</bdi> = 2 → <strong>تاني تصليح للـ <bdi>bugs</bdi> (<bdi>second bug-fix</bdi>)</strong></li>
+            <li dir="rtl">الـ <bdi>major</bdi> = <strong>3</strong>، يعني الإصدار الأساسي التالت.</li>
+            <li dir="rtl">الـ <bdi>minor</bdi> = <strong>2</strong>، يعني تاني تحديث فرعي في <bdi>v3</bdi>.</li>
+            <li dir="rtl">الـ <bdi>milestone</bdi> = <strong>3</strong>، يعني <bdi>Release Candidate</bdi> (<bdi>RC</bdi>).</li>
+            <li dir="rtl">الـ <bdi>revision</bdi> = <strong>2</strong>، يعني تاني تصليح للـ <bdi>bugs</bdi> (<bdi>second bug-fix</bdi>).</li>
           </ul>
           <div class="info">
-            <div><b>📌 <bdi>Fall 2021-22 Q1.12</bdi></b>"<bdi>Version 3.2.3.2 is what</bdi>?" = <strong><bdi>Second bug-fix release for the release
-                candidate of version 3.2</bdi></strong>. (<bdi>a</bdi>) <bdi>is the right answer.</bdi></div>
+            <div><b>📌 <bdi>Fall 2021-22 Q1.12</bdi></b> سؤال <bdi>"Version 3.2.3.2 is what?"</bdi> إجابته:
+              <strong><bdi>Second bug-fix release for the release candidate of version 3.2</bdi></strong>. الاختيار (<bdi>a</bdi>) هو الصح.</div>
           </div>
 
-          <p style="margin-top:14px"><bdi>Given</bdi>: <code>3.2.4.2</code> = ?</p>
+          <p style="margin-top:14px" dir="rtl">المعطى: <code>3.2.4.2</code> = ؟</p>
           <ul>
-            <li dir="rtl"><bdi>milestone</bdi> = 4 → <strong>يعني <bdi>Final Release</bdi></strong></li>
-            <li dir="rtl"><bdi>revision</bdi> = 2 → <strong>تاني تصليح للـ <bdi>bugs</bdi> (<bdi>second bug-fix</bdi>)</strong></li>
+            <li dir="rtl">الـ <bdi>milestone</bdi> = <strong>4</strong>، يعني <bdi>Final Release</bdi>.</li>
+            <li dir="rtl">الـ <bdi>revision</bdi> = <strong>2</strong>، يعني تاني تصليح للـ <bdi>bugs</bdi> (<bdi>second bug-fix</bdi>).</li>
           </ul>
           <div class="info">
-            <div><b>📌 <bdi>Winter 2021 Q1.12</bdi></b>"<bdi>Version 3.2.4.2 is what</bdi>?" = <strong><bdi>Second bug-fix release for the final
-                release of version 3.2</bdi></strong>.</div>
+            <div><b>📌 <bdi>Winter 2021 Q1.12</bdi></b> سؤال <bdi>"Version 3.2.4.2 is what?"</bdi> إجابته:
+              <strong><bdi>Second bug-fix release for the final release of version 3.2</bdi></strong>.</div>
           </div>
 
-          <p style="margin-top:14px"><bdi>Given</bdi>: <bdi>Fifth bug-fix of the</bdi> <strong><bdi>beta</bdi></strong> <bdi>version of</bdi> <strong><bdi>v2.3</bdi></strong>
-            = ?</p>
+          <p style="margin-top:14px" dir="rtl">المعطى: <bdi>Fifth bug-fix</bdi> للـ <strong><bdi>beta</bdi></strong> من <strong><bdi>v2.3</bdi></strong> = ؟</p>
           <ul>
-            <li dir="rtl">عشان <bdi>beta</bdi> → يبقى <bdi>milestone</bdi> = <strong>2</strong></li>
-            <li dir="rtl">عشان <bdi>fifth bug-fix</bdi> → يبقى <bdi>revision</bdi> = <strong>5</strong></li>
+            <li dir="rtl">عشان هي <bdi>beta</bdi>، يبقى الـ <bdi>milestone</bdi> = <strong>2</strong>.</li>
+            <li dir="rtl">عشان هو <bdi>fifth bug-fix</bdi>، يبقى الـ <bdi>revision</bdi> = <strong>5</strong>.</li>
             <li dir="rtl">الشكل النهائي هيبقى: <code>2.3.2.5</code> (وممكن يتحط <bdi>build</bdi> اختياري في الآخر زي <code>-33</code>)</li>
           </ul>
           <div class="info">
@@ -986,24 +996,25 @@ git log --pretty</bdi>=<bdi>full</bdi></code></pre>
         </div>
 
         
-        <div class="q-item" data-correct="c">
+        <div class="q-item q-english" data-correct="c">
           <div class="q-num">Question 7 <span class="q-src">Winter 2025 · Q1.09</span></div>
-          <div class="q-text">Version numbering: <code>major.minor.milestone.revision-build</code>. Milestone:
-            0=pre-alpha, 1=alpha, 2=beta, 3=RC, 4=final. Which is the <strong>fifth bug fix of the beta version of
-              v2.3</strong>?</div>
+          <div class="q-text" dir="ltr">Version numbering uses the format:
+            <code>major.minor.milestone.revision-build</code>.
+            Milestone values are: <bdi>0=pre-alpha</bdi>, <bdi>1=alpha</bdi>, <bdi>2=beta</bdi>, <bdi>3=RC</bdi>, <bdi>4=final</bdi>.
+            Which option represents the <strong>fifth bug-fix of the beta version of v2.3</strong>?</div>
           <div class="q-opts">
-            <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 2.3.5.2-121</div>
-            <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2.3.beta.5-132</div>
-            <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 2.3.2.5-33</div>
-            <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 2.3.2-5</div>
+            <div class="q-opt" dir="ltr" data-val="a"><span class="q-opt-letter">A</span> 2.3.5.2-121</div>
+            <div class="q-opt" dir="ltr" data-val="b"><span class="q-opt-letter">B</span> 2.3.beta.5-132</div>
+            <div class="q-opt" dir="ltr" data-val="c"><span class="q-opt-letter">C</span> 2.3.2.5-33</div>
+            <div class="q-opt" dir="ltr" data-val="d"><span class="q-opt-letter">D</span> 2.3.2-5</div>
           </div>
           <div class="q-explain">
             <b>✅ الإجابة الصح: C — 2.3.2.5-33</b>
             <ul style="margin-top:6px">
-              <li dir="rtl">v2.3 → major=2, minor=3</li>
-              <li dir="rtl">beta → milestone=<strong>2</strong></li>
-              <li dir="rtl">خامس bug fix → revision=<strong>5</strong></li>
-              <li dir="rtl">رقم الـ Build اختياري (33 ده مجرد build ID)</li>
+              <li dir="rtl"><code>v2.3</code> يعني <bdi>major=2</bdi> و <bdi>minor=3</bdi>.</li>
+              <li dir="rtl"><bdi>beta</bdi> يعني <bdi>milestone=2</bdi>.</li>
+              <li dir="rtl">خامس <bdi>bug-fix</bdi> يعني <bdi>revision=5</bdi>.</li>
+              <li dir="rtl">رقم الـ <bdi>build</bdi> اختياري؛ هنا <code>33</code> مجرد <bdi>build ID</bdi>.</li>
             </ul>
           </div>
         </div>
