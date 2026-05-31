@@ -14,7 +14,7 @@
   .sus-num{font-family:var(--fc);font-size:.78rem;color:var(--cyan);text-align:center;background:rgba(0,212,255,.08);border-radius:4px;padding:4px 0}
   .sus-num.even{color:var(--amber);background:rgba(245,158,11,.08)}
   .sus-q{color:var(--t2)}
-  .sus-input{width:70px;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--t1);font-family:var(--fc);font-size:.88rem;text-align:center}
+  .sus-input{width:70px;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--t1);font-family:var(--fc);font-size:.88rem;text-align:center;direction:ltr}
   .sus-result{margin-top:16px;padding:18px;background:linear-gradient(135deg,rgba(0,212,255,.08),rgba(139,92,246,.08));border:1px solid var(--cyan);border-radius:12px;text-align:center}
   .sus-result-score{font-family:var(--fh);font-size:3rem;font-weight:800;color:var(--cyan);line-height:1}
   .sus-result-label{font-family:var(--fh);font-size:1rem;font-weight:600;margin-top:6px}
@@ -62,7 +62,7 @@
   .bad-design-desc{font-size:.85rem;color:var(--t2);line-height:1.5}
 
   /* Rating scale */
-  .scale-vis{display:flex;align-items:center;gap:4px;margin:6px 0;font-family:var(--fc);font-size:.75rem}
+  .scale-vis{display:flex;align-items:center;gap:4px;margin:6px 0;font-family:var(--fc);font-size:.75rem;direction:ltr}
   .scale-box{flex:1;height:30px;background:linear-gradient(90deg,var(--red) 0%,var(--amber) 50%,var(--green) 100%);border-radius:5px;position:relative}
   .scale-marker{position:absolute;top:-20px;font-size:.7rem;color:var(--t3);transform:translateX(-50%)}
 </style>
@@ -103,13 +103,13 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main" dir="auto">
+<main id="main" dir="rtl">
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-badge">🎨 Lecture 07 · UI = الصورة اللي بيشوفها اليوزر</div>
   <h1>UI Design, Usability &amp; <span>Accessibility</span></h1>
-  <p>كيف نقيس جودة الـ UI؟ <strong>SUS scoring</strong>، <strong>Nielsen's 10 heuristics</strong>، <strong>POUR accessibility</strong>. أهم lecture في الـ Winter 2025 (4+ MCQs).</p>
+  <p>إزاي نقيس جودة الـ <bdi>UI</bdi>؟ باستخدام <strong><bdi>SUS scoring</bdi></strong>، و <strong><bdi>Nielsen's 10 heuristics</bdi></strong>، و <strong><bdi>POUR accessibility</bdi></strong>. دي من أهم المحاضرات في <bdi>Winter 2025</bdi> (4+ <bdi>MCQs</bdi>).</p>
   <div class="btn-row">
     <a href="../index.html" class="btn btn-ghost">← All Lectures</a>
     <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
@@ -132,7 +132,7 @@
     <div class="ch-num red">01</div>
     <div class="ch-title">
       <h2>Examples of Bad Designs</h2>
-      <p>قبل ما نتعلم الصح، خلينا نشوف الغلط. الـ doctor بيدي 7 أمثلة من الواقع.</p>
+      <p>قبل ما نتعلم الصح، خلينا نشوف الغلط. الدكتور بيدي 7 أمثلة من الواقع.</p>
     </div>
   </div>
 
@@ -141,12 +141,12 @@
 
     <div class="bad-design">
       <div class="bad-design-title">1. Inconsistent Doors (Push vs Pull)</div>
-      <div class="bad-design-desc">بابين شكلهم شبه بعض، واحد للـ push والتاني للـ pull، والـ user لازم يجرب علشان يعرف — وده بيعمل مشكلة في الـ <em>consistency</em>.</div>
+      <div class="bad-design-desc">بابين شكلهم شبه بعض، واحد <bdi>push</bdi> والتاني <bdi>pull</bdi>، والـ <bdi>user</bdi> لازم يجرب علشان يعرف. دي مشكلة في الـ <em><bdi>consistency</bdi></em>.</div>
     </div>
 
     <div class="bad-design">
       <div class="bad-design-title">2. Stove Knobs (Poor Layout)</div>
-      <div class="bad-design-desc">4 burners في مربع لكن الـ knobs في صف أفقي. مش واضح أي knob يتحكم في أي burner. <strong>Mapping problem</strong>.</div>
+      <div class="bad-design-desc">4 <bdi>burners</bdi> في مربع لكن الـ <bdi>knobs</bdi> في صف أفقي. مش واضح أي <bdi>knob</bdi> يتحكم في أي <bdi>burner</bdi>. دي <strong><bdi>Mapping problem</bdi></strong>.</div>
     </div>
 
     <div class="bad-design">
@@ -161,21 +161,21 @@
 
     <div class="bad-design">
       <div class="bad-design-title">5. NY Times Homepage 2012 (Cluttered)</div>
-      <div class="bad-design-desc">معلومات كتيرة جداً في صفحة واحدة. الـ user مش عارف يبدأ منين. <strong>Cognitive overload</strong>.</div>
+      <div class="bad-design-desc">معلومات كتيرة جداً في صفحة واحدة. الـ <bdi>user</bdi> مش عارف يبدأ منين. دي <strong><bdi>Cognitive overload</bdi></strong>.</div>
     </div>
 
     <div class="bad-design">
       <div class="bad-design-title">6. Door with "PULL" written on push-style handle</div>
-      <div class="bad-design-desc">الـ handle شكلها بيقول "اضغط"، بس مكتوب عليها <strong>PULL</strong> بقلم. <em>Contradicting affordances</em> — التصميم بيتحدى نفسه.</div>
+      <div class="bad-design-desc">الـ <bdi>handle</bdi> شكلها بيقول "اضغط"، بس مكتوب عليها <strong><bdi>PULL</bdi></strong> بقلم. دي <em><bdi>Contradicting affordances</bdi></em>، يعني التصميم بيتحدى نفسه.</div>
     </div>
 
     <div class="bad-design">
       <div class="bad-design-title">7. "Invalid password format" (No Help)</div>
-      <div class="bad-design-desc">الـ system بيقول الـ password غلط بس <strong>ما بيقولش الـ format المطلوب</strong>. الـ user مش عارف يصلح ايه.</div>
+      <div class="bad-design-desc">الـ <bdi>system</bdi> بيقول إن الـ <bdi>password</bdi> غلط، لكنه <strong>ما بيقولش الـ <bdi>format</bdi> المطلوب</strong>. الـ <bdi>user</bdi> مش عارف يصلح إيه.</div>
     </div>
   </div>
 
-  <div class="info"><div><b>💡 الخلاصة</b>Bad UI = الـ user محتاج يفكر كتير، يحفظ تفاصيل، أو يجرب. Good UI = الـ system بيقول للـ user ايه يعمل وايه حصل بوضوح.</div></div>
+  <div class="info"><div><b>💡 الخلاصة</b><bdi>Bad UI</bdi> = الـ <bdi>user</bdi> محتاج يفكر كتير، يحفظ تفاصيل، أو يجرب. <bdi>Good UI</bdi> = الـ <bdi>system</bdi> بيقول للـ <bdi>user</bdi> يعمل إيه وإيه اللي حصل بوضوح.</div></div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════
@@ -186,7 +186,7 @@
     <div class="ch-num blue">02</div>
     <div class="ch-title">
       <h2>Usability — 3 Pillars</h2>
-      <p>التعريف الـ ISO الرسمي + الـ 3 معايير (Effectiveness, Efficiency, Satisfaction).</p>
+      <p>التعريف الرسمي من <bdi>ISO</bdi> + الـ 3 معايير: <span dir="ltr">Effectiveness, Efficiency, Satisfaction</span>.</p>
     </div>
   </div>
 
@@ -205,22 +205,22 @@
   <div class="grid3">
     <div class="topic" style="--accent:var(--green)">
       <div class="topic-title"><span class="icon">🎯</span> Effectiveness</div>
-      <p>الـ degree اللي بيها الـ system بيحقق غرضه — هل الـ user يقدر يخلص المهمة بنجاح؟</p>
-      <p><strong>مثال:</strong> Banking app — هل الـ user قدر يحوّل فلوس بدون مساعدة؟ نعم → effective.</p>
+      <p>درجة قدرة الـ <bdi>system</bdi> على تحقيق غرضه: هل الـ <bdi>user</bdi> يقدر يخلص المهمة بنجاح؟</p>
+      <p><strong>مثال:</strong> <bdi>Banking app</bdi> — هل الـ <bdi>user</bdi> قدر يحوّل فلوس بدون مساعدة؟ نعم → <bdi>effective</bdi>.</p>
     </div>
     <div class="topic" style="--accent:var(--amber)">
       <div class="topic-title"><span class="icon">⚡</span> Efficiency</div>
-      <p>كم بسرعة وكم بمجهود قليل الـ user يخلص المهمة؟</p>
-      <p><strong>مثال:</strong> Banking app — تحويل فلوس في 2 clicks أحسن من 10 clicks. الـ 2 clicks أكتر efficient.</p>
+      <p>الـ <bdi>user</bdi> بيخلص المهمة بسرعة قد إيه وبمجهود قليل قد إيه؟</p>
+      <p><strong>مثال:</strong> <bdi>Banking app</bdi> — تحويل فلوس في 2 <bdi>clicks</bdi> أحسن من 10 <bdi>clicks</bdi>. الـ 2 <bdi>clicks</bdi> أكتر <bdi>efficient</bdi>.</p>
     </div>
     <div class="topic" style="--accent:var(--purple)">
       <div class="topic-title"><span class="icon">😊</span> Satisfaction</div>
-      <p>الـ degree اللي بيها الـ user مبسوط من التجربة. تقيس بالـ feedback أو surveys.</p>
-      <p><strong>مثال:</strong> Intuitive, جميل بصرياً, easy to navigate → الـ user راضي.</p>
+      <p>درجة رضا الـ <bdi>user</bdi> عن التجربة. بتتقاس بالـ <bdi>feedback</bdi> أو <bdi>surveys</bdi>.</p>
+      <p><strong>مثال:</strong> لو التطبيق <bdi>intuitive</bdi>، جميل بصرياً، و <bdi>easy to navigate</bdi> → الـ <bdi>user</bdi> راضي.</p>
     </div>
   </div>
 
-  <div class="warn"><div><b>📌 ملحوظة</b>الـ 3 معايير دي مختلفة. ممكن app يكون <em>effective</em> (بيخلص الشغل) بس <em>not efficient</em> (بياخد وقت) و <em>not satisfying</em> (UI وحش). الـ goal: <strong>الـ 3 مع بعض</strong>.</div></div>
+  <div class="warn"><div><b>📌 ملحوظة</b> الـ 3 معايير دي مختلفة. ممكن <bdi>app</bdi> يكون <em><bdi>effective</bdi></em> (بيخلص الشغل) بس <em><bdi>not efficient</bdi></em> (بياخد وقت) و <em><bdi>not satisfying</bdi></em> (الـ <bdi>UI</bdi> وحش). الهدف: <strong>الـ 3 مع بعض</strong>.</div></div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════
@@ -231,22 +231,22 @@
     <div class="ch-num green">03</div>
     <div class="ch-title">
       <h2>Why Usability Matters</h2>
-      <p>دور المطور · Common pitfalls · Business impact.</p>
+      <p>دور المطور · <bdi>Common pitfalls</bdi> · <bdi>Business impact</bdi>.</p>
     </div>
   </div>
 
   <div class="grid3">
     <div class="topic" style="--accent:var(--cyan)">
       <div class="topic-title"><span class="icon">👤</span> User-Centered Design</div>
-      <p>تصميم software يتوافق مع <strong>احتياجات وتوقعات المستخدمين</strong>.</p>
+      <p>تصميم <bdi>software</bdi> يتوافق مع <strong>احتياجات وتوقعات المستخدمين</strong>.</p>
     </div>
     <div class="topic" style="--accent:var(--green)">
       <div class="topic-title"><span class="icon">💼</span> Business Impact</div>
-      <p>Usability وحشة → users غير راضين → زيادة support costs → معدل تبني أقل.</p>
+      <p><bdi>Usability</bdi> وحشة → <bdi>users</bdi> غير راضين → زيادة <bdi>support costs</bdi> → معدل تبني أقل.</p>
     </div>
     <div class="topic" style="--accent:var(--amber)">
       <div class="topic-title"><span class="icon">🏆</span> Competitive Advantage</div>
-      <p>Usable software → user satisfaction أعلى → retention أعلى → نجاح في السوق.</p>
+      <p><bdi>Usable software</bdi> → <bdi>user satisfaction</bdi> أعلى → <bdi>retention</bdi> أعلى → نجاح في السوق.</p>
     </div>
   </div>
 
@@ -254,9 +254,9 @@
   <div class="topic" style="--accent:var(--purple)">
     <div class="topic-title"><span class="icon">👨‍💻</span> دور المطور في الـ Usability</div>
     <ul>
-      <li><strong>Involvement in Design</strong> — Developers participate <em>early</em> in design phase to integrate usability from start.</li>
-      <li><strong>Collaboration with Designers</strong> — Work with UX/UI designers لـ alignment بين technical &amp; UX goals.</li>
-      <li><strong>Iterative Development</strong> — تحسينات in cycles + continuous user feedback &amp; testing.</li>
+      <li><strong><bdi>Involvement in Design</bdi></strong> — الـ <bdi>Developers</bdi> يشاركوا بدري في مرحلة التصميم عشان يدمجوا الـ <bdi>usability</bdi> من البداية.</li>
+      <li><strong><bdi>Collaboration with Designers</bdi></strong> — التعاون مع <bdi>UX/UI designers</bdi> عشان يحصل <bdi>alignment</bdi> بين الأهداف التقنية وأهداف <bdi>UX</bdi>.</li>
+      <li><strong><bdi>Iterative Development</bdi></strong> — تحسينات على مراحل مع <bdi>continuous user feedback</bdi> و <bdi>testing</bdi>.</li>
     </ul>
   </div>
 
@@ -264,13 +264,13 @@
   <div class="topic" style="--accent:var(--red)">
     <div class="topic-title"><span class="icon">⚠️</span> Common Usability Pitfalls</div>
     <table class="tbl">
-      <tr><th>الـ Pitfall</th><th>الـ description</th></tr>
-      <tr><td><strong>Feature Creep</strong></td><td>إضافة features كتيرة بدون داعي → الـ interface مزدحم</td></tr>
-      <tr><td><strong>Ignoring User Feedback</strong></td><td>إهمال احتياجات وسلوكيات الـ users الحقيقيين</td></tr>
+      <tr><th>الـ <bdi>Pitfall</bdi></th><th>الـ <bdi>description</bdi></th></tr>
+      <tr><td><strong><bdi>Feature Creep</bdi></strong></td><td>إضافة <bdi>features</bdi> كتيرة بدون داعي → الـ <bdi>interface</bdi> مزدحم</td></tr>
+      <tr><td><strong><bdi>Ignoring User Feedback</bdi></strong></td><td>إهمال احتياجات وسلوكيات الـ <bdi>users</bdi> الحقيقيين</td></tr>
       <tr><td><strong>Overcomplicating Interfaces</strong></td><td>تصميمات معقدة جداً</td></tr>
-      <tr><td><strong>Lack of Testing</strong></td><td>الاعتماد على افتراضات الـ developers بدون validation</td></tr>
+      <tr><td><strong><bdi>Lack of Testing</bdi></strong></td><td>الاعتماد على افتراضات الـ <bdi>developers</bdi> بدون <bdi>validation</bdi></td></tr>
     </table>
-    <div class="danger"><div><b>😂 مثال مرعب</b>"Advanced Volume Control" — 100 radio button (1-100) بدل slider. مثال كلاسيكي لـ <em>terrible UI</em>.</div></div>
+    <div class="danger"><div><b>😂 مثال مرعب</b><bdi>Advanced Volume Control</bdi> — 100 <bdi>radio buttons</bdi> من 1 لـ 100 بدل <bdi>slider</bdi>. مثال كلاسيكي لـ <em><bdi>terrible UI</bdi></em>.</div></div>
   </div>
 </div>
 
@@ -282,23 +282,23 @@
     <div class="ch-num purple">04</div>
     <div class="ch-title">
       <h2>System Usability Scale (SUS) ⭐</h2>
-      <p>أهم metric في الـ usability. <strong>Winter 2025 Q1.16</strong> سأل عن حساب SUS — هتقدر تحسبها بإذن الله.</p>
+      <p>أهم <bdi>metric</bdi> في الـ <bdi>usability</bdi>. سؤال <strong><bdi>Winter 2025 Q1.16</bdi></strong> كان عن حساب <bdi>SUS</bdi>، وهتعرف تحسبه هنا.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">📊</span> What is SUS?</div>
     <ul>
-      <li>Standardized questionnaire لقياس الـ usability.</li>
-      <li>Developed by <strong>John Brooke</strong> in <strong>1986</strong>.</li>
-      <li>الأكثر استخداماً في الـ UX research.</li>
-      <li><strong>10 questions</strong>، تقييم من 1 (Strongly Disagree) لـ 5 (Strongly Agree).</li>
+      <li><bdi>Standardized questionnaire</bdi> لقياس الـ <bdi>usability</bdi>.</li>
+      <li>طوّره <strong><bdi>John Brooke</bdi></strong> سنة <strong>1986</strong>.</li>
+      <li>الأكثر استخداماً في <bdi>UX research</bdi>.</li>
+      <li><strong>10 <bdi>questions</bdi></strong>، تقييم من 1 (<bdi>Strongly Disagree</bdi>) لـ 5 (<bdi>Strongly Agree</bdi>).</li>
     </ul>
   </div>
 
   <!-- The 10 questions -->
   <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">📝</span> الـ 10 أسئلة (Odd = positive, Even = negative)</div>
+    <div class="topic-title"><span class="icon">📝</span> الـ 10 أسئلة (<bdi>Odd = positive</bdi>, <bdi>Even = negative</bdi>)</div>
     <table class="tbl">
       <tr><th>#</th><th>Question</th><th>Type</th></tr>
       <tr><td>1</td><td>I think I would like to use this system frequently</td><td><span class="badge badge-green">+</span></td></tr>
@@ -352,7 +352,7 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
   <!-- SUS Calculator -->
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">🧮</span> SUS Interactive Calculator</div>
-    <p>جرب احسب SUS من ردود مستخدم واحد. الأرقام من 1 (strongly disagree) لـ 5 (strongly agree):</p>
+    <p>جرب تحسب <bdi>SUS</bdi> من ردود مستخدم واحد. الأرقام من 1 (<bdi>strongly disagree</bdi>) لـ 5 (<bdi>strongly agree</bdi>):</p>
     <div class="sus-calc" id="sus-calc">
       <div class="sus-row"><div class="sus-num">Q1+</div><div class="sus-q">I would use it frequently</div><input type="number" min="1" max="5" value="4" class="sus-input" data-q="1"></div>
       <div class="sus-row"><div class="sus-num even">Q2−</div><div class="sus-q">Unnecessarily complex</div><input type="number" min="1" max="5" value="2" class="sus-input" data-q="2"></div>
@@ -375,7 +375,7 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
         <div style="font-size:.78rem;color:var(--t3);margin-top:8px" id="sus-detail"></div>
       </div>
     </div>
-    <div class="warn"><div><b>📌 Winter 2025 Q1.16</b>القيم الـ default في الـ calculator فوق هي نفس قيم الـ exam question. اضغط Calculate وشوف الإجابة بنفسك: <strong>85</strong>.</div></div>
+    <div class="warn"><div><b>📌 <bdi>Winter 2025 Q1.16</bdi></b> القيم الـ <bdi>default</bdi> في الـ <bdi>calculator</bdi> فوق هي نفس قيم سؤال الامتحان. اضغط <bdi>Calculate</bdi> وشوف الإجابة بنفسك: <strong>85</strong>.</div></div>
   </div>
 
   <!-- Pros & Cons -->
@@ -383,16 +383,16 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
     <div class="topic" style="--accent:var(--green)">
       <div class="topic-title"><span class="icon">✅</span> SUS Pros</div>
       <ul>
-        <li>Quick &amp; easy — دقايق قليلة.</li>
-        <li>Standardized and reliable.</li>
-        <li>Widely accepted.</li>
+        <li><bdi>Quick &amp; easy</bdi> — دقايق قليلة.</li>
+        <li><bdi>Standardized and reliable</bdi>.</li>
+        <li><bdi>Widely accepted</bdi>.</li>
       </ul>
     </div>
     <div class="topic" style="--accent:var(--red)">
       <div class="topic-title"><span class="icon">❌</span> SUS Limitations</div>
       <ul>
-        <li><strong>Subjective</strong> — based on perceptions, influenced by mood/experience.</li>
-        <li><strong>Limited Granularity</strong> — single score بدون تفاصيل عن المشاكل المحددة.</li>
+        <li><strong><bdi>Subjective</bdi></strong> — مبني على الإدراك الشخصي، وممكن يتأثر بالمزاج أو الخبرة.</li>
+        <li><strong><bdi>Limited Granularity</bdi></strong> — <bdi>single score</bdi> بدون تفاصيل عن المشاكل المحددة.</li>
       </ul>
     </div>
   </div>
@@ -406,12 +406,12 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
     <div class="ch-num teal">05</div>
     <div class="ch-title">
       <h2>UMUX — Usability Metric for User Experience</h2>
-      <p>الـ "shorter SUS" — 4 أسئلة بس بدل 10. مفيد للـ rapid prototyping.</p>
+      <p>ده شبه <bdi>shorter SUS</bdi>: 4 أسئلة بس بدل 10. مفيد للـ <bdi>rapid prototyping</bdi>.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--teal)">
-    <div class="topic-title"><span class="icon">⚡</span> الـ 4 أسئلة (scale 1-7)</div>
+    <div class="topic-title"><span class="icon">⚡</span> الـ 4 أسئلة (<bdi>scale 1-7</bdi>)</div>
     <ol>
       <li>[This system's] <strong>capabilities</strong> meet my requirements.</li>
       <li>Using [this system] is a <strong>frustrating experience</strong>.</li>
@@ -423,9 +423,9 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
   <div class="topic" style="--accent:var(--green)">
     <div class="topic-title"><span class="icon">🏆</span> UMUX Advantages</div>
     <ul>
-      <li>أقصر من SUS (4 vs 10 أسئلة).</li>
-      <li><strong>Strong correlation with SUS</strong> — لو SUS هتطلع كذا، UMUX هتطلع زيها تقريباً.</li>
-      <li><strong>Easy &amp; quick</strong> — مثالي للـ rapid prototyping أو early-stage testing.</li>
+      <li>أقصر من <bdi>SUS</bdi> (4 بدل 10 أسئلة).</li>
+      <li><strong><bdi>Strong correlation with SUS</bdi></strong> — لو <bdi>SUS</bdi> هتطلع كذا، <bdi>UMUX</bdi> غالباً هتطلع قريبة منها.</li>
+      <li><strong><bdi>Easy &amp; quick</bdi></strong> — مثالي للـ <bdi>rapid prototyping</bdi> أو <bdi>early-stage testing</bdi>.</li>
     </ul>
   </div>
 </div>
@@ -438,7 +438,7 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
     <div class="ch-num pink">06</div>
     <div class="ch-title">
       <h2>Nielsen's 10 Usability Heuristics ⭐</h2>
-      <p>Jakob Nielsen 1994. الـ 10 guidelines الأشهر لتقييم الـ UI. لازم تحفظهم بأمثلة.</p>
+      <p><bdi>Jakob Nielsen</bdi> سنة 1994. دي أشهر 10 <bdi>guidelines</bdi> لتقييم الـ <bdi>UI</bdi>، ولازم تحفظهم بأمثلة.</p>
     </div>
   </div>
 
@@ -446,66 +446,66 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
     <div class="h-card">
       <div class="h-num">H1</div>
       <div class="h-name">👁️ Visibility of System Status</div>
-      <div class="h-desc">النظام دايماً بيـ <strong>keep users informed</strong> عن اللي بيحصل، بـ feedback مناسب وفي وقت معقول. <em>مثال: progress bar للـ download.</em></div>
+      <div class="h-desc">النظام دايماً لازم <strong><bdi>keep users informed</bdi></strong> عن اللي بيحصل، باستخدام <bdi>feedback</bdi> مناسب وفي وقت معقول. <em>مثال: <bdi>progress bar</bdi> للـ <bdi>download</bdi>.</em></div>
     </div>
 
     <div class="h-card">
       <div class="h-num">H2</div>
       <div class="h-name">🌍 Match Between System and Real World</div>
-      <div class="h-desc">استخدم لغة المستخدم — كلمات وأفكار <strong>مألوفة</strong>. <em>مثال: iOS Compass app بيشبه الـ compass الحقيقي.</em></div>
+      <div class="h-desc">استخدم لغة المستخدم: كلمات وأفكار <strong>مألوفة</strong>. <em>مثال: <bdi>iOS Compass app</bdi> بيشبه الـ <bdi>compass</bdi> الحقيقي.</em></div>
     </div>
 
     <div class="h-card">
       <div class="h-num">H3</div>
       <div class="h-name">🔄 User Control and Freedom</div>
-      <div class="h-desc">يقدر الـ user يـ <strong>undo / redo</strong>، يخرج، أو يلغي. <em>مثال: confirmation قبل actions مهمة + recovery للملفات المحذوفة.</em></div>
+      <div class="h-desc">لازم الـ <bdi>user</bdi> يقدر يعمل <strong><bdi>undo / redo</bdi></strong>، يخرج، أو يلغي. <em>مثال: <bdi>confirmation</bdi> قبل <bdi>actions</bdi> مهمة + <bdi>recovery</bdi> للملفات المحذوفة.</em></div>
     </div>
 
     <div class="h-card">
       <div class="h-num">H4</div>
       <div class="h-name">📏 Consistency and Standards</div>
-      <div class="h-desc">نفس الـ terminology, layout, behavior في كل المنصة. <em>مثال: 🔍 magnifying glass عالمياً = search.</em></div>
+      <div class="h-desc">نفس الـ <bdi>terminology</bdi> و <bdi>layout</bdi> و <bdi>behavior</bdi> في كل المنصة. <em>مثال: 🔍 <bdi>magnifying glass</bdi> عالمياً = <bdi>search</bdi>.</em></div>
     </div>
 
     <div class="h-card">
       <div class="h-num">H5</div>
       <div class="h-name">🛡️ Error Prevention</div>
-      <div class="h-desc">منع المشاكل قبل ما تحصل أفضل من error messages بعدها. <em>مثال: Ryanair بيعطّل الـ destinations اللي مفيش فيها رحلات.</em></div>
+      <div class="h-desc">منع المشاكل قبل ما تحصل أفضل من <bdi>error messages</bdi> بعدها. <em>مثال: <bdi>Ryanair</bdi> بيعطّل الـ <bdi>destinations</bdi> اللي مفيش فيها رحلات.</em></div>
     </div>
 
     <div class="h-card">
       <div class="h-num">H6</div>
       <div class="h-name">👀 Recognition Rather Than Recall</div>
-      <div class="h-desc">قلل الـ memory load — اعمل الـ objects والـ options <strong>مرئية</strong> بدل ما الـ user يحفظ. <em>مثال: dropdown menus بدل ما الـ user يحفظ commands.</em></div>
+      <div class="h-desc">قلل الـ <bdi>memory load</bdi>: خلي الـ <bdi>objects</bdi> والـ <bdi>options</bdi> <strong>مرئية</strong> بدل ما الـ <bdi>user</bdi> يحفظ. <em>مثال: <bdi>dropdown menus</bdi> بدل ما الـ <bdi>user</bdi> يحفظ <bdi>commands</bdi>.</em></div>
     </div>
 
     <div class="h-card">
       <div class="h-num">H7</div>
       <div class="h-name">⚡ Flexibility and Efficiency of Use</div>
-      <div class="h-desc">دعم الـ novice والـ expert users — shortcuts, customizations, accelerators. <em>مثال: Amazon filters للـ power users.</em></div>
+      <div class="h-desc">ادعم الـ <bdi>novice</bdi> والـ <bdi>expert users</bdi>: <bdi>shortcuts</bdi>، <bdi>customizations</bdi>، <bdi>accelerators</bdi>. <em>مثال: <bdi>Amazon filters</bdi> للـ <bdi>power users</bdi>.</em></div>
     </div>
 
     <div class="h-card">
       <div class="h-num">H8</div>
       <div class="h-name">🎨 Aesthetic and Minimalist Design</div>
-      <div class="h-desc">ما تحطش معلومات غير ضرورية. كل وحدة معلومة بتتنافس مع الباقي. <em>مثال: Google Maps بيركز على الخريطة، الـ UI controls صغيرة.</em></div>
+      <div class="h-desc">ما تحطش معلومات غير ضرورية. كل معلومة بتتنافس مع الباقي. <em>مثال: <bdi>Google Maps</bdi> بيركز على الخريطة، والـ <bdi>UI controls</bdi> صغيرة.</em></div>
     </div>
 
     <div class="h-card">
       <div class="h-num">H9</div>
       <div class="h-name">🚨 Help Recognize, Diagnose, Recover from Errors</div>
-      <div class="h-desc">Error messages تكون <strong>clear, helpful, تعطي حلول</strong>. لغة بسيطة. <em>مثال: IKEA بيقول "Password needs 8 chars + uppercase + number".</em></div>
+      <div class="h-desc">الـ <bdi>Error messages</bdi> لازم تكون <strong>واضحة، مفيدة، وتدي حلول</strong>. <em>مثال: <bdi>IKEA</bdi> بيقول: <bdi>Password needs 8 chars + uppercase + number</bdi>.</em></div>
     </div>
 
     <div class="h-card">
       <div class="h-num">H10</div>
       <div class="h-name">📚 Help and Documentation</div>
-      <div class="h-desc">حتى لو الـ system سهل، الـ help لازم تكون <strong>متاحة بسهولة</strong>. <em>مثال: Airbnb Support section في الـ Profile tab.</em></div>
+      <div class="h-desc">حتى لو الـ <bdi>system</bdi> سهل، الـ <bdi>help</bdi> لازم تكون <strong>متاحة بسهولة</strong>. <em>مثال: <bdi>Airbnb Support section</bdi> في <bdi>Profile tab</bdi>.</em></div>
     </div>
   </div>
 
   <div class="info">
-    <div><b>📌 Winter 2025 Q1.17</b>السؤال بيدي 4 icons (bell with badge, shopping cart, step indicator, battery level) ويسأل أيهم بيظهر <strong>system status</strong>. الإجابة: <strong>All four</strong> — كلهم بيعرضوا status (notifications, items in cart, current step, battery level).</div>
+    <div><b>📌 <bdi>Winter 2025 Q1.17</bdi></b> السؤال بيدي 4 <bdi>icons</bdi> (<bdi>bell with badge</bdi>, <bdi>shopping cart</bdi>, <bdi>step indicator</bdi>, <bdi>battery level</bdi>) ويسأل أيهم بيظهر <strong><bdi>system status</bdi></strong>. الإجابة: <strong><bdi>All four</bdi></strong> — كلهم بيعرضوا <bdi>status</bdi>.</div>
   </div>
 </div>
 
@@ -517,7 +517,7 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
     <div class="ch-num cyan blue">07</div>
     <div class="ch-title">
       <h2>Accessibility — Definition (ISO)</h2>
-      <p>الفرق بين Usability و Accessibility: Usability = users محددين. Accessibility = <strong>أوسع نطاق ممكن</strong>.</p>
+      <p>الفرق بين <bdi>Usability</bdi> و <bdi>Accessibility</bdi>: الـ <bdi>Usability</bdi> بتتكلم عن <bdi>specified users</bdi>، لكن الـ <bdi>Accessibility</bdi> تستهدف <strong>أوسع نطاق ممكن</strong>.</p>
     </div>
   </div>
 
@@ -529,19 +529,19 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
         <br><em style="color:var(--t3);font-size:.85rem">— ISO</em>
       </div>
     </div>
-    <div class="warn"><div><b>📌 Winter 2025 Q1.18</b>الـ definition دي بالظبط هي السؤال. الكلمة المفتاحية: "<strong>widest range of characteristics and capabilities</strong>". الإجابة: <strong>Accessibility</strong>.</div></div>
+    <div class="warn"><div><b>📌 <bdi>Winter 2025 Q1.18</bdi></b> الـ <bdi>definition</bdi> دي بالظبط هي السؤال. الكلمة المفتاحية: <strong><bdi>widest range of characteristics and capabilities</bdi></strong>. الإجابة: <strong><bdi>Accessibility</bdi></strong>.</div></div>
   </div>
 
   <div class="grid2">
     <div class="topic" style="--accent:var(--cyan)">
       <div class="topic-title"><span class="icon">🎯</span> Usability</div>
       <p>Targeting <strong>specified users</strong> in a <strong>specified context</strong>.</p>
-      <p>مثال: app لمحاسبين الشركات — الـ usability بتقيس قد ايه المحاسبين بيستخدموه بسهولة.</p>
+      <p>مثال: <bdi>app</bdi> لمحاسبين الشركات — الـ <bdi>usability</bdi> بتقيس قد إيه المحاسبين بيستخدموه بسهولة.</p>
     </div>
     <div class="topic" style="--accent:var(--green)">
       <div class="topic-title"><span class="icon">🌍</span> Accessibility</div>
-      <p>Targeting <strong>widest range</strong> من الـ users — بمختلف القدرات والظروف.</p>
-      <p>مثال: نفس الـ app — هل يقدر أعمى يستخدمه بـ screen reader؟ هل يقدر من معاه إعاقة حركية يستخدمه بكيبورد بس؟</p>
+      <p>استهداف <strong><bdi>widest range</bdi></strong> من الـ <bdi>users</bdi> بمختلف القدرات والظروف.</p>
+      <p>مثال: نفس الـ <bdi>app</bdi> — هل يقدر أعمى يستخدمه بـ <bdi>screen reader</bdi>؟ هل يقدر شخص عنده إعاقة حركية يستخدمه بكيبورد بس؟</p>
     </div>
   </div>
 </div>
@@ -554,59 +554,59 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
     <div class="ch-num amber">08</div>
     <div class="ch-title">
       <h2>POUR — 4 Legal Requirements ⭐</h2>
-      <p>الـ Accessibility Regulations 2018 (UK Public Sector). 4 شروط للموقع/التطبيق يبقى accessible.</p>
+      <p><bdi>Accessibility Regulations 2018</bdi> في <bdi>UK Public Sector</bdi>: 4 شروط عشان الموقع أو التطبيق يبقى <bdi>accessible</bdi>.</p>
     </div>
   </div>
 
   <div class="pour-grid">
     <div class="pour-tile"><div class="pour-letter">P</div><div class="pour-word">Perceivable</div><div class="pour-desc">المعلومات قابلة للإدراك بالحواس</div></div>
-    <div class="pour-tile"><div class="pour-letter">O</div><div class="pour-word">Operable</div><div class="pour-desc">الـ interface قابل للتشغيل</div></div>
+    <div class="pour-tile"><div class="pour-letter">O</div><div class="pour-word">Operable</div><div class="pour-desc">الـ <bdi>interface</bdi> قابل للتشغيل</div></div>
     <div class="pour-tile"><div class="pour-letter">U</div><div class="pour-word">Understandable</div><div class="pour-desc">المحتوى مفهوم وواضح</div></div>
-    <div class="pour-tile"><div class="pour-letter">R</div><div class="pour-word">Robust</div><div class="pour-desc">متوافق مع technologies المساعدة</div></div>
+    <div class="pour-tile"><div class="pour-letter">R</div><div class="pour-word">Robust</div><div class="pour-desc">متوافق مع <bdi>assistive technologies</bdi></div></div>
   </div>
 
   <!-- Perceivable -->
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">👁️</span> P — Perceivable</div>
-    <p>المعلومات والـ UI components لازم تكون <strong>قابلة للإدراك</strong> بالحواس (بصر، سمع، لمس) بغض النظر عن قدرات المستخدم.</p>
+    <p>المعلومات والـ <bdi>UI components</bdi> لازم تكون <strong>قابلة للإدراك</strong> بالحواس (بصر، سمع، لمس) بغض النظر عن قدرات المستخدم.</p>
     <ul>
-      <li><strong>Text Alternatives</strong> — كل image تكون عندها <code>alt</code> tag للـ screen readers.
+      <li><strong><bdi>Text Alternatives</bdi></strong> — كل <bdi>image</bdi> تكون عندها <code>alt</code> tag للـ <bdi>screen readers</bdi>.
         <br><code>&lt;img src="search.png" alt="Search button"&gt;</code></li>
-      <li><strong>Color Contrast</strong> — high contrast بين النص والخلفية لـ color-blind users.</li>
-      <li><strong>Audio Content</strong> — captions أو transcripts للـ video/audio للـ deaf/hard-of-hearing.</li>
+      <li><strong><bdi>Color Contrast</bdi></strong> — <bdi>high contrast</bdi> بين النص والخلفية لـ <bdi>color-blind users</bdi>.</li>
+      <li><strong><bdi>Audio Content</bdi></strong> — <bdi>captions</bdi> أو <bdi>transcripts</bdi> للـ <bdi>video/audio</bdi> للـ <bdi>deaf/hard-of-hearing</bdi>.</li>
     </ul>
   </div>
 
   <!-- Operable -->
   <div class="topic" style="--accent:var(--green)">
     <div class="topic-title"><span class="icon">⌨️</span> O — Operable</div>
-    <p>الـ interface لازم تكون <strong>قابلة للتشغيل</strong> بمختلف وسائل الإدخال (keyboard, mouse, touch, voice).</p>
+    <p>الـ <bdi>interface</bdi> لازم تكون <strong>قابلة للتشغيل</strong> بمختلف وسائل الإدخال: <span dir="ltr">keyboard, mouse, touch, voice</span>.</p>
     <ul>
-      <li><strong>Keyboard Accessibility</strong> — كل function متاحة بالـ keyboard (Tab + Enter).</li>
-      <li><strong>Touchscreen Support</strong> — buttons كبيرة كفاية و spaced للـ motor impairments.</li>
-      <li><strong>Avoid Time Limits</strong> — أو provide خيار لتمديدهم.</li>
+      <li><strong><bdi>Keyboard Accessibility</bdi></strong> — كل <bdi>function</bdi> متاحة بالـ <bdi>keyboard</bdi> (<bdi>Tab + Enter</bdi>).</li>
+      <li><strong><bdi>Touchscreen Support</bdi></strong> — <bdi>buttons</bdi> كبيرة كفاية ومتباعدة للـ <bdi>motor impairments</bdi>.</li>
+      <li><strong><bdi>Avoid Time Limits</bdi></strong> — أو وفر خيار لتمديد الوقت.</li>
     </ul>
   </div>
 
   <!-- Understandable -->
   <div class="topic" style="--accent:var(--amber)">
     <div class="topic-title"><span class="icon">🧠</span> U — Understandable</div>
-    <p>المحتوى والتشغيل لازم يكونوا <strong>واضحين وسهل فهمهم</strong> — حتى للـ cognitive disabilities أو الـ limited tech knowledge.</p>
+    <p>المحتوى والتشغيل لازم يكونوا <strong>واضحين وسهل فهمهم</strong>، حتى للـ <bdi>cognitive disabilities</bdi> أو أصحاب <bdi>limited tech knowledge</bdi>.</p>
     <ul>
-      <li><strong>Easy Language</strong> — "Enter your email" بدل "Please provide your contact information".</li>
-      <li><strong>Predictable Navigation</strong> — الـ menu في نفس المكان على كل صفحة.</li>
-      <li><strong>Form Field Labels</strong> — كل field عنده label واضح.</li>
+      <li><strong><bdi>Easy Language</bdi></strong> — <bdi>Enter your email</bdi> بدل <bdi>Please provide your contact information</bdi>.</li>
+      <li><strong><bdi>Predictable Navigation</bdi></strong> — الـ <bdi>menu</bdi> في نفس المكان على كل صفحة.</li>
+      <li><strong><bdi>Form Field Labels</bdi></strong> — كل <bdi>field</bdi> عنده <bdi>label</bdi> واضح.</li>
     </ul>
   </div>
 
   <!-- Robust -->
   <div class="topic" style="--accent:var(--purple)">
     <div class="topic-title"><span class="icon">💪</span> R — Robust</div>
-    <p>الـ system لازم يكون <strong>متوافق مع مختلف assistive technologies</strong> (screen readers, voice recognition).</p>
+    <p>الـ <bdi>system</bdi> لازم يكون <strong>متوافق مع مختلف <bdi>assistive technologies</bdi></strong> مثل <bdi>screen readers</bdi> و <bdi>voice recognition</bdi>.</p>
     <ul>
-      <li>يشتغل على desktop وmobile.</li>
-      <li>يدعم browsers مختلفة.</li>
-      <li>يشتغل مع JAWS, NVDA, VoiceOver.</li>
+      <li>يشتغل على <bdi>desktop</bdi> و <bdi>mobile</bdi>.</li>
+      <li>يدعم <bdi>browsers</bdi> مختلفة.</li>
+      <li>يشتغل مع <span dir="ltr">JAWS, NVDA, VoiceOver</span>.</li>
     </ul>
   </div>
 </div>
@@ -619,12 +619,12 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
     <div class="ch-num purple">09</div>
     <div class="ch-title">
       <h2>Inclusive Computing</h2>
-      <p>Design technology لـ أوسع نطاق ممكن من الناس. <strong>15% of global population</strong> = 1 billion people.</p>
+      <p>تصميم <bdi>technology</bdi> لأوسع نطاق ممكن من الناس. <strong><bdi>15% of global population</bdi></strong> = 1 مليار شخص.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">🌐</span> 6 أبعاد الـ Inclusion</div>
+    <div class="topic-title"><span class="icon">🌐</span> 6 أبعاد الـ <bdi>Inclusion</bdi></div>
     <div class="grid3">
       <div class="cmp-card" style="--accent:var(--cyan)"><h4>🧠 Cognitive</h4><p>Dyslexia, learning disabilities</p></div>
       <div class="cmp-card" style="--accent:var(--green)"><h4>👁️ Sensory</h4><p>Vision, hearing impairments</p></div>
@@ -638,9 +638,9 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">💡</span> Why Does It Matter?</div>
     <ul>
-      <li><strong>15% of global population</strong> = some form of disability.</li>
-      <li>لو الـ tech مش inclusive = <strong>1 billion people</strong> can't access our tools.</li>
-      <li>Inclusivity → better innovation. لما تصمّم للجميع، بتدفع حدود الـ tech.</li>
+      <li><strong><bdi>15% of global population</bdi></strong> عندهم شكل من أشكال الإعاقة.</li>
+      <li>لو الـ <bdi>tech</bdi> مش <bdi>inclusive</bdi> = <strong>1 مليار شخص</strong> مش هيعرفوا يستخدموا أدواتنا.</li>
+      <li><bdi>Inclusivity</bdi> → <bdi>better innovation</bdi>. لما تصمّم للجميع، بتدفع حدود الـ <bdi>tech</bdi>.</li>
     </ul>
     <div class="info"><div><b>Tim Berners-Lee (inventor of the Web):</b> "Power of the web is in its <strong>universality</strong>. Access by everyone, regardless of disability, is an <strong>essential aspect</strong>."</div></div>
   </div>
@@ -650,20 +650,20 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
     <div class="topic" style="--accent:var(--green)">
       <div class="topic-title"><span class="icon">🎤</span> Case Study #1: Google's Project Euphonia</div>
       <ul>
-        <li>الـ Speech recognition systems trained on "standard" speech.</li>
-        <li>الناس مع speech impairments ما تقدرش تستفيد.</li>
-        <li>Project Euphonia بيدرّب AI على <strong>non-standard speech</strong>.</li>
-        <li>بيحسّن قدرة الـ voice recognition للـ accessibility.</li>
+        <li>الـ <bdi>Speech recognition systems</bdi> غالباً بتتدرب على <bdi>standard speech</bdi>.</li>
+        <li>الناس اللي عندهم <bdi>speech impairments</bdi> ما يقدروش يستفيدوا كويس.</li>
+        <li><bdi>Project Euphonia</bdi> بيدرّب <bdi>AI</bdi> على <strong><bdi>non-standard speech</bdi></strong>.</li>
+        <li>بيحسّن قدرة الـ <bdi>voice recognition</bdi> لدعم الـ <bdi>accessibility</bdi>.</li>
       </ul>
     </div>
 
     <div class="topic" style="--accent:var(--red)">
       <div class="topic-title"><span class="icon">⚖️</span> Case Study #2: Domino's Pizza (2019)</div>
       <ul>
-        <li><strong>Guillermo Robles</strong> — أعمى، ما قدرش يستخدم Domino's website/app بـ screen reader.</li>
-        <li>Domino's: حجتها إن الـ ADA (1990) ما بتغطيش الـ internet.</li>
-        <li><strong>U.S. Supreme Court</strong>: رفض الحجة. الـ ADA <strong>applies to digital platforms</strong>.</li>
-        <li><strong>الدرس:</strong> Digital accessibility = <strong>legal requirement</strong> not optional.</li>
+        <li><strong><bdi>Guillermo Robles</bdi></strong> — أعمى، ما قدرش يستخدم <bdi>Domino's website/app</bdi> بـ <bdi>screen reader</bdi>.</li>
+        <li><bdi>Domino's</bdi>: حجتها إن قانون <bdi>ADA (1990)</bdi> ما بيغطيش الإنترنت.</li>
+        <li><strong><bdi>U.S. Supreme Court</bdi></strong>: رفضت الحجة. الـ <bdi>ADA</bdi> <strong><bdi>applies to digital platforms</bdi></strong>.</li>
+        <li><strong>الدرس:</strong> الـ <bdi>Digital accessibility</bdi> = <strong><bdi>legal requirement</bdi></strong> مش اختيار.</li>
       </ul>
     </div>
   </div>
@@ -672,11 +672,11 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">🏢</span> Microsoft Inclusive Design Toolkit — 3 Principles</div>
     <ol>
-      <li><strong>Recognize Exclusion</strong> — اعرف الـ bias والـ exclusions اللي بتحصل بسبب mismatch بين الناس والتجربة.</li>
-      <li><strong>Learn from Diversity</strong> — Inclusive Design بيحط الناس في المركز. perspectives متنوعة = insights حقيقية.</li>
-      <li><strong>Solve for One, Extend to Many</strong> — تصميم للـ permanent disabilities بينتج حلول تنفع الجميع.</li>
+      <li><strong><bdi>Recognize Exclusion</bdi></strong> — اعرف الـ <bdi>bias</bdi> والـ <bdi>exclusions</bdi> اللي بتحصل بسبب <bdi>mismatch</bdi> بين الناس والتجربة.</li>
+      <li><strong><bdi>Learn from Diversity</bdi></strong> — الـ <bdi>Inclusive Design</bdi> بيحط الناس في المركز. <bdi>perspectives</bdi> متنوعة = <bdi>insights</bdi> حقيقية.</li>
+      <li><strong><bdi>Solve for One, Extend to Many</bdi></strong> — التصميم للـ <bdi>permanent disabilities</bdi> بينتج حلول تنفع الجميع.</li>
     </ol>
-    <div class="tip"><div><b>💡 مثال "Solve for One, Extend to Many"</b><strong>Curb cuts</strong> (الـ dropped curb في الشوارع) اتعملت أصلاً للـ wheelchair users، لكن دلوقتي بتفيد: stroller users, cyclists, luggage rollers, everyone.</div></div>
+    <div class="tip"><div><b>💡 مثال <bdi>Solve for One, Extend to Many</bdi></b><strong><bdi>Curb cuts</bdi></strong> (الـ <bdi>dropped curb</bdi> في الشوارع) اتعملت أصلاً للـ <bdi>wheelchair users</bdi>، لكنها دلوقتي بتفيد <span dir="ltr">stroller users, cyclists, luggage rollers, everyone</span>.</div></div>
   </div>
 
   <!-- Essential features -->
@@ -700,7 +700,7 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
     <div class="quiz-icon">🎯</div>
     <div>
       <h3>Exam Question Bank — Lecture 7</h3>
-      <p>8 أسئلة من الـ امتحانات الحقيقية. SUS, Nielsen, Accessibility كلهم متكررين.</p>
+      <p>8 أسئلة من الامتحانات الحقيقية. <span dir="ltr">SUS, Nielsen, Accessibility</span> كلهم متكررين.</p>
     </div>
   </div>
 
@@ -715,12 +715,12 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
       <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Unclear what actions the user can take</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: B — Uninformative error message</b>
-      "This is an error message" ما بتقولش <em>ايه</em> الـ error ولا <em>كيف</em> تصلحه. ده violation لـ H9 (Help users recover from errors).
+      <b>✅ الإجابة الصح: B — <bdi>Uninformative error message</bdi></b>
+      <bdi>This is an error message</bdi> ما بتقولش <em>إيه</em> الـ <bdi>error</bdi> ولا <em>إزاي</em> تصلحه. ده <bdi>violation</bdi> لـ <bdi>H9</bdi> (<bdi>Help users recover from errors</bdi>).
       <div class="why-wrong">
-        <strong>A</strong> — الـ dialog فيه element واحد، مش cluttered. ·
+        <strong>A</strong> — الـ <bdi>dialog</bdi> فيه <bdi>element</bdi> واحد، مش <bdi>cluttered</bdi>. ·
         <strong>C</strong> — الألوان عادية. ·
-        <strong>D</strong> — في OK button، الـ action واضح.
+        <strong>D</strong> — فيه <bdi>OK button</bdi>، فالـ <bdi>action</bdi> واضح.
       </div>
     </div>
   </div>
@@ -737,13 +737,13 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
       <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Ensure users can always get out, go back, cancel or undo actions</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: E — User can't cancel/go back</b>
-      ده violation مباشر لـ <strong>Nielsen H3 (User Control and Freedom)</strong>. لو الـ user دخل بالغلط ومش عايز يحفظ تاريخ، مفيش طريقة يلغي.
+      <b>✅ الإجابة الصح: E — <bdi>User can't cancel/go back</bdi></b>
+      ده <bdi>violation</bdi> مباشر لـ <strong><bdi>Nielsen H3 (User Control and Freedom)</bdi></strong>. لو الـ <bdi>user</bdi> دخل بالغلط ومش عايز يحفظ تاريخ، مفيش طريقة يلغي.
       <div class="why-wrong">
-        <strong>A</strong> — الـ encoding (date) واضح. ·
-        <strong>B</strong> — الـ dialog consistent مع باقي Material Design. ·
+        <strong>A</strong> — الـ <bdi>encoding</bdi> للتاريخ واضح. ·
+        <strong>B</strong> — الـ <bdi>dialog</bdi> متسق مع باقي <bdi>Material Design</bdi>. ·
         <strong>C</strong> — مش عن مساعدة. ·
-        <strong>D</strong> — الـ user يعرف يضغط DONE.
+        <strong>D</strong> — الـ <bdi>user</bdi> يعرف يضغط <bdi>DONE</bdi>.
       </div>
     </div>
   </div>
@@ -759,12 +759,12 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
       <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Implementing animations and transitions for a smoother user experience</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: C — Universal icons/symbols</b>
-      "Understandable encoding" = استخدام رموز <strong>عالمياً معروفة</strong> (🔍 search, ⚙️ settings, 🔔 notification). ده مرتبط بـ <strong>Nielsen H2 (Match Between System and Real World)</strong>.
+      <b>✅ الإجابة الصح: C — <bdi>Universal icons/symbols</bdi></b>
+      <bdi>Understandable encoding</bdi> = استخدام رموز <strong>عالمياً معروفة</strong> مثل 🔍 <bdi>search</bdi>، ⚙️ <bdi>settings</bdi>، 🔔 <bdi>notification</bdi>. ده مرتبط بـ <strong><bdi>Nielsen H2 (Match Between System and Real World)</bdi></strong>.
       <div class="why-wrong">
-        <strong>A</strong> — Visual appeal مهم بس مش "encoding". ·
-        <strong>B</strong> — Hierarchy عن الـ layout مش الـ symbols. ·
-        <strong>D</strong> — Animations عن الـ smoothness مش encoding.
+        <strong>A</strong> — الـ <bdi>Visual appeal</bdi> مهم، لكنه مش <bdi>encoding</bdi>. ·
+        <strong>B</strong> — الـ <bdi>Hierarchy</bdi> تخص الـ <bdi>layout</bdi> مش الـ <bdi>symbols</bdi>. ·
+        <strong>D</strong> — الـ <bdi>Animations</bdi> تخص الـ <bdi>smoothness</bdi> مش <bdi>encoding</bdi>.
       </div>
     </div>
   </div>
@@ -782,15 +782,15 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
       <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 34 — Poor usability</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: A — 85 (Excellent)</b>
+      <b>✅ الإجابة الصح: A — <bdi>85 (Excellent)</bdi></b>
       <strong>Odd questions (Q1, Q3, Q5, Q7, Q9):</strong> response − 1
       <br>= (4−1) + (5−1) + (4−1) + (5−1) + (5−1) = 3+4+3+4+4 = <strong>18</strong>
       <br><br><strong>Even questions (Q2, Q4, Q6, Q8, Q10):</strong> 5 − response
       <br>= (5−2) + (5−2) + (5−2) + (5−2) + (5−1) = 3+3+3+3+4 = <strong>16</strong>
       <br><br><strong>Sum = 34. × 2.5 = 85.</strong>
-      <br><br>الـ score &gt; 80.3 → grade A → Excellent.
+      <br><br>الـ <bdi>score</bdi> &gt; 80.3 → <bdi>grade A</bdi> → <bdi>Excellent</bdi>.
       <div class="why-wrong">
-        <strong>D (34)</strong> — ده هو الـ sum قبل × 2.5. لو نسيت تضرب في 2.5، هتختار D. ·
+        <strong>D (34)</strong> — ده هو الـ <bdi>sum</bdi> قبل × 2.5. لو نسيت تضرب في 2.5، هتختار D. ·
         <strong>B, C</strong> — أرقام عشوائية.
       </div>
     </div>
@@ -812,15 +812,15 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
       <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All four</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: D — All four</b>
-      كلهم بيعرضوا status:
+      <b>✅ الإجابة الصح: D — <bdi>All four</bdi></b>
+      كلهم بيعرضوا <bdi>status</bdi>:
       <ul style="margin-top:6px;padding-inline-start:22px">
-        <li><strong>Bell + badge</strong> — كم unread notification.</li>
-        <li><strong>Cart count</strong> — كم item في الـ cart.</li>
-        <li><strong>Step indicator</strong> — احنا في أي خطوة من الـ flow.</li>
+        <li><strong><bdi>Bell + badge</bdi></strong> — عدد الـ <bdi>unread notifications</bdi>.</li>
+        <li><strong><bdi>Cart count</bdi></strong> — عدد الـ <bdi>items</bdi> في الـ <bdi>cart</bdi>.</li>
+        <li><strong><bdi>Step indicator</bdi></strong> — احنا في أي خطوة من الـ <bdi>flow</bdi>.</li>
         <li><strong>Battery</strong> — مستوى البطارية الحالي.</li>
       </ul>
-      كلهم تطبيق لـ <strong>Nielsen H1 (Visibility of System Status)</strong>.
+      كلهم تطبيق لـ <strong><bdi>Nielsen H1 (Visibility of System Status)</bdi></strong>.
     </div>
   </div>
 
@@ -835,12 +835,12 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
       <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Efficiency</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: C — Accessibility</b>
-      الكلمة المفتاحية في الـ definition: <strong>"widest range of characteristics and capabilities"</strong>. ده هو تعريف الـ Accessibility الـ ISO.
+      <b>✅ الإجابة الصح: C — <bdi>Accessibility</bdi></b>
+      الكلمة المفتاحية في الـ <bdi>definition</bdi>: <strong><bdi>widest range of characteristics and capabilities</bdi></strong>. ده هو تعريف <bdi>Accessibility</bdi> في <bdi>ISO</bdi>.
       <div class="why-wrong">
-        <strong>A (Usability)</strong> — Usability بتتكلم عن <em>specified users</em>، مش الـ widest range. ·
-        <strong>B (Satisfaction)</strong> — جزء من الـ usability فقط. ·
-        <strong>D (Efficiency)</strong> — جزء من الـ usability فقط.
+        <strong>A (<bdi>Usability</bdi>)</strong> — <bdi>Usability</bdi> بتتكلم عن <em><bdi>specified users</bdi></em>، مش <bdi>widest range</bdi>. ·
+        <strong>B (<bdi>Satisfaction</bdi>)</strong> — جزء من الـ <bdi>usability</bdi> فقط. ·
+        <strong>D (<bdi>Efficiency</bdi>)</strong> — جزء من الـ <bdi>usability</bdi> فقط.
       </div>
     </div>
   </div>
@@ -862,11 +862,11 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: D</b>
-      الـ design (d) عنده:
+      الـ <bdi>design (d)</bdi> عنده:
       <ul style="margin-top:6px;padding-inline-start:22px">
-        <li><strong>Home + Cancel + Next</strong> = user can exit, undo, or proceed (User Control &amp; Freedom).</li>
-        <li><strong>Universal icons</strong> for date, class, passengers (Understandable encoding).</li>
-        <li><strong>Clean layout</strong> with separated sections (Uncluttered).</li>
+        <li><strong><bdi>Home + Cancel + Next</bdi></strong> = الـ <bdi>user</bdi> يقدر يخرج، يلغي، أو يكمل (<bdi>User Control &amp; Freedom</bdi>).</li>
+        <li><strong><bdi>Universal icons</bdi></strong> للتاريخ والدرجة والركاب (<bdi>Understandable encoding</bdi>).</li>
+        <li><strong><bdi>Clean layout</bdi></strong> بأقسام منفصلة (<bdi>Uncluttered</bdi>).</li>
       </ul>
     </div>
   </div>
@@ -882,12 +882,12 @@ SUS = (sum of all converted values) × <span class="num">2.5</span></code></pre>
       <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> H8 — Aesthetic and Minimalist Design</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: B — Consistency and Standards</b>
-      الـ position الثابت للـ icon عبر الـ pages = <strong>consistency</strong>. الـ user بيتعلم مكانه ويتوقعه في كل صفحة.
+      <b>✅ الإجابة الصح: B — <bdi>Consistency and Standards</bdi></b>
+      الـ <bdi>position</bdi> الثابت للـ <bdi>icon</bdi> عبر الـ <bdi>pages</bdi> = <strong><bdi>consistency</bdi></strong>. الـ <bdi>user</bdi> بيتعلم مكانه ويتوقعه في كل صفحة.
       <div class="why-wrong">
-        <strong>A</strong> — Status عن إظهار حالة النظام (cart count) — مش مكان الـ icon. ·
-        <strong>C</strong> — Recognition عن إن الـ user يقدر يعرف الـ icon بدون ما يحفظ. close بس مش الأفضل. ·
-        <strong>D</strong> — Aesthetic عن minimalism، مش consistency.
+        <strong>A</strong> — الـ <bdi>Status</bdi> عن إظهار حالة النظام مثل <bdi>cart count</bdi>، مش مكان الـ <bdi>icon</bdi>. ·
+        <strong>C</strong> — الـ <bdi>Recognition</bdi> عن إن الـ <bdi>user</bdi> يقدر يعرف الـ <bdi>icon</bdi> بدون حفظ. قريب، لكنه مش الأفضل. ·
+        <strong>D</strong> — الـ <bdi>Aesthetic</bdi> عن <bdi>minimalism</bdi>، مش <bdi>consistency</bdi>.
       </div>
     </div>
   </div>
