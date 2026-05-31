@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><bdi>Lecture 19</bdi> — <bdi>Software Economics</bdi> | <bdi>CS251</bdi></title>
+<title>Lecture 19 — Software Economics | CS251</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
@@ -32,6 +32,9 @@
 
   /* code block ltr */
   .codeblk{background:#0a0e14;border:1px solid #21262d;border-radius:10px;padding:14px 18px;margin:10px 0;font-family:var(--fc);font-size:.82rem;line-height:1.6;color:#c9d1d9;direction:ltr;overflow-x:auto;white-space:pre}
+  .q-text,.q-opts{direction:ltr;text-align:left}
+  .q-explain{direction:rtl;text-align:right}
+  .cheat-key{direction:ltr;text-align:left}
 </style>
 </head>
 <body>
@@ -71,12 +74,12 @@
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 
-<main id="main" dir="auto">
+<main id="main" dir="rtl">
 
 <section class="hero">
   <div class="hero-badge">💰 <bdi>Lecture 19</bdi> · <bdi>Software Economics</bdi></div>
   <h1><bdi>Software</bdi> <span><bdi>Economics</bdi></span></h1>
-  <p>الجانب الاقتصادي والقانوني للـ <bdi>software</bdi>: قيمة وتكلفة المشروع · <bdi>Intellectual Property</bdi> & <bdi>licensing</bdi> · <bdi>business models</bdi> · ازاي نقدّر الـ <bdi>cost</bdi> والـ <bdi>effort.</bdi> ده الـ <bdi>pillar</bdi> الأخير من أعمدة الـ <bdi>SWEBOK.</bdi></p>
+  <p>الجانب الاقتصادي والقانوني للـ <bdi>software</bdi>: قيمة وتكلفة المشروع · <span dir="ltr">Intellectual Property &amp; licensing</span> · <bdi>business models</bdi> · ازاي نقدّر الـ <bdi>cost</bdi> والـ <bdi>effort</bdi>. ده الـ <bdi>pillar</bdi> الأخير من أعمدة الـ <bdi>SWEBOK</bdi>.</p>
   <div class="btn-row">
     <a href="../index.html" class="btn btn-ghost">← <bdi>All Lectures</bdi></a>
     <a href="#quiz" class="btn btn-primary">🎯 <bdi>Practice Quiz</bdi></a>
@@ -103,13 +106,13 @@
     </div>
   </div>
 
-  <div class="info"><div><b>📍 إحنا فين دلوقتي؟</b> <bdi>Software Economics</bdi> هو آخر <strong><bdi>support pillar</bdi></strong> جنب <bdi>Process Management</bdi> · <bdi>Project Management</bdi> · <bdi>Configuration Management</bdi> · <bdi>Quality Assurance</bdi> · <bdi>Professional Ethics.</bdi> بيشتغل بالطول على كل مراحل المشروع (<bdi>Requirements</bdi> → <bdi>Test</bdi>).</div></div>
+  <div class="info"><div><b>📍 إحنا فين دلوقتي؟</b> <bdi>Software Economics</bdi> هو آخر <strong><bdi>support pillar</bdi></strong> جنب <span dir="ltr">Process Management · Project Management · Configuration Management · Quality Assurance · Professional Ethics</span>. بيشتغل بالطول على كل مراحل المشروع (<span dir="ltr">Requirements → Test</span>).</div></div>
 
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">⚖️</span> <bdi>1. Fundamentals of Value</bdi> & <bdi>Cost</bdi></div>
     <ul style="font-size:.88rem">
       <li><strong><bdi>Value vs. Cost</bdi></strong> — الـ <bdi>software</bdi> عبارة عن <bdi>investment</bdi>؛ الـ <strong><bdi>utility</bdi> (الفايدة) لازم تكون أكبر من الـ <bdi>effort</bdi></strong> (المجهود/التكلفة). لو مش هيرجّع قيمة أكبر من تكلفته، مش يستاهل.</li>
-      <li><strong><bdi>Opportunity Cost</bdi></strong> — القيمة اللي بتخسرها لما تختار مشروع وتسيب التاني. لو شغّلت الفريق على مشروع <bdi>A</bdi>، فـ اللي كان ممكن تكسبه من مشروع <bdi>B</bdi> ده هو الـ <bdi>opportunity cost.</bdi></li>
+      <li><strong><bdi>Opportunity Cost</bdi></strong> — القيمة اللي بتخسرها لما تختار مشروع وتسيب التاني. لو شغّلت الفريق على مشروع <bdi>A</bdi>، فـ اللي كان ممكن تكسبه من مشروع <bdi>B</bdi> ده هو الـ <bdi>opportunity cost</bdi>.</li>
       <li><strong><bdi>Risk</bdi> & <bdi>Uncertainty</bdi></strong> — إدارة التأثير المالي للـ <bdi>technical unknowns</bdi> (الحاجات اللي لسه مش متأكدين منها تقنياً).</li>
     </ul>
   </div>
@@ -165,7 +168,7 @@
       </div>
       <div class="lic-card" style="--accent:var(--amber)">
         <h4>📜 <bdi>Patents</bdi></h4>
-        <ul><li>بتحمي الاختراعات التقنية الـ <strong><bdi>novel</bdi></strong> و الـ <strong><bdi>non-obvious</bdi></strong> <bdi>+ software processes.</bdi></li><li>شروط: <strong><bdi>Novelty</bdi></strong> + <strong><bdi>Usefulness</bdi></strong> + <strong><bdi>Non-obviousness</bdi></strong>.</li></ul>
+        <ul><li>بتحمي الاختراعات التقنية الـ <strong><bdi>novel</bdi></strong> و الـ <strong><bdi>non-obvious</bdi></strong> + <bdi>software processes</bdi>.</li><li>شروطها: <span dir="ltr">Novelty + Usefulness + Non-obviousness</span>.</li></ul>
       </div>
       <div class="lic-card" style="--accent:var(--green)">
         <h4>™ <bdi>Trademarks</bdi></h4>
@@ -189,7 +192,7 @@
     <div class="warn"><div><b>⚠️ التحديات</b> الـ <bdi>patents</bdi> فيها <strong><bdi>legal complexity</bdi></strong> + تكلفة عالية + <strong><bdi>patent trolling</bdi></strong> (هنشوفه في <bdi>Ch3</bdi>).</div></div>
   </div>
 
-  <div class="info"><div><b>📌 تذكرة من <bdi>Lec 19</bdi> (<bdi>Software Economics</bdi>)</b> قضية <strong><bdi>Oracle v. Google</bdi></strong> هي اللي <em><bdi>blurred the line</bdi></em> بين الكود الـ <bdi>functional</bdi> والـ <bdi>creative.</bdi> هنفصّلها في <bdi>Ch4</bdi> — وهي مهمة جداً لفهم إن الـ <bdi>APIs</bdi> ممكن تتنسخ <bdi>legally</bdi> تحت <bdi>fair use.</bdi></div></div>
+  <div class="info"><div><b>📌 تذكرة من <bdi>Lec 19</bdi> (<bdi>Software Economics</bdi>)</b> قضية <strong><bdi>Oracle v. Google</bdi></strong> هي اللي <em><bdi>blurred the line</bdi></em> بين الكود الـ <bdi>functional</bdi> والـ <bdi>creative</bdi>. هنفصّلها في <bdi>Ch4</bdi> — وهي مهمة جداً لفهم إن الـ <bdi>APIs</bdi> ممكن تتنسخ <bdi>legally</bdi> تحت <bdi>fair use</bdi>.</div></div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════
@@ -209,7 +212,7 @@
     <ul style="font-size:.88rem">
       <li>بيدّي <strong><bdi>exclusive rights</bdi></strong> للاختراع (عادةً <strong>20 سنة</strong>).</li>
       <li>بيمنع الناس التانية إنها تـ <strong><bdi>make</bdi> · <bdi>use</bdi> · <bdi>sell</bdi></strong> من غير إذن.</li>
-      <li>في الـ <bdi>software</bdi>: بيحمي كود معيّن · <bdi>processes</bdi> · <bdi>functionality</bdi> · <bdi>technical methods.</bdi></li>
+      <li>في الـ <bdi>software</bdi>: بيحمي كود معيّن · <bdi>processes</bdi> · <bdi>functionality</bdi> · <bdi>technical methods</bdi>.</li>
     </ul>
   </div>
 
@@ -238,7 +241,7 @@
     <ul style="font-size:.88rem">
       <li><strong>قلب القضية:</strong> <bdi>Apple</bdi> اتّهمت <bdi>Samsung</bdi> إنها خرقت <bdi>patents</bdi> بتاعة <bdi>iPhone UI</bdi> (زي الـ <strong><bdi>bounce-back effect</bdi></strong>).</li>
       <li>سنة <strong>2012</strong>: الـ <bdi>jury</bdi> الأمريكي وافق مبدئياً وحكم لـ <bdi>Apple</bdi> بـ <strong>أكتر من $<bdi>1 billion</bdi></strong>.</li>
-      <li><strong>النقد:</strong> <bdi>features</bdi> زي <em><bdi>tap-to-zoom</bdi></em> و <em><bdi>rubber-banding</bdi></em> أفكار بسيطة وبديهية — المفروض ما يتعملش ليها <bdi>patent. patenting</bdi> الـ <bdi>basic functionalities</bdi> بيضر المنافسة ويصعّب على الشركات الصغيرة الابتكار من غير خوف من القضايا.</li>
+      <li><strong>النقد:</strong> <bdi>features</bdi> زي <em><bdi>tap-to-zoom</bdi></em> و <em><bdi>rubber-banding</bdi></em> أفكار بسيطة وبديهية — المفروض ما يتعملش ليها <bdi>patent</bdi>. عمل <bdi>patenting</bdi> للـ <bdi>basic functionalities</bdi> بيضر المنافسة ويصعّب على الشركات الصغيرة الابتكار من غير خوف من القضايا.</li>
     </ul>
   </div>
 
@@ -252,7 +255,7 @@
     </ul>
   </div>
 
-  <div class="tip"><div><b>💡 الخلاصة</b> الـ <bdi>software patents</bdi> = <bdi>double-edged sword.</bdi> لو اتساء استخدامها → بتعطّل التقدم. لو اتطبّقت بحكمة → بتغذّي الابتكار. "التحدي مش في إلغاء الـ <bdi>patents</bdi>، لكن في إعادة تعريفها للعصر الرقمي."</div></div>
+  <div class="tip"><div><b>💡 الخلاصة</b> الـ <bdi>software patents</bdi> = <bdi>double-edged sword</bdi>. لو اتساء استخدامها → بتعطّل التقدم. لو اتطبّقت بحكمة → بتغذّي الابتكار. "التحدي مش في إلغاء الـ <bdi>patents</bdi>، لكن في إعادة تعريفها للعصر الرقمي."</div></div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════
@@ -263,14 +266,14 @@
     <div class="ch-num green">04</div>
     <div class="ch-title">
       <h2><bdi>Case Study</bdi>: <bdi>Google v. Oracle</bdi> ⭐</h2>
-      <p>أشهر قضية في تاريخ الـ <bdi>software copyright</bdi> — استمرت 11 سنة (2010 → 2021) حوالين الـ <bdi>Java APIs</bdi> في <bdi>Android.</bdi></p>
+      <p>أشهر قضية في تاريخ الـ <bdi>software copyright</bdi> — استمرت 11 سنة (2010 → 2021) حوالين الـ <bdi>Java APIs</bdi> في <bdi>Android</bdi>.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--cyan)">
     <div class="topic-title"><span class="icon">📋</span> <bdi>Google</bdi> نسخت إيه بالظبط؟</div>
     <ul style="font-size:.88rem">
-      <li><bdi>Google</bdi> <strong>ما نسختش</strong> الـ <bdi>source code</bdi> بتاع <bdi>Java</bdi> ولا الـ <bdi>implementation logic.</bdi></li>
+      <li><bdi>Google</bdi> <strong>ما نسختش</strong> الـ <bdi>source code</bdi> بتاع <bdi>Java</bdi> ولا الـ <bdi>implementation logic</bdi>.</li>
       <li>نسخت الـ <strong><bdi>Structure, Sequence, and Organization</bdi> (<bdi>SSO</bdi>)</strong> بتاع <strong><bdi>37 Java API package</bdi></strong>.</li>
       <li>يعني: <strong><bdi>class names</bdi> · <bdi>method names</bdi> · <bdi>package hierarchies</bdi></strong> — مش الكود اللي جوه.</li>
     </ul>
@@ -291,15 +294,15 @@ public class Arrays {
         // Google's own implementation
     }
 }</div>
-    <div class="info"><div><b>📌 ليه <bdi>Google</bdi> عملت كده؟</b> عشان تخلّي <bdi>Android</bdi> متاح لملايين الـ <bdi>Java developers</bdi> — يقدروا يستخدموا <bdi>API calls</bdi> مألوفة زي <code><bdi>Arrays.sort</bdi>()</code>. الـ <bdi>compatibility</bdi> دي سرّعت انتشار <bdi>Android.</bdi></div></div>
+    <div class="info"><div><b>📌 ليه <bdi>Google</bdi> عملت كده؟</b> عشان تخلّي <bdi>Android</bdi> متاح لملايين الـ <bdi>Java developers</bdi> — يقدروا يستخدموا <bdi>API calls</bdi> مألوفة زي <code><bdi>Arrays.sort</bdi>()</code>. الـ <bdi>compatibility</bdi> دي سرّعت انتشار <bdi>Android</bdi>.</div></div>
   </div>
 
   <div class="grid2">
     <div class="topic" style="--accent:var(--red)">
       <div class="topic-title"><span class="icon">🏢</span> حجة <bdi>Oracle</bdi></div>
       <ul style="font-size:.85rem">
-        <li>الـ <bdi>API structure</bdi> حاجة <strong><bdi>creative expression</bdi></strong>، مش بس <bdi>functional.</bdi></li>
-        <li><bdi>Google</bdi> خرقت الـ <bdi>copyright</bdi> بنسخها للـ <bdi>structure.</bdi></li>
+        <li>الـ <bdi>API structure</bdi> حاجة <strong><bdi>creative expression</bdi></strong>، مش بس <bdi>functional</bdi>.</li>
+        <li><bdi>Google</bdi> خرقت الـ <bdi>copyright</bdi> بنسخها للـ <bdi>structure</bdi>.</li>
         <li>طلبت <strong>$<bdi>9 billion</bdi></strong> تعويضات.</li>
       </ul>
     </div>
@@ -319,17 +322,17 @@ public class Arrays {
       <div class="tl-item" style="--accent:var(--amber)">
         <div class="tl-date">2010</div>
         <div class="tl-title"><bdi>Oracle</bdi> بترفع القضية</div>
-        <div class="tl-desc">بتدّعي إن <bdi>Google</bdi> نسخت <bdi>37 Java API package.</bdi> بتطلب $<bdi>9 billion.</bdi></div>
+        <div class="tl-desc">بتدّعي إن <bdi>Google</bdi> نسخت <bdi>37 Java API package</bdi>. بتطلب $<bdi>9 billion</bdi>.</div>
       </div>
       <div class="tl-item" style="--accent:var(--green)">
         <div class="tl-date">2012 — <bdi>District Court</bdi> (<bdi>Judge Alsup</bdi>)</div>
         <div class="tl-title"><bdi>Google</bdi> تكسب (<bdi>Round 1</bdi>)</div>
-        <div class="tl-desc">حكم إن الـ <bdi>APIs</bdi> ما ينفعش يتعمل ليها <bdi>copyright</bdi> لأنها <bdi>functional.</bdi></div>
+        <div class="tl-desc">حكم إن الـ <bdi>APIs</bdi> ما ينفعش يتعمل ليها <bdi>copyright</bdi> لأنها <bdi>functional</bdi>.</div>
       </div>
       <div class="tl-item" style="--accent:var(--red)">
         <div class="tl-date">2014 — <bdi>Federal Circuit</bdi></div>
         <div class="tl-title"><bdi>Oracle</bdi> تكسب (<bdi>Round 2</bdi>)</div>
-        <div class="tl-desc">ألغى حكم <bdi>District Court</bdi> — قال إن الـ <bdi>APIs</bdi> <strong><bdi>can</bdi></strong> <bdi>be copyrighted.</bdi></div>
+        <div class="tl-desc">ألغى حكم <bdi>District Court</bdi> — قال إن الـ <bdi>APIs</bdi> <strong><bdi>can</bdi></strong> <bdi>be copyrighted</bdi>.</div>
       </div>
       <div class="tl-item" style="--accent:var(--green)">
         <div class="tl-date">2016 — <bdi>Jury Trial</bdi> (<bdi>Fair Use</bdi>)</div>
@@ -339,12 +342,12 @@ public class Arrays {
       <div class="tl-item" style="--accent:var(--red)">
         <div class="tl-date">2018 — <bdi>Federal Circuit</bdi> (<bdi>again</bdi>)</div>
         <div class="tl-title"><bdi>Oracle</bdi> تكسب (<bdi>Round 4</bdi>)</div>
-        <div class="tl-desc">ألغى حكم 2016 — قال إن الاستخدام كان <bdi>NOT fair use.</bdi></div>
+        <div class="tl-desc">ألغى حكم 2016 — قال إن الاستخدام كان <bdi>NOT fair use</bdi>.</div>
       </div>
       <div class="tl-item" style="--accent:var(--green)">
         <div class="tl-date">2020–2021 — <bdi>U.S. Supreme Court</bdi></div>
         <div class="tl-title"><bdi>Google</bdi> تكسب نهائياً (<bdi>Round 5</bdi>) 🏆</div>
-        <div class="tl-desc">في 4/2021 المحكمة العليا حكمت إن استخدام <bdi>Google</bdi> = <strong><bdi>fair use</bdi></strong> لأنه <bdi>transformative</bdi> ومحدود في العناصر الـ <bdi>functional.</bdi></div>
+        <div class="tl-desc">في 4/2021 المحكمة العليا حكمت إن استخدام <bdi>Google</bdi> = <strong><bdi>fair use</bdi></strong> لأنه <bdi>transformative</bdi> ومحدود في العناصر الـ <bdi>functional</bdi>.</div>
       </div>
     </div>
   </div>
@@ -369,7 +372,7 @@ public class Arrays {
     <ul style="font-size:.88rem">
       <li>مصوّر (<bdi>Slater</bdi>) راح إندونيسيا يصوّر قرود.</li>
       <li>قرد خد الكاميرا وصوّر <strong><bdi>selfie</bdi></strong> لنفسه.</li>
-      <li>الراجل نشر الصورة<bdi>. Wikipedia</bdi> ومواقع أخدوها واستخدموها. طلب منهم يشيلوها بحجة إنه بيملكها → رفضوا.</li>
+      <li>الراجل نشر الصورة. <bdi>Wikipedia</bdi> ومواقع تانية أخدوها واستخدموها. طلب منهم يشيلوها بحجة إنه بيملكها → رفضوا.</li>
       <li><strong><bdi>PETA</bdi></strong> (منظمة حقوق الحيوان) رفعت قضية عشان القرد ياخد الـ <bdi>copyright</bdi> والفلوس تتصرف على القرود.</li>
     </ul>
   </div>
@@ -414,12 +417,12 @@ public class Arrays {
     <div class="lic-grid">
       <div class="lic-card" style="--accent:var(--green)">
         <h4><bdi>Perpetual License</bdi></h4>
-        <ul><li>شراء مرة واحدة (<bdi>one-time</bdi>).</li><li>مفيش <bdi>updates</bdi> إجبارية · أدوات <bdi>stable.</bdi></li><li>المالك بيحتفظ بكل الحقوق؛ المستخدم بيشغّل بس — ما يشوفش الكود ولا يعدّله ولا يوزّعه.</li></ul>
+        <ul><li>شراء مرة واحدة (<bdi>one-time</bdi>).</li><li>مفيش <bdi>updates</bdi> إجبارية · أدوات <bdi>stable</bdi>.</li><li>المالك بيحتفظ بكل الحقوق؛ المستخدم بيشغّل بس — ما يشوفش الكود ولا يعدّله ولا يوزّعه.</li></ul>
         <span class="best"><bdi>Best for</bdi>: <bdi>long-term projects</bdi> · أمثلة: <bdi>Windows, Photoshop</bdi></span>
       </div>
       <div class="lic-card" style="--accent:var(--cyan)">
         <h4><bdi>Subscription License</bdi></h4>
-        <ul><li>تكلفة متكررة (<bdi>recurring</bdi>).</li><li><bdi>updates</bdi> مستمرة · <bdi>scalable.</bdi></li></ul>
+        <ul><li>تكلفة متكررة (<bdi>recurring</bdi>).</li><li><bdi>updates</bdi> مستمرة · <bdi>scalable</bdi>.</li></ul>
         <span class="best"><bdi>Best for</bdi>: <bdi>fast-paced teams</bdi></span>
       </div>
       <div class="lic-card" style="--accent:var(--amber)">
@@ -429,7 +432,7 @@ public class Arrays {
       </div>
       <div class="lic-card" style="--accent:var(--red)">
         <h4><bdi>Floating License</bdi></h4>
-        <ul><li><bdi>pool</bdi> مشترك من الـ <bdi>licenses</bdi> · استخدام ديناميكي.</li><li>كفء وقت الـ <bdi>peaks.</bdi></li></ul>
+        <ul><li><bdi>pool</bdi> مشترك من الـ <bdi>licenses</bdi> · استخدام ديناميكي.</li><li>كفء وقت الـ <bdi>peaks</bdi>.</li></ul>
         <span class="best"><bdi>Best for</bdi>: <bdi>studios</bdi> & <bdi>labs</bdi></span>
       </div>
     </div>
@@ -450,7 +453,7 @@ public class Arrays {
       <tr><td><bdi>Education</bdi></td><td><bdi>device</bdi> / <bdi>floating</bdi></td></tr>
       <tr><td><bdi>Enterprises</bdi></td><td><bdi>mixed cloud</bdi> / <bdi>on-prem</bdi></td></tr>
     </table>
-    <div class="tip"><div><b>💡</b> الـ <bdi>decision</bdi> بيعتمد على: <bdi>team</bdi> · <bdi>usage</bdi> · <bdi>mobility</bdi> · <bdi>updates</bdi> · <bdi>compliance.</bdi> وفّق الـ <bdi>licensing</bdi> مع الـ <strong><bdi>workflow</bdi></strong> — مش بس على التكلفة. الـ <strong><bdi>hybrid models</bdi></strong> هي الأكثر فعالية عملياً.</div></div>
+    <div class="tip"><div><b>💡</b> الـ <bdi>decision</bdi> بيعتمد على: <span dir="ltr">team · usage · mobility · updates · compliance</span>. وفّق الـ <bdi>licensing</bdi> مع الـ <strong><bdi>workflow</bdi></strong> — مش بس على التكلفة. الـ <strong><bdi>hybrid models</bdi></strong> هي الأكثر فعالية عملياً.</div></div>
   </div>
 </div>
 
@@ -503,8 +506,8 @@ public class Arrays {
   <div class="topic" style="--accent:var(--purple)">
     <div class="topic-title"><span class="icon">🎯</span> اختيار <bdi>License</bdi> لمشروع <bdi>Open Source</bdi></div>
     <ul style="font-size:.88rem">
-      <li><strong><bdi>MIT</bdi> / <bdi>Apache 2.0</bdi></strong> → أقصى انتشار (<bdi>maximise adoption</bdi>)؛ يسمح بالاستخدام في <bdi>proprietary software.</bdi></li>
-      <li><strong><bdi>GPL</bdi></strong> → يضمن إن كل الـ <bdi>derivatives</bdi> تفضل <bdi>open source.</bdi></li>
+      <li><strong><bdi>MIT</bdi> / <bdi>Apache 2.0</bdi></strong> → أقصى انتشار (<bdi>maximise adoption</bdi>)؛ يسمح بالاستخدام في <bdi>proprietary software</bdi>.</li>
+      <li><strong><bdi>GPL</bdi></strong> → يضمن إن كل الـ <bdi>derivatives</bdi> تفضل <bdi>open source</bdi>.</li>
       <li><strong><bdi>AGPL</bdi></strong> → يضمن إن حتى الـ <bdi>SaaS deployments</bdi> تنشر تعديلاتها.</li>
     </ul>
     <div class="danger"><div><b>🚨 مهم جداً: <bdi>No license</bdi> = <bdi>All rights reserved</bdi></b> لو نشرت كود من غير <bdi>license</bdi>، الـ <bdi>copyright law</bdi> بيدّي <strong>محدش</strong> الحق إنه يستخدمه — حتى لو الكود ظاهر للعامة (<bdi>publicly visible</bdi>). لازم تحط <bdi>license</bdi> صريح.</div></div>
@@ -513,8 +516,8 @@ public class Arrays {
   <div class="topic" style="--accent:var(--red)">
     <div class="topic-title"><span class="icon">🪤</span> <bdi>Case Study</bdi>: <bdi>The AGPL Trap</bdi> — <bdi>MongoDB</bdi> & <bdi>Elastic</bdi></div>
     <ul style="font-size:.88rem">
-      <li><strong><bdi>MongoDB</bdi></strong> كانت بتستخدم <bdi>AGPL.</bdi> لكن <bdi>cloud providers</bdi> كانوا بيقدّموا <bdi>MongoDB-as-a-service</bdi> من غير ما يساهموا <bdi>back</bdi> → هدّد قدرتها التنافسية.</li>
-      <li><bdi>MongoDB</bdi> حوّلت لـ <strong><bdi>SSPL</bdi> (<bdi>Server Side Public License</bdi>)</strong> اللي بيمدّ الـ <bdi>AGPL copyleft</bdi> لكل الـ <bdi>software</bdi> المستخدم في تقديم الـ <bdi>database</bdi> كـ <bdi>service.</bdi></li>
+      <li><strong><bdi>MongoDB</bdi></strong> كانت بتستخدم <bdi>AGPL</bdi>. لكن <bdi>cloud providers</bdi> كانوا بيقدّموا <bdi>MongoDB-as-a-service</bdi> من غير ما يساهموا <bdi>back</bdi> → هدّد قدرتها التنافسية.</li>
+      <li><bdi>MongoDB</bdi> حوّلت لـ <strong><bdi>SSPL</bdi> (<bdi>Server Side Public License</bdi>)</strong> اللي بيمدّ الـ <bdi>AGPL copyleft</bdi> لكل الـ <bdi>software</bdi> المستخدم في تقديم الـ <bdi>database</bdi> كـ <bdi>service</bdi>.</li>
       <li><strong><bdi>Elastic</bdi></strong> عملت نفس الحاجة مع <bdi>Elasticsearch</bdi> في <strong>2021</strong>.</li>
       <li><b>الدرس للمهندس:</b> لو الـ <bdi>SaaS</bdi> بتاعك بيعتمد على <bdi>component</bdi> بـ <bdi>AGPL</bdi> أو <bdi>SSPL</bdi>، الـ <bdi>copyleft</bdi> ممكن يجبرك تنشر <strong>كل الـ <bdi>source</bdi> بتاعك</strong>.</li>
     </ul>
@@ -546,10 +549,10 @@ public class Arrays {
     <table class="tbl">
       <tr><th>الشركة</th><th>الـ <bdi>Model</bdi></th><th>الـ <bdi>Revenue</bdi> / <bdi>Why</bdi></th></tr>
       <tr><td><strong><bdi>Salesforce</bdi></strong></td><td><bdi>SaaS subscription</bdi></td><td>اشتراكات <bdi>CRM</bdi> شهرية/سنوية — شالت تكاليف الـ <bdi>license</bdi> المقدّمة، خلّت الـ <bdi>enterprise software</bdi> متاح.</td></tr>
-      <tr><td><strong><bdi>Red Hat</bdi></strong></td><td><bdi>Open Source monetization</bdi></td><td><bdi>Linux code</bdi> مجاني، بس بيبيعوا <strong><bdi>enterprise support</bdi></strong> <bdi>+ certified builds.</bdi> الشركات عايزة <bdi>reliability</bdi>/<bdi>security.</bdi></td></tr>
-      <tr><td><strong><bdi>Spotify</bdi></strong></td><td><bdi>Freemium funnel</bdi></td><td>إعلانات على الـ <bdi>free tier + premium subscriptions.</bdi> قلّل حاجز الدخول → <bdi>scaled globally.</bdi></td></tr>
-      <tr><td><strong><bdi>Zoom</bdi></strong></td><td><bdi>Freemium + enterprise upsell</bdi></td><td>اجتماعات مجانية بتجذب، الخطط المدفوعة بتفتح <bdi>features.</bdi> نمو <bdi>viral</bdi> وقت الـ <bdi>pandemic.</bdi></td></tr>
-      <tr><td><strong><bdi>Apple</bdi></strong></td><td><bdi>Skimming strategy</bdi></td><td>سعر <bdi>premium</bdi> وقت الإطلاق، بعدين بينزل عشان يلحق الـ <bdi>mass market.</bdi> بيبني <bdi>prestige.</bdi></td></tr>
+      <tr><td><strong><bdi>Red Hat</bdi></strong></td><td><bdi>Open Source monetization</bdi></td><td><bdi>Linux code</bdi> مجاني، بس بيبيعوا <strong><bdi>enterprise support</bdi></strong> + <bdi>certified builds</bdi>. الشركات عايزة <bdi>reliability</bdi>/<bdi>security</bdi>.</td></tr>
+      <tr><td><strong><bdi>Spotify</bdi></strong></td><td><bdi>Freemium funnel</bdi></td><td>إعلانات على الـ <span dir="ltr">free tier + premium subscriptions</span>. قلّل حاجز الدخول → <bdi>scaled globally</bdi>.</td></tr>
+      <tr><td><strong><bdi>Zoom</bdi></strong></td><td><bdi>Freemium + enterprise upsell</bdi></td><td>اجتماعات مجانية بتجذب، الخطط المدفوعة بتفتح <bdi>features</bdi>. نمو <bdi>viral</bdi> وقت الـ <bdi>pandemic</bdi>.</td></tr>
+      <tr><td><strong><bdi>Apple</bdi></strong></td><td><bdi>Skimming strategy</bdi></td><td>سعر <bdi>premium</bdi> وقت الإطلاق، بعدين بينزل عشان يلحق الـ <bdi>mass market</bdi>. بيبني <bdi>prestige</bdi>.</td></tr>
       <tr><td><strong><bdi>Netflix</bdi></strong></td><td><bdi>Dynamic subscription pricing</bdi></td><td>بيظبط الأسعار حسب المنطقة والمنافسة. الـ <bdi>streaming wars</bdi> بتفرض تغييرات مستمرة.</td></tr>
     </table>
   </div>
@@ -565,7 +568,7 @@ public class Arrays {
     </table>
   </div>
 
-  <div class="tip"><div><b>💡 <bdi>Key Takeaways</bdi></b> <bdi>SaaS</bdi> → <bdi>predictable recurring revenue</bdi> · <bdi>Open Source</bdi> → <bdi>monetized trust + support</bdi> · <bdi>Freemium</bdi> → <bdi>viral growth funnel</bdi> · <bdi>Skimming</bdi> → <bdi>prestige + mass adoption</bdi> · <bdi>Dynamic pricing</bdi> → <bdi>competitive survival.</bdi></div></div>
+  <div class="tip"><div><b>💡 <bdi>Key Takeaways</bdi></b> <bdi>SaaS</bdi> → <bdi>predictable recurring revenue</bdi> · <bdi>Open Source</bdi> → <bdi>monetized trust + support</bdi> · <bdi>Freemium</bdi> → <bdi>viral growth funnel</bdi> · <bdi>Skimming</bdi> → <bdi>prestige + mass adoption</bdi> · <bdi>Dynamic pricing</bdi> → <bdi>competitive survival</bdi>.</div></div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════
@@ -576,7 +579,7 @@ public class Arrays {
     <div class="ch-num amber">09</div>
     <div class="ch-title">
       <h2><bdi>Software Cost Estimation</bdi> ⭐</h2>
-      <p>تقدير: المشروع هياخد قد إيه وقت؟ كام <bdi>effort</bdi>؟ كام فلوس؟ "<bdi>I</bdi>'<bdi>ve got bad news and bad news</bdi>!"</p>
+      <p>تقدير: المشروع هياخد قد إيه وقت؟ كام <bdi>effort</bdi>؟ كام فلوس؟ "<span dir="ltr">I've got bad news and bad news!</span>"</p>
     </div>
   </div>
 
@@ -595,7 +598,7 @@ public class Arrays {
     <ul style="font-size:.88rem">
       <li>معظم تكلفة الـ <bdi>software</bdi> هي <strong><bdi>human effort</bdi></strong> → فالـ <bdi>cost estimation</bdi> هي في الحقيقة <strong><bdi>effort estimation</bdi></strong>. (بس فيه تكاليف تانية: <bdi>AI</bdi> · <bdi>cloud</bdi> · <bdi>tools</bdi> · <bdi>APIs</bdi>).</li>
       <li>بديهياً، الـ <bdi>effort</bdi> متناسب مع <strong><bdi>complexity</bdi></strong> المشروع.</li>
-      <li><strong>الـ <bdi>Complexity</bdi> نسبية</strong> — مش بس مرتبطة بالـ <bdi>size</bdi> (<bdi>domain</bdi> · <bdi>tools</bdi> · <bdi>language...</bdi>). مشروع صغير بمهندسين جداد غير متعوّدين = معقّد. مشروع كبير بمهندسين خبرة عملوا مشاريع شبهه = مش معقّد أوي.</li>
+      <li><strong>الـ <bdi>Complexity</bdi> نسبية</strong> — مش بس مرتبطة بالـ <bdi>size</bdi> (<span dir="ltr">domain · tools · language...</span>). مشروع صغير بمهندسين جداد غير متعوّدين = معقّد. مشروع كبير بمهندسين خبرة عملوا مشاريع شبهه = مش معقّد أوي.</li>
     </ul>
   </div>
 
@@ -615,7 +618,7 @@ public class Arrays {
   <div class="topic" style="--accent:var(--green)">
     <div class="topic-title"><span class="icon">🧠</span> <bdi>Estimation Technique 1</bdi>: <bdi>Expert Judgement</bdi></div>
     <ul style="font-size:.88rem">
-      <li>الدقة بتعتمد على <strong><bdi>competence</bdi> · <bdi>experience</bdi> · <bdi>objectivity</bdi> · <bdi>perception</bdi></strong> بتاع المقدّر. "<bdi>educated guess</bdi>" مبني على تحليل <bdi>top-down</bdi> أو <bdi>bottom-up + analogies.</bdi></li>
+      <li>الدقة بتعتمد على <strong><span dir="ltr">competence · experience · objectivity · perception</span></strong> بتاع المقدّر. "<bdi>educated guess</bdi>" مبني على تحليل <bdi>top-down</bdi> أو <span dir="ltr">bottom-up + analogies</span>.</li>
     </ul>
     <div class="formula">
       <div class="eq">Estimate = ( x + 4y + z ) / 6</div>
@@ -645,7 +648,7 @@ PM = 2.94 × (10)^1.1 × 1.2
     <div class="danger"><div><b>🚨 نقد حديث مهم لـ <bdi>SLOC-based estimation</bdi></b> الباحثين بينتقدوا التقدير المبني على الـ <bdi>SLOC</bdi> (عدد السطور) لأن: الـ <bdi>frameworks</bdi> بتولّد كود تلقائي · الـ <bdi>AI tools</bdi> بتولّد كود · فيه <bdi>low-code</bdi>/<bdi>no-code tools</bdi> · اللغات بتختلف كتير في الـ <bdi>verbosity</bdi> (<bdi>Python</bdi> بيحتاج سطور أقل بكتير من <bdi>Java</bdi>/<bdi>C++</bdi> لنفس الـ <bdi>functionality</bdi>).</div></div>
   </div>
 
-  <div class="tip"><div><b>💡 ابدأ من اليوم الأول</b> اعمل <strong><bdi>history</bdi></strong> لمجهود التطوير في شركتك · احتفظ بـ <bdi>records</bdi> للـ <bdi>unexpected cost factors</bdi> (العميل بيغيّر رأيه · الـ <bdi>environment</bdi> بيتغيّر · <bdi>functionality</bdi> إضافية بتتطلب) · خطّط تبقى <bdi>expert</bdi> في تقدير الـ <bdi>effort.</bdi></div></div>
+  <div class="tip"><div><b>💡 ابدأ من اليوم الأول</b> اعمل <strong><bdi>history</bdi></strong> لمجهود التطوير في شركتك · احتفظ بـ <bdi>records</bdi> للـ <bdi>unexpected cost factors</bdi> (العميل بيغيّر رأيه · الـ <bdi>environment</bdi> بيتغيّر · <bdi>functionality</bdi> إضافية بتتطلب) · خطّط تبقى <bdi>expert</bdi> في تقدير الـ <bdi>effort</bdi>.</div></div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════
@@ -656,7 +659,7 @@ PM = 2.94 × (10)^1.1 × 1.2
     <div class="quiz-icon">🎯</div>
     <div>
       <h3><bdi>Practice Quiz</bdi> — <bdi>Lecture 19</bdi></h3>
-      <p>8 أسئلة على <bdi>Software Economics</bdi> · <bdi>IP</bdi> · <bdi>licensing</bdi> · <bdi>business models</bdi> · <bdi>cost estimation.</bdi></p>
+    <p>8 أسئلة على <span dir="ltr">Software Economics · IP · licensing · business models · cost estimation</span>.</p>
     </div>
   </div>
 
@@ -752,7 +755,7 @@ PM = 2.94 × (10)^1.1 × 1.2
     </div>
     <div class="q-explain">
       <b>✅ الإجابة الصح: C</b>
-      <strong><bdi>No license = all rights reserved.</bdi></strong> الـ <bdi>copyright law</bdi> مش بيدّي أي حد الحق يستخدم الكود حتى لو ظاهر للعامة. لازم <bdi>license</bdi> صريح عشان تدّي حقوق الاستخدام.
+      <strong><bdi>No license = all rights reserved</bdi>.</strong> الـ <bdi>copyright law</bdi> مش بيدّي أي حد الحق يستخدم الكود حتى لو ظاهر للعامة. لازم <bdi>license</bdi> صريح عشان تدّي حقوق الاستخدام.
     </div>
   </div>
 
