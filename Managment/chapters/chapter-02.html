@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 02 — History and Current Thinking | DS251</title>
+  <meta name="description" content="شرح شابتر 2 تاريخ وتفكير الإدارة — النهج الكلاسيكي، السلوكي، العلمي، الطوارئ، الأنظمة، المنظمة المتعلمة">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<!-- Sidebar -->
+<nav id="sidebar" dir="ltr">
+  <div class="sb-logo">
+    <h2>📊 DS251 — Ch 02</h2>
+    <p>History and Current Thinking</p>
+  </div>
+  <a class="sb-back" href="../index.html">← All Chapters</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+
+  <div class="sb-section">المحتوى</div>
+  <a href="#approaches-overview" class="sb-link"><span class="sb-dot"></span>الـ 6 Approaches</a>
+  <a href="#classical" class="sb-link"><span class="sb-dot"></span>Classical Approach</a>
+  <a href="#taylor" class="sb-link"><span class="sb-dot"></span>Taylor — Scientific Mgmt</a>
+  <a href="#gilbreth-gantt" class="sb-link"><span class="sb-dot"></span>Gilbreth & Gantt</a>
+  <a href="#fayol" class="sb-link"><span class="sb-dot"></span>Fayol — 14 Principles</a>
+  <a href="#behavioral" class="sb-link"><span class="sb-dot"></span>Behavioral Approach</a>
+  <a href="#hawthorne" class="sb-link"><span class="sb-dot"></span>Hawthorne Studies</a>
+  <a href="#mscience" class="sb-link"><span class="sb-dot"></span>Management Science</a>
+  <a href="#contingency" class="sb-link"><span class="sb-dot"></span>Contingency Approach</a>
+  <a href="#system" class="sb-link"><span class="sb-dot"></span>System Approach</a>
+  <a href="#learning" class="sb-link"><span class="sb-dot"></span>Learning Organization</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Question Bank</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Rapid Revision</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main" dir="rtl">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">📊 Chapter 02 · 49 slides · أسئلة امتحانات من 5 سنين</div>
+  <h1>History and <span>Current Thinking</span></h1>
+  <p>رحلة الإدارة من الجذور الكلاسيكية للنهج المعاصر — تايلور، فايول، هوثورن، الأنظمة، والمنظمة المتعلمة.</p>
+  <div class="btn-row">
+    <a href="../index.html" class="btn btn-ghost">← All Chapters</a>
+    <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">6</div><div class="lbl">Approaches</div></div>
+    <div class="hstat"><div class="num">10</div><div class="lbl">Exam Qs</div></div>
+    <div class="hstat"><div class="num">5</div><div class="lbl">Exam Years</div></div>
+    <div class="hstat"><div class="num">14</div><div class="lbl">Fayol Principles</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 0 — THE 6 APPROACHES OVERVIEW
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="approaches-overview">
+  <div class="ch-header">
+    <div class="ch-num purple">00</div>
+    <div class="ch-title">
+      <h2>The 6 Management Approaches — نظرة عامة</h2>
+      <p>الشابتر ده بيغطي 6 نهج (Approaches) لتطور الفكر الإداري</p>
+    </div>
+  </div>
+
+  <div class="compare" style="grid-template-columns:repeat(3,1fr)">
+    <div class="cmp-card" style="--accent:var(--pink)">
+      <h4>🏛️ 1. Classical</h4>
+      <p>الكفاءة والهيكل — تايلور، جيلبرث، جانت، فايول</p>
+    </div>
+    <div class="cmp-card" style="--accent:var(--amber)">
+      <h4>👥 2. Behavioral</h4>
+      <p>العلاقات الإنسانية — دراسات هوثورن</p>
+    </div>
+    <div class="cmp-card" style="--accent:var(--cyan)">
+      <h4>📐 3. Management Science</h4>
+      <p>النماذج الرياضية والإحصاء — Operations Research</p>
+    </div>
+    <div class="cmp-card" style="--accent:var(--green)">
+      <h4>🔀 4. Contingency</h4>
+      <p>"It depends" — مفيش حل واحد لكل المشاكل</p>
+    </div>
+    <div class="cmp-card" style="--accent:var(--teal)">
+      <h4>⚙️ 5. System</h4>
+      <p>المنظمة كنظام متكامل من أجزاء مترابطة</p>
+    </div>
+    <div class="cmp-card" style="--accent:var(--purple)">
+      <h4>🎓 6. Learning Organization</h4>
+      <p>خلق ونقل المعرفة وتعديل السلوك</p>
+    </div>
+  </div>
+
+  <div class="info"><div><b>📌 مرجعية الكورس:</b> Ch.1 (Intro) → Ch.2 (Theories) → Ch.7&8 (Planning) → Ch.11&13 (Organizing) → Ch.15&18 (Influencing) → Ch.21 (Controlling) → Ch.3 (Ethics)</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 1 — CLASSICAL APPROACH
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="classical">
+  <div class="ch-header">
+    <div class="ch-num pink">01</div>
+    <div class="ch-title">
+      <h2>Classical Approach — النهج الكلاسيكي</h2>
+      <p>يركز على الكفاءة التنظيمية لتحقيق النجاح</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🏛️</span> التعريف</div>
+    <p><strong>Classical Approach</strong> is a management approach that emphasizes <strong>organizational efficiency</strong> to increase organizational success.</p>
+    <p>يعني: الفكر الكلاسيكي قال إن الطريق لنجاح المنظمة هو الكفاءة في العمليات والهيكل.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">🔬</span> Lower-Level Analysis</div>
+      <p>تحليل الإدارة من المستوى الدنيوي — يركز على العمال والعمليات</p>
+      <ul>
+        <li><strong>Frederick W. Taylor</strong> — Scientific Management</li>
+        <li><strong>Frank & Lillian Gilbreth</strong> — Motion Study</li>
+        <li><strong>Henry L. Gantt</strong> — Scheduling & Bonus</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">🌐</span> Comprehensive Analysis</div>
+      <p>تحليل شامل للإدارة من أعلى — يركز على المبادئ العامة</p>
+      <ul>
+        <li><strong>Henri Fayol</strong> — 14 Principles of Management</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">⚠️</span> Classical Approach — Limitations</div>
+    <p>النهج الكلاسيكي رغم نجاحه، عنده عيوب مهمة:</p>
+    <ul>
+      <li>لا يُعطي أهمية كافية للمتغيرات الإنسانية (Human Variables)</li>
+      <li>نظام المكافآت المادية لم يعد يؤثر على الناس كما في القرن الماضي</li>
+      <li>أهمل مجالات حيوية مثل: Conflict, Communication, Leadership, Motivation</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 2 — TAYLOR
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="taylor">
+  <div class="ch-header">
+    <div class="ch-num amber">02</div>
+    <div class="ch-title">
+      <h2>Frederick W. Taylor — الإدارة العلمية</h2>
+      <p>أبو الـ Scientific Management · (1856–1915)</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">👨‍🔬</span> من هو تايلور؟</div>
+    <p>عمل في <strong>Bethlehem Steel Co.</strong> وهو اللي أسس فكرة الإدارة العلمية. هدفه الأساسي كان زيادة كفاءة العمال من خلال تصميم الوظائف علمياً.</p>
+    <div class="grid2">
+      <div>
+        <p><strong>💡 أهم أفكاره:</strong></p>
+        <ul>
+          <li>Father of Scientific Management</li>
+          <li>هدفه: زيادة كفاءة العامل بتصميم الوظيفة علمياً</li>
+          <li>فكرة "One Best Way" لأي مهمة</li>
+          <li>نظام المكافأة بالقطعة (Piece-Rate Rewarding System)</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>🔬 منهجه العلمي:</strong></p>
+        <ul>
+          <li>دراسة كل وظيفة بالتفصيل</li>
+          <li>تحديد الطريقة الأفضل لأداءها</li>
+          <li>تدريب العمال على هذه الطريقة</li>
+          <li>ربط الأجر بالإنتاج</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔩</span> تجربة الـ Shoveling Science — مثال عملي</div>
+    <p>تايلور درس عملية الجرف (Shoveling) بعلمية كاملة وسأل أسئلة زي:</p>
+    <ul>
+      <li>إيه أفضل وزن للجرفة الواحدة؟ (5, 10, 15, 20, 30, أو 40 رطل)</li>
+      <li>إيه أفضل أنواع الجارف لكل نوع مواد؟</li>
+      <li>إزاي سرعة الجرف بتتأثر بالزاوية والمسافة؟</li>
+    </ul>
+    <div class="info" style="margin-top:16px"><div><b>📊 النتائج بعد 3 سنين من التطبيق:</b></div></div>
+    <table class="tbl" style="margin-top:8px">
+      <tr><th>المقياس</th><th>قبل</th><th>بعد</th><th>التغيير</th></tr>
+      <tr><td>عدد العمال</td><td>600</td><td>140</td><td style="color:var(--green)">↓ 77%</td></tr>
+      <tr><td>طن/عامل/يوم</td><td>16</td><td>59</td><td style="color:var(--green)">↑ 269%</td></tr>
+      <tr><td>أجر/يوم</td><td>$1.15</td><td>$1.88</td><td style="color:var(--green)">↑ 63%</td></tr>
+      <tr><td>تكلفة/طن</td><td>$0.072</td><td>$0.033</td><td style="color:var(--green)">↓ 54%</td></tr>
+    </table>
+    <div class="warn" style="margin-top:12px"><div><b>⭐ النتيجة:</b> أقل عمال، أكثر إنتاج، أعلى أجر، أقل تكلفة — ده هو هدف الـ Scientific Management بالظبط!</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 3 — GILBRETH & GANTT
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="gilbreth-gantt">
+  <div class="ch-header">
+    <div class="ch-num green">03</div>
+    <div class="ch-title">
+      <h2>Gilbreth & Gantt — Motion Study & Scheduling</h2>
+      <p>مكملين تايلور في تطوير الكفاءة التشغيلية</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">🎥</span> Frank & Lillian Gilbreth</div>
+      <p><strong>Frank Gilbreth (1868–1924)</strong> و <strong>Lillian Gilbreth (1878–1972)</strong></p>
+      <ul>
+        <li>طوّرا فكرة <strong>Motion Study</strong> (دراسة الحركة)</li>
+        <li>هدفهم: إزالة الحركات الغير ضرورية في العمل</li>
+        <li>Lillian طبّقت نفس الفكرة على دور ربة البيت وعلى ذوي الإعاقة</li>
+      </ul>
+      <div class="info"><div><b>💡 الفكرة:</b> كل حركة زيادة = وقت وجهد ضايع = كفاءة أقل.</div></div>
+    </div>
+    <div class="topic" style="--accent:var(--teal)">
+      <div class="topic-title"><span class="icon">📅</span> Henry L. Gantt (1861–1919)</div>
+      <p>أشهر مساهماته:</p>
+      <ul>
+        <li><strong>Rewarding Innovation</strong> — طوّر نظام مكافأة (Bonus System) يشجع العمال على الابتكار</li>
+        <li><strong>Scheduling Innovation</strong> — ابتكر <strong>Gantt Chart</strong> (خريطة جانت) للجدولة الزمنية — لا تزال تُستخدم حتى اليوم!</li>
+      </ul>
+      <div class="warn"><div><b>⚠️ امتحاني:</b> Gantt Chart هو أداة تخطيط وجدولة مشاريع — مش أداة تحفيز.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 4 — FAYOL 14 PRINCIPLES
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="fayol">
+  <div class="ch-header">
+    <div class="ch-num purple">04</div>
+    <div class="ch-title">
+      <h2>Henri Fayol — الـ 14 Principles of Management</h2>
+      <p>الإدارة الشاملة · (1841–1925) · كتاب: General and Industrial Management</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📖</span> من هو فايول؟</div>
+    <p>هنري فايول كتب كتاب <strong>"General and Industrial Management"</strong> وفيه وضع 14 مبدأً عاماً للإدارة — ده الكتاب اللي شكّل الإدارة الحديثة.</p>
+    <div class="warn"><div><b>⚠️ Trap امتحاني:</b> فايول = أبو الـ Administrative Theory / Modern Management — مش أبو الـ Scientific Management (ده تايلور).</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📋</span> الـ 14 General Principles of Management</div>
+    <table class="tbl">
+      <tr><th>#</th><th>المبدأ</th><th>الشرح بالعربي</th></tr>
+      <tr><td>1</td><td><strong>Division of Work</strong></td><td>تقسيم العمل — كل شخص يتخصص في مهمة معينة</td></tr>
+      <tr><td>2</td><td><strong>Authority</strong></td><td>السلطة — حق إصدار الأوامر مع المسؤولية</td></tr>
+      <tr><td>3</td><td><strong>Discipline</strong></td><td>الانضباط — احترام القواعد والاتفاقيات</td></tr>
+      <tr><td>4</td><td><strong>Unity of Command</strong></td><td>وحدة القيادة — كل موظف بيتبع مدير واحد بس</td></tr>
+      <tr><td>5</td><td><strong>Unity of Direction</strong></td><td>وحدة التوجيه — هدف واحد وخطة واحدة لكل مجموعة</td></tr>
+      <tr><td>6</td><td><strong>Subordination of Individual Interests</strong></td><td>مصلحة المنظمة فوق مصلحة الفرد</td></tr>
+      <tr><td>7</td><td><strong>Remuneration</strong></td><td>الأجر العادل للموظفين</td></tr>
+      <tr><td>8</td><td><strong>Centralization</strong></td><td>مدى تركيز القرارات في قمة الهرم</td></tr>
+      <tr><td>9</td><td><strong>Scalar Chain</strong></td><td>التسلسل الهرمي الواضح للسلطة</td></tr>
+      <tr><td>10</td><td><strong>Order</strong></td><td>النظام — كل شيء في مكانه المناسب</td></tr>
+      <tr><td>11</td><td><strong>Equity</strong></td><td>العدالة والإنصاف مع الموظفين</td></tr>
+      <tr><td>12</td><td><strong>Stability of Tenure</strong></td><td>استقرار الموظفين وتقليل معدل التناوب</td></tr>
+      <tr><td>13</td><td><strong>Initiative</strong></td><td>تشجيع الموظفين على المبادرة والإبداع</td></tr>
+      <tr><td>14</td><td><strong>Esprit de Corps</strong></td><td>روح الفريق والانسجام والتعاون</td></tr>
+    </table>
+    <div class="info" style="margin-top:12px"><div><b>📌 الأكثر ظهوراً في الامتحانات:</b> Unity of Command (4) · Unity of Direction (5) · Esprit de Corps (14) · Division of Work (1)</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 5 — BEHAVIORAL APPROACH
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="behavioral">
+  <div class="ch-header">
+    <div class="ch-num amber">05</div>
+    <div class="ch-title">
+      <h2>Behavioral Approach — النهج السلوكي</h2>
+      <p>زيادة الإنتاج من خلال فهم الناس</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">👥</span> التعريف</div>
+    <p><strong>Behavioral Approach</strong> emphasizes increasing production through an understanding of people.</p>
+    <p>يعني: ما تهتمش بالكفاءة بس — اهتم بالناس وعلاقاتهم وهتلاقي الإنتاج بيزيد.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--pink)">
+      <div class="topic-title"><span class="icon">🔍</span> Recognizing the Human Variable</div>
+      <ul>
+        <li>المتغير الإنساني في المنظمة محتاج تحليل أعمق بكتير</li>
+        <li>المديرون بدأوا يدركوا أهمية هذا التأثير</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">🤝</span> The Human Relations Movement</div>
+      <ul>
+        <li>تحقيق نجاح المنظمة عن طريق بناء علاقات مناسبة مع الناس</li>
+        <li>تفعيل العلاقات الإنسانية داخل المنظمة</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 6 — HAWTHORNE STUDIES
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="hawthorne">
+  <div class="ch-header">
+    <div class="ch-num red">06</div>
+    <div class="ch-title">
+      <h2>Hawthorne Studies — دراسات هوثورن</h2>
+      <p>(1924–1932) @ Western Electric Company</p>
+    </div>
+  </div>
+
+  <div class="info"><div><b>⭐ الدراستان الأساسيتان:</b> Relay Assembly Test Room · Bank Wiring Observation Room</div></div>
+
+  <!-- Experiment 1 -->
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">💡</span> تجربة 1 — Relay Assembly Test Room</div>
+    <div class="grid2">
+      <div>
+        <p><strong>🎯 الهدف:</strong></p>
+        <p>تحديد العلاقة بين شدة الإضاءة وكفاءة العمال — الفرضية: لو غيّرنا ظروف العمل هنلاقي الظروف المثلى لأعلى إنتاج.</p>
+      </div>
+      <div>
+        <p><strong>📊 النتيجة المفاجئة:</strong></p>
+        <p style="color:var(--pink);font-weight:600">مهما كانت الظروف اللي اتعرضولها العمال — الإنتاج زاد!</p>
+      </div>
+    </div>
+    <p style="margin-top:12px"><strong>ليه؟</strong> المقابلات كشفت 4 أسباب:</p>
+    <ul>
+      <li>الموضوعون وجدوا العمل في غرفة الاختبار ممتعاً</li>
+      <li>علاقة الإشراف الجديدة أتاحت لهم العمل بحرية وبدون خوف</li>
+      <li>أدركوا أنهم يشاركون في دراسة مهمة وممتعة</li>
+      <li>تكوّنت صداقات داخل المجموعة</li>
+    </ul>
+    <div class="warn"><div><b>✅ الاستنتاج:</b> العوامل الإنسانية داخل المنظمة يمكنها التأثير بشكل كبير على الإنتاج!</div></div>
+  </div>
+
+  <!-- Experiment 2 -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🏦</span> تجربة 2 — Bank Wiring Observation Room</div>
+    <div class="grid2">
+      <div>
+        <p><strong>🎯 الهدف:</strong></p>
+        <p>تحليل العلاقات الاجتماعية في مجموعة عمل. الفرضية: أعضاء المجموعة سيضغطون على بعضهم للعمل بجهد أكبر للحصول على أجر أعلى.</p>
+      </div>
+      <div>
+        <p><strong>📊 النتيجة المفاجئة:</strong></p>
+        <p style="color:var(--purple);font-weight:600">المجموعة ضغطت على العمال الأسرع لإبطاء عملهم!</p>
+      </div>
+    </div>
+    <p style="margin-top:12px"><strong>ليه؟</strong> الرجال كانوا مهتمين أكثر بالحفاظ على تماسك المجموعة (Group Solidarity).</p>
+    <div class="warn"><div><b>✅ الاستنتاج:</b> المجموعات الاجتماعية في المنظمات يمكنها الضغط بفاعلية على الأفراد لتجاهل الحوافز المادية!</div></div>
+  </div>
+
+  <!-- Summary -->
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🔄</span> مقارنة الدراستين</div>
+    <table class="tbl">
+      <tr><th></th><th>Relay Assembly Test Room</th><th>Bank Wiring Observation Room</th></tr>
+      <tr><td><strong>الهدف</strong></td><td>أثر الظروف المادية على الإنتاج</td><td>العلاقات الاجتماعية في مجموعة العمل</td></tr>
+      <tr><td><strong>النتيجة</strong></td><td>الإنتاج زاد مهما تغيّرت الظروف</td><td>الضغط الاجتماعي > الحوافز المادية</td></tr>
+      <tr><td><strong>الاستنتاج</strong></td><td>العوامل الإنسانية تؤثر على الإنتاج</td><td>المجموعة تتحكم في سلوك الفرد</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 7 — MANAGEMENT SCIENCE
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="mscience">
+  <div class="ch-header">
+    <div class="ch-num cyan">07</div>
+    <div class="ch-title">
+      <h2>Management Science Approach — علم الإدارة</h2>
+      <p>الرياضيات والإحصاء لحل مشاكل الإدارة</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔢</span> البداية — Operations Research</div>
+    <p>بدأ في الحرب العالمية الثانية بدمج <strong>Scientific Method + Mathematical Techniques</strong>. ثم تطور لـ Management Science (MS) على يد مجموعة UCLA-RAND.</p>
+    <p><strong>الطريقة العلمية تمشي في 4 خطوات:</strong></p>
+    <div class="compare" style="grid-template-columns:repeat(4,1fr)">
+      <div class="cmp-card" style="--accent:var(--cyan)"><h4>1️⃣ Observe</h4><p>لاحظ السلوك</p></div>
+      <div class="cmp-card" style="--accent:var(--teal)"><h4>2️⃣ Model</h4><p>ابنِ نموذج</p></div>
+      <div class="cmp-card" style="--accent:var(--purple)"><h4>3️⃣ Deduce</h4><p>استنتج سلوك جديد</p></div>
+      <div class="cmp-card" style="--accent:var(--green)"><h4>4️⃣ Test</h4><p>اختبر النظام الفعلي</p></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">📈</span> التطور التاريخي</div>
+      <ul>
+        <li><strong>1955:</strong> فعّال في حل المشاكل الصناعية</li>
+        <li><strong>1965:</strong> انتشر في شركات ومشاكل كثيرة</li>
+        <li><strong>1980:</strong> استخدام مكثف في المنظمات الكبيرة فقط</li>
+        <li><strong>القرن 21:</strong> قوة التكنولوجيا وسّعت استخدامه</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">✅</span> خصائص التطبيق</div>
+      <ul>
+        <li>المشاكل المعقدة (Complicated Problems)</li>
+        <li>له تبعات اقتصادية (Economic Implications)</li>
+        <li>يستخدم النماذج الرياضية (Mathematical Model)</li>
+        <li>يعتمد على الحاسوب وتقنية المعلومات</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 8 — CONTINGENCY APPROACH
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="contingency">
+  <div class="ch-header">
+    <div class="ch-num green">08</div>
+    <div class="ch-title">
+      <h2>Contingency Approach — نهج الطوارئ</h2>
+      <p>"It all depends" — ما فيش طريقة واحدة تحل كل المشاكل</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔀</span> التعريف</div>
+    <p>What managers do in practice depends on, or is <strong>contingent upon</strong>, a given set of circumstances.</p>
+    <p>يعني: ما بيعمله المدير في الواقع بيعتمد على الظروف اللي هو فيها — مفيش حل واحد يصلح لكل المواقف.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--teal)">
+      <div class="topic-title"><span class="icon">🔁</span> علاقة "If … Then"</div>
+      <p>الـ Contingency Approach بيقوم على علاقة "إذا… إذن":</p>
+      <p style="background:var(--card2);padding:12px;border-radius:10px;direction:ltr;font-size:.85rem;margin-top:8px">
+        <strong>If</strong> a manager has inexperienced subordinates → <strong>Then</strong> lead differently than with experienced ones
+      </p>
+    </div>
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">⚖️</span> القاعدتان الأساسيتان</div>
+      <ul>
+        <li>ربما <strong>لا توجد</strong> طريقة واحدة مثلى لحل كل مشاكل الإدارة في كل المنظمات</li>
+        <li>ربما <strong>توجد</strong> طريقة واحدة مثلى لحل أي مشكلة معينة في منظمة بعينها</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🏆</span> تحديات تطبيق الـ Contingency Approach</div>
+    <div class="compare" style="grid-template-columns:repeat(3,1fr)">
+      <div class="cmp-card" style="--accent:var(--pink)"><h4>1️⃣ Perceiving</h4><p>إدراك المواقف التنظيمية كما هي فعلاً</p></div>
+      <div class="cmp-card" style="--accent:var(--amber)"><h4>2️⃣ Choosing</h4><p>اختيار أنسب التكتيكات الإدارية للموقف</p></div>
+      <div class="cmp-card" style="--accent:var(--green)"><h4>3️⃣ Implementing</h4><p>تطبيق هذه التكتيكات بكفاءة</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 9 — SYSTEM APPROACH
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="system">
+  <div class="ch-header">
+    <div class="ch-num teal">09</div>
+    <div class="ch-title">
+      <h2>System Approach — نهج الأنظمة</h2>
+      <p>المنظمة كنظام متكامل من أجزاء مترابطة</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">⚙️</span> General System Theory</div>
+    <p><strong>المؤسس:</strong> Ludwig von Bertalanffy (عالم فيزياء وأحياء)</p>
+    <p><strong>System</strong> = is a number of <strong>interdependent parts</strong> functioning as a <strong>whole</strong> for some purpose.</p>
+    <p style="margin-top:8px">مثال: جسم الإنسان = {أذنان + عيون + مخ} — كل جزء يؤثر في التاني.</p>
+    <div class="info"><div><b>💡 الفكرة:</b> عشان تفهم أي كيان كامل، لازم تشوفه كنظام متكامل — مش مجرد أجزاء منفصلة.</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--pink)">
+      <div class="topic-title"><span class="icon">🔒</span> Closed System</div>
+      <p>لا تحتاج تأثيراً أو تفاعلاً مع البيئة الخارجية لتحقيق هدفها.</p>
+      <p style="color:var(--t3);font-size:.85rem">مثال: آلة حاسبة — تعمل مستقلة بدون محيط</p>
+    </div>
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">🌐</span> Open System</div>
+      <p>تتفاعل باستمرار مع بيئتها الخارجية لتحقيق هدفها.</p>
+      <p style="color:var(--t3);font-size:.85rem">مثال: الشركة — تأخذ موارد من البيئة وتعطي منتجات</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🧩</span> System Wholeness — مبادئ الكلية</div>
+    <table class="tbl">
+      <tr><th>#</th><th>المبدأ</th></tr>
+      <tr><td>1</td><td>الكل يجب أن يكون محور التحليل الرئيسي</td></tr>
+      <tr><td>2</td><td>التكامل هو المتغير الرئيسي في تحليل الكلية</td></tr>
+      <tr><td>3</td><td>أي تعديل يُقاس بأثره على كل الأجزاء الأخرى</td></tr>
+      <tr><td>4</td><td>كل جزء له دور يؤديه في النظام</td></tr>
+      <tr><td>5</td><td>الجزء ووظيفته تتحددان بموضعه في الكل</td></tr>
+      <tr><td>6</td><td>كل تحليل يبدأ بوجود الكل أولاً</td></tr>
+    </table>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔺</span> Triangular Management Model</div>
+    <p>النظام بيدمج 3 أنواع من المعلومات:</p>
+    <div class="compare" style="grid-template-columns:repeat(3,1fr)">
+      <div class="cmp-card" style="--accent:var(--pink)"><h4>📊 Classically Based</h4><p>Customers + Competitors</p></div>
+      <div class="cmp-card" style="--accent:var(--cyan)"><h4>📐 Science Based</h4><p>Government + Suppliers</p></div>
+      <div class="cmp-card" style="--accent:var(--amber)"><h4>👥 Behaviorally Based</h4><p>Environment</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 10 — LEARNING ORGANIZATION
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="learning">
+  <div class="ch-header">
+    <div class="ch-num blue">10</div>
+    <div class="ch-title">
+      <h2>Learning Organization — المنظمة المتعلمة</h2>
+      <p>نهج حديث يركز على خلق ونقل المعرفة</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🎓</span> دوافع ظهور هذا النهج</div>
+    <div class="grid2">
+      <ul>
+        <li>التراجع التنافسي للشركات الغربية</li>
+        <li>التسارع في وتيرة التغير التكنولوجي</li>
+      </ul>
+      <ul>
+        <li>تطور توقعات العملاء</li>
+        <li>تزايد التركيز على العولمة (Globalization)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">📚</span> تعريف المنظمة المتعلمة</div>
+    <p>A <strong>Learning Organization</strong> is an organization that does well in:</p>
+    <ul>
+      <li><strong>Creating</strong> knowledge — خلق المعرفة</li>
+      <li><strong>Acquiring</strong> knowledge — اكتساب المعرفة</li>
+      <li><strong>Transferring</strong> knowledge — نقل المعرفة</li>
+      <li><strong>Modifying behavior</strong> to reflect new knowledge — تعديل السلوك بناءً على المعرفة الجديدة</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">⭐</span> الـ 5 Features of a Learning Organization</div>
+    <div class="compare" style="grid-template-columns:repeat(5,1fr)">
+      <div class="cmp-card" style="--accent:var(--cyan)"><h4>1️⃣</h4><p>Systems Thinking</p></div>
+      <div class="cmp-card" style="--accent:var(--green)"><h4>2️⃣</h4><p>Shared Vision</p></div>
+      <div class="cmp-card" style="--accent:var(--amber)"><h4>3️⃣</h4><p>Challenging Mental Models</p></div>
+      <div class="cmp-card" style="--accent:var(--pink)"><h4>4️⃣</h4><p>Team Learning</p></div>
+      <div class="cmp-card" style="--accent:var(--purple)"><h4>5️⃣</h4><p>Personal Mastery</p></div>
+    </div>
+    <div class="info" style="margin-top:12px"><div><b>📌 امتحاني:</b> الـ 5 features دي أساسية — "Systems Thinking, Shared Vision, Mental Models, Team Learning, Personal Mastery"</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     ROLL UP
+══════════════════════════════════════════════════════ -->
+<div class="chapter">
+  <div class="ch-header">
+    <div class="ch-num pink">🔄</div>
+    <div class="ch-title">
+      <h2>Roll Up — ملخص الـ 6 Approaches</h2>
+    </div>
+  </div>
+  <table class="tbl">
+    <tr><th>الـ Approach</th><th>الفكرة الأساسية</th><th>الرواد</th></tr>
+    <tr><td><strong>Classical</strong></td><td>الكفاءة → النجاح</td><td>Taylor, Gilbreth, Gantt, Fayol</td></tr>
+    <tr><td><strong>Behavioral</strong></td><td>فهم الناس → زيادة الإنتاج</td><td>Hawthorne Studies</td></tr>
+    <tr><td><strong>Management Science</strong></td><td>Operations Research → حل المشاكل</td><td>Mathematical Techniques</td></tr>
+    <tr><td><strong>Contingency</strong></td><td>If…Then — مفيش حل واحد</td><td>Perceive, Choose, Implement</td></tr>
+    <tr><td><strong>System</strong></td><td>المنظمة كنظام متكامل</td><td>von Bertalanffy</td></tr>
+    <tr><td><strong>Learning Organization</strong></td><td>خلق ونقل المعرفة + تعديل السلوك</td><td>Systems Thinking, Shared Vision…</td></tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     QUIZ
+══════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Exam Question Bank — Chapter 2</h3>
+      <p>أسئلة حقيقية من امتحانات 2019 / 2021 / 2022 / 2024 / 2025 · اختار وجرب</p>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 1 <span class="q-src">Final 2021 · Q2.1</span></div>
+    <div class="q-text">Frederick Taylor is best known for developing the concept of <strong>Scientific Management</strong>.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A — True</b>
+      فريدريك تايلور (Frederick Taylor) هو مؤسس الإدارة العلمية (Scientific Management) وكتب فيها كتابه الشهير سنة 1911 وهو اللي قدّم فكرة الـ "one best way" لأداء أي مهمة.
+      <div class="why-wrong"><b>📌 ملحوظة:</b> تايلور ركّز على الكفاءة التشغيلية من خلال دراسة الحركة والوقت في Bethlehem Steel Co.</div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 2 <span class="q-src">Final 2021 · Q2.2</span></div>
+    <div class="q-text">Henri Fayol is considered the father of <strong>Scientific Management</strong>.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — False</b>
+      هنري فايول هو أبو الإدارة الشاملة (Administrative Theory / Modern Management) وصاحب الـ 14 مبدأً — مش أبو الـ Scientific Management. أبو الـ Scientific Management هو تايلور.
+      <div class="why-wrong"><b>الفرق:</b> Taylor = Scientific Management · Fayol = Administrative Theory (14 Principles)</div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 3 <span class="q-src">Final 2022 · Q2.5</span></div>
+    <div class="q-text">The <strong>Hawthorne Studies</strong> led to the conclusion that _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Money is the primary motivator for workers</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Physical working conditions are the most important factor</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Human relations and social factors significantly affect worker productivity</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Employees prefer working alone without supervision</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Human relations and social factors significantly affect worker productivity</b>
+      دراسات هوثورن (1924-1932) في Western Electric أثبتت إن العلاقات الإنسانية والعوامل الاجتماعية ليها تأثير أكبر بكتير على الإنتاجية من الظروف المادية.
+      <div class="why-wrong"><b>ليه باقي الإجابات غلط:</b> A — الفلوس مش الأساس (الـ Bank Wiring Room أثبتت إن الضغط الاجتماعي أقوى من المكافأة) · B — الظروف المادية مش الأهم (الـ Relay Room أثبتت كده)</div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 4 <span class="q-src">Final 2019 · Q2.3</span></div>
+    <div class="q-text">The classical approach to management focuses primarily on the <strong>human and behavioral</strong> aspects of organizations.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — False</b>
+      النهج الكلاسيكي (Classical Approach) بيركز على الكفاءة التنظيمية — مش السلوك البشري. اللي بيركز على السلوك البشري هو الـ Behavioral Approach.
+      <div class="why-wrong"><b>المقارنة:</b> Classical = "Organizational Efficiency" · Behavioral = "Understanding People"</div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 5 <span class="q-src">Final 2021 · Q2.8</span></div>
+    <div class="q-text">Which of the following is one of <strong>Fayol's 14 Principles</strong> of Management?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Time and Motion Study</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Hawthorne Effect</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Theory X and Theory Y</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Unity of Command</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — Unity of Command</b>
+      Unity of Command (وحدة القيادة) هو المبدأ الرابع من الـ 14 مبدأً لفايول. معناه إن كل موظف يتلقى أوامر من مدير واحد بس لمنع التضارب.
+      <div class="why-wrong"><b>ليه باقي الإجابات غلط:</b> A = خاص بـ Taylor و Gilbreth · B = نتيجة دراسات هوثورن · C = خاص بـ McGregor (Behavioral)</div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 6 <span class="q-src">Final 2025 · Q60</span></div>
+    <div class="q-text">The <strong>Contingency Approach</strong> suggests that there is one universal best way to manage all organizations.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — False</b>
+      الـ Contingency Approach بيقول العكس: "There is probably <strong>no one best way</strong> to solve all management problems in all organizations." الحل بيتوقف على الظروف (It depends on the situation).
+      <div class="why-wrong"><b>📌 الجملة الصح:</b> There is probably <em>one best way to solve any given management problem in any one organization</em> — يعني هناك أفضل حل لمشكلة معينة في منظمة معينة، مش لكل المنظمات.</div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 7 <span class="q-src">Final 2024 · Q2.7</span></div>
+    <div class="q-text">The <strong>System Approach</strong> to management views the organization as a set of interrelated and interdependent parts functioning as a whole.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A — True</b>
+      ده تعريف الـ System بالظبط من الكتاب: "a number of interdependent parts functioning as a whole for some purpose." المؤسس هو Ludwig von Bertalanffy.
+      <div class="why-wrong"><b>📌 فرّق بين:</b> Closed System (معزول عن البيئة) و Open System (يتفاعل مع البيئة) — المنظمات في الغالب Open Systems.</div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 8 <span class="q-src">Final 2022 · Q2.10</span></div>
+    <div class="q-text">In the Bank Wiring Observation Room experiment, the work group pressured <strong>slower workers to speed up</strong> their work rate.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — False</b>
+      العكس هو اللي حصل! المجموعة ضغطت على العمال الأسرع (faster workers) لإبطاء عملهم — مش العكس. السبب كان الحفاظ على تماسك المجموعة (Group Solidarity).
+      <div class="why-wrong"><b>الاستنتاج:</b> Social groups can exert pressure to make individuals disregard monetary incentives.</div>
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 9 <span class="q-src">Final 2024 · Q2.12</span></div>
+    <div class="q-text">Which management approach emphasizes that the best management style depends on the specific situation — using an <strong>"If … Then"</strong> relationship?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Classical Approach</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Behavioral Approach</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Contingency Approach</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> System Approach</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — Contingency Approach</b>
+      الـ Contingency Approach هو اللي بيقوم على علاقة "If…Then" — إذا كانت الظروف كذا، إذن استخدم أسلوب كذا. أشهر مثال: If subordinates inexperienced → Then lead differently.
+      <div class="why-wrong"><b>ليه باقي الإجابات غلط:</b> A = بيدور على طريقة واحدة مثلى · B = بيركز على الناس والعلاقات · D = بيركز على المنظمة كنظام متكامل</div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 10 <span class="q-src">Final 2025 · Q61</span></div>
+    <div class="q-text">A <strong>Learning Organization</strong> is defined as one that does well in creating, acquiring, and transferring knowledge, and modifying behavior to reflect new knowledge.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A — True</b>
+      ده التعريف الحرفي للمنظمة المتعلمة من الكتاب: "an organization that does well in creating, acquiring, and transferring knowledge, and in modifying behavior to reflect new knowledge."
+      <div class="why-wrong"><b>📌 الـ 5 Features:</b> Systems Thinking · Shared Vision · Challenging Mental Models · Team Learning · Personal Mastery</div>
+    </div>
+  </div>
+
+  <div class="q-score"></div>
+  <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✅ Check Answers</button>
+  <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">🔄 Reset</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat">
+  <div class="ch-header">
+    <div class="ch-num teal">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet — المرجع السريع</h2>
+      <p>كل التعريفات والمقارنات في مكان واحد</p>
+    </div>
+  </div>
+
+  <div class="cheat">
+    <h3>🏷️ التعريفات الأساسية</h3>
+    <div class="cheat-item"><div class="cheat-key">Classical Approach</div><div class="cheat-val">Emphasizes organizational <strong>efficiency</strong> to increase organizational success. Lower-Level: Taylor, Gilbreth, Gantt · Comprehensive: Fayol</div></div>
+    <div class="cheat-item"><div class="cheat-key">Scientific Management (Taylor)</div><div class="cheat-val">Increasing worker efficiency by scientifically designing jobs. "One best way." Piece-Rate Rewarding System.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Motion Study (Gilbreth)</div><div class="cheat-val">Eliminating unnecessary movements in work to improve efficiency.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Fayol's 14 Principles</div><div class="cheat-val">Division of Work · Authority · Discipline · Unity of Command · Unity of Direction · Subordination · Remuneration · Centralization · Scalar Chain · Order · Equity · Stability · Initiative · Esprit de Corps</div></div>
+    <div class="cheat-item"><div class="cheat-key">Behavioral Approach</div><div class="cheat-val">Emphasizes increasing production through an <strong>understanding of people</strong>. Hawthorne Studies (1924-1932).</div></div>
+    <div class="cheat-item"><div class="cheat-key">Hawthorne — Relay Assembly</div><div class="cheat-val">مهما تغيرت الظروف — الإنتاج زاد! ← العوامل الإنسانية تؤثر على الإنتاج.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Hawthorne — Bank Wiring</div><div class="cheat-val">المجموعة ضغطت على الأسرع لإبطاء العمل ← Solidarity > Money.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Contingency Approach</div><div class="cheat-val">"If…Then" — No one best way for all. Maybe one best way for any given situation. Challenges: Perceive → Choose → Implement.</div></div>
+    <div class="cheat-item"><div class="cheat-key">System Approach</div><div class="cheat-val">Organization = interdependent parts functioning as a whole. Closed (no env interaction) vs Open (interacts with env). Founded by von Bertalanffy.</div></div>
+    <div class="cheat-item"><div class="cheat-key">Learning Organization</div><div class="cheat-val">Creating + Acquiring + Transferring Knowledge + Modifying Behavior. Features: Systems Thinking, Shared Vision, Mental Models, Team Learning, Personal Mastery.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     RAPID REVISION
+══════════════════════════════════════════════════════ -->
+<div class="chapter" id="revision">
+  <div class="ch-header">
+    <div class="ch-num pink">⚡</div>
+    <div class="ch-title">
+      <h2>Rapid Revision — Flash Cards</h2>
+      <p>اضغط على الكارت عشان تشوف الإجابة</p>
+    </div>
+  </div>
+
+  <div class="flashcards">
+    <div class="flashcard">
+      <div class="fc-inner">
+        <div class="fc-front"><div class="fc-q">أبو الـ Scientific Management؟</div><div class="fc-hint">اضغط للإجابة</div></div>
+        <div class="fc-back"><div class="fc-a">Frederick W. Taylor</div></div>
+      </div>
+    </div>
+    <div class="flashcard">
+      <div class="fc-inner">
+        <div class="fc-front"><div class="fc-q">كام مبدأ لفايول وإيه أشهرهم؟</div><div class="fc-hint">اضغط للإجابة</div></div>
+        <div class="fc-back"><div class="fc-a">14 مبدأ · أشهرهم: Unity of Command + Unity of Direction + Esprit de Corps</div></div>
+      </div>
+    </div>
+    <div class="flashcard">
+      <div class="fc-inner">
+        <div class="fc-front"><div class="fc-q">إيه نتيجة تجربة Relay Assembly Room؟</div><div class="fc-hint">اضغط للإجابة</div></div>
+        <div class="fc-back"><div class="fc-a">الإنتاج زاد مهما تغيرت الظروف ← Human factors تؤثر على الإنتاج</div></div>
+      </div>
+    </div>
+    <div class="flashcard">
+      <div class="fc-inner">
+        <div class="fc-front"><div class="fc-q">إيه نتيجة تجربة Bank Wiring Room؟</div><div class="fc-hint">اضغط للإجابة</div></div>
+        <div class="fc-back"><div class="fc-a">المجموعة ضغطت على الأسرع لإبطاء العمل ← Group Solidarity أقوى من المكافأة</div></div>
+      </div>
+    </div>
+    <div class="flashcard">
+      <div class="fc-inner">
+        <div class="fc-front"><div class="fc-q">Contingency Approach = ؟</div><div class="fc-hint">اضغط للإجابة</div></div>
+        <div class="fc-back"><div class="fc-a">"If … Then" — مفيش حل واحد لكل المشاكل · يعتمد على الظروف</div></div>
+      </div>
+    </div>
+    <div class="flashcard">
+      <div class="fc-inner">
+        <div class="fc-front"><div class="fc-q">الفرق بين Closed و Open System؟</div><div class="fc-hint">اضغط للإجابة</div></div>
+        <div class="fc-back"><div class="fc-a">Closed = لا تتفاعل مع البيئة · Open = تتفاعل مع البيئة باستمرار</div></div>
+      </div>
+    </div>
+    <div class="flashcard">
+      <div class="fc-inner">
+        <div class="fc-front"><div class="fc-q">الـ 5 Features للـ Learning Organization؟</div><div class="fc-hint">اضغط للإجابة</div></div>
+        <div class="fc-back"><div class="fc-a">Systems Thinking · Shared Vision · Mental Models · Team Learning · Personal Mastery</div></div>
+      </div>
+    </div>
+    <div class="flashcard">
+      <div class="fc-inner">
+        <div class="fc-front"><div class="fc-q">مؤسس الـ System Approach؟</div><div class="fc-hint">اضغط للإجابة</div></div>
+        <div class="fc-back"><div class="fc-a">Ludwig von Bertalanffy — عالم فيزياء وأحياء</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- .content -->
+</main>
+
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
