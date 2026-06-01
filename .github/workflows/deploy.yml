@@ -4,21 +4,37 @@ on:
   push:
     branches:
       - main
+      - testing
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy on Server
+      - name: Deploy Production
+        if: github.ref == 'refs/heads/main'
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ vars.SERVER_HOST }}
           username: ${{ vars.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /var/www/FCAI_Summaries
+            cd /var/www/FCAI_Summaries/prod
 
             git pull origin main
+
+            sudo systemctl reload nginx
+
+      - name: Deploy Testing
+        if: github.ref == 'refs/heads/testing'
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ vars.SERVER_HOST }}
+          username: ${{ vars.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /var/www/FCAI_Summaries/testing
+
+            git pull origin testing
 
             sudo systemctl reload nginx
