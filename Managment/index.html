@@ -10,11 +10,12 @@
 <style>
   #main{margin-right:0;margin-left:0}
   body{padding-bottom:60px}
-  .back-home{position:fixed;top:18px;right:18px;z-index:30;display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;border:1px solid rgba(244,114,182,.25);background:rgba(11,17,32,.85);color:var(--t1);text-decoration:none;font-family:var(--fh);font-size:.82rem;backdrop-filter:blur(8px);transition:.2s}
+  .back-home{position:fixed;top:18px;left:18px;z-index:30;display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;border:1px solid rgba(244,114,182,.25);background:rgba(11,17,32,.85);color:var(--t1);text-decoration:none;font-family:var(--fh);font-size:.82rem;backdrop-filter:blur(8px);transition:.2s}
   .back-home:hover{border-color:var(--pink);color:var(--pink)}
   .hero{padding-top:90px}
   .info{background:rgba(244,114,182,.08);border:1px solid rgba(244,114,182,.18);border-radius:12px;padding:14px 18px;color:#fbcfe8;font-size:.88rem;margin-top:34px}
   .info b{color:var(--pink)}
+  .lectures-grid{max-width:1120px;margin:30px auto 0}
 </style>
 </head>
 <body>
@@ -28,7 +29,6 @@
   <section class="hero">
     <div class="hero-badge">📊 DS251 · Cairo University · Dr. Doaa Saleh</div>
     <h1>Fundamentals of Management<br><span>Complete Study Hub</span></h1>
-    <p>شرح كامل لكل شابتر من الشرائح بالعربي · أسئلة امتحانات حقيقية من 5 سنين مع الإجابات والتفسير · Cheat Sheet · Flash Cards للمراجعة السريعة</p>
     <div class="hero-stats">
       <div class="hstat"><div class="num">10</div><div class="lbl">Chapters</div></div>
       <div class="hstat"><div class="num">10</div><div class="lbl">All Ready ✅</div></div>
@@ -43,11 +43,10 @@
       <div class="ch-num pink">📚</div>
       <div class="ch-title">
         <h2>All Chapters</h2>
-        <p>اضغط على أي شابتر عشان تفتحه</p>
       </div>
     </div>
 
-    <div class="lectures-grid">
+    <div class="lectures-grid" dir="ltr">
 
       <!-- Ch 1 -->
       <a class="lec-card ready" href="chapters/chapter-01.html">

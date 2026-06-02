@@ -265,7 +265,7 @@ bdi{display:inline;direction:ltr;unicode-bidi:isolate}
 /* ─── RTL LAYOUT OVERRIDES ─── */
 html[dir="rtl"] body{direction:rtl}
 html[dir="rtl"] #sidebar{left:auto;right:0;border-right:none;border-left:1px solid var(--border);direction:ltr}
-html[dir="rtl"] #main{margin-left:0;margin-right:var(--fw)}
+html[dir="rtl"] #main{margin-left:0}
 html[dir="rtl"] #prog-bar{left:auto;right:0}
 html[dir="rtl"] #scroll-top{right:auto;left:20px}
 html[dir="rtl"] #menu-btn{left:auto;right:20px}

@@ -2172,10 +2172,16 @@
         });
       });
       function getQuizFeedback(pct) {
-        if (pct < 50) return "راجع الشرح وخد جولة تانية.";
-        if (pct < 70) return "قريب، بس في نقط محتاجة مراجعة.";
-        if (pct < 90) return "أداء محترم. راجع الغلطات.";
-        return "ممتاز. الشابتر تحت السيطرة.";
+        const messages = pct < 50 ? [
+          'متروحش تمتحن أحسن 😁 افتح الشرح وخد جولة تانية.'
+        ] : pct < 70 ? [
+          'مش وحش، بس لسه في كام سؤال عاملين نفسهم managers.'
+        ] : pct < 90 ? [
+          'أداء محترم. راجع الغلطات دي .'
+        ] : [
+          'جامد جدًا. كده الـ chapter تحت السيطرة 🔥'
+        ];
+        return messages[Math.floor(Math.random() * messages.length)];
       }
       function checkQuiz(sectionId) {
         const section = document.getElementById(sectionId);
@@ -2208,7 +2214,7 @@
         const scoreId = sectionId === "quiz-tf" ? "score-tf" : "score-mcq";
         const pct = Math.round((correct / total) * 100);
         const el = document.getElementById(scoreId);
-        el.innerHTML = `${correct} / ${total} - ${pct}%<div class="q-feedback">${getQuizFeedback(pct)}</div>`;
+        el.innerHTML = `${correct} / ${total} — ${pct}%<div class="q-feedback">${getQuizFeedback(pct)}</div>`;
         el.style.color =
           pct >= 70
             ? "var(--green)"
