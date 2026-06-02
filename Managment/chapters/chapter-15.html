@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 15 — Influencing & Communication | DS251 Fundamentals of Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════
+   RESET & ROOT VARIABLES
+══════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0d0f14; --bg2:#12151c; --bg3:#0a0c10;
+  --card:#161b25; --card2:#1d2536; --card3:#232d42;
+  --border:rgba(255,255,255,.07); --border2:rgba(255,255,255,.13);
+  --t1:#e8eaf0; --t2:#a0a8be; --t3:#636880; --t4:#3d4258;
+  --fh:'Outfit',sans-serif;
+  --fb:'DM Sans','Noto Sans Arabic',sans-serif;
+  --fc:'Fira Code',monospace;
+  --fa:'Noto Sans Arabic','DM Sans',sans-serif;
+  --cyan:#22d3ee; --amber:#f59e0b; --red:#ef4444;
+  --purple:#a78bfa; --green:#4ade80; --pink:#f472b6;
+  --teal:#2dd4bf; --blue:#60a5fa; --orange:#fb923c;
+  --sw:286px;
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg); color:var(--t1);
+  font-family:var(--fa); font-size:15px; line-height:1.75;
+  direction:rtl;
+}
+
+/* ══════════════════════════════════════════════════
+   PROGRESS BAR
+══════════════════════════════════════════════════ */
+#prog-bar{
+  position:fixed; top:0; right:0; left:0; height:3px;
+  background:var(--bg3); z-index:9999; pointer-events:none;
+}
+#prog-fill{
+  height:100%; width:0%;
+  background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+  transition:width .08s;
+}
+
+/* ══════════════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════════════ */
+#sidebar{
+  position:fixed; top:0; right:0; bottom:0;
+  width:var(--sw); background:var(--bg2);
+  border-left:1px solid var(--border);
+  overflow-y:auto; padding:20px 0 100px; z-index:900;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+}
+#sidebar::-webkit-scrollbar{width:4px;}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+@media(max-width:1100px){
+  #sidebar{transform:translateX(110%);}
+  #sidebar.open{transform:translateX(0);}
+}
+.sb-logo{padding:4px 20px 20px; border-bottom:1px solid var(--border); margin-bottom:10px;}
+.sb-logo h2{font-family:var(--fh);font-size:.95rem;color:var(--t1);font-weight:700;line-height:1.3;}
+.sb-logo p{font-size:.7rem;color:var(--t3);margin-top:3px;}
+.sb-tag{display:inline-block;font-family:var(--fc);font-size:.6rem;padding:2px 7px;border-radius:4px;background:rgba(34,211,238,.1);color:var(--cyan);border:1px solid rgba(34,211,238,.2);margin-top:6px;}
+.sb-section{
+  padding:14px 20px 5px;
+  font-family:var(--fh);font-size:.62rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.12em;color:var(--t4);
+}
+.sb-link{
+  display:flex;align-items:center;gap:9px;
+  padding:7px 12px; margin:1px 8px;
+  text-decoration:none; color:var(--t2); font-size:.82rem;
+  border-radius:9px; transition:.18s;
+}
+.sb-link:hover{background:var(--card);color:var(--t1);}
+.sb-link.active{background:var(--card2);color:var(--cyan);}
+.sb-dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.45;flex-shrink:0;}
+
+/* ══════════════════════════════════════════════════
+   FLOATING BUTTONS
+══════════════════════════════════════════════════ */
+#menu-btn{
+  position:fixed;top:14px;left:16px;z-index:1000;
+  width:44px;height:44px;border-radius:11px;
+  background:var(--card2);border:1px solid var(--border2);
+  color:var(--t1);font-size:1.15rem;cursor:pointer;
+  display:none;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.4);
+}
+@media(max-width:1100px){#menu-btn{display:flex;}}
+#scroll-top{
+  position:fixed;bottom:24px;left:24px;z-index:800;
+  width:44px;height:44px;border-radius:11px;
+  background:var(--card2);border:1px solid var(--border2);
+  color:var(--t2);cursor:pointer;
+  transition:opacity .3s,transform .3s;
+  opacity:0;transform:translateY(8px);
+  font-size:.95rem;display:flex;align-items:center;justify-content:center;
+}
+#scroll-top.vis{opacity:1;transform:translateY(0);}
+#scroll-top:hover{color:var(--cyan);}
+#overlay{
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,.6); z-index:800; backdrop-filter:blur(2px);
+}
+#overlay.open{display:block;}
+
+/* ══════════════════════════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════════════════════════ */
+#main{
+  margin-right:var(--sw); min-height:100vh;
+  padding-bottom:120px;
+}
+@media(max-width:1100px){#main{margin-right:0;}}
+
+/* ══════════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════════ */
+.hero{
+  padding:80px 60px 56px;
+  background:linear-gradient(145deg,var(--bg3) 0%,var(--bg2) 60%,rgba(167,139,250,.04) 100%);
+  border-bottom:1px solid var(--border);
+  position:relative; overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-60px;left:-60px;
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(167,139,250,.07) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;bottom:-80px;right:30%;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(34,211,238,.05) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 14px;border-radius:20px;
+  background:rgba(167,139,250,.09);border:1px solid rgba(167,139,250,.22);
+  color:var(--purple);font-size:.76rem;font-family:var(--fc);
+  margin-bottom:22px; letter-spacing:.03em;
+}
+.hero h1{
+  font-family:var(--fh);font-size:2.5rem;font-weight:900;
+  line-height:1.15;margin-bottom:18px;color:var(--t1);
+}
+.hero h1 span{
+  background:linear-gradient(90deg,var(--purple),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero p{color:var(--t2);font-size:.97rem;max-width:640px;line-height:1.75;margin-bottom:30px;}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px;}
+.btn{
+  padding:10px 22px;border-radius:11px;font-size:.88rem;
+  font-weight:700;font-family:var(--fh);cursor:pointer;
+  text-decoration:none;border:none;transition:.2s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#8b5cf6);color:#0d0f14;}
+.btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:var(--t2);border:1px solid var(--border2);}
+.btn-ghost:hover{color:var(--t1);border-color:var(--t3);}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;}
+.hstat .num{font-family:var(--fh);font-size:1.9rem;font-weight:900;color:var(--purple);}
+.hstat .lbl{font-size:.7rem;color:var(--t3);text-transform:uppercase;letter-spacing:.09em;margin-top:-2px;}
+@media(max-width:700px){
+  .hero{padding:60px 24px 40px;}
+  .hero h1{font-size:1.7rem;}
+}
+
+/* ══════════════════════════════════════════════════
+   CONTENT WRAPPER
+══════════════════════════════════════════════════ */
+.content{padding:36px 60px;}
+@media(max-width:700px){.content{padding:20px;}}
+
+/* ══════════════════════════════════════════════════
+   CHAPTER CARD
+══════════════════════════════════════════════════ */
+.chapter{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;margin-bottom:24px;overflow:hidden;
+}
+.ch-header{
+  display:flex;align-items:flex-start;gap:20px;
+  padding:26px 32px;background:var(--card2);
+  border-bottom:1px solid var(--border);
+}
+.ch-num{
+  font-family:var(--fh);font-weight:900;line-height:1;
+  flex-shrink:0;width:58px;height:58px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+}
+.ch-num.cyan{background:rgba(34,211,238,.14);color:var(--cyan);}
+.ch-num.amber{background:rgba(245,158,11,.14);color:var(--amber);}
+.ch-num.red{background:rgba(239,68,68,.14);color:var(--red);}
+.ch-num.purple{background:rgba(167,139,250,.14);color:var(--purple);}
+.ch-num.green{background:rgba(74,222,128,.14);color:var(--green);}
+.ch-num.pink{background:rgba(244,114,182,.14);color:var(--pink);}
+.ch-num.blue{background:rgba(96,165,250,.14);color:var(--blue);}
+.ch-num.teal{background:rgba(45,212,191,.14);color:var(--teal);}
+.ch-title h2{font-family:var(--fh);font-size:1.22rem;font-weight:700;color:var(--t1);margin-bottom:5px;}
+.ch-title p{font-size:.86rem;color:var(--t2);line-height:1.55;}
+
+/* ══════════════════════════════════════════════════
+   TOPIC
+══════════════════════════════════════════════════ */
+.topic{
+  padding:24px 32px;
+  border-bottom:1px solid var(--border);
+  --accent:var(--cyan);
+}
+.topic:last-child{border-bottom:none;}
+.topic-title{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--fh);font-size:1rem;font-weight:700;
+  color:var(--accent);margin-bottom:14px;
+}
+.icon{font-size:1.15rem;}
+.topic p{color:var(--t2);font-size:.9rem;line-height:1.75;margin-bottom:10px;}
+.topic ul,.topic ol{padding-right:20px;color:var(--t2);font-size:.9rem;margin-bottom:10px;}
+.topic li{margin-bottom:6px;line-height:1.65;}
+.topic strong{color:var(--t1);}
+.topic em{color:var(--accent);font-style:normal;font-weight:600;}
+.topic h4{font-family:var(--fh);font-weight:700;margin-bottom:10px;margin-top:14px;}
+code{
+  font-family:var(--fc);font-size:.83em;
+  background:rgba(255,255,255,.07);
+  padding:2px 7px;border-radius:5px;color:var(--cyan);
+}
+
+/* ══════════════════════════════════════════════════
+   GRIDS & CARDS
+══════════════════════════════════════════════════ */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0;}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;margin:14px 0;}
+@media(max-width:900px){.grid2,.grid3,.grid4{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.grid2,.grid3,.grid4{grid-template-columns:1fr;}}
+
+.cmp-card{
+  --accent:var(--cyan);
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:13px;padding:17px;
+  border-top:3px solid var(--accent);
+  transition:.2s;
+}
+.cmp-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.35);}
+.cmp-card h4{font-family:var(--fh);font-size:.88rem;color:var(--accent);font-weight:700;margin-bottom:8px;}
+.cmp-card p{font-size:.81rem;color:var(--t2);line-height:1.6;}
+.cmp-card ul{padding-right:14px;font-size:.8rem;color:var(--t2);margin-top:6px;}
+.cmp-card li{margin-bottom:3px;}
+
+/* ══════════════════════════════════════════════════
+   ALERT BOXES
+══════════════════════════════════════════════════ */
+.info,.warn,.danger,.tip{
+  border-radius:11px;padding:14px 17px;
+  font-size:.87rem;margin:12px 0;
+  border-right:3px solid; line-height:1.65;
+}
+.info{background:rgba(34,211,238,.07);border-color:var(--cyan);}
+.warn{background:rgba(245,158,11,.07);border-color:var(--amber);}
+.danger{background:rgba(239,68,68,.08);border-color:var(--red);}
+.tip{background:rgba(74,222,128,.07);border-color:var(--green);}
+.info b{color:var(--cyan);}  .warn b{color:var(--amber);}
+.danger b{color:var(--red);} .tip b{color:var(--green);}
+
+/* DEFINITION CARDS */
+.def-card{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:14px;padding:20px;margin-bottom:12px;
+  border-right:3px solid var(--accent,var(--cyan));
+}
+.def-label{
+  font-family:var(--fc);font-size:.68rem;font-weight:700;
+  color:var(--accent,var(--cyan));letter-spacing:.08em;margin-bottom:8px;
+  text-transform:uppercase;
+}
+.def-text{font-size:.88rem;color:var(--t1);line-height:1.65;font-weight:500;}
+.def-note{font-size:.78rem;color:var(--t3);margin-top:6px;line-height:1.5;}
+.sb-back{display:flex;align-items:center;gap:8px;margin:10px 16px 16px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:.75rem;text-decoration:none;transition:.2s}
+.sb-back:hover{border-color:var(--pink);color:var(--pink)}
+
+/* ══════════════════════════════════════════════════
+   QUIZ
+══════════════════════════════════════════════════ */
+.quiz-section{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;padding:32px;margin-bottom:24px;
+  direction:ltr;text-align:left;font-family:var(--fb);
+}
+.quiz-header{
+  display:flex;align-items:flex-start;gap:16px;
+  margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);
+}
+.quiz-icon{font-size:1.9rem;flex-shrink:0;}
+.quiz-header h3{font-family:var(--fh);font-size:1.2rem;color:var(--t1);font-weight:700;}
+.quiz-header p{font-size:.84rem;color:var(--t3);margin-top:3px;line-height:1.5;}
+
+.q-item{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;padding:22px;margin-bottom:16px;
+  border-left:3px solid var(--border2);transition:border-color .2s;
+}
+.q-item:hover{border-left-color:var(--cyan);}
+.q-num{
+  font-family:var(--fh);font-size:.73rem;font-weight:700;
+  color:var(--t3);margin-bottom:10px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.q-src{
+  font-family:var(--fc);font-size:.67rem;
+  background:rgba(34,211,238,.08);color:var(--cyan);
+  padding:2px 8px;border-radius:5px;border:1px solid rgba(34,211,238,.16);
+}
+.q-text{font-size:.92rem;color:var(--t1);margin-bottom:16px;line-height:1.7;font-weight:500;}
+.quiz-section ul{padding-left:16px;padding-right:0!important;}
+.q-opts{display:flex;flex-direction:column;gap:8px;}
+.q-opt{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:11px 14px;border-radius:10px;
+  background:var(--card);border:1px solid var(--border);
+  cursor:pointer;transition:.18s;font-size:.87rem;color:var(--t2);
+  user-select:none;
+}
+.q-opt:hover{background:var(--card2);border-color:var(--border2);color:var(--t1);}
+.q-opt.selected{background:rgba(34,211,238,.09);border-color:rgba(34,211,238,.4);color:var(--t1);}
+.q-opt.correct{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.4);color:var(--green);}
+.q-opt.wrong{background:rgba(239,68,68,.09);border-color:rgba(239,68,68,.35);color:var(--red);}
+.q-opt-letter{
+  font-family:var(--fc);font-size:.71rem;font-weight:700;
+  width:24px;height:24px;border-radius:6px;
+  background:rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:var(--t3);
+}
+.q-opt.selected .q-opt-letter{background:rgba(34,211,238,.2);color:var(--cyan);}
+.q-opt.correct .q-opt-letter{background:rgba(74,222,128,.2);color:var(--green);}
+.q-opt.wrong   .q-opt-letter{background:rgba(239,68,68,.2);color:var(--red);}
+
+.q-explain{
+  display:none;margin-top:16px;padding:16px;
+  background:rgba(34,211,238,.05);border-radius:11px;
+  border:1px solid rgba(34,211,238,.12);
+  font-size:.86rem;color:var(--t2);line-height:1.7;
+  direction:rtl;text-align:right;font-family:var(--fa);
+}
+.q-explain b{color:var(--cyan);display:block;margin-bottom:6px;}
+.q-explain ul{padding-right:16px!important;padding-left:0!important;}
+.why-wrong{
+  margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--border);
+  font-size:.82rem;color:var(--t3);line-height:1.6;
+  direction:rtl;text-align:right;
+}
+.why-wrong b{color:var(--t2);}
+.q-controls{text-align:center;margin-top:20px;}
+.q-score{
+  font-family:var(--fh);font-size:1.3rem;font-weight:800;
+  color:var(--green);margin-top:10px;display:block;
+}
+.q-feedback{
+  margin-top:6px;font-family:var(--fa);font-size:.9rem;
+  font-weight:600;line-height:1.6;direction:rtl;text-align:center;color:var(--t2);
+}
+.quiz-btn{
+  padding:10px 26px;border-radius:11px;font-size:.88rem;
+  font-weight:700;font-family:var(--fh);cursor:pointer;
+  border:none;margin:4px;transition:.2s;
+}
+.btn-check{background:linear-gradient(135deg,var(--green),#22c55e);color:#0d0f14;}
+.btn-check:hover{filter:brightness(1.1);}
+.btn-reset{background:var(--card2);color:var(--t2);border:1px solid var(--border2);}
+.btn-reset:hover{color:var(--t1);}
+
+/* ══════════════════════════════════════════════════
+   CHEAT SHEET & FLASHCARDS
+══════════════════════════════════════════════════ */
+.cheat-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0;}
+@media(max-width:800px){.cheat-grid{grid-template-columns:1fr;}}
+#cheat{direction:ltr;text-align:left;font-family:var(--fb);}
+#cheat .ch-header{direction:ltr;text-align:left;}
+#cheat .topic{direction:ltr;text-align:left;}
+.cheat{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:14px;padding:20px;
+}
+.cheat h3{font-family:var(--fh);font-size:.95rem;color:var(--cyan);font-weight:700;margin-bottom:14px;}
+.cheat-item{
+  display:flex;gap:12px;padding:8px 0;
+  border-bottom:1px solid var(--border);font-size:.83rem;
+}
+.cheat-item:last-child{border-bottom:none;}
+.cheat-key{
+  min-width:160px;font-family:var(--fc);font-size:.76rem;
+  color:var(--amber);font-weight:600;flex-shrink:0;padding-top:2px;line-height:1.4;
+}
+.cheat-val{color:var(--t2);line-height:1.6;}
+
+.flashcards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0;}
+@media(max-width:900px){.flashcards{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.flashcards{grid-template-columns:1fr;}}
+.flashcard{height:165px;perspective:1000px;cursor:pointer;}
+.fc-inner{
+  position:relative;width:100%;height:100%;
+  transition:transform .55s cubic-bezier(.4,0,.2,1);
+  transform-style:preserve-3d;
+}
+.flashcard.flipped .fc-inner{transform:rotateY(180deg);}
+.fc-front,.fc-back{
+  position:absolute;width:100%;height:100%;
+  border-radius:14px;padding:18px;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;
+  backface-visibility:hidden;
+}
+.fc-front{
+  background:var(--card2);border:1px solid var(--border);
+  border-top:3px solid var(--cyan);
+}
+.fc-back{
+  background:linear-gradient(135deg,rgba(34,211,238,.13),rgba(167,139,250,.1));
+  border:1px solid rgba(34,211,238,.2);
+  transform:rotateY(180deg);
+}
+.fc-q{font-size:.87rem;color:var(--t1);font-weight:600;line-height:1.45;}
+.fc-a{font-size:.87rem;color:var(--cyan);font-weight:700;line-height:1.5;}
+.fc-hint{font-size:.65rem;color:var(--t4);margin-top:8px;font-family:var(--fc);}
+
+/* ══════════════════════════════════════════════════
+   PROCESS / FLOW
+══════════════════════════════════════════════════ */
+.flow-wrap{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:14px;padding:22px;margin:14px 0;
+}
+.flow-row{
+  display:flex;align-items:center;justify-content:center;
+  gap:0;flex-wrap:wrap;
+}
+.flow-row.ltr{direction:ltr;}
+.flow-box{
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:10px;padding:10px 16px;
+  font-family:var(--fh);font-size:.8rem;font-weight:700;
+  color:var(--accent,var(--cyan));
+  border-top:2px solid var(--accent,var(--cyan));
+  text-align:center;min-width:110px;
+}
+.flow-arrow{color:var(--t4);font-size:1.1rem;padding:0 8px;flex-shrink:0;}
+.flow-note{
+  text-align:center;font-family:var(--fh);font-size:.76rem;
+  color:var(--t3);margin-top:12px;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ PROGRESS BAR ════════ -->
+<div id="prog-bar"><div id="prog-fill"></div></div>
+
+<!-- ════════ OVERLAY (mobile sidebar close) ════════ -->
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ════════ SIDEBAR ════════ -->
+<nav id="sidebar" dir="ltr">
+  <div class="sb-logo">
+    <h2>📚 DS251 &amp; SHU233</h2>
+    <p>Fundamentals of Management</p>
+    <span class="sb-tag">Dr. Doaa Saleh</span>
+  </div>
+  <a class="sb-back" href="../index.html">← All Lectures</a>
+  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+  
+  <div class="sb-section">Course Content</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Influencing Subsystem</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Emotional Intelligence</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Communication Process</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Barriers to Communication</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Organizational Communication</a>
+
+  <div class="sb-section">Question Bank</div>
+  <a href="#quiz-tf" class="sb-link"><span class="sb-dot"></span>True / False (4 Questions)</a>
+  <a href="#quiz-mcq" class="sb-link"><span class="sb-dot"></span>MCQ Practice (8 Questions)</a>
+
+  <div class="sb-section">Final Revision</div>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>Flashcards</a>
+</nav>
+
+<button id="menu-btn" onclick="toggleSidebar()">☰</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ════════ MAIN ════════ -->
+<main id="main" dir="rtl">
+
+<!-- ══════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-badge">📖 Chapter 15 · التوجيه · التواصل الفعال</div>
+  <h1>Influencing & <span>Communication</span></h1>
+  <p>في الشابتر ده هنتعلم إزاي نوجه الناس عشان تحقق الأهداف، وإزاي الـ Communication بتتم بين الموظفين، وإيه هي معوقاتها.</p>
+  <div class="btn-row">
+    <a href="#quiz-tf" class="btn btn-primary">🎯 ابدأ الأسئلة دلوقتي</a>
+    <a href="#cheat" class="btn btn-ghost">📋 Cheat Sheet</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">5</div><div class="lbl">Topics</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">صح/غلط</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">MCQ</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">امتحانات</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ══════════════════════════════════════════════════
+     TOPIC 1 — FUNDAMENTALS OF INFLUENCING
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num cyan">01</div>
+    <div class="ch-title">
+      <h2>Fundamentals of Influencing — أساسيات التوجيه</h2>
+      <p>تعريف الـ Influencing وإزاي هو جزء من الـ Management System.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📖</span> Basic Definitions — تعريفات أساسية</div>
+    
+    <div class="def-card" style="--accent:var(--cyan)">
+      <div class="def-label">Influencing</div>
+      <div class="def-text">The process of guiding the activities of organization members in appropriate directions.</div>
+      <div class="def-note">عملية توجيه أنشطة أعضاء المنظمة في الاتجاهات المناسبة. وبنركز فيها على الناس كأشخاص، زي الروح المعنوية وحل النزاعات.</div>
+    </div>
+
+    <div class="def-card" style="--accent:var(--amber)">
+      <div class="def-label">Appropriate Directions</div>
+      <div class="def-text">The directions that lead to management system objectives attainment.</div>
+      <div class="def-note">الاتجاهات المناسبة دي هي اللي بتؤدي في النهاية لتحقيق أهداف المنظمة.</div>
+    </div>
+
+    <h4>🎯 The Influencing Subsystem</h4>
+    <p>زي أي نظام، الـ Influencing ليه:</p>
+    <ul>
+      <li><strong>Input:</strong> جزء من موارد الشركة (الناس، الفلوس، المواد الخام، الآلات).</li>
+      <li><strong>Process:</strong> عملية التوجيه نفسها زي (التحفيز - القيادة - التواصل - بناء الثقافة).</li>
+      <li><strong>Output:</strong> السلوك المناسب للأعضاء (Appropriate organization member behavior).</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     TOPIC 2 — EMOTIONAL INTELLIGENCE
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num pink">02</div>
+    <div class="ch-title">
+      <h2>Emotional Intelligence — الذكاء العاطفي</h2>
+      <p>مفهوم دانيال جولمان عن الذكاء العاطفي وأهميته للمديرين.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🧠</span> Daniel Goleman's Concept</div>
+    
+    <div class="def-card" style="--accent:var(--pink)">
+      <div class="def-label">Emotional Intelligence</div>
+      <div class="def-text">The capacity of people to recognize their own feelings and the feelings of others, to motivate themselves, and to manage their own emotions as well as the emotions in relationships with others.</div>
+      <div class="def-note">قدرة الشخص إنه يفهم مشاعره ومشاعر الناس التانية، ويحفز نفسه، ويدير علاقاته صح.</div>
+    </div>
+
+    <div class="info">
+      <div><b>خصائص المديرين اللي عندهم Emotional Intelligence عالي:</b><br> 
+      - بيبنوا ثقافة مبنية على الثقة (Trust) ومشاركة المعلومات.<br>
+      - بيكونوا أكثر نجاحاً وفعالية في التعامل مع الناس.<br>
+      - هما وموظفينهم بيكونوا راضيين أكتر عن شغلهم.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     TOPIC 3 — COMMUNICATION PROCESS
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num blue">03</div>
+    <div class="ch-title">
+      <h2>Interpersonal Communication — التواصل الشخصي</h2>
+      <p>إزاي عملية التواصل بتم بين الناس ومكوناتها الأساسية.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--blue)">
+    <div class="topic-title"><span class="icon">💬</span> How Communication Works?</div>
+    <p>التواصل هو: <strong>The process of sharing information with other individuals.</strong></p>
+    
+    <div class="flow-wrap">
+      <div class="flow-row ltr">
+        <div class="flow-box" style="--accent:var(--blue)">Source / Encoder</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--orange)">Signal (Message)</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--green)">Decoder / Destination</div>
+      </div>
+      <div class="flow-note">لو المعنى اللي وصل هو نفس المعنى المقصود = Successful Communication</div>
+    </div>
+
+    <div class="grid3">
+      <div class="cmp-card" style="--accent:var(--blue)">
+        <h4>👤 Source (Encoder)</h4>
+        <p>الشخص اللي بيبدأ التواصل وبيشفر الفكرة (Encode) عشان يشاركها مع غيره.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--orange)">
+        <h4>📩 Signal (Message)</h4>
+        <p>المعلومات المُشفرة (Encoded information) اللي المُرسِل عايز يشاركها.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--green)">
+        <h4>🎯 Destination (Decoder)</h4>
+        <p>الشخص أو الأشخاص اللي المُرسِل بيحاول يوصلهم المعلومة، وبيفكوا شفرتها.</p>
+      </div>
+    </div>
+
+    <br>
+    <h4>📈 Nonverbal Communication</h4>
+    <p>التواصل غير اللفظي مهم جداً. تأثير الرسالة بيتقسم كالتالي:</p>
+    <div class="tip">
+      <div><b>Total message impact =</b><br>
+      <b>7%</b> Words (الكلمات) + <b>38%</b> Vocal tones (نبرة الصوت) + <b>55%</b> Facial expressions (تعبيرات الوش).</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     TOPIC 4 — BARRIERS TO COMMUNICATION
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num red">04</div>
+    <div class="ch-title">
+      <h2>Barriers to Communication — معوقات التواصل</h2>
+      <p>الحاجات اللي بتمنع الرسالة إنها توصل صح (عقبات عامة وخاصة).</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🚧</span> Macrobarriers vs Microbarriers</div>
+    
+    <div class="grid2">
+      <div class="def-card" style="--accent:var(--orange)">
+        <div class="def-label">Macrobarriers (معوقات عامة)</div>
+        <div class="def-text">عوامل بتعيق التواصل في البيئة العامة للرسالة.</div>
+        <ul>
+          <li>الاحتياج المتزايد للمعلومات.</li>
+          <li>الاحتياج لمعلومات معقدة (complex information).</li>
+          <li>تعدد اللغات واختلاف الثقافات.</li>
+          <li>الحاجة لتعلم مفاهيم جديدة بتستهلك وقت التواصل.</li>
+        </ul>
+      </div>
+
+      <div class="def-card" style="--accent:var(--red)">
+        <div class="def-label">Microbarriers (معوقات خاصة/دقيقة)</div>
+        <div class="def-text">عوامل بتعيق التواصل في موقف محدد أو شخصي.</div>
+        <ul>
+          <li>رؤية المُرسل للمُستقبِل (Source’s view of destination).</li>
+          <li>تدخل أو تشويش في الرسالة (Message interference).</li>
+          <li>رؤية المُستقبِل للمُرسل (Destination’s view of source).</li>
+          <li>الإدراك الشخصي (Perception).</li>
+          <li>الكلمات اللي ليها أكتر من معنى.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warn">
+      <div><b>Feedback (التغذية الراجعة):</b> هي رد فعل المُستقبِل على الرسالة. وهدفها الأساسي إن <strong>المُرسل يتأكد إن التواصل تم بنجاح (Successful communication)</strong>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     TOPIC 5 — ORGANIZATIONAL COMMUNICATION
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num purple">05</div>
+    <div class="ch-title">
+      <h2>Organizational Communication — التواصل التنظيمي</h2>
+      <p>إزاي المعلومات بتتنقل جوه الشركة، سواء بشكل رسمي أو غير رسمي.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🏢</span> Formal vs Informal Communication</div>
+    
+    <h4>1. Formal Organizational Communication (التواصل الرسمي)</h4>
+    <p>ليه 3 اتجاهات أساسية:</p>
+    <ul>
+      <li><strong>Downward:</strong> من فوق لتحت (من المدير للموظف).</li>
+      <li><strong>Upward:</strong> من تحت لفوق (من الموظف للمدير).</li>
+      <li><strong>Lateral:</strong> بين الموظفين في نفس المستوى الإداري.</li>
+    </ul>
+
+    <br>
+    <h4>2. Informal Organizational Communication (التواصل غير الرسمي / Grapevine)</h4>
+    <div class="def-card" style="--accent:var(--purple)">
+      <div class="def-label">The Grapevine (الإشاعات / شبكة المعارف)</div>
+      <div class="def-text">Organizational communication that does not follow the lines of the organizational chart.</div>
+      <div class="def-note">تواصل مش بيمشي على الهيكل التنظيمي للشركة. من خصائصه: إنه مش تحت سيطرة الإدارة العليا، وبيخدم المصالح الشخصية للناس اللي فيه.</div>
+    </div>
+    
+    <p><strong>Grapevine Patterns (أنماطه):</strong></p>
+    <ul>
+      <li>The single-strand (واحد لواحد في سلسلة).</li>
+      <li>The gossip (واحد بيقول للكل).</li>
+      <li>The probability (واحد بيقول لعينة عشوائية).</li>
+      <li>The cluster (واحد بيقول لمجموعة معينة مختارة).</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     QUIZ A — TRUE / FALSE
+══════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz-tf">
+  <div class="quiz-header">
+    <div class="quiz-icon">✅</div>
+    <div>
+      <h3>Quiz A — صح / غلط (True / False)</h3>
+      <p>4 أسئلة صح وغلط حقيقية من امتحانات سابقة (2019-2024)</p>
+    </div>
+  </div>
+
+  <!-- TF1 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">TF-1 <span class="q-src">Final 2021 Q15</span></div>
+    <div class="q-text">Influencing is the process of assigning the tasks developed under the planning function to various individuals or groups within the organization.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: خطأ (FALSE)</b>
+      توزيع المهام (Assigning tasks) ده تعريف وظيفة الـ <strong>Organizing</strong> مش הـ Influencing. وظيفة الـ Influencing هي توجيه الأنشطة (Guiding activities).
+    </div>
+  </div>
+
+  <!-- TF2 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">TF-2 <span class="q-src">Final 2024 Q24 · Final 2021 Q20</span></div>
+    <div class="q-text">The basic elements of the interpersonal communication process are the source, the encoder, and the decoder.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: خطأ (FALSE)</b>
+      العناصر الأساسية هما: Source/Encoder وبعدين <strong>Signal (Message)</strong> وبعدين Decoder/Destination. السؤال ناقص جزء أساسي وهو الـ Signal.
+    </div>
+  </div>
+
+  <!-- TF3 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">TF-3 <span class="q-src">Final 2024 Q27 · Final 2019 Q2e</span></div>
+    <div class="q-text">Communication is considered a supplementary management skill rather than a fundamental management skill.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: خطأ (FALSE)</b>
+      التواصل (Communication) بيُعتبر من المهارات الإدارية <strong>الأساسية جداً (Fundamental)</strong>، لدرجة إن المديرين التنفيذيين بيعتبروها أهم مهارة لازم تتعلمها.
+    </div>
+  </div>
+
+  <!-- TF4 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">TF-4 <span class="q-src">Final 2024 Q28</span></div>
+    <div class="q-text">Good communicators consult with others when planning communications.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: صحيح (TRUE)</b>
+      بالظبط، واحدة من قواعد الـ Effective Communication هي إنك تستشير الآخرين (Consult with others) وإنت بتخطط للتواصل بتاعك.
+    </div>
+  </div>
+
+  <div class="q-controls">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-tf')">✓ تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-tf')">↻ إعادة تعيين</button>
+    <div class="q-score" id="score-tf"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     QUIZ B — MCQ
+══════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz-mcq">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Quiz B — اختيار متعدد (Multiple Choice)</h3>
+      <p>8 أسئلة MCQ حقيقية من الامتحانات السابقة عن التواصل والتوجيه.</p>
+    </div>
+  </div>
+
+  <!-- MCQ1 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">MCQ-1 <span class="q-src">Final 2024 Q28</span></div>
+    <div class="q-text">Which of the following is a communication macrobarrier?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> source's view of the destination</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> destination's view of the source</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> need for complex information</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> message interference</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> perception</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — need for complex information</b>
+      الاحتياج المتزايد لمعلومات معقدة بيُعتبر من الـ Macrobarriers. باقي الاختيارات كلها Microbarriers.
+    </div>
+  </div>
+
+  <!-- MCQ2 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">MCQ-2 <span class="q-src">Final 2024 Q33</span></div>
+    <div class="q-text">Encoded information the source intends to share with another person is called a(n) _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> perception</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> message</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> decoder</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> destination</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> microbarrier</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — message</b>
+      الـ Message أو الـ Signal هي المعلومات اللي اتعملها Encode وجاهزة تتبعت.
+    </div>
+  </div>
+
+  <!-- MCQ3 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">MCQ-3 <span class="q-src">Final 2024 Q44</span></div>
+    <div class="q-text">Which of the following is considered the first step toward effective communication?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> seeking to clarify your ideas before communicating</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> examining the true purpose of communication</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> consulting with others in planning communication</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> identifying actions that support the message being communicated</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — seeking to clarify your ideas before communicating</b>
+      من أولى وأهم خطوات التواصل الفعال هي إنك تكون فاهم وموضح الفكرة لنفسك الأول قبل ما تنقلها للناس.
+    </div>
+  </div>
+
+  <!-- MCQ4 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">MCQ-4 <span class="q-src">Final 2024 Q48</span></div>
+    <div class="q-text">What is the major purpose of feedback in the communication process?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> It is used by the source to ensure successful communication.</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> It is used by the destination to ensure successful communication.</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> It provides formal documentation of the communication process.</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> It helps the source avoid questions from the destination.</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — It is used by the source to ensure successful communication</b>
+      المُرسِل (Source) بيستخدم הـ Feedback عشان يتأكد إن الرسالة بتاعته وصلت واتفهمت صح زي ما هو قاصدها.
+    </div>
+  </div>
+
+  <!-- MCQ5 -->
+  <div class="q-item" data-correct="e">
+    <div class="q-num">MCQ-5 <span class="q-src">Final 2024 Q49</span></div>
+    <div class="q-text">The person in the interpersonal communication situation who originates and encodes information to be shared with another person is called the _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> message</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> decoder</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> signal</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> destination</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> source</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: E — source</b>
+      الشخص اللي بيبدأ التواصل ويشفر المعلومات هو الـ Source (المُرسِل).
+    </div>
+  </div>
+
+  <!-- MCQ6 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">MCQ-6 <span class="q-src">Final 2024 Q59</span></div>
+    <div class="q-text">An individual's emotional intelligence is characterized by self-awareness, self-motivation, self-regulation, empathy for others, and _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> adeptness in building relationships</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> formal communication abilities</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> high intelligence quotient</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> cognitive abilities</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — adeptness in building relationships</b>
+      الذكاء العاطفي عند جولمان بيشمل المهارات الاجتماعية وبناء العلاقات وإدارتها بشكل ناجح.
+    </div>
+  </div>
+
+  <!-- MCQ7 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">MCQ-7 <span class="q-src">Final 2024 Q63</span></div>
+    <div class="q-text">Organizational communication that does not follow the lines of the organizational chart is specifically called _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> lateral communication</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> informal communication</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> formal communication</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> upward communication</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — informal communication</b>
+      التواصل اللي مش بيمشي على الهيكل التنظيمي الرسمي ده التواصل غير الرسمي (Informal Communication أو الـ Grapevine).
+    </div>
+  </div>
+
+  <!-- MCQ8 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">MCQ-8 <span class="q-src">Final 2021 Q40</span></div>
+    <div class="q-text">Which of the following is considered a microbarrier to organizational communication?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> individuals' perception of messages</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> need for complex information</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> increasing need for information</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> constant need to learn new concepts</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — individuals' perception of messages</b>
+      الإدراك الشخصي (Perception) بيُعتبر من الـ Microbarriers لأن ده بيأثر على موقف تواصلي محدد بين أشخاص معينة. الباقي كلهم Macrobarriers بيأثروا بشكل عام.
+    </div>
+  </div>
+
+  <div class="q-controls">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-mcq')">✓ تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-mcq')">↻ إعادة تعيين</button>
+    <div class="q-score" id="score-mcq"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat">
+  <div class="ch-header">
+    <div class="ch-num pink">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet — ورقة المراجعة السريعة</h2>
+      <p>كل مصطلح مهم في Chapter 15 مع تعريفه المختصر — للمراجعة الأخيرة قبل الامتحان.</p>
+    </div>
+  </div>
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="cheat-grid">
+      <div class="cheat">
+        <h3>📌 التعريفات الأساسية</h3>
+        <div class="cheat-item">
+          <div class="cheat-key">Influencing</div>
+          <div class="cheat-val">Process of guiding activities in appropriate directions.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Appropriate Directions</div>
+          <div class="cheat-val">Directions that lead to objectives attainment.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Communication</div>
+          <div class="cheat-val">Process of sharing information with others.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Emotional Intelligence</div>
+          <div class="cheat-val">Recognizing and managing your own and others' feelings (Goleman).</div>
+        </div>
+      </div>
+      
+      <div class="cheat">
+        <h3>⚙️ عملية التواصل</h3>
+        <div class="cheat-item">
+          <div class="cheat-key">Source/Encoder</div>
+          <div class="cheat-val">Originates and encodes information.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Signal (Message)</div>
+          <div class="cheat-val">Encoded information to be shared.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Destination/Decoder</div>
+          <div class="cheat-val">The person with whom information is shared.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Feedback</div>
+          <div class="cheat-val">Destination’s reaction, used by source to ensure success.</div>
+        </div>
+      </div>
+
+      <div class="cheat">
+        <h3>🚧 معوقات التواصل</h3>
+        <div class="cheat-item">
+          <div class="cheat-key">Macrobarriers</div>
+          <div class="cheat-val">General factors (complex info, new languages, need to learn).</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Microbarriers</div>
+          <div class="cheat-val">Specific factors (perception, message interference).</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Successful Comm.</div>
+          <div class="cheat-val">Intended meaning = Derived meaning.</div>
+        </div>
+      </div>
+
+      <div class="cheat">
+        <h3>🏢 التواصل التنظيمي</h3>
+        <div class="cheat-item">
+          <div class="cheat-key">Formal Comm.</div>
+          <div class="cheat-val">Downward, Upward, Lateral.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Grapevine</div>
+          <div class="cheat-val">Informal communication (doesn't follow org chart).</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Nonverbal Impact</div>
+          <div class="cheat-val">7% Words + 38% Voice + 55% Facial expressions.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     FLASHCARDS
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="revision">
+  <div class="ch-header">
+    <div class="ch-num green">⚡</div>
+    <div class="ch-title">
+      <h2>Flashcards — بطاقات المراجعة التفاعلية</h2>
+      <p>اضغط على البطاقة لعرض الإجابة — مثالية للمراجعة السريعة!</p>
+    </div>
+  </div>
+  <div class="topic" style="--accent:var(--green)">
+    <div class="flashcards">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front">
+            <div class="fc-q">ما هو تعريف Influencing؟</div>
+            <div class="fc-hint">اضغط لرؤية الإجابة</div>
+          </div>
+          <div class="fc-back">
+            <div class="fc-a">Guiding activities of organization members in appropriate directions.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front">
+            <div class="fc-q">ما هي مكونات عملية التواصل الأساسية؟</div>
+            <div class="fc-hint">اضغط لرؤية الإجابة</div>
+          </div>
+          <div class="fc-back">
+            <div class="fc-a">Source/Encoder ➔ Signal (Message) ➔ Decoder/Destination.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front">
+            <div class="fc-q">ما الفرق بين Macrobarriers و Microbarriers؟</div>
+            <div class="fc-hint">اضغط لرؤية الإجابة</div>
+          </div>
+          <div class="fc-back">
+            <div class="fc-a">Macro = معوقات عامة في البيئة (زي المعلومات المعقدة)<br>Micro = معوقات خاصة في الموقف (زي الإدراك).</div>
+          </div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front">
+            <div class="fc-q">ما هو الـ Grapevine؟</div>
+            <div class="fc-hint">اضغط لرؤية الإجابة</div>
+          </div>
+          <div class="fc-back">
+            <div class="fc-a">التواصل غير الرسمي (Informal Communication) اللي مش بيمشي على الهيكل التنظيمي.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front">
+            <div class="fc-q">إيه هي فايدة الـ Feedback في التواصل؟</div>
+            <div class="fc-hint">اضغط لرؤية الإجابة</div>
+          </div>
+          <div class="fc-back">
+            <div class="fc-a">بيستخدمها المُرسِل (Source) عشان يتأكد إن التواصل تم بنجاح ومفهوم صح.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front">
+            <div class="fc-q">إزاي بيتوزع تأثير التواصل غير اللفظي (Nonverbal)؟</div>
+            <div class="fc-hint">اضغط لرؤية الإجابة</div>
+          </div>
+          <div class="fc-back">
+            <div class="fc-a">55% تعبيرات الوجه<br>38% نبرة الصوت<br>7% فقط للكلمات.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+</main>
+
+<!-- ════════ JAVASCRIPT ════════ -->
+<script>
+  /* ══════ SIDEBAR ══════ */
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  }
+  document.querySelectorAll('.sb-link').forEach(l => {
+    l.addEventListener('click', () => {
+      if (window.innerWidth <= 1100) closeSidebar();
+    });
+  });
+
+  /* ══════ ACTIVE SIDEBAR HIGHLIGHT ══════ */
+  const sections = document.querySelectorAll('[id]');
+  const sbLinks = document.querySelectorAll('.sb-link');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) cur = s.id;
+    });
+    sbLinks.forEach(l => {
+      l.classList.remove('active');
+      if (l.getAttribute('href') === '#' + cur) l.classList.add('active');
+    });
+  });
+
+  /* ══════ PROGRESS BAR ══════ */
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    document.getElementById('prog-fill').style.width = p + '%';
+  });
+
+  /* ══════ SCROLL-TO-TOP ══════ */
+  window.addEventListener('scroll', () => {
+    document.getElementById('scroll-top').classList.toggle('vis', window.scrollY > 400);
+  });
+
+  /* ══════ QUIZ SYSTEM ══════ */
+  document.querySelectorAll('.q-opt').forEach(opt => {
+    opt.addEventListener('click', function () {
+      const item = this.closest('.q-item');
+      if (item.classList.contains('answered')) return;
+      item.querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+
+  function getQuizFeedback(pct) {
+    const messages = pct < 50 ? [
+      'متروحش تمتحن أحسن 😁 افتح الشرح وخد جولة تانية.'
+    ] : pct < 70 ? [
+      'مش وحش، بس لسه في كام سؤال محتاجين تركيز.'
+    ] : pct < 90 ? [
+      'أداء محترم. راجع الغلطات دي.',
+    ] : [
+      'جامد جدًا. كده الـ chapter تحت السيطرة 🔥'
+    ];
+    return messages[Math.floor(Math.random() * messages.length)];
+  }
+
+  function checkQuiz(sectionId) {
+    const section = document.getElementById(sectionId);
+    const items = section.querySelectorAll('.q-item');
+    let total = items.length, correct = 0;
+
+    items.forEach(item => {
+      const correctVal = item.dataset.correct;
+      const selected = item.querySelector('.q-opt.selected');
+
+      if (selected) {
+        item.classList.add('answered');
+        if (selected.dataset.val === correctVal) {
+          selected.classList.add('correct');
+          correct++;
+        } else {
+          selected.classList.add('wrong');
+          item.querySelectorAll('.q-opt').forEach(o => {
+            if (o.dataset.val === correctVal) o.classList.add('correct');
+          });
+        }
+      } else {
+        item.querySelectorAll('.q-opt').forEach(o => {
+          if (o.dataset.val === correctVal) o.classList.add('correct');
+        });
+        item.classList.add('answered');
+      }
+
+      const explain = item.querySelector('.q-explain');
+      if (explain) explain.style.display = 'block';
+    });
+
+    const scoreId = sectionId === 'quiz-tf' ? 'score-tf' : 'score-mcq';
+    const pct = Math.round((correct / total) * 100);
+    const el = document.getElementById(scoreId);
+    
+    el.innerHTML = `${correct} / ${total} — ${pct}%<div class="q-feedback">${getQuizFeedback(pct)}</div>`;
+    el.style.color = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--amber)' : 'var(--red)';
+  }
+
+  function resetQuiz(sectionId) {
+    const section = document.getElementById(sectionId);
+    section.querySelectorAll('.q-item').forEach(item => {
+      item.classList.remove('answered');
+      item.querySelectorAll('.q-opt').forEach(o => {
+        o.classList.remove('selected', 'correct', 'wrong');
+      });
+      const explain = item.querySelector('.q-explain');
+      if (explain) explain.style.display = 'none';
+    });
+
+    const scoreId = sectionId === 'quiz-tf' ? 'score-tf' : 'score-mcq';
+    document.getElementById(scoreId).innerHTML = '';
+  }
+</script>
+</body>
+</html>
