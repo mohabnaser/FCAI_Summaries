@@ -1527,7 +1527,6 @@ code{
     <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-tf')">✓ تحقق من الإجابات</button>
     <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-tf')">↻ إعادة تعيين</button>
     <div class="q-score" id="score-tf"></div>
-    <div class="q-feedback" id="feedback-tf"></div>
   </div>
 </div>
 
@@ -2071,7 +2070,6 @@ code{
     <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-mcq')">✓ تحقق من الإجابات</button>
     <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-mcq')">↻ إعادة تعيين</button>
     <div class="q-score" id="score-mcq"></div>
-    <div class="q-feedback" id="feedback-mcq"></div>
   </div>
 </div>
 
@@ -2419,57 +2417,65 @@ sections.forEach(s=>obs.observe(s));
 document.querySelectorAll('.q-opt').forEach(opt=>{
   opt.addEventListener('click',function(){
     const item=this.closest('.q-item');
-    if(item.dataset.answered)return;
+    if(item.classList.contains('answered'))return;
     item.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected'));
     this.classList.add('selected');
   });
 });
 
-function checkQuiz(id){
-  const section=document.getElementById(id);
-  let correct=0,total=0;
-  section.querySelectorAll('.q-item').forEach(item=>{
-    if(item.dataset.answered)return;
-    const sel=item.querySelector('.q-opt.selected');
-    if(!sel)return;
-    total++;
-    item.dataset.answered='1';
-    const ans=item.dataset.correct;
-    item.querySelectorAll('.q-opt').forEach(o=>{
-      if(o.dataset.val===ans)o.classList.add('correct');
-      else if(o.classList.contains('selected'))o.classList.add('wrong');
-    });
-    if(sel.dataset.val===ans)correct++;
-    const exp=item.querySelector('.q-explain');
-    if(exp)exp.style.display='block';
-  });
-  if(total===0)return;
-  const pct=Math.round((correct/total)*100);
-  const scoreEl=document.getElementById('score-'+id.split('-')[1]);
-  const fbEl=document.getElementById('feedback-'+id.split('-')[1]);
-  if(scoreEl)scoreEl.textContent=correct+' / '+total+' ('+pct+'%)';
-  if(fbEl){
-    if(pct>=90)fbEl.textContent='🏆 ممتاز! أنت جاهز للامتحان!';
-    else if(pct>=70)fbEl.textContent='✅ كويس جداً! راجع الأجزاء الغلط.';
-    else if(pct>=50)fbEl.textContent='⚠️ محتاج مراجعة أكتر — ركز على الـ Cheat Sheet.';
-    else fbEl.textContent='❌ راجع المادة من الأول — كل الـ topics مهمة!';
-  }
+function getQuizFeedback(pct) {
+  if (pct < 50) return 'متروحش تمتحن أحسن 😁 افتح الشرح وخد جولة تانية.';
+  if (pct < 70) return 'مش وحش، بس لسه في كام سؤال عاملين نفسهم managers.';
+  if (pct < 90) return 'أداء محترم. راجع الغلطات دي .';
+  return 'جامد جدًا. كده الـ chapter تحت السيطرة 🔥';
 }
 
-function resetQuiz(id){
-  const section=document.getElementById(id);
+function checkQuiz(sectionId){
+  const section=document.getElementById(sectionId);
+  const items=section.querySelectorAll('.q-item');
+  let total=items.length,correct=0;
+  items.forEach(item=>{
+    const correctVal=item.dataset.correct;
+    const selected=item.querySelector('.q-opt.selected');
+    if(selected){
+      item.classList.add('answered');
+      if(selected.dataset.val===correctVal){
+        selected.classList.add('correct');
+        correct++;
+      }else{
+        selected.classList.add('wrong');
+        item.querySelectorAll('.q-opt').forEach(o=>{
+          if(o.dataset.val===correctVal)o.classList.add('correct');
+        });
+      }
+    }else{
+      item.querySelectorAll('.q-opt').forEach(o=>{
+        if(o.dataset.val===correctVal)o.classList.add('correct');
+      });
+      item.classList.add('answered');
+    }
+    const explain=item.querySelector('.q-explain');
+    if(explain)explain.style.display='block';
+  });
+  const scoreId=sectionId==='quiz-tf'?'score-tf':'score-mcq';
+  const pct=Math.round((correct/total)*100);
+  const el=document.getElementById(scoreId);
+  el.innerHTML=`${correct} / ${total} — ${pct}%<div class="q-feedback">${getQuizFeedback(pct)}</div>`;
+  el.style.color=pct>=70?'var(--green)':pct>=40?'var(--amber)':'var(--red)';
+}
+
+function resetQuiz(sectionId){
+  const section=document.getElementById(sectionId);
   section.querySelectorAll('.q-item').forEach(item=>{
-    delete item.dataset.answered;
+    item.classList.remove('answered');
     item.querySelectorAll('.q-opt').forEach(o=>{
       o.classList.remove('selected','correct','wrong');
     });
-    const exp=item.querySelector('.q-explain');
-    if(exp)exp.style.display='none';
+    const explain=item.querySelector('.q-explain');
+    if(explain)explain.style.display='none';
   });
-  const scoreEl=document.getElementById('score-'+id.split('-')[1]);
-  const fbEl=document.getElementById('feedback-'+id.split('-')[1]);
-  if(scoreEl)scoreEl.textContent='';
-  if(fbEl)fbEl.textContent='';
+  const scoreId=sectionId==='quiz-tf'?'score-tf':'score-mcq';
+  document.getElementById(scoreId).innerHTML='';
 }
 </script>
 </body>
