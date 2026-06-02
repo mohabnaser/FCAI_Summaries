@@ -1,502 +1,2074 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter 8 - Making Decisions | DS251 Fundamentals of Management</title>
-<meta name="description" content="Chapter 8 Making Decisions: decision types, consensus, responsibility, rational decision process, risk, uncertainty, EV, decision trees, group decision techniques, exam questions and answers.">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/shared.css">
-<style>
-.decision-card{background:var(--card2);border:1px solid var(--border);border-radius:13px;padding:18px;border-top:3px solid var(--accent,var(--cyan))}
-.decision-card h4{font-family:var(--fh);font-size:.9rem;color:var(--accent,var(--cyan));margin-bottom:8px}
-.decision-card p,.decision-card li{font-size:.82rem;color:var(--t2);line-height:1.6}
-.formula{direction:ltr;text-align:center;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;margin:12px 0;font-family:var(--fc);color:var(--cyan);font-size:1.05rem}
-.repeat{display:inline-flex;align-items:center;padding:2px 8px;border-radius:6px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:var(--amber);font-family:var(--fc);font-size:.64rem;margin-inline-start:8px}
-.scope-line{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0}
-@media(max-width:700px){.scope-line{grid-template-columns:1fr}}
-.scope-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;border-top:3px solid var(--accent,var(--cyan))}
-.scope-box .scope-title{font-family:var(--fh);font-weight:800;color:var(--accent,var(--cyan));font-size:.9rem}
-.scope-box .scope-desc{color:var(--t2);font-size:.8rem;margin-top:6px}
-.q-opt[data-val="e"] .q-opt-letter{background:rgba(96,165,250,.15);color:var(--blue)}
-</style>
-</head>
-<body>
-<div id="prog-bar"><div id="prog-fill"></div></div>
-<div id="overlay" onclick="closeSidebar()"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Chapter 8 - Making Decisions | DS251 Fundamentals of Management
+    </title>
+    <meta
+      name="description"
+      content="Chapter 8 Making Decisions: decision types, consensus, responsibility, rational decision process, risk, uncertainty, EV, decision trees, group decision techniques, exam questions and answers."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/shared.css" />
+    <style>
+      .decision-card {
+        background: var(--card2);
+        border: 1px solid var(--border);
+        border-radius: 13px;
+        padding: 18px;
+        border-top: 3px solid var(--accent, var(--cyan));
+      }
+      .decision-card h4 {
+        font-family: var(--fh);
+        font-size: 0.9rem;
+        color: var(--accent, var(--cyan));
+        margin-bottom: 8px;
+      }
+      .decision-card p,
+      .decision-card li {
+        font-size: 0.82rem;
+        color: var(--t2);
+        line-height: 1.6;
+      }
+      .formula {
+        direction: ltr;
+        text-align: center;
+        background: var(--card2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        margin: 12px 0;
+        font-family: var(--fc);
+        color: var(--cyan);
+        font-size: 1.05rem;
+      }
+      .repeat {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 6px;
+        background: rgba(245, 158, 11, 0.12);
+        border: 1px solid rgba(245, 158, 11, 0.25);
+        color: var(--amber);
+        font-family: var(--fc);
+        font-size: 0.64rem;
+        margin-inline-start: 8px;
+      }
+      .scope-line {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 14px;
+        margin: 14px 0;
+      }
+      @media (max-width: 700px) {
+        .scope-line {
+          grid-template-columns: 1fr;
+        }
+      }
+      .scope-box {
+        background: var(--card2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        text-align: center;
+        border-top: 3px solid var(--accent, var(--cyan));
+      }
+      .scope-box .scope-title {
+        font-family: var(--fh);
+        font-weight: 800;
+        color: var(--accent, var(--cyan));
+        font-size: 0.9rem;
+      }
+      .scope-box .scope-desc {
+        color: var(--t2);
+        font-size: 0.8rem;
+        margin-top: 6px;
+      }
+      .q-opt[data-val="e"] .q-opt-letter {
+        background: rgba(96, 165, 250, 0.15);
+        color: var(--blue);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="prog-bar"><div id="prog-fill"></div></div>
+    <div id="overlay" onclick="closeSidebar()"></div>
 
-<nav id="sidebar" dir="ltr">
-  <div class="sb-logo">
-    <h2>DS251 & SHU233</h2>
-    <p>Fundamentals of Management</p>
-    <span class="sb-tag">Dr. Doaa Saleh</span>
-  </div>
-  <div class="sb-section">Chapter Content</div>
-  <a href="#intro" class="sb-link"><span class="sb-dot"></span>Course Position</a>
-  <a href="#definitions" class="sb-link"><span class="sb-dot"></span>Definitions</a>
-  <a href="#types" class="sb-link"><span class="sb-dot"></span>Decision Types</a>
-  <a href="#responsibility" class="sb-link"><span class="sb-dot"></span>Responsibility</a>
-  <a href="#consensus" class="sb-link"><span class="sb-dot"></span>Consensus</a>
-  <a href="#situation" class="sb-link"><span class="sb-dot"></span>Decision Situation</a>
-  <a href="#rational" class="sb-link"><span class="sb-dot"></span>Rational Process</a>
-  <a href="#risk" class="sb-link"><span class="sb-dot"></span>Risk & Uncertainty</a>
-  <a href="#tools" class="sb-link"><span class="sb-dot"></span>Decision Tools</a>
-  <a href="#group" class="sb-link"><span class="sb-dot"></span>Group Decision Making</a>
-  <div class="sb-section">Exam Bank</div>
-  <a href="#quiz-tf" class="sb-link"><span class="sb-dot"></span>True / False</a>
-  <a href="#quiz-mcq" class="sb-link"><span class="sb-dot"></span>MCQ</a>
-  <a href="#essay" class="sb-link"><span class="sb-dot"></span>Essay Questions</a>
-  <div class="sb-section">Revision</div>
-  <a href="#cheat-ch8" class="sb-link"><span class="sb-dot"></span>Cheat Sheet</a>
-  <a href="#flashcards-ch8" class="sb-link"><span class="sb-dot"></span>Flashcards</a>
-</nav>
-
-<button id="menu-btn" onclick="toggleSidebar()">☰</button>
-<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-
-<main id="main" dir="rtl">
-<section class="hero">
-  <div class="hero-badge">Chapter 8 · Making Decisions · Planning Support</div>
-  <h1>Making <span>Decisions</span></h1>
-  <p>الشابتر ده بيكمل Planning: يعني القرار هو اختيار بين بدائل، واتخاذ القرار هو اختيار أفضل بديل للوصول للأهداف. أهم الامتحان: programmed/nonprogrammed, consensus, rational process, risk vs uncertainty, EV, وطرق group decision making.</p>
-  <div class="btn-row">
-    <a href="#quiz-mcq" class="btn btn-primary">Start Exam Questions</a>
-    <a href="#cheat-ch8" class="btn btn-ghost">Cheat Sheet</a>
-  </div>
-  <div class="hero-stats">
-    <div class="hstat"><div class="num">2</div><div class="lbl">Decision Types</div></div>
-    <div class="hstat"><div class="num">5</div><div class="lbl">Situation Elements</div></div>
-    <div class="hstat"><div class="num">5</div><div class="lbl">Alternative Limits</div></div>
-    <div class="hstat"><div class="num">3</div><div class="lbl">Group Techniques</div></div>
-  </div>
-</section>
-
-<div class="content">
-
-<div class="chapter" id="intro">
-  <div class="ch-header">
-    <div class="ch-num purple">00</div>
-    <div class="ch-title">
-      <h2>مكان الشابتر في الكورس</h2>
-      <p>Chapter 8 is the second planning chapter: after principles of planning, managers must choose among alternatives.</p>
-    </div>
-  </div>
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">▣</span> Objectives</div>
-    <ol>
-      <li>A fundamental understanding of the term decision.</li>
-      <li>An understanding of each element of the decision situation.</li>
-      <li>An ability to use the decision-making process.</li>
-    </ol>
-  </div>
-</div>
-
-<div class="chapter" id="definitions">
-  <div class="ch-header">
-    <div class="ch-num cyan">01</div>
-    <div class="ch-title">
-      <h2>Definitions</h2>
-      <p>التعريفات الأساسية للسلايد 4.</p>
-    </div>
-  </div>
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="grid2">
-      <div class="def-card" style="--accent:var(--cyan)">
-        <div class="def-label">Decision</div>
-        <div class="def-text">A choice made between two or more available alternatives.</div>
-        <div class="def-note">قرار = اختيار بين بديلين أو أكثر.</div>
+    <nav id="sidebar" dir="ltr">
+      <div class="sb-logo">
+        <h2>DS251 & SHU233</h2>
+        <p>Fundamentals of Management</p>
+        <span class="sb-tag">Dr. Doaa Saleh</span>
       </div>
-      <div class="def-card" style="--accent:var(--green)">
-        <div class="def-label">Decision Making</div>
-        <div class="def-text">The process of choosing the best alternative for reaching objectives.</div>
-        <div class="def-note">متكرر في Final 2024 Q18.</div>
+      <div class="sb-section">Chapter Content</div>
+      <a href="#intro" class="sb-link"
+        ><span class="sb-dot"></span>Course Position</a
+      >
+      <a href="#definitions" class="sb-link"
+        ><span class="sb-dot"></span>Definitions</a
+      >
+      <a href="#types" class="sb-link"
+        ><span class="sb-dot"></span>Decision Types</a
+      >
+      <a href="#responsibility" class="sb-link"
+        ><span class="sb-dot"></span>Responsibility</a
+      >
+      <a href="#consensus" class="sb-link"
+        ><span class="sb-dot"></span>Consensus</a
+      >
+      <a href="#situation" class="sb-link"
+        ><span class="sb-dot"></span>Decision Situation</a
+      >
+      <a href="#rational" class="sb-link"
+        ><span class="sb-dot"></span>Rational Process</a
+      >
+      <a href="#risk" class="sb-link"
+        ><span class="sb-dot"></span>Risk & Uncertainty</a
+      >
+      <a href="#tools" class="sb-link"
+        ><span class="sb-dot"></span>Decision Tools</a
+      >
+      <a href="#group" class="sb-link"
+        ><span class="sb-dot"></span>Group Decision Making</a
+      >
+      <div class="sb-section">Exam Bank</div>
+      <a href="#quiz-tf" class="sb-link"
+        ><span class="sb-dot"></span>True / False</a
+      >
+      <a href="#quiz-mcq" class="sb-link"><span class="sb-dot"></span>MCQ</a>
+      <a href="#essay" class="sb-link"
+        ><span class="sb-dot"></span>Essay Questions</a
+      >
+      <div class="sb-section">Revision</div>
+      <a href="#cheat-ch8" class="sb-link"
+        ><span class="sb-dot"></span>Cheat Sheet</a
+      >
+      <a href="#flashcards-ch8" class="sb-link"
+        ><span class="sb-dot"></span>Flashcards</a
+      >
+    </nav>
+
+    <button id="menu-btn" onclick="toggleSidebar()">☰</button>
+    <button
+      id="scroll-top"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      ↑
+    </button>
+
+    <main id="main" dir="rtl">
+      <section class="hero">
+        <div class="hero-badge">
+          Chapter 8 · Making Decisions · Planning Support
+        </div>
+        <h1>Making <span>Decisions</span></h1>
+        <p>
+          الشابتر ده بيكمل Planning: يعني القرار هو اختيار بين بدائل، واتخاذ
+          القرار هو اختيار أفضل بديل للوصول للأهداف. أهم الامتحان:
+          programmed/nonprogrammed, consensus, rational process, risk vs
+          uncertainty, EV, وطرق group decision making.
+        </p>
+        <div class="btn-row">
+          <a href="#quiz-mcq" class="btn btn-primary">Start Exam Questions</a>
+          <a href="#cheat-ch8" class="btn btn-ghost">Cheat Sheet</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat">
+            <div class="num">2</div>
+            <div class="lbl">Decision Types</div>
+          </div>
+          <div class="hstat">
+            <div class="num">5</div>
+            <div class="lbl">Situation Elements</div>
+          </div>
+          <div class="hstat">
+            <div class="num">5</div>
+            <div class="lbl">Alternative Limits</div>
+          </div>
+          <div class="hstat">
+            <div class="num">3</div>
+            <div class="lbl">Group Techniques</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="content">
+        <div class="chapter" id="intro">
+          <div class="ch-header">
+            <div class="ch-num purple">00</div>
+            <div class="ch-title">
+              <h2>مكان الشابتر في الكورس</h2>
+              <p>
+                Chapter 8 is the second planning chapter: after principles of
+                planning, managers must choose among alternatives.
+              </p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--purple)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Objectives
+            </div>
+            <ol>
+              <li>A fundamental understanding of the term decision.</li>
+              <li>
+                An understanding of each element of the decision situation.
+              </li>
+              <li>An ability to use the decision-making process.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="chapter" id="definitions">
+          <div class="ch-header">
+            <div class="ch-num cyan">01</div>
+            <div class="ch-title">
+              <h2>Definitions</h2>
+              <p>التعريفات الأساسية للسلايد 4.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--cyan)">
+            <div class="grid2">
+              <div class="def-card" style="--accent: var(--cyan)">
+                <div class="def-label">Decision</div>
+                <div class="def-text">
+                  A choice made between two or more available alternatives.
+                </div>
+                <div class="def-note">قرار = اختيار بين بديلين أو أكثر.</div>
+              </div>
+              <div class="def-card" style="--accent: var(--green)">
+                <div class="def-label">Decision Making</div>
+                <div class="def-text">
+                  The process of choosing the best alternative for reaching
+                  objectives.
+                </div>
+                <div class="def-note">متكرر في Final 2024 Q18.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="types">
+          <div class="ch-header">
+            <div class="ch-num amber">02</div>
+            <div class="ch-title">
+              <h2>Decision Types and Techniques</h2>
+              <p>Programmed vs Nonprogrammed decisions.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--amber)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Bases for Categorizing Decisions
+            </div>
+            <ul>
+              <li>How much time a manager must spend making them.</li>
+              <li>
+                What proportion of the organization must be involved in making
+                them.
+              </li>
+              <li>Which organizational functions they focus on.</li>
+            </ul>
+          </div>
+          <div class="topic" style="--accent: var(--green)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Programmed vs Nonprogrammed
+            </div>
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Meaning</th>
+                  <th>Traditional Techniques</th>
+                  <th>Modern Techniques</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="badge bg">Programmed</span></td>
+                  <td>
+                    Routine and repetitive decisions. Organization develops
+                    specific processes for handling them.
+                  </td>
+                  <td>
+                    Habit · Clerical routine / standard operating procedures ·
+                    Organization structure: common expectations, subgoals,
+                    information channels.
+                  </td>
+                  <td>
+                    Operations research: mathematical analysis models, computer
+                    simulation · Electronic data processing.
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="badge ba">Nonprogrammed</span></td>
+                  <td>
+                    One-shot, ill-structured, novel policy decisions. Handled by
+                    general problem-solving processes.
+                  </td>
+                  <td>
+                    Judgment, intuition, creativity · Rules of thumb · Selection
+                    and training of executives.
+                  </td>
+                  <td>
+                    Heuristic problem-solving techniques applied to training
+                    human decision makers and constructing heuristic computer
+                    programs.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="warn">
+              <div>
+                <b>Repeated:</b> Programmed = routine and repetitive.
+                Nonprogrammed = one-shot decisions. Traditional programmed
+                technique = habit.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="responsibility">
+          <div class="ch-header">
+            <div class="ch-num green">03</div>
+            <div class="ch-title">
+              <h2>Responsibility for Organizational Decisions</h2>
+              <p>Who will make the decision?</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--green)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Key Factors
+            </div>
+            <div class="grid2">
+              <div class="def-card" style="--accent: var(--green)">
+                <div class="def-label">Decision Scope</div>
+                <div class="def-text">
+                  The proportion of the total management system that the
+                  decision will affect.
+                </div>
+                <div class="def-note">
+                  Mid 2022 asks this definition directly.
+                </div>
+              </div>
+              <div class="def-card" style="--accent: var(--cyan)">
+                <div class="def-label">Levels of Management</div>
+                <div class="def-text">
+                  Lower, middle, or upper level management.
+                </div>
+                <div class="def-note">
+                  Broader scope generally belongs higher in management.
+                </div>
+              </div>
+            </div>
+            <div class="scope-line">
+              <div class="scope-box" style="--accent: var(--green)">
+                <div class="scope-title">Lower Level</div>
+                <div class="scope-desc">Narrow decision scope (A)</div>
+              </div>
+              <div class="scope-box" style="--accent: var(--amber)">
+                <div class="scope-title">Middle Level</div>
+                <div class="scope-desc">Intermediate decision scope (B)</div>
+              </div>
+              <div class="scope-box" style="--accent: var(--red)">
+                <div class="scope-title">Upper Level</div>
+                <div class="scope-desc">Broad decision scope (C)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="consensus">
+          <div class="ch-header">
+            <div class="ch-num blue">04</div>
+            <div class="ch-title">
+              <h2>Consensus</h2>
+              <p>تعريف وميزة وعيب. العيب متكرر جدا.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--blue)">
+            <div class="def-card" style="--accent: var(--blue)">
+              <div class="def-label">Consensus</div>
+              <div class="def-text">
+                An agreement on a decision by all the individuals involved in
+                making that decision.
+              </div>
+              <div class="def-note">
+                Consensus يعني كل المشاركين موافقين على القرار.
+              </div>
+            </div>
+            <div class="grid2">
+              <div class="decision-card" style="--accent: var(--green)">
+                <h4>Advantages</h4>
+                <ul>
+                  <li>It focuses "several heads" on the decision.</li>
+                  <li>
+                    Employees are more likely to be committed to implementing a
+                    decision if they helped make it.
+                  </li>
+                </ul>
+              </div>
+              <div class="decision-card" style="--accent: var(--red)">
+                <h4>Disadvantage</h4>
+                <p>
+                  It often involves time-consuming discussions relating to the
+                  decision.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="situation">
+          <div class="ch-header">
+            <div class="ch-num pink">05</div>
+            <div class="ch-title">
+              <h2>Elements of the Decision Situation</h2>
+              <p>العناصر الخمسة التي تحيط بأي قرار.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--pink)">
+            <div class="grid3">
+              <div class="decision-card" style="--accent: var(--pink)">
+                <h4>The Decision Makers</h4>
+                <p>
+                  Weak decision maker usually is receptive, exploitative,
+                  hoarding, or marketing oriented.
+                </p>
+              </div>
+              <div class="decision-card" style="--accent: var(--cyan)">
+                <h4>Goals to Be Served</h4>
+                <p>The objectives the decision should help reach.</p>
+              </div>
+              <div class="decision-card" style="--accent: var(--amber)">
+                <h4>Relevant Alternatives</h4>
+                <p>Available options that can solve the issue.</p>
+              </div>
+              <div class="decision-card" style="--accent: var(--green)">
+                <h4>Ordering of Alternatives</h4>
+                <p>Ranking alternatives by desirability.</p>
+              </div>
+              <div class="decision-card" style="--accent: var(--blue)">
+                <h4>Choice of Alternatives</h4>
+                <p>Selecting the alternative to implement.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="rational">
+          <div class="ch-header">
+            <div class="ch-num teal">06</div>
+            <div class="ch-title">
+              <h2>The Rational Decision-Making Process</h2>
+              <p>النموذج الرسمي وخطواته وافتراضاته.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--teal)">
+            <div class="topic-title"><span class="icon">▣</span> Model</div>
+            <div class="flow-wrap">
+              <div class="flow-row ltr">
+                <div class="flow-box">Identify existing problem</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">List alternative problem solutions</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">Select most beneficial alternative</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">Implement chosen alternative</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">Gather problem-related feedback</div>
+              </div>
+            </div>
+            <div class="warn">
+              <div>
+                <b>Exam trap:</b> Implementation is not the final step;
+                gathering problem-related feedback comes after implementation.
+              </div>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--amber)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Assumptions
+            </div>
+            <ol>
+              <li>
+                Humans are economic beings with the objective of maximizing
+                satisfaction or return.
+              </li>
+              <li>
+                All alternatives and their possible consequences are known.
+              </li>
+              <li>
+                Decision makers have some priority system to guide them in
+                ranking the desirability of each alternative.
+              </li>
+            </ol>
+          </div>
+          <div class="topic" style="--accent: var(--red)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Limitations on Alternatives
+            </div>
+            <ol>
+              <li>Authority factors.</li>
+              <li>Biological or human factors.</li>
+              <li>Physical factors.</li>
+              <li>Technological factors.</li>
+              <li>Economic factors.</li>
+            </ol>
+            <div class="info">
+              <div>
+                <b>Discretionary area:</b> acceptable courses of action limited
+                by legal restrictions, moral and ethical norms, formal policies
+                and rules, and unofficial social norms.
+              </div>
+            </div>
+            <div class="tip">
+              <div>
+                <b>Number of alternatives:</b> More alternatives usually lead to
+                more effective decisions, but too many alternatives may
+                demotivate decision makers.
+              </div>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--green)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Evaluating and Implementing
+              Alternatives
+            </div>
+            <ol>
+              <li>List the potential effects of each alternative.</li>
+              <li>Assign a probability factor to each potential effect.</li>
+              <li>
+                Compare each alternative's expected effects and the respective
+                probabilities of those effects.
+              </li>
+            </ol>
+            <p>
+              After selection, develop an action plan to implement the chosen
+              alternative, giving it all supportive chances of success. Feedback
+              determines the implemented alternative's effect on the problem. If
+              the problem is not solved, seek out and implement another
+              alternative.
+            </p>
+          </div>
+        </div>
+
+        <div class="chapter" id="risk">
+          <div class="ch-header">
+            <div class="ch-num red">07</div>
+            <div class="ch-title">
+              <h2>Decision-Making Conditions: Risk and Uncertainty</h2>
+              <p>فرق مهم ومباشر في Mid 2022.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--red)">
+            <div class="grid2">
+              <div class="def-card" style="--accent: var(--amber)">
+                <div class="def-label">Risk</div>
+                <div class="def-text">
+                  Situations in which statistical probabilities can be
+                  attributed to alternative potential outcomes.
+                </div>
+                <div class="def-note">
+                  مثال: Alpha Inc. فتحت 10 branches في الصين قبل كده، فعندها
+                  خبرة واحتمالات.
+                </div>
+              </div>
+              <div class="def-card" style="--accent: var(--red)">
+                <div class="def-label">Uncertainty</div>
+                <div class="def-text">
+                  Situations where the probability that a particular outcome
+                  will occur is not known in advance.
+                </div>
+                <div class="def-note">
+                  مثال: Beta Inc. ليس لديها خبرة سابقة في الصين.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="tools">
+          <div class="ch-header">
+            <div class="ch-num amber">08</div>
+            <div class="ch-title">
+              <h2>Decision-Making Tools</h2>
+              <p>
+                Subjective vs Objective tools, probability theory, and decision
+                trees.
+              </p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--amber)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Tool Types
+            </div>
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Subjective Tools</th>
+                  <th>Objective Tools</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Intuition · Experience · Rule of thumbs</td>
+                  <td>Probability Theory · Decision Trees</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="topic" style="--accent: var(--cyan)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Probability Theory
+            </div>
+            <p>
+              A decision-making tool used in risk situations. Probability refers
+              to the likelihood that an event or outcome will actually occur.
+            </p>
+            <div class="formula">EV = I * P</div>
+            <ul>
+              <li>
+                <strong>EV:</strong> expected value for the alternative
+                considered.
+              </li>
+              <li>
+                <strong>I:</strong> income that the alternative would produce.
+              </li>
+              <li><strong>P:</strong> probability of producing that income.</li>
+            </ul>
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Alternative</th>
+                  <th>Potential income</th>
+                  <th>Probability</th>
+                  <th>Expected value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>A</td>
+                  <td>$90,000</td>
+                  <td>.2</td>
+                  <td>$18,000</td>
+                </tr>
+                <tr>
+                  <td>B</td>
+                  <td>$75,000</td>
+                  <td>.4</td>
+                  <td>$30,000</td>
+                </tr>
+                <tr>
+                  <td>C</td>
+                  <td>$60,000</td>
+                  <td>.8</td>
+                  <td>$48,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="topic" style="--accent: var(--purple)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Decision Trees
+            </div>
+            <div class="def-card" style="--accent: var(--purple)">
+              <div class="def-label">Decision Tree</div>
+              <div class="def-text">
+                A graphic decision-making tool typically used to evaluate
+                decisions involving a series of steps.
+              </div>
+              <div class="def-note">
+                Example: Stygian Chemical Company deciding whether to build a
+                small or large plant for a new product with an expected life of
+                10 years.
+              </div>
+            </div>
+            <div class="flow-wrap">
+              <div class="flow-row ltr">
+                <div class="flow-box" style="--accent: var(--red)">
+                  Build Big Plant
+                </div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">High Average Demand</div>
+                <div class="flow-box">Low Average Demand</div>
+                <div class="flow-box">High Initial / Low Subsequent</div>
+              </div>
+              <div class="flow-row ltr" style="margin-top: 10px">
+                <div class="flow-box" style="--accent: var(--green)">
+                  Build Small Plant
+                </div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">Initially High Demand</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">Expand or No Change</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">High / Low Demand</div>
+              </div>
+              <div class="flow-note">
+                If demand is initially low, the small plant branch remains with
+                initially low demand.
+              </div>
+            </div>
+            <ol>
+              <li>
+                Study investment amounts necessary for building a large plant,
+                building a small plant, and expanding a small plant.
+              </li>
+              <li>
+                Weigh the probabilities of facing different product demand
+                levels for various decision alternatives.
+              </li>
+              <li>
+                Consider projected income yields for each decision alternative.
+              </li>
+            </ol>
+            <div class="formula">
+              Net Expected Gain = Expected Value - Investment Cost
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="group">
+          <div class="ch-header">
+            <div class="ch-num green">09</div>
+            <div class="ch-title">
+              <h2>Group Decision Making</h2>
+              <p>
+                Advantages, disadvantages, groupthink, brainstorming, nominal
+                group technique, and Delphi.
+              </p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--green)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Group Decision Making: Pros and Cons
+            </div>
+            <div class="grid2">
+              <div class="decision-card" style="--accent: var(--green)">
+                <h4>Advantages</h4>
+                <ul>
+                  <li>
+                    A group can generally come up with more and better decision
+                    alternatives.
+                  </li>
+                  <li>
+                    A group can draw on collective, diverse organizational
+                    experiences.
+                  </li>
+                  <li>
+                    Members tend to support implementation more fervently.
+                  </li>
+                </ul>
+              </div>
+              <div class="decision-card" style="--accent: var(--red)">
+                <h4>Disadvantages</h4>
+                <ul>
+                  <li>
+                    It takes longer because groups must discuss all members'
+                    views.
+                  </li>
+                  <li>
+                    Group decisions cost more because they take the time of more
+                    people.
+                  </li>
+                  <li>
+                    Groupthink: members' efforts to maintain friendly
+                    relationships among themselves.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--cyan)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Brainstorming
+            </div>
+            <div class="flow-wrap">
+              <div class="flow-row ltr">
+                <div class="flow-box">Group members state ideas</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">No comments at this stage</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">Leader records ideas</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">Ideas evaluated after all recorded</div>
+              </div>
+            </div>
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Advantage</th>
+                  <th>Disadvantage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    Encouraging the expression of as many useful ideas as
+                    possible.
+                  </td>
+                  <td>
+                    Wasting the group's time on ideas that are wildly
+                    impractical.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="topic" style="--accent: var(--amber)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Nominal Group Technique (NGT)
+            </div>
+            <ol>
+              <li>
+                Each group member writes down individual ideas on the decision
+                or problem.
+              </li>
+              <li>
+                Each member presents individual ideas orally; ideas are usually
+                written on a board.
+              </li>
+              <li>
+                After all members present ideas, the group discusses these ideas
+                simultaneously; discussion tends to be unstructured and
+                spontaneous.
+              </li>
+              <li>
+                When discussion is completed, a secret ballot is taken. The idea
+                receiving the most votes is adopted and implemented.
+              </li>
+            </ol>
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Advantage</th>
+                  <th>Disadvantage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    Secret ballot allows individuals to support or reject an
+                    idea without fear of recrimination.
+                  </td>
+                  <td>
+                    Group members have no way of knowing why individuals voted
+                    the way they did.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="warn">
+              <div>
+                <b>Exam trap:</b> In NGT, group members do meet face to face.
+                "Never meet face to face" is Delphi, not NGT.
+              </div>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--purple)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Delphi Technique
+            </div>
+            <ol>
+              <li>A problem is identified.</li>
+              <li>
+                Group members provide anonymous responses to a carefully
+                designed questionnaire.
+              </li>
+              <li>Responses are compiled and sent to all group members.</li>
+              <li>
+                Members generate new individual solutions after studying the
+                compiled responses.
+              </li>
+              <li>
+                Steps 3 and 4 are repeated until a consensus problem solution is
+                reached.
+              </li>
+            </ol>
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Advantage</th>
+                  <th>Disadvantage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    Ideas can be gathered from members who are too
+                    geographically separated or busy to meet face to face.
+                  </td>
+                  <td>Members are unable to ask questions of one another.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="quiz-section" id="quiz-tf">
+          <div class="quiz-header">
+            <div class="quiz-icon">TF</div>
+            <div>
+              <h3>True / False - Chapter 8</h3>
+              <p>Extracted from the provided exams.</p>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-1 <span class="q-src">Mid 2022 Q1-2 · Final 2025 Q1-15</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              A programmed decision is typically a one-shot structured decision.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b><b>ليه False؟</b> Chapter 8 بيقول Programmed
+              decisions = routine and repetitive. أما one-shot decisions دي
+              Nonprogrammed.
+              <div class="why-wrong">
+                <b>فخ في الامتحان:</b> الدكتور بيحب يبدل الكلمتين: routine =
+                programmed، one-shot = nonprogrammed.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-2 <span class="q-src">Final 2019 Q2b · Mid 2022 Q1-4</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              In the nominal group technique, group members never meet face to
+              face.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b><b>ليه False؟</b> NGT فيها الأعضاء بيعرضوا
+              أفكارهم orally وبيتناقشوا، يعني ممكن يقابلوا بعض. اللي مناسب للناس
+              البعيدة ومش face-to-face هو Delphi.
+              <div class="why-wrong">
+                <b>Memory Trick:</b> Delphi = Distance. NGT = Notes + Group +
+                Vote.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-3
+              <span class="q-src"
+                >Final 2019 Q2c · Final 2021 Q13 · Mid 2022 Q1-3</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              Implementation of the chosen alternative is the final step in the
+              decision-making process.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b><b>ليه False؟</b> Rational Decision-Making
+              Process آخره Gathering problem-related feedback. التنفيذ خطوة
+              مهمة، بس بعدها لازم نشوف القرار حل المشكلة ولا لأ.
+              <div class="why-wrong">
+                <b>خد بالك:</b> أي سؤال يقول implementation final step = غلط.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-4 <span class="q-src">Final 2021 Q11</span>
+            </div>
+            <div class="q-text">
+              A decision that is routine and repetitive, and typically handled
+              in a specific way, is frequently called a non-programmed decision.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b><b>ليه False؟</b> Routine + repetitive +
+              handled in a specific way = Programmed decision. Nonprogrammed
+              معناها قرار جديد ومش متكرر.
+              <div class="why-wrong">
+                <b>دي بتيجي كتير:</b> لو السؤال فيه routine/repetitive يبقى
+                Programmed فورا.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-5 <span class="q-src">Final 2021 Q12</span>
+            </div>
+            <div class="q-text">
+              Decisions made through consensus usually take up lesser time than
+              those made by a single individual.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b><b>ليه False؟</b> Consensus بياخد وقت أطول
+              غالبا لأن كل الناس لازم توافق، وده بيعمل discussions كتير.
+              <div class="why-wrong">
+                <b>خد بالك:</b> ميزة consensus الالتزام، عيبه الوقت.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-6 <span class="q-src">Final 2024 Q1</span>
+            </div>
+            <div class="q-text">
+              The second step in the decision-making process is identifying a
+              problem.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b><b>ليه False؟</b> Identifying an existing
+              problem هي أول خطوة، مش تانية. التانية هي List alternative problem
+              solutions.
+              <div class="why-wrong">
+                <b>Memory Trick:</b> Problem first, Alternatives second.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="a">
+            <div class="q-num">
+              TF-7 <span class="q-src">Final 2024 Q3</span>
+            </div>
+            <div class="q-text">
+              Managers identify a problem by comparing the current state of
+              affairs to some standard.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: True</b><b>ليه True؟</b> علشان المشكلة بتظهر لما الوضع
+              الحالي يبقى مختلف عن standard أو target. ده جزء من Identify
+              existing problem.
+              <div class="why-wrong">
+                <b>مثال:</b> المبيعات المفروض 100، الحالي 60، يبقى فيه problem.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-8 <span class="q-src">Final 2024 Q4</span>
+            </div>
+            <div class="q-text">
+              Intuitive decision making is systematic, logical, and orderly.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b><b>ليه False؟</b> Intuition أداة subjective،
+              يعني إحساس وخبرة شخصية. systematic/logical/orderly أقرب للـ
+              rational decision-making process.
+              <div class="why-wrong">
+                <b>فخ:</b> Intuition مش معناها analysis.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-9 <span class="q-src">Final 2021 Q14 · Final 2024 Q6</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              Groupthink is a group decision-making process in which negative
+              feedback on any suggested alternative by any group member is
+              forbidden until all members have presented alternatives that they
+              perceive as valuable.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b> This wording describes the no-criticism stage
+              of brainstorming more than groupthink. Groupthink is when desire
+              for agreement overrides realistic appraisal.
+            </div>
+          </div>
+          <div class="q-controls">
+            <span class="q-score" id="score-tf"></span
+            ><button class="quiz-btn btn-check" onclick="checkQuiz('quiz-tf')">
+              Check Answers</button
+            ><button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-tf')">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="quiz-section" id="quiz-mcq">
+          <div class="quiz-header">
+            <div class="quiz-icon">MCQ</div>
+            <div>
+              <h3>MCQ - Chapter 8</h3>
+              <p>Every decision-making MCQ found in the provided exams.</p>
+            </div>
+          </div>
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              MCQ-1 <span class="q-src">Final 2019 Q1c</span
+              ><span class="repeat">Repeated idea</span>
+            </div>
+            <div class="q-text">
+              The main disadvantage of arriving at decisions through consensus
+              is ________.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> it results in very few
+                practical solutions
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> it reduces employees'
+                commitment to the decision
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> it involves time-consuming
+                discussions
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> often the manager must make
+                the decision
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> it focuses "several heads"
+                on the decision
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: C</b><b>✓ Why the correct answer is correct:</b> C صح
+              لأن عيب consensus الأساسي إنه بياخد وقت طويل في المناقشات.
+              <div class="why-wrong">
+                <b>✗ A:</b> مش لازم يطلع حلول قليلة. <b>✗ B:</b> العكس، الموظفين
+                بيبقوا committed أكتر لو شاركوا. <b>✗ C:</b> صح. <b>✗ D:</b> مش
+                العيب المكتوب. <b>✗ E:</b> دي ميزة مش عيب؛ several heads يعني
+                عقول أكتر.
+              </div>
+              <div class="why-wrong">
+                <b>خد بالك:</b> Consensus advantage = commitment، disadvantage =
+                time.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="e">
+            <div class="q-num">
+              MCQ-2 <span class="q-src">Final 2021 Q30 · Final 2024 Q20</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              Trendy Garb is a retail store that sells women's apparel. The
+              store has comprehensive rules, policies, and procedures for
+              matters relating to customer complaints and product returns.
+              Hence, when faced with either of these situations, the store
+              manager simply needs to refer to these guidelines and proceed
+              accordingly. This is an example of a(n) _______.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> overlapping responsibility
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> nonprogrammed decision
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> rule of thumb
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> decision tree
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> programmed decision
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: E</b><b>✓ Why the correct answer is correct:</b> E صح
+              لأن فيه rules/policies/procedures جاهزة، فالموقف routine ومتكرر.
+              <div class="why-wrong">
+                <b>✗ A:</b> Overlapping responsibility مش نوع قرار.
+                <b>✗ B:</b> Nonprogrammed بيبقى جديد ومش structured، وده عكس
+                السؤال. <b>✗ C:</b> Rule of thumb طريقة تقديرية، مش وجود policy
+                واضحة. <b>✗ D:</b> Decision tree أداة رسومية لقرارات متعددة
+                الخطوات. <b>✗ E:</b> صح.
+              </div>
+              <div class="why-wrong">
+                <b>دي بتيجي كتير:</b> لو فيه Standard Operating Procedures يبقى
+                Programmed.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              MCQ-3 <span class="q-src">Final 2021 Q31 · Final 2024 Q32</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              Which of the following is a traditional technique for solving a
+              programmed decision?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> judgment
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> rules of thumb
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> habit
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> intuition
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> training
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: C</b><b>✓ Why the correct answer is correct:</b> C صح
+              لأن traditional techniques للـ programmed decisions تشمل Habit.
+              <div class="why-wrong">
+                <b>✗ A:</b> Judgment للـ nonprogrammed. <b>✗ B:</b> Rules of
+                thumb برضه nonprogrammed traditional. <b>✗ C:</b> صح.
+                <b>✗ D:</b> Intuition subjective/nonprogrammed.
+                <b>✗ E:</b> Selection and training of executives للـ
+                nonprogrammed.
+              </div>
+              <div class="why-wrong">
+                <b>Memory Trick:</b> Programmed traditional = H-C-O: Habit,
+                Clerical routine, Organization structure.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              MCQ-4 <span class="q-src">Mid 2022 Q15</span>
+            </div>
+            <div class="q-text">Programmed decisions are</div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> non-structured
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> one-shot decisions
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> routine and repetitive
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> made by top management
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> made by computers
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: C</b><b>✓ Why the correct answer is correct:</b> C صح
+              بالنص: Programmed = routine and repetitive.
+              <div class="why-wrong">
+                <b>✗ A:</b> Non-structured أقرب لـ nonprogrammed.
+                <b>✗ B:</b> One-shot = nonprogrammed. <b>✗ C:</b> صح.
+                <b>✗ D:</b> مش شرط top management. <b>✗ E:</b> الكمبيوتر ممكن
+                يساعد، بس مش التعريف.
+              </div>
+              <div class="why-wrong">
+                <b>خد بالك:</b> التعريف بيتحفظ زي ما هو.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="a">
+            <div class="q-num">
+              MCQ-5 <span class="q-src">Mid 2022 Q16</span>
+            </div>
+            <div class="q-text">
+              The proportion of the total management system that a decision will
+              affect is called the
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> scope of the decision
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> unity of command
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> span of control
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> level of management
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> discretionary area
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: A</b><b>✓ Why the correct answer is correct:</b> A صح
+              لأنه تعريف Decision Scope: القرار هيأثر على قد إيه من النظام
+              الإداري.
+              <div class="why-wrong">
+                <b>✗ A:</b> صح. <b>✗ B:</b> Unity of command من organizing يعني
+                مدير واحد. <b>✗ C:</b> Span of control عدد المرؤوسين.
+                <b>✗ D:</b> Level of management مين هياخد القرار، مش حجم تأثيره.
+                <b>✗ E:</b> Discretionary area حدود البدائل المقبولة.
+              </div>
+              <div class="why-wrong">
+                <b>مثال:</b> قرار يغير سعر منتج في فرع واحد narrow scope، قرار
+                يغير استراتيجية الشركة broad scope.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              MCQ-6 <span class="q-src">Mid 2022 Q17</span>
+            </div>
+            <div class="q-text">
+              _______ is an agreement on a decision by all the individuals
+              involved in making the decision.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Law
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Consensus
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Fiat
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Declaration
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> clause
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: B</b> Consensus means agreement by all involved
+              individuals.
+            </div>
+          </div>
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              MCQ-7 <span class="q-src">Mid 2022 Q18</span>
+            </div>
+            <div class="q-text">
+              The first step in the decision-making process is to
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> identify possible
+                alternatives for solving an organizational problem
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> identify organizational
+                objectives
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> identify an existing problem
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> gather feedback about an
+                existing problem
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> implement the selected
+                alternative
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: C</b> Step 1 of the rational process is identifying an
+              existing problem.
+            </div>
+          </div>
+          <div class="q-item" data-correct="a">
+            <div class="q-num">
+              MCQ-8 <span class="q-src">Mid 2022 Q19</span>
+            </div>
+            <div class="q-text">
+              _______ refers to situations where the probability that a
+              particular outcome will occur is not known in advance.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Uncertainty
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Risk
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Unrealistic optimism
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Heuristics
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> Hazard
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: A</b> Unknown probability = uncertainty.
+            </div>
+          </div>
+          <div class="q-item" data-correct="a">
+            <div class="q-num">
+              MCQ-9 <span class="q-src">Mid 2022 Q20</span>
+            </div>
+            <div class="q-text">
+              If I = $57,500 and P is .3, what is the expected value (EV)?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> $17,250
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> $191,666
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> $74,750
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> $40,250
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> $131,466
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: A</b> EV = I * P = 57,500 * .3 = 17,250.
+            </div>
+          </div>
+          <div class="q-item" data-correct="d">
+            <div class="q-num">
+              MCQ-10 <span class="q-src">Mid 2022 Q21</span>
+            </div>
+            <div class="q-text">
+              Which of the following is the first step in the process of
+              brainstorming?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> members comment on ideas
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> group leader chooses members
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> ideas are evaluated
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> group members state ideas
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> ideas are recorded
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: D</b> Brainstorming starts when group members state
+              ideas.
+            </div>
+          </div>
+          <div class="q-item" data-correct="d">
+            <div class="q-num">
+              MCQ-11 <span class="q-src">Mid 2022 Q22</span>
+            </div>
+            <div class="q-text">
+              Decision making using the Delphi technique ends
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> with a secret ballot which
+                allows members to support their favorite ideas
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> when group members are
+                allowed to finally meet face to face
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> after all the responses of
+                all the group members have been consolidated
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> once a consensus problem
+                solution is reached
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> after all questionnaires
+                have been scored and tallied
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: D</b> Delphi repeats questionnaire rounds until
+              consensus is reached.
+            </div>
+          </div>
+          <div class="q-item" data-correct="d">
+            <div class="q-num">
+              MCQ-12 <span class="q-src">Final 2024 Q18</span>
+            </div>
+            <div class="q-text">
+              Which of the following is true about decisions and
+              decision-making?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Managers make decisions
+                primarily when performing the controlling function.
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> In the process of deciding,
+                the alternatives are as important as the choice made.
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Organizations only have to
+                consider significant decisions that have a major impact on
+                business.
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Decision making is the
+                process of choosing the best alternative for reaching
+                objectives.
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> All managerial decisions are
+                of equal significance to the organization.
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: D</b> This is the official definition of decision
+              making.
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              MCQ-13 <span class="q-src">Final 2024 Q21</span>
+            </div>
+            <div class="q-text">Nonprogrammed decisions are _______.</div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> structured
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> one-shot decisions
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> routine and repetitive
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> less time-consuming
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> made by computers
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: B</b> Nonprogrammed decisions are one-shot and
+              ill-structured.
+            </div>
+          </div>
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              MCQ-14 <span class="q-src">Final 2024 Q52 · Final 2025 Q58</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              Which of the following statements about groupthink is true?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Groupthink cannot take place
+                in a newly formed group.
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> A group with high levels of
+                mistrust and conflicts is likely to be most susceptible to
+                groupthink.
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> A group with a high level of
+                cohesiveness is likely to be susceptible to groupthink.
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Managers must help
+                committees to establish groupthink to generate alternative
+                problem solutions.
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> A group which is highly
+                competitive will most probably result in groupthink.
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: C</b> Groupthink is linked to excessive desire for
+              agreement and harmony in cohesive groups.
+            </div>
+          </div>
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              MCQ-15 <span class="q-src">Final 2024 Q60</span>
+            </div>
+            <div class="q-text">
+              _______ is the mode of thinking that group members engage in when
+              the desire for agreement so dominates the group that it overrides
+              the need to realistically appraise alternative problem solutions.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Social loafing
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Group polarization
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Groupthink
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Cognitive dissonance
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> Collective intelligence
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: C</b> This is the definition of groupthink.
+            </div>
+          </div>
+          <div class="q-controls">
+            <span class="q-score" id="score-mcq"></span
+            ><button class="quiz-btn btn-check" onclick="checkQuiz('quiz-mcq')">
+              Check Answers</button
+            ><button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-mcq')">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="chapter" id="essay">
+          <div class="ch-header">
+            <div class="ch-num purple">ES</div>
+            <div class="ch-title">
+              <h2>Essay Questions - Chapter 8</h2>
+              <p>Questions from the provided exams with model answers.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--purple)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Final 2019 Q6
+            </div>
+            <p>
+              <strong>Question:</strong> State one advantage and one
+              disadvantage for the following group decision techniques:
+              Brainstorming, Nominal Group Technique, Delphi Technique.
+            </p>
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Technique</th>
+                  <th>Advantage</th>
+                  <th>Disadvantage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Brainstorming</td>
+                  <td>
+                    Encouraging the expression of as many useful ideas as
+                    possible.
+                  </td>
+                  <td>
+                    Wasting the group's time on ideas that are wildly
+                    impractical.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Nominal Group Technique</td>
+                  <td>
+                    Secret ballot lets individuals support or reject ideas
+                    without fear.
+                  </td>
+                  <td>
+                    Members have no way of knowing why others voted the way they
+                    did.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Delphi Technique</td>
+                  <td>
+                    Ideas can be gathered from members who are geographically
+                    separated or too busy to meet.
+                  </td>
+                  <td>Members are unable to ask questions of one another.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="chapter" id="cheat-ch8">
+          <div class="ch-header">
+            <div class="ch-num teal">CS</div>
+            <div class="ch-title">
+              <h2>Cheat Sheet - Chapter 8</h2>
+              <p>مراجعة مركزة.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--cyan)">
+            <div class="cheat-grid">
+              <div class="cheat">
+                <h3>Definitions</h3>
+                <div class="cheat-item">
+                  <div class="cheat-key">Decision</div>
+                  <div class="cheat-val">
+                    Choice between two or more alternatives.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Decision making</div>
+                  <div class="cheat-val">
+                    Choosing the best alternative for reaching objectives.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Consensus</div>
+                  <div class="cheat-val">
+                    Agreement by all individuals involved.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Scope</div>
+                  <div class="cheat-val">
+                    Proportion of total management system affected.
+                  </div>
+                </div>
+              </div>
+              <div class="cheat">
+                <h3>Types</h3>
+                <div class="cheat-item">
+                  <div class="cheat-key">Programmed</div>
+                  <div class="cheat-val">
+                    Routine and repetitive; habit is a traditional technique.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Nonprogrammed</div>
+                  <div class="cheat-val">
+                    One-shot, ill-structured, novel policy decisions.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Risk</div>
+                  <div class="cheat-val">
+                    Statistical probabilities can be attributed.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Uncertainty</div>
+                  <div class="cheat-val">
+                    Probability is not known in advance.
+                  </div>
+                </div>
+              </div>
+              <div class="cheat">
+                <h3>Rational Process</h3>
+                <div class="cheat-item">
+                  <div class="cheat-key">1</div>
+                  <div class="cheat-val">Identify existing problem.</div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">2</div>
+                  <div class="cheat-val">List alternatives.</div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">3</div>
+                  <div class="cheat-val">
+                    Select most beneficial alternative.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">4</div>
+                  <div class="cheat-val">Implement chosen alternative.</div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">5</div>
+                  <div class="cheat-val">Gather problem-related feedback.</div>
+                </div>
+              </div>
+              <div class="cheat">
+                <h3>Group Techniques</h3>
+                <div class="cheat-item">
+                  <div class="cheat-key">Brainstorming</div>
+                  <div class="cheat-val">
+                    State ideas first; evaluate only after all are recorded.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">NGT</div>
+                  <div class="cheat-val">
+                    Individual ideas, oral presentation, discussion, secret
+                    ballot.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Delphi</div>
+                  <div class="cheat-val">
+                    Anonymous questionnaires repeated until consensus.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Formula</div>
+                  <div class="cheat-val">
+                    EV = I * P; Net expected gain = EV - investment cost.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="flashcards-ch8">
+          <div class="ch-header">
+            <div class="ch-num pink">FC</div>
+            <div class="ch-title">
+              <h2>Flashcards</h2>
+              <p>اضغط على الكارت لعرض الإجابة.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--pink)">
+            <div class="flashcards">
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">Decision making = ?</div>
+                    <div class="fc-hint">click</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      Choosing the best alternative for reaching objectives.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">Programmed decision?</div>
+                    <div class="fc-hint">click</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">Routine and repetitive.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">Nonprogrammed decision?</div>
+                    <div class="fc-hint">click</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      One-shot, ill-structured, novel policy decision.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">Final rational decision step?</div>
+                    <div class="fc-hint">click</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">Gather problem-related feedback.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">EV formula?</div>
+                    <div class="fc-hint">click</div>
+                  </div>
+                  <div class="fc-back"><div class="fc-a">EV = I * P</div></div>
+                </div>
+              </div>
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">Delphi ends when?</div>
+                    <div class="fc-hint">click</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      A consensus problem solution is reached.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
+    </main>
 
-<div class="chapter" id="types">
-  <div class="ch-header">
-    <div class="ch-num amber">02</div>
-    <div class="ch-title">
-      <h2>Decision Types and Techniques</h2>
-      <p>Programmed vs Nonprogrammed decisions.</p>
-    </div>
-  </div>
-  <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">▣</span> Bases for Categorizing Decisions</div>
-    <ul>
-      <li>How much time a manager must spend making them.</li>
-      <li>What proportion of the organization must be involved in making them.</li>
-      <li>Which organizational functions they focus on.</li>
-    </ul>
-  </div>
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">▣</span> Programmed vs Nonprogrammed</div>
-    <table class="tbl">
-      <thead><tr><th>Type</th><th>Meaning</th><th>Traditional Techniques</th><th>Modern Techniques</th></tr></thead>
-      <tbody>
-        <tr><td><span class="badge bg">Programmed</span></td><td>Routine and repetitive decisions. Organization develops specific processes for handling them.</td><td>Habit · Clerical routine / standard operating procedures · Organization structure: common expectations, subgoals, information channels.</td><td>Operations research: mathematical analysis models, computer simulation · Electronic data processing.</td></tr>
-        <tr><td><span class="badge ba">Nonprogrammed</span></td><td>One-shot, ill-structured, novel policy decisions. Handled by general problem-solving processes.</td><td>Judgment, intuition, creativity · Rules of thumb · Selection and training of executives.</td><td>Heuristic problem-solving techniques applied to training human decision makers and constructing heuristic computer programs.</td></tr>
-      </tbody>
-    </table>
-    <div class="warn"><div><b>Repeated:</b> Programmed = routine and repetitive. Nonprogrammed = one-shot decisions. Traditional programmed technique = habit.</div></div>
-  </div>
-</div>
-
-<div class="chapter" id="responsibility">
-  <div class="ch-header">
-    <div class="ch-num green">03</div>
-    <div class="ch-title">
-      <h2>Responsibility for Organizational Decisions</h2>
-      <p>Who will make the decision?</p>
-    </div>
-  </div>
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">▣</span> Key Factors</div>
-    <div class="grid2">
-      <div class="def-card" style="--accent:var(--green)">
-        <div class="def-label">Decision Scope</div>
-        <div class="def-text">The proportion of the total management system that the decision will affect.</div>
-        <div class="def-note">Mid 2022 asks this definition directly.</div>
-      </div>
-      <div class="def-card" style="--accent:var(--cyan)">
-        <div class="def-label">Levels of Management</div>
-        <div class="def-text">Lower, middle, or upper level management.</div>
-        <div class="def-note">Broader scope generally belongs higher in management.</div>
-      </div>
-    </div>
-    <div class="scope-line">
-      <div class="scope-box" style="--accent:var(--green)"><div class="scope-title">Lower Level</div><div class="scope-desc">Narrow decision scope (A)</div></div>
-      <div class="scope-box" style="--accent:var(--amber)"><div class="scope-title">Middle Level</div><div class="scope-desc">Intermediate decision scope (B)</div></div>
-      <div class="scope-box" style="--accent:var(--red)"><div class="scope-title">Upper Level</div><div class="scope-desc">Broad decision scope (C)</div></div>
-    </div>
-  </div>
-</div>
-
-<div class="chapter" id="consensus">
-  <div class="ch-header">
-    <div class="ch-num blue">04</div>
-    <div class="ch-title">
-      <h2>Consensus</h2>
-      <p>تعريف وميزة وعيب. العيب متكرر جدا.</p>
-    </div>
-  </div>
-  <div class="topic" style="--accent:var(--blue)">
-    <div class="def-card" style="--accent:var(--blue)">
-      <div class="def-label">Consensus</div>
-      <div class="def-text">An agreement on a decision by all the individuals involved in making that decision.</div>
-      <div class="def-note">Consensus يعني كل المشاركين موافقين على القرار.</div>
-    </div>
-    <div class="grid2">
-      <div class="decision-card" style="--accent:var(--green)"><h4>Advantages</h4><ul><li>It focuses "several heads" on the decision.</li><li>Employees are more likely to be committed to implementing a decision if they helped make it.</li></ul></div>
-      <div class="decision-card" style="--accent:var(--red)"><h4>Disadvantage</h4><p>It often involves time-consuming discussions relating to the decision.</p></div>
-    </div>
-  </div>
-</div>
-
-<div class="chapter" id="situation">
-  <div class="ch-header">
-    <div class="ch-num pink">05</div>
-    <div class="ch-title">
-      <h2>Elements of the Decision Situation</h2>
-      <p>العناصر الخمسة التي تحيط بأي قرار.</p>
-    </div>
-  </div>
-  <div class="topic" style="--accent:var(--pink)">
-    <div class="grid3">
-      <div class="decision-card" style="--accent:var(--pink)"><h4>The Decision Makers</h4><p>Weak decision maker usually is receptive, exploitative, hoarding, or marketing oriented.</p></div>
-      <div class="decision-card" style="--accent:var(--cyan)"><h4>Goals to Be Served</h4><p>The objectives the decision should help reach.</p></div>
-      <div class="decision-card" style="--accent:var(--amber)"><h4>Relevant Alternatives</h4><p>Available options that can solve the issue.</p></div>
-      <div class="decision-card" style="--accent:var(--green)"><h4>Ordering of Alternatives</h4><p>Ranking alternatives by desirability.</p></div>
-      <div class="decision-card" style="--accent:var(--blue)"><h4>Choice of Alternatives</h4><p>Selecting the alternative to implement.</p></div>
-    </div>
-  </div>
-</div>
-
-<div class="chapter" id="rational">
-  <div class="ch-header">
-    <div class="ch-num teal">06</div>
-    <div class="ch-title">
-      <h2>The Rational Decision-Making Process</h2>
-      <p>النموذج الرسمي وخطواته وافتراضاته.</p>
-    </div>
-  </div>
-  <div class="topic" style="--accent:var(--teal)">
-    <div class="topic-title"><span class="icon">▣</span> Model</div>
-    <div class="flow-wrap">
-      <div class="flow-row ltr">
-        <div class="flow-box">Identify existing problem</div>
-        <div class="flow-arrow">-></div>
-        <div class="flow-box">List alternative problem solutions</div>
-        <div class="flow-arrow">-></div>
-        <div class="flow-box">Select most beneficial alternative</div>
-        <div class="flow-arrow">-></div>
-        <div class="flow-box">Implement chosen alternative</div>
-        <div class="flow-arrow">-></div>
-        <div class="flow-box">Gather problem-related feedback</div>
-      </div>
-    </div>
-    <div class="warn"><div><b>Exam trap:</b> Implementation is not the final step; gathering problem-related feedback comes after implementation.</div></div>
-  </div>
-  <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">▣</span> Assumptions</div>
-    <ol>
-      <li>Humans are economic beings with the objective of maximizing satisfaction or return.</li>
-      <li>All alternatives and their possible consequences are known.</li>
-      <li>Decision makers have some priority system to guide them in ranking the desirability of each alternative.</li>
-    </ol>
-  </div>
-  <div class="topic" style="--accent:var(--red)">
-    <div class="topic-title"><span class="icon">▣</span> Limitations on Alternatives</div>
-    <ol>
-      <li>Authority factors.</li>
-      <li>Biological or human factors.</li>
-      <li>Physical factors.</li>
-      <li>Technological factors.</li>
-      <li>Economic factors.</li>
-    </ol>
-    <div class="info"><div><b>Discretionary area:</b> acceptable courses of action limited by legal restrictions, moral and ethical norms, formal policies and rules, and unofficial social norms.</div></div>
-    <div class="tip"><div><b>Number of alternatives:</b> More alternatives usually lead to more effective decisions, but too many alternatives may demotivate decision makers.</div></div>
-  </div>
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">▣</span> Evaluating and Implementing Alternatives</div>
-    <ol>
-      <li>List the potential effects of each alternative.</li>
-      <li>Assign a probability factor to each potential effect.</li>
-      <li>Compare each alternative's expected effects and the respective probabilities of those effects.</li>
-    </ol>
-    <p>After selection, develop an action plan to implement the chosen alternative, giving it all supportive chances of success. Feedback determines the implemented alternative's effect on the problem. If the problem is not solved, seek out and implement another alternative.</p>
-  </div>
-</div>
-
-<div class="chapter" id="risk">
-  <div class="ch-header">
-    <div class="ch-num red">07</div>
-    <div class="ch-title">
-      <h2>Decision-Making Conditions: Risk and Uncertainty</h2>
-      <p>فرق مهم ومباشر في Mid 2022.</p>
-    </div>
-  </div>
-  <div class="topic" style="--accent:var(--red)">
-    <div class="grid2">
-      <div class="def-card" style="--accent:var(--amber)">
-        <div class="def-label">Risk</div>
-        <div class="def-text">Situations in which statistical probabilities can be attributed to alternative potential outcomes.</div>
-        <div class="def-note">مثال: Alpha Inc. فتحت 10 branches في الصين قبل كده، فعندها خبرة واحتمالات.</div>
-      </div>
-      <div class="def-card" style="--accent:var(--red)">
-        <div class="def-label">Uncertainty</div>
-        <div class="def-text">Situations where the probability that a particular outcome will occur is not known in advance.</div>
-        <div class="def-note">مثال: Beta Inc. ليس لديها خبرة سابقة في الصين.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="chapter" id="tools">
-  <div class="ch-header">
-    <div class="ch-num amber">08</div>
-    <div class="ch-title">
-      <h2>Decision-Making Tools</h2>
-      <p>Subjective vs Objective tools, probability theory, and decision trees.</p>
-    </div>
-  </div>
-  <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">▣</span> Tool Types</div>
-    <table class="tbl">
-      <thead><tr><th>Subjective Tools</th><th>Objective Tools</th></tr></thead>
-      <tbody>
-        <tr><td>Intuition · Experience · Rule of thumbs</td><td>Probability Theory · Decision Trees</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">▣</span> Probability Theory</div>
-    <p>A decision-making tool used in risk situations. Probability refers to the likelihood that an event or outcome will actually occur.</p>
-    <div class="formula">EV = I * P</div>
-    <ul>
-      <li><strong>EV:</strong> expected value for the alternative considered.</li>
-      <li><strong>I:</strong> income that the alternative would produce.</li>
-      <li><strong>P:</strong> probability of producing that income.</li>
-    </ul>
-    <table class="tbl">
-      <thead><tr><th>Alternative</th><th>Potential income</th><th>Probability</th><th>Expected value</th></tr></thead>
-      <tbody>
-        <tr><td>A</td><td>$90,000</td><td>.2</td><td>$18,000</td></tr>
-        <tr><td>B</td><td>$75,000</td><td>.4</td><td>$30,000</td></tr>
-        <tr><td>C</td><td>$60,000</td><td>.8</td><td>$48,000</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">▣</span> Decision Trees</div>
-    <div class="def-card" style="--accent:var(--purple)">
-      <div class="def-label">Decision Tree</div>
-      <div class="def-text">A graphic decision-making tool typically used to evaluate decisions involving a series of steps.</div>
-      <div class="def-note">Example: Stygian Chemical Company deciding whether to build a small or large plant for a new product with an expected life of 10 years.</div>
-    </div>
-    <div class="flow-wrap">
-      <div class="flow-row ltr">
-        <div class="flow-box" style="--accent:var(--red)">Build Big Plant</div>
-        <div class="flow-arrow">-></div>
-        <div class="flow-box">High Average Demand</div>
-        <div class="flow-box">Low Average Demand</div>
-        <div class="flow-box">High Initial / Low Subsequent</div>
-      </div>
-      <div class="flow-row ltr" style="margin-top:10px">
-        <div class="flow-box" style="--accent:var(--green)">Build Small Plant</div>
-        <div class="flow-arrow">-></div>
-        <div class="flow-box">Initially High Demand</div>
-        <div class="flow-arrow">-></div>
-        <div class="flow-box">Expand or No Change</div>
-        <div class="flow-arrow">-></div>
-        <div class="flow-box">High / Low Demand</div>
-      </div>
-      <div class="flow-note">If demand is initially low, the small plant branch remains with initially low demand.</div>
-    </div>
-    <ol>
-      <li>Study investment amounts necessary for building a large plant, building a small plant, and expanding a small plant.</li>
-      <li>Weigh the probabilities of facing different product demand levels for various decision alternatives.</li>
-      <li>Consider projected income yields for each decision alternative.</li>
-    </ol>
-    <div class="formula">Net Expected Gain = Expected Value - Investment Cost</div>
-  </div>
-</div>
-
-<div class="chapter" id="group">
-  <div class="ch-header">
-    <div class="ch-num green">09</div>
-    <div class="ch-title">
-      <h2>Group Decision Making</h2>
-      <p>Advantages, disadvantages, groupthink, brainstorming, nominal group technique, and Delphi.</p>
-    </div>
-  </div>
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">▣</span> Group Decision Making: Pros and Cons</div>
-    <div class="grid2">
-      <div class="decision-card" style="--accent:var(--green)"><h4>Advantages</h4><ul><li>A group can generally come up with more and better decision alternatives.</li><li>A group can draw on collective, diverse organizational experiences.</li><li>Members tend to support implementation more fervently.</li></ul></div>
-      <div class="decision-card" style="--accent:var(--red)"><h4>Disadvantages</h4><ul><li>It takes longer because groups must discuss all members' views.</li><li>Group decisions cost more because they take the time of more people.</li><li>Groupthink: members' efforts to maintain friendly relationships among themselves.</li></ul></div>
-    </div>
-  </div>
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">▣</span> Brainstorming</div>
-    <div class="flow-wrap"><div class="flow-row ltr"><div class="flow-box">Group members state ideas</div><div class="flow-arrow">-></div><div class="flow-box">No comments at this stage</div><div class="flow-arrow">-></div><div class="flow-box">Leader records ideas</div><div class="flow-arrow">-></div><div class="flow-box">Ideas evaluated after all recorded</div></div></div>
-    <table class="tbl"><thead><tr><th>Advantage</th><th>Disadvantage</th></tr></thead><tbody><tr><td>Encouraging the expression of as many useful ideas as possible.</td><td>Wasting the group's time on ideas that are wildly impractical.</td></tr></tbody></table>
-  </div>
-  <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">▣</span> Nominal Group Technique (NGT)</div>
-    <ol>
-      <li>Each group member writes down individual ideas on the decision or problem.</li>
-      <li>Each member presents individual ideas orally; ideas are usually written on a board.</li>
-      <li>After all members present ideas, the group discusses these ideas simultaneously; discussion tends to be unstructured and spontaneous.</li>
-      <li>When discussion is completed, a secret ballot is taken. The idea receiving the most votes is adopted and implemented.</li>
-    </ol>
-    <table class="tbl"><thead><tr><th>Advantage</th><th>Disadvantage</th></tr></thead><tbody><tr><td>Secret ballot allows individuals to support or reject an idea without fear of recrimination.</td><td>Group members have no way of knowing why individuals voted the way they did.</td></tr></tbody></table>
-    <div class="warn"><div><b>Exam trap:</b> In NGT, group members do meet face to face. "Never meet face to face" is Delphi, not NGT.</div></div>
-  </div>
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">▣</span> Delphi Technique</div>
-    <ol>
-      <li>A problem is identified.</li>
-      <li>Group members provide anonymous responses to a carefully designed questionnaire.</li>
-      <li>Responses are compiled and sent to all group members.</li>
-      <li>Members generate new individual solutions after studying the compiled responses.</li>
-      <li>Steps 3 and 4 are repeated until a consensus problem solution is reached.</li>
-    </ol>
-    <table class="tbl"><thead><tr><th>Advantage</th><th>Disadvantage</th></tr></thead><tbody><tr><td>Ideas can be gathered from members who are too geographically separated or busy to meet face to face.</td><td>Members are unable to ask questions of one another.</td></tr></tbody></table>
-  </div>
-</div>
-
-<div class="quiz-section" id="quiz-tf">
-  <div class="quiz-header"><div class="quiz-icon">TF</div><div><h3>True / False - Chapter 8</h3><p>Extracted from the provided exams.</p></div></div>
-  <div class="q-item" data-correct="b"><div class="q-num">TF-1 <span class="q-src">Mid 2022 Q1-2 · Final 2025 Q1-15</span><span class="repeat">Repeated</span></div><div class="q-text">A programmed decision is typically a one-shot structured decision.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">T</span> True</div><div class="q-opt" data-val="b"><span class="q-opt-letter">F</span> False</div></div><div class="q-explain"><b>Answer: False</b><b>ليه False؟</b> Chapter 8 بيقول Programmed decisions = routine and repetitive. أما one-shot decisions دي Nonprogrammed. <div class="why-wrong"><b>فخ في الامتحان:</b> الدكتور بيحب يبدل الكلمتين: routine = programmed، one-shot = nonprogrammed.</div></div></div>
-  <div class="q-item" data-correct="b"><div class="q-num">TF-2 <span class="q-src">Final 2019 Q2b · Mid 2022 Q1-4</span><span class="repeat">Repeated</span></div><div class="q-text">In the nominal group technique, group members never meet face to face.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">T</span> True</div><div class="q-opt" data-val="b"><span class="q-opt-letter">F</span> False</div></div><div class="q-explain"><b>Answer: False</b><b>ليه False؟</b> NGT فيها الأعضاء بيعرضوا أفكارهم orally وبيتناقشوا، يعني ممكن يقابلوا بعض. اللي مناسب للناس البعيدة ومش face-to-face هو Delphi. <div class="why-wrong"><b>Memory Trick:</b> Delphi = Distance. NGT = Notes + Group + Vote.</div></div></div>
-  <div class="q-item" data-correct="b"><div class="q-num">TF-3 <span class="q-src">Final 2019 Q2c · Final 2021 Q13 · Mid 2022 Q1-3</span><span class="repeat">Repeated</span></div><div class="q-text">Implementation of the chosen alternative is the final step in the decision-making process.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">T</span> True</div><div class="q-opt" data-val="b"><span class="q-opt-letter">F</span> False</div></div><div class="q-explain"><b>Answer: False</b><b>ليه False؟</b> Rational Decision-Making Process آخره Gathering problem-related feedback. التنفيذ خطوة مهمة، بس بعدها لازم نشوف القرار حل المشكلة ولا لأ. <div class="why-wrong"><b>خد بالك:</b> أي سؤال يقول implementation final step = غلط.</div></div></div>
-  <div class="q-item" data-correct="b"><div class="q-num">TF-4 <span class="q-src">Final 2021 Q11</span></div><div class="q-text">A decision that is routine and repetitive, and typically handled in a specific way, is frequently called a non-programmed decision.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">T</span> True</div><div class="q-opt" data-val="b"><span class="q-opt-letter">F</span> False</div></div><div class="q-explain"><b>Answer: False</b><b>ليه False؟</b> Routine + repetitive + handled in a specific way = Programmed decision. Nonprogrammed معناها قرار جديد ومش متكرر. <div class="why-wrong"><b>دي بتيجي كتير:</b> لو السؤال فيه routine/repetitive يبقى Programmed فورا.</div></div></div>
-  <div class="q-item" data-correct="b"><div class="q-num">TF-5 <span class="q-src">Final 2021 Q12</span></div><div class="q-text">Decisions made through consensus usually take up lesser time than those made by a single individual.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">T</span> True</div><div class="q-opt" data-val="b"><span class="q-opt-letter">F</span> False</div></div><div class="q-explain"><b>Answer: False</b><b>ليه False؟</b> Consensus بياخد وقت أطول غالبا لأن كل الناس لازم توافق، وده بيعمل discussions كتير. <div class="why-wrong"><b>خد بالك:</b> ميزة consensus الالتزام، عيبه الوقت.</div></div></div>
-  <div class="q-item" data-correct="b"><div class="q-num">TF-6 <span class="q-src">Final 2024 Q1</span></div><div class="q-text">The second step in the decision-making process is identifying a problem.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">T</span> True</div><div class="q-opt" data-val="b"><span class="q-opt-letter">F</span> False</div></div><div class="q-explain"><b>Answer: False</b><b>ليه False؟</b> Identifying an existing problem هي أول خطوة، مش تانية. التانية هي List alternative problem solutions. <div class="why-wrong"><b>Memory Trick:</b> Problem first, Alternatives second.</div></div></div>
-  <div class="q-item" data-correct="a"><div class="q-num">TF-7 <span class="q-src">Final 2024 Q3</span></div><div class="q-text">Managers identify a problem by comparing the current state of affairs to some standard.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">T</span> True</div><div class="q-opt" data-val="b"><span class="q-opt-letter">F</span> False</div></div><div class="q-explain"><b>Answer: True</b><b>ليه True؟</b> علشان المشكلة بتظهر لما الوضع الحالي يبقى مختلف عن standard أو target. ده جزء من Identify existing problem. <div class="why-wrong"><b>مثال:</b> المبيعات المفروض 100، الحالي 60، يبقى فيه problem.</div></div></div>
-  <div class="q-item" data-correct="b"><div class="q-num">TF-8 <span class="q-src">Final 2024 Q4</span></div><div class="q-text">Intuitive decision making is systematic, logical, and orderly.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">T</span> True</div><div class="q-opt" data-val="b"><span class="q-opt-letter">F</span> False</div></div><div class="q-explain"><b>Answer: False</b><b>ليه False؟</b> Intuition أداة subjective، يعني إحساس وخبرة شخصية. systematic/logical/orderly أقرب للـ rational decision-making process. <div class="why-wrong"><b>فخ:</b> Intuition مش معناها analysis.</div></div></div>
-  <div class="q-item" data-correct="b"><div class="q-num">TF-9 <span class="q-src">Final 2021 Q14 · Final 2024 Q6</span><span class="repeat">Repeated</span></div><div class="q-text">Groupthink is a group decision-making process in which negative feedback on any suggested alternative by any group member is forbidden until all members have presented alternatives that they perceive as valuable.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">T</span> True</div><div class="q-opt" data-val="b"><span class="q-opt-letter">F</span> False</div></div><div class="q-explain"><b>Answer: False</b> This wording describes the no-criticism stage of brainstorming more than groupthink. Groupthink is when desire for agreement overrides realistic appraisal.</div></div>
-  <div class="q-controls"><span class="q-score" id="score-tf"></span><button class="quiz-btn btn-check" onclick="checkQuiz('quiz-tf')">Check Answers</button><button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-tf')">Reset</button></div>
-</div>
-
-<div class="quiz-section" id="quiz-mcq">
-  <div class="quiz-header"><div class="quiz-icon">MCQ</div><div><h3>MCQ - Chapter 8</h3><p>Every decision-making MCQ found in the provided exams.</p></div></div>
-  <div class="q-item" data-correct="c"><div class="q-num">MCQ-1 <span class="q-src">Final 2019 Q1c</span><span class="repeat">Repeated idea</span></div><div class="q-text">The main disadvantage of arriving at decisions through consensus is ________.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> it results in very few practical solutions</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> it reduces employees' commitment to the decision</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> it involves time-consuming discussions</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> often the manager must make the decision</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> it focuses "several heads" on the decision</div></div><div class="q-explain"><b>Answer: C</b><b>✓ Why the correct answer is correct:</b> C صح لأن عيب consensus الأساسي إنه بياخد وقت طويل في المناقشات. <div class="why-wrong"><b>✗ A:</b> مش لازم يطلع حلول قليلة. <b>✗ B:</b> العكس، الموظفين بيبقوا committed أكتر لو شاركوا. <b>✗ C:</b> صح. <b>✗ D:</b> مش العيب المكتوب. <b>✗ E:</b> دي ميزة مش عيب؛ several heads يعني عقول أكتر.</div><div class="why-wrong"><b>خد بالك:</b> Consensus advantage = commitment، disadvantage = time.</div></div></div>
-  <div class="q-item" data-correct="e"><div class="q-num">MCQ-2 <span class="q-src">Final 2021 Q30 · Final 2024 Q20</span><span class="repeat">Repeated</span></div><div class="q-text">Trendy Garb is a retail store that sells women's apparel. The store has comprehensive rules, policies, and procedures for matters relating to customer complaints and product returns. Hence, when faced with either of these situations, the store manager simply needs to refer to these guidelines and proceed accordingly. This is an example of a(n) _______.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> overlapping responsibility</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> nonprogrammed decision</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> rule of thumb</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> decision tree</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> programmed decision</div></div><div class="q-explain"><b>Answer: E</b><b>✓ Why the correct answer is correct:</b> E صح لأن فيه rules/policies/procedures جاهزة، فالموقف routine ومتكرر. <div class="why-wrong"><b>✗ A:</b> Overlapping responsibility مش نوع قرار. <b>✗ B:</b> Nonprogrammed بيبقى جديد ومش structured، وده عكس السؤال. <b>✗ C:</b> Rule of thumb طريقة تقديرية، مش وجود policy واضحة. <b>✗ D:</b> Decision tree أداة رسومية لقرارات متعددة الخطوات. <b>✗ E:</b> صح.</div><div class="why-wrong"><b>دي بتيجي كتير:</b> لو فيه Standard Operating Procedures يبقى Programmed.</div></div></div>
-  <div class="q-item" data-correct="c"><div class="q-num">MCQ-3 <span class="q-src">Final 2021 Q31 · Final 2024 Q32</span><span class="repeat">Repeated</span></div><div class="q-text">Which of the following is a traditional technique for solving a programmed decision?</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> judgment</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> rules of thumb</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> habit</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> intuition</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> training</div></div><div class="q-explain"><b>Answer: C</b><b>✓ Why the correct answer is correct:</b> C صح لأن traditional techniques للـ programmed decisions تشمل Habit. <div class="why-wrong"><b>✗ A:</b> Judgment للـ nonprogrammed. <b>✗ B:</b> Rules of thumb برضه nonprogrammed traditional. <b>✗ C:</b> صح. <b>✗ D:</b> Intuition subjective/nonprogrammed. <b>✗ E:</b> Selection and training of executives للـ nonprogrammed.</div><div class="why-wrong"><b>Memory Trick:</b> Programmed traditional = H-C-O: Habit, Clerical routine, Organization structure.</div></div></div>
-  <div class="q-item" data-correct="c"><div class="q-num">MCQ-4 <span class="q-src">Mid 2022 Q15</span></div><div class="q-text">Programmed decisions are</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> non-structured</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> one-shot decisions</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> routine and repetitive</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> made by top management</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> made by computers</div></div><div class="q-explain"><b>Answer: C</b><b>✓ Why the correct answer is correct:</b> C صح بالنص: Programmed = routine and repetitive. <div class="why-wrong"><b>✗ A:</b> Non-structured أقرب لـ nonprogrammed. <b>✗ B:</b> One-shot = nonprogrammed. <b>✗ C:</b> صح. <b>✗ D:</b> مش شرط top management. <b>✗ E:</b> الكمبيوتر ممكن يساعد، بس مش التعريف.</div><div class="why-wrong"><b>خد بالك:</b> التعريف بيتحفظ زي ما هو.</div></div></div>
-  <div class="q-item" data-correct="a"><div class="q-num">MCQ-5 <span class="q-src">Mid 2022 Q16</span></div><div class="q-text">The proportion of the total management system that a decision will affect is called the</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> scope of the decision</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> unity of command</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> span of control</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> level of management</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> discretionary area</div></div><div class="q-explain"><b>Answer: A</b><b>✓ Why the correct answer is correct:</b> A صح لأنه تعريف Decision Scope: القرار هيأثر على قد إيه من النظام الإداري. <div class="why-wrong"><b>✗ A:</b> صح. <b>✗ B:</b> Unity of command من organizing يعني مدير واحد. <b>✗ C:</b> Span of control عدد المرؤوسين. <b>✗ D:</b> Level of management مين هياخد القرار، مش حجم تأثيره. <b>✗ E:</b> Discretionary area حدود البدائل المقبولة.</div><div class="why-wrong"><b>مثال:</b> قرار يغير سعر منتج في فرع واحد narrow scope، قرار يغير استراتيجية الشركة broad scope.</div></div></div>
-  <div class="q-item" data-correct="b"><div class="q-num">MCQ-6 <span class="q-src">Mid 2022 Q17</span></div><div class="q-text">_______ is an agreement on a decision by all the individuals involved in making the decision.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Law</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Consensus</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Fiat</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Declaration</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> clause</div></div><div class="q-explain"><b>Answer: B</b> Consensus means agreement by all involved individuals.</div></div>
-  <div class="q-item" data-correct="c"><div class="q-num">MCQ-7 <span class="q-src">Mid 2022 Q18</span></div><div class="q-text">The first step in the decision-making process is to</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> identify possible alternatives for solving an organizational problem</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> identify organizational objectives</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> identify an existing problem</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> gather feedback about an existing problem</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> implement the selected alternative</div></div><div class="q-explain"><b>Answer: C</b> Step 1 of the rational process is identifying an existing problem.</div></div>
-  <div class="q-item" data-correct="a"><div class="q-num">MCQ-8 <span class="q-src">Mid 2022 Q19</span></div><div class="q-text">_______ refers to situations where the probability that a particular outcome will occur is not known in advance.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Uncertainty</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Risk</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Unrealistic optimism</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Heuristics</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Hazard</div></div><div class="q-explain"><b>Answer: A</b> Unknown probability = uncertainty.</div></div>
-  <div class="q-item" data-correct="a"><div class="q-num">MCQ-9 <span class="q-src">Mid 2022 Q20</span></div><div class="q-text">If I = $57,500 and P is .3, what is the expected value (EV)?</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> $17,250</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> $191,666</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> $74,750</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> $40,250</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> $131,466</div></div><div class="q-explain"><b>Answer: A</b> EV = I * P = 57,500 * .3 = 17,250.</div></div>
-  <div class="q-item" data-correct="d"><div class="q-num">MCQ-10 <span class="q-src">Mid 2022 Q21</span></div><div class="q-text">Which of the following is the first step in the process of brainstorming?</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> members comment on ideas</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> group leader chooses members</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> ideas are evaluated</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> group members state ideas</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> ideas are recorded</div></div><div class="q-explain"><b>Answer: D</b> Brainstorming starts when group members state ideas.</div></div>
-  <div class="q-item" data-correct="d"><div class="q-num">MCQ-11 <span class="q-src">Mid 2022 Q22</span></div><div class="q-text">Decision making using the Delphi technique ends</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> with a secret ballot which allows members to support their favorite ideas</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> when group members are allowed to finally meet face to face</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> after all the responses of all the group members have been consolidated</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> once a consensus problem solution is reached</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> after all questionnaires have been scored and tallied</div></div><div class="q-explain"><b>Answer: D</b> Delphi repeats questionnaire rounds until consensus is reached.</div></div>
-  <div class="q-item" data-correct="d"><div class="q-num">MCQ-12 <span class="q-src">Final 2024 Q18</span></div><div class="q-text">Which of the following is true about decisions and decision-making?</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Managers make decisions primarily when performing the controlling function.</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> In the process of deciding, the alternatives are as important as the choice made.</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Organizations only have to consider significant decisions that have a major impact on business.</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Decision making is the process of choosing the best alternative for reaching objectives.</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> All managerial decisions are of equal significance to the organization.</div></div><div class="q-explain"><b>Answer: D</b> This is the official definition of decision making.</div></div>
-  <div class="q-item" data-correct="b"><div class="q-num">MCQ-13 <span class="q-src">Final 2024 Q21</span></div><div class="q-text">Nonprogrammed decisions are _______.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> structured</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> one-shot decisions</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> routine and repetitive</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> less time-consuming</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> made by computers</div></div><div class="q-explain"><b>Answer: B</b> Nonprogrammed decisions are one-shot and ill-structured.</div></div>
-  <div class="q-item" data-correct="c"><div class="q-num">MCQ-14 <span class="q-src">Final 2024 Q52 · Final 2025 Q58</span><span class="repeat">Repeated</span></div><div class="q-text">Which of the following statements about groupthink is true?</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Groupthink cannot take place in a newly formed group.</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A group with high levels of mistrust and conflicts is likely to be most susceptible to groupthink.</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> A group with a high level of cohesiveness is likely to be susceptible to groupthink.</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Managers must help committees to establish groupthink to generate alternative problem solutions.</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> A group which is highly competitive will most probably result in groupthink.</div></div><div class="q-explain"><b>Answer: C</b> Groupthink is linked to excessive desire for agreement and harmony in cohesive groups.</div></div>
-  <div class="q-item" data-correct="c"><div class="q-num">MCQ-15 <span class="q-src">Final 2024 Q60</span></div><div class="q-text">_______ is the mode of thinking that group members engage in when the desire for agreement so dominates the group that it overrides the need to realistically appraise alternative problem solutions.</div><div class="q-opts"><div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Social loafing</div><div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Group polarization</div><div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Groupthink</div><div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Cognitive dissonance</div><div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Collective intelligence</div></div><div class="q-explain"><b>Answer: C</b> This is the definition of groupthink.</div></div>
-  <div class="q-controls"><span class="q-score" id="score-mcq"></span><button class="quiz-btn btn-check" onclick="checkQuiz('quiz-mcq')">Check Answers</button><button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-mcq')">Reset</button></div>
-</div>
-
-<div class="chapter" id="essay">
-  <div class="ch-header"><div class="ch-num purple">ES</div><div class="ch-title"><h2>Essay Questions - Chapter 8</h2><p>Questions from the provided exams with model answers.</p></div></div>
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">▣</span> Final 2019 Q6</div>
-    <p><strong>Question:</strong> State one advantage and one disadvantage for the following group decision techniques: Brainstorming, Nominal Group Technique, Delphi Technique.</p>
-    <table class="tbl">
-      <thead><tr><th>Technique</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
-      <tbody>
-        <tr><td>Brainstorming</td><td>Encouraging the expression of as many useful ideas as possible.</td><td>Wasting the group's time on ideas that are wildly impractical.</td></tr>
-        <tr><td>Nominal Group Technique</td><td>Secret ballot lets individuals support or reject ideas without fear.</td><td>Members have no way of knowing why others voted the way they did.</td></tr>
-        <tr><td>Delphi Technique</td><td>Ideas can be gathered from members who are geographically separated or too busy to meet.</td><td>Members are unable to ask questions of one another.</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<div class="chapter" id="cheat-ch8">
-  <div class="ch-header"><div class="ch-num teal">CS</div><div class="ch-title"><h2>Cheat Sheet - Chapter 8</h2><p>مراجعة مركزة.</p></div></div>
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="cheat-grid">
-      <div class="cheat"><h3>Definitions</h3><div class="cheat-item"><div class="cheat-key">Decision</div><div class="cheat-val">Choice between two or more alternatives.</div></div><div class="cheat-item"><div class="cheat-key">Decision making</div><div class="cheat-val">Choosing the best alternative for reaching objectives.</div></div><div class="cheat-item"><div class="cheat-key">Consensus</div><div class="cheat-val">Agreement by all individuals involved.</div></div><div class="cheat-item"><div class="cheat-key">Scope</div><div class="cheat-val">Proportion of total management system affected.</div></div></div>
-      <div class="cheat"><h3>Types</h3><div class="cheat-item"><div class="cheat-key">Programmed</div><div class="cheat-val">Routine and repetitive; habit is a traditional technique.</div></div><div class="cheat-item"><div class="cheat-key">Nonprogrammed</div><div class="cheat-val">One-shot, ill-structured, novel policy decisions.</div></div><div class="cheat-item"><div class="cheat-key">Risk</div><div class="cheat-val">Statistical probabilities can be attributed.</div></div><div class="cheat-item"><div class="cheat-key">Uncertainty</div><div class="cheat-val">Probability is not known in advance.</div></div></div>
-      <div class="cheat"><h3>Rational Process</h3><div class="cheat-item"><div class="cheat-key">1</div><div class="cheat-val">Identify existing problem.</div></div><div class="cheat-item"><div class="cheat-key">2</div><div class="cheat-val">List alternatives.</div></div><div class="cheat-item"><div class="cheat-key">3</div><div class="cheat-val">Select most beneficial alternative.</div></div><div class="cheat-item"><div class="cheat-key">4</div><div class="cheat-val">Implement chosen alternative.</div></div><div class="cheat-item"><div class="cheat-key">5</div><div class="cheat-val">Gather problem-related feedback.</div></div></div>
-      <div class="cheat"><h3>Group Techniques</h3><div class="cheat-item"><div class="cheat-key">Brainstorming</div><div class="cheat-val">State ideas first; evaluate only after all are recorded.</div></div><div class="cheat-item"><div class="cheat-key">NGT</div><div class="cheat-val">Individual ideas, oral presentation, discussion, secret ballot.</div></div><div class="cheat-item"><div class="cheat-key">Delphi</div><div class="cheat-val">Anonymous questionnaires repeated until consensus.</div></div><div class="cheat-item"><div class="cheat-key">Formula</div><div class="cheat-val">EV = I * P; Net expected gain = EV - investment cost.</div></div></div>
-    </div>
-  </div>
-</div>
-
-<div class="chapter" id="flashcards-ch8">
-  <div class="ch-header"><div class="ch-num pink">FC</div><div class="ch-title"><h2>Flashcards</h2><p>اضغط على الكارت لعرض الإجابة.</p></div></div>
-  <div class="topic" style="--accent:var(--pink)">
-    <div class="flashcards">
-      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Decision making = ?</div><div class="fc-hint">click</div></div><div class="fc-back"><div class="fc-a">Choosing the best alternative for reaching objectives.</div></div></div></div>
-      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Programmed decision?</div><div class="fc-hint">click</div></div><div class="fc-back"><div class="fc-a">Routine and repetitive.</div></div></div></div>
-      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Nonprogrammed decision?</div><div class="fc-hint">click</div></div><div class="fc-back"><div class="fc-a">One-shot, ill-structured, novel policy decision.</div></div></div></div>
-      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Final rational decision step?</div><div class="fc-hint">click</div></div><div class="fc-back"><div class="fc-a">Gather problem-related feedback.</div></div></div></div>
-      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">EV formula?</div><div class="fc-hint">click</div></div><div class="fc-back"><div class="fc-a">EV = I * P</div></div></div></div>
-      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Delphi ends when?</div><div class="fc-hint">click</div></div><div class="fc-back"><div class="fc-a">A consensus problem solution is reached.</div></div></div></div>
-    </div>
-  </div>
-</div>
-
-</div>
-</main>
-
-<script>
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('open')}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
-document.querySelectorAll('.sb-link').forEach(l=>{l.addEventListener('click',()=>{if(window.innerWidth<=1100)closeSidebar()})});
-const sections=document.querySelectorAll('[id]');const sbLinks=document.querySelectorAll('.sb-link');
-window.addEventListener('scroll',()=>{let cur='';sections.forEach(s=>{if(window.scrollY>=s.offsetTop-200)cur=s.id});sbLinks.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+cur)l.classList.add('active')});const h=document.documentElement.scrollHeight-window.innerHeight;const p=h>0?(window.scrollY/h)*100:0;document.getElementById('prog-fill').style.width=p+'%';document.getElementById('scroll-top').classList.toggle('vis',window.scrollY>400)});
-document.querySelectorAll('.q-opt').forEach(opt=>{opt.addEventListener('click',function(){const item=this.closest('.q-item');if(item.classList.contains('answered'))return;item.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected'));this.classList.add('selected')})});
-function getQuizFeedback(pct){if(pct<50)return 'راجع الشرح وخد جولة تانية.';if(pct<70)return 'قريب، بس في نقط محتاجة مراجعة.';if(pct<90)return 'أداء محترم. راجع الغلطات.';return 'ممتاز. الشابتر تحت السيطرة.'}
-function checkQuiz(sectionId){const section=document.getElementById(sectionId);const items=section.querySelectorAll('.q-item');let total=items.length,correct=0;items.forEach(item=>{const correctVal=item.dataset.correct;const selected=item.querySelector('.q-opt.selected');if(selected){item.classList.add('answered');if(selected.dataset.val===correctVal){selected.classList.add('correct');correct++}else{selected.classList.add('wrong');item.querySelectorAll('.q-opt').forEach(o=>{if(o.dataset.val===correctVal)o.classList.add('correct')})}}else{item.querySelectorAll('.q-opt').forEach(o=>{if(o.dataset.val===correctVal)o.classList.add('correct')});item.classList.add('answered')}const explain=item.querySelector('.q-explain');if(explain)explain.style.display='block'});const scoreId=sectionId==='quiz-tf'?'score-tf':'score-mcq';const pct=Math.round((correct/total)*100);const el=document.getElementById(scoreId);el.innerHTML=`${correct} / ${total} - ${pct}%<div class="q-feedback">${getQuizFeedback(pct)}</div>`;el.style.color=pct>=70?'var(--green)':pct>=40?'var(--amber)':'var(--red)'}
-function resetQuiz(sectionId){const section=document.getElementById(sectionId);section.querySelectorAll('.q-item').forEach(item=>{item.classList.remove('answered');item.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected','correct','wrong'));const explain=item.querySelector('.q-explain');if(explain)explain.style.display='none'});const scoreId=sectionId==='quiz-tf'?'score-tf':'score-mcq';document.getElementById(scoreId).innerHTML=''}
-</script>
-</body>
+    <script>
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("open");
+        document.getElementById("overlay").classList.toggle("open");
+      }
+      function closeSidebar() {
+        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("overlay").classList.remove("open");
+      }
+      document.querySelectorAll(".sb-link").forEach((l) => {
+        l.addEventListener("click", () => {
+          if (window.innerWidth <= 1100) closeSidebar();
+        });
+      });
+      const sections = document.querySelectorAll("[id]");
+      const sbLinks = document.querySelectorAll(".sb-link");
+      window.addEventListener("scroll", () => {
+        let cur = "";
+        sections.forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 200) cur = s.id;
+        });
+        sbLinks.forEach((l) => {
+          l.classList.remove("active");
+          if (l.getAttribute("href") === "#" + cur) l.classList.add("active");
+        });
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        const p = h > 0 ? (window.scrollY / h) * 100 : 0;
+        document.getElementById("prog-fill").style.width = p + "%";
+        document
+          .getElementById("scroll-top")
+          .classList.toggle("vis", window.scrollY > 400);
+      });
+      document.querySelectorAll(".q-opt").forEach((opt) => {
+        opt.addEventListener("click", function () {
+          const item = this.closest(".q-item");
+          if (item.classList.contains("answered")) return;
+          item
+            .querySelectorAll(".q-opt")
+            .forEach((o) => o.classList.remove("selected"));
+          this.classList.add("selected");
+        });
+      });
+      function getQuizFeedback(pct) {
+        if (pct < 50) return "راجع الشرح وخد جولة تانية.";
+        if (pct < 70) return "قريب، بس في نقط محتاجة مراجعة.";
+        if (pct < 90) return "أداء محترم. راجع الغلطات.";
+        return "ممتاز. الشابتر تحت السيطرة.";
+      }
+      function checkQuiz(sectionId) {
+        const section = document.getElementById(sectionId);
+        const items = section.querySelectorAll(".q-item");
+        let total = items.length,
+          correct = 0;
+        items.forEach((item) => {
+          const correctVal = item.dataset.correct;
+          const selected = item.querySelector(".q-opt.selected");
+          if (selected) {
+            item.classList.add("answered");
+            if (selected.dataset.val === correctVal) {
+              selected.classList.add("correct");
+              correct++;
+            } else {
+              selected.classList.add("wrong");
+              item.querySelectorAll(".q-opt").forEach((o) => {
+                if (o.dataset.val === correctVal) o.classList.add("correct");
+              });
+            }
+          } else {
+            item.querySelectorAll(".q-opt").forEach((o) => {
+              if (o.dataset.val === correctVal) o.classList.add("correct");
+            });
+            item.classList.add("answered");
+          }
+          const explain = item.querySelector(".q-explain");
+          if (explain) explain.style.display = "block";
+        });
+        const scoreId = sectionId === "quiz-tf" ? "score-tf" : "score-mcq";
+        const pct = Math.round((correct / total) * 100);
+        const el = document.getElementById(scoreId);
+        el.innerHTML = `${correct} / ${total} - ${pct}%<div class="q-feedback">${getQuizFeedback(pct)}</div>`;
+        el.style.color =
+          pct >= 70
+            ? "var(--green)"
+            : pct >= 40
+              ? "var(--amber)"
+              : "var(--red)";
+      }
+      function resetQuiz(sectionId) {
+        const section = document.getElementById(sectionId);
+        section.querySelectorAll(".q-item").forEach((item) => {
+          item.classList.remove("answered");
+          item
+            .querySelectorAll(".q-opt")
+            .forEach((o) => o.classList.remove("selected", "correct", "wrong"));
+          const explain = item.querySelector(".q-explain");
+          if (explain) explain.style.display = "none";
+        });
+        const scoreId = sectionId === "quiz-tf" ? "score-tf" : "score-mcq";
+        document.getElementById(scoreId).innerHTML = "";
+      }
+    </script>
+  </body>
 </html>
