@@ -1,0 +1,2686 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Chapter 18 — Groups and Teams | DS251 Fundamentals of Management
+    </title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ══════════════════════════════════════════════════
+   RESET & ROOT VARIABLES
+══════════════════════════════════════════════════ */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #0d0f14;
+        --bg2: #12151c;
+        --bg3: #0a0c10;
+        --card: #161b25;
+        --card2: #1d2536;
+        --card3: #232d42;
+        --border: rgba(255, 255, 255, 0.07);
+        --border2: rgba(255, 255, 255, 0.13);
+        --t1: #e8eaf0;
+        --t2: #a0a8be;
+        --t3: #636880;
+        --t4: #3d4258;
+        --fh: "Outfit", sans-serif;
+        --fb: "DM Sans", "Noto Sans Arabic", sans-serif;
+        --fc: "Fira Code", monospace;
+        --fa: "Noto Sans Arabic", "DM Sans", sans-serif;
+        --cyan: #22d3ee;
+        --amber: #f59e0b;
+        --red: #ef4444;
+        --purple: #a78bfa;
+        --green: #4ade80;
+        --pink: #f472b6;
+        --teal: #2dd4bf;
+        --blue: #60a5fa;
+        --orange: #fb923c;
+        --sw: 286px;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--t1);
+        font-family: var(--fa);
+        font-size: 15px;
+        line-height: 1.75;
+        direction: rtl;
+      }
+
+      /* ══════════════════════════════════════════════════
+   PROGRESS BAR
+══════════════════════════════════════════════════ */
+      #prog-bar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 3px;
+        background: var(--bg3);
+        z-index: 9999;
+        pointer-events: none;
+      }
+      #prog-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(
+          90deg,
+          var(--cyan),
+          var(--purple),
+          var(--pink)
+        );
+        transition: width 0.08s;
+      }
+
+      /* ══════════════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════════════ */
+      #sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: var(--sw);
+        background: var(--bg2);
+        border-left: 1px solid var(--border);
+        overflow-y: auto;
+        padding: 20px 0 100px;
+        z-index: 900;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      #sidebar::-webkit-scrollbar {
+        width: 4px;
+      }
+      #sidebar::-webkit-scrollbar-thumb {
+        background: var(--border2);
+        border-radius: 4px;
+      }
+      @media (max-width: 1100px) {
+        #sidebar {
+          transform: translateX(110%);
+        }
+        #sidebar.open {
+          transform: translateX(0);
+        }
+      }
+      .sb-logo {
+        padding: 4px 20px 20px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 10px;
+      }
+      .sb-logo h2 {
+        font-family: var(--fh);
+        font-size: 0.95rem;
+        color: var(--t1);
+        font-weight: 700;
+        line-height: 1.3;
+      }
+      .sb-logo p {
+        font-size: 0.7rem;
+        color: var(--t3);
+        margin-top: 3px;
+      }
+      .sb-tag {
+        display: inline-block;
+        font-family: var(--fc);
+        font-size: 0.6rem;
+        padding: 2px 7px;
+        border-radius: 4px;
+        background: rgba(34, 211, 238, 0.1);
+        color: var(--cyan);
+        border: 1px solid rgba(34, 211, 238, 0.2);
+        margin-top: 6px;
+      }
+      .sb-section {
+        padding: 14px 20px 5px;
+        font-family: var(--fh);
+        font-size: 0.62rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--t4);
+      }
+      .sb-link {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 7px 12px;
+        margin: 1px 8px;
+        text-decoration: none;
+        color: var(--t2);
+        font-size: 0.82rem;
+        border-radius: 9px;
+        transition: 0.18s;
+      }
+      .sb-link:hover {
+        background: var(--card);
+        color: var(--t1);
+      }
+      .sb-link.active {
+        background: var(--card2);
+        color: var(--cyan);
+      }
+      .sb-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: currentColor;
+        opacity: 0.45;
+        flex-shrink: 0;
+      }
+
+      /* ══════════════════════════════════════════════════
+   FLOATING BUTTONS
+══════════════════════════════════════════════════ */
+      #menu-btn {
+        position: fixed;
+        top: 14px;
+        left: 16px;
+        z-index: 1000;
+        width: 44px;
+        height: 44px;
+        border-radius: 11px;
+        background: var(--card2);
+        border: 1px solid var(--border2);
+        color: var(--t1);
+        font-size: 1.15rem;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      }
+      @media (max-width: 1100px) {
+        #menu-btn {
+          display: flex;
+        }
+      }
+      #scroll-top {
+        position: fixed;
+        bottom: 24px;
+        left: 24px;
+        z-index: 800;
+        width: 44px;
+        height: 44px;
+        border-radius: 11px;
+        background: var(--card2);
+        border: 1px solid var(--border2);
+        color: var(--t2);
+        cursor: pointer;
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+        opacity: 0;
+        transform: translateY(8px);
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #scroll-top.vis {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      #scroll-top:hover {
+        color: var(--cyan);
+      }
+      #overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 800;
+        backdrop-filter: blur(2px);
+      }
+      #overlay.open {
+        display: block;
+      }
+
+      /* ══════════════════════════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════════════════════════ */
+      #main {
+        margin-right: var(--sw);
+        min-height: 100vh;
+        padding-bottom: 120px;
+      }
+      @media (max-width: 1100px) {
+        #main {
+          margin-right: 0;
+        }
+      }
+
+      /* ══════════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════════ */
+      .hero {
+        padding: 80px 60px 56px;
+        background: linear-gradient(
+          145deg,
+          var(--bg3) 0%,
+          var(--bg2) 60%,
+          rgba(244, 114, 182, 0.06) 100%
+        );
+        border-bottom: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -60px;
+        left: -60px;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(244, 114, 182, 0.08) 0%,
+          transparent 65%
+        );
+        pointer-events: none;
+      }
+      .hero::after {
+        content: "";
+        position: absolute;
+        bottom: -80px;
+        right: 30%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(34, 211, 238, 0.06) 0%,
+          transparent 65%
+        );
+        pointer-events: none;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 14px;
+        border-radius: 20px;
+        background: rgba(244, 114, 182, 0.1);
+        border: 1px solid rgba(244, 114, 182, 0.25);
+        color: var(--pink);
+        font-size: 0.76rem;
+        font-family: var(--fc);
+        margin-bottom: 22px;
+        letter-spacing: 0.03em;
+      }
+      .hero h1 {
+        font-family: var(--fh);
+        font-size: 2.5rem;
+        font-weight: 900;
+        line-height: 1.15;
+        margin-bottom: 18px;
+        color: var(--t1);
+      }
+      .hero h1 span {
+        background: linear-gradient(90deg, var(--pink), var(--cyan));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .hero p {
+        color: var(--t2);
+        font-size: 0.97rem;
+        max-width: 640px;
+        line-height: 1.75;
+        margin-bottom: 30px;
+      }
+      .btn-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+      }
+      .btn {
+        padding: 10px 22px;
+        border-radius: 11px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        font-family: var(--fh);
+        cursor: pointer;
+        text-decoration: none;
+        border: none;
+        transition: 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, var(--pink), #fb7185);
+        color: #0d0f14;
+      }
+      .btn-primary:hover {
+        filter: brightness(1.1);
+        transform: translateY(-1px);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--t2);
+        border: 1px solid var(--border2);
+      }
+      .btn-ghost:hover {
+        color: var(--t1);
+        border-color: var(--t3);
+      }
+      .hero-stats {
+        display: flex;
+        gap: 32px;
+        flex-wrap: wrap;
+      }
+      .hstat .num {
+        font-family: var(--fh);
+        font-size: 1.9rem;
+        font-weight: 900;
+        color: var(--pink);
+      }
+      .hstat .lbl {
+        font-size: 0.7rem;
+        color: var(--t3);
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        margin-top: -2px;
+      }
+      @media (max-width: 700px) {
+        .hero {
+          padding: 60px 24px 40px;
+        }
+        .hero h1 {
+          font-size: 1.7rem;
+        }
+      }
+
+      /* ══════════════════════════════════════════════════
+   CONTENT WRAPPER
+══════════════════════════════════════════════════ */
+      .content {
+        padding: 36px 60px;
+      }
+      @media (max-width: 700px) {
+        .content {
+          padding: 20px;
+        }
+      }
+
+      /* ══════════════════════════════════════════════════
+   CHAPTER CARD
+══════════════════════════════════════════════════ */
+      .chapter {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        margin-bottom: 24px;
+        overflow: hidden;
+      }
+      .ch-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 26px 32px;
+        background: var(--card2);
+        border-bottom: 1px solid var(--border);
+      }
+      .ch-num {
+        font-family: var(--fh);
+        font-weight: 900;
+        line-height: 1;
+        flex-shrink: 0;
+        width: 58px;
+        height: 58px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+      }
+      .ch-num.cyan {
+        background: rgba(34, 211, 238, 0.14);
+        color: var(--cyan);
+      }
+      .ch-num.amber {
+        background: rgba(245, 158, 11, 0.14);
+        color: var(--amber);
+      }
+      .ch-num.red {
+        background: rgba(239, 68, 68, 0.14);
+        color: var(--red);
+      }
+      .ch-num.purple {
+        background: rgba(167, 139, 250, 0.14);
+        color: var(--purple);
+      }
+      .ch-num.green {
+        background: rgba(74, 222, 128, 0.14);
+        color: var(--green);
+      }
+      .ch-num.pink {
+        background: rgba(244, 114, 182, 0.14);
+        color: var(--pink);
+      }
+      .ch-num.blue {
+        background: rgba(96, 165, 250, 0.14);
+        color: var(--blue);
+      }
+      .ch-num.teal {
+        background: rgba(45, 212, 191, 0.14);
+        color: var(--teal);
+      }
+      .ch-title h2 {
+        font-family: var(--fh);
+        font-size: 1.22rem;
+        font-weight: 700;
+        color: var(--t1);
+        margin-bottom: 5px;
+      }
+      .ch-title p {
+        font-size: 0.86rem;
+        color: var(--t2);
+        line-height: 1.55;
+      }
+
+      /* ══════════════════════════════════════════════════
+   TOPIC
+══════════════════════════════════════════════════ */
+      .topic {
+        padding: 24px 32px;
+        border-bottom: 1px solid var(--border);
+        --accent: var(--cyan);
+      }
+      .topic:last-child {
+        border-bottom: none;
+      }
+      .topic-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--fh);
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 14px;
+      }
+      .icon {
+        font-size: 1.15rem;
+      }
+      .topic p {
+        color: var(--t2);
+        font-size: 0.9rem;
+        line-height: 1.75;
+        margin-bottom: 10px;
+      }
+      .topic ul,
+      .topic ol {
+        padding-right: 20px;
+        color: var(--t2);
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+      }
+      .topic li {
+        margin-bottom: 6px;
+        line-height: 1.65;
+      }
+      .topic strong {
+        color: var(--t1);
+      }
+      .topic em {
+        color: var(--accent);
+        font-style: normal;
+        font-weight: 600;
+      }
+      .topic h4 {
+        font-family: var(--fh);
+        font-weight: 700;
+        margin-bottom: 10px;
+        margin-top: 14px;
+      }
+      code {
+        font-family: var(--fc);
+        font-size: 0.83em;
+        background: rgba(255, 255, 255, 0.07);
+        padding: 2px 7px;
+        border-radius: 5px;
+        color: var(--cyan);
+      }
+
+      /* ══════════════════════════════════════════════════
+   GRIDS & CARDS
+══════════════════════════════════════════════════ */
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin: 14px 0;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 14px;
+        margin: 14px 0;
+      }
+      .grid4 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 14px;
+        margin: 14px 0;
+      }
+      @media (max-width: 900px) {
+        .grid2,
+        .grid3,
+        .grid4 {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .grid2,
+        .grid3,
+        .grid4 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .cmp-card {
+        --accent: var(--cyan);
+        background: var(--card2);
+        border: 1px solid var(--border);
+        border-radius: 13px;
+        padding: 17px;
+        border-top: 3px solid var(--accent);
+        transition: 0.2s;
+      }
+      .cmp-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      }
+      .cmp-card h4 {
+        font-family: var(--fh);
+        font-size: 0.88rem;
+        color: var(--accent);
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .cmp-card p {
+        font-size: 0.81rem;
+        color: var(--t2);
+        line-height: 1.6;
+      }
+      .cmp-card ul {
+        padding-right: 14px;
+        font-size: 0.8rem;
+        color: var(--t2);
+        margin-top: 6px;
+      }
+      .cmp-card li {
+        margin-bottom: 3px;
+      }
+
+      /* ══════════════════════════════════════════════════
+   ALERT BOXES
+══════════════════════════════════════════════════ */
+      .info,
+      .warn,
+      .danger,
+      .tip {
+        border-radius: 11px;
+        padding: 14px 17px;
+        font-size: 0.87rem;
+        margin: 12px 0;
+        border-right: 3px solid;
+        line-height: 1.65;
+      }
+      .info {
+        background: rgba(34, 211, 238, 0.07);
+        border-color: var(--cyan);
+      }
+      .warn {
+        background: rgba(245, 158, 11, 0.07);
+        border-color: var(--amber);
+      }
+      .danger {
+        background: rgba(239, 68, 68, 0.08);
+        border-color: var(--red);
+      }
+      .tip {
+        background: rgba(74, 222, 128, 0.07);
+        border-color: var(--green);
+      }
+      .info b {
+        color: var(--cyan);
+      }
+      .warn b {
+        color: var(--amber);
+      }
+      .danger b {
+        color: var(--red);
+      }
+      .tip b {
+        color: var(--green);
+      }
+
+      /* ══════════════════════════════════════════════════
+   TABLE
+══════════════════════════════════════════════════ */
+      .tbl {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.83rem;
+        margin: 14px 0;
+      }
+      .tbl th {
+        background: var(--card2);
+        color: var(--t2);
+        font-family: var(--fh);
+        padding: 10px 13px;
+        border: 1px solid var(--border);
+        text-align: right;
+        font-size: 0.74rem;
+        letter-spacing: 0.05em;
+      }
+      .tbl td {
+        padding: 9px 13px;
+        border: 1px solid var(--border);
+        color: var(--t2);
+        vertical-align: middle;
+      }
+      .tbl tr:hover td {
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 9px;
+        border-radius: 5px;
+        font-family: var(--fc);
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
+      .bg {
+        background: rgba(74, 222, 128, 0.12);
+        color: var(--green);
+        border: 1px solid rgba(74, 222, 128, 0.2);
+      }
+      .ba {
+        background: rgba(245, 158, 11, 0.12);
+        color: var(--amber);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+      }
+      .br {
+        background: rgba(239, 68, 68, 0.12);
+        color: var(--red);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+      }
+      .bb {
+        background: rgba(96, 165, 250, 0.12);
+        color: var(--blue);
+        border: 1px solid rgba(96, 165, 250, 0.2);
+      }
+      .bp {
+        background: rgba(167, 139, 250, 0.12);
+        color: var(--purple);
+        border: 1px solid rgba(167, 139, 250, 0.2);
+      }
+      .bc {
+        background: rgba(34, 211, 238, 0.12);
+        color: var(--cyan);
+        border: 1px solid rgba(34, 211, 238, 0.2);
+      }
+
+      /* ══════════════════════════════════════════════════
+   PROCESS / FLOW
+══════════════════════════════════════════════════ */
+      .flow-wrap {
+        background: var(--card2);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 22px;
+        margin: 14px 0;
+      }
+      .flow-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        flex-wrap: wrap;
+      }
+      .flow-row.ltr {
+        direction: ltr;
+      }
+      .flow-box {
+        background: var(--card);
+        border: 1px solid var(--border2);
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-family: var(--fh);
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--accent, var(--cyan));
+        border-top: 2px solid var(--accent, var(--cyan));
+        text-align: center;
+        min-width: 110px;
+      }
+      .flow-arrow {
+        color: var(--t4);
+        font-size: 1.1rem;
+        padding: 0 8px;
+        flex-shrink: 0;
+      }
+      .flow-note {
+        text-align: center;
+        font-family: var(--fh);
+        font-size: 0.76rem;
+        color: var(--t3);
+        margin-top: 12px;
+      }
+
+      /* ══════════════════════════════════════════════════
+   QUIZ
+══════════════════════════════════════════════════ */
+      .quiz-section {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 32px;
+        margin-bottom: 24px;
+        direction: ltr;
+        text-align: left;
+        font-family: var(--fb);
+      }
+      .quiz-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 28px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border);
+      }
+      .quiz-icon {
+        font-size: 1.9rem;
+        flex-shrink: 0;
+      }
+      .quiz-header h3 {
+        font-family: var(--fh);
+        font-size: 1.2rem;
+        color: var(--t1);
+        font-weight: 700;
+      }
+      .quiz-header p {
+        font-size: 0.84rem;
+        color: var(--t3);
+        margin-top: 3px;
+        line-height: 1.5;
+      }
+
+      .q-item {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 22px;
+        margin-bottom: 16px;
+        border-left: 3px solid var(--border2);
+        transition: border-color 0.2s;
+      }
+      .q-item:hover {
+        border-left-color: var(--pink);
+      }
+      .q-num {
+        font-family: var(--fh);
+        font-size: 0.73rem;
+        font-weight: 700;
+        color: var(--t3);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .q-src {
+        font-family: var(--fc);
+        font-size: 0.67rem;
+        background: rgba(244, 114, 182, 0.1);
+        color: var(--pink);
+        padding: 2px 8px;
+        border-radius: 5px;
+        border: 1px solid rgba(244, 114, 182, 0.2);
+      }
+      .q-text {
+        font-size: 0.92rem;
+        color: var(--t1);
+        margin-bottom: 16px;
+        line-height: 1.7;
+        font-weight: 500;
+      }
+      .quiz-section ul {
+        padding-left: 16px;
+        padding-right: 0 !important;
+      }
+      .q-opts {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .q-opt {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 11px 14px;
+        border-radius: 10px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        cursor: pointer;
+        transition: 0.18s;
+        font-size: 0.87rem;
+        color: var(--t2);
+        user-select: none;
+      }
+      .q-opt:hover {
+        background: var(--card2);
+        border-color: var(--border2);
+        color: var(--t1);
+      }
+      .q-opt.selected {
+        background: rgba(244, 114, 182, 0.1);
+        border-color: rgba(244, 114, 182, 0.5);
+        color: var(--t1);
+      }
+      .q-opt.correct {
+        background: rgba(74, 222, 128, 0.1);
+        border-color: rgba(74, 222, 128, 0.4);
+        color: var(--green);
+      }
+      .q-opt.wrong {
+        background: rgba(239, 68, 68, 0.09);
+        border-color: rgba(239, 68, 68, 0.35);
+        color: var(--red);
+      }
+      .q-opt-letter {
+        font-family: var(--fc);
+        font-size: 0.71rem;
+        font-weight: 700;
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.07);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: var(--t3);
+      }
+      .q-opt.selected .q-opt-letter {
+        background: rgba(244, 114, 182, 0.25);
+        color: var(--pink);
+      }
+      .q-opt.correct .q-opt-letter {
+        background: rgba(74, 222, 128, 0.2);
+        color: var(--green);
+      }
+      .q-opt.wrong .q-opt-letter {
+        background: rgba(239, 68, 68, 0.2);
+        color: var(--red);
+      }
+
+      .q-explain {
+        display: none;
+        margin-top: 16px;
+        padding: 16px;
+        background: rgba(244, 114, 182, 0.06);
+        border-radius: 11px;
+        border: 1px solid rgba(244, 114, 182, 0.12);
+        font-size: 0.86rem;
+        color: var(--t2);
+        line-height: 1.7;
+        direction: rtl;
+        text-align: right;
+        font-family: var(--fa);
+      }
+      .q-explain b {
+        color: var(--pink);
+        display: block;
+        margin-bottom: 6px;
+      }
+      .q-controls {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .q-score {
+        font-family: var(--fh);
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--green);
+        margin-top: 10px;
+        display: block;
+      }
+      .q-feedback {
+        margin-top: 6px;
+        font-family: var(--fa);
+        font-size: 0.9rem;
+        font-weight: 600;
+        line-height: 1.6;
+        direction: rtl;
+        text-align: center;
+        color: var(--t2);
+      }
+      .quiz-btn {
+        padding: 10px 26px;
+        border-radius: 11px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        font-family: var(--fh);
+        cursor: pointer;
+        border: none;
+        margin: 4px;
+        transition: 0.2s;
+      }
+      .btn-check {
+        background: linear-gradient(135deg, var(--green), #22c55e);
+        color: #0d0f14;
+      }
+      .btn-check:hover {
+        filter: brightness(1.1);
+      }
+      .btn-reset {
+        background: var(--card2);
+        color: var(--t2);
+        border: 1px solid var(--border2);
+      }
+      .btn-reset:hover {
+        color: var(--t1);
+      }
+
+      /* ══════════════════════════════════════════════════
+   CHEAT SHEET
+══════════════════════════════════════════════════ */
+      .cheat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin: 14px 0;
+      }
+      @media (max-width: 800px) {
+        .cheat-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      #cheat {
+        direction: ltr;
+        text-align: left;
+        font-family: var(--fb);
+      }
+      #cheat .ch-header {
+        direction: ltr;
+        text-align: left;
+      }
+      #cheat .topic {
+        direction: ltr;
+        text-align: left;
+      }
+      .cheat {
+        background: var(--card2);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px;
+      }
+      .cheat h3 {
+        font-family: var(--fh);
+        font-size: 0.95rem;
+        color: var(--pink);
+        font-weight: 700;
+        margin-bottom: 14px;
+      }
+      .cheat-item {
+        display: flex;
+        gap: 12px;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.83rem;
+      }
+      .cheat-item:last-child {
+        border-bottom: none;
+      }
+      .cheat-key {
+        min-width: 160px;
+        font-family: var(--fc);
+        font-size: 0.76rem;
+        color: var(--amber);
+        font-weight: 600;
+        flex-shrink: 0;
+        padding-top: 2px;
+        line-height: 1.4;
+      }
+      .cheat-val {
+        color: var(--t2);
+        line-height: 1.6;
+      }
+
+      /* ══════════════════════════════════════════════════
+   FLASHCARDS
+══════════════════════════════════════════════════ */
+      .flashcards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin: 14px 0;
+      }
+      @media (max-width: 900px) {
+        .flashcards {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .flashcards {
+          grid-template-columns: 1fr;
+        }
+      }
+      .flashcard {
+        height: 165px;
+        perspective: 1000px;
+        cursor: pointer;
+      }
+      .fc-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-style: preserve-3d;
+      }
+      .flashcard.flipped .fc-inner {
+        transform: rotateY(180deg);
+      }
+      .fc-front,
+      .fc-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 14px;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        backface-visibility: hidden;
+      }
+      .fc-front {
+        background: var(--card2);
+        border: 1px solid var(--border);
+        border-top: 3px solid var(--pink);
+      }
+      .fc-back {
+        background: linear-gradient(
+          135deg,
+          rgba(244, 114, 182, 0.13),
+          rgba(34, 211, 238, 0.08)
+        );
+        border: 1px solid rgba(244, 114, 182, 0.2);
+        transform: rotateY(180deg);
+      }
+      .fc-q {
+        font-size: 0.87rem;
+        color: var(--t1);
+        font-weight: 600;
+        line-height: 1.45;
+      }
+      .fc-a {
+        font-size: 0.87rem;
+        color: var(--pink);
+        font-weight: 700;
+        line-height: 1.5;
+      }
+      .fc-hint {
+        font-size: 0.65rem;
+        color: var(--t4);
+        margin-top: 8px;
+        font-family: var(--fc);
+      }
+
+      /* DEFINITION CARDS */
+      .def-card {
+        background: var(--card2);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px;
+        margin-bottom: 12px;
+        border-right: 3px solid var(--accent, var(--cyan));
+      }
+      .def-label {
+        font-family: var(--fc);
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: var(--accent, var(--cyan));
+        letter-spacing: 0.08em;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+      .def-text {
+        font-size: 0.88rem;
+        color: var(--t1);
+        line-height: 1.65;
+        font-weight: 500;
+      }
+      .def-note {
+        font-size: 0.78rem;
+        color: var(--t3);
+        margin-top: 6px;
+        line-height: 1.5;
+      }
+      .sb-back {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 10px 16px 16px;
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--t2);
+        font-size: 0.75rem;
+        text-decoration: none;
+        transition: 0.2s;
+      }
+      .sb-back:hover {
+        border-color: var(--pink);
+        color: var(--pink);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ════════ PROGRESS BAR ════════ -->
+    <div id="prog-bar"><div id="prog-fill"></div></div>
+
+    <!-- ════════ OVERLAY (mobile sidebar close) ════════ -->
+    <div id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- ════════ SIDEBAR ════════ -->
+    <nav id="sidebar" dir="ltr">
+      <div class="sb-logo">
+        <h2>📚 DS251 &amp; SHU233</h2>
+        <p>Fundamentals of Management</p>
+        <span class="sb-tag">Dr. Doaa Saleh</span>
+      </div>
+      <a class="sb-back" href="../index.html">← All Lectures</a>
+      <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
+      <div class="sb-section">Course Content</div>
+      <a href="#ch1" class="sb-link"
+        ><span class="sb-dot"></span>Group Basics</a
+      >
+      <a href="#ch2" class="sb-link"
+        ><span class="sb-dot"></span>Formal vs Informal</a
+      >
+      <a href="#ch3" class="sb-link"
+        ><span class="sb-dot"></span>Formal Group Types</a
+      >
+      <a href="#ch4" class="sb-link"
+        ><span class="sb-dot"></span>Committees &amp; Groupthink</a
+      >
+      <a href="#ch5" class="sb-link"
+        ><span class="sb-dot"></span>Teams vs Groups</a
+      >
+      <a href="#ch6" class="sb-link"
+        ><span class="sb-dot"></span>Team Development</a
+      >
+      <a href="#ch7" class="sb-link"
+        ><span class="sb-dot"></span>Informal Groups</a
+      >
+
+      <div class="sb-section">Question Bank</div>
+      <a href="#quiz-tf" class="sb-link"
+        ><span class="sb-dot"></span>True / False (6 Questions)</a
+      >
+      <a href="#quiz-mcq" class="sb-link"
+        ><span class="sb-dot"></span>MCQ Practice (14 Questions)</a
+      >
+
+      <div class="sb-section">Final Revision</div>
+      <a href="#cheat" class="sb-link"
+        ><span class="sb-dot"></span>Cheat Sheet</a
+      >
+      <a href="#revision" class="sb-link"
+        ><span class="sb-dot"></span>Flashcards</a
+      >
+    </nav>
+
+    <button id="menu-btn" onclick="toggleSidebar()">☰</button>
+    <button
+      id="scroll-top"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      ↑
+    </button>
+
+    <!-- ════════ MAIN ════════ -->
+    <main id="main" dir="rtl">
+      <!-- ══════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════ -->
+      <section class="hero">
+        <div class="hero-badge">📖 Chapter 18 · المجموعات والفرق</div>
+        <h1>Groups &amp; <span>Teams</span></h1>
+        <p>
+          تعريف الـ Group والفرق بين الـ Formal و الـ Informal، وأنواع
+          المجموعات، واللجان، و Groupthink، وأساسيات تكوين الفرق وتطورها.
+        </p>
+        <div class="btn-row">
+          <a href="#quiz-tf" class="btn btn-primary">🎯 ابدأ الأسئلة دلوقتي</a>
+          <a href="#cheat" class="btn btn-ghost">📋 Cheat Sheet</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat">
+            <div class="num">7</div>
+            <div class="lbl">Topics</div>
+          </div>
+          <div class="hstat">
+            <div class="num">6</div>
+            <div class="lbl">صح/غلط</div>
+          </div>
+          <div class="hstat">
+            <div class="num">14</div>
+            <div class="lbl">MCQ</div>
+          </div>
+          <div class="hstat">
+            <div class="num">5</div>
+            <div class="lbl">Exam Years</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="content">
+        <!-- ══════════════════════════════════════════════════
+     CH1 — GROUP BASICS
+══════════════════════════════════════════════════ -->
+        <div class="chapter" id="ch1">
+          <div class="ch-header">
+            <div class="ch-num pink">01</div>
+            <div class="ch-title">
+              <h2>أساسيات الـ Group — التعريف والأهمية</h2>
+              <p>
+                يعني إيه Group وليه المديرين لازم يدرسوا المجموعات داخل
+                المنظمات.
+              </p>
+            </div>
+          </div>
+
+          <div class="topic" style="--accent: var(--pink)">
+            <div class="topic-title">
+              <span class="icon">👥</span> تعريف الـ Group
+            </div>
+            <div class="def-card" style="--accent: var(--pink)">
+              <div class="def-label">Group</div>
+              <div class="def-text">
+                A gathering of people who interact with one another, are
+                psychologically aware of one another, and perceive themselves to
+                be a group.
+              </div>
+              <div class="def-note">
+                لازم يكون فيه تفاعل + وعي نفسي + إحساس إننا مجموعة.
+              </div>
+            </div>
+          </div>
+
+          <div class="topic" style="--accent: var(--cyan)">
+            <div class="topic-title">
+              <span class="icon">📌</span> لماذا يدرس المديرون المجموعات؟
+            </div>
+            <ul>
+              <li>Groups exist in all kinds of organizations.</li>
+              <li>
+                Groups inevitably form in all facets of organizational
+                existence.
+              </li>
+              <li>Groups can cause desirable or undesirable consequences.</li>
+              <li>
+                Understanding groups increases the chance of desirable outcomes.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+     CH2 — FORMAL VS INFORMAL
+══════════════════════════════════════════════════ -->
+        <div class="chapter" id="ch2">
+          <div class="ch-header">
+            <div class="ch-num cyan">02</div>
+            <div class="ch-title">
+              <h2>Formal vs Informal Groups</h2>
+              <p>
+                فرق جوه المنظمة: مين اتعمل بقرار إداري ومين اتكوَّن طبيعيًا.
+              </p>
+            </div>
+          </div>
+
+          <div class="topic" style="--accent: var(--cyan)">
+            <div class="grid2">
+              <div class="def-card" style="--accent: var(--cyan)">
+                <div class="def-label">Formal Group</div>
+                <div class="def-text">
+                  A group that exists by management decree to perform tasks that
+                  enhance organizational objectives.
+                </div>
+                <div class="def-note">
+                  بتتكوَّن بقرار إداري وتخدم أهداف المنظمة.
+                </div>
+              </div>
+              <div class="def-card" style="--accent: var(--amber)">
+                <div class="def-label">Informal Group</div>
+                <div class="def-text">
+                  A collection of individuals whose common work experiences
+                  create interpersonal relations beyond management.
+                </div>
+                <div class="def-note">
+                  بتتكوَّن طبيعيًا بسبب علاقات وخبرات مشتركة.
+                </div>
+              </div>
+            </div>
+
+            <div class="info">
+              <div>
+                <b>ملاحظة:</b> الـ Formal groups بتساعد في تحقيق الأهداف، والـ
+                Informal groups ممكن تدعم أو تعيق الأداء حسب السلوك.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+     CH3 — FORMAL GROUP TYPES
+══════════════════════════════════════════════════ -->
+        <div class="chapter" id="ch3">
+          <div class="ch-header">
+            <div class="ch-num purple">03</div>
+            <div class="ch-title">
+              <h2>أنواع الـ Formal Groups</h2>
+              <p>
+                Command Groups, Task Groups, والـ Committees كنوع من الـ Task
+                Groups.
+              </p>
+            </div>
+          </div>
+
+          <div class="topic" style="--accent: var(--purple)">
+            <div class="grid2">
+              <div class="cmp-card" style="--accent: var(--purple)">
+                <h4>Command Group</h4>
+                <p>
+                  Formal group outlined in the chain of command on the
+                  organization chart.
+                </p>
+                <div class="badge bp" style="margin-top: 8px">
+                  روتيني + ثابت
+                </div>
+              </div>
+              <div class="cmp-card" style="--accent: var(--teal)">
+                <h4>Task Group</h4>
+                <p>
+                  Formal group of members who interact to accomplish nonroutine
+                  tasks.
+                </p>
+                <div class="badge bc" style="margin-top: 8px">
+                  مهمة محددة + غير روتينية
+                </div>
+              </div>
+            </div>
+
+            <h4 style="margin-top: 18px; color: var(--purple)">
+              Committees (نوع من Task Groups)
+            </h4>
+            <p>
+              A committee is a group of individuals charged with performing a
+              specific activity.
+            </p>
+            <ul>
+              <li>Exchange ideas.</li>
+              <li>Generate suggestions and recommendations.</li>
+              <li>Develop new ideas to solve problems.</li>
+              <li>Assist in developing organizational policies.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+     CH4 — COMMITTEES & GROUPTHINK
+══════════════════════════════════════════════════ -->
+        <div class="chapter" id="ch4">
+          <div class="ch-header">
+            <div class="ch-num amber">04</div>
+            <div class="ch-title">
+              <h2>Committees &amp; Groupthink</h2>
+              <p>إزاي تخلي اللجنة ناجحة وتتجنب أخطر خطر: Groupthink.</p>
+            </div>
+          </div>
+
+          <div class="topic" style="--accent: var(--amber)">
+            <div class="topic-title">
+              <span class="icon">✅</span> Why Use Committees?
+            </div>
+            <ul>
+              <li>Improve decision quality.</li>
+              <li>Encourage honest opinions.</li>
+              <li>Increase participation in decision making.</li>
+              <li>Ensure representation of important groups.</li>
+            </ul>
+
+            <div class="grid2" style="margin-top: 16px">
+              <div class="cmp-card" style="--accent: var(--amber)">
+                <h4>Procedural Steps</h4>
+                <ul>
+                  <li>Goals clearly defined (preferably in writing).</li>
+                  <li>Specify committee authority.</li>
+                  <li>Determine optimum size.</li>
+                  <li>Select chairperson based on ability.</li>
+                  <li>Appoint permanent secretary.</li>
+                  <li>Distribute agenda before meeting.</li>
+                  <li>Start on time and announce ending time.</li>
+                </ul>
+              </div>
+              <div class="cmp-card" style="--accent: var(--green)">
+                <h4>People-Oriented Guidelines</h4>
+                <ul>
+                  <li>Rephrase ideas already expressed.</li>
+                  <li>Bring all members into active participation.</li>
+                  <li>Stimulate further thought by members.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="danger" style="margin-top: 16px">
+              <div>
+                <b>Groupthink:</b> A mode of thinking where the desire for
+                agreement dominates and overrides realistic appraisal of
+                alternatives. Members conform and self-censor, leading to poor
+                decisions.
+              </div>
+            </div>
+
+            <div class="warn">
+              <div>
+                <b>Example:</b> A board meeting starts with a loaded question
+                like “Should we enter this foolish price war?” — it biases the
+                group toward agreement.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+     CH5 — TEAMS VS GROUPS
+══════════════════════════════════════════════════ -->
+        <div class="chapter" id="ch5">
+          <div class="ch-header">
+            <div class="ch-num teal">05</div>
+            <div class="ch-title">
+              <h2>Teams vs Groups</h2>
+              <p>كل Team هو Group، لكن مش كل Group هو Team.</p>
+            </div>
+          </div>
+
+          <div class="topic" style="--accent: var(--teal)">
+            <div class="def-card" style="--accent: var(--teal)">
+              <div class="def-label">Team</div>
+              <div class="def-text">
+                A group whose members influence one another toward the
+                accomplishment of an organizational objective.
+              </div>
+              <div class="def-note">
+                مدير كويس يحاول يحول الـ Groups إلى Teams.
+              </div>
+            </div>
+
+            <h4 style="margin-top: 16px; color: var(--teal)">
+              Groups vs Teams (ملخص المقارنة)
+            </h4>
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Groups</th>
+                  <th>Teams</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Goal</td>
+                  <td>Share information</td>
+                  <td>Collective performance</td>
+                </tr>
+                <tr>
+                  <td>Synergy</td>
+                  <td>Neutral</td>
+                  <td>Positive</td>
+                </tr>
+                <tr>
+                  <td>Skills</td>
+                  <td>Random and varied</td>
+                  <td>Complementary</td>
+                </tr>
+                <tr>
+                  <td>Accountability</td>
+                  <td>Individual</td>
+                  <td>Individual and mutual</td>
+                </tr>
+                <tr>
+                  <td>Roles</td>
+                  <td>Not always defined</td>
+                  <td>Clearly discussed</td>
+                </tr>
+                <tr>
+                  <td>Methods</td>
+                  <td>Work divided</td>
+                  <td>Interdependent collaboration</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="tip">
+              <div>
+                <b>Team Building (People-Related):</b> Setting stable goals and
+                priorities helps align members and reduce conflict.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+     CH6 — TEAM DEVELOPMENT
+══════════════════════════════════════════════════ -->
+        <div class="chapter" id="ch6">
+          <div class="ch-header">
+            <div class="ch-num blue">06</div>
+            <div class="ch-title">
+              <h2>Team Development Stages</h2>
+              <p>مراحل تطور الفريق من البداية إلى الإنهاء.</p>
+            </div>
+          </div>
+
+          <div class="topic" style="--accent: var(--blue)">
+            <div class="flow-wrap">
+              <div class="flow-row ltr">
+                <div class="flow-box">Forming</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">Storming</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">Norming</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">Performing</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">Adjourning</div>
+              </div>
+              <div class="flow-note">
+                Before → Forming → Storming → Norming → Performing → Adjourning
+              </div>
+            </div>
+
+            <div class="grid2">
+              <div class="cmp-card" style="--accent: var(--blue)">
+                <h4>Forming / Storming</h4>
+                <p>
+                  تعرف الأعضاء على بعضهم ومحاولة التأثير على الأهداف والإجراءات.
+                </p>
+              </div>
+              <div class="cmp-card" style="--accent: var(--green)">
+                <h4>Norming / Performing</h4>
+                <p>
+                  ثقة وتعاون أعلى، ثم أداء جماعي لحل المشاكل وتحقيق الأهداف.
+                </p>
+              </div>
+              <div class="cmp-card" style="--accent: var(--amber)">
+                <h4>Adjourning</h4>
+                <p>انتهاء المهمة وتفكيك الفريق المؤقت بعد إنجاز الهدف.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+     CH7 — INFORMAL GROUPS
+══════════════════════════════════════════════════ -->
+        <div class="chapter" id="ch7">
+          <div class="ch-header">
+            <div class="ch-num green">07</div>
+            <div class="ch-title">
+              <h2>Informal Groups</h2>
+              <p>أنواعها وفوائد العضوية فيها داخل المنظمة.</p>
+            </div>
+          </div>
+
+          <div class="topic" style="--accent: var(--green)">
+            <div class="grid2">
+              <div class="cmp-card" style="--accent: var(--green)">
+                <h4>Interest Group</h4>
+                <p>
+                  Gains and maintains membership primarily because of a common
+                  concern about a specific issue.
+                </p>
+              </div>
+              <div class="cmp-card" style="--accent: var(--pink)">
+                <h4>Friendship Group</h4>
+                <p>
+                  Forms because of the personal affiliation members have with
+                  one another.
+                </p>
+              </div>
+            </div>
+
+            <h4 style="margin-top: 16px; color: var(--green)">
+              Benefits of Informal Group Membership
+            </h4>
+            <ul>
+              <li>Perpetuation of social and cultural values.</li>
+              <li>Status and social satisfaction.</li>
+              <li>Increased ease of communication.</li>
+              <li>Increased desirability of the work environment.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+     QUIZ — TRUE/FALSE
+══════════════════════════════════════════════════ -->
+        <div class="quiz-section" id="quiz-tf">
+          <div class="quiz-header">
+            <div class="quiz-icon">📝</div>
+            <div>
+              <h3>True / False Questions</h3>
+              <p>أسئلة صح وغلط من الامتحانات (Ch. 18)</p>
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="0">
+            <div class="q-num">
+              Question 1
+              <span class="q-src">Final 2019 · 2021 · 2022 · 2024 · 2025</span>
+            </div>
+            <div class="q-text">
+              A task group is a formal group outlined in the chain of command on
+              an organization chart.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="1">
+                <div class="q-opt-letter">T</div>
+                True
+              </div>
+              <div class="q-opt" data-val="0">
+                <div class="q-opt-letter">F</div>
+                False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>False.</b> The group outlined in the chain of command is a
+              <strong>command group</strong>. Task groups handle nonroutine
+              tasks.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="0">
+            <div class="q-num">
+              Question 2 <span class="q-src">Final 2022 · 2024</span>
+            </div>
+            <div class="q-text">
+              Groupthink is a group decision-making process in which negative
+              feedback is forbidden until all members present alternatives.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="1">
+                <div class="q-opt-letter">T</div>
+                True
+              </div>
+              <div class="q-opt" data-val="0">
+                <div class="q-opt-letter">F</div>
+                False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>False.</b> Groupthink is when desire for agreement overrides
+              realistic appraisal; members self-censor dissent.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="0">
+            <div class="q-num">
+              Question 3 <span class="q-src">Final 2024</span>
+            </div>
+            <div class="q-text">
+              The ideal number of committee members for most tasks seems to be
+              from 15 to 20.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="1">
+                <div class="q-opt-letter">T</div>
+                True
+              </div>
+              <div class="q-opt" data-val="0">
+                <div class="q-opt-letter">F</div>
+                False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>False.</b> The committee size should be determined carefully;
+              15–20 is too large for most effective committees.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="0">
+            <div class="q-num">
+              Question 4 <span class="q-src">Final 2024</span>
+            </div>
+            <div class="q-text">
+              An interest group forms in organizations because of personal
+              affiliation among members.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="1">
+                <div class="q-opt-letter">T</div>
+                True
+              </div>
+              <div class="q-opt" data-val="0">
+                <div class="q-opt-letter">F</div>
+                False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>False.</b> Interest groups form around a common concern;
+              personal affiliation describes friendship groups.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="0">
+            <div class="q-num">
+              Question 5 <span class="q-src">Final 2025</span>
+            </div>
+            <div class="q-text">
+              The membership of friendship groups in an organization tends to
+              remain static over long periods of time.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="1">
+                <div class="q-opt-letter">T</div>
+                True
+              </div>
+              <div class="q-opt" data-val="0">
+                <div class="q-opt-letter">F</div>
+                False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>False.</b> Friendship groups change as personal affiliations
+              evolve over time.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="1">
+            <div class="q-num">
+              Question 6 <span class="q-src">Final 2025</span>
+            </div>
+            <div class="q-text">
+              A people-related step in building an effective team is setting
+              stable goals and priorities for the team.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="1">
+                <div class="q-opt-letter">T</div>
+                True
+              </div>
+              <div class="q-opt" data-val="0">
+                <div class="q-opt-letter">F</div>
+                False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>True.</b> Stable goals and priorities align members and improve
+              cooperation.
+            </div>
+          </div>
+
+          <div class="q-controls">
+            <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-tf')">
+              Check Answers
+            </button>
+            <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-tf')">
+              Reset
+            </button>
+            <span class="q-score" id="score-tf"></span>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+     QUIZ — MCQ
+══════════════════════════════════════════════════ -->
+        <div class="quiz-section" id="quiz-mcq">
+          <div class="quiz-header">
+            <div class="quiz-icon">🎯</div>
+            <div>
+              <h3>Multiple Choice Questions</h3>
+              <p>أسئلة اختيار من متعدد (Ch. 18)</p>
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              Question 1 <span class="q-src">Final 2019 · 2024</span>
+            </div>
+            <div class="q-text">
+              Formal groups are commonly divided into _______ and _______.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                transitory groups; recurrent groups
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                in-groups; out-groups
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                command groups; task groups
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                interest groups; friendship groups
+              </div>
+              <div class="q-opt" data-val="e">
+                <div class="q-opt-letter">E</div>
+                primary groups; secondary groups
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: C.</b> Formal groups include command groups and task
+              groups.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="e">
+            <div class="q-num">
+              Question 2 <span class="q-src">Final 2019</span>
+            </div>
+            <div class="q-text">
+              Which of the following is one of the characteristics of a group?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                A group is simply a gathering of people.
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                Groups always work toward organizational goals.
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                A group must consist of 5 or more people.
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                Groups are characterized by occasional communication over time.
+              </div>
+              <div class="q-opt" data-val="e">
+                <div class="q-opt-letter">E</div>
+                Members are psychologically aware of one another.
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: E.</b> Psychological awareness of one another is a key
+              characteristic.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="a">
+            <div class="q-num">
+              Question 3 <span class="q-src">Final 2021 · 2022</span>
+            </div>
+            <div class="q-text">A formal group is a group that _______.</div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                is formed by management to perform organizational tasks
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                is normally defined but unstructured
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                is formed by the common interests of group members
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                is formed by the affiliation of group members
+              </div>
+              <div class="q-opt" data-val="e">
+                <div class="q-opt-letter">E</div>
+                is normally unstructured and undefined
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: A.</b> Formal groups are created by management to
+              achieve objectives.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="e">
+            <div class="q-num">
+              Question 4 <span class="q-src">Final 2021 · 2022</span>
+            </div>
+            <div class="q-text">
+              Formal groups that handle routine activities and are outlined on
+              an organization chart are called _______.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                task groups
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                committees
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                transitory groups
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                work teams
+              </div>
+              <div class="q-opt" data-val="e">
+                <div class="q-opt-letter">E</div>
+                command groups
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: E.</b> Command groups appear in the chain of command
+              on the org chart.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="d">
+            <div class="q-num">
+              Question 5 <span class="q-src">Final 2021 · 2022</span>
+            </div>
+            <div class="q-text">
+              Two formal groups that are often established in organizations are
+              _______ and _______.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                transitory groups; recurrent groups
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                interest groups; committees
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                in-groups; out-groups
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                committees; work teams
+              </div>
+              <div class="q-opt" data-val="e">
+                <div class="q-opt-letter">E</div>
+                interest groups; work teams
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: D.</b> Committees and work teams are common formal
+              group forms.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="d">
+            <div class="q-num">
+              Question 6 <span class="q-src">Final 2024</span>
+            </div>
+            <div class="q-text">
+              An informal group that gains and maintains membership primarily
+              because of a common concern members have about a specific issue is
+              called _______.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                a work team
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                a friendship group
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                a command group
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                an interest group
+              </div>
+              <div class="q-opt" data-val="e">
+                <div class="q-opt-letter">E</div>
+                a committee
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: D.</b> Interest groups form around a shared concern or
+              issue.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              Question 7 <span class="q-src">Final 2024</span>
+            </div>
+            <div class="q-text">
+              A work team composed of people from different functional areas who
+              are focused on a specified objective is known as a _______.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                a task group
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                cross-functional team
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                a command group
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                special-purpose group
+              </div>
+              <div class="q-opt" data-val="e">
+                <div class="q-opt-letter">E</div>
+                self-directed team
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: B.</b> Members from different functions working toward
+              one objective form a cross-functional team.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="d">
+            <div class="q-num">
+              Question 8 <span class="q-src">Final 2024</span>
+            </div>
+            <div class="q-text">
+              One of the benefits of utilizing committees is that _______.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                the decision process is much quicker than individual decision
+                making
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                there is no limit on the size of the committee
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                a committee does not need a leader or secretary
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                committees improve the quality of decision making
+              </div>
+              <div class="q-opt" data-val="e">
+                <div class="q-opt-letter">E</div>
+                decision-makers don't have to represent their groups
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: D.</b> Committees can improve decision quality and
+              participation.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              Question 9 <span class="q-src">Final 2024</span>
+            </div>
+            <div class="q-text">
+              Which of the following is a purely procedural step that could
+              increase the probability that a committee will be successful?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                rephrasing ideas already expressed
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                specifying the authority of the committee
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                bringing all members into active participation
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                stimulating further thought by members
+              </div>
+              <div class="q-opt" data-val="e">
+                <div class="q-opt-letter">E</div>
+                keeping the goals of the group flexible
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: B.</b> Specifying authority is a procedural step for
+              committee success.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="e">
+            <div class="q-num">
+              Question 10 <span class="q-src">Final 2024</span>
+            </div>
+            <div class="q-text">
+              Which of the following is an example of an interest group?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                a group of friends interested in rock music
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                a quarterly work planning group
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                a group meeting to consider feasibility of a new product
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                a group meeting to prepare monthly financial reports
+              </div>
+              <div class="q-opt" data-val="e">
+                <div class="q-opt-letter">E</div>
+                a group of workers pressing management for better pay
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: E.</b> Interest groups unite around a specific concern
+              or issue.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              Question 11 <span class="q-src">Final 2024</span>
+            </div>
+            <div class="q-text">
+              Which of the following statements about groupthink is true?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                Groupthink cannot take place in a newly formed group.
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                A group with high mistrust is most susceptible.
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                A highly cohesive group is likely to be susceptible.
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                Managers should establish groupthink to generate alternatives.
+              </div>
+              <div class="q-opt" data-val="e">
+                <div class="q-opt-letter">E</div>
+                A highly competitive group will most probably result in
+                groupthink.
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: C.</b> High cohesiveness can increase susceptibility
+              to groupthink.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              Question 12 <span class="q-src">Final 2024</span>
+            </div>
+            <div class="q-text">
+              _______ is the mode of thinking that group members engage in when
+              the desire for agreement dominates and overrides realistic
+              appraisal of alternatives.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                Social loafing
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                Group polarization
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                Groupthink
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                Cognitive dissonance
+              </div>
+              <div class="q-opt" data-val="e">
+                <div class="q-opt-letter">E</div>
+                Collective intelligence
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: C.</b> This is the classic definition of groupthink.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="d">
+            <div class="q-num">
+              Question 13 <span class="q-src">Final 2025</span>
+            </div>
+            <div class="q-text">
+              Which of the following would be considered a formal group?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                task force for employee birthday celebrations
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                reading group
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                bowling team
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                bringing people from various functions to solve a business
+                dilemma
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: D.</b> A cross-functional task group formed by
+              management is formal.
+            </div>
+          </div>
+
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              Question 14 <span class="q-src">Final 2025</span>
+            </div>
+            <div class="q-text">
+              A collection of individuals whose common work experiences result
+              in the development of interpersonal relationships beyond
+              management is a/an _______.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <div class="q-opt-letter">A</div>
+                work team
+              </div>
+              <div class="q-opt" data-val="b">
+                <div class="q-opt-letter">B</div>
+                task group
+              </div>
+              <div class="q-opt" data-val="c">
+                <div class="q-opt-letter">C</div>
+                informal group
+              </div>
+              <div class="q-opt" data-val="d">
+                <div class="q-opt-letter">D</div>
+                command group
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Correct: C.</b> Informal groups arise from common work
+              experiences beyond management structures.
+            </div>
+          </div>
+
+          <div class="q-controls">
+            <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-mcq')">
+              Check Answers
+            </button>
+            <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-mcq')">
+              Reset
+            </button>
+            <span class="q-score" id="score-mcq"></span>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════ -->
+        <div class="chapter" id="cheat">
+          <div class="ch-header">
+            <div class="ch-num teal">📝</div>
+            <div class="ch-title">
+              <h2>Cheat Sheet — ملخص سريع</h2>
+              <p>تعريفات ومقارنات سريعة لأهم نقاط الشابتر.</p>
+            </div>
+          </div>
+          <div class="topic">
+            <div class="cheat-grid">
+              <div class="cheat">
+                <h3>1. Definitions</h3>
+                <div class="cheat-item">
+                  <div class="cheat-key">Group</div>
+                  <div class="cheat-val">
+                    Interact + psychologically aware + perceive themselves as a
+                    group.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Formal Group</div>
+                  <div class="cheat-val">
+                    Created by management to achieve objectives.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Informal Group</div>
+                  <div class="cheat-val">
+                    Formed by common work experiences.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Command Group</div>
+                  <div class="cheat-val">Outlined in chain of command.</div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Task Group</div>
+                  <div class="cheat-val">
+                    Interacts to accomplish nonroutine tasks.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Committee</div>
+                  <div class="cheat-val">
+                    Task group for specific activity and policy support.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Groupthink</div>
+                  <div class="cheat-val">
+                    Desire for agreement overrides realistic appraisal.
+                  </div>
+                </div>
+              </div>
+              <div class="cheat">
+                <h3>2. Quick Comparisons</h3>
+                <div class="cheat-item">
+                  <div class="cheat-key">Interest Group</div>
+                  <div class="cheat-val">
+                    Common concern about a specific issue.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Friendship Group</div>
+                  <div class="cheat-val">
+                    Personal affiliation among members.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Groups vs Teams</div>
+                  <div class="cheat-val">
+                    Groups share info; Teams pursue collective performance.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Committee Success</div>
+                  <div class="cheat-val">
+                    Goals + authority + size + chairperson + secretary.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Team Stages</div>
+                  <div class="cheat-val">
+                    Forming → Storming → Norming → Performing → Adjourning.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+     FLASHCARDS
+══════════════════════════════════════════════════ -->
+        <div class="chapter" id="revision">
+          <div class="ch-header">
+            <div class="ch-num purple">🎴</div>
+            <div class="ch-title">
+              <h2>Flashcards — مراجعة سريعة</h2>
+              <p>اختبر نفسك بسرعة في أهم المفاهيم.</p>
+            </div>
+          </div>
+          <div class="topic">
+            <div class="flashcards">
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">ما تعريف الـ Group؟</div>
+                    <div class="fc-hint">اضغط لرؤية الإجابة</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      تفاعل + وعي نفسي + إحساس بأننا مجموعة.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">Command Group ولا Task Group؟</div>
+                    <div class="fc-hint">اضغط لرؤية الإجابة</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      Command = في الـ org chart<br />Task = مهام غير روتينية
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">ما هو Groupthink؟</div>
+                    <div class="fc-hint">اضغط لرؤية الإجابة</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      الرغبة في الاتفاق تغلب تقييم البدائل الواقعي.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">Interest Group ولا Friendship Group؟</div>
+                    <div class="fc-hint">اضغط لرؤية الإجابة</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      Interest = قضية مشتركة<br />Friendship = علاقة شخصية
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">مراحل تطور الفريق؟</div>
+                    <div class="fc-hint">اضغط لرؤية الإجابة</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      Forming → Storming → Norming → Performing → Adjourning
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">إيه الفرق بين Group و Team؟</div>
+                    <div class="fc-hint">اضغط لرؤية الإجابة</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      Team = أداء جماعي<br />Group = مشاركة معلومات
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /content -->
+    </main>
+
+    <script>
+      /* ══════ SIDEBAR ══════ */
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("open");
+        document.getElementById("overlay").classList.toggle("open");
+      }
+      function closeSidebar() {
+        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("overlay").classList.remove("open");
+      }
+      document.querySelectorAll(".sb-link").forEach((l) => {
+        l.addEventListener("click", () => {
+          if (window.innerWidth <= 1100) closeSidebar();
+        });
+      });
+      /* ══════ ACTIVE SIDEBAR HIGHLIGHT ══════ */
+      const sections = document.querySelectorAll("[id]");
+      const sbLinks = document.querySelectorAll(".sb-link");
+      window.addEventListener("scroll", () => {
+        let cur = "";
+        sections.forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 200) cur = s.id;
+        });
+        sbLinks.forEach((l) => {
+          l.classList.remove("active");
+          if (l.getAttribute("href") === "#" + cur) l.classList.add("active");
+        });
+      });
+      /* ══════ PROGRESS BAR ══════ */
+      window.addEventListener("scroll", () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        const p = h > 0 ? (window.scrollY / h) * 100 : 0;
+        document.getElementById("prog-fill").style.width = p + "%";
+      });
+      /* ══════ SCROLL-TO-TOP ══════ */
+      window.addEventListener("scroll", () => {
+        document
+          .getElementById("scroll-top")
+          .classList.toggle("vis", window.scrollY > 400);
+      });
+      /* ══════ QUIZ SYSTEM ══════ */
+      document.querySelectorAll(".q-opt").forEach((opt) => {
+        opt.addEventListener("click", function () {
+          const item = this.closest(".q-item");
+          if (item.classList.contains("answered")) return;
+          item
+            .querySelectorAll(".q-opt")
+            .forEach((o) => o.classList.remove("selected"));
+          this.classList.add("selected");
+        });
+      });
+      function getQuizFeedback(pct) {
+        const messages =
+          pct < 50
+            ? ["لسه محتاج مراجعة شوية — ركز على التعريفات الأساسية."]
+            : pct < 70
+              ? ["كويس، بس لسه في كام سؤال محتاجين مراجعة."]
+              : pct < 90
+                ? ["أداء محترم جدًا. راجع الغلطات البسيطة بس."]
+                : ["ممتاز! كده الشابتر تحت السيطرة 🔥"];
+        return messages[Math.floor(Math.random() * messages.length)];
+      }
+      function checkQuiz(sectionId) {
+        const section = document.getElementById(sectionId);
+        const items = section.querySelectorAll(".q-item");
+        let total = items.length,
+          correct = 0;
+        items.forEach((item) => {
+          const correctVal = item.dataset.correct;
+          const selected = item.querySelector(".q-opt.selected");
+          if (selected) {
+            item.classList.add("answered");
+            if (selected.dataset.val === correctVal) {
+              selected.classList.add("correct");
+              correct++;
+            } else {
+              selected.classList.add("wrong");
+              item.querySelectorAll(".q-opt").forEach((o) => {
+                if (o.dataset.val === correctVal) o.classList.add("correct");
+              });
+            }
+          } else {
+            item.querySelectorAll(".q-opt").forEach((o) => {
+              if (o.dataset.val === correctVal) o.classList.add("correct");
+            });
+            item.classList.add("answered");
+          }
+          const explain = item.querySelector(".q-explain");
+          if (explain) explain.style.display = "block";
+        });
+        const scoreId = sectionId === "quiz-tf" ? "score-tf" : "score-mcq";
+        const pct = Math.round((correct / total) * 100);
+        const el = document.getElementById(scoreId);
+        el.innerHTML = `${correct} / ${total} — ${pct}%<div class="q-feedback">${getQuizFeedback(pct)}</div>`;
+        el.style.color =
+          pct >= 70
+            ? "var(--green)"
+            : pct >= 40
+              ? "var(--amber)"
+              : "var(--red)";
+      }
+      function resetQuiz(sectionId) {
+        const section = document.getElementById(sectionId);
+        section.querySelectorAll(".q-item").forEach((item) => {
+          item.classList.remove("answered");
+          item.querySelectorAll(".q-opt").forEach((o) => {
+            o.classList.remove("selected", "correct", "wrong");
+          });
+          const explain = item.querySelector(".q-explain");
+          if (explain) explain.style.display = "none";
+        });
+        const scoreId = sectionId === "quiz-tf" ? "score-tf" : "score-mcq";
+        document.getElementById(scoreId).innerHTML = "";
+      }
+    </script>
+  </body>
+</html>
