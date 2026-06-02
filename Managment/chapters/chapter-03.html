@@ -1,687 +1,1021 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chapter 03 — Business Ethics | DS251</title>
-  <meta name="description" content="شرح شابتر 3 أخلاقيات الأعمال — تعريف الأخلاقيات، أهميتها، كود الأخلاقيات، بيئة العمل الأخلاقية.">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3 — Business Ethics | DS251 Fundamentals of Management</title>
+<meta name="description" content="شرح مبسط لـ Chapter 3 Business Ethics — تعريف الأخلاقيات، Code of Ethics، Creating an Ethical Workplace، Corporate Social Responsibility — مع كل أسئلة الامتحانات السابقة المتحقق منها.">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/shared.css">
+<style>
+/* ══ Chapter 3 Extra Styles ══ */
+.standard-card{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:13px;padding:18px 20px;margin-bottom:10px;
+  border-right:3px solid var(--accent,var(--amber));
+  transition:.2s;
+}
+.standard-card:hover{transform:translateX(-3px);}
+.standard-card .sc-name{
+  font-family:var(--fh);font-size:.88rem;font-weight:800;
+  color:var(--accent,var(--amber));margin-bottom:6px;
+}
+.standard-card .sc-rule{
+  font-family:var(--fc);font-size:.78rem;color:var(--t3);
+  margin-bottom:8px;font-style:italic;
+}
+.standard-card .sc-desc{font-size:.83rem;color:var(--t2);line-height:1.6;}
+.area-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0;}
+@media(max-width:800px){.area-grid{grid-template-columns:1fr;}}
+.area-card{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:13px;padding:18px;text-align:center;
+  border-top:3px solid var(--accent,var(--cyan));
+  transition:.2s;
+}
+.area-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.35);}
+.area-card .area-icon{font-size:2rem;margin-bottom:10px;}
+.area-card h4{font-family:var(--fh);font-size:.9rem;color:var(--accent,var(--cyan));font-weight:800;margin-bottom:8px;}
+.area-card p{font-size:.8rem;color:var(--t2);line-height:1.6;}
+.issues-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0;}
+@media(max-width:700px){.issues-list{grid-template-columns:1fr;}}
+.issue-item{
+  display:flex;align-items:center;gap:10px;
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:9px;padding:11px 14px;font-size:.83rem;color:var(--t2);
+}
+.issue-num{
+  font-family:var(--fc);font-size:.7rem;font-weight:700;
+  width:22px;height:22px;border-radius:6px;
+  background:rgba(245,158,11,.15);color:var(--amber);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.steps-vertical{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
+.step-v{
+  display:flex;align-items:flex-start;gap:14px;
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:11px;padding:14px 16px;
+  border-right:3px solid var(--accent,var(--amber));transition:.2s;
+}
+.step-v:hover{transform:translateX(-3px);}
+.sv-num{font-family:var(--fh);font-size:1.1rem;font-weight:900;color:var(--accent,var(--amber));min-width:28px;flex-shrink:0;}
+.sv-title{font-family:var(--fh);font-size:.88rem;font-weight:700;color:var(--t1);margin-bottom:3px;}
+.sv-desc{font-size:.8rem;color:var(--t2);line-height:1.55;}
+.quote-box{
+  background:linear-gradient(135deg,rgba(245,158,11,.07),rgba(139,92,246,.05));
+  border:1px solid rgba(245,158,11,.2);border-radius:14px;padding:22px;margin:14px 0;
+  position:relative;overflow:hidden;
+}
+.quote-box::before{
+  content:'"';position:absolute;top:-10px;right:16px;
+  font-size:5rem;color:rgba(245,158,11,.12);
+  font-family:var(--fh);line-height:1;pointer-events:none;
+}
+.quote-box p{font-size:.86rem;color:var(--t2);line-height:1.8;font-style:italic;}
+.quote-box .quote-attr{font-family:var(--fh);font-size:.75rem;color:var(--amber);font-weight:700;margin-top:10px;}
+.ethical-standards{display:flex;flex-direction:column;gap:10px;margin:14px 0;}
+.q-opt[data-val="e"] .q-opt-letter{background:rgba(96,165,250,.15);color:var(--blue);}
+</style>
 </head>
 <body>
 
-<div id="prog-bar"></div>
+<!-- ════════ PROGRESS BAR ════════ -->
+<div id="prog-bar"><div id="prog-fill"></div></div>
+<div id="overlay" onclick="closeSidebar()"></div>
 
-<!-- Sidebar -->
+<!-- ════════ SIDEBAR ════════ -->
 <nav id="sidebar" dir="ltr">
   <div class="sb-logo">
-    <h2>⚖️ DS251 — Ch 03</h2>
-    <p>Business Ethics</p>
+    <h2>📚 DS251 & SHU233</h2>
+    <p>Fundamentals of Management</p>
+    <span class="sb-tag">Dr. Doaa Saleh</span>
   </div>
-  <a class="sb-back" href="../index.html">← All Chapters</a>
-  <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
-
-  <div class="sb-section">المحتوى</div>
-  <a href="#definition" class="sb-link"><span class="sb-dot"></span>تعريف الأخلاقيات</a>
-  <a href="#why" class="sb-link"><span class="sb-dot"></span>ليه الأخلاقيات مهمة؟</a>
-  <a href="#productivity" class="sb-link"><span class="sb-dot"></span>Productivity</a>
-  <a href="#stakeholders" class="sb-link"><span class="sb-dot"></span>Stakeholder Relations</a>
-  <a href="#government" class="sb-link"><span class="sb-dot"></span>Government Regulation</a>
-  <a href="#code" class="sb-link"><span class="sb-dot"></span>Code of Ethics</a>
-  <a href="#workplace" class="sb-link"><span class="sb-dot"></span>Creating Ethical Workplace</a>
-  <a href="#standards" class="sb-link"><span class="sb-dot"></span>7 Ethical Standards</a>
-
-  <div class="sb-section">Exam Prep</div>
-  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Exam Question Bank</a>
-  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
-  <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Rapid Revision</a>
+  <div class="sb-section">محتوى الشابتر</div>
+  <a href="#intro"       class="sb-link"><span class="sb-dot"></span>مقدمة — ترتيب الكورس</a>
+  <a href="#definition"  class="sb-link"><span class="sb-dot"></span>تعريف Ethics</a>
+  <a href="#why-vital"   class="sb-link"><span class="sb-dot"></span>Why Ethics Is Vital — الـ 3 مجالات</a>
+  <a href="#productivity" class="sb-link"><span class="sb-dot"></span>1 · Productivity</a>
+  <a href="#stakeholder"  class="sb-link"><span class="sb-dot"></span>2 · Stakeholder Relations</a>
+  <a href="#govt-reg"    class="sb-link"><span class="sb-dot"></span>3 · Government Regulation</a>
+  <a href="#code"        class="sb-link"><span class="sb-dot"></span>Code of Ethics</a>
+  <a href="#workplace"   class="sb-link"><span class="sb-dot"></span>Creating an Ethical Workplace</a>
+  <a href="#standards"   class="sb-link"><span class="sb-dot"></span>الـ 7 Ethical Standards</a>
+  <a href="#csr"         class="sb-link"><span class="sb-dot"></span>Corporate Social Responsibility</a>
+  <a href="#rollup"      class="sb-link"><span class="sb-dot"></span>Roll Up — ملخص</a>
+  <div class="sb-section">بنك الأسئلة الحقيقية</div>
+  <a href="#quiz-tf"  class="sb-link"><span class="sb-dot"></span>True / False</a>
+  <a href="#quiz-mcq" class="sb-link"><span class="sb-dot"></span>MCQ — من امتحانات حقيقية</a>
+  <div class="sb-section">المراجعة النهائية</div>
+  <a href="#cheat-ch3"      class="sb-link"><span class="sb-dot"></span>Cheat Sheet</a>
+  <a href="#flashcards-ch3" class="sb-link"><span class="sb-dot"></span>Flashcards</a>
 </nav>
 
-<button id="menu-btn">☰</button>
-<button id="scroll-top">↑</button>
+<button id="menu-btn" onclick="toggleSidebar()">☰</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
+<!-- ════════ MAIN ════════ -->
 <main id="main" dir="rtl">
 
-<!-- HERO -->
+<!-- ══ HERO ══ -->
 <section class="hero">
-  <div class="hero-badge">⚖️ Chapter 03 · 19 slides · أسئلة امتحانات من 5 سنين</div>
+  <div class="hero-badge">⚖️ Chapter 3 · Business Ethics · آخر شابتر في المنهج</div>
   <h1>Business <span>Ethics</span></h1>
-  <p>أخلاقيات الأعمال — ليه مهمة؟ كود الأخلاقيات إيه؟ وإزاي تبني بيئة عمل أخلاقية؟</p>
+  <p>الأخلاقيات في الأعمال — مش بس «كلام كويس» لكنها تؤثر مباشرةً على الإنتاجية والعلاقات مع أصحاب المصلحة والتنظيم الحكومي. الشابتر بيجاوب: <strong>إيه هي الأخلاقيات؟ ليه مهمة؟ وإزاي تبني بيئة عمل أخلاقية؟</strong></p>
   <div class="btn-row">
-    <a href="../index.html" class="btn btn-ghost">← All Chapters</a>
-    <a href="#quiz" class="btn btn-primary">🎯 جرب أسئلة الامتحان</a>
+    <a href="#quiz-mcq" class="btn btn-primary">🎯 ابدأ أسئلة الامتحانات</a>
+    <a href="#cheat-ch3" class="btn btn-ghost">📋 Cheat Sheet</a>
   </div>
   <div class="hero-stats">
-    <div class="hstat"><div class="num">3</div><div class="lbl">Why Ethics Areas</div></div>
-    <div class="hstat"><div class="num">5</div><div class="lbl">Code of Ethics Topics</div></div>
+    <div class="hstat"><div class="num">3</div><div class="lbl">مجالات التأثير</div></div>
+    <div class="hstat"><div class="num">5</div><div class="lbl">Issues في Code</div></div>
     <div class="hstat"><div class="num">7</div><div class="lbl">Ethical Standards</div></div>
-    <div class="hstat"><div class="num">10</div><div class="lbl">Exam Qs</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">Four-Way Test</div></div>
   </div>
 </section>
 
 <div class="content">
 
-<!-- ══════════════════════════════════════════════════
-     SECTION 1 — DEFINITION OF ETHICS
-══════════════════════════════════════════════════════ -->
+<!-- ══ INTRO ══ -->
+<div class="chapter" id="intro">
+  <div class="ch-header">
+    <div class="ch-num amber">00</div>
+    <div class="ch-title">
+      <h2>مكانة الشابتر في المنهج</h2>
+      <p>Chapter 3 هو آخر شابتر — بعد ما اتعلمنا كيف نخطط ونؤسس ونؤثر ونتحكم، السؤال: هل بنعمل كل ده بشكل أخلاقي؟</p>
+    </div>
+  </div>
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🗺️</span> ترتيب الكورس كامل (Slide 2)</div>
+    <div class="flow-wrap">
+      <div class="flow-row ltr">
+        <div class="flow-box" style="--accent:var(--cyan)">Ch.1<br><small style="color:var(--t3);font-size:.6rem;">Intro</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--pink)">Ch.2<br><small style="color:var(--t3);font-size:.6rem;">Theories</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--purple)">Ch.7&8<br><small style="color:var(--t3);font-size:.6rem;">Planning</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--green)">Ch.11&13<br><small style="color:var(--t3);font-size:.6rem;">Organizing</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--teal)">Ch.15&18<br><small style="color:var(--t3);font-size:.6rem;">Influencing</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--red)">Ch.21<br><small style="color:var(--t3);font-size:.6rem;">Controlling</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--amber);border-width:2px;">Ch.3<br><small style="color:var(--t3);font-size:.6rem;">Ethics ⭐</small></div>
+      </div>
+    </div>
+    <div class="info" style="margin-top:16px;">
+      <div><b>📌 أهداف Chapter 3 (Slide 4):</b><br>
+      1. فهم شامل لـ Business Ethics<br>
+      2. إدراك أهمية الأخلاقيات<br>
+      3. معرفة Code of Ethics<br>
+      4. معرفة كيفية Creating an Ethical Workplace</div>
+    </div>
+  </div>
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🔄</span> استرجاع سريع: وظيفة الرقابة — Flashback: Control (Slide 3)</div>
+    <p>قبل الدخول في الأخلاقيات، قامت الدكتورة بعمل مراجعة سريعة (Flashback) لأهم مصطلحات شابتر الرقابة (Chapter 21):</p>
+    <div class="grid2" style="margin-top:14px;">
+      <div class="def-card" style="--accent:var(--red)">
+        <div class="def-label">المفاهيم الأساسية في الرقابة</div>
+        <div class="def-text">مفاهيم لا بد من تذكرها:</div>
+        <div class="def-note">
+          • <strong>Control:</strong> التأكد من أن الأحداث تسير وفقاً للخطط.<br>
+          • <strong>Standard:</strong> النموذج أو المعيار المستخدم لقياس الأداء.<br>
+          • <strong>Comparing Measured Performance to Standards:</strong> الخطوة الثانية في عملية الرقابة.<br>
+          • <strong>Taking Corrective Action:</strong> جلب الأداء لمستوى المعيار.<br>
+          • <strong>Symptom vs Problem:</strong> العَرَض (مثل انخفاض المبيعات) ليس المشكلة الحقيقية بل دليل عليها.
+        </div>
+      </div>
+      <div class="def-card" style="--accent:var(--pink)">
+        <div class="def-label">القوة والسلطة (Power & Authority)</div>
+        <div class="def-text">نوعين أساسيين للقوة في الرقابة:</div>
+        <div class="def-note">
+          • <strong>Position Power:</strong> القوة المستمدة من المنصب الوظيفي الرسمي.<br>
+          • <strong>Personal Power:</strong> القوة الشخصية المستمدة من علاقة المدير بالمرؤوسين وثقتهم فيه.<br>
+          • <strong>Murphy's Law:</strong> قانون ميرفي الشهير (إذا كان هناك شيء يمكن أن يسير بشكل خاطئ، فسوف يسير بشكل خاطئ) ويؤكد على أهمية الرقابة المستمرة.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DEFINITION ══ -->
 <div class="chapter" id="definition">
   <div class="ch-header">
-    <div class="ch-num pink">01</div>
+    <div class="ch-num amber">01</div>
     <div class="ch-title">
-      <h2>Definition of Ethics — تعريف الأخلاقيات</h2>
-      <p>إيه المقصود بالأخلاقيات في بيئة الأعمال؟</p>
+      <h2>تعريف Ethics — ما هي الأخلاقيات؟</h2>
+      <p>التعريف الحرفي من الكتاب — ده اللي بيجي في الامتحان مباشرة.</p>
     </div>
   </div>
-
-  <div class="topic" style="--accent:var(--pink)">
-    <div class="topic-title"><span class="icon">⚖️</span> تعريف الـ Ethics</div>
-    <p><strong>Ethics</strong> is the capacity to reflect on values in the corporate decision making process, to determine how these values and decisions affect various stakeholder groups, and to establish how managers can use these observations in day-to-day company management.</p>
-    <p style="margin-top:10px">بالعربي: الأخلاقيات هي القدرة على التفكير في القيم أثناء اتخاذ القرارات، وتحديد تأثير هذه القرارات على أصحاب المصلحة المختلفين، وكيفية توظيف ذلك في الإدارة اليومية.</p>
-    <div class="info"><div><b>📌 المفهوم ببساطة:</b> الأخلاقيات مش مجرد "اعمل الصح" — هي منظومة تفكير وقرار وتأثير على الناس.</div></div>
-  </div>
-
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">💬</span> اقتباس مشهور — John F. Akers (IBM)</div>
-    <div style="background:var(--card2);border-right:4px solid var(--purple);padding:16px 20px;border-radius:12px;direction:ltr;font-style:italic;line-height:1.8">
-      "Ethics and competitiveness are inseparable. We compete as a society. No society anywhere will compete very long or successfully with people stabbing each other in the back; with people trying to steal from one another; with everything requiring notarized confirmation because you can't trust the other person; with every little squabble ending in litigation; and with government writing reams of regulatory legislation, tying business hand and foot to keep it honest."
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📖</span> التعريف الرسمي (Slide 5)</div>
+    <div class="def-card" style="--accent:var(--amber)">
+      <div class="def-label">Ethics — التعريف الحرفي من الكتاب</div>
+      <div class="def-text">The capacity to reflect on <strong>values</strong> in the corporate decision-making process, to determine how these values and decisions affect various <strong>stakeholder groups</strong>, and to establish how managers can use these observations in <strong>day-to-day company management</strong>.</div>
+      <div class="def-note">
+        بالعربي — الأخلاقيات هي القدرة على:<br>
+        🔴 <strong>التفكير في القيم (Values)</strong> أثناء اتخاذ القرارات الإدارية<br>
+        🟡 <strong>تحديد كيف</strong> تؤثر هذه القيم والقرارات على مختلف أصحاب المصلحة<br>
+        🟢 <strong>تطبيق</strong> هذه الملاحظات في الإدارة اليومية للشركة
+      </div>
     </div>
-    <p style="margin-top:12px;color:var(--t2)">— <strong>John F. Akers</strong>, Former Board Chair of IBM</p>
-    <div class="warn"><div><b>⚠️ المعنى:</b> الأخلاقيات والتنافسية لا ينفصلان — بدون أخلاقيات ما فيش منافسة حقيقية ولا ثقة ولا نمو.</div></div>
+    <div class="warn">
+      <div><b>⚠️ سؤال امتحان Final 2024 سؤال 35 حرفياً:</b> "In business, ethics can be defined as _______ in the corporate decision-making process."<br>
+      الإجابة الصحيحة: <strong>C — the capacity to reflect on VALUES</strong><br>
+      الخدعة: الخيارات الأخرى تقول customer preferences / competitive strategies / production bottlenecks / workforce diversity — كلها غلط. الكلمة المفتاحية هي <strong>Values فقط</strong>.</div>
+    </div>
+  </div>
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">💬</span> اقتباس John F. Akers — لماذا الأخلاق؟ (Slide 6)</div>
+    <div class="quote-box">
+      <p>"Ethics and competitiveness are inseparable. We compete as a society. No society anywhere will compete very long or successfully with people stabbing each other in the back; with people trying to steal from one another; with everything requiring notarized confirmation because you can't trust the other person; with every little squabble ending in litigation; and with government writing reams of regulatory legislation, tying business hand and foot to keep it honest."</p>
+      <div class="quote-attr">— John F. Akers, Former Board Chair of IBM</div>
+    </div>
+    <div class="tip">
+      <div><b>💡 الفكرة:</b> الأخلاق والتنافسية وجهان لعملة واحدة — مجتمع بلا أخلاق = لا ثقة = لا تعاون = لا تنافسية طويلة الأجل.</div>
+    </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     SECTION 2 — WHY ETHICS IS VITAL
-══════════════════════════════════════════════════════ -->
-<div class="chapter" id="why">
+<!-- ══ WHY VITAL — 3 AREAS ══ -->
+<div class="chapter" id="why-vital">
   <div class="ch-header">
-    <div class="ch-num purple">02</div>
+    <div class="ch-num green">02</div>
     <div class="ch-title">
       <h2>Why Ethics Is Vital? — ليه الأخلاقيات مهمة؟</h2>
-      <p>الممارسات الأخلاقية تحسّن صحة الشركة في 3 مجالات</p>
+      <p>ممارسة الأعمال الأخلاقية تُحسّن صحة المنظمة في <strong>3 مجالات رئيسية</strong> (Slide 7)</p>
     </div>
   </div>
-
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">🎯</span> الـ 3 مجالات الأساسية</div>
-    <p>الممارسات الأخلاقية في الأعمال تؤثر إيجاباً على:</p>
-    <div class="compare" style="grid-template-columns:repeat(3,1fr)">
-      <div class="cmp-card" style="--accent:var(--green)">
-        <h4>📈 1. Productivity</h4>
-        <p>الإنتاجية — الموظفون يتأثرون إيجاباً عندما تعامل الإدارة أصحاب المصلحة بأخلاقية</p>
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔱</span> الـ 3 مجالات — حفظ: P · S · G</div>
+    <div class="area-grid">
+      <div class="area-card" style="--accent:var(--cyan)">
+        <div class="area-icon">⚡</div>
+        <h4>1. Productivity</h4>
+        <p>الإنتاجية — إدارة أخلاقية تجاه أصحاب المصلحة → الموظفون يتأثرون إيجابياً → إنتاجية أعلى.</p>
       </div>
-      <div class="cmp-card" style="--accent:var(--cyan)">
-        <h4>🤝 2. Stakeholder Relations</h4>
-        <p>علاقات أصحاب المصلحة — الصورة الإيجابية تجذب عملاء وموردين</p>
+      <div class="area-card" style="--accent:var(--green)">
+        <div class="area-icon">🤝</div>
+        <h4>2. Stakeholder Relations</h4>
+        <p>علاقات أصحاب المصلحة — صورة عامة إيجابية تجذب العملاء والموردين وتبني ثقة طويلة الأمد.</p>
       </div>
-      <div class="cmp-card" style="--accent:var(--amber)">
-        <h4>🏛️ 3. Government Regulation</h4>
-        <p>اللوائح الحكومية — السلوك الأخلاقي يقلل الضغط التشريعي على الشركات</p>
+      <div class="area-card" style="--accent:var(--amber)">
+        <div class="area-icon">🏛️</div>
+        <h4>3. Government Regulation</h4>
+        <p>التنظيم الحكومي — الشركات غير الأخلاقية تدفع الجمهور للضغط على المشرعين لتنظيمها.</p>
       </div>
+    </div>
+    <div class="info">
+      <div><b>📌 حفظ سهل:</b> <strong>P · S · G</strong> = Productivity · Stakeholder Relations · Government Regulation</div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     SECTION 3 — PRODUCTIVITY
-══════════════════════════════════════════════════════ -->
+<!-- ══ PRODUCTIVITY ══ -->
 <div class="chapter" id="productivity">
   <div class="ch-header">
-    <div class="ch-num green">03</div>
+    <div class="ch-num cyan">03</div>
     <div class="ch-title">
-      <h2>Ethics & Productivity — الأخلاقيات والإنتاجية</h2>
-      <p>كيف تؤثر الأخلاقيات على أداء الموظفين؟</p>
+      <h2>1 · Productivity — الإنتاجية</h2>
+      <p>كيف تؤثر الأخلاقيات مباشرةً على إنتاجية الموظفين (Slide 8)</p>
     </div>
   </div>
-
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">📈</span> الأخلاقيات وزيادة الإنتاجية</div>
-    <p>عندما تلتزم الإدارة بالتصرف الأخلاقي تجاه أصحاب المصلحة، يتأثر الموظفون إيجاباً، مما يرفع إنتاجيتهم.</p>
-    <div class="grid2">
-      <div>
-        <p><strong>مثال — Employee Advisory Programs (EAPs):</strong></p>
-        <ul>
-          <li>برامج تساعد الموظفين في مشاكل الأسرة</li>
-          <li>مشاكل العمل والمشاكل المالية والقانونية</li>
-          <li>مشاكل الصحة النفسية أو الإدمان</li>
-        </ul>
-      </div>
-      <div>
-        <p><strong>نتيجة حقيقية — Control Data Corporation:</strong></p>
-        <ul>
-          <li>تطبيق EAP أدى إلى:</li>
-          <li>↓ تكاليف الصحة بشكل ملحوظ</li>
-          <li>↓ استخدام إجازات المرض بشكل كبير</li>
-        </ul>
-      </div>
-    </div>
-    <div class="info"><div><b>💡 الربط:</b> Ethics (إدارة تهتم بموظفيها) → EAPs (برامج دعم) → موظف أسعد وأكثر إنتاجاً.</div></div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════
-     SECTION 4 — STAKEHOLDER RELATIONS
-══════════════════════════════════════════════════════ -->
-<div class="chapter" id="stakeholders">
-  <div class="ch-header">
-    <div class="ch-num cyan">04</div>
-    <div class="ch-title">
-      <h2>Ethics & Stakeholder Relations — العلاقات مع أصحاب المصلحة</h2>
-      <p>الصورة الإيجابية تجذب العملاء والموردين</p>
-    </div>
-  </div>
-
   <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">🤝</span> الصورة العامة الإيجابية</div>
-    <p>الصورة العامة الإيجابية يمكنها جذب العملاء والموردين الذين يرون في هذه الصورة أمراً مرغوباً فيه.</p>
-    <div class="tip"><div><b>مثال — Johnson & Johnson Credo:</b> أعلنت J&J منذ 60+ سنة عن "Credo" (ميثاق أخلاقي) يضع مصالح العملاء والمجتمع فوق مصالح المساهمين — وده بيّن أن الأخلاقيات مش خسارة بل استثمار في السمعة.</div></div>
-  </div>
-
-  <div class="topic" style="--accent:var(--teal)">
-    <div class="topic-title"><span class="icon">👥</span> من هم Stakeholders؟</div>
-    <div class="compare" style="grid-template-columns:repeat(4,1fr)">
-      <div class="cmp-card" style="--accent:var(--pink)"><h4>👥 Employees</h4><p>الموظفون والعاملون</p></div>
-      <div class="cmp-card" style="--accent:var(--green)"><h4>🛒 Customers</h4><p>العملاء والمستهلكون</p></div>
-      <div class="cmp-card" style="--accent:var(--amber)"><h4>🏭 Suppliers</h4><p>الموردون والشركاء</p></div>
-      <div class="cmp-card" style="--accent:var(--purple)"><h4>🌍 Community</h4><p>المجتمع والبيئة المحيطة</p></div>
+    <div class="topic-title"><span class="icon">⚡</span> الآلية والمثال الحقيقي</div>
+    <p>لما الإدارة تلتزم أخلاقياً تجاه أصحاب المصلحة ← <strong>الموظفون يتأثرون بشكل إيجابي</strong>.</p>
+    <div class="grid2" style="margin-top:14px;">
+      <div class="def-card" style="--accent:var(--cyan)">
+        <div class="def-label">📋 Employee Advisory Programs (EAPs)</div>
+        <div class="def-text">برامج إرشاد الموظفين — تساعدهم في مشاكل:</div>
+        <div class="def-note">
+          ✅ مشاكل أسرية وعائلية (Family &amp; Work problems)<br>
+          ✅ مشاكل مالية وقانونية (Financial &amp; Legal)<br>
+          ✅ اضطرابات نفسية (Mental illness)<br>
+          ✅ اعتماد كيميائي (Chemical dependency)
+        </div>
+      </div>
+      <div class="def-card" style="--accent:var(--green)">
+        <div class="def-label">📊 مثال حقيقي: Control Data Corporation</div>
+        <div class="def-text">طبّقت EAP وأثبتت نتائج قابلة للقياس:</div>
+        <div class="def-note">
+          ↓ تقليل تكاليف الرعاية الصحية (Health Costs)<br>
+          ↓ تقليل الإجازات المرضية (Sick-Leave Usage)
+        </div>
+      </div>
+    </div>
+    <div class="tip">
+      <div><b>💡 الرابط المنطقي:</b> إدارة أخلاقية → موظف مدعوم ومرتاح → إنتاجية أعلى + غياب أقل + تكاليف أقل.</div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     SECTION 5 — GOVERNMENT REGULATION
-══════════════════════════════════════════════════════ -->
-<div class="chapter" id="government">
+<!-- ══ STAKEHOLDER RELATIONS ══ -->
+<div class="chapter" id="stakeholder">
   <div class="ch-header">
-    <div class="ch-num amber">05</div>
+    <div class="ch-num green">04</div>
     <div class="ch-title">
-      <h2>Ethics & Government Regulation — اللوائح الحكومية</h2>
-      <p>الشركات غير الأخلاقية تجلب التدخل الحكومي</p>
+      <h2>2 · Stakeholder Relations — علاقات أصحاب المصلحة</h2>
+      <p>الصورة العامة الإيجابية كأداة تنافسية (Slide 9)</p>
     </div>
   </div>
-
-  <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">🏛️</span> العلاقة بين الأخلاقيات والتنظيم الحكومي</div>
-    <p>عندما يُعتقد أن الشركات تتصرف بشكل غير أخلاقي، يزداد ضغط الجمهور على المشرعين والمسؤولين الحكوميين لتنظيم تلك الأعمال أو تطبيق اللوائح الموجودة.</p>
-    <div class="grid2">
-      <div class="topic" style="--accent:var(--red)">
-        <div class="topic-title"><span class="icon">📉</span> سلوك غير أخلاقي</div>
-        <ul>
-          <li>ضغط الجمهور يزيد</li>
-          <li>تدخل حكومي واسع</li>
-          <li>تشريعات تقييدية</li>
-          <li>تكاليف امتثال عالية</li>
-        </ul>
-      </div>
-      <div class="topic" style="--accent:var(--green)">
-        <div class="topic-title"><span class="icon">📈</span> سلوك أخلاقي</div>
-        <ul>
-          <li>ثقة الجمهور تزيد</li>
-          <li>تدخل حكومي أقل</li>
-          <li>حرية عمل أكبر</li>
-          <li>سمعة أفضل</li>
-        </ul>
-      </div>
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🤝</span> الآلية والمثال</div>
+    <div class="def-card" style="--accent:var(--green)">
+      <div class="def-label">المبدأ (Slide 9)</div>
+      <div class="def-text">A positive public image can attract <strong>customers</strong> and <strong>suppliers</strong> who view such an image as desirable.</div>
+      <div class="def-note">صورة إيجابية → تجذب العملاء والموردين → ميزة تنافسية حقيقية.</div>
     </div>
-    <div class="warn"><div><b>⚠️ مثال حقيقي (1995):</b> مجلس تكساس عقد جلسات استماع عامة حول مستشفيات الطب النفسي الخاصة بسبب ممارسات تسعير غير أخلاقية — هذا أدى إلى تنظيم حكومي مشدد.</div></div>
+    <div class="def-card" style="--accent:var(--amber); margin-top:12px;">
+      <div class="def-label">📋 مثال: Johnson &amp; Johnson Credo</div>
+      <div class="def-text">Credo أُعلن قبل أكثر من 60 عاماً — وثيقة تُحدد مسؤوليات الشركة تجاه العملاء والموظفين والمجتمع والمساهمين. مثال كلاسيكي على كيف يُبني الولاء طويل الأمد بالثقة الأخلاقية.</div>
+    </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     SECTION 6 — CODE OF ETHICS
-══════════════════════════════════════════════════════ -->
+<!-- ══ GOVERNMENT REGULATION ══ -->
+<div class="chapter" id="govt-reg">
+  <div class="ch-header">
+    <div class="ch-num red">05</div>
+    <div class="ch-title">
+      <h2>3 · Government Regulation — التنظيم الحكومي</h2>
+      <p>السلوك غير الأخلاقي يستدعي تدخل الحكومة (Slide 10)</p>
+    </div>
+  </div>
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🏛️</span> الآلية والمثال الحقيقي</div>
+    <div class="def-card" style="--accent:var(--red)">
+      <div class="def-label">المبدأ (Slide 10)</div>
+      <div class="def-text">Where companies are believed to be acting <strong>unethically</strong>, the public is more likely to put pressure on legislators and government officials to <strong>regulate</strong> those businesses or enforce existing regulations.</div>
+      <div class="def-note">سلوك غير أخلاقي → ضغط عام → تشريعات جديدة → قيود وتكاليف على الشركة.</div>
+    </div>
+    <div class="def-card" style="--accent:var(--amber); margin-top:12px;">
+      <div class="def-label">📋 مثال: Texas 1995 — المستشفيات النفسية</div>
+      <div class="def-text">عام 1995، مشرعون تكساسيون عقدوا جلسات استماع حول المستشفيات النفسية الخاصة بسبب الشعور بممارسات تسعير غير أخلاقية — فتدخلت الحكومة لتنظيم القطاع مباشرةً.</div>
+    </div>
+    <div class="danger">
+      <div><b>🔴 المعادلة:</b> عدم الأخلاق → رقابة حكومية أكثر → تكلفة وقيود أعلى.<br>الأخلاق → ثقة الجمهور → رقابة أقل → حرية تشغيلية أوسع.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CODE OF ETHICS ══ -->
 <div class="chapter" id="code">
   <div class="ch-header">
-    <div class="ch-num red">06</div>
+    <div class="ch-num purple">06</div>
     <div class="ch-title">
-      <h2>A Code of Ethics — كود الأخلاقيات</h2>
-      <p>الميثاق الأخلاقي للمنظمة</p>
+      <h2>Code of Ethics — ميثاق الأخلاقيات</h2>
+      <p>وثيقة رسمية تُحدد كيف يتصرف ويتخذ القرارات أعضاء المنظمة (Slide 11)</p>
     </div>
   </div>
-
-  <div class="topic" style="--accent:var(--red)">
-    <div class="topic-title"><span class="icon">📜</span> التعريف</div>
-    <p><strong>Code of Ethics</strong> is a formal statement that acts as a guide for the ethics of how people within a particular organization should act and make decisions.</p>
-    <p style="margin-top:8px">بالعربي: وثيقة رسمية تعمل كدليل توجيهي لكيفية تصرف أفراد المنظمة واتخاذ قراراتهم بشكل أخلاقي.</p>
-  </div>
-
   <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">📋</span> المواضيع الشائعة في كود الأخلاقيات</div>
-    <div class="compare" style="grid-template-columns:repeat(5,1fr)">
-      <div class="cmp-card" style="--accent:var(--pink)"><h4>⚡ 1</h4><p>Conflict of Interest</p><p style="font-size:.75rem;color:var(--t3)">تضارب المصالح</p></div>
-      <div class="cmp-card" style="--accent:var(--amber)"><h4>🏢 2</h4><p>Competitors</p><p style="font-size:.75rem;color:var(--t3)">التعامل مع المنافسين</p></div>
-      <div class="cmp-card" style="--accent:var(--cyan)"><h4>🔒 3</h4><p>Privacy of Information</p><p style="font-size:.75rem;color:var(--t3)">سرية المعلومات</p></div>
-      <div class="cmp-card" style="--accent:var(--green)"><h4>🎁 4</h4><p>Gift Giving</p><p style="font-size:.75rem;color:var(--t3)">تقديم الهدايا</p></div>
-      <div class="cmp-card" style="--accent:var(--purple)"><h4>🗳️ 5</h4><p>Political Contributions</p><p style="font-size:.75rem;color:var(--t3)">المساهمات السياسية</p></div>
+    <div class="topic-title"><span class="icon">📜</span> التعريف الحرفي</div>
+    <div class="def-card" style="--accent:var(--purple)">
+      <div class="def-label">Code of Ethics — التعريف (Slide 11)</div>
+      <div class="def-text">A <strong>formal statement</strong> that acts as a guide for the ethics of how people within a particular organization should <strong>act</strong> and <strong>make decisions</strong>.</div>
+      <div class="def-note">
+        يعني: بيان رسمي يعمل كدليل إرشادي لكيفية تصرف واتخاذ قرارات أفراد المنظمة بشكل أخلاقي.<br>
+        <strong>المقارنة للامتحان:</strong> Code of Ethics ≠ Mission Statement ≠ Social Audit ≠ Whistleblower's Policy
+      </div>
+    </div>
+    <div class="warn">
+      <div><b>⚠️ سؤال امتحان Final 2024 سؤال 36 حرفياً:</b><br>
+      "_______ is a formal statement that acts as a guide for the ethics of how people within a particular organization should act and make decisions."<br>
+      الإجابة: <strong>D — A code of ethics</strong></div>
     </div>
   </div>
-
-  <div class="grid2">
-    <div class="topic" style="--accent:var(--amber)">
-      <div class="topic-title"><span class="icon">⚠️</span> قيود الكود الأخلاقي</div>
-      <ul>
-        <li>من <strong>المستحيل</strong> تغطية كل السلوكيات الأخلاقية وغير الأخلاقية في كود واحد</li>
-        <li>الكود لا يمكنه توقع كل المواقف المحتملة</li>
-      </ul>
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📋</span> الـ 5 Issues اللي بيعالجها Code of Ethics (Slide 11)</div>
+    <div class="issues-list">
+      <div class="issue-item"><div class="issue-num">1</div><strong>Conflict of Interest</strong> — تعارض المصالح</div>
+      <div class="issue-item"><div class="issue-num">2</div><strong>Competitors</strong> — التعامل مع المنافسين</div>
+      <div class="issue-item"><div class="issue-num">3</div><strong>Privacy of Information</strong> — خصوصية المعلومات</div>
+      <div class="issue-item"><div class="issue-num">4</div><strong>Gift Giving</strong> — تبادل الهدايا</div>
+      <div class="issue-item"><div class="issue-num">5</div><strong>Political Contributions</strong> — المساهمات السياسية والتجارية</div>
     </div>
-    <div class="topic" style="--accent:var(--green)">
-      <div class="topic-title"><span class="icon">🔧</span> كيف يُستخدم الكود؟</div>
-      <ul>
-        <li>يجب أن ينظر المديرون إلى كود الأخلاقيات كـ <strong>"Adaptive Tools"</strong> (أدوات مرنة قابلة للتكيف)</li>
-        <li>يُحدَّث ويُطور باستمرار</li>
-      </ul>
+    <div class="tip">
+      <div><b>📌 ملاحظتان مهمتان (Slide 11):</b><br>
+      1. مستحيل تغطي كل السلوكيات في ميثاق واحد — <strong>Impossible to cover all</strong>.<br>
+      2. المديرون يجب أن يعاملوا Code of Ethics كـ <strong>Adaptive Tool</strong> — أداة قابلة للتكيف والتطوير.</div>
     </div>
   </div>
-
-  <div class="info"><div><b>📌 امتحاني:</b> الكود ليس قانوناً صارماً — هو دليل مرن يتكيف مع المواقف المختلفة (Adaptive Tool).</div></div>
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🎓</span> مثال واقعي: ميثاق أخلاقيات الطالب بـ FCI-CU (Slides 12–13)</div>
+    <p>تطبيقاً لمفهوم الـ Code of Ethics كبيان رسمي (Formal Statement)، تحتوي الشرائح على ميثاق الأخلاقيات الخاص بطلاب كلية الحاسبات والمعلومات بجامعة القاهرة (FCI-CU):</p>
+    <div class="grid2" style="margin-top:14px;">
+      <div class="def-card" style="--accent:var(--cyan)">
+        <div class="def-label">محتويات ميثاق FCI-CU للطلاب</div>
+        <div class="def-text">يغطي الميثاق خمسة محاور رئيسية لتنظيم حياة الطلاب الأكاديمية والاجتماعية:</div>
+        <div class="def-note">
+          1️⃣ <strong>السلوكيات:</strong> القواعد العامة للسلوك اللائق داخل الحرم الجامعي.<br>
+          2️⃣ <strong>الأمانة العلمية والأكاديمية:</strong> الالتزام بالصدق الأكاديمي وتجنب الغش والانتحال.<br>
+          3️⃣ <strong>احترام قواعد ولوائح الكلية:</strong> الالتزام بالنظم والتعليمات الإدارية.<br>
+          4️⃣ <strong>احترام تبادل الآراء والأفكار:</strong> تشجيع الحوار الأكاديمي البناء واحترام آراء الآخرين.<br>
+          5️⃣ <strong>آليات التعامل مع المخالفات:</strong> الإجراءات المتخذة في حال الإخلال ببنود هذا الميثاق.
+        </div>
+      </div>
+      <div class="def-card" style="--accent:var(--purple)">
+        <div class="def-label">الفكرة الجوهرية للامتحان</div>
+        <div class="def-text">الهدف من عرض هذا المثال في المنهج هو توضيح أن <strong>الـ Code of Ethics ليس مجرد حبر على ورق</strong>، بل هو أداة عملية تُرشد سلوك الأفراد في المنظمة (سواء كانت شركة أو مؤسسة تعليمية كجامعة القاهرة).</div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     SECTION 7 — CREATING AN ETHICAL WORKPLACE
-══════════════════════════════════════════════════════ -->
+<!-- ══ CREATING AN ETHICAL WORKPLACE ══ -->
 <div class="chapter" id="workplace">
   <div class="ch-header">
     <div class="ch-num teal">07</div>
     <div class="ch-title">
       <h2>Creating an Ethical Workplace — بناء بيئة عمل أخلاقية</h2>
-      <p>3 خطوات أساسية لبناء منظمة أخلاقية</p>
+      <p>3 خطوات عملية لبناء منظمة أخلاقية من الداخل (Slide 14)</p>
     </div>
   </div>
-
-  <div class="compare" style="grid-template-columns:repeat(3,1fr)">
-    <div class="cmp-card" style="--accent:var(--pink)">
-      <h4>📝 الخطوة 1</h4>
-      <p>إنشاء وتوزيع وتحسين كود الأخلاقيات باستمرار</p>
-      <p style="color:var(--t3);font-size:.8rem">Create, distribute & continually improve the code of ethics</p>
-    </div>
-    <div class="cmp-card" style="--accent:var(--cyan)">
-      <h4>👨‍💼 الخطوة 2</h4>
-      <p>تعيين <strong>Chief Ethics Officer</strong> يضمن دمج القيم الأخلاقية في القرارات اليومية على كل المستويات</p>
-    </div>
-    <div class="cmp-card" style="--accent:var(--green)">
-      <h4>🎓 الخطوة 3</h4>
-      <p>تقديم برامج تدريبية مناسبة لأعضاء المنظمة</p>
-      <p style="color:var(--t3);font-size:.8rem">Furnish appropriate training programs</p>
-    </div>
-  </div>
-
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">👨‍💼</span> Chief Ethics Officer — مسؤول الأخلاقيات</div>
-    <p>وظيفته: ضمان دمج الأخلاقيات التنظيمية والقيم في القرارات اليومية على كل مستويات المنظمة.</p>
-    <div class="warn"><div><b>⚠️ امتحاني:</b> الـ Chief Ethics Officer مسؤول عن <strong>integration</strong> الأخلاقيات في القرارات اليومية — مش مجرد كتابة الكود.</div></div>
-  </div>
-
-  <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">🎓</span> برامج التدريب الأخلاقي — ماذا تفعل وماذا لا تفعل؟</div>
-    <div class="grid2">
-      <div>
-        <p style="color:var(--red)"><strong>❌ لا تحاول:</strong></p>
-        <ul>
-          <li>تعليم المديرين ما هو أخلاقي أو غير أخلاقي (تحديد الصح والغلط ده متغير)</li>
-        </ul>
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🏗️</span> الخطوات الثلاث لبناء بيئة عمل أخلاقية</div>
+    <div class="steps-vertical">
+      <div class="step-v" style="--accent:var(--teal)">
+        <div class="sv-num">1</div>
+        <div>
+          <div class="sv-title">إنشاء وتوزيع وتحسين Code of Ethics باستمرار</div>
+          <div class="sv-desc">To <strong>create</strong>, <strong>distribute</strong>, and <strong>continually improve</strong> the code of ethics — مجرد كتابته مش كافي؛ لازم يُوزَّع على الجميع ويتطور باستمرار.</div>
+        </div>
       </div>
-      <div>
-        <p style="color:var(--green)"><strong>✅ بدلاً من ذلك:</strong></p>
-        <ul>
-          <li>منحهم <strong>معايير</strong> يمكنهم استخدامها لتقييم مدى أخلاقية أي تصرف معين</li>
-        </ul>
+      <div class="step-v" style="--accent:var(--purple)">
+        <div class="sv-num">2</div>
+        <div>
+          <div class="sv-title">تعيين Chief Ethics Officer ⭐</div>
+          <div class="sv-desc">To appoint a <strong>Chief Ethics Officer</strong> — وظيفته: ضمان دمج القيم الأخلاقية في القرارات اليومية على <strong>كل مستويات المنظمة</strong>.<br>
+          <em style="color:var(--t3);font-style:normal;">"Has the job of ensuring the integration of organizational ethics and values into daily decisions at all organizational levels."</em></div>
+        </div>
       </div>
+      <div class="step-v" style="--accent:var(--amber)">
+        <div class="sv-num">3</div>
+        <div>
+          <div class="sv-title">توفير برامج تدريبية مناسبة</div>
+          <div class="sv-desc">To furnish organization members with <strong>appropriate training programs</strong>.<br>
+          ⚠️ <strong>تنبيه مهم (Slide 14):</strong> هذه البرامج <strong>لا تُعلّم المديرين ما هو أخلاقي أو أخلاقي</strong> — بل تمنحهم <strong>معايير (Criteria)</strong> يستخدمونها لتقييم مدى أخلاقية تصرف ما.</div>
+        </div>
+      </div>
+    </div>
+    <div class="info">
+      <div><b>📌 الفرق المهم:</b> Training programs لا تقول للمدير "هذا خطأ وهذا صح" — بل تعطيه أدوات يحكم بها بنفسه على الموقف.</div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     SECTION 8 — 7 ETHICAL STANDARDS
-══════════════════════════════════════════════════════ -->
+<!-- ══ ETHICAL STANDARDS ══ -->
 <div class="chapter" id="standards">
   <div class="ch-header">
-    <div class="ch-num blue">08</div>
+    <div class="ch-num amber">08</div>
     <div class="ch-title">
-      <h2>7 Ethical Standards — معايير الحكم على الأخلاقية</h2>
-      <p>لو التصرف متوافق مع واحد منهم على الأقل — يُعتبر أخلاقياً</p>
+      <h2>الـ 7 Ethical Standards — معايير الحكم على أخلاقية القرار</h2>
+      <p>المدير يطمئن لأخلاقية قراره لو كان متوافقاً مع معيار واحد على الأقل (Slides 15–16)</p>
     </div>
   </div>
-
-  <div class="info"><div><b>⭐ المبدأ العام:</b> يمكن للمديرين أن يطمئنوا إلى أن التصرف المحتمل سيُعتبر أخلاقياً من قِبل الجمهور العام إذا كان متوافقاً مع <strong>واحد على الأقل</strong> من هذه المعايير.</div></div>
-
-  <div class="topic" style="--accent:var(--pink)">
-    <div class="topic-title"><span class="icon">⭐</span> المعيار 1 — The Golden Rule</div>
-    <p style="background:var(--card2);padding:14px;border-radius:10px;direction:ltr;font-style:italic">"Act in a way you would expect others to act toward you."</p>
-    <p style="margin-top:8px">قاعدة ذهبية: تصرف مع الآخرين كما تحب أن يتصرفوا معك.</p>
-  </div>
-
   <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">⚖️</span> المعيار 2 — The Utilitarian Principle</div>
-    <p style="background:var(--card2);padding:14px;border-radius:10px;direction:ltr;font-style:italic">"Act in a way that results in the greatest good for the greatest number of people."</p>
-    <p style="margin-top:8px">مبدأ النفعية: اتخذ التصرف الذي يحقق أكبر قدر من الخير لأكبر عدد من الناس.</p>
-  </div>
+    <div class="topic-title"><span class="icon">⚖️</span> المعايير الـ 7 بالتفصيل الكامل</div>
+    <div class="ethical-standards">
 
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">🌍</span> المعيار 3 — Kant's Categorical Imperative</div>
-    <p style="background:var(--card2);padding:14px;border-radius:10px;direction:ltr;font-style:italic">"Act in such a way that the action taken under the circumstances could be a universal law, or rule, of behavior."</p>
-    <p style="margin-top:8px">الأمر القطعي لكانط: تصرف بطريقة يمكن أن تصبح قانوناً عاماً للسلوك يصلح للجميع.</p>
-  </div>
-
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">👔</span> المعيار 4 — The Professional Ethic</div>
-    <p style="background:var(--card2);padding:14px;border-radius:10px;direction:ltr;font-style:italic">"Take actions that would be viewed as proper by a disinterested panel of professional peers."</p>
-    <p style="margin-top:8px">الأخلاق المهنية: اتخذ التصرفات التي سيراها لجنة من الزملاء المهنيين المحايدين على أنها مناسبة.</p>
-  </div>
-
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">📺</span> المعيار 5 — The TV Test</div>
-    <p style="background:var(--card2);padding:14px;border-radius:10px;direction:ltr;font-style:italic">"Would I feel comfortable explaining to a national TV audience why I took this action?"</p>
-    <p style="margin-top:8px">اختبار التلفزيون: هل ستشعر بالارتياح لو شرحت تصرفك أمام كاميرا تلفزيون وطني؟</p>
-    <div class="tip"><div><b>💡 حيلة عملية:</b> لو ستتعرق من الحرج لو اتشال تصرفك على التلفزيون — يمكن الموضوع فيه كلام!</div></div>
-  </div>
-
-  <div class="topic" style="--accent:var(--teal)">
-    <div class="topic-title"><span class="icon">⚖️</span> المعيار 6 — The Legal Test</div>
-    <p style="background:var(--card2);padding:14px;border-radius:10px;direction:ltr;font-style:italic">"Is the proposed action or decision legal?"</p>
-    <p style="margin-top:8px">الاختبار القانوني: القوانين المعمول بها تُعدّ بشكل عام <strong>الحد الأدنى</strong> لمعايير الأخلاقيات.</p>
-    <div class="warn"><div><b>⚠️ ملحوظة:</b> القانوني لا يعني بالضرورة أخلاقياً — الأخلاقيات أعلى من القانون في كثير من الأحيان.</div></div>
-  </div>
-
-  <div class="topic" style="--accent:var(--red)">
-    <div class="topic-title"><span class="icon">4️⃣</span> المعيار 7 — The Four-Way Test</div>
-    <p>يمكن للمدير أن يطمئن إلى أن قراره أخلاقي إذا أجاب بـ <strong>"نعم"</strong> على الأسئلة الأربعة التالية:</p>
-    <div class="compare" style="grid-template-columns:repeat(2,1fr)">
-      <div class="cmp-card" style="--accent:var(--pink)">
-        <h4>1️⃣ Truthful?</h4>
-        <p>هل القرار صادق؟ — Is the decision truthful?</p>
+      <div class="standard-card" style="--accent:var(--cyan)">
+        <div class="sc-name">1 · The Golden Rule ⭐ (الأكثر تكراراً في الامتحانات — Final 2024 سؤال 37)</div>
+        <div class="sc-rule">"Act in a way you would expect others to act toward you."</div>
+        <div class="sc-desc">تصرّف مع الآخرين بالطريقة التي تتوقع أن يتعاملوا بها معك. القاعدة الذهبية — الكلمة المفتاحية: <strong>expect others to act toward you</strong>.</div>
       </div>
-      <div class="cmp-card" style="--accent:var(--amber)">
-        <h4>2️⃣ Fair?</h4>
-        <p>هل عادل لجميع المعنيين؟ — Is it fair to all concerned?</p>
+
+      <div class="standard-card" style="--accent:var(--green)">
+        <div class="sc-name">2 · The Utilitarian Principle (مبدأ النفعية)</div>
+        <div class="sc-rule">"Act in a way that results in the greatest good for the greatest number of people."</div>
+        <div class="sc-desc">تصرّف بالطريقة التي تحقق أكبر خير لأكبر عدد من الناس. الكلمة المفتاحية: <strong>greatest number</strong>.</div>
       </div>
-      <div class="cmp-card" style="--accent:var(--green)">
-        <h4>3️⃣ Goodwill?</h4>
-        <p>هل سيبني حسن النية والصداقات؟ — Will it build goodwill?</p>
+
+      <div class="standard-card" style="--accent:var(--purple)">
+        <div class="sc-name">3 · Kant's Categorical Imperative (الأمر القطعي لكانط)</div>
+        <div class="sc-rule">"Act in such a way that the action taken under the circumstances could be a universal law, or rule, of behavior."</div>
+        <div class="sc-desc">تصرّف بطريقة يمكن أن تصبح قانوناً عاماً للسلوك. الكلمة المفتاحية: <strong>universal law</strong>. اسأل: لو كل الناس عملت كده؟</div>
       </div>
-      <div class="cmp-card" style="--accent:var(--cyan)">
-        <h4>4️⃣ Beneficial?</h4>
-        <p>هل سيفيد جميع المعنيين؟ — Will it be beneficial to all?</p>
+
+      <div class="standard-card" style="--accent:var(--teal)">
+        <div class="sc-name">4 · The Professional Ethic (الأخلاق المهنية)</div>
+        <div class="sc-rule">"Take actions that would be viewed as proper by a disinterested panel of professional peers."</div>
+        <div class="sc-desc">تصرّف بطريقة ترى لجنة محايدة من الأقران المهنيين أنها مناسبة. الكلمة المفتاحية: <strong>disinterested panel of professional peers</strong>.</div>
+      </div>
+
+      <div class="standard-card" style="--accent:var(--pink)">
+        <div class="sc-name">5 · The TV Test (اختبار التلفزيون)</div>
+        <div class="sc-rule">"Would I feel comfortable explaining to a national TV audience why I took this action?"</div>
+        <div class="sc-desc">لو مش مرتاح تشرح على التلفزيون الوطني سبب قرارك — غالباً مش أخلاقي! معيار غير رسمي لكنه فعّال.</div>
+      </div>
+
+      <div class="standard-card" style="--accent:var(--blue)">
+        <div class="sc-name">6 · The Legal Test (الاختبار القانوني)</div>
+        <div class="sc-rule">"Is the proposed action or decision legal?"</div>
+        <div class="sc-desc">القوانين المعمول بها تُعدّ <strong>الحد الأدنى (Minimum Standards)</strong> للمعايير الأخلاقية. كل ما هو غير قانوني = غير أخلاقي. لكن القانوني لا يعني دائماً أخلاقياً بالكامل.</div>
+      </div>
+
+      <div class="standard-card" style="--accent:var(--amber)">
+        <div class="sc-name">7 · The Four-Way Test ⭐ (اختبار الأسئلة الأربعة)</div>
+        <div class="sc-rule">أجب بـ "نعم" على الأسئلة الأربعة التالية:</div>
+        <div class="sc-desc">
+          <ol style="padding-right:16px;margin-top:6px;font-size:.83rem;color:var(--t2);">
+            <li style="margin-bottom:5px;">Is the decision <strong>truthful</strong>? — هل القرار صادق؟</li>
+            <li style="margin-bottom:5px;">Is it <strong>fair to all concerned</strong>? — هل عادل للجميع؟</li>
+            <li style="margin-bottom:5px;">Will it <strong>build goodwill</strong> and better friendships? — هل يبني نوايا حسنة وصداقات أفضل؟</li>
+            <li>Will it be <strong>beneficial to all concerned</strong>? — هل مفيد للجميع؟</li>
+          </ol>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="warn">
+      <div><b>⚠️ الفخ الأكثر تكراراً — الخلط بين المعايير:</b><br>
+      • Golden Rule = <strong>expect others to act toward YOU</strong> (متبادل شخصي)<br>
+      • Utilitarian = <strong>greatest number of people</strong> (تعظيم المنفعة الكلية)<br>
+      • Kant's = <strong>universal law</strong> (يصلح قانوناً عاماً)<br>
+      • Professional Ethic = <strong>disinterested professional peers</strong> (حكم خارجي متخصص)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CORPORATE SOCIAL RESPONSIBILITY ══ -->
+<div class="chapter" id="csr">
+  <div class="ch-header">
+    <div class="ch-num pink">09</div>
+    <div class="ch-title">
+      <h2>Corporate Social Responsibility (CSR)</h2>
+      <p>المسؤولية الاجتماعية للشركات — موضوع مرتبط بالأخلاقيات ويظهر كثيراً في الامتحانات.</p>
+    </div>
+  </div>
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🌍</span> تعريف CSR (Final 2024 سؤال 16)</div>
+    <div class="def-card" style="--accent:var(--pink)">
+      <div class="def-label">Corporate Social Responsibility — التعريف</div>
+      <div class="def-text">The managerial obligation to take action that <strong>protects and improves</strong> both the welfare of <strong>society as a whole</strong> and the <strong>interests of the organization</strong>.</div>
+      <div class="def-note">
+        يعني: الالتزام الإداري باتخاذ إجراءات تحمي وتحسن رفاهية المجتمع ككل ومصالح المنظمة في آن واحد — مش مجرد مصالح المساهمين، ومش المجتمع فقط على حساب المنظمة!
+      </div>
+    </div>
+    <div class="danger">
+      <div><b>🔴 الفخ التكراري — Final 2025 سؤال 14 (T/F):</b><br>
+      "According to the concept of corporate social responsibility, managers should regard societal goals as MORE IMPORTANT than organizational goals." → <strong>FALSE!</strong><br>
+      CSR = protects BOTH — مش أولوية للمجتمع على حساب المنظمة. الاثنين في نفس المستوى.</div>
+    </div>
+  </div>
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">⚖️</span> Milton Friedman — حجة ضد CSR (Final 2024 سؤال 24)</div>
+    <div class="def-card" style="--accent:var(--red)">
+      <div class="def-label">حجة Friedman في ضد CSR</div>
+      <div class="def-text">Corporate social responsibility compels managers to spend money on some individuals that <strong>rightfully belongs to other individuals (shareholders)</strong>.</div>
+      <div class="def-note">
+        Friedman يقول: لما المدير ينفق على المجتمع فهو ينفق أموال المساهمين بدون إذنهم = غير أخلاقي!<br>
+        وجهة نظره: المسؤولية الوحيدة للشركة = زيادة أرباح المساهمين.
       </div>
     </div>
   </div>
-
-  <!-- Summary table -->
-  <div class="topic" style="--accent:var(--purple)">
-    <div class="topic-title"><span class="icon">📊</span> ملخص الـ 7 معايير</div>
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📋</span> الالتزامات تجاه كل أصحاب المصلحة (Final 2024 سؤال 26)</div>
     <table class="tbl">
-      <tr><th>#</th><th>المعيار</th><th>السؤال الأساسي</th></tr>
-      <tr><td>1</td><td><strong>Golden Rule</strong></td><td>هل أقبل على نفسي ما أفعله للآخرين؟</td></tr>
-      <tr><td>2</td><td><strong>Utilitarian Principle</strong></td><td>هل يحقق أكبر نفع لأكبر عدد؟</td></tr>
-      <tr><td>3</td><td><strong>Kant's Categorical Imperative</strong></td><td>هل يصلح قانوناً عاماً للجميع؟</td></tr>
-      <tr><td>4</td><td><strong>Professional Ethic</strong></td><td>هل يقبله الزملاء المهنيون المحايدون؟</td></tr>
-      <tr><td>5</td><td><strong>TV Test</strong></td><td>هل ستشرحه ببراحة أمام الكاميرا؟</td></tr>
-      <tr><td>6</td><td><strong>Legal Test</strong></td><td>هل هو قانوني؟ (الحد الأدنى)</td></tr>
-      <tr><td>7</td><td><strong>Four-Way Test</strong></td><td>صادق؟ عادل؟ يبني علاقات؟ يفيد الجميع؟</td></tr>
+      <tr><th>أصحاب المصلحة</th><th>مثال على الالتزام</th></tr>
+      <tr><td><strong>Consumers — العملاء ⭐</strong></td><td>Safe Products — توفير منتجات آمنة</td></tr>
+      <tr><td><strong>Employees — الموظفون</strong></td><td>Safe Working Environments — بيئات عمل آمنة</td></tr>
+      <tr><td><strong>Shareholders — المساهمون</strong></td><td>سداد الديون وزيادة قيمة الشركة</td></tr>
+      <tr><td><strong>Community — المجتمع</strong></td><td>حماية البيئة والمشاركة المجتمعية</td></tr>
+    </table>
+    <div class="warn">
+      <div><b>⚠️ Final 2024 سؤال 26:</b> "Managers can fulfill their social obligation towards <strong>consumers</strong> by _______."<br>
+      الإجابة: <strong>E — providing safe products</strong><br>
+      الخدعة: B (safe working environments) = للموظفين مش للعملاء!</div>
+    </div>
+  </div>
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🔄</span> CSR في أي وظيفة إدارية؟ (Final 2024 سؤال 34)</div>
+    <div class="grid2">
+      <div class="def-card" style="--accent:var(--cyan)">
+        <div class="def-label">Planning</div>
+        <div class="def-text">تحديد الأهداف الاجتماعية ووضع الخطط لتحقيقها</div>
+      </div>
+      <div class="def-card" style="--accent:var(--green)">
+        <div class="def-label">Organizing</div>
+        <div class="def-text">تخصيص الموارد وتنظيم الأنشطة الاجتماعية</div>
+      </div>
+      <div class="def-card" style="--accent:var(--amber)">
+        <div class="def-label">Influencing ⭐ — الإجابة الصحيحة</div>
+        <div class="def-text">المدير <strong>يقود · يتواصل · يحفّز · يعمل مع المجموعات</strong> لتحقيق أهداف المسؤولية الاجتماعية</div>
+      </div>
+      <div class="def-card" style="--accent:var(--red)">
+        <div class="def-label">Controlling</div>
+        <div class="def-text">قياس ومراقبة مدى تحقيق الأهداف الاجتماعية ومراجعة النتائج</div>
+      </div>
+    </div>
+    <div class="danger">
+      <div><b>🔴 Final 2024 سؤال 34:</b> "In which stage does a manager <strong>lead, communicate, motivate, and work with groups</strong> to attain social responsibility objectives?"<br>
+      الإجابة: <strong>A — Influencing</strong> — هذه التعريف الحرفي لوظيفة الـ Influencing.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ROLL UP ══ -->
+<div class="chapter" id="rollup">
+  <div class="ch-header">
+    <div class="ch-num pink">🔄</div>
+    <div class="ch-title">
+      <h2>Roll Up — ملخص Chapter 3</h2>
+      <p>كل حاجة في مكان واحد — المراجعة السريعة قبل الامتحان</p>
+    </div>
+  </div>
+  <div class="topic" style="--accent:var(--amber)">
+    <table class="tbl">
+      <tr><th>الموضوع</th><th>الفكرة الجوهرية</th><th>الكلمة المفتاحية</th></tr>
+      <tr>
+        <td><span class="badge ba">Ethics</span></td>
+        <td>القدرة على التفكير في القيم أثناء اتخاذ القرارات وتأثيرها على Stakeholders</td>
+        <td><code>Values</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg">Why Vital</span></td>
+        <td>Productivity · Stakeholder Relations · Government Regulation</td>
+        <td><code>P · S · G</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge bp">Code of Ethics</span></td>
+        <td>بيان رسمي يُرشد سلوك وقرارات الأعضاء (Formal Statement)</td>
+        <td><code>Formal · Adaptive</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge bc">Creating</span></td>
+        <td>Code → Chief Ethics Officer → Training Programs (Criteria فقط)</td>
+        <td><code>Integration</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:rgba(96,165,250,.12);color:var(--blue);border:1px solid rgba(96,165,250,.2);">Golden Rule</span></td>
+        <td>Act as you expect OTHERS to act toward YOU</td>
+        <td><code>Expect others</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:rgba(74,222,128,.12);color:var(--green);border:1px solid rgba(74,222,128,.2);">Utilitarian</span></td>
+        <td>Greatest good for the GREATEST NUMBER</td>
+        <td><code>Greatest number</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge br">CSR</span></td>
+        <td>حماية مصالح المجتمع والمنظمة معاً — مش اختيار بينهم</td>
+        <td><code>Both welfare</code></td>
+      </tr>
     </table>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════
-     QUIZ
-══════════════════════════════════════════════════════ -->
-<div class="quiz-section" id="quiz">
+     QUIZ A — TRUE / FALSE
+══════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz-tf">
+  <div class="quiz-header">
+    <div class="quiz-icon">✅</div>
+    <div>
+      <h3>Quiz A — True / False</h3>
+      <p>أسئلة T/F حقيقية ومتحقق منها من امتحانات سابقة تخص Chapter 3 فقط</p>
+    </div>
+  </div>
+
+  <!-- TF-1 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">TF-1 <span class="q-src">Final 2025 · سؤال 14 من الـ T/F</span></div>
+    <div class="q-text">According to the concept of <strong>corporate social responsibility</strong>, managers should regard <strong>societal goals as more important</strong> than organizational goals.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: خطأ (FALSE)</b><br>
+      تعريف CSR هو حماية وتحسين رفاهية <strong>المجتمع ككل ومصالح المنظمة</strong> معاً في آن واحد — لا توجد أولوية لأحدهما على الآخر.
+      <div class="why-wrong"><b>الصح:</b> CSR = "protects and improves BOTH the welfare of society AND the interests of the organization." — كلمة BOTH هي المفتاح.</div>
+    </div>
+  </div>
+
+  <!-- TF-2 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">TF-2 <span class="q-src">Slide 11 — مبدأ أساسي متوقع في الامتحانات</span></div>
+    <div class="q-text">A <strong>code of ethics</strong> is a formal statement that acts as a guide for the ethics of how people within a particular organization should act and make decisions.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: صحيح (TRUE)</b><br>
+      ده التعريف الحرفي للـ Code of Ethics من Slide 11 بالنص الكامل — لا تعديل فيه.
+    </div>
+  </div>
+
+  <!-- TF-3 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">TF-3 <span class="q-src">Slide 14 — مبدأ أساسي متوقع في الامتحانات</span></div>
+    <div class="q-text">Training programs for creating an ethical workplace attempt to <strong>teach managers what is moral or ethical</strong>.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: خطأ (FALSE)</b><br>
+      الكتاب (Slide 14) يقول بالنص: "<strong>Do NOT</strong> attempt to teach managers what is moral or ethical." بدلاً من ذلك، تمنحهم <strong>معايير (Criteria)</strong> يستخدمونها لتقييم مدى أخلاقية تصرف معين بنفسهم.
+      <div class="why-wrong"><b>الصح:</b> Training programs → give criteria to help determine how ethical an action might be — مش تعليم ما هو أخلاقي.</div>
+    </div>
+  </div>
+
+  <!-- TF-4 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">TF-4 <span class="q-src">Slide 11 — مبدأ أساسي متوقع في الامتحانات</span></div>
+    <div class="q-text">It is <strong>impossible</strong> to cover all ethical and unethical conducts in one code of ethics, so managers should view codes of ethics as <strong>adaptive tools</strong>.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: صحيح (TRUE)</b><br>
+      من Slide 11 بالنص: "It is impossible to cover all ethical/unethical conducts in one code." و"Managers should view codes of ethics as <strong>adaptive tools</strong>."
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:20px;">
+    <span class="q-score" id="score-tf"></span>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-tf')">✅ تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-tf')">🔄 إعادة</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     QUIZ B — MCQ (من امتحانات حقيقية — برقم السؤال)
+══════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz-mcq">
   <div class="quiz-header">
     <div class="quiz-icon">🎯</div>
     <div>
-      <h3>Exam Question Bank — Chapter 3</h3>
-      <p>أسئلة حقيقية من امتحانات 2019 / 2021 / 2022 / 2024 / 2025 · اختار وجرب</p>
+      <h3>Quiz B — MCQ من امتحانات حقيقية</h3>
+      <p>كل سؤال محدد بالرقم ورقم الامتحان · Ch.3 فقط · متحقق من المصدر الأصلي</p>
     </div>
   </div>
 
-  <!-- Q1 -->
-  <div class="q-item" data-correct="b">
-    <div class="q-num">Question 1 <span class="q-src">Final 2024 · Q35</span></div>
-    <div class="q-text">In business, <strong>ethics</strong> can be defined as _______.</div>
+  <!-- MCQ-1: Final 2024 Q35 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">MCQ-1 <span class="q-src">Final 2024 · سؤال 35</span></div>
+    <div class="q-text">In business, ethics can be defined as _______.</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The capacity to maximize profit in corporate decision making</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> The capacity to reflect on values in the corporate decision making process and determine how decisions affect stakeholder groups</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> A set of legal regulations that companies must follow</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> A financial reporting standard for businesses</div>
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> the capacity to reflect on customer preferences in the corporate decision-making process</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> the capacity to reflect on competitive strategies in the corporate decision-making process</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> the capacity to reflect on values in the corporate decision-making process</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> the capacity to reflect on production bottlenecks in the corporate decision-making process</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> the capacity to reflect on workforce diversity in the corporate decision-making process</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: B</b>
-      التعريف الكامل للأخلاقيات: "The capacity to reflect on values in the corporate decision making process, to determine how these values and decisions affect various stakeholder groups, and to establish how managers can use these observations in day-to-day company management."
-      <div class="why-wrong"><b>ليه باقي الإجابات غلط:</b> A = الأخلاقيات مش عن تعظيم الربح · C = الأخلاقيات أعلى من القانون · D = لا علاقة لها بالتقارير المالية</div>
+      <b>✅ الإجابة: C — the capacity to reflect on VALUES in the corporate decision-making process</b><br>
+      التعريف الحرفي من Slide 5. الكلمة الأساسية هي <strong>Values (القيم)</strong> فقط — الخيارات الأخرى كلها مقصودة إنها تبدو منطقية لكنها خاطئة.
+      <div class="why-wrong"><b>ليه الباقي غلط:</b> التعريف يتكلم صراحةً عن القيم وتأثيرها على Stakeholders — مش عن تفضيلات العملاء أو الاستراتيجيات أو الإنتاج أو التنوع.</div>
     </div>
   </div>
 
-  <!-- Q2 -->
-  <div class="q-item" data-correct="c">
-    <div class="q-num">Question 2 <span class="q-src">Final 2024 · Q36</span></div>
+  <!-- MCQ-2: Final 2024 Q36 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">MCQ-2 <span class="q-src">Final 2024 · سؤال 36</span></div>
     <div class="q-text">_______ is a formal statement that acts as a guide for the ethics of how people within a particular organization should act and make decisions.</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Mission Statement</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Vision Statement</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> A Code of Ethics</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Employee Contract</div>
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> A social audit</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A whistleblower's policy</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Corporate governance</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> A code of ethics</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> A mission statement</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: C — A Code of Ethics</b>
-      Code of Ethics = وثيقة رسمية تعمل كدليل لكيفية تصرف أفراد المنظمة واتخاذ قراراتهم بشكل أخلاقي.
-      <div class="why-wrong"><b>ليه باقي الإجابات غلط:</b> A = Mission Statement بيحدد غرض المنظمة · B = Vision Statement بيحدد طموح المنظمة · D = العقد قانوني مش أخلاقي</div>
+      <b>✅ الإجابة: D — A code of ethics</b><br>
+      التعريف الحرفي للـ Code of Ethics من Slide 11: "A formal statement that acts as a guide for the ethics of how people within a particular organization should act and make decisions."
+      <div class="why-wrong"><b>ليه E غلط:</b> Mission Statement = يحدد هدف المنظمة، مش الإرشادات الأخلاقية. <b>ليه A غلط:</b> Social Audit = تقييم الأداء الاجتماعي للشركة.</div>
     </div>
   </div>
 
-  <!-- Q3 -->
+  <!-- MCQ-3: Final 2024 Q37 -->
   <div class="q-item" data-correct="a">
-    <div class="q-num">Question 3 <span class="q-src">Final 2021 · Q3.1</span></div>
-    <div class="q-text">The employment of ethical business practices can enhance overall corporate health in three important areas: Productivity, Stakeholder Relations, and Government Regulation.</div>
+    <div class="q-num">MCQ-3 <span class="q-src">Final 2024 · سؤال 37</span></div>
+    <div class="q-text">Which of the following actions suggests that an individual is following the <strong>Golden Rule</strong>?</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Acting in a way you would expect others to act toward you.</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Taking actions that would be viewed as proper by a disinterested panel of professional peers.</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Acting in a way that results in the greatest good for the greatest number of people.</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Taking actions that abide by the laws of the state.</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Acting in a way that the action taken under the circumstances could be a universal law of behavior.</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: A — True</b>
-      ده بالظبط ما ذكره الكتاب — الأخلاقيات بتحسن صحة الشركة في 3 مجالات: 1) Productivity 2) Stakeholder Relations 3) Government Regulation.
+      <b>✅ الإجابة: A — Acting in a way you would expect others to act toward you.</b><br>
+      التعريف الحرفي للـ Golden Rule من Slide 15: "Act in a way you would expect others to act toward you."
+      <div class="why-wrong">
+        <b>B غلط:</b> ده الـ Professional Ethic (disinterested professional peers).<br>
+        <b>C غلط:</b> ده الـ Utilitarian Principle (greatest good for greatest number).<br>
+        <b>E غلط:</b> ده Kant's Categorical Imperative (universal law of behavior).
+      </div>
     </div>
   </div>
 
-  <!-- Q4 -->
-  <div class="q-item" data-correct="b">
-    <div class="q-num">Question 4 <span class="q-src">Final 2021 · Q3.3</span></div>
-    <div class="q-text">Training programs in ethics should attempt to <strong>teach managers what is moral or ethical</strong>.</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: B — False</b>
-      الكتاب صريح: "Do <strong>not</strong> attempt to teach managers what is moral or ethical." بدلاً من ذلك، التدريب يجب أن يمنحهم <strong>معايير</strong> يستخدمونها لتقييم مدى أخلاقية أي تصرف.
-      <div class="why-wrong"><b>السبب:</b> ما هو أخلاقي متغير ويعتمد على السياق — لا يمكن تعليمه كقواعد جامدة.</div>
-    </div>
-  </div>
-
-  <!-- Q5 -->
-  <div class="q-item" data-correct="b">
-    <div class="q-num">Question 5 <span class="q-src">Final 2022 · Q3.4</span></div>
-    <div class="q-text">It is possible to cover all ethical and unethical conducts in one code of ethics.</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: B — False</b>
-      الكتاب يقول صراحة: "It is <strong>impossible</strong> to cover all ethical/unethical conducts in one code." لهذا يجب النظر للكود كـ Adaptive Tool (أداة مرنة).
-    </div>
-  </div>
-
-  <!-- Q6 -->
+  <!-- MCQ-4: Final 2024 Q16 -->
   <div class="q-item" data-correct="c">
-    <div class="q-num">Question 6 <span class="q-src">Final 2025 · Q62</span></div>
-    <div class="q-text">Which ethical standard states: <strong>"Act in a way that results in the greatest good for the greatest number of people"</strong>?</div>
+    <div class="q-num">MCQ-4 <span class="q-src">Final 2024 · سؤال 16</span></div>
+    <div class="q-text">Which of the following statements is true about <strong>corporate social responsibility</strong>?</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The Golden Rule</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Kant's Categorical Imperative</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> The Utilitarian Principle</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The Professional Ethic</div>
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> It is the managerial obligation to ensure the accountability of certain individuals in an organization through mechanisms that try to reduce or eliminate the principal-agent problem.</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> It is the managerial obligation to cater to the needs of the stockholders, while abiding by the laws of the society.</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> It is the managerial obligation to take action that protects and improves both the welfare of society as a whole and the interests of the organization.</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> It is the managerial obligation to abide to societal laws when pursuing organizational goals.</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> It is the managerial obligation to ensure ethical decision-making in an organization to benefit its customers.</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: C — The Utilitarian Principle</b>
-      مبدأ النفعية (Utilitarian Principle) بيقول: اتخذ التصرف الذي يحقق أكبر قدر من الخير لأكبر عدد من الناس.
-      <div class="why-wrong"><b>مقارنة بين المعايير:</b> Golden Rule = افعل للآخرين ما تحبه لنفسك · Kant = يصلح كقانون عالمي · Professional Ethic = يقبله الزملاء المحايدون</div>
+      <b>✅ الإجابة: C — protects and improves both the welfare of society as a whole AND the interests of the organization.</b><br>
+      التعريف الكامل والحرفي للـ CSR: الالتزام بحماية وتحسين رفاهية <strong>المجتمع ككل</strong> ومصالح <strong>المنظمة</strong> — كلمة <strong>BOTH</strong> هي الفرق.
+      <div class="why-wrong"><b>B غلط:</b> CSR أشمل من مجرد خدمة المساهمين (stockholders). <b>D غلط:</b> CSR أكثر من مجرد اتباع القوانين.</div>
     </div>
   </div>
 
-  <!-- Q7 -->
-  <div class="q-item" data-correct="d">
-    <div class="q-num">Question 7 <span class="q-src">Final 2019 · Q3.6</span></div>
-    <div class="q-text">Which of the following is <strong>NOT</strong> one of the typical topics addressed in a Code of Ethics?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Conflict of Interest</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Privacy of Information</div>
-      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Gift Giving</div>
-      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Product Pricing Strategy</div>
-    </div>
-    <div class="q-explain">
-      <b>✅ الإجابة الصح: D — Product Pricing Strategy</b>
-      الـ 5 مواضيع الشائعة في كود الأخلاقيات هي: Conflict of Interest · Competitors · Privacy of Information · Gift Giving · Political Contributions/Business. استراتيجية التسعير مش من المواضيع الأخلاقية المذكورة.
-      <div class="why-wrong"><b>A, B, C</b> — كلهم من المواضيع الشائعة في كود الأخلاقيات.</div>
-    </div>
-  </div>
-
-  <!-- Q8 -->
+  <!-- MCQ-5: Final 2024 Q24 -->
   <div class="q-item" data-correct="a">
-    <div class="q-num">Question 8 <span class="q-src">Final 2022 · Q3.7</span></div>
-    <div class="q-text">The <strong>Four-Way Test</strong> requires a manager to answer "yes" to whether the decision is: truthful, fair, goodwill-building, and beneficial to all concerned.</div>
+    <div class="q-num">MCQ-5 <span class="q-src">Final 2024 · سؤال 24</span></div>
+    <div class="q-text">Which of the following arguments provided by <strong>Milton Friedman</strong> suggests that corporate social responsibility may be unethical?</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Corporate social responsibility compels managers to spend money on some individuals that rightfully belongs to other individuals.</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Corporate social responsibility is not mandated by law, which means that it has to be done by will, not by compulsion.</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Empirical studies have not yet demonstrated a definitive relationship between corporate social responsibility and profitability.</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Profitability and growth go hand-in-hand with responsible treatment of employees, customers, and the community.</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> Firms use corporate social responsibility to increase their brand awareness.</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: A — True</b>
-      الـ Four-Way Test بيسأل 4 أسئلة: 1) Is it truthful? 2) Is it fair to all? 3) Will it build goodwill? 4) Will it be beneficial to all? لو الإجابة "نعم" على الأربعة — القرار أخلاقي.
+      <b>✅ الإجابة: A — compels managers to spend money that rightfully belongs to shareholders.</b><br>
+      Friedman يرى إن المدير لما ينفق على المجتمع فهو ينفق أموال المساهمين بدون إذنهم — وده يعتبره غير أخلاقي من منظور حقوق الملكية.
+      <div class="why-wrong"><b>D غلط:</b> ده حجة لصالح CSR مش ضدها. <b>B, C غلط:</b> ملاحظات محايدة مش حججاً على أنها غير أخلاقية.</div>
     </div>
   </div>
 
-  <!-- Q9 -->
-  <div class="q-item" data-correct="b">
-    <div class="q-num">Question 9 <span class="q-src">Final 2024 · Q3.9</span></div>
-    <div class="q-text">The <strong>Chief Ethics Officer's</strong> primary role is to write the code of ethics for the organization.</div>
+  <!-- MCQ-6: Final 2024 Q26 -->
+  <div class="q-item" data-correct="e">
+    <div class="q-num">MCQ-6 <span class="q-src">Final 2024 · سؤال 26</span></div>
+    <div class="q-text">Managers can fulfill their social obligation towards <strong>consumers</strong> by _______.</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> abiding to the laws</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> providing safe working environments</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> repaying debts</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> increasing the value of the organization</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> providing safe products</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: B — False</b>
-      دور الـ Chief Ethics Officer هو: <strong>ensuring the integration of organizational ethics and values into daily decisions at all organizational levels</strong>. مش مجرد كتابة الكود — هو مسؤول عن تطبيق وتضمين الأخلاقيات في القرارات اليومية.
-      <div class="why-wrong"><b>الفرق:</b> كتابة الكود = مهمة جماعية · تطبيق وتضمين الأخلاقيات = مهمة الـ Chief Ethics Officer</div>
+      <b>✅ الإجابة: E — providing safe products</b><br>
+      الالتزام تجاه <strong>المستهلكين (Consumers)</strong> = منتجات آمنة (Safe Products).
+      <div class="why-wrong"><b>B غلط جداً:</b> Safe Working Environments = التزام تجاه <strong>الموظفين (Employees)</strong> — مش المستهلكين! ده الفخ الأشهر في السؤال ده.</div>
     </div>
   </div>
 
-  <!-- Q10 -->
+  <!-- MCQ-7: Final 2024 Q34 -->
   <div class="q-item" data-correct="a">
-    <div class="q-num">Question 10 <span class="q-src">Final 2025 · Q63</span></div>
-    <div class="q-text">According to the <strong>TV Test</strong>, a manager should feel comfortable explaining an action to a national TV audience if the action is ethical.</div>
+    <div class="q-num">MCQ-7 <span class="q-src">Final 2024 · سؤال 34</span></div>
+    <div class="q-text">In which of the following stages of performing social responsibility activities does a manager <strong>lead, communicate, motivate, and work with groups</strong> to attain the organization's social responsibility objectives?</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
-      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> influencing</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> controlling</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> implementing</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> planning</div>
+      <div class="q-opt" data-val="e"><span class="q-opt-letter">E</span> organizing</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: A — True</b>
-      الـ TV Test بيقول: "Would I feel comfortable explaining to a national TV audience why I took this action?" لو إجابتك نعم — التصرف على الأرجح أخلاقي.
-      <div class="why-wrong"><b>📌 ملحوظة:</b> ده اختبار عملي وسريع — الانزعاج من الشرح أمام الكاميرا مؤشر على وجود مشكلة أخلاقية.</div>
+      <b>✅ الإجابة: A — Influencing</b><br>
+      الـ Influencing بالتعريف (Ch.1) = قيادة + تواصل + تحفيز + العمل مع المجموعات لتحقيق أهداف المنظمة. هذه الأربعة مذكورة حرفياً في السؤال.
+      <div class="why-wrong"><b>D غلط:</b> Planning = تحديد الأهداف ووضع الخطط. <b>E غلط:</b> Organizing = توزيع الموارد. <b>B غلط:</b> Controlling = قياس الأداء ومقارنته بالمعايير.</div>
     </div>
   </div>
 
-  <div class="q-score"></div>
-  <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✅ Check Answers</button>
-  <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">🔄 Reset</button>
+  <div style="text-align:center;margin-top:20px;">
+    <span class="q-score" id="score-mcq"></span>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-mcq')">✅ تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-mcq')">🔄 إعادة</button>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════
      CHEAT SHEET
-══════════════════════════════════════════════════════ -->
-<div class="chapter" id="cheat">
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat-ch3">
   <div class="ch-header">
     <div class="ch-num teal">📋</div>
     <div class="ch-title">
-      <h2>Cheat Sheet — المرجع السريع</h2>
-      <p>كل التعريفات في مكان واحد</p>
+      <h2>Cheat Sheet — Chapter 3</h2>
+      <p>كل التعريفات والمعايير في مكان واحد — للمراجعة السريعة</p>
     </div>
   </div>
-
-  <div class="cheat">
-    <h3>🏷️ التعريفات الأساسية</h3>
-    <div class="cheat-item"><div class="cheat-key">Ethics</div><div class="cheat-val">The capacity to reflect on values in the corporate decision making process, to determine how these values and decisions affect various stakeholder groups.</div></div>
-    <div class="cheat-item"><div class="cheat-key">Why Ethics Vital</div><div class="cheat-val">1) Productivity · 2) Stakeholder Relations · 3) Government Regulation</div></div>
-    <div class="cheat-item"><div class="cheat-key">EAP</div><div class="cheat-val">Employee Advisory Programs — برامج تساعد الموظفين في مشاكلهم الشخصية والمهنية → ترفع الإنتاجية.</div></div>
-    <div class="cheat-item"><div class="cheat-key">Code of Ethics</div><div class="cheat-val">A formal statement (guide) for how people in an organization should act. Topics: Conflict of Interest, Competitors, Privacy, Gift Giving, Political Contributions. يُعدّ Adaptive Tool.</div></div>
-    <div class="cheat-item"><div class="cheat-key">Chief Ethics Officer</div><div class="cheat-val">يضمن دمج الأخلاقيات والقيم في القرارات اليومية على كل المستويات.</div></div>
-    <div class="cheat-item"><div class="cheat-key">Training Programs</div><div class="cheat-val">لا تعلّم ما هو أخلاقي — بل تمنح معايير للحكم على أخلاقية أي تصرف.</div></div>
-    <div class="cheat-item"><div class="cheat-key">Golden Rule</div><div class="cheat-val">Act toward others as you'd expect them to act toward you.</div></div>
-    <div class="cheat-item"><div class="cheat-key">Utilitarian Principle</div><div class="cheat-val">Greatest good for the greatest number.</div></div>
-    <div class="cheat-item"><div class="cheat-key">Kant's Imperative</div><div class="cheat-val">Could the action be a universal law of behavior?</div></div>
-    <div class="cheat-item"><div class="cheat-key">Professional Ethic</div><div class="cheat-val">Would professional peers view it as proper?</div></div>
-    <div class="cheat-item"><div class="cheat-key">TV Test</div><div class="cheat-val">Would you explain it comfortably to a national TV audience?</div></div>
-    <div class="cheat-item"><div class="cheat-key">Legal Test</div><div class="cheat-val">Is it legal? (Minimum standard for ethics)</div></div>
-    <div class="cheat-item"><div class="cheat-key">Four-Way Test</div><div class="cheat-val">Truthful? Fair? Builds Goodwill? Beneficial to all?</div></div>
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="cheat-grid">
+      <div class="cheat">
+        <h3>⚖️ Ethics &amp; Code</h3>
+        <div class="cheat-item"><div class="cheat-key">Ethics =</div><div class="cheat-val">القدرة على التفكير في القيم (Values) أثناء القرارات الإدارية</div></div>
+        <div class="cheat-item"><div class="cheat-key">Code of Ethics</div><div class="cheat-val">Formal Statement — دليل إرشادي لكيفية التصرف واتخاذ القرارات</div></div>
+        <div class="cheat-item"><div class="cheat-key">الـ 5 Issues</div><div class="cheat-val">Conflict of Interest · Competitors · Privacy · Gift Giving · Political Contributions</div></div>
+        <div class="cheat-item"><div class="cheat-key">ملاحظة</div><div class="cheat-val">Impossible to cover all + Adaptive Tool</div></div>
+      </div>
+      <div class="cheat">
+        <h3>🌍 Why Vital — الـ 3 مجالات</h3>
+        <div class="cheat-item"><div class="cheat-key">Productivity</div><div class="cheat-val">EAPs → صحة الموظفين → إنتاجية أعلى (Control Data Corp)</div></div>
+        <div class="cheat-item"><div class="cheat-key">Stakeholder Relations</div><div class="cheat-val">صورة إيجابية → تجذب عملاء وموردين (J&J Credo)</div></div>
+        <div class="cheat-item"><div class="cheat-key">Govt Regulation</div><div class="cheat-val">عدم أخلاق → ضغط عام → تشريعات (Texas 1995)</div></div>
+      </div>
+      <div class="cheat">
+        <h3>🏗️ Creating Ethical Workplace</h3>
+        <div class="cheat-item"><div class="cheat-key">الخطوة 1</div><div class="cheat-val">Create + Distribute + Continually Improve Code</div></div>
+        <div class="cheat-item"><div class="cheat-key">الخطوة 2</div><div class="cheat-val">Chief Ethics Officer — يضمن دمج القيم في كل القرارات اليومية على كل المستويات</div></div>
+        <div class="cheat-item"><div class="cheat-key">الخطوة 3</div><div class="cheat-val">Training Programs — تمنح Criteria (مش تعليم ما هو أخلاقي)</div></div>
+      </div>
+      <div class="cheat">
+        <h3>⚖️ الـ 7 Ethical Standards</h3>
+        <div class="cheat-item"><div class="cheat-key">Golden Rule ⭐</div><div class="cheat-val">Expect others to act toward YOU</div></div>
+        <div class="cheat-item"><div class="cheat-key">Utilitarian ⭐</div><div class="cheat-val">Greatest good for greatest NUMBER</div></div>
+        <div class="cheat-item"><div class="cheat-key">Kant's</div><div class="cheat-val">UNIVERSAL law of behavior</div></div>
+        <div class="cheat-item"><div class="cheat-key">Professional</div><div class="cheat-val">Disinterested PROFESSIONAL peers</div></div>
+        <div class="cheat-item"><div class="cheat-key">TV Test</div><div class="cheat-val">Comfortable explaining on national TV?</div></div>
+        <div class="cheat-item"><div class="cheat-key">Legal Test</div><div class="cheat-val">Laws = minimum standard for ethics</div></div>
+        <div class="cheat-item"><div class="cheat-key">Four-Way ⭐</div><div class="cheat-val">Truthful · Fair · Goodwill · Beneficial</div></div>
+      </div>
+      <div class="cheat">
+        <h3>🌍 CSR</h3>
+        <div class="cheat-item"><div class="cheat-key">CSR =</div><div class="cheat-val">Protects + improves BOTH: society welfare AND organization interests</div></div>
+        <div class="cheat-item"><div class="cheat-key">Friedman</div><div class="cheat-val">CSR غير أخلاقي = ينفق أموال المساهمين بدون إذن</div></div>
+        <div class="cheat-item"><div class="cheat-key">Consumers</div><div class="cheat-val">Safe PRODUCTS (مش Environments ده للموظفين!)</div></div>
+        <div class="cheat-item"><div class="cheat-key">CSR في Influencing</div><div class="cheat-val">Lead · Communicate · Motivate · Work with groups</div></div>
+      </div>
+      <div class="cheat">
+        <h3>🚨 أخطاء شائعة في الامتحانات</h3>
+        <div class="cheat-item"><div class="cheat-key">❌ خطأ 1</div><div class="cheat-val">CSR = مجتمع فقط (FALSE) → BOTH معاً</div></div>
+        <div class="cheat-item"><div class="cheat-key">❌ خطأ 2</div><div class="cheat-val">Golden Rule = Greatest number (FALSE) → ده Utilitarian</div></div>
+        <div class="cheat-item"><div class="cheat-key">❌ خطأ 3</div><div class="cheat-val">Training = تعليم الأخلاق (FALSE) → Criteria فقط</div></div>
+        <div class="cheat-item"><div class="cheat-key">❌ خطأ 4</div><div class="cheat-val">Code of Ethics = Mission Statement (FALSE) → مختلفان تماماً</div></div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     RAPID REVISION
-══════════════════════════════════════════════════════ -->
-<div class="chapter" id="revision">
+<!-- ══ FLASHCARDS ══ -->
+<div class="chapter" id="flashcards-ch3">
   <div class="ch-header">
     <div class="ch-num pink">⚡</div>
     <div class="ch-title">
-      <h2>Rapid Revision — Flash Cards</h2>
+      <h2>Flashcards — المراجعة السريعة</h2>
       <p>اضغط على الكارت عشان تشوف الإجابة</p>
     </div>
   </div>
-
-  <div class="flashcards">
-    <div class="flashcard">
-      <div class="fc-inner">
-        <div class="fc-front"><div class="fc-q">الأخلاقيات بتحسن الشركة في إيه؟</div><div class="fc-hint">اضغط للإجابة</div></div>
-        <div class="fc-back"><div class="fc-a">Productivity · Stakeholder Relations · Government Regulation</div></div>
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="flashcards">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">تعريف Ethics بالكلمة المفتاحية؟</div><div class="fc-hint">اضغط لرؤية الإجابة</div></div>
+          <div class="fc-back"><div class="fc-a">القدرة على التفكير في <strong>VALUES (القيم)</strong> أثناء القرارات الإدارية وتأثيرها على Stakeholders</div></div>
+        </div>
       </div>
-    </div>
-    <div class="flashcard">
-      <div class="fc-inner">
-        <div class="fc-front"><div class="fc-q">Code of Ethics — تعريفه؟</div><div class="fc-hint">اضغط للإجابة</div></div>
-        <div class="fc-back"><div class="fc-a">Formal statement — guide for how people should act and make decisions. Topics: Conflict, Competitors, Privacy, Gifts, Political Contributions.</div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">الـ 3 مجالات اللي تؤثر فيها الأخلاقيات؟</div><div class="fc-hint">اضغط لرؤية الإجابة</div></div>
+          <div class="fc-back"><div class="fc-a">P · S · G = Productivity · Stakeholder Relations · Government Regulation</div></div>
+        </div>
       </div>
-    </div>
-    <div class="flashcard">
-      <div class="fc-inner">
-        <div class="fc-front"><div class="fc-q">الـ Golden Rule إيه؟</div><div class="fc-hint">اضغط للإجابة</div></div>
-        <div class="fc-back"><div class="fc-a">"Act in a way you would expect others to act toward you."</div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">Code of Ethics = ؟</div><div class="fc-hint">اضغط لرؤية الإجابة</div></div>
+          <div class="fc-back"><div class="fc-a">A FORMAL STATEMENT that acts as a guide for how people should ACT and MAKE DECISIONS</div></div>
+        </div>
       </div>
-    </div>
-    <div class="flashcard">
-      <div class="fc-inner">
-        <div class="fc-front"><div class="fc-q">الـ Four-Way Test — أسئلته الأربعة؟</div><div class="fc-hint">اضغط للإجابة</div></div>
-        <div class="fc-back"><div class="fc-a">Truthful? · Fair? · Builds Goodwill? · Beneficial to all?</div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">Golden Rule = ؟</div><div class="fc-hint">اضغط لرؤية الإجابة</div></div>
+          <div class="fc-back"><div class="fc-a">"Act in a way you would EXPECT OTHERS to act TOWARD YOU"</div></div>
+        </div>
       </div>
-    </div>
-    <div class="flashcard">
-      <div class="fc-inner">
-        <div class="fc-front"><div class="fc-q">وظيفة الـ Chief Ethics Officer؟</div><div class="fc-hint">اضغط للإجابة</div></div>
-        <div class="fc-back"><div class="fc-a">Ensuring integration of ethics and values into daily decisions at ALL organizational levels.</div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">Utilitarian Principle = ؟</div><div class="fc-hint">اضغط لرؤية الإجابة</div></div>
+          <div class="fc-back"><div class="fc-a">"Greatest good for the GREATEST NUMBER of people"</div></div>
+        </div>
       </div>
-    </div>
-    <div class="flashcard">
-      <div class="fc-inner">
-        <div class="fc-front"><div class="fc-q">الـ Utilitarian Principle إيه؟</div><div class="fc-hint">اضغط للإجابة</div></div>
-        <div class="fc-back"><div class="fc-a">"Greatest good for the greatest number of people."</div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">الـ Four-Way Test — الأسئلة الأربعة؟</div><div class="fc-hint">اضغط لرؤية الإجابة</div></div>
+          <div class="fc-back"><div class="fc-a">Truthful? · Fair to all? · Builds Goodwill? · Beneficial to all?</div></div>
+        </div>
       </div>
-    </div>
-    <div class="flashcard">
-      <div class="fc-inner">
-        <div class="fc-front"><div class="fc-q">التدريب الأخلاقي يعلم إيه؟</div><div class="fc-hint">اضغط للإجابة</div></div>
-        <div class="fc-back"><div class="fc-a">لا يعلم ما هو أخلاقي ← بل يمنح معايير للحكم على أخلاقية أي تصرف.</div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">CSR = ؟</div><div class="fc-hint">اضغط لرؤية الإجابة</div></div>
+          <div class="fc-back"><div class="fc-a">Protects + improves BOTH: welfare of SOCIETY and interests of ORGANIZATION</div></div>
+        </div>
       </div>
-    </div>
-    <div class="flashcard">
-      <div class="fc-inner">
-        <div class="fc-front"><div class="fc-q">الـ TV Test — بيسأل إيه؟</div><div class="fc-hint">اضغط للإجابة</div></div>
-        <div class="fc-back"><div class="fc-a">"Would I feel comfortable explaining to a national TV audience why I took this action?"</div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">Chief Ethics Officer — وظيفته؟</div><div class="fc-hint">اضغط لرؤية الإجابة</div></div>
+          <div class="fc-back"><div class="fc-a">Ensuring integration of organizational ethics and values into daily decisions at ALL organizational levels</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">الالتزام تجاه Consumers = ؟</div><div class="fc-hint">اضغط لرؤية الإجابة</div></div>
+          <div class="fc-back"><div class="fc-a">Safe PRODUCTS (مش Safe Working Environments — ده للموظفين!)</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -690,7 +1024,82 @@
 </div><!-- .content -->
 </main>
 
-<script src="../assets/app.js"></script>
-<script src="../assets/quiz.js"></script>
+<!-- ════════ JAVASCRIPT ════════ -->
+<script>
+  function toggleSidebar(){
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+  }
+  function closeSidebar(){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  }
+  document.querySelectorAll('.sb-link').forEach(l=>{
+    l.addEventListener('click',()=>{ if(window.innerWidth<=1100) closeSidebar(); });
+  });
+  const sections=document.querySelectorAll('[id]');
+  const sbLinks=document.querySelectorAll('.sb-link');
+  window.addEventListener('scroll',()=>{
+    let cur='';
+    sections.forEach(s=>{ if(window.scrollY>=s.offsetTop-200) cur=s.id; });
+    sbLinks.forEach(l=>{ l.classList.remove('active'); if(l.getAttribute('href')==='#'+cur) l.classList.add('active'); });
+    const h=document.documentElement.scrollHeight-window.innerHeight;
+    const p=h>0?(window.scrollY/h)*100:0;
+    document.getElementById('prog-fill').style.width=p+'%';
+    document.getElementById('scroll-top').classList.toggle('vis',window.scrollY>400);
+  });
+  document.querySelectorAll('.q-opt').forEach(opt=>{
+    opt.addEventListener('click',function(){
+      const item=this.closest('.q-item');
+      if(item.classList.contains('answered')) return;
+      item.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+  function getQuizFeedback(pct){
+    if(pct<50) return 'متروحش تمتحن أحسن 😅 ارجع للشرح وخد جولة تانية.';
+    if(pct<70) return 'مش وحش، بس لسه في نقاط محتاجة مراجعة. 💪';
+    if(pct<90) return 'أداء محترم! راجع الغلطات دي كويس.';
+    return 'جامد جداً 🔥 الـ Chapter 3 تحت السيطرة!';
+  }
+  function checkQuiz(sectionId){
+    const section=document.getElementById(sectionId);
+    const items=section.querySelectorAll('.q-item');
+    let total=items.length, correct=0;
+    items.forEach(item=>{
+      const correctVal=item.dataset.correct;
+      const selected=item.querySelector('.q-opt.selected');
+      if(selected){
+        item.classList.add('answered');
+        if(selected.dataset.val===correctVal){ selected.classList.add('correct'); correct++; }
+        else{
+          selected.classList.add('wrong');
+          item.querySelectorAll('.q-opt').forEach(o=>{ if(o.dataset.val===correctVal) o.classList.add('correct'); });
+        }
+      } else {
+        item.querySelectorAll('.q-opt').forEach(o=>{ if(o.dataset.val===correctVal) o.classList.add('correct'); });
+        item.classList.add('answered');
+      }
+      const explain=item.querySelector('.q-explain');
+      if(explain) explain.style.display='block';
+    });
+    const scoreId=sectionId==='quiz-tf'?'score-tf':'score-mcq';
+    const pct=Math.round((correct/total)*100);
+    const el=document.getElementById(scoreId);
+    el.innerHTML=`${correct} / ${total} — ${pct}%<div class="q-feedback">${getQuizFeedback(pct)}</div>`;
+    el.style.color=pct>=70?'var(--green)':pct>=40?'var(--amber)':'var(--red)';
+  }
+  function resetQuiz(sectionId){
+    const section=document.getElementById(sectionId);
+    section.querySelectorAll('.q-item').forEach(item=>{
+      item.classList.remove('answered');
+      item.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected','correct','wrong'));
+      const explain=item.querySelector('.q-explain');
+      if(explain) explain.style.display='none';
+    });
+    const scoreId=sectionId==='quiz-tf'?'score-tf':'score-mcq';
+    document.getElementById(scoreId).innerHTML='';
+  }
+</script>
 </body>
 </html>

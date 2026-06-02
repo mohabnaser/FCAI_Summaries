@@ -33,7 +33,7 @@ jobs:
           username: ${{ vars.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /var/www/FCAI_Summaries/testing
+            cd /var/www/FCAI_Summaries/test
 
             git pull origin testing
 

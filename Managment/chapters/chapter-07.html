@@ -1,0 +1,2230 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Chapter 7 - Principles of Planning | DS251 Fundamentals of Management
+    </title>
+    <meta
+      name="description"
+      content="Chapter 7 Principles of Planning: definition, purposes, advantages, planning steps, objectives, SMART, MBO, planners, exam questions and answers."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/shared.css" />
+    <style>
+      .objective-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin: 14px 0;
+      }
+      @media (max-width: 700px) {
+        .objective-list {
+          grid-template-columns: 1fr;
+        }
+      }
+      .objective-item {
+        background: var(--card2);
+        border: 1px solid var(--border);
+        border-radius: 11px;
+        padding: 13px 15px;
+        border-right: 3px solid var(--accent, var(--cyan));
+      }
+      .objective-item h4 {
+        font-family: var(--fh);
+        font-size: 0.86rem;
+        color: var(--accent, var(--cyan));
+        margin: 0 0 5px;
+      }
+      .objective-item p {
+        font-size: 0.8rem;
+        margin: 0;
+        color: var(--t2);
+      }
+      .mini-tag {
+        display: inline-flex;
+        margin: 2px 4px 2px 0;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: rgba(34, 211, 238, 0.08);
+        border: 1px solid rgba(34, 211, 238, 0.16);
+        font-family: var(--fc);
+        font-size: 0.68rem;
+        color: var(--cyan);
+      }
+      .repeat {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 6px;
+        background: rgba(245, 158, 11, 0.12);
+        border: 1px solid rgba(245, 158, 11, 0.25);
+        color: var(--amber);
+        font-family: var(--fc);
+        font-size: 0.64rem;
+        margin-inline-start: 8px;
+      }
+      .formula {
+        direction: ltr;
+        text-align: center;
+        background: var(--card2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        margin: 12px 0;
+        font-family: var(--fc);
+        color: var(--cyan);
+        font-size: 1rem;
+      }
+      .q-opt[data-val="e"] .q-opt-letter {
+        background: rgba(96, 165, 250, 0.15);
+        color: var(--blue);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="prog-bar"><div id="prog-fill"></div></div>
+    <div id="overlay" onclick="closeSidebar()"></div>
+
+    <nav id="sidebar" dir="ltr">
+      <div class="sb-logo">
+        <h2>DS251 & SHU233</h2>
+        <p>Fundamentals of Management</p>
+        <span class="sb-tag">Dr. Doaa Saleh</span>
+      </div>
+      <div class="sb-section">Chapter Content</div>
+      <a href="#intro" class="sb-link"
+        ><span class="sb-dot"></span>Course Position</a
+      >
+      <a href="#definition" class="sb-link"
+        ><span class="sb-dot"></span>Planning Definition</a
+      >
+      <a href="#purposes" class="sb-link"
+        ><span class="sb-dot"></span>Purposes, Pros & Cons</a
+      >
+      <a href="#steps" class="sb-link"
+        ><span class="sb-dot"></span>Planning Steps</a
+      >
+      <a href="#subsystem" class="sb-link"
+        ><span class="sb-dot"></span>Planning Subsystem</a
+      >
+      <a href="#objectives" class="sb-link"
+        ><span class="sb-dot"></span>Organizational Objectives</a
+      >
+      <a href="#quality" class="sb-link"
+        ><span class="sb-dot"></span>Quality Objectives</a
+      >
+      <a href="#mbo" class="sb-link"><span class="sb-dot"></span>MBO</a>
+      <a href="#planners" class="sb-link"
+        ><span class="sb-dot"></span>Planners</a
+      >
+      <a href="#rollup" class="sb-link"><span class="sb-dot"></span>Roll Up</a>
+      <div class="sb-section">Exam Bank</div>
+      <a href="#quiz-tf" class="sb-link"
+        ><span class="sb-dot"></span>True / False</a
+      >
+      <a href="#quiz-mcq" class="sb-link"><span class="sb-dot"></span>MCQ</a>
+      <a href="#essay" class="sb-link"
+        ><span class="sb-dot"></span>Essay Questions</a
+      >
+      <div class="sb-section">Revision</div>
+      <a href="#cheat-ch7" class="sb-link"
+        ><span class="sb-dot"></span>Cheat Sheet</a
+      >
+      <a href="#flashcards-ch7" class="sb-link"
+        ><span class="sb-dot"></span>Flashcards</a
+      >
+    </nav>
+
+    <button id="menu-btn" onclick="toggleSidebar()">☰</button>
+    <button
+      id="scroll-top"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      ↑
+    </button>
+
+    <main id="main" dir="rtl">
+      <section class="hero">
+        <div class="hero-badge">
+          Chapter 7 · Principles of Planning · Planning Function
+        </div>
+        <h1>Principles of <span>Planning</span></h1>
+        <p>
+          الشابتر ده هو بداية جزء Planning في الكورس. المطلوب منه تفهم تعريف
+          التخطيط، أغراضه، خطواته، علاقته بالأهداف التنظيمية، إزاي نكتب
+          Objectives كويسة، وبرنامج Management by Objectives.
+        </p>
+        <div class="btn-row">
+          <a href="#quiz-mcq" class="btn btn-primary">Start Exam Questions</a>
+          <a href="#cheat-ch7" class="btn btn-ghost">Cheat Sheet</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat">
+            <div class="num">6</div>
+            <div class="lbl">Planning Steps</div>
+          </div>
+          <div class="hstat">
+            <div class="num">8</div>
+            <div class="lbl">Objective Areas</div>
+          </div>
+          <div class="hstat">
+            <div class="num">5</div>
+            <div class="lbl">SMART Criteria</div>
+          </div>
+          <div class="hstat">
+            <div class="num">4</div>
+            <div class="lbl">MBO Success Factors</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="content">
+        <div class="chapter" id="intro">
+          <div class="ch-header">
+            <div class="ch-num purple">00</div>
+            <div class="ch-title">
+              <h2>مكان الشابتر في الكورس</h2>
+              <p>
+                Introduction -> Theories -> Planning (Ch.7 & Ch.8) -> Organizing
+                -> Influencing -> Controlling -> Business Ethics
+              </p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--purple)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Objectives of Chapter 7
+            </div>
+            <ol>
+              <li>
+                A definition of planning and an understanding of the purposes of
+                planning.
+              </li>
+              <li>
+                Insights into how the major steps of the planning process are
+                related.
+              </li>
+              <li>
+                An understanding of the relationship between planning and
+                organizational objectives.
+              </li>
+              <li>
+                A knowledge of the areas in which managers should set
+                organizational objectives.
+              </li>
+              <li>
+                Understand how to set good quality organizational objectives.
+              </li>
+              <li>
+                An appreciation for the potential of a management-by-objectives
+                (MBO) program.
+              </li>
+              <li>
+                A knowledge of how the chief executive relates to the planning
+                process.
+              </li>
+              <li>
+                An understanding of the qualifications and duties of planners
+                and how planners can be evaluated.
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="chapter" id="definition">
+          <div class="ch-header">
+            <div class="ch-num cyan">01</div>
+            <div class="ch-title">
+              <h2>Definition of Planning</h2>
+              <p>التعريف الرسمي والنسخة الموسعة من السلايد.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--cyan)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Planning - التعريف
+            </div>
+            <div class="def-card" style="--accent: var(--cyan)">
+              <div class="def-label">Planning</div>
+              <div class="def-text">
+                The process of determining how the organization can get where it
+                wants to go, and what it will do to accomplish its objectives.
+              </div>
+              <div class="def-note">
+                يعني: تحديد الطريق من الوضع الحالي للهدف المطلوب، وتحديد ماذا
+                ستفعل المنظمة لتحقيق أهدافها.
+              </div>
+            </div>
+            <div class="def-card" style="--accent: var(--blue)">
+              <div class="def-label">Expanded Definition</div>
+              <div class="def-text">
+                The systematic development of action programs aimed at reaching
+                agreed-upon business objectives by the process of analyzing,
+                evaluating, and selecting among the opportunities which are
+                foreseen.
+              </div>
+              <div class="def-note">
+                الكلمات المفتاحية: systematic development · action programs ·
+                agreed objectives · analyzing/evaluating/selecting
+                opportunities.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="purposes">
+          <div class="ch-header">
+            <div class="ch-num amber">02</div>
+            <div class="ch-title">
+              <h2>Purposes, Advantages, and Disadvantages</h2>
+              <p>الغرض الأساسي من التخطيط متكرر في الامتحانات.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--amber)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Purposes of Planning
+            </div>
+            <div class="grid3">
+              <div class="cmp-card" style="--accent: var(--amber)">
+                <h4>Protective Purpose</h4>
+                <p>
+                  To minimize risk by reducing the uncertainties surrounding
+                  business conditions and clarifying the consequences of related
+                  management actions.
+                </p>
+              </div>
+              <div class="cmp-card" style="--accent: var(--green)">
+                <h4>Affirmative Purpose</h4>
+                <p>To increase the degree of organizational success.</p>
+              </div>
+              <div class="cmp-card" style="--accent: var(--cyan)">
+                <h4>Contemporary Purpose</h4>
+                <p>
+                  To help the organization reach its objectives. This is the
+                  fundamental purpose asked in exams.
+                </p>
+              </div>
+            </div>
+            <div class="warn">
+              <div>
+                <b>Repeated:</b> Fundamental purpose = helping the organization
+                reach its objectives. Protective purpose = minimize risk by
+                reducing uncertainty.
+              </div>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--green)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Advantages
+            </div>
+            <ul>
+              <li>Helps managers to be future-oriented.</li>
+              <li>
+                Enhances decision coordination.
+                <span class="repeat">Repeated</span>
+              </li>
+              <li>Emphasizes organizational objectives.</li>
+              <li>
+                Provides a basis for organizing, influencing, and controlling.
+              </li>
+              <li>Planning establishes a ground standard for controlling.</li>
+              <li>
+                Planning reduces the risk of uncertainties and helps bridge the
+                gap between the current position and the future.
+              </li>
+            </ul>
+          </div>
+          <div class="topic" style="--accent: var(--red)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Potential Disadvantage
+            </div>
+            <p>
+              An overemphasized planning program can take up too much managerial
+              time.
+            </p>
+          </div>
+          <div class="topic" style="--accent: var(--blue)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Primacy of Planning
+            </div>
+            <div class="flow-wrap">
+              <div class="flow-row ltr">
+                <div class="flow-box" style="--accent: var(--cyan)">
+                  Planning
+                </div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box" style="--accent: var(--green)">
+                  Organizing
+                </div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box" style="--accent: var(--teal)">
+                  Influencing
+                </div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box" style="--accent: var(--red)">
+                  Controlling
+                </div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box" style="--accent: var(--amber)">
+                  Achieving Objectives
+                </div>
+              </div>
+              <div class="flow-note">
+                Planning is the primary/first management function because the
+                other functions depend on the plan.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="steps">
+          <div class="ch-header">
+            <div class="ch-num green">03</div>
+            <div class="ch-title">
+              <h2>Planning Steps</h2>
+              <p>الترتيب مهم جدا: يتسأل MCQ مباشر.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--green)">
+            <div class="topic-title">
+              <span class="icon">▣</span> The Planning Process
+            </div>
+            <div class="plan-steps">
+              <div class="plan-step">
+                <div class="ps-num">1</div>
+                <div>
+                  <div class="ps-title">State organizational objectives</div>
+                  <div class="ps-desc">
+                    تحديد الأهداف التنظيمية التي يجب الوصول لها.
+                  </div>
+                </div>
+              </div>
+              <div class="plan-step">
+                <div class="ps-num">2</div>
+                <div>
+                  <div class="ps-title">
+                    List alternative ways of reaching objectives
+                  </div>
+                  <div class="ps-desc">
+                    اكتب كل الطرق الممكنة لتحقيق الأهداف.
+                  </div>
+                </div>
+              </div>
+              <div class="plan-step">
+                <div class="ps-num">3</div>
+                <div>
+                  <div class="ps-title">
+                    Develop premises on which to base each alternative
+                  </div>
+                  <div class="ps-desc">
+                    Premises = assumptions about the future.
+                  </div>
+                </div>
+              </div>
+              <div class="plan-step">
+                <div class="ps-num">4</div>
+                <div>
+                  <div class="ps-title">
+                    Choose the best alternative for reaching objectives
+                  </div>
+                  <div class="ps-desc">
+                    اختيار البديل الأفضل أو الأكثر feasibility.
+                  </div>
+                </div>
+              </div>
+              <div class="plan-step">
+                <div class="ps-num">5</div>
+                <div>
+                  <div class="ps-title">
+                    Develop plans to pursue the chosen alternative
+                  </div>
+                  <div class="ps-desc">
+                    تحويل الاختيار إلى plans واضحة قابلة للتنفيذ.
+                  </div>
+                </div>
+              </div>
+              <div class="plan-step">
+                <div class="ps-num">6</div>
+                <div>
+                  <div class="ps-title">Put the plans into action</div>
+                  <div class="ps-desc">آخر خطوة في planning process.</div>
+                </div>
+              </div>
+            </div>
+            <div class="warn">
+              <div>
+                <b>Exam traps:</b> two sides of a coin = evaluating
+                alternatives. Most feasible plan = selecting an alternative.
+                Last planning step = put the plans into action.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="subsystem">
+          <div class="ch-header">
+            <div class="ch-num teal">04</div>
+            <div class="ch-title">
+              <h2>The Planning Subsystem</h2>
+              <p>التخطيط subsystem داخل overall management system.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--teal)">
+            <div class="topic-title">
+              <span class="icon">▣</span> System Diagram
+            </div>
+            <div class="flow-wrap">
+              <div class="flow-row ltr">
+                <div class="flow-box" style="--accent: var(--cyan)">Input</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box" style="--accent: var(--amber)">
+                  Process
+                </div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box" style="--accent: var(--green)">
+                  Output
+                </div>
+              </div>
+              <div class="flow-note">
+                Overall Management System and Planning Subsystem both use Input
+                -> Process -> Output.
+              </div>
+            </div>
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Part</th>
+                  <th>Content</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="badge bc">Input</span></td>
+                  <td>
+                    A portion of the organization's people, money, raw
+                    materials, and machines.
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="badge ba">Process</span></td>
+                  <td>
+                    The six planning steps: objectives, alternatives, premises,
+                    best alternative, plans, action.
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="badge bg">Output</span></td>
+                  <td>Organizational plans.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="chapter" id="objectives">
+          <div class="ch-header">
+            <div class="ch-num blue">05</div>
+            <div class="ch-title">
+              <h2>Organizational Objectives</h2>
+              <p>تعريف الأهداف، الهدف العام للمنظمة، ومجالات وضع الأهداف.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--blue)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Definition
+            </div>
+            <div class="def-card" style="--accent: var(--blue)">
+              <div class="def-label">Organizational Objective</div>
+              <div class="def-text">
+                A target toward which the open management system is directed.
+              </div>
+              <div class="def-note">
+                Properly developed objectives reflect the purpose of the
+                organization. Organizational purpose is what the organization
+                exists to do, given a particular group of customers and customer
+                needs.
+              </div>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--green)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Main Objectives of Any Business
+              Organization
+            </div>
+            <div class="grid3">
+              <div class="cmp-card" style="--accent: var(--green)">
+                <h4>Profit</h4>
+                <p>Profit is the motivating force for managers.</p>
+              </div>
+              <div class="cmp-card" style="--accent: var(--cyan)">
+                <h4>Service to Customers</h4>
+                <p>
+                  Providing desired economic values: goods and services. This
+                  justifies business existence.
+                </p>
+              </div>
+              <div class="cmp-card" style="--accent: var(--amber)">
+                <h4>Social Responsibilities</h4>
+                <p>
+                  Managers have social responsibilities according to the ethical
+                  and moral codes of society.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--purple)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Areas for Organizational Objectives
+            </div>
+            <div class="objective-list">
+              <div class="objective-item" style="--accent: var(--cyan)">
+                <h4>1. Market Standing</h4>
+                <p>Position of the organization in its market.</p>
+              </div>
+              <div class="objective-item" style="--accent: var(--amber)">
+                <h4>2. Innovation</h4>
+                <p>New products, processes, or ideas.</p>
+              </div>
+              <div class="objective-item" style="--accent: var(--green)">
+                <h4>3. Productivity</h4>
+                <p>Output compared with resources used.</p>
+              </div>
+              <div class="objective-item" style="--accent: var(--blue)">
+                <h4>4. Physical and Financial Resources</h4>
+                <p>Machines, facilities, capital, and funds.</p>
+              </div>
+              <div class="objective-item" style="--accent: var(--pink)">
+                <h4>5. Profitability</h4>
+                <p>Return and profit performance.</p>
+              </div>
+              <div class="objective-item" style="--accent: var(--teal)">
+                <h4>6. Managerial Performance and Development</h4>
+                <p>Manager quality and growth.</p>
+              </div>
+              <div class="objective-item" style="--accent: var(--red)">
+                <h4>7. Worker Performance and Attitude</h4>
+                <p>Employee performance and morale.</p>
+              </div>
+              <div class="objective-item" style="--accent: var(--purple)">
+                <h4>8. Public Responsibility</h4>
+                <p>Societal and ethical responsibility.</p>
+              </div>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--cyan)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Types and Hierarchy of Objectives
+            </div>
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Time Range</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Short-term objectives</td>
+                  <td>Targets to be achieved in one year or less.</td>
+                </tr>
+                <tr>
+                  <td>Intermediate-term objectives</td>
+                  <td>Targets to be achieved in one to five years.</td>
+                </tr>
+                <tr>
+                  <td>Long-term objectives</td>
+                  <td>Targets to be achieved in five to seven years.</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="flow-wrap">
+              <div class="flow-row ltr">
+                <div class="flow-box" style="--accent: var(--purple)">
+                  Top Management
+                </div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box" style="--accent: var(--cyan)">
+                  Departments
+                </div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box" style="--accent: var(--green)">
+                  Managers
+                </div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box" style="--accent: var(--amber)">
+                  Supervisors
+                </div>
+              </div>
+              <div class="flow-note">
+                Hierarchy examples: production department, sales department,
+                finance/accounting department, supervisors, district sales
+                manager, office managers.
+              </div>
+            </div>
+            <div class="info">
+              <div>
+                <b>Suboptimization:</b> when a subobjective is pursued in a way
+                that may optimize one part while not optimizing the whole
+                organization. Example: borrowing should not exceed 50% of
+                assets; maintain production to standard or above.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="quality">
+          <div class="ch-header">
+            <div class="ch-num pink">06</div>
+            <div class="ch-title">
+              <h2>Guidelines for Establishing Quality Objectives</h2>
+              <p>سؤال Essay مباشر في Final 2019.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--pink)">
+            <div class="topic-title">
+              <span class="icon">▣</span> The 8 Guidelines
+            </div>
+            <ol>
+              <li>
+                Let those responsible for attaining objectives have a voice in
+                setting them.
+              </li>
+              <li>State objectives as specifically as possible.</li>
+              <li>Relate objectives to specific actions whenever necessary.</li>
+              <li>Pinpoint expected results.</li>
+              <li>
+                Set goals high enough that employees have to strive to meet
+                them, but not so high that employees give up trying to meet
+                them.
+              </li>
+              <li>Specify when goals are expected to be achieved.</li>
+              <li>
+                Set objectives only in relation to other organizational
+                objectives.
+              </li>
+              <li>State objectives clearly and simply.</li>
+            </ol>
+          </div>
+          <div class="topic" style="--accent: var(--cyan)">
+            <div class="topic-title">
+              <span class="icon">▣</span> SMART Objectives
+            </div>
+            <div
+              style="display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0"
+            >
+              <span class="mini-tag">Specific</span>
+              <span class="mini-tag">Measurable</span>
+              <span class="mini-tag">Attainable</span>
+              <span class="mini-tag">Relevant</span>
+              <span class="mini-tag">Time-bound</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="mbo">
+          <div class="ch-header">
+            <div class="ch-num red">07</div>
+            <div class="ch-title">
+              <h2>Management by Objectives (MBO)</h2>
+              <p>برنامج يربط أهداف الأفراد بالأهداف التنظيمية.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--red)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Basic Parts of MBO
+            </div>
+            <ol>
+              <li>
+                All individuals are assigned a specialized set of objectives.
+              </li>
+              <li>Performance reviews are conducted periodically.</li>
+              <li>Rewards are given to individuals.</li>
+            </ol>
+          </div>
+          <div class="topic" style="--accent: var(--green)">
+            <div class="topic-title">
+              <span class="icon">▣</span> MBO Process
+            </div>
+            <div class="flow-wrap">
+              <div class="flow-row ltr">
+                <div class="flow-box">Organizational objectives reviewed</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">Worker objective set</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">Progress monitored</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">Performance evaluated</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">Rewards given</div>
+                <div class="flow-arrow">-></div>
+                <div class="flow-box">Next period begins</div>
+              </div>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--amber)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Factors Necessary for Successful MBO
+            </div>
+            <ol>
+              <li>
+                Top management must be committed to the MBO process and set
+                appropriate objectives for the organization.
+              </li>
+              <li>
+                Managers and subordinates together must develop and agree on
+                individual goals.
+              </li>
+              <li>
+                Employee performance should be conscientiously evaluated against
+                established objectives.
+              </li>
+              <li>
+                Management must follow through on performance evaluations by
+                rewarding employees accordingly.
+              </li>
+            </ol>
+          </div>
+          <div class="topic" style="--accent: var(--blue)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Advantages and Disadvantages
+            </div>
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Advantages</th>
+                  <th>Disadvantages</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    Continually emphasizes what should be done to achieve
+                    organizational goals.
+                  </td>
+                  <td>Development of objectives can be time consuming.</td>
+                </tr>
+                <tr>
+                  <td>
+                    Secures employee commitment to attaining organizational
+                    goals.
+                  </td>
+                  <td>Increases the volume of paperwork in an organization.</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="tip">
+              <div>
+                <b>Note:</b> Most managers find MBO programs beneficial.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="planners">
+          <div class="ch-header">
+            <div class="ch-num amber">08</div>
+            <div class="ch-title">
+              <h2>Chief Executive and Planners</h2>
+              <p>Qualifications and evaluation of planners.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--amber)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Planner Qualifications
+            </div>
+            <ol>
+              <li>
+                Considerable practical experience within their organization.
+              </li>
+              <li>
+                Know how all parts of the organization function and interrelate.
+              </li>
+              <li>
+                Defining trends and possessing the expertise to determine how
+                the organization should react to those trends.
+              </li>
+              <li>Able to work well with others.</li>
+            </ol>
+          </div>
+          <div class="topic" style="--accent: var(--teal)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Evaluation of Planners
+            </div>
+            <ol>
+              <li>Organizational plan is in writing.</li>
+              <li>
+                Plan is the result of all elements of the management team
+                working together.
+              </li>
+              <li>
+                Plan defines present and possible future business of the
+                organization.
+              </li>
+              <li>Plan specifically mentions organizational objectives.</li>
+              <li>
+                Plan identifies future opportunities and suggests how to take
+                advantage of them.
+              </li>
+              <li>Plan emphasizes both internal and external environments.</li>
+              <li>
+                Plan describes the attainment of objectives in operational terms
+                whenever possible.
+              </li>
+              <li>Plan includes both long- and short-term recommendations.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="chapter" id="rollup">
+          <div class="ch-header">
+            <div class="ch-num green">09</div>
+            <div class="ch-title">
+              <h2>Roll Up</h2>
+              <p>كل عناصر الشابتر كما ظهرت في السلايدز.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--green)">
+            <ul>
+              <li>
+                Planning Definition: how the organization gets where it wants to
+                go and what it will do.
+              </li>
+              <li>Planning Purposes: protective, affirmative, contemporary.</li>
+              <li>Planning Pros and Cons.</li>
+              <li>Primacy of Planning.</li>
+              <li>Planning Steps.</li>
+              <li>Planning Subsystem.</li>
+              <li>
+                Organizational Objectives: definition, main objectives, areas.
+              </li>
+              <li>Objective Types and Hierarchy.</li>
+              <li>
+                Management by Objectives: guidelines, SMART, process, success
+                factors, pros and cons.
+              </li>
+              <li>
+                Chief Executive and Planners: responsibility, qualifications,
+                evaluation.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="quiz-section" id="quiz-tf">
+          <div class="quiz-header">
+            <div class="quiz-icon">TF</div>
+            <div>
+              <h3>True / False - Chapter 7</h3>
+              <p>Extracted from provided exams. Repeated ideas are marked.</p>
+            </div>
+          </div>
+          <div class="q-item" data-correct="a">
+            <div class="q-num">
+              TF-1 <span class="q-src">Final 2021 Q1</span>
+            </div>
+            <div class="q-text">
+              Planning involves choosing tasks that must be performed to attain
+              organizational goals, outlining how the tasks must be performed,
+              and indicating when they should be performed.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: True</b> <b>ليه العبارة صح؟</b> لأنها بتقول إن Planning
+              هو اختيار المهام، وتحديد هتتعمل إزاي وإمتى علشان نحقق
+              Organizational Goals. ده نفس مفهوم التخطيط في Chapter 7: المنظمة
+              بتحدد هتوصل للهدف إزاي.
+              <div class="why-wrong">
+                <b>خد بالك:</b> التخطيط مش مجرد أفكار عامة؛ لازم tasks + how +
+                when. دي بتيجي كتير بصيغ مختلفة.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-2 <span class="q-src">Final 2021 Q2</span>
+            </div>
+            <div class="q-text">
+              Planning is concerned only with organizational success in the
+              short term, while organizing is concerned with the more distant
+              future (long term).
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b> <b>ليه العبارة غلط؟</b> Chapter 7 بيقول إن
+              المنظمة بتحط 3 أنواع من الأهداف: Short-term في سنة أو أقل،
+              Intermediate من سنة لخمس سنين، وLong-term من خمس لسبع سنين. يبقى
+              التخطيط مش short term بس.
+              <div class="why-wrong">
+                <b>فخ في الامتحان:</b> الدكتور بيحب يلخبط بين Planning
+                وOrganizing. التخطيط بيبص للمستقبل القريب والبعيد.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-3 <span class="q-src">Final 2021 Q7</span>
+            </div>
+            <div class="q-text">
+              The affirmative purpose of planning is to minimize risk by
+              reducing the uncertainties surrounding business conditions and
+              clarifying the consequences of related management activities.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b> <b>ليه العبارة غلط؟</b> الجملة دي تعريف
+              Protective Purpose مش Affirmative. Protective يعني نقلل الخطر عن
+              طريق تقليل عدم التأكد. Affirmative يعني نزود درجة نجاح المنظمة.
+              <div class="why-wrong">
+                <b>Memory Trick:</b> Protective = Protect من الخطر. Affirmative
+                = Achieve success.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-4 <span class="q-src">Final 2021 Q8</span>
+            </div>
+            <div class="q-text">
+              Organizations exist for various purposes but have the same types
+              of objectives.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b> <b>ليه العبارة غلط؟</b> المنظمات ممكن تبقى
+              ليها أغراض مختلفة، وبالتالي أهدافها مش كلها نفس النوع. الهدف
+              بيتبني على purpose المنظمة واحتياجات العملاء اللي بتخدمهم.
+              <div class="why-wrong">
+                <b>خد بالك:</b> في business فيه Profit وService وSocial
+                Responsibility، بس طريقة تطبيقهم بتختلف من منظمة للتانية.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-5 <span class="q-src">Final 2021 Q9</span>
+            </div>
+            <div class="q-text">
+              Suboptimization is the process of assigning subobjectives to the
+              various people or units in the organization based on the
+              organizational objectives.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b> <b>ليه العبارة غلط؟</b> Suboptimization مش
+              مجرد توزيع subobjectives. معناها إن جزء من المنظمة يركز على هدفه
+              هو لدرجة ممكن تضر الهدف العام. يعني القسم يكسب لوحده، بس الشركة
+              ككل تخسر.
+              <div class="why-wrong">
+                <b>مثال سريع:</b> Finance يقلل المصاريف جامد، فيأثر على جودة
+                الإنتاج. القسم كده optimized نفسه، بس المنظمة اتضرّت.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              TF-6 <span class="q-src">Final 2021 Q10</span>
+            </div>
+            <div class="q-text">
+              The management by objectives (MBO) approach has been found to be
+              ineffective for nonprofit organizations.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">T</span> True
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">F</span> False
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: False</b> <b>ليه العبارة غلط؟</b> MBO مش ineffective
+              بشكل عام. السلايد بيقول Most managers find MBO programs
+              beneficial. الفكرة إن الأهداف تتحدد، الأداء يتراجع، والمكافآت
+              تتربط بالنتائج.
+              <div class="why-wrong">
+                <b>خد بالك:</b> عيب MBO إنه بياخد وقت وبيزود الورق، بس ده مش
+                معناه إنه فاشل.
+              </div>
+            </div>
+          </div>
+          <div class="q-controls">
+            <span class="q-score" id="score-tf"></span>
+            <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-tf')">
+              Check Answers
+            </button>
+            <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-tf')">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="quiz-section" id="quiz-mcq">
+          <div class="quiz-header">
+            <div class="quiz-icon">MCQ</div>
+            <div>
+              <h3>MCQ - Chapter 7</h3>
+              <p>Every planning-related MCQ found in the provided exams.</p>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              MCQ-1 <span class="q-src">Final 2019 Q1a</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              Which of the following is the fundamental purpose of planning?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> eliminating risk
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> helping the organization
+                reach its objectives
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> optimizing the use of
+                resources
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> identifying organizational
+                objectives
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> organizing work processes
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: B</b> <b>✓ Why the correct answer is correct:</b> B صح
+              لأن Contemporary purpose of planning هو إن التخطيط يساعد المنظمة
+              توصل لأهدافها. دي الجملة الأساسية في Chapter 7.
+              <div class="why-wrong">
+                <b>✗ Why choice A is wrong:</b> التخطيط بيقلل risk بس مش بيلغيه
+                خالص. <b>✗ B:</b> صح. <b>✗ C:</b> تحسين استخدام الموارد مهم، بس
+                مش هو الغرض الأساسي المكتوب في السلايد. <b>✗ D:</b> تحديد
+                الأهداف خطوة في التخطيط، مش الغرض النهائي. <b>✗ E:</b> تنظيم
+                العمل تابع لـ Organizing أكتر.
+              </div>
+              <div class="why-wrong">
+                <b>دي بتيجي كتير:</b> Fundamental purpose = reach objectives.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="d">
+            <div class="q-num">
+              MCQ-2 <span class="q-src">Final 2019 Q1b</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              The primary management function is _______.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> organizing
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> influencing
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> controlling
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> planning
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> staffing
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: D</b> <b>✓ Why the correct answer is correct:</b> D صح
+              لأن Planning هي Primary/First function. قبل ما تنظم أو تؤثر أو
+              تتحكم، لازم الأول تعرف الخطة.
+              <div class="why-wrong">
+                <b>✗ A:</b> Organizing بييجي بعد التخطيط.
+                <b>✗ B:</b> Influencing قيادة وتحفيز بعد ما الخطة والمهام تتحدد.
+                <b>✗ C:</b> Controlling بيقارن الأداء بالخطة، فمحتاج planning
+                قبله. <b>✗ D:</b> صح. <b>✗ E:</b> Staffing مش من الأربع وظائف
+                الأساسية هنا.
+              </div>
+              <div class="why-wrong">
+                <b>Memory Trick:</b> P-O-I-C = Planning, Organizing,
+                Influencing, Controlling.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              MCQ-3
+              <span class="q-src"
+                >Final 2019 Q1f · Final 2021 Q25 · Mid 2022 Q12</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              Which of the following is an advantage of planning?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> eliminates all risks
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> enhances decision
+                coordination
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> emphasizes immediate goals
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> suboptimizes the use of
+                resources
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> promotes individual
+                performance
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: B</b> <b>✓ Why the correct answer is correct:</b> B صح
+              بالنص من Advantages: التخطيط بيخلي القرارات coordinated، يعني
+              الأقسام متشتغلش عكس بعض.
+              <div class="why-wrong">
+                <b>✗ A:</b> التخطيط لا يلغي كل المخاطر. <b>✗ B:</b> صح.
+                <b>✗ C:</b> التخطيط مش بيركز على immediate goals بس؛ فيه
+                short/intermediate/long. <b>✗ D:</b> Suboptimization حاجة سلبية
+                مش advantage. <b>✗ E:</b> ممكن يساعد الأداء، بس السلايد قال
+                organizational objectives مش individual performance كميزة
+                مباشرة.
+              </div>
+              <div class="why-wrong">
+                <b>خد بالك:</b> eliminates all risks دايما غلط. الصح minimize
+                risk.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="d">
+            <div class="q-num">
+              MCQ-4 <span class="q-src">Mid 2022 Q13</span
+              ><span class="repeat">Repeated idea</span>
+            </div>
+            <div class="q-text">The protective purpose of planning is to</div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> decrease paper work and red
+                tape
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> increase the degree of
+                organizational success
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> optimize the use of
+                organizational resources
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> minimize risk by reducing
+                the uncertainties surrounding business conditions
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> maximize the organization's
+                ability to leverage environmental opportunities
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: D</b> <b>✓ Why the correct answer is correct:</b> D صح
+              لأن Protective purpose يعني نقلل الخطر عن طريق تقليل uncertainty
+              حوالين ظروف الشغل.
+              <div class="why-wrong">
+                <b>✗ A:</b> تقليل الورق مش الغرض protective. <b>✗ B:</b> ده
+                Affirmative purpose. <b>✗ C:</b> optimize resources مش التعريف.
+                <b>✗ D:</b> صح. <b>✗ E:</b> استغلال الفرص ممكن يحصل، بس مش النص
+                المطلوب.
+              </div>
+              <div class="why-wrong">
+                <b>الدكتور بيحب يلخبط بين:</b> Protective = risk/uncertainty،
+                Affirmative = success.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="a">
+            <div class="q-num">
+              MCQ-5 <span class="q-src">Mid 2022 Q14</span>
+            </div>
+            <div class="q-text">
+              The last step in the planning process is to
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> put the plans into action
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> evaluate the organizational
+                goals
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> choose the best alternative
+                for reaching objectives
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> develop the premises upon
+                which each alternative is based
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> state the organizational
+                objectives
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: A</b> <b>✓ Why the correct answer is correct:</b> A صح
+              لأنها آخر خطوة في Planning Process: Put the plans into action.
+              <div class="why-wrong">
+                <b>✗ A:</b> صح. <b>✗ B:</b> مش خطوة أخيرة في السلايد.
+                <b>✗ C:</b> اختيار أفضل بديل خطوة 4. <b>✗ D:</b> تطوير premises
+                خطوة 3. <b>✗ E:</b> تحديد الأهداف خطوة 1.
+              </div>
+              <div class="why-wrong">
+                <b>Memory Trick:</b> O-A-P-C-P-A = Objectives, Alternatives,
+                Premises, Choose, Plans, Action.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="d">
+            <div class="q-num">
+              MCQ-6 <span class="q-src">Final 2024 Q40 · Final 2025 Q20</span>
+            </div>
+            <div class="q-text">
+              At what step of the planning can be processed with the topmost and
+              applicable plan would be implemented?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Setting up objective
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Developing Premises
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Selecting up objective
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Evaluating alternative
+                course of action
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: D</b> <b>✓ Why the correct answer is correct:</b> D صح
+              حسب ملف الإجابات؛ المقصود إننا بنفحص البدائل ونشوف أنهي خطة
+              applicable قبل ما نختار وننفذ.
+              <div class="why-wrong">
+                <b>✗ A:</b> Setting objectives أول خطوة بس مش فحص الخطة.
+                <b>✗ B:</b> Developing premises يعني افتراضات المستقبل، مش
+                مقارنة البدائل. <b>✗ C:</b> صياغتها غلط ومش مفهوم chapter.
+                <b>✗ D:</b> صح هنا لأن evaluation بتجهز لاختيار الأفضل.
+                <b>✗ E:</b> مفيش اختيار خامس.
+              </div>
+              <div class="why-wrong">
+                <b>فخ في الامتحان:</b> السؤال لغته مش مظبوطة، بس keyword هي
+                applicable plan، فكر في evaluating alternatives.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="d">
+            <div class="q-num">
+              MCQ-7 <span class="q-src">Final 2024 Q42 · Final 2025 Q24</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              In which pace of the planning process, two sides of a coin of each
+              alternative are examined.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Setting up Objective
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Developing Premises
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Selecting an alternative
+                premises
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Evaluating alternatives
+                course of action
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: D</b> <b>✓ Why the correct answer is correct:</b> D صح
+              لأن "two sides of a coin" معناها تبص على مميزات وعيوب كل
+              alternative. ده اسمه Evaluating alternatives.
+              <div class="why-wrong">
+                <b>✗ A:</b> تحديد الهدف مش تقييم بدائل. <b>✗ B:</b> Premises
+                افتراضات عن المستقبل. <b>✗ C:</b> صياغة مش صحيحة ومش خطوة
+                أساسية. <b>✗ D:</b> صح. <b>✗ E:</b> مفيش اختيار خامس.
+              </div>
+              <div class="why-wrong">
+                <b>دي بتيجي كتير:</b> two sides = evaluating alternatives.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              MCQ-8 <span class="q-src">Final 2024 Q53 · Final 2025 Q43</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              At what stage of the planning becomes the most feasible plan that
+              can be implemented.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Developing Premises
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Evaluating alternative
+                course of action
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Selecting an alternative
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Setting up objective
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: C</b> <b>✓ Why the correct answer is correct:</b> C صح
+              لأن Selecting an alternative هي المرحلة اللي بنختار فيها البديل
+              الأكثر feasible.
+              <div class="why-wrong">
+                <b>✗ A:</b> Premises قبل الاختيار. <b>✗ B:</b> Evaluation بتقارن
+                وتفحص، لكن الاختيار النهائي في selecting. <b>✗ C:</b> صح.
+                <b>✗ D:</b> Setting objective أول خطوة. <b>✗ E:</b> مفيش اختيار
+                خامس.
+              </div>
+              <div class="why-wrong">
+                <b>خد بالك:</b> Evaluate = نقارن، Select = نختار.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              MCQ-9
+              <span class="q-src">Final 2024 Q45 · Final 2025 Q25/Q47</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">It is known as planning.</div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> The last function of the
+                manager
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Primary/First function of
+                the manager
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Both a) and b)
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> None of the options is
+                correct
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: B</b> <b>✓ Why the correct answer is correct:</b> B صح
+              لأن Planning هي أول وظيفة إدارية.
+              <div class="why-wrong">
+                <b>✗ A:</b> planning مش آخر وظيفة. <b>✗ B:</b> صح.
+                <b>✗ C:</b> مينفعش تبقى أول وآخر في نفس الوقت هنا.
+                <b>✗ D:</b> غلط لأن فيه إجابة واضحة. <b>✗ E:</b> مفيش اختيار
+                خامس.
+              </div>
+              <div class="why-wrong">
+                <b>Quick revision:</b> أي سؤال يقول Primary/First function =
+                Planning.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="d">
+            <div class="q-num">
+              MCQ-10 <span class="q-src">Final 2024 Q47 · Final 2025 Q27</span>
+            </div>
+            <div class="q-text">
+              Thinking for the future output is known as _______.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Setting planning premises
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Making derivative plans
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Making policy
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> All of the options are
+                correct
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: D</b> <b>✓ Why the correct answer is correct:</b> D صح
+              حسب ملف الإجابات، لأن كل الاختيارات مرتبطة بفكرة التفكير في
+              المستقبل وتجهيز الخطة.
+              <div class="why-wrong">
+                <b>✗ A:</b> Setting planning premises جزء من التفكير في
+                المستقبل، فمش غلط لوحده. <b>✗ B:</b> Derivative plans جزء من
+                تحويل الخطة لتفاصيل. <b>✗ C:</b> Policy بتوجه التصرفات
+                المستقبلية. <b>✗ D:</b> صح لأنه يجمع الثلاثة. <b>✗ E:</b> مفيش
+                اختيار خامس.
+              </div>
+              <div class="why-wrong">
+                <b>فخ في الامتحان:</b> لما تلاقي All of the options ومعظم
+                الاختيارات من نفس عيلة التخطيط، غالبا اختار All.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              MCQ-11 <span class="q-src">Final 2024 Q51</span>
+            </div>
+            <div class="q-text">What is the core of making a plan?</div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Organizing
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Thinking in Advance
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Directing
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> All of the above
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: B</b> <b>✓ Why the correct answer is correct:</b> B صح
+              لأن جوهر التخطيط إنك تفكر قبل التنفيذ: الهدف، الطريق، البدائل،
+              والمخاطر.
+              <div class="why-wrong">
+                <b>✗ A:</b> Organizing ترتيب الموارد بعد الخطة. <b>✗ B:</b> صح.
+                <b>✗ C:</b> Directing/Influencing قيادة وتحفيز. <b>✗ D:</b> مش
+                كلهم core of plan؛ الكلمة المفتاحية Thinking in Advance.
+                <b>✗ E:</b> مفيش اختيار خامس.
+              </div>
+              <div class="why-wrong">
+                <b>Memory Trick:</b> Plan = Think before Act.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              MCQ-12 <span class="q-src">Final 2024 Q38 · Final 2025 Q18</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              Name one of the basic concepts for smoothly running an
+              organisation.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Management
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Planning
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Coordination
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> None of the options is
+                correct
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: B</b> <b>✓ Why the correct answer is correct:</b> B صح
+              في سياق الأسئلة دي لأن Planning هو المفهوم اللي بيخلي الشغل يمشي
+              بسلاسة: أهداف واضحة، خطوات، ومعايير للرقابة.
+              <div class="why-wrong">
+                <b>✗ A:</b> Management مفهوم واسع جدا مش المقصود في السؤال.
+                <b>✗ B:</b> صح كإجابة course-based. <b>✗ C:</b> Coordination
+                ممكن منطقي، بس ملف الإجابات رجّح Planning. <b>✗ D:</b> غلط لأن
+                فيه إجابة مناسبة. <b>✗ E:</b> مفيش اختيار خامس.
+              </div>
+              <div class="why-wrong">
+                <b>خد بالك:</b> السؤال ambiguous، بس لو ضمن planning questions
+                اختار Planning.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="a">
+            <div class="q-num">
+              MCQ-13 <span class="q-src">Final 2024 Q55 · Final 2025 Q51</span
+              ><span class="repeat">Repeated</span>
+            </div>
+            <div class="q-text">
+              Planning establishes a ground standard for _______.
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Controlling
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Directing
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Staffing
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Organizing
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: A</b> <b>✓ Why the correct answer is correct:</b> A صح
+              لأن Controlling بيقارن الأداء بالمعايير، والمعايير دي بتطلع من
+              الخطة.
+              <div class="why-wrong">
+                <b>✗ A:</b> صح. <b>✗ B:</b> Directing مش اللي بيستخدم standards
+                للمقارنة. <b>✗ C:</b> Staffing توظيف مش رقابة.
+                <b>✗ D:</b> Organizing ترتيب الموارد، مش ground standard.
+                <b>✗ E:</b> مفيش اختيار خامس.
+              </div>
+              <div class="why-wrong">
+                <b>دي بتيجي كتير:</b> Planning + Controlling = Siamese twins.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              MCQ-14 <span class="q-src">Final 2024 Q57</span>
+            </div>
+            <div class="q-text">Define the term premises?</div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Running an organization
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Assumptions about the Future
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Noting down all the factors
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> None of the above.
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: B</b> <b>✓ Why the correct answer is correct:</b> B صح.
+              Premises يعني افتراضات عن المستقبل هنبني عليها البدائل والخطة.
+              <div class="why-wrong">
+                <b>✗ A:</b> Running an organization تعريف عام مش premises.
+                <b>✗ B:</b> صح. <b>✗ C:</b> Noting factors ممكن يساعد، بس
+                premises هي assumptions. <b>✗ D:</b> غلط لأن B صحيحة.
+                <b>✗ E:</b> مفيش اختيار خامس.
+              </div>
+              <div class="why-wrong">
+                <b>Memory Trick:</b> Premises = Predictions.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              MCQ-15 <span class="q-src">Final 2024 Q17</span>
+            </div>
+            <div class="q-text">
+              _______ and _______ have been called the "Siamese twins of
+              management."
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Setting standards; measuring
+                performance
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Managing; leading
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Planning; controlling
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Problems; symptoms
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> Organizing; controlling
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: C</b> <b>✓ Why the correct answer is correct:</b> C صح
+              لأن Planning وControlling مرتبطين جدا: التخطيط يحط الخطة
+              والمعايير، والرقابة تشوف الأداء ماشي عليها ولا لأ.
+              <div class="why-wrong">
+                <b>✗ A:</b> دول خطوات جوه controlling مش التوأم.
+                <b>✗ B:</b> Managing/leading مش المصطلح المشهور. <b>✗ C:</b> صح.
+                <b>✗ D:</b> Problems/symptoms من Chapter 21 بس مش Siamese twins.
+                <b>✗ E:</b> Organizing/control مش المصطلح.
+              </div>
+              <div class="why-wrong">
+                <b>خد بالك:</b> Siamese twins = Planning; Controlling حرفيا.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="a">
+            <div class="q-num">
+              MCQ-16 <span class="q-src">Final 2025 Q32</span>
+            </div>
+            <div class="q-text">
+              Looking after the change in an organizational environment doesn't
+              come with any surprises. Addressed importance of planning related
+              to the topic:
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Planning reduces the risk of
+                uncertainties
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Planning provides direction
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Planning promotes the
+                innovative idea
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Planning facilitates
+                decision making
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: A</b> <b>✓ Why the correct answer is correct:</b> A صح
+              لأن السؤال بيتكلم عن إن التغيير في البيئة ميجيش مفاجأة؛ ده
+              planning reduces uncertainties.
+              <div class="why-wrong">
+                <b>✗ A:</b> صح. <b>✗ B:</b> Planning provides direction صح كمبدأ
+                عام، بس مش أنسب من risk/uncertainty هنا. <b>✗ C:</b> Innovation
+                مش محور السؤال. <b>✗ D:</b> Decision making مش محور المفاجآت
+                البيئية. <b>✗ E:</b> مفيش اختيار خامس.
+              </div>
+              <div class="why-wrong">
+                <b>فخ في الامتحان:</b> كلمات زي surprises / uncertainty /
+                environment changes = Protective purpose.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="a">
+            <div class="q-num">
+              MCQ-17 <span class="q-src">Final 2025 Q35</span>
+            </div>
+            <div class="q-text">
+              Which of the following statements does not highlight the
+              relationship between planning and controlling
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Planning and controlling are
+                separable twins of management.
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Planning without controlling
+                is meaningless; controlling without planning is blind.
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Planning is prescriptive,
+                controlling is evaluative.
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Planning and controlling are
+                interrelated and interdependent.
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: A</b> <b>✓ Why the correct answer is correct:</b> A هي
+              الإجابة لأنها الجملة الغلط: Planning and controlling مش separable
+              twins، دول interrelated وinterdependent.
+              <div class="why-wrong">
+                <b>✗ A:</b> دي المطلوبة لأنها لا توضح العلاقة صح.
+                <b>✗ B:</b> صح: تخطيط بلا رقابة ملوش معنى، ورقابة بلا تخطيط
+                عمياء. <b>✗ C:</b> صح: التخطيط prescriptive والرقابة evaluative.
+                <b>✗ D:</b> صح: interrelated. <b>✗ E:</b> مفيش اختيار خامس.
+              </div>
+              <div class="why-wrong">
+                <b>خد بالك:</b> السؤال بيقول does not highlight، يعني دور على
+                الغلط.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="b">
+            <div class="q-num">
+              MCQ-18 <span class="q-src">Final 2025 Q52</span>
+            </div>
+            <div class="q-text">
+              It helps to cross the gap between the current position and the
+              future
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> Controlling
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> Planning
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> Directing
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> Organizing
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: B</b> <b>✓ Why the correct answer is correct:</b> B صح
+              لأن planning هو اللي بيحدد إزاي نعدي من الوضع الحالي للوضع
+              المستقبلي المطلوب.
+              <div class="why-wrong">
+                <b>✗ A:</b> Controlling يتأكد إن التنفيذ مطابق للخطة.
+                <b>✗ B:</b> صح. <b>✗ C:</b> Directing قيادة وتحفيز.
+                <b>✗ D:</b> Organizing ترتيب الموارد. <b>✗ E:</b> مفيش اختيار
+                خامس.
+              </div>
+              <div class="why-wrong">
+                <b>Quick note:</b> Current -> Future = Planning.
+              </div>
+            </div>
+          </div>
+          <div class="q-item" data-correct="c">
+            <div class="q-num">
+              MCQ-19 <span class="q-src">Final 2025 Q60</span>
+            </div>
+            <div class="q-text">
+              Which of the following is an error managers make during the
+              planning stage of management?
+            </div>
+            <div class="q-opts">
+              <div class="q-opt" data-val="a">
+                <span class="q-opt-letter">A</span> not establishing departments
+                appropriately
+              </div>
+              <div class="q-opt" data-val="b">
+                <span class="q-opt-letter">B</span> not emphasizing coordination
+                of organization members
+              </div>
+              <div class="q-opt" data-val="c">
+                <span class="q-opt-letter">C</span> not exploring enough viable
+                alternatives for reaching objectives
+              </div>
+              <div class="q-opt" data-val="d">
+                <span class="q-opt-letter">D</span> not monitoring progress in
+                carrying out plans
+              </div>
+              <div class="q-opt" data-val="e">
+                <span class="q-opt-letter">E</span> not taking the time to
+                communicate properly with organization members
+              </div>
+            </div>
+            <div class="q-explain">
+              <b>Answer: C</b> <b>✓ Why the correct answer is correct:</b> C صح
+              لأن من أخطاء planning إن المدير ميستكشفش بدائل كفاية للوصول
+              للأهداف. Chapter 7 فيه خطوة كاملة: List alternative ways.
+              <div class="why-wrong">
+                <b>✗ A:</b> ده خطأ organizing. <b>✗ B:</b> أقرب لـ
+                influencing/coordination. <b>✗ C:</b> صح. <b>✗ D:</b> not
+                monitoring progress خطأ controlling. <b>✗ E:</b> communication
+                غالبا Chapter 15.
+              </div>
+              <div class="why-wrong">
+                <b>الدكتور بيحب يلخبط بين:</b> planning errors vs controlling
+                errors. Alternatives = Planning، Monitoring = Controlling.
+              </div>
+            </div>
+          </div>
+          <div class="q-controls">
+            <span class="q-score" id="score-mcq"></span>
+            <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-mcq')">
+              Check Answers
+            </button>
+            <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-mcq')">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="chapter" id="essay">
+          <div class="ch-header">
+            <div class="ch-num purple">ES</div>
+            <div class="ch-title">
+              <h2>Essay Questions - Chapter 7</h2>
+              <p>Questions from the provided exams with model answers.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--purple)">
+            <div class="topic-title">
+              <span class="icon">▣</span> Final 2019 Q3
+            </div>
+            <p>
+              <strong>Question:</strong> State three of Guidelines for
+              Establishing Quality Objectives.
+            </p>
+            <div class="tip">
+              <div>
+                <b>Correct answer:</b> Any three of the eight guidelines are
+                acceptable. Best safe answer: let responsible people have a
+                voice, state objectives specifically, pinpoint expected results,
+                specify when goals should be achieved, and state objectives
+                clearly and simply.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="cheat-ch7">
+          <div class="ch-header">
+            <div class="ch-num teal">CS</div>
+            <div class="ch-title">
+              <h2>Cheat Sheet - Chapter 7</h2>
+              <p>مراجعة سريعة قبل الامتحان.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--cyan)">
+            <div class="cheat-grid">
+              <div class="cheat">
+                <h3>Planning</h3>
+                <div class="cheat-item">
+                  <div class="cheat-key">Definition</div>
+                  <div class="cheat-val">
+                    Determining how the organization gets where it wants to go
+                    and what it will do.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Fundamental purpose</div>
+                  <div class="cheat-val">
+                    Help organization reach objectives.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Protective</div>
+                  <div class="cheat-val">
+                    Minimize risk by reducing uncertainty.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Affirmative</div>
+                  <div class="cheat-val">Increase organizational success.</div>
+                </div>
+              </div>
+              <div class="cheat">
+                <h3>Planning Steps</h3>
+                <div class="cheat-item">
+                  <div class="cheat-key">1</div>
+                  <div class="cheat-val">State objectives.</div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">2</div>
+                  <div class="cheat-val">List alternatives.</div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">3</div>
+                  <div class="cheat-val">Develop premises.</div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">4</div>
+                  <div class="cheat-val">Choose best alternative.</div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">5</div>
+                  <div class="cheat-val">Develop plans.</div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">6</div>
+                  <div class="cheat-val">Put plans into action.</div>
+                </div>
+              </div>
+              <div class="cheat">
+                <h3>Objectives</h3>
+                <div class="cheat-item">
+                  <div class="cheat-key">Objective</div>
+                  <div class="cheat-val">
+                    Target toward which the open management system is directed.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Business objectives</div>
+                  <div class="cheat-val">
+                    Profit · Service to customers · Social responsibility.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Types</div>
+                  <div class="cheat-val">
+                    Short-term <= 1 year · Intermediate 1-5 years · Long-term
+                    5-7 years.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">SMART</div>
+                  <div class="cheat-val">
+                    Specific · Measurable · Attainable · Relevant · Time-bound.
+                  </div>
+                </div>
+              </div>
+              <div class="cheat">
+                <h3>MBO</h3>
+                <div class="cheat-item">
+                  <div class="cheat-key">Parts</div>
+                  <div class="cheat-val">
+                    Special objectives · Periodic reviews · Rewards.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Process</div>
+                  <div class="cheat-val">
+                    Objectives reviewed -> worker objectives -> progress ->
+                    evaluation -> rewards -> next period.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Advantages</div>
+                  <div class="cheat-val">
+                    Emphasizes goals and secures employee commitment.
+                  </div>
+                </div>
+                <div class="cheat-item">
+                  <div class="cheat-key">Disadvantages</div>
+                  <div class="cheat-val">
+                    Time consuming and increases paperwork.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter" id="flashcards-ch7">
+          <div class="ch-header">
+            <div class="ch-num pink">FC</div>
+            <div class="ch-title">
+              <h2>Flashcards</h2>
+              <p>اضغط على الكارت لعرض الإجابة.</p>
+            </div>
+          </div>
+          <div class="topic" style="--accent: var(--pink)">
+            <div class="flashcards">
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">Fundamental purpose of planning?</div>
+                    <div class="fc-hint">click</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      Help the organization reach its objectives.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">Protective purpose?</div>
+                    <div class="fc-hint">click</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      Minimize risk by reducing uncertainties.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">Last planning step?</div>
+                    <div class="fc-hint">click</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">Put the plans into action.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">Premises mean?</div>
+                    <div class="fc-hint">click</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">Assumptions about the future.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">SMART?</div>
+                    <div class="fc-hint">click</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      Specific · Measurable · Attainable · Relevant ·
+                      Time-bound.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="fc-inner">
+                  <div class="fc-front">
+                    <div class="fc-q">MBO basic parts?</div>
+                    <div class="fc-hint">click</div>
+                  </div>
+                  <div class="fc-back">
+                    <div class="fc-a">
+                      Objectives · Periodic reviews · Rewards.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("open");
+        document.getElementById("overlay").classList.toggle("open");
+      }
+      function closeSidebar() {
+        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("overlay").classList.remove("open");
+      }
+      document.querySelectorAll(".sb-link").forEach((l) => {
+        l.addEventListener("click", () => {
+          if (window.innerWidth <= 1100) closeSidebar();
+        });
+      });
+      const sections = document.querySelectorAll("[id]");
+      const sbLinks = document.querySelectorAll(".sb-link");
+      window.addEventListener("scroll", () => {
+        let cur = "";
+        sections.forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 200) cur = s.id;
+        });
+        sbLinks.forEach((l) => {
+          l.classList.remove("active");
+          if (l.getAttribute("href") === "#" + cur) l.classList.add("active");
+        });
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        const p = h > 0 ? (window.scrollY / h) * 100 : 0;
+        document.getElementById("prog-fill").style.width = p + "%";
+        document
+          .getElementById("scroll-top")
+          .classList.toggle("vis", window.scrollY > 400);
+      });
+      document.querySelectorAll(".q-opt").forEach((opt) => {
+        opt.addEventListener("click", function () {
+          const item = this.closest(".q-item");
+          if (item.classList.contains("answered")) return;
+          item
+            .querySelectorAll(".q-opt")
+            .forEach((o) => o.classList.remove("selected"));
+          this.classList.add("selected");
+        });
+      });
+      function getQuizFeedback(pct) {
+        if (pct < 50) return "راجع الشرح وخد جولة تانية.";
+        if (pct < 70) return "قريب، بس في نقط محتاجة مراجعة.";
+        if (pct < 90) return "أداء محترم. راجع الغلطات.";
+        return "ممتاز. الشابتر تحت السيطرة.";
+      }
+      function checkQuiz(sectionId) {
+        const section = document.getElementById(sectionId);
+        const items = section.querySelectorAll(".q-item");
+        let total = items.length,
+          correct = 0;
+        items.forEach((item) => {
+          const correctVal = item.dataset.correct;
+          const selected = item.querySelector(".q-opt.selected");
+          if (selected) {
+            item.classList.add("answered");
+            if (selected.dataset.val === correctVal) {
+              selected.classList.add("correct");
+              correct++;
+            } else {
+              selected.classList.add("wrong");
+              item.querySelectorAll(".q-opt").forEach((o) => {
+                if (o.dataset.val === correctVal) o.classList.add("correct");
+              });
+            }
+          } else {
+            item.querySelectorAll(".q-opt").forEach((o) => {
+              if (o.dataset.val === correctVal) o.classList.add("correct");
+            });
+            item.classList.add("answered");
+          }
+          const explain = item.querySelector(".q-explain");
+          if (explain) explain.style.display = "block";
+        });
+        const scoreId = sectionId === "quiz-tf" ? "score-tf" : "score-mcq";
+        const pct = Math.round((correct / total) * 100);
+        const el = document.getElementById(scoreId);
+        el.innerHTML = `${correct} / ${total} - ${pct}%<div class="q-feedback">${getQuizFeedback(pct)}</div>`;
+        el.style.color =
+          pct >= 70
+            ? "var(--green)"
+            : pct >= 40
+              ? "var(--amber)"
+              : "var(--red)";
+      }
+      function resetQuiz(sectionId) {
+        const section = document.getElementById(sectionId);
+        section.querySelectorAll(".q-item").forEach((item) => {
+          item.classList.remove("answered");
+          item
+            .querySelectorAll(".q-opt")
+            .forEach((o) => o.classList.remove("selected", "correct", "wrong"));
+          const explain = item.querySelector(".q-explain");
+          if (explain) explain.style.display = "none";
+        });
+        const scoreId = sectionId === "quiz-tf" ? "score-tf" : "score-mcq";
+        document.getElementById(scoreId).innerHTML = "";
+      }
+    </script>
+  </body>
+</html>
