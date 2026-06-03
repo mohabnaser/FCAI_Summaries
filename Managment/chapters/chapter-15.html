@@ -1633,6 +1633,26 @@
     .tip-box li {
       margin-bottom: 4px;
     }
+    .sb-back{display:flex;align-items:center;gap:8px;margin:10px 16px 16px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:.75rem;text-decoration:none;transition:.2s;justify-content: end;}
+.sb-back:hover{border-color:var(--pink);color:var(--pink)}
+.next{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 16px 16px;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--t2);
+    font-size: .75rem;
+    text-decoration: none;
+    transition: .2s;
+    justify-content: end;
+}
+.next:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+}
   </style>
 </head>
 
@@ -1650,7 +1670,8 @@
       <p>Influencing &amp; Communication</p>
       <span class="sb-tag">Dr. Doaa Saleh</span>
     </div>
-
+      <a class="sb-back" href="../index.html">All Lectures← </a>
+      <a class="sb-back" href="../../index.html"> الرئيسة ↩</a>
     <div class="sb-section">المحتوى الدراسي</div>
     <a href="#ch1" class="sb-link"><span class="sb-dot"></span>أساسيات الـ Influencing</a>
     <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Influencing Subsystem</a>
@@ -1670,6 +1691,7 @@
     <div class="sb-section">مراجعة نهائية</div>
     <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
     <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Flashcards سريعة</a>
+      <a href="../chapters/chapter-18.html" class="next">→ Chapter 18</a>
   </nav>
 
   <button id="menu-btn" onclick="toggleSidebar()">☰</button>
