@@ -1729,7 +1729,7 @@ function renderQ(i) {
       <div class="opts" id="opts">${optsHTML}</div>
     </div>
     ${fbHTML}
-    <div class="kbd-hint"><kbd>A</kbd><kbd>B</kbd><kbd>C</kbd><kbd>D</kbd> select · <kbd>←</kbd><kbd>→</kbd> nav · <kbd>B</kbd> bookmark · <kbd>M</kbd> map</div>`;
+    <div class="kbd-hint"><kbd>A</kbd><kbd>B</kbd><kbd>C</kbd><kbd>D</kbd> select · <kbd>←</kbd><kbd>→</kbd> nav · <kbd>K</kbd> bookmark · <kbd>M</kbd> map</div>`;
 
   window.scrollTo({top: 0, behavior: 'smooth'});
   updateMap();
@@ -2054,7 +2054,7 @@ document.addEventListener('keydown', e => {
   }
 
   // Bookmark
-  if (e.key.toLowerCase() === 'b' && !isReviewMode) {
+  if (e.key.toLowerCase() === 'k' && !isReviewMode) {
     toggleBookmark(); return;
   }
 
@@ -2066,8 +2066,6 @@ document.addEventListener('keydown', e => {
   // Answer selection (only in quiz mode, not review)
   if (!isReviewMode && answers[cur] === -1) {
     const map = {'1':0,'2':1,'3':2,'4':3,'a':0,'b':1,'c':2,'d':3};
-    // don't trigger 'b' as answer since it's bookmark
-    if (e.key.toLowerCase() === 'b') return;
     const idx = map[e.key.toLowerCase()];
     if (idx !== undefined && idx < Q[cur].o.length) pick(idx);
   }
