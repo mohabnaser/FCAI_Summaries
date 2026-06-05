@@ -737,7 +737,8 @@ pre.codeblock{
 
 /* ─── MOBILE ─── */
 @media(max-width:650px){
-  .topbar-row{flex-wrap:wrap;gap:6px}
+  .topbar-row{flex-direction:column;align-items:stretch;gap:10px}
+  .topbar-left, .topbar-right{width:100%;justify-content:space-between}
   .qcard{padding:24px 18px}
   .info-row{gap:10px}
   .info-box{min-width:110px;padding:14px 16px}
