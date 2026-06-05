@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Final Exam 2018 — Solutions · Data Structures</title>
+    <meta name="description" content="CS214 Data Structures — 2018 Final Exam Solutions (Essay)" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #050914;
+        --line: #1d2c47;
+        --text: #e2e8f0;
+        --cyan: #22d3ee;
+        --green: #34d399;
+        --amber: #fbbf24;
+        --pink: #f472b6;
+        --violet: #a78bfa;
+        --accent: var(--violet);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        background:
+          radial-gradient(
+            circle at top left,
+            rgba(167, 139, 250, 0.08),
+            transparent 28%
+          ),
+          linear-gradient(180deg, #04070f 0%, #050914 100%);
+        color: var(--text);
+        font-family: "Cairo", sans-serif;
+        overflow: hidden;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* ── Back Button ── */
+      .back-home {
+        position: fixed;
+        top: 18px;
+        left: 18px;
+        z-index: 30;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 16px;
+        border-radius: 999px;
+        border: 1px solid rgba(167, 139, 250, 0.25);
+        background: rgba(11, 17, 32, 0.85);
+        color: var(--text);
+        font-family: "Cairo", sans-serif;
+        font-size: 0.9rem;
+        backdrop-filter: blur(8px);
+        transition: 0.2s;
+      }
+      .back-home:hover {
+        border-color: var(--violet);
+        color: var(--violet);
+      }
+
+      /* ── Header Bar ── */
+      .viewer-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        padding: 62px 20px 16px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(5, 9, 20, 0.92);
+        backdrop-filter: blur(12px);
+        flex-shrink: 0;
+        position: relative;
+      }
+      .viewer-header::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--violet),
+          transparent
+        );
+        opacity: 0.4;
+      }
+      .viewer-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        font-size: 1.4rem;
+        color: var(--violet);
+        background: rgba(167, 139, 250, 0.08);
+        border: 1px solid rgba(167, 139, 250, 0.16);
+        flex-shrink: 0;
+      }
+      .viewer-info {
+        text-align: center;
+      }
+      .viewer-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--violet);
+        line-height: 1.3;
+      }
+      .viewer-sub {
+        font-size: 0.82rem;
+        opacity: 0.6;
+        margin-top: 2px;
+      }
+      .download-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 18px;
+        border-radius: 10px;
+        border: 1px solid rgba(52, 211, 153, 0.25);
+        background: rgba(52, 211, 153, 0.06);
+        color: var(--green);
+        font-family: "Cairo", sans-serif;
+        font-size: 0.82rem;
+        font-weight: 600;
+        transition: 0.2s;
+        flex-shrink: 0;
+      }
+      .download-btn:hover {
+        border-color: var(--green);
+        background: rgba(52, 211, 153, 0.12);
+        box-shadow: 0 0 20px rgba(52, 211, 153, 0.15);
+      }
+
+      /* ── PDF Viewer ── */
+      .pdf-container {
+        flex: 1;
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        min-height: 0;
+        padding: 0;
+      }
+      .pdf-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: #111;
+      }
+
+      /* ── Fallback ── */
+      .pdf-fallback {
+        display: none;
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        padding: 40px 20px;
+        text-align: center;
+      }
+      .pdf-fallback .fallback-icon {
+        font-size: 4rem;
+        opacity: 0.4;
+      }
+      .pdf-fallback p {
+        font-size: 1.05rem;
+        opacity: 0.7;
+        max-width: 400px;
+        line-height: 1.7;
+      }
+      .pdf-fallback .download-btn {
+        font-size: 1rem;
+        padding: 12px 28px;
+      }
+
+      /* ── Mobile ── */
+      @media (max-width: 600px) {
+        .viewer-header {
+          flex-direction: column;
+          gap: 10px;
+          padding: 62px 16px 14px;
+        }
+        .viewer-title {
+          font-size: 1.1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="back-home" href="index.html">↩ Back</a>
+
+    <header class="viewer-header">
+      <div class="viewer-icon">📄</div>
+      <div class="viewer-info">
+        <div class="viewer-title">Final Exam 2018 — Solutions</div>
+        <div class="viewer-sub">CS214 · Data Structures · Essay Questions</div>
+      </div>
+      <a class="download-btn" href="2018_sol.pdf" download>
+        ⬇ Download PDF
+      </a>
+    </header>
+
+    <div class="pdf-container" id="pdfContainer">
+      <iframe
+        id="pdfFrame"
+        src="2018_sol.pdf"
+        title="2018 Final Exam Solutions"
+      ></iframe>
+    </div>
+
+    <div class="pdf-fallback" id="pdfFallback">
+      <div class="fallback-icon">📄</div>
+      <p>Your browser doesn't support inline PDF viewing. Click below to download the exam.</p>
+      <a class="download-btn" href="2018_sol.pdf" download>
+        ⬇ Download PDF
+      </a>
+    </div>
+
+    <script>
+      // Fallback: if iframe fails to load PDF (e.g. mobile browsers)
+      const frame = document.getElementById('pdfFrame');
+      const container = document.getElementById('pdfContainer');
+      const fallback = document.getElementById('pdfFallback');
+
+      frame.addEventListener('error', () => {
+        container.style.display = 'none';
+        fallback.style.display = 'flex';
+      });
+
+      // Some mobile browsers won't fire error but will show blank
+      // Provide a manual fallback check after timeout
+      setTimeout(() => {
+        try {
+          // If we can't access iframe content and it's likely mobile
+          if (window.innerWidth < 768 && /Android|iPhone|iPad/i.test(navigator.userAgent)) {
+            container.style.display = 'none';
+            fallback.style.display = 'flex';
+          }
+        } catch (e) {}
+      }, 2000);
+    </script>
+  </body>
+</html>
