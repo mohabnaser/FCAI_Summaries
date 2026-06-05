@@ -258,9 +258,16 @@ kbd{
 }
 .timer{
   font-family:'JetBrains Mono',monospace;font-size:12px;
-  color:var(--acc);display:flex;align-items:center;gap:5px;white-space:nowrap;
+  color:var(--acc);display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;
   background:rgba(255,209,102,.07);border:1px solid rgba(255,209,102,.14);
   border-radius:7px;padding:5px 11px;
+  min-width: 85px;
+  font-variant-numeric: tabular-nums;
+}
+#timer-val{
+  min-width: 38px;
+  display: inline-block;
+  text-align: left;
 }
 .timer-ico{animation:timerPulse 1.6s ease infinite}
 @keyframes timerPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.82)}}
