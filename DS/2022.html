@@ -274,8 +274,7 @@ kbd{
   display: inline-block;
   text-align: left;
 }
-.timer-ico{animation:timerPulse 1.6s ease infinite}
-@keyframes timerPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.82)}}
+.timer-ico{display:inline-block}
 
 .score-live{
   font-family:'JetBrains Mono',monospace;font-size:12px;
@@ -762,6 +761,8 @@ pre.codeblock{
   .btn-start{padding:18px 48px;font-size:15px}
   /* Disable heavy filter animations on mobile to prevent repaints */
   body::before{animation:none}
+  #intro::before{animation:none}
+  .qtag::before{animation:none}
   #particles{opacity:0.3}
 }
 
@@ -909,6 +910,10 @@ pre.codeblock{
 ═══════════════════════════════════════════════ */
 (function initParticles() {
   const c = document.getElementById('particles');
+  if (window.innerWidth < 768) {
+    c.style.display = 'none';
+    return;
+  }
   const ctx = c.getContext('2d');
   let W, H, particles = [];
   function resize() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
