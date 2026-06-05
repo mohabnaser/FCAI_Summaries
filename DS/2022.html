@@ -2000,7 +2000,7 @@ function renderReviewQ(i) {
   wrap.innerHTML = `
     <div class="nav-row">
       <button class="btn-nav" onclick="goQ(cur-1)" ${i===0?'disabled':''}>← Previous</button>
-      <button class="btn-nav primary" onclick="goQ(cur+1)" ${i>=Q.length-1?'disabled':''}>Next →</button>
+      <button class="btn-nav primary" onclick="goQ(cur+1)" ${i>=Q.length-1?'disabled':''}>ext →</button>
     </div>
     <div class="qcard">
       <div class="qtag">QUESTION ${i+1} — ${statusLabel}</div>
