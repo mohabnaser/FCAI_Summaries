@@ -1070,7 +1070,7 @@ const Q_ORIGINAL = [
   // ── 1 ──
   {q:`The BST below was built by inserting items in sequence. Which input sequence will <strong>NOT</strong> produce this tree?`,
   v:'bst1',
-  o:['5 3 4 9 12 7 8 6 20','5 9 3 7 6 8 4 12 20','9 7 8 6 12 20 3 4','5 9 3 6 7 8 4 12 20'],a:3,
+  o:['5 3 4 9 12 7 8 6 20','5 9 3 7 6 8 4 12 20','5 9 7 8 6 12 20 3 4','5 9 3 6 7 8 4 12 20'],a:3,
   x:`Sequence D inserts 6 before 7. Since 6 < 9, it becomes the <em>left child of 9</em>. Then 7 > 6 becomes 6's right child — not 9's left child as in the target tree. The target tree has <strong>7 as the direct left child of 9</strong> (with 6 as 7's left child). Sequences A, B, C all produce the correct BST.`},
 
   // ── 2 ──
