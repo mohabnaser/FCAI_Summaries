@@ -1333,7 +1333,7 @@ Node* <span class="fn">move_to_front</span>(Node* head) {
 
   // ── 48 ──
   {q:`A complete binary tree has height <em>h</em> > 0. The <strong>minimum number of leaf nodes</strong> in terms of h is?`,
-  o:['2^{h}-1','2^{h-1}+1','2^{h}+1','2^{h-1}'],a:0,
+  o:['2^{h}-1','2^{h-1}+1','2^{h}+1','2^{h-1}'],a:3,
   x:`The minimum occurs when only <strong>one node exists at the last level</strong> (level h). At level h−1 there are 2^(h−1) nodes; exactly one is the parent of the node at level h (so it's not a leaf), and the rest 2^(h−1) − 1 are leaves. Adding the single leaf at level h gives: (2^(h−1) − 1) + 1 = <strong>2^(h−1)</strong> leaf nodes.`},
 
   // ── 49 ──
