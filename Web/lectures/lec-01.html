@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 01 — Introduction to Backend Development | IS231</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/shared.css">
+</head>
+<body>
+<div id="prog-bar"><div id="prog-fill"></div></div>
+<div id="overlay"></div>
+<nav id="sidebar">
+  <div class="sb-logo"><h2>IS231 · Lecture 01</h2><p>Introduction to Backend Development</p><span class="sb-tag">Backend Python + Django</span></div>
+  <a class="sb-back" href="../index.html">← Back to IS231</a>
+  <div class="sb-section">Core Concepts</div>
+  <a class="sb-link" href="#backend"><span class="sb-dot"></span>What is Backend?</a>
+  <a class="sb-link" href="#architecture"><span class="sb-dot"></span>Web Architecture</a>
+  <a class="sb-link" href="#static-dynamic"><span class="sb-dot"></span>Static vs Dynamic</a>
+  <a class="sb-link" href="#python"><span class="sb-dot"></span>Why Python?</a>
+  <a class="sb-link" href="#framework"><span class="sb-dot"></span>What is a Framework?</a>
+  <a class="sb-link" href="#setup"><span class="sb-dot"></span>Environment Setup</a>
+</nav>
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+<main id="main">
+  <div class="hero">
+    <div class="hero-badge">⚡ IS231 · Lecture 01 · Dr. Mohamed Nour Eldien</div>
+    <h1>Introduction to <span>Backend Development</span></h1>
+    <p>Web architecture, backend roles, Python setup, VS Code, terminal basics, and the first Python program — مع شرح بالمصري الكلاسيك! 🇪🇬</p>
+    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← Back to Hub</a></div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num">6</div><div class="lbl">Topics</div></div>
+      <div class="hstat"><div class="num">3</div><div class="lbl">Tier Model</div></div>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="chapter" id="backend">
+      <div class="ch-header"><div class="ch-num cyan">🧠</div><div class="ch-title"><h2>What is Backend Development?</h2><p>The server-side brain of every web application</p></div></div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">💡</span> Definition</div>
+        <p>Backend development is the part of a software system that runs on the <strong>server side</strong>. It receives requests, processes logic, talks to databases, enforces security, and returns responses. Think of the backend as the <em>"brain"</em> of the application.</p>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">⚙️</span> Main Backend Responsibilities</div>
+        <div class="grid2">
+          <div class="cmp-card" style="--accent:var(--cyan)"><h4>Data & Logic</h4><ul><li>Store and retrieve data from database</li><li>Validate user input before saving</li><li>Apply business rules (login checks, grade calculation)</li><li>Generate dynamic content based on user data</li></ul></div>
+          <div class="cmp-card" style="--accent:var(--pink)"><h4>Security & Integration</h4><ul><li>Authenticate users &amp; manage permissions</li><li>Handle errors and send appropriate messages</li><li>Connect to email, payment, or other APIs</li><li>Serve data to web pages or mobile apps</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter" id="architecture">
+      <div class="ch-header"><div class="ch-num purple">🏗️</div><div class="ch-title"><h2>Web Architecture</h2><p>The 3-tier model: Presentation → Application → Data</p></div></div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">🌐</span> How a Website Works — Step by Step</div>
+        <div class="plan-steps">
+          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">1</div><div><div class="ps-title">User Action</div><div class="ps-desc">User enters a URL or clicks a link in the browser.</div></div></div>
+          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">2</div><div><div class="ps-title">HTTP Request Sent</div><div class="ps-desc">The browser sends an HTTP request to the server over the network.</div></div></div>
+          <div class="plan-step" style="--accent:var(--amber)"><div class="ps-num">3</div><div><div class="ps-title">Backend Processes</div><div class="ps-desc">The backend receives the request and decides what to do — runs logic, checks permissions.</div></div></div>
+          <div class="plan-step" style="--accent:var(--green)"><div class="ps-num">4</div><div><div class="ps-title">Database Interaction</div><div class="ps-desc">The backend may read from or write to the database.</div></div></div>
+          <div class="plan-step" style="--accent:var(--pink)"><div class="ps-num">5</div><div><div class="ps-title">HTTP Response Sent</div><div class="ps-desc">The server returns an HTTP response (HTML, JSON, redirect, or error).</div></div></div>
+          <div class="plan-step" style="--accent:var(--purple)"><div class="ps-num">6</div><div><div class="ps-title">Browser Renders</div><div class="ps-desc">The browser displays the page to the user.</div></div></div>
+        </div>
+      </div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">📊</span> 3-Tier Application Model</div>
+        <div class="grid3">
+          <div class="cmp-card" style="--accent:var(--cyan)"><h4>Presentation Layer</h4><p>HTML, CSS, JavaScript. The browser interface the user interacts with.</p></div>
+          <div class="cmp-card" style="--accent:var(--purple)"><h4>Application Layer</h4><p>Python, Django. Rules, business logic, and processing. The backend.</p></div>
+          <div class="cmp-card" style="--accent:var(--green)"><h4>Data Layer</h4><p>SQLite, MySQL, PostgreSQL. Persistent storage for application data.</p></div>
+        </div>
+        <div class="info"><b>Key:</b> The database does NOT talk directly to the user — the backend is always the middle layer.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="static-dynamic">
+      <div class="ch-header"><div class="ch-num amber">⚡</div><div class="ch-title"><h2>Static vs Dynamic Websites</h2><p>Why backend development exists</p></div></div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">📄</span> Two Types of Websites</div>
+        <div class="grid2">
+          <div class="cmp-card" style="--accent:var(--t3)">
+            <h4>📄 Static Website</h4>
+            <ul><li>Shows the same content to ALL users</li><li>Pages are plain HTML files</li><li>Good for simple informational websites</li><li>Changes require editing files manually</li></ul>
+            <pre style="background:rgba(255,255,255,.04);border-radius:8px;padding:10px;font-size:.75rem;direction:ltr;text-align:left;margin-top:10px">&lt;h1&gt;Welcome to the department&lt;/h1&gt;
+&lt;p&gt;Office hours: 9:00 AM - 2:00 PM&lt;/p&gt;
+&lt;!-- Everyone sees the same content --&gt;</pre>
+          </div>
+          <div class="cmp-card" style="--accent:var(--cyan)">
+            <h4>⚡ Dynamic Website</h4>
+            <ul><li>Content changes based on user or database</li><li>Generated by backend code</li><li>Portals, stores, dashboards, social apps</li><li>Can process forms, logins, user-specific data</li></ul>
+            <pre style="background:rgba(255,255,255,.04);border-radius:8px;padding:10px;font-size:.75rem;direction:ltr;text-align:left;margin-top:10px">def dashboard(request):
+    student_name = 'Mona'
+    cgpa = 3.8
+    return render(request, 'dashboard.html',
+        {'name': student_name, 'cgpa': cgpa})</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter" id="python">
+      <div class="ch-header"><div class="ch-num green">🐍</div><div class="ch-title"><h2>Why Python for Backend?</h2><p>The language powering this course</p></div></div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">✨</span> Python Strengths</div>
+        <div class="grid2">
+          <div class="cmp-card" style="--accent:var(--green)"><h4>Developer-Friendly</h4><ul><li>Readable syntax — close to natural language</li><li>Indentation is part of the syntax</li><li>Large community and many tutorials</li><li>Good for beginners AND real companies</li></ul></div>
+          <div class="cmp-card" style="--accent:var(--cyan)"><h4>Powerful Ecosystem</h4><ul><li>Strong libraries for web, data, AI, automation</li><li>Django and Flask for web development</li><li>Connects well with databases and APIs</li><li>Used by Google, Instagram, Spotify</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter" id="framework">
+      <div class="ch-header"><div class="ch-num pink">🛠️</div><div class="ch-title"><h2>What is a Framework?</h2><p>A professional starting structure for your application</p></div></div>
+      <div class="topic" style="--accent:var(--pink)">
+        <div class="topic-title"><span class="icon">🏗️</span> Framework Definition</div>
+        <p>A framework is a collection of <strong>ready-made tools, rules, and structure</strong> that helps developers build applications faster. Instead of writing everything from scratch, a framework handles routing, templates, database access, security, and project structure.</p>
+        <div class="tip"><b>Analogy:</b> Building without a framework = building a house starting from raw concrete. Using Django = moving into a house with walls, plumbing, and electricity already done.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="setup">
+      <div class="ch-header"><div class="ch-num teal">💻</div><div class="ch-title"><h2>Environment Setup</h2><p>Python + VS Code + Terminal</p></div></div>
+      <div class="topic" style="--accent:var(--teal)">
+        <div class="topic-title"><span class="icon">⚙️</span> Course Tech Stack</div>
+        <table class="tbl">
+          <tr><th>Tool</th><th>Role</th><th>Command</th></tr>
+          <tr><td><strong>Python</strong></td><td>Programming language</td><td><code>python --version</code></td></tr>
+          <tr><td><strong>VS Code</strong></td><td>Code editor</td><td>code.visualstudio.com</td></tr>
+          <tr><td><strong>Terminal</strong></td><td>Run commands, manage files</td><td><code>Ctrl + `</code> in VS Code</td></tr>
+          <tr><td><strong>Django</strong></td><td>Web framework</td><td><code>pip install django</code></td></tr>
+          <tr><td><strong>SQLite</strong></td><td>Default database</td><td>Built into Django</td></tr>
+        </table>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">🖥️</span> First Python Program</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:18px;font-family:var(--fc);font-size:.85rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70"># hello.py</span>
+<span style="color:#89b4fa">print</span>(<span style="color:#a6e3a1">'Hello, Backend World!'</span>)
+
+<span style="color:#585b70"># Run with:</span>
+<span style="color:#585b70"># python hello.py</span></pre>
+        <div class="info"><b>Key Rule:</b> Always <code>Ctrl+S</code> to save before running. The terminal runs the saved version of the file.</div>
+      </div>
+    </div>
+    <!-- QUICK CONCEPTUAL QUIZ -->
+    <div class="quiz-section" id="quiz-intro">
+      <div class="quiz-header">
+        <div class="quiz-icon">🎯</div>
+        <div><h3>Intro Concepts — Quick Quiz</h3><p>Foundation questions with Egyptian slang 🇪🇬</p></div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q1</div>
+        <div class="q-text">In a 3-tier web application, which layer does Django belong to?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Presentation Layer (Frontend)</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Data Layer (Database)</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Application Layer (Backend)</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — Application Layer</b><br>
+          Django is backend (server-side). The 3 layers are: Presentation (HTML/CSS/JS) → Application (Django/Python) → Data (Database).
+          <span class="slang-tip">Django بيشتغل في الـ middle layer — Application Layer (Backend). الـ HTML/CSS/JS ده frontend (Presentation). الـ Database ده Data Layer. Django مابينقيلوش الـ browser مباشرة ومابيكلمش الـ database من غير الـ Django ORM.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q2</div>
+        <div class="q-text">What is the difference between a static and a dynamic website?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Static shows same content to everyone; Dynamic shows personalized content</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Static uses more JavaScript; Dynamic uses less</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> They are the same thing</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Static sites require a database</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — Static same for all; Dynamic = personalized</b><br>
+          Static sites are fixed HTML files. Dynamic sites generate content based on who's visiting and what's in the database.
+          <span class="slang-tip">Static = نفس الصفحة لكل الناس. Dynamic = كل شخص يشوف حاجة مختلفة — زي Facebook اللي بيرجع feed مختلف لكل account. الـ backend هو اللي بيعمل الـ content الـ dynamic ده.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3</div>
+        <div class="q-text">Which Python command installs Django?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> python install django</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> pip install django</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> django install</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> python -m django install</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: B — pip install django</b><br>
+          pip is Python's package manager. You use <code>pip install packagename</code> to install any package from PyPI.
+          <span class="slang-tip">pip هو الـ package manager بتاع Python — زي الـ npm لـ JavaScript. عايز تحمل حاجة؟ pip install اسمها. الأمر: pip install django وبعد كده بيحمل Django وكل dependencies بتاعتها.</span>
+        </div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-intro"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-intro')">✔ Check Answers</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-intro')">↺ Reset</button>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

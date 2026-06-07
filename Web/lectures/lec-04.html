@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 04 — HTTP, URLs & Status Codes | IS231</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/shared.css">
+</head>
+<body>
+<div id="prog-bar"><div id="prog-fill"></div></div>
+<div id="overlay"></div>
+<nav id="sidebar">
+  <div class="sb-logo"><h2>IS231 · Lecture 04</h2><p>HTTP, URLs & Status Codes</p><span class="sb-tag">Backend Python + Django</span></div>
+  <a class="sb-back" href="../index.html">← Back to IS231</a>
+  <div class="sb-section">Web Concepts</div>
+  <a class="sb-link" href="#client-server"><span class="sb-dot"></span>Client & Server</a>
+  <a class="sb-link" href="#url"><span class="sb-dot"></span>What is a URL?</a>
+  <a class="sb-link" href="#http"><span class="sb-dot"></span>HTTP Protocol</a>
+  <a class="sb-link" href="#methods"><span class="sb-dot"></span>HTTP Methods</a>
+  <div class="sb-section">HTTP Details</div>
+  <a class="sb-link" href="#request"><span class="sb-dot"></span>HTTP Request</a>
+  <a class="sb-link" href="#response"><span class="sb-dot"></span>HTTP Response</a>
+  <a class="sb-link" href="#status"><span class="sb-dot"></span>Status Codes</a>
+  <a class="sb-link" href="#cookies"><span class="sb-dot"></span>Cookies & Security</a>
+  <div class="sb-section">Exam Quizzes</div>
+  <a class="sb-link" href="#quiz-2021"><span class="sb-dot"></span>🎯 Final 2021</a>
+</nav>
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+<main id="main">
+  <div class="hero">
+    <div class="hero-badge">⚡ IS231 · Lecture 04 · Dr. Mohamed Nour Eldien</div>
+    <h1>HTTP, URLs <span>& Status Codes</span></h1>
+    <p>How a browser talks to a server, how URLs are built, and how HTTP responses are interpreted — with Egyptian slang explanations 🇪🇬</p>
+    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← Back to Hub</a></div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num">8</div><div class="lbl">Topics</div></div>
+      <div class="hstat"><div class="num">14</div><div class="lbl">Exam Q's</div></div>
+      <div class="hstat"><div class="num">2021</div><div class="lbl">Final Exam</div></div>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="chapter" id="client-server">
+      <div class="ch-header"><div class="ch-num cyan">🌐</div><div class="ch-title"><h2>Client & Server Model</h2><p>Every web interaction has two sides</p></div></div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">💻</span> What Happens When You Open a Website?</div>
+        <div class="plan-steps">
+          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">1</div><div><div class="ps-title">User types URL or clicks link</div><div class="ps-desc">Browser prepares an HTTP request.</div></div></div>
+          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">2</div><div><div class="ps-title">HTTP Request sent over network</div><div class="ps-desc">Uses TCP protocol on port 80 (HTTP) or 443 (HTTPS).</div></div></div>
+          <div class="plan-step" style="--accent:var(--green)"><div class="ps-num">3</div><div><div class="ps-title">Server processes the request</div><div class="ps-desc">Runs logic, queries database, applies permissions.</div></div></div>
+          <div class="plan-step" style="--accent:var(--amber)"><div class="ps-num">4</div><div><div class="ps-title">Server sends HTTP Response</div><div class="ps-desc">Contains a status code, headers, and (usually) HTML/JSON body.</div></div></div>
+          <div class="plan-step" style="--accent:var(--pink)"><div class="ps-num">5</div><div><div class="ps-title">Browser renders the page</div><div class="ps-desc">Displays the received content to the user.</div></div></div>
+        </div>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">⚙️</span> Frontend vs Backend vs Database</div>
+        <div class="grid3">
+          <div class="cmp-card" style="--accent:var(--cyan)"><h4>🎨 Frontend</h4><p>What the user sees. HTML, CSS, JavaScript. Runs in the browser on the client's machine.</p></div>
+          <div class="cmp-card" style="--accent:var(--purple)"><h4>⚙️ Backend</h4><p>Logic, processing, permissions. Runs on the server. Django, Python, etc.</p></div>
+          <div class="cmp-card" style="--accent:var(--green)"><h4>🗄️ Database</h4><p>Persistent data storage. Only the backend talks to it directly — not the browser.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter" id="url">
+      <div class="ch-header"><div class="ch-num amber">🔗</div><div class="ch-title"><h2>What is a URL?</h2><p>Uniform Resource Locator — the address of every web resource</p></div></div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">🏗️</span> Parts of a URL</div>
+        <p>Example: <code>https://portal.cu.edu.eg:443/students/profile?id=25</code></p>
+        <div class="grid3" style="margin-top:14px">
+          <div class="cmp-card" style="--accent:var(--cyan)"><h4>Protocol</h4><p><code>https</code> — Secured. <code>http</code> — Unsecured.</p></div>
+          <div class="cmp-card" style="--accent:var(--green)"><h4>Domain / Host</h4><p><code>portal.cu.edu.eg</code> — The server's address.</p></div>
+          <div class="cmp-card" style="--accent:var(--amber)"><h4>Port (Optional)</h4><p><code>443</code> — HTTP default=80, HTTPS default=443. Separated from host by a colon.</p></div>
+          <div class="cmp-card" style="--accent:var(--purple)"><h4>Path</h4><p><code>/students/profile</code> — Which resource/route on the server.</p></div>
+          <div class="cmp-card" style="--accent:var(--pink)"><h4>Query String</h4><p><code>?id=25</code> — Extra parameters/filters. Multiple params: <code>&amp;</code>.</p></div>
+          <div class="cmp-card" style="--accent:var(--teal)"><h4>Fragment</h4><p><code>#section</code> — Client-side anchor. NOT sent to the server.</p></div>
+        </div>
+        <div class="warn"><b>Exam Tip:</b> "An optional <strong>port number</strong> can be inserted between the host and the path, separated from the host by a colon."</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="http">
+      <div class="ch-header"><div class="ch-num purple">📡</div><div class="ch-title"><h2>HTTP Protocol</h2><p>HyperText Transfer Protocol — the language of the web</p></div></div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">📋</span> HTTP Basics</div>
+        <ul>
+          <li>HTTP = <strong>HyperText Transfer Protocol</strong>.</li>
+          <li>Defines the format of requests and responses between client and server.</li>
+          <li>Runs on <strong>TCP port 80</strong>. HTTPS (secure) runs on <strong>TCP port 443</strong>.</li>
+          <li>Does not decide business logic — just the <em>communication format</em>.</li>
+        </ul>
+        <div class="info"><b>Exam 2021:</b> HTTP uses the services of <strong>TCP</strong> on well-known port 80.</div>
+      </div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">📦</span> Headers vs Body</div>
+        <div class="grid2">
+          <div class="cmp-card" style="--accent:var(--cyan)"><h4>Headers</h4><p>Metadata about the request/response. Content type, auth tokens, cookies, cache info. Present in both requests AND responses.</p></div>
+          <div class="cmp-card" style="--accent:var(--amber)"><h4>Body</h4><p>The actual data. GET has no body. POST/PUT carry data in the body. Response body = the HTML/JSON page content.</p></div>
+        </div>
+        <div class="warn"><b>Exam 2021:</b> The <strong>body of the request</strong> can contain parameters sent to the server.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="methods">
+      <div class="ch-header"><div class="ch-num green">⚡</div><div class="ch-title"><h2>HTTP Methods</h2><p>The method tells the server what you want to do</p></div></div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">📋</span> CRUD Methods</div>
+        <table class="tbl">
+          <tr><th>Method</th><th>Action</th><th>Has Body?</th><th>Use Case</th></tr>
+          <tr><td><code>GET</code></td><td>Read data</td><td>❌ No body</td><td>View page, search, get list</td></tr>
+          <tr><td><code>POST</code></td><td>Create / Send data</td><td>✅ Has body</td><td>Login form, registration, create record</td></tr>
+          <tr><td><code>PUT</code></td><td>Full update</td><td>✅ Has body</td><td>Replace an existing resource entirely</td></tr>
+          <tr><td><code>PATCH</code></td><td>Partial update</td><td>✅ Has body</td><td>Update only one field</td></tr>
+          <tr><td><code>DELETE</code></td><td>Remove</td><td>Optional</td><td>Delete a record</td></tr>
+        </table>
+        <div class="danger"><b>Exam 2021:</b> <strong>POST is more robust and secure than GET</strong> — GET data is visible in the URL. POST data is in the body (hidden from URL bar).</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="request">
+      <div class="ch-header"><div class="ch-num blue">📤</div><div class="ch-title"><h2>HTTP Request Structure</h2><p>What the browser sends to the server</p></div></div>
+      <div class="topic" style="--accent:var(--blue)">
+        <div class="topic-title"><span class="icon">📨</span> Request Format</div>
+        <div class="grid2">
+          <div>
+            <p><strong>Structure:</strong></p>
+            <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:var(--t2);direction:ltr;text-align:left">[method] [URL] [version]
+[headers]
+
+[body — POST/PUT only]</pre>
+          </div>
+          <div>
+            <p><strong>Example GET:</strong></p>
+            <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:var(--t2);direction:ltr;text-align:left">GET http://www.google.com HTTP/1.1
+Host: www.google.com
+User-Agent: Mozilla/5.0
+Accept: text/html</pre>
+          </div>
+        </div>
+        <div class="info"><b>Exam 2021:</b> An HTTP request message <strong>always contains a Request Line and a Header</strong>. A body is optional (only POST/PUT).</div>
+      </div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">📋</span> Common Request Headers</div>
+        <table class="tbl">
+          <tr><th>Header</th><th>Meaning</th></tr>
+          <tr><td><code>Referer</code></td><td>URL the request came from</td></tr>
+          <tr><td><code>User-Agent</code></td><td>Browser making the request</td></tr>
+          <tr><td><code>Accept</code></td><td>Content types the client accepts</td></tr>
+          <tr><td><code>Cookie</code></td><td>Stored cookies from previous server responses</td></tr>
+          <tr><td><code>If-Modified-Since</code></td><td>Caching — last time resource was fetched</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="chapter" id="response">
+      <div class="ch-header"><div class="ch-num green">📥</div><div class="ch-title"><h2>HTTP Response Structure</h2><p>What the server sends back</p></div></div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">📩</span> Response Format</div>
+        <div class="grid2">
+          <div>
+            <p><strong>Structure:</strong></p>
+            <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:var(--t2);direction:ltr;text-align:left">[version] [status code] [reason]
+[headers]
+
+[body — the page/data]</pre>
+          </div>
+          <div>
+            <p><strong>Example:</strong></p>
+            <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:var(--t2);direction:ltr;text-align:left">HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 17151
+
+&lt;html&gt;...&lt;/html&gt;</pre>
+          </div>
+        </div>
+        <div class="info"><b>Exam 2021:</b> In the response, the first line is called the <strong>Status Line</strong>. Every HTTP response MUST contain a status code.</div>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">📋</span> Key Response Headers</div>
+        <table class="tbl">
+          <tr><th>Header</th><th>Meaning</th></tr>
+          <tr><td><code>Content-Type</code></td><td>Type of content (text/html, application/json)</td></tr>
+          <tr><td><code>Content-Length</code></td><td>Body size in bytes</td></tr>
+          <tr><td><code>Expires</code></td><td>Time-based caching — when the resource expires</td></tr>
+          <tr><td><code>Location</code></td><td>Redirect target URL</td></tr>
+          <tr><td><code>Set-Cookie</code></td><td>Creates a cookie in the browser</td></tr>
+        </table>
+        <div class="warn"><b>Exam 2021:</b> <code>Expires: Tuesday, 17 Dec 2020...</code> is a <strong>Response</strong> header denoting <strong>Time-Based Caching</strong>.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="status">
+      <div class="ch-header"><div class="ch-num red">🚦</div><div class="ch-title"><h2>HTTP Status Codes</h2><p>The server's 3-digit summary of what happened</p></div></div>
+      <div class="topic" style="--accent:var(--red)">
+        <div class="topic-title"><span class="icon">📊</span> Status Code Families</div>
+        <div class="grid3" style="margin-bottom:16px">
+          <div class="cmp-card" style="--accent:var(--green)"><h4>2xx — Success ✅</h4><p>Request was received, understood, and processed.</p></div>
+          <div class="cmp-card" style="--accent:var(--amber)"><h4>3xx — Redirection 🔀</h4><p>Go to a different URL. Common after login or form submit.</p></div>
+          <div class="cmp-card" style="--accent:var(--red)"><h4>4xx — Client Error ❌</h4><p>The request has a problem. Bad syntax, unauthorized, not found.</p></div>
+          <div class="cmp-card" style="--accent:var(--pink)"><h4>5xx — Server Error 💥</h4><p>The server failed to handle a valid request. Backend bug/crash.</p></div>
+        </div>
+        <table class="tbl">
+          <tr><th>Code</th><th>Name</th><th>Meaning</th></tr>
+          <tr><td><span class="badge bc">200</span></td><td>OK</td><td>✅ Request succeeded</td></tr>
+          <tr><td><span class="badge bc">201</span></td><td>Created</td><td>✅ New resource created</td></tr>
+          <tr><td><span class="badge ba">301</span></td><td>Moved Permanently</td><td>🔀 Resource permanently at new URL</td></tr>
+          <tr><td><span class="badge ba">302</span></td><td>Found (Redirect)</td><td>🔀 Temporary redirect (login → dashboard)</td></tr>
+          <tr><td><span class="badge ba">304</span></td><td>Not Modified</td><td>💾 Use cached version — resource unchanged</td></tr>
+          <tr><td><span class="badge br">400</span></td><td>Bad Request</td><td>❌ Malformed request from client</td></tr>
+          <tr><td><span class="badge br">401</span></td><td>Unauthorized</td><td>🔑 Need to authenticate (not logged in)</td></tr>
+          <tr><td><span class="badge br">403</span></td><td>Forbidden</td><td>🚫 Logged in but no permission</td></tr>
+          <tr><td><span class="badge br">404</span></td><td>Not Found</td><td>🔍 Resource doesn't exist</td></tr>
+          <tr><td><span class="badge bp">500</span></td><td>Internal Server Error</td><td>💥 Backend bug/crash</td></tr>
+        </table>
+        <div class="danger"><b>Classic Trap — 304 vs 404:</b><br>
+        304 = "Not Modified" (3xx = Redirection family) → Use cache ✅<br>
+        404 = "Not Found" (4xx = Client Error family) → Resource missing ❌<br>
+        "304 = Not Found" is the WRONG match! It's "304 = Not Modified".</div>
+        <div class="warn"><b>401 vs 403:</b> 401 = not logged in yet. 403 = logged in but not allowed.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="cookies">
+      <div class="ch-header"><div class="ch-num teal">🍪</div><div class="ch-title"><h2>Cookies & Security</h2><p>Sessions, auth, authorization, HTTPS</p></div></div>
+      <div class="topic" style="--accent:var(--teal)">
+        <div class="topic-title"><span class="icon">🍪</span> Cookies</div>
+        <ul>
+          <li>Created by the <strong>Server</strong> — sent via <code>Set-Cookie</code> response header.</li>
+          <li>Stored by the browser — sent back in every future request via <code>Cookie</code> header.</li>
+          <li>Used for sessions, preferences, tracking, login state.</li>
+        </ul>
+        <div class="info"><b>Exam 2021:</b> A cookie is created by the <strong>Server</strong>.</div>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">🔐</span> Authentication vs Authorization</div>
+        <div class="grid2">
+          <div class="cmp-card" style="--accent:var(--cyan)"><h4>🔑 Authentication</h4><p><strong>Who are you?</strong> — Verify identity. Login with username/password. 401 = not authenticated.</p></div>
+          <div class="cmp-card" style="--accent:var(--pink)"><h4>🛡️ Authorization</h4><p><strong>What can you do?</strong> — Check permissions after login. 403 = no permission. 200 = authorized, content shown.</p></div>
+        </div>
+        <div class="warn"><b>Exam 2021:</b> To denote <em>permission</em> of using a resource → <strong>Authorization</strong>.</div>
+      </div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">🔒</span> HTTPS & TLS</div>
+        <ul>
+          <li>HTTPS = HTTP over <strong>TLS (Transport Layer Security)</strong>.</li>
+          <li>A lock icon in the browser = HTTPS over TLS = secured connection.</li>
+          <li>Data is encrypted — prevents eavesdropping. Runs on port 443.</li>
+        </ul>
+        <div class="info"><b>Exam 2021:</b> A lock icon in the browser denotes "Secured Hypertext Transfer Protocol over TLS, secured".</div>
+      </div>
+    </div>
+
+    <!-- QUIZ 2021 -->
+    <div class="quiz-section" id="quiz-2021">
+      <div class="quiz-header">
+        <div class="quiz-icon">🎯</div>
+        <div><h3>HTTP & URLs — Final 2021 (14 Questions)</h3><p>All real exam questions with Egyptian slang explanations 🇪🇬</p></div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q1 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">A web page has 4 JPEG images and HTML text. The total number of objects is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 1</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 3</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 5</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> 8</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — 5</b><br>
+          1 HTML file + 4 JPEG images = 5 objects total. Each file is counted as a separate HTTP object.
+          <span class="slang-tip">كل ملف بيتحسب object لوحده. HTML واحدة = 1 object، وكل صورة = 1 object. يعني 1 + 4 = 5 objects.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q2 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">Which is the oddly matched HTTP status code?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 200 — OK</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 400 — Bad Request</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 301 — Moved Permanently</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> 304 — Not Found</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: D — 304 — Not Found is WRONG</b><br>
+          304 means "Not Modified" (use cached version). 404 = Not Found. This is a classic trick question!
+          <span class="slang-tip">ده أشهر فخ في الامتحان! 304 = Not Modified (استخدم الـ cache). 404 = Not Found (مش موجود). لو شفت 304 — Not Found اعرف إنه غلط على طول.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q3 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">HTTP uses the services of ______ on well-known port 80:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> TCP</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> UDP</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> SMTP</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> HTTPS</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — TCP</b><br>
+          HTTP runs over TCP on port 80. HTTPS runs over TCP/TLS on port 443.
+          <span class="slang-tip">HTTP → TCP port 80. HTTPS → TCP/TLS port 443. احفظ الأرقام دي كويس، بتيجي كتير في الامتحان.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q4 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">In the HTTP response message, the first line is called the ______ line:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Status</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Request</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Response</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Header</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — Status Line</b><br>
+          First line of response = Status Line (e.g. <code>HTTP/1.1 200 OK</code>). First line of request = Request Line.
+          <span class="slang-tip">Response: أول سطر = Status Line. Request: أول سطر = Request Line. لو السؤال عن الـ response قول Status، لو عن الـ request قول Request Line.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q5 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">An HTTP request message always contains ______:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> A Header and A Body</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> A Request Line and A Header</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> A Status Line, A Header and A Body</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of The Above</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: B — Request Line + Header</b><br>
+          Every request has a Request Line (method + URL + version) and headers. Body is optional — GET has no body.
+          <span class="slang-tip">الـ request دايماً فيه Request Line (أول سطر) وـ Headers. الـ Body اختياري — GET مالوش body، بس POST وـ PUT عندهم body. وبرضو لو سألك عن Response: Status Line + Headers + (Body اختياري).</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q6 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">______ is more robust and secure than ______:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> GET, POST</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> POST, PUT</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> POST, GET</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of The Above</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — POST is more secure than GET</b><br>
+          POST sends data in the body (not visible). GET puts data in the URL (visible in browser history and logs).
+          <span class="slang-tip">GET بيبعت الداتا في الـ URL — يعني أي حد يشوف الشاشة يشوفها. POST بيبعت الداتا في الـ body — أأمن بكتير. عشان كده forms الـ Login بتستخدم POST مش GET.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q7 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">In a URL, an optional ______ can be inserted between the host and the path, separated from the host by a colon:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Port Number</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Protocol</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Host</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of Them</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — Port Number</b><br>
+          URL format: <code>https://host:port/path</code>. The port is optional and separated by a colon.
+          <span class="slang-tip">الـ port بيجي بعد الـ host بعلامة colon (:). زي <code>portal.cu.edu.eg:443</code>. لو مش محدد، HTTP بياخد 80 وـ HTTPS بياخد 443 تلقائي.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q8 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">A cookie is created by ______:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Server</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Client</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Host</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of Them</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — Server</b><br>
+          The server creates cookies via <code>Set-Cookie</code> response header. The browser stores and returns them.
+          <span class="slang-tip">الـ cookie بيتعملها الـ Server وبيبعتها في الـ response header. البراوزر بيحفظها وبيبعتها مع كل request بعد كده. مش البراوزر اللي بيعملها — السيرفر!</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q9 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">The ______ of the ______ can contain parameters sent to the server:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Header, response</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Header, request</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Body, response</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Body, request</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: D — Body of the Request</b><br>
+          POST request body contains the parameters sent to the server. GET puts params in the URL query string.
+          <span class="slang-tip">البيانات اللي بتتبعت للـ server بتيجي في الـ body من الـ request (مش response). ده بيحصل في POST/PUT — الـ body هو اللي بيشيل الـ form data.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q10 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">An HTTP Response message must contain ______:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Content coming from the server</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Content coming from the client</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Status code</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of them</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — Status code</b><br>
+          Every HTTP response MUST include a status code (200, 404, 500…). The body is optional (204 = success but no body).
+          <span class="slang-tip">الـ response لازم يكون فيه status code دايماً. الـ body ممكن يكون فاضي (زي 204 No Content). يعني اللي إلزامي في الـ response: Status Line + Headers + Status Code. الـ body اختياري.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q11 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">"Expires: Tuesday, 17 Dec 2020 18:30 GMT" is a ______ header denoting ______:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Request, Time-Based Caching</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Response, Content-Based Caching</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Request, Content-Type Caching</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Response, Time-Based Caching</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: D — Response + Time-Based Caching</b><br>
+          Expires header = Response header. It tells the browser when the cached resource expires. This is time-based caching.
+          <span class="slang-tip">Expires header ده response header. بيقول للبراوزر "الـ cache ده صلاحيته بتخلص يوم كذا". ده بيتسمى Time-Based Caching لأنه بيعتمد على تاريخ.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q12 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">To denote permission of using a resource, you must use ______:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Authentication</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Validation</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Authorization</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of Them</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — Authorization</b><br>
+          Authentication = who are you? Authorization = what are you allowed to do? Permission = Authorization.
+          <span class="slang-tip">Authentication = "إيه اسمك ومين انت؟" (Login). Authorization = "عندك إذن تعمل ده؟" (Permissions). Permission = Authorization. الفرق ده كلاسيك في الامتحانات.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q13 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">Using authorization, a response with status 200 means that ______:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> The user is not authorized</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Content cannot be displayed</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> None of the answers</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> User is authorized to see the response</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: D — User is authorized</b><br>
+          200 OK = success. In auth context: user has permission and the content is returned successfully.
+          <span class="slang-tip">200 = OK = كل حاجة تمام. في سياق الـ authorization: المستخدم معاه الـ permission وشاف الـ content. 403 = متاله حساب بس ملوش permission. 401 = ملوش حساب خالص.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q14 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">A lock icon in the browser denotes ______ for ______ connection:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> HTTP over TCP, secured</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> HTTPS over TLS, secured</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> HTTP over TCP, unsecured</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the answers</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: B — HTTPS over TLS, secured</b><br>
+          Lock icon = HTTPS (HTTP Secure) which runs over TLS. Connection is encrypted.
+          <span class="slang-tip">أيقونة القفل = الموقع بيستخدم HTTPS = بيشتغل فوق TLS = الـ connection مشفر وآمن. لو مفيش قفل → HTTP عادي مش مشفر.</span>
+        </div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-http21"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-2021')">✔ Check Answers</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-2021')">↺ Reset</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

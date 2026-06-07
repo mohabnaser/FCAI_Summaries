@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 03 — OOP & File Handling | IS231</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/shared.css">
+</head>
+<body>
+<div id="prog-bar"><div id="prog-fill"></div></div>
+<div id="overlay"></div>
+<nav id="sidebar">
+  <div class="sb-logo"><h2>IS231 · Lecture 03</h2><p>OOP & File Handling</p><span class="sb-tag">Backend Python + Django</span></div>
+  <a class="sb-back" href="../index.html">← Back to IS231</a>
+  <div class="sb-section">OOP Concepts</div>
+  <a class="sb-link" href="#classes"><span class="sb-dot"></span>Classes & Objects</a>
+  <a class="sb-link" href="#inheritance"><span class="sb-dot"></span>Inheritance & Polymorphism</a>
+  <a class="sb-link" href="#encapsulation"><span class="sb-dot"></span>4 Pillars of OOP</a>
+  <a class="sb-link" href="#files"><span class="sb-dot"></span>File Handling</a>
+  <div class="sb-section">Exam Quiz</div>
+  <a class="sb-link" href="#quiz-oop"><span class="sb-dot"></span>🎯 OOP Quiz</a>
+</nav>
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+<main id="main">
+  <div class="hero">
+    <div class="hero-badge">⚡ IS231 · Lecture 03 · Dr. Mohamed Nour Eldien</div>
+    <h1>OOP & <span>File Handling</span></h1>
+    <p>Classes, objects, inheritance, the 4 OOP pillars, file I/O, and exception handling — with Egyptian slang explanations 🇪🇬</p>
+    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← Back to Hub</a></div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num">4</div><div class="lbl">Topics</div></div>
+      <div class="hstat"><div class="num">5</div><div class="lbl">Exam Q's</div></div>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="chapter" id="classes">
+      <div class="ch-header"><div class="ch-num cyan">🏗️</div><div class="ch-title"><h2>Classes & Objects</h2><p>The building blocks of OOP in Python</p></div></div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">📦</span> Defining a Class</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left">class Student:
+    def __init__(self, name, gpa):  # constructor — runs when object is created
+        self.name = name            # instance attribute
+        self.gpa = gpa
+
+    def greet(self):
+        print(f"Hello, I am {self.name}")
+
+s1 = Student("Ali", 3.8)
+s2 = s1          # s2 is a REFERENCE to the same object!
+# id(s1) == id(s2) → True</pre>
+        <div class="info"><b>Exam 2021:</b> When you do <code>name2 = name1</code>, both variables reference the <strong>same object</strong>. <code>id(name1) == id(name2)</code> = True.</div>
+        <div class="warn"><b>Key:</b> <code>self</code> is the first parameter of every method — it refers to the current object instance.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="inheritance">
+      <div class="ch-header"><div class="ch-num purple">🔗</div><div class="ch-title"><h2>Inheritance & Polymorphism</h2><p>Reusing and overriding code</p></div></div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">👪</span> Inheritance Example</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left">class Animal:
+    def speak(self):
+        return "..."
+
+class Dog(Animal):        # Dog inherits from Animal
+    def speak(self):      # Override (polymorphism!)
+        return "Woof!"
+
+class Cat(Animal):
+    def speak(self):
+        return "Meow!"
+
+d = Dog()
+print(d.speak())  # "Woof!" — uses Dog's version</pre>
+        <div class="tip"><b>Polymorphism:</b> Same method name (<code>speak</code>), different behavior depending on the class. Very powerful for building flexible systems.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="encapsulation">
+      <div class="ch-header"><div class="ch-num amber">🔒</div><div class="ch-title"><h2>The 4 Pillars of OOP</h2><p>Encapsulation · Inheritance · Polymorphism · Abstraction</p></div></div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">🏛️</span> Four OOP Pillars</div>
+        <div class="grid2">
+          <div class="cmp-card" style="--accent:var(--cyan)"><h4>🔒 Encapsulation</h4><p>Bundle data + methods together. Hide internal state from outside. Use <code>_private</code> or <code>__private</code> to restrict access.</p></div>
+          <div class="cmp-card" style="--accent:var(--green)"><h4>🔗 Inheritance</h4><p>Child class inherits attributes and methods from parent class. Promotes code reuse — don't repeat yourself!</p></div>
+          <div class="cmp-card" style="--accent:var(--amber)"><h4>🎭 Polymorphism</h4><p>Same method name, different behavior in different classes. Override parent methods to customize behavior.</p></div>
+          <div class="cmp-card" style="--accent:var(--purple)"><h4>🎭 Abstraction</h4><p>Hide complex implementation details. Show only the essential interface to the user.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter" id="files">
+      <div class="ch-header"><div class="ch-num green">📂</div><div class="ch-title"><h2>File Handling</h2><p>Read, write, and append files in Python</p></div></div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">📄</span> File Operations</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"># Read a file
+with open("data.txt", "r") as f:
+    content = f.read()
+
+# Write to a file (overwrites!)
+with open("output.txt", "w") as f:
+    f.write("Hello World")
+
+# Append to a file (does NOT overwrite)
+with open("log.txt", "a") as f:
+    f.write("new line\n")</pre>
+        <div class="tip"><b>Best Practice:</b> Always use <code>with</code> — it automatically closes the file even if an error occurs. No need to call <code>f.close()</code>.</div>
+        <table class="tbl" style="margin-top:14px">
+          <tr><th>Mode</th><th>Meaning</th><th>Creates if not exists?</th></tr>
+          <tr><td><code>"r"</code></td><td>Read only</td><td>❌ No (error)</td></tr>
+          <tr><td><code>"w"</code></td><td>Write (overwrites)</td><td>✅ Yes</td></tr>
+          <tr><td><code>"a"</code></td><td>Append (adds to end)</td><td>✅ Yes</td></tr>
+          <tr><td><code>"rb"</code></td><td>Read binary</td><td>❌ No</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section" id="quiz-oop">
+      <div class="quiz-header">
+        <div class="quiz-icon">🎯</div>
+        <div><h3>OOP — Exam Quiz</h3><p>Real questions with Egyptian slang explanations 🇪🇬</p></div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q1 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">Consider: <code>name1 = Name('ABC'); name2 = name1</code>. Which statement is correct?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Error — multiple references to same object not possible</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> id(name1) and id(name2) will have the same value</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> name2 is a copy of name1</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error — can't assign object to variable</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: B — id(name1) == id(name2)</b><br>
+          <code>name2 = name1</code> creates a reference, NOT a copy. Both variables point to the exact same object in memory. Their <code>id()</code> values are identical.
+          <span class="slang-tip">لما بتعمل name2 = name1 مش بتعمل نسخة — بتعمل اسم تاني لنفس الـ object. الاتنين بيشيروا لنفس المكان في الـ memory. ده زي ما لو قلت "محمد" و "كيميائي" — اتنين أسماء لنفس الشخص.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q2 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What is the purpose of form control elements in the HTML DOM?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> User Interface elements</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> All possible elements</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Debugging elements</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Collecting elements</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — User Interface elements</b><br>
+          Form controls (input, button, select, textarea) are UI elements for user interaction and data input.
+          <span class="slang-tip">عناصر الفورم زي input وbutton وselect هي User Interface elements — يعني الأدوات اللي المستخدم بيتعامل معاها ويدخل فيها بياناته.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q3 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">Which OOP pillar means "same method name, different behavior in different classes"?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Polymorphism</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Encapsulation</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Abstraction</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Inheritance</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — Polymorphism</b><br>
+          Polymorphism = one interface, many forms. The same method name behaves differently across classes. Like <code>speak()</code> in Dog vs Cat.
+          <span class="slang-tip">Polymorphism = نفس الاسم، تصرف مختلف. زي طريقة speak() في الـ Dog بترجع "Woof" وفي الـ Cat بترجع "Meow" — نفس الاسم بس تصرف مختلف.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q4 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">Which file mode in Python ADDS content without overwriting existing content?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> "w" (write)</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> "r" (read)</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> "a" (append)</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> "rw" (read-write)</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — "a" (append)</b><br>
+          Mode "a" opens the file and adds content at the END without deleting existing content. Mode "w" overwrites everything.
+          <span class="slang-tip">"a" (append) = بيضيف في الآخر من غير ما يمسح اللي موجود. "w" (write) = بيمسح كل حاجة ويكتب من الأول. اتأكد تعرف الفرق ده!</span>
+        </div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-oop"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-oop')">✔ Check Answers</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-oop')">↺ Reset</button>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

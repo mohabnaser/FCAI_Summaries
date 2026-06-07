@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 06-B — Django Part II | IS231</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/shared.css">
+</head>
+<body>
+<div id="prog-bar"><div id="prog-fill"></div></div>
+<div id="overlay"></div>
+<nav id="sidebar">
+  <div class="sb-logo"><h2>IS231 · Lecture 06-B</h2><p>Django Part II</p><span class="sb-tag">Backend Python + Django</span></div>
+  <a class="sb-back" href="../index.html">← Back to IS231</a>
+  <div class="sb-section">Models & DB</div>
+  <a class="sb-link" href="#models"><span class="sb-dot"></span>Django Models</a>
+  <a class="sb-link" href="#migrations"><span class="sb-dot"></span>Migrations</a>
+  <a class="sb-link" href="#orm"><span class="sb-dot"></span>ORM Queries</a>
+  <a class="sb-link" href="#forms"><span class="sb-dot"></span>Django Forms</a>
+  <a class="sb-link" href="#admin"><span class="sb-dot"></span>Admin Panel</a>
+  <div class="sb-section">Exam Quiz</div>
+  <a class="sb-link" href="#quiz-django2"><span class="sb-dot"></span>🎯 Django II Quiz</a>
+</nav>
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+<main id="main">
+  <div class="hero">
+    <div class="hero-badge">⚡ IS231 · Lecture 06-B · Dr. Mohamed Nour Eldien</div>
+    <h1>Django — <span>Part II</span></h1>
+    <p>Django models, field types, database migrations, ORM queries, forms, and admin panel customization.</p>
+    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← Back to Hub</a></div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num">5</div><div class="lbl">Topics</div></div>
+      <div class="hstat"><div class="num">8</div><div class="lbl">Exam Q's</div></div>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- MODELS -->
+    <div class="chapter" id="models">
+      <div class="ch-header"><div class="ch-num cyan">📦</div><div class="ch-title"><h2>Django Models</h2><p>Python classes that map to database tables</p></div></div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">🗄️</span> Defining a Model</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#cba6f7">from</span> <span style="color:#89b4fa">django.db</span> <span style="color:#cba6f7">import</span> models
+
+<span style="color:#cba6f7">class</span> <span style="color:#89b4fa">Student</span>(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    gpa = models.FloatField(default=0.0)
+    enrolled = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    <span style="color:#cba6f7">def</span> <span style="color:#89b4fa">__str__</span>(self):
+        <span style="color:#cba6f7">return</span> self.name</pre>
+        <div class="info"><b>Key:</b> Each model class = one database table. Each attribute = one column. Django ORM handles the SQL automatically.</div>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">📋</span> Common Field Types</div>
+        <table class="tbl">
+          <tr><th>Field</th><th>SQL Type</th><th>Usage</th></tr>
+          <tr><td><code>CharField</code></td><td>VARCHAR</td><td>Short text — requires max_length</td></tr>
+          <tr><td><code>TextField</code></td><td>TEXT</td><td>Long text — no max_length needed</td></tr>
+          <tr><td><code>IntegerField</code></td><td>INTEGER</td><td>Integer numbers</td></tr>
+          <tr><td><code>FloatField</code></td><td>REAL</td><td>Decimal numbers</td></tr>
+          <tr><td><code>BooleanField</code></td><td>BOOLEAN</td><td>True/False values</td></tr>
+          <tr><td><code>DateTimeField</code></td><td>DATETIME</td><td>Date and time</td></tr>
+          <tr><td><code>EmailField</code></td><td>VARCHAR</td><td>Email with validation</td></tr>
+          <tr><td><code>ForeignKey</code></td><td>INTEGER (FK)</td><td>Many-to-one relationship</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- MIGRATIONS -->
+    <div class="chapter" id="migrations">
+      <div class="ch-header"><div class="ch-num purple">⚙️</div><div class="ch-title"><h2>Migrations</h2><p>Syncing Python models with the database</p></div></div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">🔄</span> Migration Workflow</div>
+        <div class="plan-steps">
+          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">1</div><div><div class="ps-title">Define or change models in models.py</div><div class="ps-desc">Add new fields, change existing ones, create new Model classes.</div></div></div>
+          <div class="plan-step" style="--accent:var(--amber)"><div class="ps-num">2</div><div><div class="ps-title">python manage.py makemigrations</div><div class="ps-desc">Creates migration files that describe the changes. Stored in migrations/ folder.</div></div></div>
+          <div class="plan-step" style="--accent:var(--green)"><div class="ps-num">3</div><div><div class="ps-title">python manage.py migrate</div><div class="ps-desc">Applies the migrations to the actual database. Creates/alters the real tables.</div></div></div>
+        </div>
+        <div class="info"><b>Exam:</b> Migrations track changes to the database schema, are created with <code>makemigrations</code>, and applied with <code>migrate</code> — All of the above.</div>
+      </div>
+    </div>
+
+    <!-- ORM -->
+    <div class="chapter" id="orm">
+      <div class="ch-header"><div class="ch-num green">🔍</div><div class="ch-title"><h2>ORM Queries</h2><p>Database operations without writing SQL</p></div></div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">💾</span> Common QuerySet Operations</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70"># Get all records</span>
+students = Student.objects.all()
+
+<span style="color:#585b70"># Filter records</span>
+top = Student.objects.filter(gpa__gte=3.5)
+
+<span style="color:#585b70"># Get single record</span>
+s = Student.objects.get(id=1)
+
+<span style="color:#585b70"># Create new record</span>
+Student.objects.create(name="Ali", email="ali@cu.edu")
+
+<span style="color:#585b70"># Update a record</span>
+s = Student.objects.get(id=1)
+s.gpa = 3.9
+s.save()
+
+<span style="color:#585b70"># Delete a record</span>
+s.delete()</pre>
+      </div>
+    </div>
+
+    <!-- FORMS -->
+    <div class="chapter" id="forms">
+      <div class="ch-header"><div class="ch-num amber">📝</div><div class="ch-title"><h2>Django Forms</h2><p>Handling user input with built-in validation</p></div></div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">📋</span> Form in View</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#cba6f7">from</span> <span style="color:#89b4fa">django</span> <span style="color:#cba6f7">import</span> forms
+
+<span style="color:#cba6f7">class</span> <span style="color:#89b4fa">LoginForm</span>(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+<span style="color:#585b70"># In the view:</span>
+<span style="color:#cba6f7">def</span> <span style="color:#89b4fa">login_view</span>(request):
+    <span style="color:#cba6f7">if</span> request.method == <span style="color:#a6e3a1">'POST'</span>:
+        form = LoginForm(request.POST)
+        <span style="color:#cba6f7">if</span> form.is_valid():
+            <span style="color:#585b70"># process the form data</span>
+            pass
+    <span style="color:#cba6f7">else</span>:
+        form = LoginForm()
+    <span style="color:#cba6f7">return</span> render(request, <span style="color:#a6e3a1">'login.html'</span>, {<span style="color:#a6e3a1">'form'</span>: form})</pre>
+        <div class="tip"><b>Pattern:</b> GET → show empty form. POST → validate and process. Always check <code>request.method == 'POST'</code> first.</div>
+      </div>
+    </div>
+
+    <!-- ADMIN -->
+    <div class="chapter" id="admin">
+      <div class="ch-header"><div class="ch-num pink">👨‍💼</div><div class="ch-title"><h2>Django Admin Panel</h2><p>Built-in management interface</p></div></div>
+      <div class="topic" style="--accent:var(--pink)">
+        <div class="topic-title"><span class="icon">⚙️</span> Registering Models in Admin</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70"># admin.py</span>
+<span style="color:#cba6f7">from</span> <span style="color:#89b4fa">django.contrib</span> <span style="color:#cba6f7">import</span> admin
+<span style="color:#cba6f7">from</span> <span style="color:#89b4fa">.models</span> <span style="color:#cba6f7">import</span> Student
+
+admin.site.register(Student)   <span style="color:#585b70"># ← register the model</span>
+
+<span style="color:#585b70"># Create admin user:</span>
+<span style="color:#585b70"># python manage.py createsuperuser</span></pre>
+        <div class="info"><b>Access at:</b> <code>http://127.0.0.1:8000/admin/</code> — provides full CRUD for registered models with no extra code.</div>
+      </div>
+    </div>
+
+    <!-- QUIZ DJANGO 2 -->
+    <div class="quiz-section" id="quiz-django2">
+      <div class="quiz-header">
+        <div class="quiz-icon">🎯</div>
+        <div><h3>Django Part II — Exam Quiz</h3><p>Real questions from Final 2021 — IS231</p></div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q1 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">To register a model in the Django admin, you use:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> admin.site.register(Model_name)</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> admin.register(Model_name)</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> models.admin.register()</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> site.register(admin, Model_name)</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: A — admin.site.register(Model_name)</b><br>In admin.py, import your model and call admin.site.register(). This makes the model accessible in the Django admin interface at /admin/.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q2 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What are Migrations in Django?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> They track changes to the database schema</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> They are created when you run makemigrations</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> They apply changes to the database using migrate</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> All of the above</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: D — All of the above</b><br>Migrations: track schema changes (A), created by makemigrations (B), applied to DB by migrate (C). All three are correct aspects of Django migrations.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q3 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">In Django's MVT, which component stores and manages data in database tables?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> View</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Template</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Model</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> URLs</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: C — Model</b><br>The Model in Django's MVT handles all data and database operations. Django ORM translates Python model classes into SQL database tables.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">In Django, which template tag is used for defining HTML content (not outputting a variable)?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div>  {{ tag }}</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div>  {% tag %}</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div>  {# comment #}</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div>  [% tag %]</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: B — {% tag %}</b><br>{% %} is for template tags (logic: for loops, if conditions, block tags). {{ }} is for outputting variable values. {# #} is for comments.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q5 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">When should you use POST method in a Django form?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> When creating or updating data that changes the database</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> When reading data without changes</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> When you want URL parameters visible</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> When displaying a list of records</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: A — When creating/updating data</b><br>Use POST for any operation that changes data (create, update, delete). Use GET for safe read-only operations where parameters in the URL are acceptable.</div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-django2"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-django2')">✔ Check Answers</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-django2')">↺ Reset</button>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

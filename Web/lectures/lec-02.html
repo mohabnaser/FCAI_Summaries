@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 02 — Python Essentials | IS231</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/shared.css">
+</head>
+<body>
+<div id="prog-bar"><div id="prog-fill"></div></div>
+<div id="overlay"></div>
+<nav id="sidebar">
+  <div class="sb-logo"><h2>IS231 · Lecture 02</h2><p>Python Essentials</p><span class="sb-tag">Backend Python + Django</span></div>
+  <a class="sb-back" href="../index.html">← Back to IS231</a>
+  <div class="sb-section">Python Basics</div>
+  <a class="sb-link" href="#variables"><span class="sb-dot"></span>Variables & Types</a>
+  <a class="sb-link" href="#collections"><span class="sb-dot"></span>Collections</a>
+  <a class="sb-link" href="#control"><span class="sb-dot"></span>Control Flow</a>
+  <a class="sb-link" href="#functions"><span class="sb-dot"></span>Functions</a>
+  <a class="sb-link" href="#lambda"><span class="sb-dot"></span>Lambda & Advanced</a>
+  <div class="sb-section">Exam Quizzes</div>
+  <a class="sb-link" href="#quiz-2021"><span class="sb-dot"></span>🎯 Final 2021</a>
+  <a class="sb-link" href="#quiz-2024"><span class="sb-dot"></span>🎯 Final 2024</a>
+</nav>
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+<main id="main">
+  <div class="hero">
+    <div class="hero-badge">⚡ IS231 · Lecture 02 · Dr. Mohamed Nour Eldien</div>
+    <h1>Python <span>Essentials</span></h1>
+    <p>Variables, data types, control flow, functions, lists, dicts, sets, lambda, and comprehensions — explained in English with Egyptian slang breakdowns.</p>
+    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← Back to Hub</a></div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num">5</div><div class="lbl">Topics</div></div>
+      <div class="hstat"><div class="num">20+</div><div class="lbl">Exam Q's</div></div>
+      <div class="hstat"><div class="num">2021+2024</div><div class="lbl">Finals</div></div>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- VARIABLES -->
+    <div class="chapter" id="variables">
+      <div class="ch-header"><div class="ch-num cyan">📦</div><div class="ch-title"><h2>Variables & Data Types</h2><p>Python is dynamically typed — no need to declare types!</p></div></div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">🔢</span> Built-in Data Types</div>
+        <table class="tbl">
+          <tr><th>Type</th><th>Example</th><th>Key Note</th></tr>
+          <tr><td><code>int</code></td><td><code>x = 10</code></td><td>Integer number</td></tr>
+          <tr><td><code>float</code></td><td><code>x = 3.14</code></td><td>Division <code>/</code> ALWAYS returns float: <code>10/2 = 5.0</code></td></tr>
+          <tr><td><code>str</code></td><td><code>x = "Ahmed"</code></td><td>Text — immutable</td></tr>
+          <tr><td><code>bool</code></td><td><code>x = True</code></td><td><code>[]</code>, <code>0</code>, <code>""</code>, <code>None</code> are all <code>False</code></td></tr>
+          <tr><td><code>NoneType</code></td><td><code>x = None</code></td><td>No value / empty</td></tr>
+        </table>
+        <div class="info"><b>Exam Trap!</b> Division with <code>/</code> always gives float. Use <code>//</code> for integer division. So <code>100/20 = 5.0</code> NOT <code>5</code>.</div>
+        <div class="warn"><b>Exam 2024:</b> The output of <code>y = lambda x: x/20; print(y(100))</code> is <strong>5.0</strong> (float), NOT 5. Python type-casts division results to float by default.</div>
+      </div>
+    </div>
+
+    <!-- COLLECTIONS -->
+    <div class="chapter" id="collections">
+      <div class="ch-header"><div class="ch-num amber">📚</div><div class="ch-title"><h2>Collections</h2><p>List · Tuple · Set · Dictionary</p></div></div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">📋</span> The Four Collection Types</div>
+        <div class="grid2">
+          <div class="cmp-card" style="--accent:var(--cyan)"><h4>List <code>[]</code></h4><ul><li>Ordered ✅</li><li>Mutable ✅ (can change)</li><li>Allows duplicates ✅</li><li>Indexed by position [0]</li></ul><pre style="background:rgba(0,0,0,.3);border-radius:6px;padding:8px;font-size:.75rem;direction:ltr;text-align:left">lst = [1, 2, 3]
+lst.append(4)   # → [1, 2, 3, 4]
+lst.pop()       # removes last</pre></div>
+          <div class="cmp-card" style="--accent:var(--amber)"><h4>Tuple <code>()</code></h4><ul><li>Ordered ✅</li><li>Immutable ❌ (can't change)</li><li>Allows duplicates ✅</li><li>Faster than list</li></ul><pre style="background:rgba(0,0,0,.3);border-radius:6px;padding:8px;font-size:.75rem;direction:ltr;text-align:left">t = (1, 2, 3)
+# t[0] = 10 → TypeError!</pre></div>
+          <div class="cmp-card" style="--accent:var(--pink)"><h4>Set <code>{}</code></h4><ul><li>Unordered ❌</li><li>NOT indexed ❌</li><li>NO duplicates ❌</li><li><code>pop()</code> = random element!</li></ul><pre style="background:rgba(0,0,0,.3);border-radius:6px;padding:8px;font-size:.75rem;direction:ltr;text-align:left">s = {1, 2, 3}
+s.pop()  # removes RANDOM!</pre></div>
+          <div class="cmp-card" style="--accent:var(--green)"><h4>Dictionary <code>{}</code></h4><ul><li>Key-value pairs</li><li>Unique keys only</li><li>Duplicate key → last wins</li><li>Mutable ✅</li></ul><pre style="background:rgba(0,0,0,.3);border-radius:6px;padding:8px;font-size:.75rem;direction:ltr;text-align:left">d = {"name": "Ali", "age": 20}
+d["name"]  # → "Ali"</pre></div>
+        </div>
+        <div class="danger"><b>Exam Trap (2021 & 2024):</b> A set is <strong>unordered and NOT indexed</strong>. Sets also do NOT allow duplicates — adding a duplicate just ignores it. <code>pop()</code> on a set removes a <strong>random</strong> element!</div>
+      </div>
+
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">📖</span> Dictionary — Duplicate Keys & References</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70"># Duplicate keys — LAST VALUE WINS (no error!)</span>
+x = {"name": "Ahmed", "id": "1", "mobile": 123456789, "mobile": 987654321}
+print(x)
+<span style="color:#585b70"># → {'name': 'Ahmed', 'id': '1', 'mobile': 987654321}</span>
+
+<span style="color:#585b70"># REFERENCE vs COPY — 2024 exam question!</span>
+d = {"name": "Mona"}
+y = d           <span style="color:#585b70"># y is a REFERENCE to same dict</span>
+d["name"] = "Sara"
+print(y)        <span style="color:#585b70"># → {'name': 'Sara'}  ← y changed too!</span>
+
+y2 = d.copy()   <span style="color:#585b70"># y2 is an INDEPENDENT copy (lowercase copy!)</span>
+d["name"] = "Ali"
+print(y2)       <span style="color:#585b70"># → {'name': 'Sara'}  ← y2 did NOT change</span></pre>
+        <div class="warn"><b>2024 Exam:</b> <code>y = d</code> makes y a <strong>reference</strong> — any change to d ALSO changes y. Use <code>d.copy()</code> (lowercase!) for independent copy. <code>Copy()</code> with capital C is a TypeError — Python is case-sensitive!</div>
+      </div>
+
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">✂️</span> List Slicing</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left">lst = [0, 1, 2, 3, 4, 5]
+lst[1:3]    <span style="color:#585b70"># → [1, 2]    (includes index 1, EXCLUDES index 3)</span>
+lst[:3]     <span style="color:#585b70"># → [0, 1, 2] (from start to index 2)</span>
+lst[2:]     <span style="color:#585b70"># → [2, 3, 4, 5] (from index 2 to end)</span>
+lst[-1]     <span style="color:#585b70"># → 5          (last element)</span></pre>
+        <div class="tip"><b>Rule:</b> Slicing <em>includes</em> the first index, <em>excludes</em> the last index. If no bound → assumes start/end of list.</div>
+      </div>
+
+      <div class="topic" style="--accent:var(--blue)">
+        <div class="topic-title"><span class="icon">🔢</span> List Sort — Nested Lists</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left">lst = []
+nums = [15, 6]
+lst.append(nums)           <span style="color:#585b70"># lst = [[15, 6]]</span>
+nums = [10, 30, 20]
+lst.append(nums)           <span style="color:#585b70"># lst = [[15, 6], [10, 30, 20]]</span>
+lst.sort()
+print(lst)
+<span style="color:#585b70"># → [[10, 30, 20], [15, 6]]</span>
+<span style="color:#585b70"># sort() compares FIRST elements only: 10 < 15</span>
+<span style="color:#585b70"># Inner lists are NOT sorted</span></pre>
+      </div>
+    </div>
+
+    <!-- CONTROL FLOW -->
+    <div class="chapter" id="control">
+      <div class="ch-header"><div class="ch-num purple">🔀</div><div class="ch-title"><h2>Control Flow</h2><p>if/elif/else, loops — and the indentation trap</p></div></div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">⚠️</span> Indentation is MANDATORY in Python</div>
+        <div class="grid2">
+          <div>
+            <p><strong>✅ Correct — Only 2nd print runs:</strong></p>
+            <pre style="background:var(--card2);border:1px solid rgba(16,185,129,.3);border-radius:8px;padding:12px;font-family:var(--fc);font-size:.8rem;color:#cdd6f4;direction:ltr;text-align:left">if 2 < 1:
+    print("Two is less than one!")
+print("Always prints")</pre>
+            <p style="font-size:.8rem;color:var(--green)">Output: <code>Always prints</code></p>
+          </div>
+          <div>
+            <p><strong>❌ Wrong indentation = Error:</strong></p>
+            <pre style="background:var(--card2);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:12px;font-family:var(--fc);font-size:.8rem;color:#cdd6f4;direction:ltr;text-align:left">if 2 < 1:
+print("Will crash!")
+<span style="color:var(--red)"># IndentationError!</span></pre>
+          </div>
+        </div>
+        <div class="info"><b>2024 Exam:</b> "Notice the incorrect indentation between the 2 print functions." — Be very careful about which print is inside or outside the if block.</div>
+      </div>
+      <div class="topic" style="--accent:var(--red)">
+        <div class="topic-title"><span class="icon">🔄</span> For Loop with Semicolon Trap</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70"># DANGER: semicolon after for loop header!</span>
+for i in range(3);    <span style="color:#585b70"># SyntaxError — semicolons NOT used in Python for loops</span>
+
+<span style="color:#585b70"># But in some tricky questions, an empty loop body</span>
+for i in range(3):
+    pass
+print("done")</pre>
+        <div class="danger"><b>2024 Exam:</b> "Note the ; after the for loop" — a semicolon after a for statement is a SyntaxError in Python. Python uses colons (:) not semicolons (;) for block headers.</div>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">🔢</span> Python Arithmetic Types</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left">y = 2
+z = 3
+print(y + z)    <span style="color:#585b70"># → 5  (both ints → int result)</span>
+
+print(10 / 2)   <span style="color:#585b70"># → 5.0 (division ALWAYS float!)</span>
+print(10 // 2)  <span style="color:#585b70"># → 5   (integer division, use //)</span></pre>
+        <div class="info"><b>2024 Exam:</b> "y and z are ints and are added normally — The answer is 5." Adding two ints gives int. But division <code>/</code> always gives float even with two ints.</div>
+      </div>
+    </div>
+
+    <!-- FUNCTIONS -->
+    <div class="chapter" id="functions">
+      <div class="ch-header"><div class="ch-num green">🔧</div><div class="ch-title"><h2>Functions</h2><p>def, *args, **kwargs, scope — و كمان Lambda!</p></div></div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">⚙️</span> *args and **kwargs</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70"># *args → packs positional arguments into a TUPLE</span>
+def greet(*names):
+    for name in names:
+        print(f"Hello {name}")
+
+greet("Ali", "Mona", "Ahmed")
+<span style="color:#585b70"># → Hello Ali / Hello Mona / Hello Ahmed</span>
+
+<span style="color:#585b70"># **kwargs → packs keyword arguments into a DICT</span>
+def f(**person):
+    print("Person's name is " + person["name"])
+
+f(name="Ahmed", age=10)
+<span style="color:#585b70"># → Person's name is Ahmed</span></pre>
+        <div class="info"><b>Exam 2021:</b> <code>**kwargs</code> sends arguments as a <strong>dictionary</strong>. The function accesses them with <code>person["name"]</code> like a regular dict.</div>
+      </div>
+    </div>
+
+    <!-- LAMBDA -->
+    <div class="chapter" id="lambda">
+      <div class="ch-header"><div class="ch-num pink">λ</div><div class="ch-title"><h2>Lambda & Advanced</h2><p>Anonymous functions, map, filter — مهمين جداً!</p></div></div>
+      <div class="topic" style="--accent:var(--pink)">
+        <div class="topic-title"><span class="icon">λ</span> Lambda Functions</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left">y = lambda x: x / 20
+print(y(100))
+<span style="color:#585b70"># → 5.0  (NOT 5! Division always float in Python)</span>
+
+double = lambda n: n * 2
+print(double(4))
+<span style="color:#585b70"># → 8 (multiplication of ints → int)</span></pre>
+        <div class="warn"><b>Classic Trap:</b> Lambda with division gives float. Lambda with multiplication of ints gives int.</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════ QUIZ 2021 ═══════════════════════ -->
+    <div class="quiz-section" id="quiz-2021">
+      <div class="quiz-header">
+        <div class="quiz-icon">🎯</div>
+        <div><h3>Python — Final 2021</h3><p>Real questions with Egyptian slang explanations 🇪🇬</p></div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q1 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What will this Python code print?<br><code>lst = []; nums = [15, 6]; lst.append(nums); nums = [10, 30, 20]; lst.append(nums); lst.sort(); print(lst)</code></div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> [6, 10, 15, 20, 30]</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> [[6, 15], [10, 20, 30]]</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> [[10, 30, 20], [15, 6]]</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> [[15, 6], [10, 30, 20]]</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — [[10, 30, 20], [15, 6]]</b><br>
+          <code>sort()</code> on a list of lists compares only the <strong>first elements</strong>. 10 &lt; 15, so [10, 30, 20] comes first. The inner lists are NOT individually sorted.
+          <span class="slang-tip">يعني الـ sort() مش بتدخل جوه الـ inner lists — بتقارن بس أول عنصر في كل sub-list. 10 أصغر من 15 فـ [10, 30, 20] بتيجي الأول. الـ inner list فاضلة زي ما هي.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q2 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">In Python, the value of <code>[]</code> (empty list) is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> False</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> True</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> None</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — False</b><br>
+          In Python, all of these evaluate to <strong>False</strong>: <code>[]</code>, <code>{}</code>, <code>()</code>, <code>""</code>, <code>0</code>, <code>0.0</code>, <code>None</code>. Any empty collection = False!
+          <span class="slang-tip">الـ falsy values في Python: أي حاجة فاضية أو صفر = False. خد بالك مش بيرمي error — بس يحسبها False لما تستخدمها في if statement.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">A Python set is a collection which is both unordered AND indexed. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: B — False</b><br>
+          Sets are <strong>unordered</strong> but <strong>NOT indexed</strong>. You can't do <code>my_set[0]</code>. Sets are only iterable.
+          <span class="slang-tip">الـ set مش بيتقسم بـ index زي الـ list. مينفعش تقول <code>s[0]</code> — هيطلعلك TypeError. الـ set عشوائي ومش مرتب خالص.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">Final 2021</span></div>
+        <div class="q-text"><code>myNumbers = {1, 2, 3}; x = myNumbers.pop()</code> — The removed item will definitely be 3. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: B — False</b><br>
+          Sets are unordered. <code>pop()</code> on a set removes a <strong>random</strong> element — you cannot predict which one.
+          <span class="slang-tip">ده فخ كلاسيك! الـ set مرتبش فـ pop() بتشيل عنصر عشوائي. مش زي الـ list اللي بتشيل الآخر دايماً. لو اتسألت ع ده في الامتحان: الإجابة False.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q5 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What does <code>{"name": "Ahmed", "mobile": 123456789, "mobile": 987654321}</code> print?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Both mobile values shown</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> First mobile: 123456789</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Last mobile: 987654321</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error — duplicate keys not allowed</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — Last value wins: 987654321</b><br>
+          Python dictionaries allow duplicate keys during creation but keep only the <strong>last value</strong>. No error is thrown.
+          <span class="slang-tip">مفيش error لو عندك duplicate keys في الـ dict — Python بياخد آخر value بس. يعني اللي جاي بعد بيكتب فوق اللي قبله.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q6 <span class="q-src">Final 2021</span></div>
+        <div class="q-text"><code>def f(**person): print("Person's name is " + person["name"]); f(name="Ahmed", age=10)</code> — Output?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Person's name is Ahmed</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Person's name is Ahmed and Age is 10</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Error — too many arguments</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error — no "name" argument</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — Person's name is Ahmed</b><br>
+          <code>**kwargs</code> collects ALL keyword args into a dict. The function only prints <code>person["name"]</code>, so only Ahmed prints — the age is ignored.
+          <span class="slang-tip">الـ **kwargs بتجمع كل keyword arguments في dictionary. الـ function بتطبع person["name"] بس — مش بتتكلم عن الـ age خالص. يعني Ahmed بس اللي يظهر.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q7 <span class="q-src">Final 2021</span></div>
+        <div class="q-text"><code>y = lambda x: x / 20; print(y(100))</code> — Output?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Error</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 5 (integer)</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 5.0 (float)</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> y(100)</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — 5.0</b><br>
+          Python's <code>/</code> division operator ALWAYS returns a float. 100 ÷ 20 = 5.0, not 5. Lambda functions work exactly like regular functions.
+          <span class="slang-tip">مهم جداً! القسمة العادية في Python بتدي float دايماً حتى لو النتيجة عدد صحيح. لو عايز int استخدم // (floor division). 100/20 = 5.0 مش 5.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q8 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">In Python: <code>if 2 &lt; 1: [indented] print("Two is less than one!") [not indented] print("Two is less than one!")</code> — Output?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Prints the message twice</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Prints the message once (first line)</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> No output</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Prints "Two is less than one!" once (second print only, outside if)</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: D — Only the second print executes</b><br>
+          <code>2 &lt; 1</code> is False, so the indented print is skipped. The second print (no indentation) is outside the if block and ALWAYS runs.
+          <span class="slang-tip">الـ if شرطه False، فبياخط على اللي جوا. بس الـ print التانية (من غير indentation) برا الـ if فبتتنفذ دايماً. الإجابة: طبع الجملة مرة واحدة — من الـ print التانية بس.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════ QUIZ 2024 ═══════════════════════ -->
+    <div class="quiz-section" id="quiz-2024">
+      <div class="quiz-header">
+        <div class="quiz-icon">🎯</div>
+        <div><h3>Python — Final 2024</h3><p>New questions from the 2024 final with slang breakdowns 🇪🇬</p></div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q1 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">What is the output of: <code>y = 2; z = 3; print(y + z)</code></div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 5.0 (float)</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 5 (int)</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> "23" (string)</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: B — 5 (int)</b><br>
+          <code>y</code> and <code>z</code> are both integers. Adding two ints gives an int. Division (<code>/</code>) gives float, but addition of ints stays int.
+          <span class="slang-tip">int + int = int. بس انتبه: int / int = float (قسمة). المسألة دي بتاخد int + int فالناتج 5 (int مش float). الامتحان بيمكن يحاول يخدعك إنك تقول 5.0.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q2 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">What happens when you run: <code>y = lambda x: x / 20; print(y(100))</code></div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 5.0</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 5</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Error — lambda can't divide</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> "5.0" (string)</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — 5.0</b><br>
+          Python's <code>/</code> always returns float. Lambda is just a shorthand function. 100/20 = 5.0 (float).
+          <span class="slang-tip">نفس الفخ! القسمة دايماً float حتى لو النتيجة عدد صحيح. اتأكد تكتب 5.0 مش 5 في الامتحان.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">Which of the following is correct to define a function expression in Python? (From 2024 midterm context)</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> const f = function() { return 10; }</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> f = lambda: 10</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> f = def() return 10</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> function f() { return 10; }</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: B — f = lambda: 10</b><br>
+          Option A is JavaScript syntax, not Python. Python uses <code>lambda</code> for anonymous inline functions. You can also use <code>def f(): return 10</code> for a named function.
+          <span class="slang-tip">الأوبشن A ده JavaScript مش Python! في Python بنستخدم lambda أو def. لو شفت <code>const</code> أو <code>function(){}</code> اعرف إنه JavaScript على طول.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">The following code has a bug — what is it?<br><code>for i in range(5);<br>    print(i)</code></div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> range(5) should be range(0,5)</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Semicolon after for loop header — should be a colon (:)</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> print should be inside the for header</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> No bug</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: B — Semicolon should be a colon</b><br>
+          Python uses <strong>colons (:)</strong> at the end of block headers (if, for, while, def, class). A semicolon (;) after <code>for</code> is a SyntaxError.
+          <span class="slang-tip">ده الفخ اللي بيقع فيه الناس اللي بيذاكروا JavaScript وPython في نفس الوقت. في Python: for i in range(5): بالنقطتين، مش بالفاصلة المنقوطة!</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q5 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">After running <code>lst = [1, 2, 3, 4]; lst.pop()</code>, what is lst?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> [2, 3, 4]</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> [1, 2, 4]</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> [1, 2, 3]</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> [1, 2, 3, 4] (unchanged)</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — [1, 2, 3]</b><br>
+          <code>pop()</code> on a list always removes the <strong>last element</strong>. 4 is removed, leaving [1, 2, 3].
+          <span class="slang-tip">list.pop() دايماً بتشيل آخر عنصر. Set.pop() بتشيل عنصر عشوائي. الفرق مهم جداً في الامتحان!</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q6 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">In Python: <code>d = {"name": "Ali"}; y = d; d["name"] = "Sara"; print(y)</code> — Output?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> {'name': 'Sara'}</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> {'name': 'Ali'}</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Error</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — {'name': 'Sara'}</b><br>
+          <code>y = d</code> makes y a <strong>reference</strong> to the same dict object, NOT a copy. So changing d also changes y.
+          <span class="slang-tip">ده فخ الـ reference! لما بتعمل y = d مش بتعمل نسخة — انت بس بتقول "y اشير لنفس الـ dict اللي بيشيرله d". لو عايز نسخة مستقلة استخدم y = d.copy()</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q7 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">Python is case-sensitive. Which of these causes an error? <code>d = {"name": "Ali"}; y2 = d.Copy()</code></div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> No error — Copy() and copy() are the same</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> AttributeError — should be d.copy() (lowercase)</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> SyntaxError</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Works but returns None</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: B — AttributeError (should be lowercase copy)</b><br>
+          Python is strictly case-sensitive. The method is <code>.copy()</code> not <code>.Copy()</code>. Capital C causes AttributeError.
+          <span class="slang-tip">Python حساسة للـ case! اتأكد من الـ lowercase دايماً: copy() مش Copy(). الامتحان 2024 ذكر ده صريح "Copy() should be copy() because Python is case-sensitive".</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q8 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">For list slicing: <code>lst = [0, 1, 2, 3, 4]; print(lst[1:3])</code> — Output?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> [1, 2]</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> [1, 2, 3]</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> [0, 1, 2]</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> [2, 3]</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — [1, 2]</b><br>
+          Slicing <strong>includes</strong> the start index (1), but <strong>excludes</strong> the end index (3). So we get elements at positions 1 and 2.
+          <span class="slang-tip">قاعدة الـ slicing: من بداية (included) لنهاية (excluded). [1:3] يعني index 1 و 2 بس — مش 3. لو مش محدد الأول يبدأ من الأول، لو مش محدد التاني يوصل للآخر.</span>
+        </div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-py21"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-2021')">✔ Check 2021</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-2021')">↺ Reset</button>
+      </div>
+      <hr style="border:none;border-top:1px solid var(--border);margin:20px 0">
+      <div class="q-controls">
+        <span class="q-score" id="score-py24"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-2024')">✔ Check 2024</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-2024')">↺ Reset</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

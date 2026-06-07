@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 05-A — Django Part I | IS231</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/shared.css">
+</head>
+<body>
+<div id="prog-bar"><div id="prog-fill"></div></div>
+<div id="overlay"></div>
+<nav id="sidebar">
+  <div class="sb-logo"><h2>IS231 · Lecture 05-A</h2><p>Getting Started with Django</p><span class="sb-tag">Backend Python + Django</span></div>
+  <a class="sb-back" href="../index.html">← Back to IS231</a>
+  <div class="sb-section">Framework</div>
+  <a class="sb-link" href="#why-django"><span class="sb-dot"></span>Why Django?</a>
+  <a class="sb-link" href="#mvt"><span class="sb-dot"></span>MVT Architecture</a>
+  <a class="sb-link" href="#setup"><span class="sb-dot"></span>Setup Workflow</a>
+  <a class="sb-link" href="#project"><span class="sb-dot"></span>Project Structure</a>
+  <a class="sb-link" href="#views"><span class="sb-dot"></span>Views & URLs</a>
+  <a class="sb-link" href="#templates"><span class="sb-dot"></span>Templates</a>
+  <div class="sb-section">Exam Quizzes</div>
+  <a class="sb-link" href="#quiz-2021"><span class="sb-dot"></span>🎯 Final 2021</a>
+  <a class="sb-link" href="#quiz-2024"><span class="sb-dot"></span>🎯 Final 2024</a>
+</nav>
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+<main id="main">
+  <div class="hero">
+    <div class="hero-badge">⚡ IS231 · Lecture 05-A · Dr. Mohamed Nour Eldien</div>
+    <h1>Django — <span>Part I</span></h1>
+    <p>MVT architecture, project setup, views, templates, URL routing — with Egyptian slang breakdowns 🇪🇬</p>
+    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← Back to Hub</a></div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num">6</div><div class="lbl">Topics</div></div>
+      <div class="hstat"><div class="num">15</div><div class="lbl">Exam Q's</div></div>
+      <div class="hstat"><div class="num">2021+2024</div><div class="lbl">Finals</div></div>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="chapter" id="why-django">
+      <div class="ch-header"><div class="ch-num cyan">🐍</div><div class="ch-title"><h2>What is Django?</h2><p>A high-level Python web framework for rapid development</p></div></div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">🚀</span> Django Overview</div>
+        <ul>
+          <li>Django is built using <strong>Python</strong> and designed for rapid web development.</li>
+          <li>It is a <strong>Web Framework</strong> — not a programming language, not just software.</li>
+          <li>Follows the <strong>MVT (Model–View–Template)</strong> architectural pattern.</li>
+          <li>"Batteries included" — routing, forms, admin, ORM, auth all built in.</li>
+        </ul>
+        <div class="info"><b>Exam 2021 & 2024:</b> Django is a type of <strong>Web Framework</strong> based on the <strong>MVT</strong> pattern.</div>
+      </div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">💡</span> Why Use Django Instead of Writing From Scratch?</div>
+        <div class="grid2">
+          <div class="cmp-card" style="--accent:var(--t3)"><h4>Without Framework</h4><p>Write routing, templates, DB access, security, admin all from scratch. Slow and error-prone.</p></div>
+          <div class="cmp-card" style="--accent:var(--green)"><h4>With Django</h4><p>All that is already organized. Just write your business logic. Faster, safer, cleaner.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter" id="mvt">
+      <div class="ch-header"><div class="ch-num purple">🏗️</div><div class="ch-title"><h2>MVT Architecture</h2><p>Model · View · Template — the Django pattern</p></div></div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">📐</span> The Three Components</div>
+        <div class="grid3">
+          <div class="cmp-card" style="--accent:var(--green)">
+            <h4>📦 Model</h4>
+            <p>Handles data and database tables. Defines the structure of data. ORM translates Python classes to SQL tables.</p>
+          </div>
+          <div class="cmp-card" style="--accent:var(--cyan)">
+            <h4>⚙️ View</h4>
+            <p>Receives requests, runs logic, fetches data from Model, returns an HTTP response (often using a Template).</p>
+          </div>
+          <div class="cmp-card" style="--accent:var(--pink)">
+            <h4>🎨 Template</h4>
+            <p>HTML files that control what the user sees. Uses Django Template Language: <code>{{ var }}</code>, <code>{% for %}</code>, <code>{% if %}</code>.</p>
+          </div>
+        </div>
+        <div class="warn"><b>MVT vs MVC:</b> Django's MVT ≈ MVC. View in Django acts like the Controller. Template in Django acts like the View in MVC.</div>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">🔄</span> Django Request-Response Flow</div>
+        <div class="flow-wrap">
+          <div class="flow-row ltr">
+            <div class="flow-box" style="--accent:var(--cyan)">🌐 Browser</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="--accent:var(--amber)">🗺️ urls.py</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="--accent:var(--purple)">⚙️ views.py</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="--accent:var(--green)">🗄️ models.py</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="--accent:var(--pink)">🎨 template</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="--accent:var(--cyan)">📤 Response</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter" id="setup">
+      <div class="ch-header"><div class="ch-num amber">⚙️</div><div class="ch-title"><h2>Setup Workflow</h2><p>10 steps from nothing to a running Django server</p></div></div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">📋</span> Full Setup Steps</div>
+        <div class="plan-steps">
+          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">1</div><div><div class="ps-title">Open folder in VS Code</div><div class="ps-desc"><code>File → Open Folder → your_project_folder</code></div></div></div>
+          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">2</div><div><div class="ps-title">Open terminal</div><div class="ps-desc"><code>Terminal → New Terminal</code> or <code>Ctrl + `</code></div></div></div>
+          <div class="plan-step" style="--accent:var(--green)"><div class="ps-num">3</div><div><div class="ps-title">Verify Python installed</div><div class="ps-desc"><code>python --version</code></div></div></div>
+          <div class="plan-step" style="--accent:var(--green)"><div class="ps-num">4</div><div><div class="ps-title">Create virtual environment</div><div class="ps-desc"><code>python -m venv venv</code></div></div></div>
+          <div class="plan-step" style="--accent:var(--amber)"><div class="ps-num">5</div><div><div class="ps-title">Activate venv (Windows)</div><div class="ps-desc"><code>venv\Scripts\activate</code> — look for (venv) in terminal</div></div></div>
+          <div class="plan-step" style="--accent:var(--amber)"><div class="ps-num">6</div><div><div class="ps-title">Install Django</div><div class="ps-desc"><code>pip install django</code></div></div></div>
+          <div class="plan-step" style="--accent:var(--purple)"><div class="ps-num">7</div><div><div class="ps-title">Create Django project</div><div class="ps-desc"><code>django-admin startproject myproject</code></div></div></div>
+          <div class="plan-step" style="--accent:var(--purple)"><div class="ps-num">8</div><div><div class="ps-title">Enter project folder</div><div class="ps-desc"><code>cd myproject</code> — manage.py must be here</div></div></div>
+          <div class="plan-step" style="--accent:var(--pink)"><div class="ps-num">9</div><div><div class="ps-title">Run development server</div><div class="ps-desc"><code>python manage.py runserver</code></div></div></div>
+          <div class="plan-step" style="--accent:var(--pink)"><div class="ps-num">10</div><div><div class="ps-title">Open in browser</div><div class="ps-desc"><code>http://127.0.0.1:8000/</code> — default Django dev server port</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter" id="project">
+      <div class="ch-header"><div class="ch-num green">📁</div><div class="ch-title"><h2>Project Structure</h2><p>What Django generates and what each file does</p></div></div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">🗂️</span> Generated Files</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:18px;font-family:var(--fc);font-size:.82rem;color:var(--t2);direction:ltr;text-align:left">myproject/
+├── manage.py          ← main command entry point
+└── myproject/
+    ├── settings.py    ← all project settings (DB, apps, etc.)
+    ├── urls.py        ← root URL configuration
+    ├── asgi.py        ← async server interface
+    └── wsgi.py        ← web server interface</pre>
+        <div class="info"><b>Key:</b> Always run <code>python manage.py ...</code> from the folder that contains <code>manage.py</code>.</div>
+      </div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">📦</span> Django Project vs Django App</div>
+        <div class="grid2">
+          <div class="cmp-card" style="--accent:var(--cyan)"><h4>Django Project</h4><p>The overall container. Can have many apps inside. Created with <code>django-admin startproject</code>.</p></div>
+          <div class="cmp-card" style="--accent:var(--purple)"><h4>Django App</h4><p>Self-contained module with own models, views, templates, URLs. Created with <code>python manage.py startapp</code>. A Django app is BOTH an "extended package with base=Django" AND "a python package with own components".</p></div>
+        </div>
+        <div class="info"><b>Exam 2021:</b> "What is a Django App?" → <strong>Both A and B</strong> — it's both an extended Python package AND has its own components.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="views">
+      <div class="ch-header"><div class="ch-num blue">⚙️</div><div class="ch-title"><h2>Views & URL Configuration</h2><p>Connecting URLs to Python logic</p></div></div>
+      <div class="topic" style="--accent:var(--blue)">
+        <div class="topic-title"><span class="icon">🔗</span> A Simple View</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left">from django.http import HttpResponse
+
+def home(request):           # Every view takes 'request'
+    return HttpResponse("Hello, Django!")</pre>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">🗺️</span> URL Configuration (urls.py)</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left">from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('students/', views.student_list, name='students'),
+]</pre>
+      </div>
+    </div>
+
+    <div class="chapter" id="templates">
+      <div class="ch-header"><div class="ch-num pink">🎨</div><div class="ch-title"><h2>Django Templates</h2><p>Dynamic HTML with the Django Template Language</p></div></div>
+      <div class="topic" style="--accent:var(--pink)">
+        <div class="topic-title"><span class="icon">📝</span> Template Variables & Tags</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:18px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left">&lt;!-- {{ }} for variables — replaced with Python values --&gt;
+&lt;h1&gt;Hello, {{ name }}!&lt;/h1&gt;
+
+&lt;!-- {% %} for tags — logic and control --&gt;
+{% for student in students %}
+  &lt;p&gt;{{ student.name }}&lt;/p&gt;
+{% endfor %}
+
+{% if user.is_authenticated %}
+  &lt;p&gt;Welcome back!&lt;/p&gt;
+{% endif %}</pre>
+        <div class="info"><b>Exam 2021 & 2024:</b> <code>{{ name }}</code> = variable (replaced with Python value). <code>{% tag %}</code> = logic (for, if, block).</div>
+      </div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">🔄</span> forloop Attributes</div>
+        <table class="tbl">
+          <tr><th>Attribute</th><th>Description</th></tr>
+          <tr><td><code>forloop.counter</code></td><td>Current iteration (1-indexed)</td></tr>
+          <tr><td><code>forloop.counter0</code></td><td>Current iteration (0-indexed)</td></tr>
+          <tr><td><code>forloop.first</code></td><td>True on first iteration</td></tr>
+          <tr><td><code>forloop.last</code></td><td>True on last iteration</td></tr>
+          <tr><td><code>forloop.revcounter</code></td><td>Iterations remaining (1-indexed)</td></tr>
+        </table>
+        <div class="warn"><b>Exam 2021:</b> Valid attribute is <code>forloop.counter</code> — NOT <code>forloop.counter()</code>. No parentheses! It's a property not a method.</div>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">⚙️</span> Django Admin Registration</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"># admin.py
+from django.contrib import admin
+from .models import Student
+
+admin.site.register(Student)  # ← makes Student visible in admin panel
+
+# Create admin user:
+# python manage.py createsuperuser</pre>
+        <div class="danger"><b>Exam 2021 & 2024:</b> To register a model in the Django admin: <code>admin.site.register(Model_name)</code>. NOT <code>admin.register()</code> or <code>site.admin.register()</code>!</div>
+      </div>
+    </div>
+
+    <!-- QUIZ 2021 -->
+    <div class="quiz-section" id="quiz-2021">
+      <div class="quiz-header">
+        <div class="quiz-icon">🎯</div>
+        <div><h3>Django Part I — Final 2021</h3><p>Real questions with Egyptian slang 🇪🇬</p></div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q1 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">Django is based on which pattern?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> MVC</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> MVVM</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> MVT</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the Above</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — MVT (Model View Template)</b><br>
+          Django uses the MVT pattern. Similar to MVC: Model=data, View=logic (like Controller), Template=HTML (like View in MVC).
+          <span class="slang-tip">Django = MVT مش MVC. الاتنين متشابهين بس Django بيسمي الأجزاء بشكل مختلف. اللي اسمه "View" في Django بيعمل شغل الـ Controller في MVC.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q2 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What is a Django App?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> An extended package with base package Django</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> A Python package with its own components</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Both A and B</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — Both A and B</b><br>
+          A Django app is both: an extended Python package using Django as the base, AND a self-contained Python package with its own models, views, templates, and URLs.
+          <span class="slang-tip">لما السؤال يقول "Both" أو "All of the above" في Django، الغالب هي الإجابة الصح. الـ app هي package Python بتستخدم Django كـ base، وفي نفس الوقت package بكل مكوناتها.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q3 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What are Migrations in Django?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> They track changes to the database schema</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Created by running makemigrations command</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Apply changes to the database using migrate command</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> All of the above</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: D — All of the above</b><br>
+          Migrations do all three: track schema changes, created by makemigrations, applied by migrate.
+          <span class="slang-tip">الـ migrations بتعمل الثلاثة حاجات دول. لما بتعمل حاجة جديدة في الـ model → makemigrations بتعمل ملف بالتغييرات → migrate بتطبقها على الـ database الفعلي.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q4 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What does <code>{{ name }}</code> mean in Django Templates?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Will be output as-is "{{ name }}"</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Displays the word "name"</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Replaced with the Python variable's value</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — Replaced with Python variable value</b><br>
+          <code>{{ name }}</code> is a template variable. Django replaces it with the value from the view's context dictionary.
+          <span class="slang-tip">الأقواس المزدوجة {{ }} في الـ template = متغير Python. Django بيبدل {{ name }} بقيمة الـ variable اللي اتبعتت من الـ view في الـ context dictionary.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q5 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">Which is a valid Django template forloop attribute?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> forloop.reverse</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> forloop.previous</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> forloop.counter</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> forloop.lastitem</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — forloop.counter</b><br>
+          Valid: counter, counter0, revcounter, first, last. The exam may show <code>forloop.counter()</code> with parentheses — that's wrong! No parentheses.
+          <span class="slang-tip">الـ valid attributes هي: counter, counter0, revcounter, first, last. خد بالك: مش forloop.counter() بأقواس — بدون أقواس. وبرضو مش forloop.reverse أو forloop.previous — دول مش موجودين.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q6 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">Django is a type of:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Programming Language</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Software / Application</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Web Framework</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Database</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: C — Web Framework</b><br>
+          Django is a Python web framework. Python is the language. Django is a framework built with Python.
+          <span class="slang-tip">Django مش لغة برمجة — Python هي اللغة. Django هو framework (إطار عمل) مبني بـ Python. الفرق زي الفرق بين اللغة الإنجليزية (Python) وكتاب مكتوب بيها (Django).</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q7 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">To register a model in the Django admin, you use:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> admin.site.register(Model_name)</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> admin.register(Model_name)</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> site.admin.register(Model_name)</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> models.admin.register(Model_name)</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — admin.site.register(Model_name)</b><br>
+          The exact syntax is <code>admin.site.register()</code>. Import the model then call this in admin.py.
+          <span class="slang-tip">الـ syntax الصح: admin.site.register(اسم الـ model). احفظ ده كويس لأنه بيجي في 2021 و 2024. مش admin.register() — لازم يكون admin.site.register().</span>
+        </div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-dj21"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-2021')">✔ Check 2021</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-2021')">↺ Reset</button>
+      </div>
+    </div>
+
+    <!-- QUIZ 2024 -->
+    <div class="quiz-section" id="quiz-2024">
+      <div class="quiz-header">
+        <div class="quiz-icon">🎯</div>
+        <div><h3>Django — Final 2024</h3><p>New questions from the 2024 final 🇪🇬</p></div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q1 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">Django architecture consists of ______:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Model and View only</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Model, View, and Template</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Template and View only</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Model and Template only</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: B — Model, View, Template</b><br>
+          Django's MVT = Model (data) + View (logic) + Template (HTML). All three are needed.
+          <span class="slang-tip">MVT = Model + View + Template. الثلاثة مع بعض. السؤال ده مجاش في 2021 بشكل مباشر بس المفهوم ده ظهر في 2024.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q2 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">To register a model in the Django admin panel, you write:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> admin.site.register(Model_name)</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> admin.register(Model_name)</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> django.admin.register()</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Model.admin.register()</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: A — admin.site.register(Model_name)</b><br>
+          This question appeared in BOTH 2021 and 2024. The answer is always <code>admin.site.register()</code>.
+          <span class="slang-tip">نفس السؤال جاي في الامتحانين 2021 و 2024. الإجابة دايماً admin.site.register(اسم الـ Model). حفظوه كويس!</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">In Django templates, <code>{% %}</code> is used for:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Displaying a Python variable value</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Defining HTML content / logic tags</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Adding a comment</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ Correct: B — HTML content / logic tags</b><br>
+          <code>{% %}</code> = template tags (for, if, block, load). <code>{{ }}</code> = display variable. <code>{# #}</code> = comment. Option A from the exam said "a is wrong because we want to define the HTML content."
+          <span class="slang-tip">الفرق المهم: {{ }} بيعرض قيمة متغير. {% %} بيعمل logic زي for وif. {# #} للـ comments. لو في السؤال شفت "define HTML content" → إجابته {% %} مش {{ }}.</span>
+        </div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-dj24"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-2024')">✔ Check 2024</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-2024')">↺ Reset</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

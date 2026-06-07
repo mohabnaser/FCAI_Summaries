@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 07 — Django Part III | IS231</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/shared.css">
+</head>
+<body>
+<div id="prog-bar"><div id="prog-fill"></div></div>
+<div id="overlay"></div>
+<nav id="sidebar">
+  <div class="sb-logo"><h2>IS231 · Lecture 07</h2><p>Django Part III</p><span class="sb-tag">Backend Python + Django</span></div>
+  <a class="sb-back" href="../index.html">← Back to IS231</a>
+  <div class="sb-section">Advanced Django</div>
+  <a class="sb-link" href="#advanced-models"><span class="sb-dot"></span>Advanced Models</a>
+  <a class="sb-link" href="#relationships"><span class="sb-dot"></span>Relationships</a>
+  <a class="sb-link" href="#queryset"><span class="sb-dot"></span>Advanced Queries</a>
+  <a class="sb-link" href="#cbv"><span class="sb-dot"></span>Class-Based Views</a>
+  <a class="sb-link" href="#admin-custom"><span class="sb-dot"></span>Admin Customization</a>
+  <div class="sb-section">Exam Quiz</div>
+  <a class="sb-link" href="#quiz-django3"><span class="sb-dot"></span>🎯 Django III Quiz</a>
+</nav>
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+<main id="main">
+  <div class="hero">
+    <div class="hero-badge">⚡ IS231 · Lecture 07 · Dr. Mohamed Nour Eldien</div>
+    <h1>Django — <span>Part III</span></h1>
+    <p>Advanced models, database relationships (ForeignKey, ManyToMany), complex QuerySet filtering, class-based views, and admin panel customization.</p>
+    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← Back to Hub</a></div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num">5</div><div class="lbl">Topics</div></div>
+      <div class="hstat"><div class="num">5</div><div class="lbl">Exam Q's</div></div>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="chapter" id="advanced-models">
+      <div class="ch-header"><div class="ch-num cyan">📐</div><div class="ch-title"><h2>Advanced Models</h2><p>Meta options, methods, properties</p></div></div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">⚙️</span> Model Meta Options</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#cba6f7">class</span> <span style="color:#89b4fa">Course</span>(models.Model):
+    title = models.CharField(max_length=200)
+    credits = models.IntegerField()
+    is_active = models.BooleanField(default=True)
+
+    <span style="color:#cba6f7">class</span> <span style="color:#89b4fa">Meta</span>:
+        ordering = [<span style="color:#a6e3a1">'title'</span>]          <span style="color:#585b70"># default sort order</span>
+        verbose_name = <span style="color:#a6e3a1">'Course'</span>      <span style="color:#585b70"># admin display name</span>
+        db_table = <span style="color:#a6e3a1">'courses'</span>         <span style="color:#585b70"># custom table name</span>
+
+    <span style="color:#cba6f7">def</span> <span style="color:#89b4fa">__str__</span>(self):
+        <span style="color:#cba6f7">return</span> <span style="color:#a6e3a1">f"{self.title} ({self.credits} cr)"</span></pre>
+      </div>
+    </div>
+
+    <div class="chapter" id="relationships">
+      <div class="ch-header"><div class="ch-num amber">🔗</div><div class="ch-title"><h2>Model Relationships</h2><p>ForeignKey, OneToOne, ManyToMany</p></div></div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">📊</span> Relationship Types</div>
+        <div class="grid3">
+          <div class="cmp-card" style="--accent:var(--cyan)">
+            <h4>ForeignKey (Many-to-One)</h4>
+            <p>Many students can belong to one department. Most common relationship.</p>
+            <pre style="background:rgba(0,0,0,.3);border-radius:6px;padding:8px;font-size:.72rem;direction:ltr;text-align:left">dept = models.ForeignKey(
+    Dept, on_delete=models.CASCADE)</pre>
+          </div>
+          <div class="cmp-card" style="--accent:var(--green)">
+            <h4>OneToOneField</h4>
+            <p>One student has exactly one profile. Like extending a model.</p>
+            <pre style="background:rgba(0,0,0,.3);border-radius:6px;padding:8px;font-size:.72rem;direction:ltr;text-align:left">profile = models.OneToOneField(
+    User, on_delete=models.CASCADE)</pre>
+          </div>
+          <div class="cmp-card" style="--accent:var(--purple)">
+            <h4>ManyToManyField</h4>
+            <p>Students can enroll in many courses. Courses can have many students.</p>
+            <pre style="background:rgba(0,0,0,.3);border-radius:6px;padding:8px;font-size:.72rem;direction:ltr;text-align:left">courses = models.ManyToManyField(
+    Course)</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter" id="queryset">
+      <div class="ch-header"><div class="ch-num green">🔍</div><div class="ch-title"><h2>Advanced QuerySet</h2><p>Complex filtering, select_related, prefetch_related</p></div></div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">🔎</span> Filter Lookups</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70"># Double underscore lookups</span>
+Student.objects.filter(gpa__gte=3.5)       <span style="color:#585b70"># ≥ 3.5</span>
+Student.objects.filter(name__contains=<span style="color:#a6e3a1">"Ali"</span>)  <span style="color:#585b70"># LIKE %Ali%</span>
+Student.objects.filter(name__startswith=<span style="color:#a6e3a1">"M"</span>) <span style="color:#585b70"># starts with M</span>
+Student.objects.exclude(is_active=False)   <span style="color:#585b70"># NOT clause</span>
+Student.objects.order_by(<span style="color:#a6e3a1">'-gpa'</span>)           <span style="color:#585b70"># ORDER BY gpa DESC</span>
+
+<span style="color:#585b70"># Optimized queries for relations</span>
+Student.objects.select_related(<span style="color:#a6e3a1">'department'</span>)      <span style="color:#585b70"># JOIN (FK)</span>
+Student.objects.prefetch_related(<span style="color:#a6e3a1">'courses'</span>)      <span style="color:#585b70"># M2M</span></pre>
+      </div>
+    </div>
+
+    <div class="chapter" id="cbv">
+      <div class="ch-header"><div class="ch-num purple">🏗️</div><div class="ch-title"><h2>Class-Based Views</h2><p>More structured views using Django's generic CBVs</p></div></div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">📋</span> Generic Views</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#cba6f7">from</span> <span style="color:#89b4fa">django.views.generic</span> <span style="color:#cba6f7">import</span> ListView, DetailView, CreateView
+
+<span style="color:#cba6f7">class</span> <span style="color:#89b4fa">StudentListView</span>(ListView):
+    model = Student
+    template_name = <span style="color:#a6e3a1">'students/list.html'</span>
+    context_object_name = <span style="color:#a6e3a1">'students'</span>
+
+<span style="color:#cba6f7">class</span> <span style="color:#89b4fa">StudentDetailView</span>(DetailView):
+    model = Student
+    template_name = <span style="color:#a6e3a1">'students/detail.html'</span>
+
+<span style="color:#cba6f7">class</span> <span style="color:#89b4fa">StudentCreateView</span>(CreateView):
+    model = Student
+    fields = [<span style="color:#a6e3a1">'name'</span>, <span style="color:#a6e3a1">'email'</span>, <span style="color:#a6e3a1">'gpa'</span>]</pre>
+      </div>
+    </div>
+
+    <div class="chapter" id="admin-custom">
+      <div class="ch-header"><div class="ch-num pink">👨‍💼</div><div class="ch-title"><h2>Admin Customization</h2><p>Making the admin panel more powerful</p></div></div>
+      <div class="topic" style="--accent:var(--pink)">
+        <div class="topic-title"><span class="icon">⚙️</span> ModelAdmin Options</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#cba6f7">@admin.register(Student)</span>
+<span style="color:#cba6f7">class</span> <span style="color:#89b4fa">StudentAdmin</span>(admin.ModelAdmin):
+    list_display = [<span style="color:#a6e3a1">'name'</span>, <span style="color:#a6e3a1">'email'</span>, <span style="color:#a6e3a1">'gpa'</span>]  <span style="color:#585b70"># columns shown</span>
+    list_filter = [<span style="color:#a6e3a1">'is_active'</span>]              <span style="color:#585b70"># sidebar filter</span>
+    search_fields = [<span style="color:#a6e3a1">'name'</span>, <span style="color:#a6e3a1">'email'</span>]       <span style="color:#585b70"># search box</span>
+    ordering = [<span style="color:#a6e3a1">'-gpa'</span>]                       <span style="color:#585b70"># default sort</span></pre>
+      </div>
+    </div>
+
+    <div class="quiz-section" id="quiz-django3">
+      <div class="quiz-header"><div class="quiz-icon">🎯</div><div><h3>Django Part III — Exam Quiz</h3><p>Conceptual questions — IS231</p></div></div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q1</div>
+        <div class="q-text">Which field type creates a Many-to-One relationship in Django?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> ForeignKey</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> OneToOneField</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> ManyToManyField</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> CharField</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: A — ForeignKey</b><br>ForeignKey creates a Many-to-One relationship. Many students can belong to one department. OneToOneField = 1-to-1. ManyToManyField = M-to-M.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q2</div>
+        <div class="q-text">To get all students with GPA ≥ 3.5, the correct ORM query is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Student.objects.filter(gpa=3.5)</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Student.objects.all(gpa__gte=3.5)</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Student.objects.filter(gpa__gte=3.5)</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Student.objects.get(gpa__gte=3.5)</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: C — filter(gpa__gte=3.5)</b><br>Use filter() for multiple results, get() for single. __gte = ≥. __gt = &gt;. __lte = ≤. all() doesn't accept filter arguments.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3</div>
+        <div class="q-text">Which option in a ModelAdmin shows specific columns in the admin list view?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> show_columns</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> list_display</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> display_columns</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> fields</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: B — list_display</b><br>list_display = columns shown in admin list. list_filter = sidebar filters. search_fields = searchable fields. fields = which fields show in the edit form.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q4</div>
+        <div class="q-text">The Django ORM query Student.objects.order_by('-gpa') sorts by:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> GPA ascending (lowest first)</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Alphabetically by name</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Student ID descending</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> GPA descending (highest first)</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: D — GPA descending</b><br>A minus sign (-) prefix in order_by means DESCENDING. order_by('gpa') = ascending. order_by('-gpa') = descending (highest GPA first).</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q5</div>
+        <div class="q-text">Which optimization method avoids the N+1 query problem for ForeignKey relationships?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> select_related()</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> prefetch_related()</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> filter_related()</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> join_related()</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: A — select_related()</b><br>select_related() does a SQL JOIN for ForeignKey/OneToOne (single objects). prefetch_related() does a separate query for ManyToMany (collections). Both solve N+1 queries.</div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-django3"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-django3')">✔ Check Answers</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-django3')">↺ Reset</button>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

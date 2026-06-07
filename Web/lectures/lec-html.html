@@ -1,0 +1,2526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IS231 Web Technology — Complete Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070c18;--bg2:#0b1120;--card:#0f172a;--card2:#141e33;
+  --border:#1e3a5f;--border2:#253650;
+  --cyan:#00d4ff;--cyan2:#0ea5e9;--amber:#f59e0b;--green:#10b981;
+  --red:#ef4444;--purple:#8b5cf6;--pink:#f472b6;
+  --t1:#e2e8f0;--t2:#94a3b8;--t3:#64748b;
+  --code:#0d1117;--fw:280px;
+  --fh:'Outfit',sans-serif;--fb:'DM Sans',sans-serif;--fc:'Fira Code',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.75;overflow-x:hidden}
+
+/* ─── PROGRESS BAR ─── */
+#prog-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--amber));z-index:9999;transition:width .2s;width:0}
+
+/* ─── SIDEBAR ─── */
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--fw);background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;z-index:100;padding:20px 0;transition:.3s}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.sb-logo{padding:12px 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.sb-logo h2{font-family:var(--fh);font-size:1.1rem;color:var(--cyan);font-weight:700}
+.sb-logo p{font-size:.72rem;color:var(--t3);margin-top:3px}
+.sb-section{padding:6px 20px 2px;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-top:10px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 20px;font-size:.82rem;color:var(--t2);text-decoration:none;transition:.2s;border-left:3px solid transparent;position:relative}
+.sb-link:hover,.sb-link.active{color:var(--t1);background:rgba(0,212,255,.06);border-left-color:var(--cyan)}
+.sb-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:.2s}
+.sb-link.active .sb-dot,.sb-link:hover .sb-dot{background:var(--cyan)}
+
+/* ─── MAIN ─── */
+#main{margin-left:var(--fw);padding:0 0 80px}
+.hero{background:linear-gradient(135deg,#060d1e 0%,#0a1628 40%,#0e0a2e 100%);padding:70px 60px 60px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,212,255,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-50px;left:200px;width:300px;height:300px;background:radial-gradient(circle,rgba(139,92,246,.06) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:20px;padding:5px 14px;font-size:.75rem;color:var(--cyan);margin-bottom:20px;font-family:var(--fc)}
+.hero h1{font-family:var(--fh);font-size:2.8rem;font-weight:800;line-height:1.15;margin-bottom:14px}
+.hero h1 span{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--t2);max-width:600px;font-size:1rem}
+.hero-stats{display:flex;gap:30px;margin-top:30px}
+.hstat{text-align:center}
+.hstat .num{font-family:var(--fh);font-size:1.8rem;font-weight:700;color:var(--cyan)}
+.hstat .lbl{font-size:.72rem;color:var(--t3);margin-top:2px}
+
+/* ─── CONTENT ─── */
+.content{padding:40px 60px}
+.chapter{margin-bottom:80px}
+
+/* ─── SECTION TITLE ─── */
+.ch-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.ch-num{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:1rem;flex-shrink:0}
+.ch-num.blue{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.25)}
+.ch-num.purple{background:rgba(139,92,246,.12);color:var(--purple);border:1px solid rgba(139,92,246,.25)}
+.ch-num.amber{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+.ch-num.green{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+.ch-num.pink{background:rgba(244,114,182,.12);color:var(--pink);border:1px solid rgba(244,114,182,.25)}
+.ch-title h2{font-family:var(--fh);font-size:1.6rem;font-weight:700}
+.ch-title p{color:var(--t3);font-size:.85rem;margin-top:3px}
+
+/* ─── TOPIC CARD ─── */
+.topic{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden;transition:.25s}
+.topic::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--cyan)),transparent);opacity:.6}
+.topic:hover{border-color:var(--border2);transform:translateY(-1px)}
+.topic-title{font-family:var(--fh);font-size:1.05rem;font-weight:600;margin-bottom:10px;color:var(--t1);display:flex;align-items:center;gap:10px}
+.topic-title .icon{font-size:1.1rem}
+.topic p{color:var(--t2);font-size:.9rem;margin-bottom:10px}
+.topic p:last-child{margin-bottom:0}
+
+/* ─── GRID ─── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+/* ─── CODE BLOCK ─── */
+.code-wrap{background:var(--code);border:1px solid #21262d;border-radius:10px;margin:14px 0;overflow:hidden}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid #21262d}
+.code-dots{display:flex;gap:6px}
+.code-dots span{width:10px;height:10px;border-radius:50%}
+.code-dots span:nth-child(1){background:#ff5f57}
+.code-dots span:nth-child(2){background:#febc2e}
+.code-dots span:nth-child(3){background:#28c840}
+.code-lang{font-family:var(--fc);font-size:.68rem;color:var(--t3)}
+.code-wrap pre{padding:16px 20px;font-family:var(--fc);font-size:.82rem;line-height:1.7;overflow-x:auto;color:#cdd6f4}
+.code-wrap pre code{background:transparent}
+/* Syntax colors */
+.kw{color:#cba6f7}.str{color:#a6e3a1}.num{color:#fab387}.fn{color:#89b4fa}
+.cmt{color:#585b70;font-style:italic}.prop{color:#89dceb}.tag{color:#f38ba8}
+.attr{color:#fab387}.val{color:#a6e3a1}.sel{color:#cba6f7}
+
+/* ─── INLINE CODE ─── */
+code{font-family:var(--fc);background:rgba(0,212,255,.08);color:var(--cyan);padding:2px 7px;border-radius:4px;font-size:.82em}
+
+/* ─── DIAGRAM ─── */
+.diagram{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:24px;margin:16px 0;overflow-x:auto}
+
+/* ─── INFO BOXES ─── */
+.tip,.warn,.info,.danger{display:flex;gap:12px;padding:14px 16px;border-radius:10px;margin:14px 0;font-size:.87rem}
+.tip{background:rgba(16,185,129,.08);border-left:3px solid var(--green);color:#6ee7b7}
+.warn{background:rgba(245,158,11,.08);border-left:3px solid var(--amber);color:#fcd34d}
+.info{background:rgba(0,212,255,.08);border-left:3px solid var(--cyan);color:#7dd3fc}
+.danger{background:rgba(239,68,68,.08);border-left:3px solid var(--red);color:#fca5a5}
+.tip b,.warn b,.info b,.danger b{display:block;margin-bottom:3px;font-weight:600}
+
+/* ─── TABLE ─── */
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem}
+.tbl th{background:var(--card2);color:var(--cyan);font-family:var(--fh);font-weight:600;padding:10px 14px;text-align:left;border-bottom:2px solid var(--border)}
+.tbl td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--t2)}
+.tbl tr:hover td{background:rgba(255,255,255,.02)}
+.tbl .badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.72rem;font-family:var(--fc)}
+
+/* ─── STATUS CODES ─── */
+.sc{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:6px;font-family:var(--fc);font-size:.8rem;font-weight:500}
+.sc-2{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.sc-3{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.sc-4{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.sc-5{background:rgba(244,114,182,.12);color:var(--pink);border:1px solid rgba(244,114,182,.2)}
+
+/* ─── QUIZ ─── */
+.quiz-section{background:linear-gradient(135deg,#0c1830 0%,#0e1525 100%);border:1px solid var(--border);border-radius:16px;padding:30px;margin-top:40px}
+.quiz-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.quiz-icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.quiz-header h3{font-family:var(--fh);font-size:1.2rem;font-weight:700}
+.quiz-header p{font-size:.8rem;color:var(--t3)}
+.q-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:14px;transition:.2s}
+.q-num{font-family:var(--fc);font-size:.7rem;color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.q-num .q-src{background:rgba(139,92,246,.1);color:var(--purple);padding:2px 8px;border-radius:4px;font-size:.65rem}
+.q-text{font-size:.9rem;color:var(--t1);margin-bottom:14px;line-height:1.6}
+.q-opts{display:flex;flex-direction:column;gap:8px}
+.q-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:.2s;font-size:.85rem;color:var(--t2);user-select:none}
+.q-opt:hover{border-color:var(--border2);color:var(--t1);background:rgba(255,255,255,.02)}
+.q-opt.selected{border-color:var(--cyan);background:rgba(0,212,255,.06);color:var(--t1)}
+.q-opt.correct{border-color:var(--green)!important;background:rgba(16,185,129,.1)!important;color:#6ee7b7!important}
+.q-opt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important;color:#fca5a5!important}
+.q-opt-letter{width:22px;height:22px;border-radius:6px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-family:var(--fc);flex-shrink:0;font-weight:600}
+.q-explain{display:none;margin-top:12px;padding:12px 14px;background:rgba(0,212,255,.05);border-left:3px solid var(--cyan);border-radius:0 8px 8px 0;font-size:.83rem;color:#7dd3fc;line-height:1.6}
+.q-explain.show{display:block}
+.quiz-btn{display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:9px 22px;border-radius:8px;border:none;cursor:pointer;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s}
+.btn-check{background:linear-gradient(135deg,var(--purple),var(--cyan2));color:#fff}
+.btn-check:hover{opacity:.9;transform:translateY(-1px)}
+.btn-reset{background:rgba(255,255,255,.06);color:var(--t2);margin-left:8px;border:1px solid var(--border)}
+.btn-reset:hover{background:rgba(255,255,255,.1);color:var(--t1)}
+.q-score{display:none;margin-top:16px;padding:14px 18px;border-radius:10px;font-family:var(--fh);font-weight:600;text-align:center}
+.q-score.good{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:var(--green)}
+.q-score.ok{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--amber)}
+.q-score.bad{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+
+/* ─── CHEAT SHEET ─── */
+.cheat{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:18px}
+.cheat h3{font-family:var(--fh);font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--cyan);display:flex;align-items:center;gap:8px}
+.cheat-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem}
+.cheat-item:last-child{border-bottom:none}
+.cheat-key{min-width:160px;font-family:var(--fc);font-size:.75rem;color:var(--amber);flex-shrink:0}
+.cheat-val{color:var(--t2);line-height:1.5}
+
+/* ─── HTTP FLOW DIAGRAM ─── */
+.flow-diagram{display:flex;align-items:center;justify-content:center;gap:0;padding:20px;flex-wrap:wrap}
+.flow-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px 20px;text-align:center;min-width:130px}
+.flow-box .fb-icon{font-size:1.8rem;margin-bottom:6px}
+.flow-box .fb-label{font-family:var(--fh);font-size:.82rem;font-weight:600;color:var(--t1)}
+.flow-box .fb-sub{font-size:.7rem;color:var(--t3);margin-top:2px}
+.flow-arrow{display:flex;flex-direction:column;align-items:center;padding:0 10px;gap:8px}
+.arrow-req{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--cyan)}
+.arrow-res{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--green)}
+.arr-line{flex:1;height:2px;min-width:50px;border-radius:1px}
+.arr-cyan{background:linear-gradient(90deg,var(--cyan),var(--cyan2))}
+.arr-green{background:linear-gradient(90deg,var(--green),var(--green))}
+.arr-tip{font-size:.8rem}
+
+/* ─── LAYER DIAGRAM ─── */
+.layers{display:flex;flex-direction:column;gap:8px;max-width:500px;margin:0 auto}
+.layer{display:flex;align-items:center;gap:14px;padding:12px 20px;border-radius:10px;position:relative}
+.layer-num{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--fc);font-size:.75rem;font-weight:600;flex-shrink:0}
+.layer-name{font-family:var(--fh);font-size:.9rem;font-weight:600;min-width:130px}
+.layer-proto{font-size:.78rem;font-family:var(--fc);color:var(--t3)}
+.layer-desc{font-size:.75rem;color:var(--t3);margin-left:auto;text-align:right;max-width:200px}
+.l1{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2)}
+.l1 .layer-num{background:rgba(0,212,255,.15);color:var(--cyan)}
+.l1 .layer-name{color:var(--cyan)}
+.l2{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2)}
+.l2 .layer-num{background:rgba(16,185,129,.15);color:var(--green)}
+.l2 .layer-name{color:var(--green)}
+.l3{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)}
+.l3 .layer-num{background:rgba(245,158,11,.15);color:var(--amber)}
+.l3 .layer-name{color:var(--amber)}
+.l4{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2)}
+.l4 .layer-num{background:rgba(139,92,246,.15);color:var(--purple)}
+.l4 .layer-name{color:var(--purple)}
+
+/* ─── URL BREAKDOWN ─── */
+.url-box{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:20px 24px;margin:16px 0;font-family:var(--fc);font-size:.9rem;position:relative}
+.url-full{color:var(--t1);margin-bottom:18px;word-break:break-all;letter-spacing:.01em}
+.url-parts{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.url-part{display:flex;flex-direction:column;align-items:center;gap:4px}
+.url-part-val{font-family:var(--fc);font-size:.8rem;padding:4px 10px;border-radius:6px;font-weight:500}
+.url-part-key{font-size:.67rem;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
+.up-scheme{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
+.up-host{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.up-port{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.up-path{background:rgba(139,92,246,.12);color:var(--purple);border:1px solid rgba(139,92,246,.2)}
+.up-query{background:rgba(244,114,182,.12);color:var(--pink);border:1px solid rgba(244,114,182,.2)}
+
+/* ─── DOM TREE ─── */
+.tree{font-family:var(--fc);font-size:.8rem;line-height:2;padding:16px}
+.tree-node{cursor:default}
+.tn-el{color:#89b4fa}.tn-text{color:#a6e3a1}.tn-attr{color:#fab387}
+
+/* ─── TAG ─── */
+.tag-demo{display:inline-flex;align-items:center;gap:6px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-family:var(--fc);font-size:.82rem;margin:3px}
+.td-open{color:#f38ba8}.td-close{color:#f38ba8}.td-content{color:#cdd6f4}.td-attr{color:#fab387}.td-attrval{color:#a6e3a1}
+
+/* ─── SELECTOR DEMO ─── */
+.sel-demo{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;margin:14px 0}
+.sel-code{flex:1;min-width:200px}
+.sel-result{flex:1;min-width:200px;background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.12);border-radius:8px;padding:12px 14px;font-size:.8rem}
+.sel-result .hit{color:var(--cyan);font-weight:600}.sel-result .miss{color:var(--t3)}
+
+/* ─── BADGES ─── */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;font-family:var(--fc)}
+.badge-cyan{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
+.badge-green{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.badge-amber{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.badge-red{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.badge-purple{background:rgba(139,92,246,.1);color:var(--purple);border:1px solid rgba(139,92,246,.2)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  :root{--fw:0px}
+  #sidebar{transform:translateX(-280px)}
+  #sidebar.open{transform:translateX(0);width:280px;box-shadow:0 0 20px rgba(0,0,0,0.5)}
+  #main{margin-left:0}
+  .content{padding:24px 16px}
+  .hero{padding:40px 20px 32px}
+  .hero h1{font-size:1.8rem}
+  .grid2,.grid3{grid-template-columns:1fr}
+  #menu-btn{display:flex}
+  .hero-stats{gap:14px;flex-wrap:wrap}
+  .tbl{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .cheat-item{flex-direction:column;gap:6px}
+  .cheat-key{min-width:auto}
+  .sel-demo{flex-direction:column;gap:12px}
+  .flow-diagram{padding:10px}
+  .layer{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:400px){
+  .hero-stats{flex-direction:column;align-items:flex-start}
+}
+@media(min-width:901px){#menu-btn{display:none!important}}
+#menu-btn{position:fixed;bottom:20px;left:20px;z-index:200;width:46px;height:46px;border-radius:12px;background:var(--cyan);border:none;cursor:pointer;color:#000;font-size:1.3rem;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,212,255,.4)}
+
+/* ─── SCROLL TO TOP ─── */
+#scroll-top{position:fixed;bottom:20px;right:20px;width:40px;height:40px;border-radius:10px;background:rgba(0,212,255,.15);border:1px solid rgba(0,212,255,.3);color:var(--cyan);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s;z-index:200}
+#scroll-top.show{opacity:1}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.animate{animation:fadeIn .4s ease forwards}
+.topic{animation:fadeIn .3s ease forwards}
+/* ─── BIDI FIX (ARABIC/ENGLISH MIX) ─── */
+p, h1, h2, h3, h4, h5, h6, li, td, th, 
+.topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div, .note div, 
+.q-text, .q-explain, .cheat-val, .cmt, .q-opt, .hero p, .hero-badge, .sb-link, 
+.topic p, .ch-title h2, .sb-logo p, .sb-logo h2, .q-num {
+  unicode-bidi: plaintext;
+  text-align: left;
+}
+.q-explain, .cheat-val, .cmt {
+  text-align: right;
+}
+code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ─── GLOBAL NAV ─── */
+.global-nav{display:flex;justify-content:center;gap:12px;padding:16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:90;}
+.gn-link{display:flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;text-decoration:none;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s;border:1px solid transparent;}
+.gn-link:hover{transform:translateY(-2px);}
+.gn-html{background:rgba(0,212,255,.08);color:var(--cyan);border-color:rgba(0,212,255,.2);}
+.gn-html:hover, .gn-html.active{background:var(--cyan);color:#000;box-shadow:0 0 15px rgba(0,212,255,.3);}
+.gn-css{background:rgba(244,114,182,.08);color:var(--pink);border-color:rgba(244,114,182,.2);}
+.gn-css:hover, .gn-css.active{background:var(--pink);color:#000;box-shadow:0 0 15px rgba(244,114,182,.3);}
+.gn-js{background:rgba(245,158,11,.08);color:var(--amber);border-color:rgba(245,158,11,.2);}
+.gn-js:hover, .gn-js.active{background:var(--amber);color:#000;box-shadow:0 0 15px rgba(245,158,11,.3);}
+@media(max-width:900px){ .global-nav{padding:12px 10px;flex-wrap:wrap;gap:8px;} .gn-link{font-size:.78rem;padding:6px 14px;} }
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="prog-bar"></div>
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>📡 IS231 Study Guide</h2>
+    <p>Web Technology — Cairo University</p>
+  </div>
+  <div class="sb-section">Chapter 1</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>TCP/IP & Protocols</a>
+  <div class="sb-section">Chapter 2</div>
+  <a href="#ch2a" class="sb-link"><span class="sb-dot"></span>HTTP Resources & URL</a>
+  <a href="#ch2b" class="sb-link"><span class="sb-dot"></span>HTTP Request</a>
+  <a href="#ch2c" class="sb-link"><span class="sb-dot"></span>HTTP Response</a>
+  <a href="#ch2d" class="sb-link"><span class="sb-dot"></span>Media Types & Caching</a>
+  <a href="#ch2e" class="sb-link"><span class="sb-dot"></span>Cookies & Security</a>
+  <a href="#quiz-http" class="sb-link"><span class="sb-dot"></span>🎯 HTTP Quiz</a>
+  <div class="sb-section">Chapter 3</div>
+  <a href="#ch3a" class="sb-link"><span class="sb-dot"></span>HTML Structure</a>
+  <a href="#ch3b" class="sb-link"><span class="sb-dot"></span>HTML Elements</a>
+  <a href="#ch3c" class="sb-link"><span class="sb-dot"></span>Links, Images, Lists</a>
+  <a href="#ch3d" class="sb-link"><span class="sb-dot"></span>HTML5 Features</a>
+  <a href="#quiz-html" class="sb-link"><span class="sb-dot"></span>🎯 HTML Quiz</a>
+  <div class="sb-section">Chapter 4</div>
+  <a href="#ch4a" class="sb-link"><span class="sb-dot"></span>DOM Tree & Nodes</a>
+  <a href="#ch4b" class="sb-link"><span class="sb-dot"></span>Finding Elements</a>
+  <a href="#ch4c" class="sb-link"><span class="sb-dot"></span>Modifying Elements</a>
+  <a href="#ch4d" class="sb-link"><span class="sb-dot"></span>Add/Delete & Events</a>
+  <a href="#quiz-dom" class="sb-link"><span class="sb-dot"></span>🎯 DOM Quiz</a>
+  <div class="sb-section">Chapter 5</div>
+  <a href="#ch5a" class="sb-link"><span class="sb-dot"></span>CSS Basics & Syntax</a>
+  <a href="#ch5b" class="sb-link"><span class="sb-dot"></span>CSS Selectors</a>
+  <a href="#ch5c" class="sb-link"><span class="sb-dot"></span>Box Model & Priority</a>
+  <a href="#quiz-css" class="sb-link"><span class="sb-dot"></span>🎯 CSS Quiz</a>
+  <div class="sb-section">Reference</div>
+  <a href="#cheatsheet" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+</nav>
+
+<!-- Mobile menu -->
+<button id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ═══════════════════════ MAIN ═══════════════════════ -->
+<main id="main">
+<!-- GLOBAL NAVIGATION -->
+<div class="global-nav">
+  <a href="index.html" class="gn-link gn-html active"><span class="icon">📡</span> HTTP & HTML</a>
+  <a href="css.html" class="gn-link gn-css"><span class="icon">🎨</span> CSS Guide</a>
+  <a href="js.html" class="gn-link gn-js"><span class="icon">⚡</span> JavaScript Guide</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚡ IS231 · Slides 1, 2 & 3 · All Exam Questions Covered</div>
+  <h1>Web Technology<br><span>Complete Study Guide</span></h1>
+  <p>HTTP Protocols · HTML · DOM · CSS </p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">5</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">Exam Sources</div></div>
+    <div class="hstat"><div class="num">60+</div><div class="lbl">Real Exam Q's</div></div>
+    <div class="hstat"><div class="num">∞</div><div class="lbl">Success 🎯</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 1 — TCP/IP & INTERNET PROTOCOLS
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>TCP/IP & Internet Protocols</h2>
+      <p>الطبقات، البروتوكولات، والبنية التحتية للإنترنت</p>
+    </div>
+  </div>
+
+  <!-- TCP/IP Layers -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🏗️</span> TCP/IP Model — الـ 4 Layers</div>
+    <p>التحويل بين الأجهزة على الإنترنت بيتم عبر 4 طبقات، كل طبقة ليها مهمة محددة:</p>
+    <div class="diagram">
+      <div class="layers">
+        <div class="layer l1">
+          <div class="layer-num">4</div>
+          <div class="layer-name">Application</div>
+          <div class="layer-proto">HTTP · SMTP · FTP</div>
+          <div class="layer-desc">Access to network resources for users</div>
+        </div>
+        <div class="layer l2">
+          <div class="layer-num">3</div>
+          <div class="layer-name">Transport</div>
+          <div class="layer-proto">TCP · UDP</div>
+          <div class="layer-desc">Process-to-process delivery &amp; error handling</div>
+        </div>
+        <div class="layer l3">
+          <div class="layer-num">2</div>
+          <div class="layer-name">Internet</div>
+          <div class="layer-proto">IP</div>
+          <div class="layer-desc">Move packets source → destination (routing)</div>
+        </div>
+        <div class="layer l4">
+          <div class="layer-num">1</div>
+          <div class="layer-name">Network Interface</div>
+          <div class="layer-proto">Ethernet · Wi-Fi</div>
+          <div class="layer-desc">Transmission between two devices on same network</div>
+        </div>
+      </div>
+    </div>
+    <div class="info"><div><b>💡 المهم فالامتحان</b>TCP = Transport Layer. IP = Internet Layer. HTTP/SMTP = Application Layer.</div></div>
+  </div>
+
+  <!-- Protocols -->
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">🔗</span> TCP — Transmission Control Protocol</div>
+      <p>بيكسّر الرسالة لـ <strong>TCP Segments</strong> ويبعتها، وفي الجهة التانية يرجّعها تاني.</p>
+      <p>Communication is <strong>"end-to-end"</strong> — بيتأكد إن الـ packets وصلت بالترتيب وبدون errors.</p>
+    </div>
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">📍</span> IP — Internet Protocol</div>
+      <p>بيديك <strong>عنوان رقمي</strong> (IP Address) لكل جهاز على الشبكة.</p>
+      <p>بيعمل <strong>Routing</strong> يعني بيحدد المسار من المصدر للوجهة عبر الإنترنت.</p>
+      <p>TCP + IP = <strong>Virtual connection</strong> بين source وdestination.</p>
+    </div>
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">🌐</span> HTTP — HyperText Transfer Protocol</div>
+      <p>Foundation of the World Wide Web!</p>
+      <p>بينقل web pages ومحتوى من الـ <strong>web server</strong> للـ <strong>web client</strong> (browser).</p>
+      <div class="tip"><div>يشتغل على <strong>Port 80</strong> بشكل افتراضي</div></div>
+    </div>
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">📧</span> SMTP — Simple Mail Transfer Protocol</div>
+      <p>بروتوكول إرسال الإيميلات! <strong>يبعت</strong> البيانات لعنوان إيميل تاني.</p>
+      <p><span class="badge badge-amber">Application Layer</span> يشتغل على <strong>Port 25</strong></p>
+    </div>
+  </div>
+
+  <!-- Well-known Ports -->
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🔌</span> Well-Known TCP Port Numbers</div>
+    <p>الـ Port هو endpoint خاص بـ application معينة على الـ server. ده بيخلي في applications كتير تشتغل على نفس الجهاز.</p>
+    <table class="tbl">
+      <tr><th>Service</th><th>Port</th><th>Protocol</th></tr>
+      <tr><td>HTTP (Web Server)</td><td><code>80</code></td><td>TCP</td></tr>
+      <tr><td>HTTPS (Secure Web)</td><td><code>443</code></td><td>TCP (TLS)</td></tr>
+      <tr><td>SMTP (Email Sending)</td><td><code>25</code></td><td>TCP</td></tr>
+      <tr><td>POP3 (Personal Mail Box)</td><td><code>110</code></td><td>TCP</td></tr>
+      <tr><td>FTP (File Transfer)</td><td><code>21</code></td><td>TCP</td></tr>
+    </table>
+    <div class="warn"><div><b>⚠️ من الامتحانات:</b> HTTP uses TCP on port <strong>80</strong> — HTTPS uses TCP on port <strong>443</strong></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 2A — HTTP RESOURCES & URL
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2a">
+  <div class="ch-header">
+    <div class="ch-num blue">02</div>
+    <div class="ch-title">
+      <h2>HTTP Fundamentals</h2>
+      <p>Resources · Request · Response · Caching · Cookies · Security</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔗</span> Resources & URL — Uniform Resource Locator</div>
+    <p>كل resource على الإنترنت ليه عنوان URL فريد. الـ URL بيتكون من أجزاء:</p>
+    <div class="url-box">
+      <div class="url-full"><span style="color:#89b4fa">https</span><span style="color:#585b70">://</span><span style="color:#a6e3a1">www.linkedin.com</span><span style="color:#585b70">:</span><span style="color:#fab387">443</span><span style="color:#cba6f7">/in/neamateltazi</span><span style="color:#f38ba8">?tab=about</span></div>
+      <div class="url-parts">
+        <div class="url-part"><div class="url-part-val up-scheme">https</div><div class="url-part-key">Scheme</div></div>
+        <div class="url-part"><div class="url-part-val up-host">www.linkedin.com</div><div class="url-part-key">Host</div></div>
+        <div class="url-part"><div class="url-part-val up-port">443</div><div class="url-part-key">Port</div></div>
+        <div class="url-part"><div class="url-part-val up-path">/in/neamateltazi</div><div class="url-part-key">Path</div></div>
+        <div class="url-part"><div class="url-part-val up-query">?tab=about</div><div class="url-part-key">Query</div></div>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:14px">
+      <div>
+        <p><strong>Example 1:</strong></p>
+        <div class="url-box" style="font-size:.75rem;padding:12px 16px">
+          <div class="url-full">https://www.linkedin.com:443/in/neamateltazi/</div>
+          <div style="color:var(--t3);font-size:.68rem;margin-top:6px">Scheme: https | Host: www.linkedin.com | Port: 443 (HTTPS default) | Path: /in/neamateltazi</div>
+        </div>
+      </div>
+      <div>
+        <p><strong>Example 2:</strong></p>
+        <div class="url-box" style="font-size:.75rem;padding:12px 16px">
+          <div class="url-full">http://www.google.com/search?q=computers</div>
+          <div style="color:var(--t3);font-size:.68rem;margin-top:6px">Scheme: http | Host: www.google.com | Port: 80 (HTTP default) | Path: /search | Query: ?q=computers</div>
+        </div>
+      </div>
+    </div>
+    <div class="info"><div><b>📌 Absolute vs Relative URLs</b><br>
+    <strong>Absolute:</strong> <code>&lt;a href="http://www.dr-chuck.com/page2.htm"&gt;</code> — عنوان كامل يودي لأي مكان<br>
+    <strong>Relative:</strong> <code>&lt;a href="page2.html"&gt;</code> — ملف في نفس الـ folder</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 2B — HTTP REQUEST
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2b">
+  <div class="ch-header" style="border:none;margin-bottom:16px">
+    <div class="ch-title"><h2 style="font-size:1.3rem;color:var(--cyan)">🔼 HTTP Request Message</h2></div>
+  </div>
+
+  <!-- Flow diagram -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔄</span> Request-Response Cycle</div>
+    <div class="flow-diagram">
+      <div class="flow-box">
+        <div class="fb-icon">💻</div>
+        <div class="fb-label">Client (Browser)</div>
+        <div class="fb-sub">You!</div>
+      </div>
+      <div class="flow-arrow">
+        <div class="arrow-req"><div class="arr-line arr-cyan"></div><span class="arr-tip">→</span><span>Request</span></div>
+        <div class="arrow-res"><span>Response</span><span class="arr-tip">←</span><div class="arr-line arr-green" style="background:linear-gradient(270deg,var(--green),var(--green))"></div></div>
+      </div>
+      <div class="flow-box">
+        <div class="fb-icon">🖥️</div>
+        <div class="fb-label">Web Server</div>
+        <div class="fb-sub">Remote machine</div>
+      </div>
+    </div>
+    <p>The client sends an HTTP request → server sends back an HTTP response. They're <strong>two different message types</strong>.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">📤</span> Request Message Structure</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">HTTP REQUEST FORMAT</div></div>
+        <pre><code><span class="kw">[method]</span> <span class="str">[URL]</span> <span class="fn">[version]</span>
+<span class="prop">[headers]</span>
+
+<span class="cmt">[body — optional, only in POST/PUT]</span></code></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">REAL EXAMPLE</div></div>
+        <pre><code><span class="kw">GET</span> <span class="str">http://www.google.com</span> <span class="fn">HTTP/1.1</span>
+<span class="prop">Host:</span> www.google.com
+<span class="prop">User-Agent:</span> Mozilla/5.0 Chrome/120
+<span class="prop">Accept:</span> text/html</code></pre>
+      </div>
+    </div>
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">📋</span> HTTP Methods — الأوامر</div>
+      <table class="tbl">
+        <tr><th>Method</th><th>What it does</th></tr>
+        <tr><td><code>GET</code></td><td>Read data — بيجيب data. Body <strong>فاضي</strong>!</td></tr>
+        <tr><td><code>POST</code></td><td>Insert data — يضيف data جديدة في الـ body</td></tr>
+        <tr><td><code>PUT/PATCH</code></td><td>Update data — يعدّل data موجودة</td></tr>
+        <tr><td><code>DELETE</code></td><td>Delete data — يحذف</td></tr>
+      </table>
+      <div class="warn"><div><b>⚡ مهم جداً:</b> GET بيبعت البيانات في الـ URL نفسه، مش في الـ body!</div></div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📋</span> Request Headers — المعلومات الإضافية</div>
+    <table class="tbl">
+      <tr><th>Header</th><th>المعنى</th><th>مثال</th></tr>
+      <tr><td><code>Referer</code></td><td>الـ URL اللي منه جيت (اللي كليكت عليه)</td><td>https://google.com</td></tr>
+      <tr><td><code>User-Agent</code></td><td>معلومات عن الـ browser/software اللي بيبعت الـ request</td><td>Mozilla/5.0 Chrome/120</td></tr>
+      <tr><td><code>Accept</code></td><td>نوع الـ content اللي الـ client عايز يستقبله</td><td>text/html</td></tr>
+      <tr><td><code>Accept-Language</code></td><td>اللغة اللي بيفضلها المستخدم</td><td>ar, en-US</td></tr>
+      <tr><td><code>Cookie</code></td><td>بيانات الـ cookie اللي الـ server حطها قبل كده</td><td>sessionid=abc123</td></tr>
+      <tr><td><code>If-Modified-Since</code></td><td>للـ Caching — آخر وقت جبت فيه الـ resource</td><td>Wed, 25 Jan 2012</td></tr>
+    </table>
+  </div>
+
+  <!-- POST with body -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📦</span> POST Request — بيانات في الـ Body</div>
+    <p>لما عندك form وتبعتها بـ POST، البيانات بتتبعت في الـ body مش في الـ URL:</p>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">HTML FORM</div></div>
+        <pre><code><span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="val">"/account/create"</span>
+      <span class="attr">method</span>=<span class="val">"POST"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">name</span>=<span class="val">"firstName"</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">name</span>=<span class="val">"lastName"</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"submit"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">POST REQUEST SENT</div></div>
+        <pre><code><span class="kw">POST</span> <span class="str">/account/create</span> <span class="fn">HTTP/1.1</span>
+<span class="prop">Host:</span> server.com
+
+<span class="cmt">firstName=Mario&lastName=Cardinal</span></code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 2C — HTTP RESPONSE
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2c">
+  <div class="ch-header" style="border:none;margin-bottom:16px">
+    <div class="ch-title"><h2 style="font-size:1.3rem;color:var(--green)">🔽 HTTP Response Message</h2></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📥</span> Response Message Structure</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">RESPONSE FORMAT</div></div>
+        <pre><code><span class="fn">[version]</span> <span class="str">[status code]</span> <span class="kw">[reason]</span>
+<span class="prop">[headers]</span>
+
+<span class="cmt">[body — the actual content]</span></code></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">REAL EXAMPLE</div></div>
+        <pre><code><span class="fn">HTTP/1.1</span> <span class="str">200</span> <span class="kw">OK</span>
+<span class="prop">Content-Type:</span> text/html; charset=utf-8
+<span class="prop">Content-Length:</span> 17151
+<span class="prop">Date:</span> Sat, 14 Jan 2012 04:00:08 GMT
+
+<span class="tag">&lt;html&gt;</span><span class="cmt">...page content...</span><span class="tag">&lt;/html&gt;</span></code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status Codes -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🚦</span> HTTP Status Codes — دول الأهم فالامتحان!</div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+      <span class="sc sc-2">100–199 Informational</span>
+      <span class="sc sc-2">200–299 Success</span>
+      <span class="sc sc-3">300–399 Redirection</span>
+      <span class="sc sc-4">400–499 Client Error</span>
+      <span class="sc sc-5">500–599 Server Error</span>
+    </div>
+    <table class="tbl">
+      <tr><th>Code</th><th>Meaning</th><th>اللي لازم تعرفه</th></tr>
+      <tr><td><span class="sc sc-2">200 OK</span></td><td>Success! طلبك اتنفذ</td><td>✅ نجح كل حاجة</td></tr>
+      <tr><td><span class="sc sc-2">201 Created</span></td><td>Resource created successfully</td><td>✅ تم الإنشاء</td></tr>
+      <tr><td><span class="sc sc-2">204 No Content</span></td><td>Success but no content to return</td><td>✅ نجح بدون محتوى</td></tr>
+      <tr><td><span class="sc sc-3">301 Moved Permanently</span></td><td>Resource moved to new URL</td><td>🔀 تحويل دايم</td></tr>
+      <tr><td><span class="sc sc-3">304 Not Modified</span></td><td>Use cached version — ما اتغيرش</td><td>💾 استخدم الـ cache</td></tr>
+      <tr><td><span class="sc sc-4">400 Bad Request</span></td><td>Malformed request من الـ client</td><td>❌ الـ request غلط</td></tr>
+      <tr><td><span class="sc sc-4">401 Unauthorized</span></td><td>Need to authenticate first</td><td>🔑 محتاج تسجل دخول</td></tr>
+      <tr><td><span class="sc sc-4">403 Forbidden</span></td><td>Server reachable, access denied!</td><td>🚫 وصلت للـ server لكن ممنوع</td></tr>
+      <tr><td><span class="sc sc-4">404 Not Found</span></td><td>Resource doesn't exist</td><td>🔍 مش موجود</td></tr>
+      <tr><td><span class="sc sc-5">500 Internal Server Error</span></td><td>Server crashed/bug</td><td>💥 خرابة في الـ server</td></tr>
+    </table>
+    <div class="danger"><div><b>🚨 الفرق بين 401 و 403:</b><br>
+    <strong>401</strong> = مش authenticated بعد (لازم تعمل login) — <strong>403</strong> = عملت login بس مش عندك permission</div></div>
+  </div>
+
+  <!-- Response Headers -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📋</span> Response Headers</div>
+    <table class="tbl">
+      <tr><th>Header</th><th>المعنى</th></tr>
+      <tr><td><code>Content-Type</code></td><td>نوع الـ content (media type) — مثلاً text/html</td></tr>
+      <tr><td><code>Content-Length</code></td><td>حجم الـ body بالـ bytes</td></tr>
+      <tr><td><code>Date</code></td><td>وقت إرسال الـ response</td></tr>
+      <tr><td><code>Expires</code></td><td>التاريخ اللي بعده الـ response بيبقى "قديم"</td></tr>
+      <tr><td><code>Location</code></td><td>للـ redirects — العنوان الجديد</td></tr>
+      <tr><td><code>Server</code></td><td>اسم الـ web server</td></tr>
+      <tr><td><code>Connection</code></td><td>خيارات الـ connection</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 2D — MEDIA TYPES & CACHING
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2d">
+  <div class="ch-header" style="border:none;margin-bottom:16px">
+    <div class="ch-title"><h2 style="font-size:1.3rem;color:var(--amber)">📂 Media Types & Caching</h2></div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">📄</span> Media Types (MIME)</div>
+      <p>الـ server بيبعت مع كل response نوع الـ content اللي بيبعته. ده بيتسمى <strong>MIME type</strong>.</p>
+      <table class="tbl">
+        <tr><th>MIME Type</th><th>نوعه</th></tr>
+        <tr><td><code>text/html</code></td><td>صفحة HTML</td></tr>
+        <tr><td><code>image/jpeg</code></td><td>صورة JPG</td></tr>
+        <tr><td><code>text/xml</code></td><td>ملف XML</td></tr>
+        <tr><td><code>application/json</code></td><td>بيانات JSON</td></tr>
+        <tr><td><code>image/png</code></td><td>صورة PNG</td></tr>
+      </table>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Content Negotiation</div></div>
+        <pre><code><span class="cmt">— Client Request Header:</span>
+<span class="prop">Accept:</span> text/html, application/xhtml+xml
+
+<span class="cmt">— Server Response Header:</span>
+<span class="prop">Content-Type:</span> text/html; charset=utf-8</code></pre>
+      </div>
+    </div>
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">💾</span> HTTP Caching</div>
+      <p>الـ Caching بيحفظ نسخة من الـ resource عند الـ client علشان ما يحملهاش تاني لو ما اتغيرتش.</p>
+      <p><strong>Time-based Caching:</strong></p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">RESPONSE</div></div>
+        <pre><code><span class="prop">Last-Modified:</span> Wed, 25 Jan 2012 17:55:15 GMT
+<span class="prop">Expires:</span> Sat, 22 Jan 2022 17:55:15 GMT
+<span class="prop">Cache-Control:</span> max-age=315360000, public</code></pre>
+      </div>
+      <p><strong>Content-based Caching (ETag):</strong></p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">RESPONSE with ETag</div></div>
+        <pre><code><span class="prop">ETag:</span> "8e5bcd-59f-4b5dfef104d00"</code></pre>
+      </div>
+      <p><strong>Client asks "did it change?":</strong></p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">REQUEST → RESPONSE</div></div>
+        <pre><code><span class="cmt">— Client:</span>
+<span class="prop">If-Modified-Since:</span> Wed, 25 Jan 2012 17:55:15 GMT
+
+<span class="cmt">— Server (if not changed):</span>
+<span class="fn">HTTP/1.1</span> <span class="str">304 Not Modified</span></code></pre>
+      </div>
+      <div class="tip"><div><b>💡 Summary:</b> "Expires" header = Response + Time-based caching — دي بتيجي في الامتحانات كتير!</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 2E — COOKIES & SECURITY
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2e">
+  <div class="ch-header" style="border:none;margin-bottom:16px">
+    <div class="ch-title"><h2 style="font-size:1.3rem;color:var(--pink)">🍪 Cookies & Security</h2></div>
+  </div>
+
+  <!-- Cookies -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🍪</span> HTTP Cookies</div>
+    <p>الـ Cookie هو قطعة بيانات صغيرة الـ <strong>server</strong> بيبعتها للـ client، والـ client بيبعتها تاني مع كل request.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">SERVER SETS COOKIE</div></div>
+      <pre><code><span class="fn">HTTP/1.1</span> <span class="str">200 OK</span>
+<span class="prop">Set-Cookie:</span> fname=Mario&lname=Cardinal; 
+             expires=Monday, 09-July-2012 21:12:00 GMT
+             domain=.mywebsite.com; path=/; <span class="kw">HttpOnly</span></code></pre>
+    </div>
+    <div class="grid2" style="margin-top:14px">
+      <div>
+        <div class="tip"><div><b>✅ استخدامات Cookies</b><br>
+        • Session identification<br>
+        • User tracking<br>
+        • Preferences storage<br>
+        • Often just stores a <strong>GUID</strong> (unique ID)</div></div>
+      </div>
+      <div>
+        <div class="danger"><div><b>❌ عيوب Cookies</b><br>
+        • Max size = <strong>4KB</strong> فقط!<br>
+        • بتتبعت مع <strong>كل request</strong> → زيادة bandwidth<br>
+        • تعمل مشاكل مع الـ Caching<br>
+        • <strong>Never store sensitive info!</strong></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Security -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🔐</span> HTTP Security — Authentication Types</div>
+    <table class="tbl">
+      <tr><th>Type</th><th>كيف بيشتغل</th><th>Security Level</th></tr>
+      <tr><td><strong>Basic Auth</strong></td><td>بيبعت username:password مشفرة بـ Base64 (مش encrypted!)</td><td><span class="badge badge-red">❌ Insecure</span></td></tr>
+      <tr><td><strong>Digest Auth</strong></td><td>بيستخدم MD5 hashing + nonce بدل ما يبعت الـ password</td><td><span class="badge badge-amber">⚠️ Better</span></td></tr>
+      <tr><td><strong>Windows Auth</strong></td><td>بيعتمد على Windows/Active Directory protocols</td><td><span class="badge badge-green">✅ Secure</span></td></tr>
+      <tr><td><strong>Form-based</strong></td><td>الأكثر شيوعاً! Login form + redirect + cookie</td><td><span class="badge badge-amber">⚠️ Needs HTTPS</span></td></tr>
+    </table>
+    <div class="grid2" style="margin-top:14px">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">BASIC AUTH FLOW</div></div>
+        <pre><code><span class="cmt">1. Client requests resource:</span>
+<span class="kw">GET</span> /demo/ <span class="fn">HTTP/1.1</span>
+
+<span class="cmt">2. Server says: who are you?</span>
+<span class="fn">HTTP/1.1</span> <span class="str">401 Unauthorized</span>
+<span class="prop">WWW-Authenticate:</span> Basic realm="localhost"
+
+<span class="cmt">3. Client sends credentials:</span>
+<span class="prop">Authorization:</span> Basic bm86aXdvdWxk...</code></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">FORM-BASED AUTH</div></div>
+        <pre><code><span class="cmt">1. Unauthenticated request:</span>
+<span class="kw">GET</span> /demo/ <span class="fn">HTTP/1.1</span>
+
+<span class="cmt">2. Redirect to login page:</span>
+<span class="fn">HTTP/1.1</span> <span class="str">302 Found</span>
+<span class="prop">Location:</span> /Login.aspx?ReturnUrl=/demo/
+
+<span class="cmt">3. After login, set cookie:</span>
+<span class="prop">Set-Cookie:</span> .ASPXAUTH=9694BAB...
+<span class="fn">HTTP/1.1</span> <span class="str">302 Found</span>
+<span class="prop">Location:</span> /demo/</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔒</span> HTTPS — Encryption</div>
+    <div class="grid2">
+      <div>
+        <p><strong>HTTPS</strong> = HTTP over <strong>TLS</strong> (Transport Layer Security)</p>
+        <p>بيشفّر كل البيانات المتبادلة بين الـ client والـ server.</p>
+        <p>في الـ browser:</p>
+        <ul style="margin:8px 0 8px 20px;color:var(--t2);font-size:.88rem">
+          <li>URL يبدأ بـ <code>https://</code></li>
+          <li>🔒 Lock icon في الـ browser</li>
+          <li>Port <code>443</code></li>
+        </ul>
+      </div>
+      <div>
+        <div class="info"><div><b>Authorization Summary</b><br>
+        <strong>Authentication</strong> = إثبات الهوية (من أنا؟)<br>
+        <strong>Authorization</strong> = صلاحيات الوصول (أعمل إيه؟)<br><br>
+        <span class="sc sc-4">403 Forbidden</span> = Server وصلته، بس مش معاك permission<br>
+        <span class="sc sc-4">401 Unauthorized</span> = لازم تعمل login الأول</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HTTP QUIZ -->
+  <div class="quiz-section" id="quiz-http">
+    <div class="quiz-header">
+      <div class="quiz-icon">🎯</div>
+      <div><h3>HTTP Quiz — أسئلة حقيقية من الامتحانات</h3><p>اختبر نفسك على كل اللي اتشرح</p></div>
+    </div>
+
+    <div id="qset-http">
+      <!-- Q1 -->
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q1 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">The values GET, POST, HEAD etc. are specified in ________ of HTTP message</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Request line</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Header line</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Entity body</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ GET/POST/HEAD هي HTTP Methods وبتيجي في أول سطر من الـ Request وهو الـ Request Line: <code>[method] [URL] [version]</code></div>
+      </div>
+      <!-- Q2 -->
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q2 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">The ________ method leaves the message body empty.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> POST</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Send</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> GET</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> PUT</div>
+        </div>
+        <div class="q-explain">✅ GET بيبعت البيانات في الـ URL نفسه (Query String) — الـ body بتاعه فاضي. POST هو اللي بيبعت البيانات في الـ body.</div>
+      </div>
+      <!-- Q3 -->
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q3 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Which of the following is present in BOTH an HTTP request line AND a status line?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> HTTP version number</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> URL</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Method</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ Request line: <code>GET /page HTTP/1.1</code> — Status line: <code>HTTP/1.1 200 OK</code> — الـ HTTP version موجود في الاتنين!</div>
+      </div>
+      <!-- Q4 -->
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">________ protocol is used for sending and receiving e-mails</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> FTP</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> SMTP</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> TELNET</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> HTTP</div>
+        </div>
+        <div class="q-explain">✅ SMTP = Simple Mail Transfer Protocol — خصيصاً للإيميلات. HTTP للـ web, FTP لنقل الملفات.</div>
+      </div>
+      <!-- Q5 -->
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q5 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">An HTTP request message ALWAYS contains ________</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> A header and a body</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A request line and a header</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> A status line, a header, and a body</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ Request line (method+URL+version) وHeaders = موجودين دايماً. الـ Body ممكن يكون فاضي (زي GET). Status line دي للـ Response مش الـ Request.</div>
+      </div>
+      <!-- Q6 -->
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q6 <span class="q-src">mid-2022 / mid-2023</span></div>
+        <div class="q-text">The ________ HTTP request header identifies the URL that was clicked to reach the page (referring page URL)</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> User-Agent</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Referer</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Accept</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Cookie</div>
+        </div>
+        <div class="q-explain">✅ Referer = العنوان اللي جيت منه. User-Agent = معلومات الـ browser. Accept = نوع الـ content المقبول.</div>
+      </div>
+      <!-- Q7 -->
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q7 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">A cookie is created by ________</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Server</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Client</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Host</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ الـ Server هو اللي بيعمل الـ Cookie ويبعتها للـ client عن طريق Set-Cookie header. الـ client بس بيحفظها ويبعتها مع كل request.</div>
+      </div>
+      <!-- Q8 -->
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q8 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">HTTP uses the services of ________ on well-known port ________</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> TCP, 80</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> HTTP, 80</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> TCP, 443</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> HTTPS, 443</div>
+        </div>
+        <div class="q-explain">✅ HTTP = TCP + Port 80. HTTPS = TCP + TLS + Port 443. الـ HTTP مش بروتوكول، هو مبني فوق TCP.</div>
+      </div>
+      <!-- Q9 -->
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q9 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">HTTPS uses the services of ________ on well-known port ________</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> TCP, 443</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> HTTPS, 443</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> TCP, 80</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> HTTP, 443</div>
+        </div>
+        <div class="q-explain">✅ HTTPS = HTTP over TLS, runs on TCP port 443. دي مش بروتوكول منفصل، هي HTTP + encryption layer.</div>
+      </div>
+      <!-- Q10 -->
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q10 <span class="q-src">final-2024 / mid-2022</span></div>
+        <div class="q-text">"Expires: Tuesday, 17 Dec 2020 18:30 GMT" is a _________ header denoting _________</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Request, time-based caching</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Response, content-based caching</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Request, content-based caching</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Response, time-based caching</div>
+        </div>
+        <div class="q-explain">✅ Expires بيييجي في الـ Response (مش الـ Request) وهو مثال على Time-based Caching — بيقولك لحد إمتى الـ content صالح.</div>
+      </div>
+      <!-- Q11 -->
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q11 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">Using authorization, having a response of status 403 means that ________</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Server is reachable but the user is NOT authorized</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Server is not reachable and user is not authorized</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Server is reachable and no content available</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ 403 Forbidden = وصلت للـ server وفهم طلبك، لكنه رفض يديك الـ resource عشان مش عندك permission.</div>
+      </div>
+      <!-- Q12 -->
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q12 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">Status code 220 denotes a successful HTTP Response. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ FALSE! النجاح من 200 لـ 299 فقط. مفيش كود اسمه 220 في HTTP. الـ 200 OK هو اللي يدل على النجاح.</div>
+      </div>
+      <!-- Q13 -->
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q13 <span class="q-src">final-2025</span></div>
+        <div class="q-text">An HTTP response content type denotes:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The media type of the content</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> The image size of the content</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> The text size of the content</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the answers</div>
+        </div>
+        <div class="q-explain">✅ Content-Type header بيحدد الـ media type (MIME type) زي text/html أو application/json.</div>
+      </div>
+    </div>
+
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-http','score-http')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-http','score-http')">Reset ↺</button>
+    <div class="q-score" id="score-http"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 3 — HTML
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3a">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>HTML — HyperText Markup Language</h2>
+      <p>Structure · Tags · Elements · Forms · HTML5</p>
+    </div>
+  </div>
+
+  <!-- HTML Structure -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🏗️</span> Structure of an HTML Document</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">HTML DOCUMENT SKELETON</div></div>
+        <pre><code><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+  <span class="tag">&lt;head&gt;</span>
+    <span class="cmt">&lt;!-- Metadata: not visible on page --&gt;</span>
+    <span class="tag">&lt;title&gt;</span><span class="str">Page Title</span><span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> 
+          <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;/head&gt;</span>
+  <span class="tag">&lt;body&gt;</span>
+    <span class="cmt">&lt;!-- Visible page content --&gt;</span>
+    <span class="tag">&lt;h1&gt;</span><span class="str">Hello World</span><span class="tag">&lt;/h1&gt;</span>
+  <span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+      </div>
+      <div>
+        <div class="info"><div><b>📌 المهم:</b><br>
+        • <code>&lt;head&gt;</code> = Metadata عن الصفحة (مش مرئية)<br>
+        • <code>&lt;body&gt;</code> = كل اللي بيظهر للمستخدم<br>
+        • <code>&lt;title&gt;</code> = اسم الصفحة في الـ browser tab<br>
+        • <code>&lt;meta&gt;</code> = معلومات للـ browser/search engines</div></div>
+        <div class="warn"><div><b>⚡ من الامتحان:</b> Tags and texts that are NOT directly displayed are written in the <code>&lt;head&gt;</code> section.</div></div>
+        <div class="tip"><div><b>💡 Tim Berners-Lee</b> = Father of the WWW! أسّس W3C في MIT.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HTML TAGS & ELEMENTS -->
+<div class="chapter" id="ch3b">
+  <div class="ch-header" style="border:none;margin-bottom:16px">
+    <div class="ch-title"><h2 style="font-size:1.3rem;color:var(--amber)">🏷️ HTML Tags & Elements</h2></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🏷️</span> Tag Basics — الأساسيات</div>
+    <div style="margin:14px 0">
+      <div style="background:var(--card2);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <span style="font-family:var(--fc);color:#f38ba8">&lt;h1&gt;</span>
+        <span style="color:var(--t3);font-size:.8rem">Start Tag</span>
+        <span style="font-family:var(--fc);color:#cdd6f4">Hello World</span>
+        <span style="color:var(--t3);font-size:.8rem">Content</span>
+        <span style="font-family:var(--fc);color:#f38ba8">&lt;/h1&gt;</span>
+        <span style="color:var(--t3);font-size:.8rem">End Tag (has /)</span>
+      </div>
+      <div style="background:var(--card2);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:10px">
+        <span style="font-family:var(--fc);color:#f38ba8">&lt;img</span>
+        <span style="font-family:var(--fc);color:#fab387">src</span>
+        <span style="font-family:var(--fc);color:#585b70">=</span>
+        <span style="font-family:var(--fc);color:#a6e3a1">"photo.png"</span>
+        <span style="font-family:var(--fc);color:#f38ba8">/&gt;</span>
+        <span style="color:var(--t3);font-size:.8rem">Self-closing tag (no end tag needed)</span>
+      </div>
+    </div>
+    <div class="warn"><div><b>⚠️ Rules for valid HTML:</b> Tags must be <strong>lowercase</strong> · Attributes in <strong>quotes</strong> · All tags <strong>closed</strong></div></div>
+  </div>
+
+  <!-- Formatting elements -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">✍️</span> HTML Formatting Elements — دول بيجوا كتير في الامتحانات!</div>
+    <div class="grid2">
+      <div>
+        <table class="tbl">
+          <tr><th>Tag</th><th>Effect</th><th>Example</th></tr>
+          <tr><td><code>&lt;b&gt;</code></td><td>Bold text</td><td><strong>Bold</strong></td></tr>
+          <tr><td><code>&lt;strong&gt;</code></td><td>Important text (bold)</td><td><strong>Important</strong></td></tr>
+          <tr><td><code>&lt;i&gt;</code></td><td>Italic text</td><td><em>Italic</em></td></tr>
+          <tr><td><code>&lt;em&gt;</code></td><td>Emphasized (italic)</td><td><em>Emphasized</em></td></tr>
+          <tr><td><code>&lt;mark&gt;</code></td><td>Highlighted text</td><td style="background:#f59e0b;color:#000;padding:1px 4px;border-radius:3px">Marked</td></tr>
+          <tr><td><code>&lt;del&gt;</code></td><td><del>Strikethrough</del></td><td><del>Deleted</del></td></tr>
+          <tr><td><code>&lt;ins&gt;</code></td><td><ins>Underlined</ins></td><td><ins>Inserted</ins></td></tr>
+          <tr><td><code>&lt;sub&gt;</code></td><td>Subscript (H<sub>2</sub>O)</td><td>H<sub>2</sub>O</td></tr>
+          <tr><td><code>&lt;sup&gt;</code></td><td>Superscript (x<sup>2</sup>)</td><td>x<sup>2</sup></td></tr>
+          <tr><td><code>&lt;br&gt;</code></td><td>Line break (empty tag)</td><td>—</td></tr>
+          <tr><td><code>&lt;hr&gt;</code></td><td>Horizontal rule</td><td>—</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EXAM COMMON EXAMPLES</div></div>
+          <pre><code><span class="cmt">NO2 (subscript 2):</span>
+<span class="tag">&lt;p&gt;</span>NO<span class="tag">&lt;sub&gt;</span>2<span class="tag">&lt;/sub&gt;&lt;/p&gt;</span>
+
+<span class="cmt">H2O (subscript 2):</span>
+<span class="tag">&lt;p&gt;</span>H<span class="tag">&lt;sub&gt;</span>2<span class="tag">&lt;/sub&gt;</span>O<span class="tag">&lt;/p&gt;</span>
+
+<span class="cmt">x² (superscript 2):</span>
+<span class="tag">&lt;p&gt;</span>x<span class="tag">&lt;sup&gt;</span>2<span class="tag">&lt;/sup&gt;&lt;/p&gt;</span>
+
+<span class="cmt">Strike+Underline:</span>
+<span class="tag">&lt;p&gt;&lt;del&gt;</span>Hello<span class="tag">&lt;/del&gt;</span>
+    <span class="tag">&lt;ins&gt;</span>Hi<span class="tag">&lt;/ins&gt;&lt;/p&gt;</span>
+
+<span class="cmt">Highlighted:</span>
+<span class="tag">&lt;p&gt;&lt;mark&gt;</span>Important<span class="tag">&lt;/mark&gt;&lt;/p&gt;</span></code></pre>
+        </div>
+        <div class="danger"><div><b>🚨 Empty Elements (Self-closing):</b><br>
+        <code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code>, <code>&lt;img&gt;</code>, <code>&lt;meta&gt;</code>, <code>&lt;link&gt;</code><br>
+        دي مش محتاجة closing tag!</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Headings & Paragraphs -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📝</span> Headings, Paragraphs & Styles</div>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">HEADINGS h1–h6</div></div>
+        <pre><code><span class="tag">&lt;h1&gt;</span><span class="str">Biggest Heading</span><span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;h2&gt;</span><span class="str">Heading 2</span><span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;h6&gt;</span><span class="str">Smallest Heading</span><span class="tag">&lt;/h6&gt;</span></code></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">INLINE STYLES</div></div>
+        <pre><code><span class="cmt">Background color:</span>
+<span class="tag">&lt;body</span> <span class="attr">style</span>=<span class="val">"background-color:yellow;"</span><span class="tag">&gt;</span>
+
+<span class="cmt">Text color (both are correct!):</span>
+<span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="val">"color:red;"</span><span class="tag">&gt;</span>Red text<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="val">"color:#ff0000;"</span><span class="tag">&gt;</span>Also red!<span class="tag">&lt;/p&gt;</span>
+
+<span class="cmt">Font:</span>
+<span class="tag">&lt;h1</span> <span class="attr">style</span>=<span class="val">"font-family:verdana;"</span><span class="tag">&gt;</span></code></pre>
+      </div>
+    </div>
+    <div class="info"><div><b>💡 من الامتحان:</b> <code>color:red</code> = <code>color:#ff0000</code> — كلاهما صح!</div></div>
+  </div>
+</div>
+
+<!-- LINKS, IMAGES, LISTS, TABLES -->
+<div class="chapter" id="ch3c">
+  <div class="ch-header" style="border:none;margin-bottom:16px">
+    <div class="ch-title"><h2 style="font-size:1.3rem;color:var(--amber)">🔗 Links · Images · Lists · Tables</h2></div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">🔗</span> HTML Links</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">ANCHOR TAG</div></div>
+        <pre><code><span class="cmt">Absolute link:</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"http://www.google.com"</span><span class="tag">&gt;</span>
+  Google
+<span class="tag">&lt;/a&gt;</span>
+
+<span class="cmt">Relative link:</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"page2.html"</span><span class="tag">&gt;</span>
+  Page 2
+<span class="tag">&lt;/a&gt;</span></code></pre>
+      </div>
+      <p><code>a</code> = anchor, <code>href</code> = hypertext reference</p>
+      <div class="tip"><div>Links can wrap around images too! <code>&lt;a href="..."&gt;&lt;img src="..."&gt;&lt;/a&gt;</code></div></div>
+    </div>
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">🖼️</span> Images & Attribute</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">IMAGE TAG</div></div>
+        <pre><code><span class="tag">&lt;img</span> 
+  <span class="attr">src</span>=<span class="val">"photo.png"</span>
+  <span class="attr">alt</span>=<span class="val">"My Photo"</span>
+  <span class="attr">style</span>=<span class="val">"width:200px"</span>
+<span class="tag">/&gt;</span></code></pre>
+      </div>
+      <p><code>src</code> = path to image (مش href ومش link!)</p>
+      <p><code>alt</code> = نص بديل لو الصورة ما اتحملتش</p>
+    </div>
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">📋</span> Lists</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">ORDERED vs UNORDERED</div></div>
+        <pre><code><span class="cmt">Unordered (bullets) → &lt;ul&gt;:</span>
+<span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Item 1<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Item 2<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span>
+
+<span class="cmt">Ordered (numbers) → &lt;ol&gt;:</span>
+<span class="tag">&lt;ol&gt;</span>
+  <span class="tag">&lt;li&gt;</span>First<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Second<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span></code></pre>
+      </div>
+    </div>
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">📊</span> Tables</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">TABLE STRUCTURE</div></div>
+        <pre><code><span class="tag">&lt;table&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>  <span class="cmt">&lt;!-- table row --&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Make<span class="tag">&lt;/th&gt;</span>  <span class="cmt">&lt;!-- header cell --&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Model<span class="tag">&lt;/th&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;td&gt;</span>Ford<span class="tag">&lt;/td&gt;</span>  <span class="cmt">&lt;!-- data cell --&gt;</span>
+    <span class="tag">&lt;td&gt;</span>Edge<span class="tag">&lt;/td&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+<span class="tag">&lt;/table&gt;</span></code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HTML5 FEATURES -->
+<div class="chapter" id="ch3d">
+  <div class="ch-header" style="border:none;margin-bottom:16px">
+    <div class="ch-title"><h2 style="font-size:1.3rem;color:var(--amber)">🚀 HTML5 New Features</h2></div>
+  </div>
+
+  <div class="grid3">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">📝</span> New Input Types</div>
+      <p>HTML5 introduced new <code>&lt;input&gt;</code> types: <code>email</code>, <code>date</code>, <code>time</code>, <code>color</code>, <code>range</code>...</p>
+      <p>If browser doesn't support → treats as normal text input.</p>
+    </div>
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">💾</span> Web Storage</div>
+      <p><strong>localStorage</strong>: permanent (cross-sessions), up to <strong>5MB</strong></p>
+      <p><strong>sessionStorage</strong>: temp, cleared when tab closes</p>
+      <p>Better than cookies! Data NOT sent to server with each request.</p>
+    </div>
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">📱</span> Application Cache</div>
+      <p>Lets browser save HTML + resources locally for <strong>offline use</strong>.</p>
+      <p>Reduces HTTP requests + server load. Faster loading!</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🆚</span> Cookies vs Web Storage — Comparison</div>
+    <table class="tbl">
+      <tr><th>Feature</th><th>Cookies</th><th>Web Storage</th></tr>
+      <tr><td>Max Size</td><td><span class="badge badge-red">4KB</span></td><td><span class="badge badge-green">5MB</span></td></tr>
+      <tr><td>Sent to server?</td><td><span class="badge badge-amber">Yes, every request</span></td><td><span class="badge badge-green">No, stays local</span></td></tr>
+      <tr><td>Expiry</td><td>Can be set</td><td>Local = forever / Session = tab close</td></tr>
+    </table>
+  </div>
+
+  <!-- HTML QUIZ -->
+  <div class="quiz-section" id="quiz-html">
+    <div class="quiz-header">
+      <div class="quiz-icon">🎯</div>
+      <div><h3>HTML Quiz — أسئلة حقيقية من الامتحانات</h3><p>كل الأسئلة من امتحانات Cairo University</p></div>
+    </div>
+    <div id="qset-html">
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q1 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Which of the following are called empty HTML elements?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;p&gt;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;body&gt;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> &lt;br&gt;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous</div>
+        </div>
+        <div class="q-explain">✅ Empty (self-closing) elements مش ليهم content ولا closing tag. مثلاً &lt;br&gt;, &lt;hr&gt;, &lt;img&gt;. &lt;p&gt; و&lt;body&gt; ليهم content وclosing tags.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q2 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">What is the correct HTML for adding a background color?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;background&gt; yellow&lt;/background&gt;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;body style="background-color:yellow;"&gt;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> &lt;body bg="yellow"&gt;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ الطريقة الصحيحة هي style attribute مع background-color property. لا يوجد bg attribute أو background tag.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q3 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Choose the correct HTML element to define important text</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;i&gt;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;b&gt;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> &lt;strong&gt;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> &lt;important&gt;</div>
+        </div>
+        <div class="q-explain">✅ &lt;strong&gt; = semantic tag للنص المهم (Important text). &lt;b&gt; = visual bold فقط بدون semantic meaning. &lt;i&gt; = italic.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q4 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Which of these elements are all &lt;table&gt; elements?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;table&gt; &lt;head&gt; &lt;tfoot&gt;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;thead&gt; &lt;body&gt; &lt;tr&gt;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> &lt;table&gt; &lt;tr&gt; &lt;td&gt;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> &lt;table&gt; &lt;tr&gt; &lt;tt&gt;</div>
+        </div>
+        <div class="q-explain">✅ table elements: &lt;table&gt; (container), &lt;tr&gt; (row), &lt;td&gt; (data cell), &lt;th&gt; (header cell). &lt;head&gt; و&lt;body&gt; دول document elements مش table elements.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q5 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">What is the difference between an opening tag and a closing tag?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Opening tag has a /</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Closing tag has /</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> There is no difference</div>
+        </div>
+        <div class="q-explain">✅ Opening = &lt;h1&gt; — Closing = &lt;/h1&gt; (الـ / في الـ closing tag)</div>
+      </div>
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q6 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">Who is known as the father of the WWW?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Robert Cailiau</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Time Thompson</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Berners Charles</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Tim Berners-Lee</div>
+        </div>
+        <div class="q-explain">✅ Tim Berners-Lee أسّس الـ WWW وأسّس W3C في MIT/CERN.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q7 <span class="q-src">mid-2022</span></div>
+        <div class="q-text">How can you make a bulleted list WITH NUMBERS?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;dl&gt;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;bl&gt;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> &lt;ol&gt;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> &lt;ul&gt;</div>
+        </div>
+        <div class="q-explain">✅ &lt;ol&gt; = Ordered List = أرقام. &lt;ul&gt; = Unordered List = نقاط (bullets). &lt;dl&gt; = Definition List.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q8 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which is the correct HTML statement to display H₂O in a paragraph?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;p&gt;H&lt;sup&gt;2&lt;/sup&gt;O&lt;/p&gt;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;p&gt;H&lt;ins&gt;2&lt;/ins&gt;O&lt;/p&gt;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> &lt;p&gt;H&lt;sub&gt;2&lt;/sub&gt;O&lt;/p&gt;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ H₂O = الـ 2 تحت = subscript = &lt;sub&gt;. &lt;sup&gt; ده superscript (فوق) زي x².</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q9 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which is correct to display "Hello" struck-through and "Hi" underlined?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;p&gt;&lt;cut&gt;Hello&lt;/cut&gt;&lt;ins&gt;Hi&lt;/ins&gt;&lt;/p&gt;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;p&gt;&lt;del&gt;Hello&lt;/del&gt;&lt;ins&gt;Hi&lt;/ins&gt;&lt;/p&gt;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> &lt;del&gt;Hello&lt;/del&gt;&lt;mark&gt;Hi&lt;/mark&gt;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ &lt;del&gt; = strikethrough (خط فوق الكلمة). &lt;ins&gt; = underline. &lt;cut&gt; مش موجود في HTML.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q10 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which attribute specifies the path to the image?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> href</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> link</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> src</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All of the above</div>
+        </div>
+        <div class="q-explain">✅ &lt;img src="..."&gt; — src = source = المسار للصورة. href بتستخدمها في &lt;a&gt; للروابط.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q11 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which is the correct way of creating a hyperlink in HTML?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;a&gt;www.google.com&lt;/a&gt;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;a href="www.google.com" google /a&gt;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> &lt;a href="www.google.com"&gt; google &lt;/a&gt;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> &lt;a link="www.google.com"&gt; google &lt;/a&gt;</div>
+        </div>
+        <div class="q-explain">✅ الـ &lt;a&gt; tag محتاجة href attribute (مش link). والـ text اللي بين التاجين هو اللي بيظهر للمستخدم.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q12 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which HTML tag is used to define highlighted text?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;highlight&gt;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;mark&gt;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> &lt;p style="color:red;"&gt;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ &lt;mark&gt; = highlighted text (زي الـ yellow highlighter). &lt;highlight&gt; مش موجود في HTML.</div>
+      </div>
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q13 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Which is the correct HTML statement to display NO₂ in a paragraph?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;p&gt;NO&lt;sup&gt;2&lt;/sup&gt;&lt;/p&gt;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> &lt;p&gt;NO&lt;ins&gt;2&lt;/ins&gt;&lt;/p&gt;</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> None of the previous</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> &lt;p&gt;NO&lt;sub&gt;2&lt;/sub&gt;&lt;/p&gt;</div>
+        </div>
+        <div class="q-explain">✅ NO₂ = الـ 2 تحت = &lt;sub&gt;. الإجابة الصحيحة d لكن في الامتحان ترتيب الخيارات ممكن يتغير. المهم &lt;sub&gt; للـ subscript (تحت).</div>
+      </div>
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-html','score-html')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-html','score-html')">Reset ↺</button>
+    <div class="q-score" id="score-html"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 4 — HTML DOM
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4a">
+  <div class="ch-header">
+    <div class="ch-num green">04</div>
+    <div class="ch-title">
+      <h2>HTML DOM — Document Object Model</h2>
+      <p>Tree · Nodes · Finding · Modifying · Events</p>
+    </div>
+  </div>
+
+  <!-- DOM Tree -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🌳</span> DOM Tree — Every HTML element is a NODE</div>
+    <div class="grid2">
+      <div>
+        <p>الـ DOM بيحوّل الـ HTML document لـ <strong>tree of objects</strong>. كل element وكل text وكل attribute = node.</p>
+        <p>JavaScript ممكن يوصل لأي node، يعدّله، يضيف جديد، أو يمسح.</p>
+        <div style="background:var(--code);border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0">
+          <div style="font-family:var(--fc);font-size:.78rem;line-height:2.2;color:#cdd6f4">
+            <div style="color:#89b4fa">Document</div>
+            <div style="padding-left:20px">└── <span style="color:#89b4fa">&lt;html&gt;</span> (Root)</div>
+            <div style="padding-left:40px">├── <span style="color:#89b4fa">&lt;head&gt;</span></div>
+            <div style="padding-left:60px">└── <span style="color:#89b4fa">&lt;title&gt;</span></div>
+            <div style="padding-left:80px">└── <span style="color:#a6e3a1">"My title"</span> (text)</div>
+            <div style="padding-left:40px">└── <span style="color:#89b4fa">&lt;body&gt;</span></div>
+            <div style="padding-left:60px">├── <span style="color:#89b4fa">&lt;h1&gt;</span></div>
+            <div style="padding-left:80px">└── <span style="color:#a6e3a1">"My header"</span> (text)</div>
+            <div style="padding-left:60px">└── <span style="color:#89b4fa">&lt;a</span> <span style="color:#fab387">href="..."</span><span style="color:#89b4fa">&gt;</span></div>
+            <div style="padding-left:80px">└── <span style="color:#a6e3a1">"My link"</span> (text)</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="info"><div><b>📌 Node Types — مهمة في الامتحانات!</b><br><br>
+        <code>nodeType = 1</code> → Element node (&lt;h1&gt;, &lt;p&gt;...)<br>
+        <code>nodeType = 3</code> → Text node ("Hello World")<br>
+        <code>nodeType = 2</code> → Attribute node<br><br>
+        <code>nodeName</code> of element = tag name ("H1", "P")<br>
+        <code>nodeName</code> of text node = "#text"<br><br>
+        <code>nodeValue</code> of element = <strong>null!</strong><br>
+        <code>nodeValue</code> of text = actual text</div></div>
+        <div class="warn"><div><b>⚡ Node Relationships:</b><br>
+        parent, child, siblings<br>
+        parentNode · firstChild · lastChild<br>
+        previousSibling · nextSibling · childNodes</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔍</span> Exam HTML — تحليل مهم!</div>
+    <p>دي الـ HTML اللي بتيجي في الامتحانات — فهمها كويس!</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EXAM HTML SNIPPET (mid-2023 / final-2024)</div></div>
+      <pre><code><span class="tag">&lt;h2</span> <span class="attr">id</span>=<span class="val">"id1"</span><span class="tag">&gt;</span>Hello World<span class="tag">&lt;/h2&gt;</span>   <span class="cmt">← NOT a &lt;p&gt;</span>
+<span class="tag">&lt;p&gt;</span>Welcome<span class="tag">&lt;/p&gt;</span>                   <span class="cmt">← p #1</span>
+<span class="tag">&lt;div&gt;</span>
+  <span class="tag">&lt;p&gt;</span>Paragraph 1.<span class="tag">&lt;/p&gt;</span>          <span class="cmt">← p #2</span>
+  <span class="tag">&lt;p&gt;</span>Paragraph 2.<span class="tag">&lt;/p&gt;</span>          <span class="cmt">← p #3</span>
+  <span class="tag">&lt;section&gt;&lt;p&gt;</span>Paragraph 3.<span class="tag">&lt;/p&gt;&lt;/section&gt;</span>  <span class="cmt">← p #4</span>
+<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;p&gt;</span>Paragraph 4.<span class="tag">&lt;/p&gt;</span>             <span class="cmt">← p #5</span>
+<span class="tag">&lt;p&gt;</span>Paragraph 5.<span class="tag">&lt;/p&gt;</span>             <span class="cmt">← p #6</span>
+<span class="tag">&lt;script&gt;</span>
+  <span class="kw">const</span> <span class="prop">my</span> = document.<span class="fn">getElementsByTagName</span>(<span class="str">"p"</span>);
+  document.<span class="fn">getElementById</span>(<span class="str">"id1"</span>).innerHTML = my.length;
+<span class="tag">&lt;/script&gt;</span></code></pre>
+      </div>
+      <div class="tip"><div><b>💡 التحليل:</b><br>
+      • عدد &lt;p&gt; elements = <strong>6</strong> → my.length = <strong>6</strong><br>
+      • h2 innerHTML سيتغير من "Hello World" لـ <strong>6</strong><br>
+      • إجابة "None of the previous" = الصح (مش 5!) — <strong>الجواب الصح 6</strong></div></div>
+  </div>
+</div>
+
+<!-- FINDING ELEMENTS -->
+<div class="chapter" id="ch4b">
+  <div class="ch-header" style="border:none;margin-bottom:16px">
+    <div class="ch-title"><h2 style="font-size:1.3rem;color:var(--green)">🔍 Finding HTML Elements</h2></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔍</span> 5 Ways to Find Elements</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">FINDING ELEMENTS — All 5 Methods</div></div>
+      <pre><code><span class="cmt">// 1. By ID — fastest, returns ONE element</span>
+document.<span class="fn">getElementById</span>(<span class="str">'title'</span>);
+
+<span class="cmt">// 2. By class name — returns live HTMLCollection</span>
+document.<span class="fn">getElementsByClassName</span>(<span class="str">'note'</span>);
+
+<span class="cmt">// 3. By tag name — returns HTMLCollection</span>
+document.<span class="fn">getElementsByTagName</span>(<span class="str">'p'</span>);
+
+<span class="cmt">// 4. querySelector — CSS selector, FIRST match only</span>
+document.<span class="fn">querySelector</span>(<span class="str">'#fruits > li'</span>);
+
+<span class="cmt">// 5. querySelectorAll — CSS selector, NodeList (all matches)</span>
+document.<span class="fn">querySelectorAll</span>(<span class="str">'.note'</span>);</code></pre>
+    </div>
+    <div class="warn"><div><b>⚡ مهم:</b> getElementById يرجع element واحد. getElementsByTagName/ClassName ترجع HTMLCollection (زي array).</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📊</span> Node Properties — دول بيجوا كتير في الامتحانات!</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">NODE PROPERTIES EXAMPLES</div></div>
+      <pre><code><span class="kw">const</span> h2 = document.<span class="fn">getElementById</span>(<span class="str">"id1"</span>);
+<span class="cmt">// h2 = &lt;h2 id="id1"&gt;Hello World&lt;/h2&gt;</span>
+
+h2.nodeType;          <span class="cmt">// → 1  (element node)</span>
+h2.nodeName;          <span class="cmt">// → "H2" (tag name, READ-ONLY)</span>
+h2.nodeValue;         <span class="cmt">// → null (elements have null!)</span>
+h2.innerHTML;         <span class="cmt">// → "Hello World"</span>
+
+h2.firstChild;        <span class="cmt">// → text node "Hello World"</span>
+h2.firstChild.nodeType;  <span class="cmt">// → 3  (text node)</span>
+h2.firstChild.nodeName;  <span class="cmt">// → "#text"</span>
+h2.firstChild.nodeValue; <span class="cmt">// → "Hello World"  ← EQUIVALENT to innerHTML!</span>
+
+<span class="cmt">// So: h2.innerHTML === h2.firstChild.nodeValue</span></code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- MODIFYING ELEMENTS -->
+<div class="chapter" id="ch4c">
+  <div class="ch-header" style="border:none;margin-bottom:16px">
+    <div class="ch-title"><h2 style="font-size:1.3rem;color:var(--green)">✏️ Modifying HTML Elements</h2></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">✏️</span> Changing Content & Styles</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">MODIFYING ELEMENTS</div></div>
+      <pre><code><span class="kw">const</span> h1 = document.<span class="fn">getElementById</span>(<span class="str">'title'</span>);
+
+<span class="cmt">// Change TEXT content (safe, no XSS risk)</span>
+h1.textContent = <span class="str">'New Title'</span>;
+
+<span class="cmt">// Change with HTML (renders tags)</span>
+h1.innerHTML = <span class="str">'Hello &lt;em&gt;World&lt;/em&gt;'</span>;
+
+<span class="cmt">// Change style</span>
+h1.style.color = <span class="str">'tomato'</span>;
+h1.style.fontSize = <span class="str">'3rem'</span>;
+
+<span class="cmt">// Change attribute</span>
+<span class="kw">const</span> link = document.<span class="fn">querySelector</span>(<span class="str">'a'</span>);
+link.<span class="fn">setAttribute</span>(<span class="str">'href'</span>, <span class="str">'https://example.com'</span>);</code></pre>
+    </div>
+    <div class="danger"><div><b>🚨 innerHTML vs innerText — Security!</b><br>
+    <code>innerHTML</code> = renders HTML tags (can execute scripts → XSS attack!)<br>
+    <code>innerText</code> = plain text only (SAFE)<br>
+    <strong>Always use innerText when dealing with user input!</strong></div></div>
+  </div>
+</div>
+
+<!-- ADD/DELETE + EVENTS -->
+<div class="chapter" id="ch4d">
+  <div class="ch-header" style="border:none;margin-bottom:16px">
+    <div class="ch-title"><h2 style="font-size:1.3rem;color:var(--green)">➕ Add/Delete Elements & Events</h2></div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">➕</span> Add & Delete Elements</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">DOM MANIPULATION</div></div>
+        <pre><code><span class="cmt">// Create new element</span>
+<span class="kw">const</span> li = document.<span class="fn">createElement</span>(<span class="str">'li'</span>);
+li.textContent = <span class="str">'Buy groceries'</span>;
+
+<span class="cmt">// appendChild → adds at END (last child)</span>
+<span class="kw">const</span> ul = document.<span class="fn">getElementById</span>(<span class="str">'list'</span>);
+ul.<span class="fn">appendChild</span>(li);
+
+<span class="cmt">// insertBefore(new, reference)</span>
+ul.<span class="fn">insertBefore</span>(newEl, ul.firstElementChild);
+
+<span class="cmt">// Remove element</span>
+ul.<span class="fn">removeChild</span>(li);  <span class="cmt">// old way</span>
+li.<span class="fn">remove</span>();          <span class="cmt">// modern</span>
+
+<span class="cmt">// Replace element</span>
+ul.<span class="fn">replaceChild</span>(newEl, oldEl);</code></pre>
+      </div>
+    </div>
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">🎯</span> Event Handling</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EVENTS</div></div>
+        <pre><code><span class="cmt">// Modern way (preferred):</span>
+btn.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, handler);
+
+<span class="cmt">// Old way (not recommended):</span>
+btn.onclick = <span class="kw">function</span>() { <span class="fn">alert</span>(<span class="str">'hello'</span>); };
+
+<span class="cmt">// Common events:</span>
+<span class="str">'click'</span>          <span class="cmt">// mouse click</span>
+<span class="str">'dblclick'</span>       <span class="cmt">// double click</span>
+<span class="str">'mouseenter'</span>     <span class="cmt">// hover in</span>
+<span class="str">'keydown'</span>        <span class="cmt">// key press</span>
+<span class="str">'DOMContentLoaded'</span>  <span class="cmt">// page ready</span>
+
+<span class="cmt">// Event object:</span>
+btn.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, (e) => {
+  e.target;             <span class="cmt">// element clicked</span>
+  e.<span class="fn">preventDefault</span>(); <span class="cmt">// stop default</span>
+  e.<span class="fn">stopPropagation</span>(); <span class="cmt">// stop bubbling</span>
+});</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🧩</span> Modern DOM APIs (ES6+)</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">MODERN APIS</div></div>
+      <pre><code><span class="cmt">// classList API (better than className):</span>
+box.classList.<span class="fn">add</span>(<span class="str">'active'</span>);
+box.classList.<span class="fn">remove</span>(<span class="str">'active'</span>);
+box.classList.<span class="fn">toggle</span>(<span class="str">'active'</span>);  <span class="cmt">// add if missing, remove if present</span>
+box.classList.<span class="fn">contains</span>(<span class="str">'active'</span>); <span class="cmt">// true/false</span>
+
+<span class="cmt">// DocumentFragment (batch insertion, ONE reflow):</span>
+<span class="kw">const</span> frag = document.<span class="fn">createDocumentFragment</span>();
+items.<span class="fn">forEach</span>(item => frag.<span class="fn">appendChild</span>(<span class="fn">createRow</span>(item)));
+table.<span class="fn">appendChild</span>(frag);
+
+<span class="cmt">// dataset API:</span>
+<span class="cmt">// &lt;button data-user-id="42" data-role="admin"&gt;</span>
+btn.dataset.userId; <span class="cmt">// "42"</span>
+btn.dataset.role;   <span class="cmt">// "admin"</span></code></pre>
+    </div>
+  </div>
+
+  <!-- DOM QUIZ -->
+  <div class="quiz-section" id="quiz-dom">
+    <div class="quiz-header">
+      <div class="quiz-icon">🎯</div>
+      <div><h3>DOM Quiz — أسئلة حقيقية من الامتحانات</h3><p>DOM, Node Types, Finding & Modifying</p></div>
+    </div>
+    <div id="qset-dom">
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q1 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Everything in HTML DOM is treated as</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Attributes</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Nodes</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Arrays</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Elements</div>
+        </div>
+        <div class="q-explain">✅ في الـ DOM، كل حاجة = node! Elements, text, attributes, comments — كلها nodes في الـ tree.</div>
+      </div>
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q2 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">In HTML DOM, getElementById is a ________ while innerHTML is a ________</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Object, method</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Method, node</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Node, property</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Method, property</div>
+        </div>
+        <div class="q-explain">✅ getElementById() = method (ليه parentheses وبتستدعيه). innerHTML = property (بتوصل له مباشرة بالـ dot).</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q3 <span class="q-src">mid-2023 / final-2024</span></div>
+        <div class="q-text">In HTML DOM, which of the following properties are read-only?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> nodeName</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> nodeValue</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> nodeName and nodeValue</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</div>
+        </div>
+        <div class="q-explain">✅ nodeName = read-only (مش تقدر تغيره). nodeValue = read/write (تقدر تغير قيمة text node بيه).</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q4 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Which method is used to add a new element as the LAST child of the parent?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> addChild()</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> createChild()</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> appendChild()</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ appendChild() = يضيف الـ element في آخر الـ parent. insertBefore() = يضيفه قبل element معين.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q5 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Which commands will add element x BEFORE element y (same parent e)?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> e.insertBefore(y, x)</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> e.insertBefore(x, y)</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> e.insertAfter(x, y)</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> e.insertAfter(y, x)</div>
+        </div>
+        <div class="q-explain">✅ e.insertBefore(newEl, referenceEl) — الـ new element الأول، والـ reference (اللي هيجي بعده) التاني. مفيش insertAfter في standard DOM.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q6 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which JavaScript method is used to access an HTML element by id?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> getElementById()</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> getElement(id)</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> getElementById(id)</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> elementById(id)</div>
+        </div>
+        <div class="q-explain">✅ الـ method الصحيح هو document.getElementById(). اسم الـ method هو getElementById وبتديه الـ id كـ argument.</div>
+      </div>
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q7 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which property is used to define the HTML content to an HTML element with a specific id?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> innerText</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> innerContent</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> elementText</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> innerHTML</div>
+        </div>
+        <div class="q-explain">✅ innerHTML = بيديك أو بيغير الـ HTML content. innerText = plain text فقط. innerContent مش موجود.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q8 <span class="q-src">mid-2023 / final-2024</span></div>
+        <div class="q-text">To get the TEXT of h2, document.getElementById("id1").innerHTML is equivalent to:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> document.getElementById("id1").text</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> document.getElementById("id1").firstChild.nodeValue</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> document.getElementById("id1").nodeValue</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ innerHTML = firstChild.nodeValue! الـ firstChild بيرجع الـ text node، وnodeValue بيرجع قيمة الـ text node.</div>
+      </div>
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q9 <span class="q-src">mid-2023 / final-2024</span></div>
+        <div class="q-text">Based on the exam HTML (6 &lt;p&gt; elements), the content of h2 element will be presented as:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Hello World</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Hello World 6</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 5</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the previous (it's 6)</div>
+        </div>
+        <div class="q-explain">✅ my = getElementsByTagName("p") يرجع كل 6 p elements. my.length = 6. فـ h2.innerHTML = 6. مش 5!</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q10 <span class="q-src">mid-2023 / final-2024</span></div>
+        <div class="q-text">Using document.getElementById("id1").nodeType will return:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 3</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Element node (text)</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Text node (text)</div>
+        </div>
+        <div class="q-explain">✅ nodeType = 1 للـ Element nodes. nodeType = 3 للـ Text nodes. بترجع رقم مش كلمة!</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q11 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Using document.getElementById("id1").nodeValue will return:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Hello World</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 1</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Null</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 3</div>
+        </div>
+        <div class="q-explain">✅ Element nodes ليهم nodeValue = null! بس Text nodes ليهم nodeValue = النص الفعلي. عشان تاخد النص: firstChild.nodeValue أو innerHTML.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q12 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Using document.getElementById("id1").firstChild.nodeType will return:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Hello World</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 3</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Null</div>
+        </div>
+        <div class="q-explain">✅ firstChild بترجع الـ text node اللي جوا h2. الـ text node بتاعه nodeType = 3.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q13 <span class="q-src">final-2025</span></div>
+        <div class="q-text">What will be the output of "document.getElementById("id1").firstChild.nodeName;"?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> #text</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ nodeName بتاع text node دايماً = "#text". وطبعاً بترجع string مش رقم!</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q14 <span class="q-src">final-2025</span></div>
+        <div class="q-text">How do you remove an element from the DOM?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> element.delete()</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> element.destroy()</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> element.remove()</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> element.clear()</div>
+        </div>
+        <div class="q-explain">✅ element.remove() = Modern way. أو parent.removeChild(element) = Old way. delete وdestroy مش موجودين.</div>
+      </div>
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-dom','score-dom')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-dom','score-dom')">Reset ↺</button>
+    <div class="q-score" id="score-dom"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 5 — CSS
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5a">
+  <div class="ch-header">
+    <div class="ch-num pink">05</div>
+    <div class="ch-title">
+      <h2>CSS — Cascading Style Sheets</h2>
+      <p>Syntax · Selectors · Properties · Specificity</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🎨</span> CSS Basics — Syntax</div>
+    <div class="grid2">
+      <div>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS RULE ANATOMY</div></div>
+          <pre><code><span class="sel">h1</span> {                    <span class="cmt">/* ← Selector */</span>
+  <span class="prop">color</span>: <span class="val">red</span>;          <span class="cmt">/* ← Declaration */</span>
+  <span class="prop">font-size</span>: <span class="val">24px</span>;     <span class="cmt">/* ← Declaration */</span>
+}                        <span class="cmt">/* property: value */</span></code></pre>
+        </div>
+        <div class="info"><div>
+        <strong>Selector</strong> = h1 (من تستهدف)<br>
+        <strong>Declaration</strong> = color: red (الخاصية والقيمة)<br>
+        <strong>Rule</strong> = كل الـ block</div></div>
+      </div>
+      <div>
+        <div class="topic-title" style="margin-bottom:8px"><span class="icon">📍</span> 3 Ways to Apply CSS</div>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">CSS LOCATIONS</div></div>
+          <pre><code><span class="cmt">1. Inline (highest priority):</span>
+<span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="val">"color:red;"</span><span class="tag">&gt;</span>
+
+<span class="cmt">2. Internal (in &lt;head&gt;):</span>
+<span class="tag">&lt;style&gt;</span>
+  <span class="sel">p</span> { <span class="prop">color</span>: <span class="val">red</span>; }
+<span class="tag">&lt;/style&gt;</span>
+
+<span class="cmt">3. External (separate file):</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> 
+      <span class="attr">type</span>=<span class="val">"text/css"</span>
+      <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span></code></pre>
+        </div>
+        <div class="warn"><div><b>⚡ Priority (Highest → Lowest):</b><br>
+        1. <strong>Inline</strong> (style attribute) — highest!<br>
+        2. <strong>Internal</strong> (&lt;style&gt; in head)<br>
+        3. <strong>External</strong> (separate .css file)<br>
+        4. <strong>Browser default</strong> — lowest!</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CSS SELECTORS -->
+<div class="chapter" id="ch5b">
+  <div class="ch-header" style="border:none;margin-bottom:16px">
+    <div class="ch-title"><h2 style="font-size:1.3rem;color:var(--pink)">🎯 CSS Selectors — الأصعب في الامتحانات!</h2></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🎯</span> Selectors Reference</div>
+    <table class="tbl">
+      <tr><th>Selector</th><th>المعنى</th><th>مثال</th></tr>
+      <tr><td><code>E</code></td><td>كل elements من نوع E</td><td>p { }</td></tr>
+      <tr><td><code>.class</code></td><td>elements بـ class معين</td><td>.note { }</td></tr>
+      <tr><td><code>#id</code></td><td>element بـ id معين</td><td>#title { }</td></tr>
+      <tr><td><code>E.class</code></td><td>elements E بـ specific class</td><td>p.center { }</td></tr>
+      <tr><td><code>E > F</code></td><td>F اللي هو direct child لـ E فقط</td><td>div > p { }</td></tr>
+      <tr><td><code>E ~ F</code></td><td>كل F اللي هم siblings بعد E</td><td>div ~ p { }</td></tr>
+      <tr><td><code>E + F</code></td><td>الـ F الأولانية immediately بعد E</td><td>div + p { }</td></tr>
+      <tr><td><code>E[attr=val]</code></td><td>E عنده attribute بقيمة محددة</td><td>a[target=_blank]</td></tr>
+      <tr><td><code>E[attr^=val]</code></td><td>attr يبدأ بـ val</td><td>a[href^="https"]</td></tr>
+      <tr><td><code>E[attr$=val]</code></td><td>attr ينتهي بـ val</td><td>a[href$=".pdf"]</td></tr>
+      <tr><td><code>E:first-child</code></td><td>E لو كان أول child لـ parent بتاعه</td><td>p:first-child { }</td></tr>
+      <tr><td><code>E:hover</code></td><td>E لما يكون hovered</td><td>a:hover { }</td></tr>
+      <tr><td><code>E:enabled</code></td><td>E لما يكون enabled</td><td>input:enabled</td></tr>
+      <tr><td><code>E:empty</code></td><td>E اللي مفيش ليه children</td><td>p:empty { }</td></tr>
+    </table>
+  </div>
+
+  <!-- Selector Practice -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🧪</span> CSS Selector Analysis — من الامتحانات!</div>
+    <p>دي الـ HTML اللي بيجي في أسئلة الـ CSS selectors:</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EXAM HTML FOR CSS QUESTIONS</div></div>
+      <pre><code><span class="tag">&lt;h2&gt;</span>CSS Selector<span class="tag">&lt;/h2&gt;</span>                        <span class="cmt">← first child of body</span>
+<span class="tag">&lt;p&gt;</span>Hello I am Here:<span class="tag">&lt;/p&gt;</span>                   <span class="cmt">← p#1, 2nd child</span>
+<span class="tag">&lt;p&gt;</span>Hello I am Here: Paragraph 2<span class="tag">&lt;/p&gt;</span>        <span class="cmt">← p#2</span>
+<span class="tag">&lt;p&gt;</span> Hello I am Here: P3<span class="tag">&lt;/p&gt;</span>              <span class="cmt">← p#3</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://www.w3schools.com"</span><span class="tag">&gt;</span>w3schools<span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"http://www.disney.com"</span> <span class="attr">target</span>=<span class="val">"_blank"</span><span class="tag">&gt;</span>disney<span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"http://www.wikipedia.org"</span> <span class="attr">target</span>=<span class="val">"_top"</span><span class="tag">&gt;</span>wiki<span class="tag">&lt;/a&gt;</span></code></pre>
+    </div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="info"><div><b>🔍 p:first-child → 0 elements!</b><br>
+      "p اللي هو أول child لـ parent بتاعه"<br>
+      في الـ body، أول child هو &lt;h2&gt; مش &lt;p&gt;<br>
+      ∴ مفيش p هو first-child → <strong>0 elements</strong></div></div>
+      <div class="tip"><div><b>✅ a[target=_blank] → 1 element</b><br>
+      بس disney.com عنده target="_blank"<br>
+      wikipedia عنده target="_top" مش _blank</div></div>
+    </div>
+    <div class="code-wrap" style="margin-top:14px">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EXAM HTML FOR div > p AND div ~ p</div></div>
+      <pre><code><span class="tag">&lt;p&gt;</span>Welcome<span class="tag">&lt;/p&gt;</span>                          <span class="cmt">← p before div</span>
+<span class="tag">&lt;div&gt;</span>
+  <span class="tag">&lt;p&gt;</span>Paragraph 1.<span class="tag">&lt;/p&gt;</span>                <span class="cmt">← direct child of div ✓</span>
+  <span class="tag">&lt;p&gt;</span>Paragraph 2.<span class="tag">&lt;/p&gt;</span>                <span class="cmt">← direct child of div ✓</span>
+  <span class="tag">&lt;section&gt;&lt;p&gt;</span>Paragraph 3.<span class="tag">&lt;/p&gt;&lt;/section&gt;</span>  <span class="cmt">← NOT direct child ✗</span>
+<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;p&gt;</span>Paragraph 4.<span class="tag">&lt;/p&gt;</span>                     <span class="cmt">← sibling after div ✓</span>
+<span class="tag">&lt;p&gt;</span>Paragraph 5.<span class="tag">&lt;/p&gt;</span>                     <span class="cmt">← sibling after div ✓</span></code></pre>
+    </div>
+    <div class="grid3" style="margin-top:10px">
+      <div class="info"><div><b>div > p → 2 elements</b><br>Only P1, P2 are direct children. P3 is inside &lt;section&gt;.</div></div>
+      <div class="tip"><div><b>div ~ p → 2 elements</b><br>P4, P5 are siblings after the div. P before div doesn't count.</div></div>
+      <div class="warn"><div><b>div + p → 1 element</b><br>Only P4 (immediately next sibling after div).</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOX MODEL & PRIORITY -->
+<div class="chapter" id="ch5c">
+  <div class="ch-header" style="border:none;margin-bottom:16px">
+    <div class="ch-title"><h2 style="font-size:1.3rem;color:var(--pink)">📦 Box Model & CSS Properties</h2></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📦</span> CSS Box Model</div>
+    <div class="grid2">
+      <div>
+        <div class="diagram" style="text-align:center;padding:20px">
+          <div style="background:rgba(239,68,68,.1);border:2px dashed var(--red);padding:16px;border-radius:8px;font-size:.75rem;color:var(--red)">margin (space OUTSIDE)</div>
+          <div style="margin:8px;background:rgba(245,158,11,.1);border:2px dashed var(--amber);padding:16px;border-radius:6px;font-size:.75rem;color:var(--amber)">border</div>
+          <div style="margin:8px;background:rgba(0,212,255,.1);border:2px dashed var(--cyan);padding:16px;border-radius:4px;font-size:.75rem;color:var(--cyan)">padding (space INSIDE)</div>
+          <div style="margin:8px;background:rgba(16,185,129,.15);border:2px solid var(--green);padding:20px;border-radius:2px;font-size:.8rem;color:var(--green);font-weight:700">Content</div>
+        </div>
+      </div>
+      <div>
+        <div class="info"><div>
+        <b>📌 المهم فالامتحان:</b><br><br>
+        <strong>Margin</strong> = مسافة خارج الـ element (بين العنصر وجيرانه)<br>
+        <strong>Padding</strong> = مسافة داخل الـ element (بين الـ content والـ border)<br>
+        <strong>Border</strong> = الـ border بتاع الـ element<br><br>
+        السؤال "space INSIDE the element" → Padding<br>
+        السؤال "space between elements" → Margin</div></div>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">OTHER KEY PROPERTIES</div></div>
+          <pre><code><span class="prop">background-color</span>: <span class="val">yellow</span>;
+<span class="prop">background-image</span>: <span class="val">url('img.png')</span>;
+<span class="prop">background-position</span>: <span class="val">center top</span>;
+<span class="prop">background-attachment</span>: <span class="val">fixed</span>;
+<span class="prop">font-size</span>: <span class="val">16px</span>;
+<span class="prop">font-family</span>: <span class="val">Arial, sans-serif</span>;
+<span class="prop">color</span>: <span class="val">#ff0000</span>;  <span class="cmt">/* = red */</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSS QUIZ -->
+  <div class="quiz-section" id="quiz-css">
+    <div class="quiz-header">
+      <div class="quiz-icon">🎯</div>
+      <div><h3>CSS Quiz — أسئلة حقيقية من الامتحانات</h3><p>Selectors · Priority · Properties</p></div>
+    </div>
+    <div id="qset-css">
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q1 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">How do you add a background color for ALL &lt;h1&gt; elements?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> h1.all {background-color:#ffffff}</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> all.h1 {background-color:#ffffff}</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> h1 {background-color:#ffffff}</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> h1:background-color=#ffffff;</div>
+        </div>
+        <div class="q-explain">✅ CSS rule للـ h1 element: selector {property: value}. الـ colon (:) بين property والـ value، والـ semicolon (;) في الآخر.</div>
+      </div>
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q2 <span class="q-src">mid-2023 / mid-2022</span></div>
+        <div class="q-text">Which of the following is the correct way to apply CSS Styles?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Inside an HTML element (inline)</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Inside the &lt;head&gt; section (internal)</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> In an external CSS file</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All of the mentioned</div>
+        </div>
+        <div class="q-explain">✅ الـ 3 طرق كلها صح: Inline (في الـ element)، Internal (في &lt;head&gt;)، External (ملف منفصل).</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q3 <span class="q-src">mid-2023</span></div>
+        <div class="q-text">Which of the following CSS styles has the HIGHEST priority?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> External style</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Internal style</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Inline style</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Browser default</div>
+        </div>
+        <div class="q-explain">✅ Inline > Internal > External > Browser default. الـ inline style ليه أعلى أولوية عشان هو أكثر specific.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">final-2024</span></div>
+        <div class="q-text">In CSS, "color:red" can be called as:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Selector</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Declaration</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Rule</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Value</div>
+        </div>
+        <div class="q-explain">✅ Declaration = property + value زي "color:red". الـ Rule = selector + declarations. الـ Selector = h1. القيمة = red.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q5 <span class="q-src">final-2024</span></div>
+        <div class="q-text">External CSS style has the highest priority. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ FALSE! Inline style هو الأعلى. External CSS هو الأقل (غير البrowser default).</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q6 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which selector selects elements of type E with a particular class value?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> E~F</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> E.class</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> E#class</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Class(E)</div>
+        </div>
+        <div class="q-explain">✅ p.center = كل &lt;p&gt; elements اللي ليها class="center". E#id = element بـ id. E~F = siblings.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q7 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which selector selects all elements of E that have attribute (attr) that ENDS WITH a given value?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> E[attr$=value]</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> E[attr^=value]</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> E[attr~=value]</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ $ = ends with. ^ = starts with. ~ = contains word. *= contains substring.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q8 <span class="q-src">final-2024</span></div>
+        <div class="q-text">Which selector selects an element that has NO children?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> :nochild</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> :empty</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> :no-child</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ :empty = element مفيهوش children (حتى text nodes). :nochild و:no-child مش موجودين.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q9 <span class="q-src">mid-2023 / final-2024</span></div>
+        <div class="q-text">Based on the exam HTML, using "div > p", how many p elements will be styled?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 3</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 5</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 6</div>
+        </div>
+        <div class="q-explain">✅ div > p = direct children only. P1 وP2 هم direct children. P3 جوا &lt;section&gt; (مش direct child). Answer = 2 (الخيار B).</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q10 <span class="q-src">mid-2023 / final-2024</span></div>
+        <div class="q-text">Based on the exam HTML, using "div ~ p", how many p elements will be styled?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 3</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 5</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 6</div>
+        </div>
+        <div class="q-explain">✅ div ~ p = كل &lt;p&gt; siblings بعد الـ div. P4 وP5 جايين بعد الـ div. P welcome قبل الـ div مش بيتحسب. Answer = 2.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-src" style="display:inline;font-size:.7rem;color:var(--purple);margin-bottom:8px">Q11 — final-2024</div>
+        <div class="q-text" style="margin-top:8px">In a[target=_blank], the [target=_blank] is called:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Attribute selector</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Anchor selector</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Pseudo element selector</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ [target=_blank] = Attribute selector — بيستهدف elements اللي عندهم attribute معين بقيمة معينة.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q12 <span class="q-src">final-2024</span></div>
+        <div class="q-text">To change the color of &lt;a&gt; elements to yellow when the mouse moves OVER it:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> a::hover {background-color: yellow;}</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> a:hover {background-color: yellow;}</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> a:link {background-color: yellow;}</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> a:active {background-color: yellow;}</div>
+        </div>
+        <div class="q-explain">✅ :hover = pseudo-class للـ hover state. بـ single colon مش double. ::hover مش موجود. :link = unvisited link. :active = while clicking.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q13 <span class="q-src">final-2024 / final-2025</span></div>
+        <div class="q-text">Which CSS property is used to change the space INSIDE an element (between content and border)?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> margin</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> spacing</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> padding</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> border</div>
+        </div>
+        <div class="q-explain">✅ padding = المسافة بين الـ content والـ border (جوا العنصر). margin = المسافة بره العنصر. spacing مش CSS property.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q14 <span class="q-src">final-2025</span></div>
+        <div class="q-text">The CSS background-attachment property is used to specify that the background image should scroll or be fixed. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ TRUE! background-attachment: fixed = الخلفية ثابتة مكانها حتى لو scrolled. background-attachment: scroll = بتتحرك مع الـ scroll.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q15 <span class="q-src">final-2025</span></div>
+        <div class="q-text">Based on the exam HTML, using "p:first-child", how many p elements will be styled?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 0</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 3</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 6</div>
+        </div>
+        <div class="q-explain">✅ p:first-child = &lt;p&gt; اللي هو أول child بتاع parent بتاعه. في body، أول child هو &lt;h2&gt; مش &lt;p&gt;. ∴ 0 عناصر! في الـ div أول child هو &lt;p&gt; Paragraph 1 — لكن ده مش p:first-child لـ body. خليك دقيق!</div>
+      </div>
+    </div>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('qset-css','score-css')">Check Answers ✓</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('qset-css','score-css')">Reset ↺</button>
+    <div class="q-score" id="score-css"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHEAT SHEET — COMPREHENSIVE REFERENCE
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheatsheet">
+  <div class="ch-header">
+    <div class="ch-num purple">📋</div>
+    <div class="ch-title">
+      <h2>Quick Reference Cheat Sheet</h2>
+      <p>ملخص سريع لكل المنهج — حفظه قبل الامتحان!</p>
+    </div>
+  </div>
+
+  <!-- TCP/IP & Protocols -->
+  <div class="cheat">
+    <h3>🏗️ TCP/IP & Protocols</h3>
+    <div class="cheat-item"><div class="cheat-key">TCP/IP Layers</div><div class="cheat-val">4 Layers: Application → Transport → Internet → Network Interface</div></div>
+    <div class="cheat-item"><div class="cheat-key">Application Layer</div><div class="cheat-val">HTTP, SMTP, FTP — provides access to network resources for users</div></div>
+    <div class="cheat-item"><div class="cheat-key">Transport Layer</div><div class="cheat-val">TCP, UDP — process-to-process delivery & error handling</div></div>
+    <div class="cheat-item"><div class="cheat-key">Internet Layer</div><div class="cheat-val">IP — move packets from source to destination (routing)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Network Interface</div><div class="cheat-val">Ethernet, Wi-Fi — transmission between two devices on same network</div></div>
+    <div class="cheat-item"><div class="cheat-key">TCP</div><div class="cheat-val">Breaks messages into segments, end-to-end reliable delivery, ensures order</div></div>
+    <div class="cheat-item"><div class="cheat-key">IP</div><div class="cheat-val">Assigns numeric address (IP Address), handles routing between networks</div></div>
+    <div class="cheat-item"><div class="cheat-key">HTTP Port</div><div class="cheat-val"><strong>80</strong> (TCP)</div></div>
+    <div class="cheat-item"><div class="cheat-key">HTTPS Port</div><div class="cheat-val"><strong>443</strong> (TCP + TLS)</div></div>
+    <div class="cheat-item"><div class="cheat-key">SMTP Port</div><div class="cheat-val"><strong>25</strong> — Email sending</div></div>
+    <div class="cheat-item"><div class="cheat-key">POP3 Port</div><div class="cheat-val"><strong>110</strong> — Personal mailbox</div></div>
+    <div class="cheat-item"><div class="cheat-key">FTP Port</div><div class="cheat-val"><strong>21</strong> — File transfer</div></div>
+  </div>
+
+  <!-- HTTP -->
+  <div class="cheat">
+    <h3>🌐 HTTP Essentials</h3>
+    <div class="cheat-item"><div class="cheat-key">URL Parts</div><div class="cheat-val">scheme://host:port/path?query — مثال: https://www.site.com:443/page?q=test</div></div>
+    <div class="cheat-item"><div class="cheat-key">GET</div><div class="cheat-val">Read data — body <strong>empty</strong>! data in URL (Query String)</div></div>
+    <div class="cheat-item"><div class="cheat-key">POST</div><div class="cheat-val">Insert data — data in <strong>body</strong></div></div>
+    <div class="cheat-item"><div class="cheat-key">PUT / PATCH</div><div class="cheat-val">Update existing data</div></div>
+    <div class="cheat-item"><div class="cheat-key">DELETE</div><div class="cheat-val">Delete data</div></div>
+    <div class="cheat-item"><div class="cheat-key">Request Line</div><div class="cheat-val">[method] [URL] [version] — مثال: GET /page HTTP/1.1</div></div>
+    <div class="cheat-item"><div class="cheat-key">Status Line</div><div class="cheat-val">[version] [status code] [reason] — مثال: HTTP/1.1 200 OK</div></div>
+    <div class="cheat-item"><div class="cheat-key">Request Always Has</div><div class="cheat-val">Request line + headers (body is optional — empty in GET)</div></div>
+    <div class="cheat-item"><div class="cheat-key">HTTP Version</div><div class="cheat-val">Present in BOTH request line AND status line</div></div>
+    <div class="cheat-item"><div class="cheat-key">Referer Header</div><div class="cheat-val">Request header — the URL that was clicked to reach this page</div></div>
+    <div class="cheat-item"><div class="cheat-key">User-Agent</div><div class="cheat-val">Request header — info about the browser/software</div></div>
+    <div class="cheat-item"><div class="cheat-key">Content-Type</div><div class="cheat-val">Response header — the <strong>media type</strong> (MIME) of the content</div></div>
+  </div>
+
+  <!-- Status Codes -->
+  <div class="cheat">
+    <h3>🚦 HTTP Status Codes</h3>
+    <div class="cheat-item"><div class="cheat-key">200 OK</div><div class="cheat-val">✅ Success — request completed</div></div>
+    <div class="cheat-item"><div class="cheat-key">201 Created</div><div class="cheat-val">✅ Resource created successfully</div></div>
+    <div class="cheat-item"><div class="cheat-key">204 No Content</div><div class="cheat-val">✅ Success but no body to return</div></div>
+    <div class="cheat-item"><div class="cheat-key">301 Moved Permanently</div><div class="cheat-val">🔀 Resource moved to new URL</div></div>
+    <div class="cheat-item"><div class="cheat-key">304 Not Modified</div><div class="cheat-val">💾 Use cached version — content didn't change</div></div>
+    <div class="cheat-item"><div class="cheat-key">400 Bad Request</div><div class="cheat-val">❌ Malformed request from client</div></div>
+    <div class="cheat-item"><div class="cheat-key">401 Unauthorized</div><div class="cheat-val">🔑 Need to authenticate (login first!)</div></div>
+    <div class="cheat-item"><div class="cheat-key">403 Forbidden</div><div class="cheat-val">🚫 Server reachable, user authenticated, but NO permission</div></div>
+    <div class="cheat-item"><div class="cheat-key">404 Not Found</div><div class="cheat-val">🔍 Resource doesn't exist</div></div>
+    <div class="cheat-item"><div class="cheat-key">500 Internal Server Error</div><div class="cheat-val">💥 Server crashed/bug</div></div>
+    <div class="cheat-item"><div class="cheat-key">401 vs 403</div><div class="cheat-val">401 = مش authenticated (login!) | 403 = authenticated بس مش authorized</div></div>
+  </div>
+
+  <!-- Caching & Cookies -->
+  <div class="cheat">
+    <h3>💾 Caching & Cookies</h3>
+    <div class="cheat-item"><div class="cheat-key">Expires Header</div><div class="cheat-val"><strong>Response</strong> + <strong>Time-based</strong> caching — بتيجي في الامتحانات كتير!</div></div>
+    <div class="cheat-item"><div class="cheat-key">ETag</div><div class="cheat-val">Content-based caching — hash of the content</div></div>
+    <div class="cheat-item"><div class="cheat-key">If-Modified-Since</div><div class="cheat-val">Request header — client asks "did it change since this date?"</div></div>
+    <div class="cheat-item"><div class="cheat-key">304 Not Modified</div><div class="cheat-val">Server response = "no changes, use your cached copy"</div></div>
+    <div class="cheat-item"><div class="cheat-key">Cookie Created By</div><div class="cheat-val"><strong>Server</strong> (via Set-Cookie header) — client just stores & sends back</div></div>
+    <div class="cheat-item"><div class="cheat-key">Cookie Max Size</div><div class="cheat-val"><strong>4KB</strong> — sent with every request = bandwidth overhead</div></div>
+    <div class="cheat-item"><div class="cheat-key">Web Storage</div><div class="cheat-val"><strong>5MB</strong> — NOT sent to server — better than cookies</div></div>
+    <div class="cheat-item"><div class="cheat-key">localStorage</div><div class="cheat-val">Permanent (persists across sessions)</div></div>
+    <div class="cheat-item"><div class="cheat-key">sessionStorage</div><div class="cheat-val">Temporary (cleared when tab closes)</div></div>
+  </div>
+
+  <!-- Security -->
+  <div class="cheat">
+    <h3>🔐 Security & Authentication</h3>
+    <div class="cheat-item"><div class="cheat-key">HTTPS</div><div class="cheat-val">HTTP over TLS — encrypted — port <strong>443</strong></div></div>
+    <div class="cheat-item"><div class="cheat-key">Basic Auth</div><div class="cheat-val">Base64 encoded (NOT encrypted!) — ❌ Insecure</div></div>
+    <div class="cheat-item"><div class="cheat-key">Digest Auth</div><div class="cheat-val">MD5 hashing + nonce — ⚠️ Better</div></div>
+    <div class="cheat-item"><div class="cheat-key">Form-based Auth</div><div class="cheat-val">Login form → redirect → cookie — most common. ⚠️ Needs HTTPS</div></div>
+    <div class="cheat-item"><div class="cheat-key">Authentication</div><div class="cheat-val">إثبات الهوية — <em>Who are you?</em></div></div>
+    <div class="cheat-item"><div class="cheat-key">Authorization</div><div class="cheat-val">صلاحيات الوصول — <em>What can you do?</em></div></div>
+  </div>
+
+  <!-- HTML -->
+  <div class="cheat">
+    <h3>🏷️ HTML Quick Ref</h3>
+    <div class="cheat-item"><div class="cheat-key">&lt;head&gt;</div><div class="cheat-val">Metadata — NOT visible on page (title, meta, link, style)</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;body&gt;</div><div class="cheat-val">Visible page content</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;title&gt;</div><div class="cheat-val">Browser tab text — inside &lt;head&gt;</div></div>
+    <div class="cheat-item"><div class="cheat-key">Empty Elements</div><div class="cheat-val">&lt;br&gt;, &lt;hr&gt;, &lt;img&gt;, &lt;meta&gt;, &lt;link&gt; — no closing tag needed</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;strong&gt;</div><div class="cheat-val">Important (semantic bold) — NOT &lt;b&gt; which is just visual</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;em&gt;</div><div class="cheat-val">Emphasized (semantic italic) — NOT &lt;i&gt;</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;mark&gt;</div><div class="cheat-val">Highlighted text — &lt;highlight&gt; مش موجود!</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;del&gt;</div><div class="cheat-val">Strikethrough (deleted text)</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;ins&gt;</div><div class="cheat-val">Underlined (inserted text)</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;sub&gt;</div><div class="cheat-val">Subscript — H<sub>2</sub>O, NO<sub>2</sub></div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;sup&gt;</div><div class="cheat-val">Superscript — x<sup>2</sup></div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;a href="..."&gt;</div><div class="cheat-val">Hyperlink — href = hypertext reference</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;img src="..."&gt;</div><div class="cheat-val">Image — src NOT href! alt = alternative text</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;ol&gt;</div><div class="cheat-val">Ordered list (numbers)</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;ul&gt;</div><div class="cheat-val">Unordered list (bullets)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Table Elements</div><div class="cheat-val">&lt;table&gt; → &lt;tr&gt; (row) → &lt;th&gt; (header) / &lt;td&gt; (data)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Tim Berners-Lee</div><div class="cheat-val">Father of the WWW — founded W3C at MIT</div></div>
+  </div>
+
+  <!-- DOM -->
+  <div class="cheat">
+    <h3>🌳 DOM Quick Ref</h3>
+    <div class="cheat-item"><div class="cheat-key">DOM</div><div class="cheat-val">Document Object Model — HTML → tree of objects. Everything = <strong>Node</strong></div></div>
+    <div class="cheat-item"><div class="cheat-key">nodeType = 1</div><div class="cheat-val">Element node (&lt;h1&gt;, &lt;p&gt;, &lt;div&gt;...)</div></div>
+    <div class="cheat-item"><div class="cheat-key">nodeType = 2</div><div class="cheat-val">Attribute node</div></div>
+    <div class="cheat-item"><div class="cheat-key">nodeType = 3</div><div class="cheat-val">Text node ("Hello World")</div></div>
+    <div class="cheat-item"><div class="cheat-key">nodeName (element)</div><div class="cheat-val">Tag name in uppercase — "H1", "P" — <strong>READ-ONLY!</strong></div></div>
+    <div class="cheat-item"><div class="cheat-key">nodeName (text)</div><div class="cheat-val">"#text"</div></div>
+    <div class="cheat-item"><div class="cheat-key">nodeValue (element)</div><div class="cheat-val"><strong>null!</strong> — elements have no nodeValue</div></div>
+    <div class="cheat-item"><div class="cheat-key">nodeValue (text)</div><div class="cheat-val">The actual text content</div></div>
+    <div class="cheat-item"><div class="cheat-key">innerHTML</div><div class="cheat-val">= firstChild.nodeValue (for simple text elements) — it's a <strong>property</strong></div></div>
+    <div class="cheat-item"><div class="cheat-key">getElementById()</div><div class="cheat-val">Returns ONE element — it's a <strong>method</strong></div></div>
+    <div class="cheat-item"><div class="cheat-key">getElementsByTagName()</div><div class="cheat-val">Returns HTMLCollection (all matches)</div></div>
+    <div class="cheat-item"><div class="cheat-key">querySelector()</div><div class="cheat-val">CSS selector — FIRST match only</div></div>
+    <div class="cheat-item"><div class="cheat-key">querySelectorAll()</div><div class="cheat-val">CSS selector — NodeList (all matches)</div></div>
+    <div class="cheat-item"><div class="cheat-key">appendChild()</div><div class="cheat-val">Adds element as <strong>last child</strong></div></div>
+    <div class="cheat-item"><div class="cheat-key">insertBefore(new, ref)</div><div class="cheat-val">Adds new element BEFORE reference element</div></div>
+    <div class="cheat-item"><div class="cheat-key">element.remove()</div><div class="cheat-val">Modern way to remove element from DOM</div></div>
+    <div class="cheat-item"><div class="cheat-key">innerHTML vs innerText</div><div class="cheat-val">innerHTML renders HTML tags (XSS risk!) — innerText is plain text (SAFE)</div></div>
+  </div>
+
+  <!-- CSS -->
+  <div class="cheat">
+    <h3>🎨 CSS Quick Ref</h3>
+    <div class="cheat-item"><div class="cheat-key">CSS Rule</div><div class="cheat-val">selector { property: value; } — property:value = Declaration</div></div>
+    <div class="cheat-item"><div class="cheat-key">Priority Order</div><div class="cheat-val">Inline > Internal > External > Browser default</div></div>
+    <div class="cheat-item"><div class="cheat-key">.class</div><div class="cheat-val">Class selector — matches all elements with that class</div></div>
+    <div class="cheat-item"><div class="cheat-key">#id</div><div class="cheat-val">ID selector — matches ONE element</div></div>
+    <div class="cheat-item"><div class="cheat-key">E.class</div><div class="cheat-val">Element E with specific class (e.g. p.center)</div></div>
+    <div class="cheat-item"><div class="cheat-key">E > F</div><div class="cheat-val">F is <strong>direct child</strong> of E only</div></div>
+    <div class="cheat-item"><div class="cheat-key">E ~ F</div><div class="cheat-val">All F <strong>siblings AFTER</strong> E (general sibling)</div></div>
+    <div class="cheat-item"><div class="cheat-key">E + F</div><div class="cheat-val">The F <strong>immediately after</strong> E (adjacent sibling)</div></div>
+    <div class="cheat-item"><div class="cheat-key">E[attr=val]</div><div class="cheat-val">Attribute selector — exact match</div></div>
+    <div class="cheat-item"><div class="cheat-key">E[attr^=val]</div><div class="cheat-val">Attribute <strong>starts with</strong> val</div></div>
+    <div class="cheat-item"><div class="cheat-key">E[attr$=val]</div><div class="cheat-val">Attribute <strong>ends with</strong> val</div></div>
+    <div class="cheat-item"><div class="cheat-key">:first-child</div><div class="cheat-val">E only if it IS the first child of its parent</div></div>
+    <div class="cheat-item"><div class="cheat-key">:hover</div><div class="cheat-val">When mouse is over element (single colon! :: is wrong)</div></div>
+    <div class="cheat-item"><div class="cheat-key">:empty</div><div class="cheat-val">Element with NO children</div></div>
+    <div class="cheat-item"><div class="cheat-key">Margin</div><div class="cheat-val">Space <strong>OUTSIDE</strong> element (between elements)</div></div>
+    <div class="cheat-item"><div class="cheat-key">Padding</div><div class="cheat-val">Space <strong>INSIDE</strong> element (between content & border)</div></div>
+    <div class="cheat-item"><div class="cheat-key">background-attachment</div><div class="cheat-val">fixed = stays in place while scrolling | scroll = moves with page</div></div>
+  </div>
+
+  <!-- Common Exam Traps -->
+  <div class="cheat" style="border-color:var(--red)">
+    <h3 style="color:var(--red)">🚨 Common Exam Traps</h3>
+    <div class="cheat-item"><div class="cheat-key">220 is success?</div><div class="cheat-val">FALSE! There's no code 220. Success = 200-299</div></div>
+    <div class="cheat-item"><div class="cheat-key">External CSS = highest?</div><div class="cheat-val">FALSE! Inline = highest priority</div></div>
+    <div class="cheat-item"><div class="cheat-key">p:first-child</div><div class="cheat-val">⚠️ Only if &lt;p&gt; IS the first child! If &lt;h2&gt; comes first → 0 matches</div></div>
+    <div class="cheat-item"><div class="cheat-key">&lt;img href="..."&gt;</div><div class="cheat-val">WRONG! It's &lt;img <strong>src</strong>="..."&gt; — href is for &lt;a&gt; tags</div></div>
+    <div class="cheat-item"><div class="cheat-key">nodeValue of element</div><div class="cheat-val">= <strong>null</strong>! NOT the text. Use .innerHTML or .firstChild.nodeValue</div></div>
+    <div class="cheat-item"><div class="cheat-key">nodeName = read-only</div><div class="cheat-val">You can't change it! nodeValue IS writable (for text nodes)</div></div>
+    <div class="cheat-item"><div class="cheat-key">div > p vs div ~ p</div><div class="cheat-val">&gt; = children INSIDE div | ~ = siblings AFTER div. Totally different!</div></div>
+    <div class="cheat-item"><div class="cheat-key">::hover</div><div class="cheat-val">WRONG! It's <strong>:hover</strong> (single colon). :: is for pseudo-elements like ::before</div></div>
+    <div class="cheat-item"><div class="cheat-key">insertBefore(x, y)</div><div class="cheat-val">x goes BEFORE y. First param = new element, Second = reference!</div></div>
+    <div class="cheat-item"><div class="cheat-key">getElementsByTagName("p")</div><div class="cheat-val">Gets ALL &lt;p&gt; on page — even nested inside &lt;section&gt; inside &lt;div&gt;!</div></div>
+  </div>
+</div>
+
+</div><!-- end .content -->
+</main><!-- end #main -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT — All interactivity
+═══════════════════════════════════════════════════════════ -->
+<script>
+/* ─── QUIZ ENGINE ─── */
+function checkQuiz(qsetId, scoreId) {
+  const qset = document.getElementById(qsetId);
+  const items = qset.querySelectorAll('.q-item');
+  let correct = 0, total = items.length, answered = 0;
+
+  items.forEach(item => {
+    const correctVal = item.dataset.correct;
+    const selected = item.querySelector('.q-opt.selected');
+    const explain = item.querySelector('.q-explain');
+
+    if (selected) {
+      answered++;
+      const val = selected.dataset.val;
+      if (val === correctVal) {
+        selected.classList.add('correct');
+        correct++;
+      } else {
+        selected.classList.add('wrong');
+        // Highlight correct answer
+        item.querySelectorAll('.q-opt').forEach(opt => {
+          if (opt.dataset.val === correctVal) opt.classList.add('correct');
+        });
+      }
+    } else {
+      // Not answered — highlight correct
+      item.querySelectorAll('.q-opt').forEach(opt => {
+        if (opt.dataset.val === correctVal) opt.classList.add('correct');
+      });
+    }
+    if (explain) explain.classList.add('show');
+    // Disable further clicks
+    item.querySelectorAll('.q-opt').forEach(opt => opt.style.pointerEvents = 'none');
+  });
+
+  const pct = Math.round((correct / total) * 100);
+  const scoreDiv = document.getElementById(scoreId);
+  scoreDiv.style.display = 'block';
+
+  let cls = 'bad', emoji = '😔';
+  if (pct >= 80) { cls = 'good'; emoji = '🎉'; }
+  else if (pct >= 50) { cls = 'ok'; emoji = '💪'; }
+
+  scoreDiv.className = 'q-score ' + cls;
+  scoreDiv.innerHTML = `${emoji} Score: ${correct}/${total} (${pct}%)`;
+}
+
+function resetQuiz(qsetId, scoreId) {
+  const qset = document.getElementById(qsetId);
+  qset.querySelectorAll('.q-opt').forEach(opt => {
+    opt.classList.remove('selected', 'correct', 'wrong');
+    opt.style.pointerEvents = '';
+  });
+  qset.querySelectorAll('.q-explain').forEach(e => e.classList.remove('show'));
+  const scoreDiv = document.getElementById(scoreId);
+  scoreDiv.style.display = 'none';
+  scoreDiv.className = 'q-score';
+}
+
+/* ─── QUIZ OPTION CLICK ─── */
+document.addEventListener('click', e => {
+  const opt = e.target.closest('.q-opt');
+  if (!opt || opt.style.pointerEvents === 'none') return;
+  const opts = opt.closest('.q-opts');
+  opts.querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
+  opt.classList.add('selected');
+});
+
+/* ─── PROGRESS BAR ─── */
+function updateProgress() {
+  const winH = window.innerHeight;
+  const docH = document.documentElement.scrollHeight - winH;
+  const scrolled = window.scrollY;
+  const pct = docH > 0 ? (scrolled / docH) * 100 : 0;
+  document.getElementById('prog-bar').style.width = pct + '%';
+}
+
+/* ─── SCROLL TO TOP BUTTON ─── */
+function updateScrollTop() {
+  const btn = document.getElementById('scroll-top');
+  if (window.scrollY > 400) btn.classList.add('show');
+  else btn.classList.remove('show');
+}
+
+/* ─── ACTIVE SIDEBAR LINK ─── */
+function updateSidebar() {
+  const links = document.querySelectorAll('.sb-link');
+  const scrollPos = window.scrollY + 120;
+
+  let activeLink = null;
+  links.forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+    const target = document.getElementById(href.substring(1));
+    if (target && target.offsetTop <= scrollPos) {
+      activeLink = link;
+    }
+  });
+
+  links.forEach(l => l.classList.remove('active'));
+  if (activeLink) activeLink.classList.add('active');
+}
+
+/* ─── SCROLL HANDLER ─── */
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      updateProgress();
+      updateScrollTop();
+      updateSidebar();
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+
+/* ─── CLOSE MOBILE SIDEBAR ON LINK CLICK ─── */
+document.querySelectorAll('.sb-link').forEach(link => {
+  link.addEventListener('click', () => {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar.classList.contains('open')) {
+      sidebar.classList.remove('open');
+    }
+  });
+});
+
+/* ─── INTERSECTION OBSERVER FOR ANIMATIONS ─── */
+const observerOptions = { threshold: 0.05, rootMargin: '0px 0px -40px 0px' };
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.topic, .cheat, .quiz-section').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+  observer.observe(el);
+});
+
+/* ─── HERO STATS COUNTER ANIMATION ─── */
+function animateCounters() {
+  document.querySelectorAll('.hstat .num').forEach(el => {
+    const finalText = el.textContent.trim();
+    const num = parseInt(finalText);
+    if (isNaN(num)) return; // skip "∞" etc.
+    
+    let current = 0;
+    const step = Math.max(1, Math.floor(num / 30));
+    const interval = setInterval(() => {
+      current += step;
+      if (current >= num) {
+        clearInterval(interval);
+        el.textContent = finalText; // restore original (might have "+")
+      } else {
+        el.textContent = current;
+      }
+    }, 35);
+  });
+}
+
+/* ─── KEYBOARD NAVIGATION ─── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar.classList.contains('open')) {
+      sidebar.classList.remove('open');
+    }
+  }
+});
+
+/* ─── INIT ─── */
+document.addEventListener('DOMContentLoaded', () => {
+  updateProgress();
+  updateScrollTop();
+  updateSidebar();
+  animateCounters();
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('p, li, td, th, .topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div, .note div, .q-text, .q-explain, .cheat-val, .cmt, .q-opt, .hero p, .topic p, .q-num').forEach(el => {
+    if (/[\u0600-\u06FF]/.test(el.textContent) && !el.textContent.startsWith('\u200F') && !/^[\s]*[A-Za-z]/.test(el.textContent)) {
+        el.innerHTML = '&#x200F;' + el.innerHTML;
+    }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 05-B — JavaScript Part I | IS231</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/shared.css">
+</head>
+<body>
+<div id="prog-bar"><div id="prog-fill"></div></div>
+<div id="overlay"></div>
+<nav id="sidebar">
+  <div class="sb-logo"><h2>IS231 · Lecture 05-B</h2><p>JavaScript Part I</p><span class="sb-tag">Frontend Scripting</span></div>
+  <a class="sb-back" href="../index.html">← Back to IS231</a>
+  <div class="sb-section">JS Basics</div>
+  <a class="sb-link" href="#variables"><span class="sb-dot"></span>Variables & Scope</a>
+  <a class="sb-link" href="#types"><span class="sb-dot"></span>Types & Coercion</a>
+  <a class="sb-link" href="#functions"><span class="sb-dot"></span>Functions</a>
+  <a class="sb-link" href="#dom"><span class="sb-dot"></span>DOM Manipulation</a>
+  <a class="sb-link" href="#errors"><span class="sb-dot"></span>Errors & Scope</a>
+  <div class="sb-section">Exam Quiz</div>
+  <a class="sb-link" href="#quiz-js1"><span class="sb-dot"></span>🎯 JS Quiz</a>
+</nav>
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+<main id="main">
+  <div class="hero">
+    <div class="hero-badge">⚡ IS231 · Lecture 05-B · Dr. Mohamed Nour Eldien</div>
+    <h1>JavaScript — <span>Part I</span></h1>
+    <p>Variables (var/let/const), data types, type coercion, functions, scope, and DOM manipulation basics.</p>
+    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← Back to Hub</a></div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num">5</div><div class="lbl">Topics</div></div>
+      <div class="hstat"><div class="num">15+</div><div class="lbl">Exam Q's</div></div>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="chapter" id="variables">
+      <div class="ch-header"><div class="ch-num cyan">📦</div><div class="ch-title"><h2>Variables & Scope</h2><p>var vs let vs const</p></div></div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">🔢</span> Variable Declarations</div>
+        <table class="tbl">
+          <tr><th>Keyword</th><th>Scope</th><th>Hoisted?</th><th>Reassignable?</th><th>Re-declarable?</th></tr>
+          <tr><td><code>var</code></td><td>Function scope</td><td>✅ Yes (as undefined)</td><td>✅ Yes</td><td>✅ Yes</td></tr>
+          <tr><td><code>let</code></td><td>Block scope <code>{}</code></td><td>⚠️ (TDZ)</td><td>✅ Yes</td><td>❌ No</td></tr>
+          <tr><td><code>const</code></td><td>Block scope <code>{}</code></td><td>⚠️ (TDZ)</td><td>❌ No</td><td>❌ No</td></tr>
+        </table>
+        <div class="danger"><b>Exam Traps:</b><br>
+        • <code>const</code> must be initialized when declared — you can't do <code>const x;</code> then assign later.<br>
+        • <code>let</code> is block-scoped — not accessible outside <code>{}</code>.<br>
+        • <code>const</code> cannot be overwritten (reassigned) after declaration.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="types">
+      <div class="ch-header"><div class="ch-num amber">🔄</div><div class="ch-title"><h2>Types & Type Coercion</h2><p>JavaScript converts types automatically</p></div></div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">⚡</span> Type Coercion Rules</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70">// String + Number → String concatenation</span>
+<span style="color:#a6e3a1">"40"</span> + 6          <span style="color:#585b70">// → "406"  (string concat)</span>
+<span style="color:#a6e3a1">"20"</span> + 10         <span style="color:#585b70">// → "2010" (string concat)</span>
+
+<span style="color:#585b70">// String - Number → Number subtraction</span>
+<span style="color:#a6e3a1">"20"</span> - 10         <span style="color:#585b70">// → 10     (numeric subtraction)</span>
+
+<span style="color:#585b70">// == vs ===</span>
+200 == <span style="color:#a6e3a1">"200"</span>      <span style="color:#585b70">// → true  (coerces types)</span>
+200 === <span style="color:#a6e3a1">"200"</span>     <span style="color:#585b70">// → false (strict: different types)</span></pre>
+        <div class="info"><b>Exam Tip:</b> Addition with a string = string concatenation. Subtraction with a string = numeric. Evaluate expressions left to right.</div>
+      </div>
+      <div class="topic" style="--accent:var(--red)">
+        <div class="topic-title"><span class="icon">⚠️</span> JavaScript Error Types</div>
+        <ul>
+          <li><strong>Syntax Error</strong> — missing brackets, wrong syntax</li>
+          <li><strong>Missing brackets/semicolons</strong> — some JS engines handle missing semicolons (ASI)</li>
+          <li><strong>Division by zero</strong> — <em>NOT an error in JavaScript</em>! Returns <code>Infinity</code></li>
+        </ul>
+        <div class="warn"><b>Exam Trap:</b> In JavaScript, <strong>division by zero is NOT an error</strong> — it returns <code>Infinity</code>. This is different from Python where it throws ZeroDivisionError.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="functions">
+      <div class="ch-header"><div class="ch-num green">🔧</div><div class="ch-title"><h2>Functions</h2><p>Regular, arrow, and rest parameters</p></div></div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">→</span> Arrow Functions</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70">// Arrow function (concise syntax)</span>
+<span style="color:#cba6f7">const</span> f = (a, b) =&gt; a + b + 5;
+f(3, 4)   <span style="color:#585b70">// → 12  (3 + 4 + 5 = 12)</span>
+f(4, 5)   <span style="color:#585b70">// → 14  (4 + 5 + 5 = 14)</span>
+
+<span style="color:#585b70">// Regular function expression</span>
+<span style="color:#cba6f7">const</span> g = <span style="color:#cba6f7">function</span>() { <span style="color:#cba6f7">return</span> 10; };
+</pre>
+      </div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">...</span> Rest Parameters</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#cba6f7">function</span> <span style="color:#89b4fa">multiply</span>(...myNumbers) {
+  <span style="color:#cba6f7">let</span> total = 1;
+  <span style="color:#cba6f7">for</span> (<span style="color:#cba6f7">let</span> n <span style="color:#cba6f7">of</span> myNumbers) total *= n;
+  <span style="color:#cba6f7">return</span> total;
+}</pre>
+        <div class="info"><b>Exam:</b> The <code>...</code> (rest parameter) <strong>allows the function to change the arguments into an array</strong>. It is called the <strong>Rest Parameter</strong>.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="dom">
+      <div class="ch-header"><div class="ch-num pink">🌲</div><div class="ch-title"><h2>DOM Manipulation</h2><p>Accessing and changing HTML from JavaScript</p></div></div>
+      <div class="topic" style="--accent:var(--pink)">
+        <div class="topic-title"><span class="icon">🔍</span> Common DOM Methods</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70">// Select element by ID</span>
+document.getElementById(<span style="color:#a6e3a1">"myElement"</span>).innerHTML = <span style="color:#a6e3a1">"CS 105"</span>;
+
+<span style="color:#585b70">// Change content of a paragraph with id="demo"</span>
+document.getElementById(<span style="color:#a6e3a1">"demo"</span>).innerHTML = <span style="color:#a6e3a1">"Hello World!"</span>;
+
+<span style="color:#585b70">// Access text content (text node)</span>
+document.getElementById(<span style="color:#a6e3a1">"id1"</span>).firstChild.nodeValue;</pre>
+        <div class="info"><b>Exam:</b> How are objects organized in the HTML DOM? → <strong>Hierarchy</strong> (tree structure). The purpose of form control elements? → <strong>User Interface elements</strong>.</div>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">💻</span> JavaScript Execution</div>
+        <ul>
+          <li>JavaScript runs on the <strong>user's machine in the web browser</strong> (client-side).</li>
+          <li>The web server does NOT execute JavaScript (usually).</li>
+          <li>JavaScript is <strong>dynamically typed</strong> — variable types determined at runtime.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chapter" id="errors">
+      <div class="ch-header"><div class="ch-num red">🐛</div><div class="ch-title"><h2>Scope & Common Patterns</h2><p>Understanding var/let/const in real code</p></div></div>
+      <div class="topic" style="--accent:var(--red)">
+        <div class="topic-title"><span class="icon">🔍</span> eval() Function</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#cba6f7">var</span> writeMe = <span style="color:#a6e3a1">"console.log('document.writeln(x);')"</span>;
+<span style="color:#cba6f7">var</span> x = 13;
+eval(writeMe);
+<span style="color:#585b70">// eval() executes the STRING as code</span>
+<span style="color:#585b70">// The string contains: console.log('document.writeln(x);')</span>
+<span style="color:#585b70">// Output: prints "document.writeln(x);" in the console</span></pre>
+        <div class="info"><b>Exam:</b> <code>eval()</code> treats the string as code and runs it. The string here calls console.log with the literal text <code>'document.writeln(x);'</code> — so it prints that text, NOT the value 13.</div>
+      </div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">📊</span> JS Output Snippet</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left">x = <span style="color:#a6e3a1">"20"</span>;
+y = 10;
+document.writeln(x + y, x - y);
+<span style="color:#585b70">// x + y → "20" + 10 → "2010"  (string concat)</span>
+<span style="color:#585b70">// x - y → "20" - 10 → 10     (numeric sub)</span>
+<span style="color:#585b70">// Output: 2010 10</span></pre>
+      </div>
+    </div>
+
+    <!-- QUIZ JS -->
+    <div class="quiz-section" id="quiz-js1">
+      <div class="quiz-header">
+        <div class="quiz-icon">🎯</div>
+        <div><h3>JavaScript Part I — Exam Quiz</h3><p>Real questions from Final 2021 — IS231</p></div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q1 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">When a user views a page containing a JavaScript program, which machine executes the script?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> The User's machine running a Web browser</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> The Web server</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Both client and server</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: A — The User's machine (Web browser)</b><br>JavaScript is a client-side scripting language. It runs in the browser on the user's machine, NOT on the web server.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q2 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">Which of the following lines of JavaScript code will change the HTML inside an element with id="myElement" to "CS 105"?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> document.getElementById("myElement").innerHTML = "CS 105";</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> html["myElement"] = "CS 105";</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> html["myElement"].innerHTML = "CS 105";</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> document.html["myElement"].innerHTML = "CS 105";</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: A — document.getElementById("myElement").innerHTML</b><br>The correct DOM API: use <code>document.getElementById()</code> to select an element by its id, then set <code>.innerHTML</code> to change its content.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q3 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">In JavaScript, which one of the following is NOT considered as an error?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Syntax error</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Missing of semicolons</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Division by zero</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Missing of Brackets</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: C — Division by zero</b><br>In JavaScript, dividing by zero returns <code>Infinity</code> (not an error). Also, some JS engines handle missing semicolons via Automatic Semicolon Insertion (ASI).</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q4 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">How are objects organized in the HTML DOM?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Class-wise</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Queue</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Hierarchy (tree)</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Alphabetically</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: C — Hierarchy</b><br>The DOM is organized as a tree/hierarchy of nodes. The document is the root, then html, then head/body, then their children.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q5 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">In JavaScript, the statement "40" + 6 will return:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 46</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> "406"</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> "40"6</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: B — "406"</b><br>When you add a string and a number, JavaScript converts the number to a string and concatenates. "40" + 6 = "406".</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q6 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What is the correct JavaScript syntax to change the content of &lt;p id="demo"&gt;?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> document.getElementById("demo").innerHTML = "Hello World!";</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> #demo.innerHTML = "Hello World!";</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> document.getElementByName("p").innerHTML = "Hello World!";</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> document.getElement("p").innerHTML = "Hello World!";</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: A — document.getElementById("demo").innerHTML</b><br>To select by id, use <code>getElementById()</code>. CSS selector syntax (#demo) does not work in plain JavaScript DOM API.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q7 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What is the output of: <code>var writeMe = "console.log('document.writeln(x);')"; var x = 13; eval(writeMe);</code></div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Prints 13 in the console</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Writes 13 to the body</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Writes "document.writeln(x);" to the body</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Prints "document.writeln(x);" in the console</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: D — Prints "document.writeln(x);" in the console</b><br>eval() runs the string as code. The string is <code>console.log('document.writeln(x);')</code> — this logs the literal text "document.writeln(x);" to the console, NOT the value of x.</div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q8 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What is the output of: <code>x = "20"; y = 10; document.writeln(x + y, x - y);</code></div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 30, 10</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 30, NaN</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 2010, NaN</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> 2010 10</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: D — 2010 10</b><br>"20" + 10 = "2010" (string concat). "20" - 10 = 10 (subtraction forces numeric). So output is "2010 10".</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q9 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">If you have: <code>const f = (a, b) =&gt; a + b + 5;</code> — what does f(3, 4) return?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 12</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 7</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 9</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Not valid arrow function syntax</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: A — 12</b><br>f(3, 4) = 3 + 4 + 5 = 12. This is a valid arrow function. The concise form with no {} and no return implicitly returns the expression.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q10 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">In the function: <code>function multiply(...myNumbers){...}</code> — The "..." will:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Allow the function to be waiting for more arguments</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Allow the function to change the arguments to an array</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Distribute the arguments to separate numbers</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the answers</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: B — Change the arguments into an array</b><br>The rest parameter (...) collects all passed arguments into an array. The "..." in this context are called <strong>Rest Parameters</strong>.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q11 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">To determine if an object contains a certain property, we can use the ______ operator:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> in</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> =</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> list</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> []</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: A — "in" operator</b><br><code>"property" in object</code> returns true if the object contains that property. Example: <code>"name" in person</code> → true if person has a name property.</div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-js1"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-js1')">✔ Check Answers</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-js1')">↺ Reset</button>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

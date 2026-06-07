@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 08 — Django Part IV | IS231</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/shared.css">
+</head>
+<body>
+<div id="prog-bar"><div id="prog-fill"></div></div>
+<div id="overlay"></div>
+<nav id="sidebar">
+  <div class="sb-logo"><h2>IS231 · Lecture 08</h2><p>Django Part IV</p><span class="sb-tag">Backend Python + Django</span></div>
+  <a class="sb-back" href="../index.html">← Back to IS231</a>
+  <div class="sb-section">Auth & Deploy</div>
+  <a class="sb-link" href="#auth"><span class="sb-dot"></span>Authentication</a>
+  <a class="sb-link" href="#sessions"><span class="sb-dot"></span>Sessions & Cookies</a>
+  <a class="sb-link" href="#permissions"><span class="sb-dot"></span>Permissions</a>
+  <a class="sb-link" href="#middleware"><span class="sb-dot"></span>Middleware</a>
+  <a class="sb-link" href="#static"><span class="sb-dot"></span>Static Files</a>
+  <div class="sb-section">Exam Quiz</div>
+  <a class="sb-link" href="#quiz-django4"><span class="sb-dot"></span>🎯 Django IV Quiz</a>
+</nav>
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+<main id="main">
+  <div class="hero">
+    <div class="hero-badge">⚡ IS231 · Lecture 08 · Dr. Mohamed Nour Eldien</div>
+    <h1>Django — <span>Part IV</span></h1>
+    <p>User authentication, sessions, permissions, middleware, static files, and deployment basics.</p>
+    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← Back to Hub</a></div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num">5</div><div class="lbl">Topics</div></div>
+      <div class="hstat"><div class="num">5</div><div class="lbl">Exam Q's</div></div>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="chapter" id="auth">
+      <div class="ch-header"><div class="ch-num cyan">🔐</div><div class="ch-title"><h2>Authentication</h2><p>Django's built-in user authentication system</p></div></div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">🔑</span> Login & Logout</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#cba6f7">from</span> <span style="color:#89b4fa">django.contrib.auth</span> <span style="color:#cba6f7">import</span> authenticate, login, logout
+
+<span style="color:#cba6f7">def</span> <span style="color:#89b4fa">login_view</span>(request):
+    <span style="color:#cba6f7">if</span> request.method == <span style="color:#a6e3a1">'POST'</span>:
+        username = request.POST[<span style="color:#a6e3a1">'username'</span>]
+        password = request.POST[<span style="color:#a6e3a1">'password'</span>]
+        user = authenticate(request, username=username, password=password)
+        <span style="color:#cba6f7">if</span> user <span style="color:#cba6f7">is not None</span>:
+            login(request, user)         <span style="color:#585b70"># creates session</span>
+            <span style="color:#cba6f7">return</span> redirect(<span style="color:#a6e3a1">'dashboard'</span>)   <span style="color:#585b70"># 302 redirect</span>
+        <span style="color:#cba6f7">else</span>:
+            <span style="color:#585b70"># wrong credentials → show error</span>
+            pass
+
+<span style="color:#cba6f7">def</span> <span style="color:#89b4fa">logout_view</span>(request):
+    logout(request)   <span style="color:#585b70"># destroys session</span>
+    <span style="color:#cba6f7">return</span> redirect(<span style="color:#a6e3a1">'login'</span>)</pre>
+        <div class="info"><b>Flow:</b> authenticate() checks credentials → login() creates session → redirect with 302. Failed login → show form again with error message.</div>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">🛡️</span> Protecting Views</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#cba6f7">from</span> <span style="color:#89b4fa">django.contrib.auth.decorators</span> <span style="color:#cba6f7">import</span> login_required
+
+<span style="color:#fab387">@login_required</span>           <span style="color:#585b70"># redirects to login if not authenticated</span>
+<span style="color:#cba6f7">def</span> <span style="color:#89b4fa">dashboard</span>(request):
+    <span style="color:#cba6f7">return</span> render(request, <span style="color:#a6e3a1">'dashboard.html'</span>)</pre>
+        <div class="warn"><b>Security:</b> Always use @login_required on views that show sensitive data. Without it, anyone can access the view directly by URL — a 403 vs 401 scenario.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="sessions">
+      <div class="ch-header"><div class="ch-num amber">🍪</div><div class="ch-title"><h2>Sessions & Cookies</h2><p>Maintaining state across HTTP requests</p></div></div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">💾</span> Working with Sessions</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70"># Set a session variable</span>
+request.session[<span style="color:#a6e3a1">'user_id'</span>] = 42
+
+<span style="color:#585b70"># Get a session variable</span>
+user_id = request.session.get(<span style="color:#a6e3a1">'user_id'</span>, None)
+
+<span style="color:#585b70"># Delete a session variable</span>
+<span style="color:#cba6f7">del</span> request.session[<span style="color:#a6e3a1">'user_id'</span>]
+
+<span style="color:#585b70"># Clear all session data (on logout)</span>
+request.session.flush()</pre>
+        <div class="info"><b>How it works:</b> Django stores session data on the server (in DB/cache/file). The browser only gets a session ID cookie. Cookies are created by the <strong>server</strong> and sent via Set-Cookie header.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="permissions">
+      <div class="ch-header"><div class="ch-num green">🔒</div><div class="ch-title"><h2>Permissions & Authorization</h2><p>What users are allowed to do</p></div></div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">🛡️</span> Permission Checking</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#cba6f7">from</span> <span style="color:#89b4fa">django.contrib.auth.decorators</span> <span style="color:#cba6f7">import</span> permission_required
+
+<span style="color:#fab387">@permission_required</span>(<span style="color:#a6e3a1">'app.can_publish'</span>)  <span style="color:#585b70"># → 403 if no permission</span>
+<span style="color:#cba6f7">def</span> <span style="color:#89b4fa">publish_article</span>(request):
+    pass
+
+<span style="color:#585b70"># Manual check in view</span>
+<span style="color:#cba6f7">if</span> request.user.has_perm(<span style="color:#a6e3a1">'app.can_edit'</span>):
+    <span style="color:#585b70"># user is authorized</span>
+    pass
+<span style="color:#cba6f7">else</span>:
+    <span style="color:#cba6f7">return</span> HttpResponseForbidden()   <span style="color:#585b70"># → 403</span></pre>
+        <div class="danger"><b>401 vs 403:</b><br>401 = Not authenticated (need to login first)<br>403 = Authenticated but NOT authorized (logged in but no permission)</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="middleware">
+      <div class="ch-header"><div class="ch-num purple">⚙️</div><div class="ch-title"><h2>Middleware</h2><p>Processing requests and responses globally</p></div></div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">🔄</span> What is Middleware?</div>
+        <ul>
+          <li>Middleware sits between the web server and Django views.</li>
+          <li>Processes every request <strong>before</strong> it reaches the view, and every response <strong>after</strong> leaving the view.</li>
+          <li>Common uses: authentication, session handling, CSRF protection, security headers.</li>
+        </ul>
+        <div class="info"><b>Key built-in middleware:</b> SecurityMiddleware, SessionMiddleware, AuthenticationMiddleware, CsrfViewMiddleware.</div>
+      </div>
+    </div>
+
+    <div class="chapter" id="static">
+      <div class="ch-header"><div class="ch-num pink">🎨</div><div class="ch-title"><h2>Static Files & Deployment</h2><p>CSS, JS, images — and going live</p></div></div>
+      <div class="topic" style="--accent:var(--pink)">
+        <div class="topic-title"><span class="icon">📁</span> Static Files Configuration</div>
+        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70"># settings.py</span>
+STATIC_URL = <span style="color:#a6e3a1">'/static/'</span>
+STATICFILES_DIRS = [BASE_DIR / <span style="color:#a6e3a1">'static'</span>]
+
+<span style="color:#585b70"># In HTML template:</span>
+<span style="color:#cba6f7">{% load static %}</span>
+<span style="color:#f38ba8">&lt;link</span> rel=<span style="color:#a6e3a1">"stylesheet"</span> href=<span style="color:#a6e3a1">"{% static 'css/style.css' %}"</span><span style="color:#f38ba8">&gt;</span>
+
+<span style="color:#585b70"># Collect for production:</span>
+<span style="color:#585b70"># python manage.py collectstatic</span></pre>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section" id="quiz-django4">
+      <div class="quiz-header"><div class="quiz-icon">🎯</div><div><h3>Django Part IV — Exam Quiz</h3><p>Auth, sessions, permissions — IS231</p></div></div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q1</div>
+        <div class="q-text">After a successful login in Django, the typical HTTP response is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 200 OK with the dashboard HTML</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 401 Unauthorized</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 302 Redirect to dashboard</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> 201 Created</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: C — 302 Redirect</b><br>The Post/Redirect/Get pattern: after a successful POST (login), Django redirects to the dashboard with a 302 to prevent form re-submission on refresh.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q2</div>
+        <div class="q-text">The @login_required decorator returns which status when an unauthenticated user accesses a protected view?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 302 Redirect to login page</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 401 Unauthorized</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 403 Forbidden</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> 404 Not Found</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: A — 302 Redirect to login page</b><br>Django's @login_required redirects unauthenticated users to the login page (302), appending ?next= to return them after login. It does NOT return 401.</div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3</div>
+        <div class="q-text">A user is logged in but tries to access an admin-only page they don't have permission for. The server should return:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 401 Unauthorized</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 403 Forbidden</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 404 Not Found</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> 500 Internal Server Error</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: B — 403 Forbidden</b><br>403 = Authenticated (logged in) but NOT authorized (no permission). 401 = Not authenticated at all. This is the classic 401 vs 403 distinction.</div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q4</div>
+        <div class="q-text">A cookie is created by the ______ and stored by the ______:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Server, Browser (client)</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Browser, Server</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Server, Server</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Browser, Browser</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: A — Server creates, Browser stores</b><br>The server sends Set-Cookie in the response header. The browser stores the cookie and sends it back in every subsequent request in the Cookie header.</div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q5</div>
+        <div class="q-text">Which Django command should you run before deploying to production to serve static files (CSS, JS)?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> python manage.py runserver</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> python manage.py migrate</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> python manage.py collectstatic</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> python manage.py makemigrations</div>
+        </div>
+        <div class="q-explain"><b>✅ Correct: C — collectstatic</b><br>collectstatic gathers all static files from all apps into STATIC_ROOT, ready to be served by a web server (nginx/Apache) in production. The dev server handles static files automatically but production doesn't.</div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-django4"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-django4')">✔ Check Answers</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-django4')">↺ Reset</button>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="../assets/app.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
