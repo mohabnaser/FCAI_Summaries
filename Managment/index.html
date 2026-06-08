@@ -3,37 +3,175 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DS251 Fundamentals of Management — Chapters Index</title>
+<title>DS251 Fundamentals of Management — Premium Study Hub</title>
 <meta name="description" content="ملخصات تفاعلية كاملة لمادة أساسيات الإدارة DS251 — شرح الشرائح وأسئلة الامتحانات بالإجابات">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
-  #main{margin-right:0;margin-left:0}
-  body{padding-bottom:60px}
-  .back-home{position:fixed;top:18px;left:18px;z-index:30;display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;border:1px solid rgba(244,114,182,.25);background:rgba(11,17,32,.85);color:var(--t1);text-decoration:none;font-family:var(--fh);font-size:.82rem;backdrop-filter:blur(8px);transition:.2s}
-  .back-home:hover{border-color:var(--pink);color:var(--pink)}
-  .hero{padding-top:90px}
-  .info{background:rgba(244,114,182,.08);border:1px solid rgba(244,114,182,.18);border-radius:12px;padding:14px 18px;color:#fbcfe8;font-size:.88rem;margin-top:34px}
-  .info b{color:var(--pink)}
-  .lectures-grid{max-width:1120px;margin:30px auto 0}
+  #main { margin-right: 0; margin-left: 0; }
+  body { padding-bottom: 60px; background-color: var(--bg); background-image: radial-gradient(circle at top right, rgba(244,114,182,0.05), transparent 40%), radial-gradient(circle at bottom left, rgba(139,92,246,0.05), transparent 40%); }
+  
+  .back-home {
+    position: fixed; top: 18px; left: 18px; z-index: 50; display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px; border-radius: 999px; border: 1px solid rgba(244,114,182,.3);
+    background: rgba(15, 23, 42, 0.85); color: var(--t1); text-decoration: none;
+    font-family: var(--fh); font-size: .85rem; font-weight: 600;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  .back-home:hover { border-color: var(--pink); color: var(--pink); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(244,114,182,0.25); }
+
+  /* Premium Hero Section */
+  .hero {
+    padding: 90px 40px 50px; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, rgba(6,13,30,0.95) 0%, rgba(10,22,40,0.95) 40%, rgba(26,10,40,0.95) 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    text-align: center;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -150px; right: -100px; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(244,114,182,.15) 0%, transparent 60%); pointer-events: none;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -100px; left: 100px; width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(139,92,246,.12) 0%, transparent 60%); pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px; background: rgba(244,114,182,.08);
+    border: 1px solid rgba(244,114,182,.25); border-radius: 999px; padding: 5px 14px;
+    font-size: .75rem; font-weight: 600; color: var(--pink); margin-bottom: 18px; font-family: var(--fc);
+    letter-spacing: 0.5px; text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(244,114,182,0.1);
+  }
+  .hero h1 {
+    font-family: var(--fh); font-size: 2.8rem; font-weight: 800; line-height: 1.15; margin-bottom: 16px;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .hero h1 span {
+    background: linear-gradient(to right, #f472b6, #c084fc, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero p { color: var(--t2); max-width: 600px; font-size: 1rem; margin: 0 auto; line-height: 1.6; }
+  
+  .hero-stats {
+    display: flex; gap: 16px; justify-content: center; margin-top: 30px; flex-wrap: wrap; z-index: 10; position: relative;
+  }
+  .hstat {
+    background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08);
+    padding: 12px 20px; border-radius: 12px; min-width: 120px; text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  .hstat:hover { transform: translateY(-4px); border-color: rgba(244,114,182,0.3); background: rgba(15, 23, 42, 0.8); }
+  .hstat .num { font-family: var(--fh); font-size: 1.6rem; font-weight: 800; color: var(--pink); line-height: 1; margin-bottom: 4px; }
+  .hstat .lbl { font-size: .75rem; color: var(--t2); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* Dynamic Chapter Grid */
+  .content { padding: 40px 30px; max-width: 1200px; margin: 0 auto; }
+  .ch-header { border-bottom: none; justify-content: center; margin-bottom: 25px; }
+  .ch-header .ch-title h2 { font-size: 1.8rem; text-align: center; }
+  .ch-num.pink { width: 44px; height: 44px; font-size: 1.2rem; border-radius: 12px; }
+
+  .lectures-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; margin-top: 0;
+  }
+  
+  .lec-card {
+    background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 20px 18px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex; flex-direction: column; position: relative; overflow: hidden; text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+  .lec-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--pink), var(--purple)); opacity: 0.7; transition: opacity 0.3s;
+  }
+  .lec-card::after {
+    content: ''; position: absolute; inset: 0; background: radial-gradient(circle at top right, rgba(244,114,182,0.1), transparent 70%);
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+  }
+  .lec-card:hover {
+    transform: translateY(-6px) scale(1.02); border-color: rgba(244,114,182,0.4);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2), 0 0 20px rgba(244,114,182,0.1);
+    background: rgba(15, 23, 42, 0.8);
+  }
+  .lec-card:hover::before { opacity: 1; }
+  .lec-card:hover::after { opacity: 1; }
+
+  .lec-num {
+    font-family: var(--fc); font-size: .7rem; color: var(--pink); font-weight: 600;
+    margin-bottom: 8px; letter-spacing: 1px; display: inline-block;
+    background: rgba(244,114,182,0.1); padding: 3px 8px; border-radius: 6px;
+  }
+  .lec-title {
+    font-family: var(--fh); font-size: 1.05rem; font-weight: 700; color: var(--t1);
+    margin-bottom: 8px; line-height: 1.4; transition: color 0.3s;
+  }
+  .lec-card:hover .lec-title { color: #fff; }
+  
+  .lec-desc {
+    font-size: .8rem; color: var(--t2); margin-bottom: 16px; line-height: 1.45; flex-grow: 1;
+  }
+
+  .lec-meta {
+    display: flex; justify-content: flex-end; align-items: center; margin-top: auto;
+    padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .lec-status {
+    padding: 4px 10px; border-radius: 8px; font-size: .7rem; font-weight: 600; font-family: var(--fc);
+    background: rgba(16,185,129,.1); color: #34d399; border: 1px solid rgba(16,185,129,.2);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .lec-status i { font-size: .9rem; }
+
+  /* Staggered Animation */
+  .lec-card { animation: fadeInUp 0.6s ease forwards; opacity: 0; transform: translateY(20px); }
+  @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+  .lec-card:nth-child(1) { animation-delay: 0.1s; }
+  .lec-card:nth-child(2) { animation-delay: 0.15s; }
+  .lec-card:nth-child(3) { animation-delay: 0.2s; }
+  .lec-card:nth-child(4) { animation-delay: 0.25s; }
+  .lec-card:nth-child(5) { animation-delay: 0.3s; }
+  .lec-card:nth-child(6) { animation-delay: 0.35s; }
+  .lec-card:nth-child(7) { animation-delay: 0.4s; }
+  .lec-card:nth-child(8) { animation-delay: 0.45s; }
+  .lec-card:nth-child(9) { animation-delay: 0.5s; }
+  .lec-card:nth-child(10) { animation-delay: 0.55s; }
+
+  @media (max-width: 900px) {
+    .hero { padding: 80px 20px 40px; }
+    .hero h1 { font-size: 2.2rem; }
+    .content { padding: 30px 15px; }
+  }
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.8rem; }
+    .hero-stats { gap: 10px; }
+    .hstat { min-width: 90px; padding: 10px; }
+    .hstat .num { font-size: 1.3rem; }
+    .lectures-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 
 <div id="prog-bar"></div>
-<a class="back-home" href="../index.html">↩ العودة للرئيسية</a>
+<a class="back-home" href="../index.html">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  العودة للرئيسية
+</a>
 
 <main id="main" dir="auto">
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-badge">📊 DS251 · Cairo University · Dr. Doaa Saleh</div>
-    <h1>Fundamentals of Management<br><span>Complete Study Hub</span></h1>
+    <div class="hero-badge">🎓 DS251 · Cairo University · Dr. Doaa Saleh</div>
+    <h1>Fundamentals of Management<br><span>Premium Study Hub</span></h1>
+    <p>Everything you need to master Management in one place. Complete interactive summaries, detailed slide explanations, and previous exam questions.</p>
     <div class="hero-stats">
       <div class="hstat"><div class="num">10</div><div class="lbl">Chapters</div></div>
-      <div class="hstat"><div class="num">10</div><div class="lbl">All Ready ✅</div></div>
-      <div class="hstat"><div class="num">5</div><div class="lbl">Exam Years</div></div>
-      <div class="hstat"><div class="num">80+</div><div class="lbl">Real Exam Q's</div></div>
+      <div class="hstat"><div class="num">100%</div><div class="lbl">Completed</div></div>
+      <div class="hstat"><div class="num">6</div><div class="lbl">Exams</div></div>
+      <div class="hstat"><div class="num">150+</div><div class="lbl">Exam Q's</div></div>
     </div>
   </section>
 
@@ -42,7 +180,7 @@
     <div class="ch-header">
       <div class="ch-num pink">📚</div>
       <div class="ch-title">
-        <h2>All Chapters</h2>
+        <h2>Interactive Chapters</h2>
       </div>
     </div>
 
@@ -52,9 +190,9 @@
       <a class="lec-card ready" href="chapters/chapter-01.html">
         <div class="lec-num">CHAPTER 01</div>
         <div class="lec-title">Introduction to Management</div>
+        <div class="lec-desc">Explore the four core functions of management, efficiency vs. effectiveness, and what managers actually do.</div>
         <div class="lec-meta">
-          <span>30 slides · تعريف الإدارة · الوظائف الأربعة</span>
-          <span class="lec-status ready">✅ Ready</span>
+          <span class="lec-status ready"><i>✔</i> Ready</span>
         </div>
       </a>
 
@@ -62,9 +200,9 @@
       <a class="lec-card ready" href="chapters/chapter-02.html">
         <div class="lec-num">CHAPTER 02</div>
         <div class="lec-title">History &amp; Current Thinking</div>
+        <div class="lec-desc">Journey through the evolution of management theories: Taylor, Fayol, Weber, and the Hawthorne Studies.</div>
         <div class="lec-meta">
-          <span>Taylor · Fayol · Weber · Hawthorne</span>
-          <span class="lec-status ready">✅ Ready</span>
+          <span class="lec-status ready"><i>✔</i> Ready</span>
         </div>
       </a>
 
@@ -72,19 +210,19 @@
       <a class="lec-card ready" href="chapters/chapter-03.html">
         <div class="lec-num">CHAPTER 03</div>
         <div class="lec-title">Business Ethics</div>
+        <div class="lec-desc">Understand corporate social responsibility, codes of ethics, and the dynamics of ethical behavior in business.</div>
         <div class="lec-meta">
-          <span>CSR · Codes of Ethics · Ethical Behavior</span>
-          <span class="lec-status ready">✅ Ready</span>
+          <span class="lec-status ready"><i>✔</i> Ready</span>
         </div>
       </a>
 
       <!-- Ch 7 -->
       <a class="lec-card ready" href="chapters/chapter-07.html">
         <div class="lec-num">CHAPTER 07</div>
-        <div class="lec-title">Principles of Planning ⭐</div>
+        <div class="lec-title">Principles of Planning</div>
+        <div class="lec-desc">Master the planning process, MBO (Management by Objectives), and the different types of business plans.</div>
         <div class="lec-meta">
-          <span>MBO · Types of Plans · Objectives</span>
-          <span class="lec-status ready">✅ Ready</span>
+          <span class="lec-status ready"><i>✔</i> Ready</span>
         </div>
       </a>
 
@@ -92,29 +230,29 @@
       <a class="lec-card ready" href="chapters/chapter-08.html">
         <div class="lec-num">CHAPTER 08</div>
         <div class="lec-title">Making Decisions</div>
+        <div class="lec-desc">Dive into decision-making models, group techniques like Brainstorming, NGT, Delphi, and bounded rationality.</div>
         <div class="lec-meta">
-          <span>Brainstorming · NGT · Delphi · Programmed</span>
-          <span class="lec-status ready">✅ Ready</span>
+          <span class="lec-status ready"><i>✔</i> Ready</span>
         </div>
       </a>
 
       <!-- Ch 11 -->
       <a class="lec-card ready" href="chapters/chapter-11.html">
         <div class="lec-num">CHAPTER 11</div>
-        <div class="lec-title">Fundamentals of Organizing ⭐</div>
+        <div class="lec-title">Fundamentals of Organizing</div>
+        <div class="lec-desc">Learn about division of labor, span of management, departmentalization, and organizational structures.</div>
         <div class="lec-meta">
-          <span>Division of Labor · Span of Management</span>
-          <span class="lec-status ready">✅ Ready</span>
+          <span class="lec-status ready"><i>✔</i> Ready</span>
         </div>
       </a>
 
       <!-- Ch 13 -->
       <a class="lec-card ready" href="chapters/chapter-13.html">
         <div class="lec-num">CHAPTER 13</div>
-        <div class="lec-title">Human Resource Management ⭐</div>
+        <div class="lec-title">Human Resource Management</div>
+        <div class="lec-desc">Cover the HR planning process, recruitment, selection, training, and performance appraisal systems.</div>
         <div class="lec-meta">
-          <span>Wikstrom · Training · Recruitment · Appraisal</span>
-          <span class="lec-status ready">✅ Ready</span>
+          <span class="lec-status ready"><i>✔</i> Ready</span>
         </div>
       </a>
 
@@ -122,9 +260,9 @@
       <a class="lec-card ready" href="chapters/chapter-15.html">
         <div class="lec-num">CHAPTER 15</div>
         <div class="lec-title">Influencing &amp; Communication</div>
+        <div class="lec-desc">Analyze the communication process, barriers, emotional intelligence, and different types of power in leadership.</div>
         <div class="lec-meta">
-          <span>Communication Model · Barriers · Power</span>
-          <span class="lec-status ready">✅ Ready</span>
+          <span class="lec-status ready"><i>✔</i> Ready</span>
         </div>
       </a>
 
@@ -132,27 +270,22 @@
       <a class="lec-card ready" href="chapters/chapter-18.html">
         <div class="lec-num">CHAPTER 18</div>
         <div class="lec-title">Groups &amp; Teams</div>
+        <div class="lec-desc">Examine formal vs. informal groups, groupthink, development stages, and the difference between groups and teams.</div>
         <div class="lec-meta">
-          <span>Formal · Informal · Groupthink · Teams vs Groups</span>
-          <span class="lec-status ready">✅ Ready</span>
+          <span class="lec-status ready"><i>✔</i> Ready</span>
         </div>
       </a>
 
       <!-- Ch 21 -->
       <a class="lec-card ready" href="chapters/chapter-21.html">
         <div class="lec-num">CHAPTER 21</div>
-        <div class="lec-title">Controlling Fundamentals ⭐</div>
+        <div class="lec-title">Controlling Fundamentals</div>
+        <div class="lec-desc">Understand the 5 steps of control, measuring performance against standards, corrective action, and MBE.</div>
         <div class="lec-meta">
-          <span>5 Steps · Standards · Corrective Action · MBE</span>
-          <span class="lec-status ready">✅ Ready</span>
+          <span class="lec-status ready"><i>✔</i> Ready</span>
         </div>
       </a>
 
-    </div>
-
-    <div class="info" style="margin-top:34px">
-      <b>💡 محتوى كل شابتر</b>
-      شرح كامل للشرائح بالعربي مع الـ definitions بالإنجليزي · أسئلة امتحانات حقيقية من 2019 / 2021 / 2022 / 2024 / 2025 مع تصحيح أوتوماتيكي وتفسير كل إجابة · Cheat Sheet مرجع سريع · Flash Cards للمراجعة اللحظية.
     </div>
   </div>
 

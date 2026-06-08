@@ -10,6 +10,9 @@
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
       :root {
         --bg: #050914;
@@ -171,6 +174,9 @@
       .MA {
         color: var(--pink);
       }
+      .DS {
+        color: var(--violet);
+      }
       .accent-cyan {
         --accent: var(--cyan);
       }
@@ -182,6 +188,9 @@
       }
       .accent-pink {
         --accent: var(--pink);
+      }
+      .accent-violet {
+        --accent: var(--violet);
       }
       .accent-cyan .icon {
         color: var(--cyan);
@@ -202,6 +211,11 @@
         color: var(--pink);
         background: rgba(244, 114, 182, 0.08);
         border-color: rgba(244, 114, 182, 0.16);
+      }
+      .accent-violet .icon {
+        color: var(--violet);
+        background: rgba(167, 139, 250, 0.08);
+        border-color: rgba(167, 139, 250, 0.16);
       }
       @media (max-width: 1100px) {
         .grid {
@@ -253,31 +267,38 @@
       </section>
       <div class="grid">
         <a class="card accent-cyan" href="DB/Home.html"
-          ><div class="icon">🗄️</div>
+          ><div class="icon" ><i class="fa-solid fa-database"></i></div>
           <div>
             <h4 class="DB">Database</h4>
             <div class="desc">ER diagrams and project files</div>
           </div></a
         >
         <a class="card accent-green" href="Software/index.html"
-          ><div class="icon">💻</div>
+          ><div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
           <div>
             <h4 class="SW">Software</h4>
             <div class="desc">Tools, code snippets and projects</div>
           </div></a
         >
         <a class="card accent-pink" href="Managment/index.html"
-          ><div class="icon">📊</div>
+          ><div class="icon"><i class="fa-solid fa-briefcase"></i></div>
           <div>
             <h4 class="MA">Management</h4>
             <div class="desc">Reports and administrative materials</div>
           </div></a
         >
         <a class="card accent-amber" href="Web/index.html"
-          ><div class="icon">🌐</div>
+          ><div class="icon"><i class="fa-solid fa-globe"></i></div>
           <div>
             <h4 class="W">Web</h4>
             <div class="desc">Sites and web development resources</div>
+          </div></a
+        >
+        <a class="card accent-violet" href="DS/index.html"
+          ><div class="icon"><i class="fa-solid fa-diagram-project"></i></div>
+          <div>
+            <h4 class="DS">Data Structures</h4>
+            <div class="desc">Algorithms, trees, graphs, and problems</div>
           </div></a
         >
       </div>

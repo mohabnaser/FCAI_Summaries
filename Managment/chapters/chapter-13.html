@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chapter 13 — Human Resource Management | DS251 Fundamentals of Management</title>
+<meta name="description" content="شرح شامل لـ Chapter 13 Human Resource Management — Recruitment, Selection, Training, Performance Appraisal مع أسئلة الامتحانات السابقة.">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════════════════
@@ -40,7 +41,7 @@ body{
 }
 #prog-fill{
   height:100%; width:0%;
-  background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+  background:linear-gradient(90deg,var(--purple),var(--pink),var(--amber));
   transition:width .08s;
 }
 
@@ -63,7 +64,7 @@ body{
 .sb-logo{padding:4px 20px 20px; border-bottom:1px solid var(--border); margin-bottom:10px;}
 .sb-logo h2{font-family:var(--fh);font-size:.95rem;color:var(--t1);font-weight:700;line-height:1.3;}
 .sb-logo p{font-size:.7rem;color:var(--t3);margin-top:3px;}
-.sb-tag{display:inline-block;font-family:var(--fc);font-size:.6rem;padding:2px 7px;border-radius:4px;background:rgba(34,211,238,.1);color:var(--cyan);border:1px solid rgba(34,211,238,.2);margin-top:6px;}
+.sb-tag{display:inline-block;font-family:var(--fc);font-size:.6rem;padding:2px 7px;border-radius:4px;background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.2);margin-top:6px;}
 .sb-section{
   padding:14px 20px 5px;
   font-family:var(--fh);font-size:.62rem;font-weight:700;
@@ -76,8 +77,16 @@ body{
   border-radius:9px; transition:.18s;
 }
 .sb-link:hover{background:var(--card);color:var(--t1);}
-.sb-link.active{background:var(--card2);color:var(--cyan);}
+.sb-link.active{background:var(--card2);color:var(--purple);}
 .sb-dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.45;flex-shrink:0;}
+.sb-back{display:flex;align-items:center;gap:8px;margin:10px 16px 16px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:.75rem;text-decoration:none;transition:.2s}
+.sb-back:hover{border-color:var(--pink);color:var(--pink)}
+.next{
+  display:flex;align-items:center;gap:8px;margin:10px 16px 16px;
+  padding:8px 12px;border:1px solid var(--border);border-radius:8px;
+  color:var(--t2);font-size:.75rem;text-decoration:none;transition:.2s;
+}
+.next:hover{border-color:var(--purple);color:var(--purple);}
 
 /* ══════════════════════════════════════════════════
    FLOATING BUTTONS
@@ -101,7 +110,7 @@ body{
   font-size:.95rem;display:flex;align-items:center;justify-content:center;
 }
 #scroll-top.vis{opacity:1;transform:translateY(0);}
-#scroll-top:hover{color:var(--cyan);}
+#scroll-top:hover{color:var(--purple);}
 #overlay{
   display:none; position:fixed; inset:0;
   background:rgba(0,0,0,.6); z-index:800; backdrop-filter:blur(2px);
@@ -122,27 +131,27 @@ body{
 ══════════════════════════════════════════════════ */
 .hero{
   padding:80px 60px 56px;
-  background:linear-gradient(145deg,var(--bg3) 0%,var(--bg2) 60%,rgba(34,211,238,.04) 100%);
+  background:linear-gradient(145deg,var(--bg3) 0%,var(--bg2) 60%,rgba(167,139,250,.04) 100%);
   border-bottom:1px solid var(--border);
   position:relative; overflow:hidden;
 }
 .hero::before{
   content:'';position:absolute;top:-60px;left:-60px;
   width:500px;height:500px;
-  background:radial-gradient(circle,rgba(34,211,238,.07) 0%,transparent 65%);
+  background:radial-gradient(circle,rgba(167,139,250,.07) 0%,transparent 65%);
   pointer-events:none;
 }
 .hero::after{
   content:'';position:absolute;bottom:-80px;right:30%;
   width:300px;height:300px;
-  background:radial-gradient(circle,rgba(167,139,250,.05) 0%,transparent 65%);
+  background:radial-gradient(circle,rgba(244,114,182,.05) 0%,transparent 65%);
   pointer-events:none;
 }
 .hero-badge{
   display:inline-flex;align-items:center;gap:8px;
   padding:5px 14px;border-radius:20px;
-  background:rgba(34,211,238,.09);border:1px solid rgba(34,211,238,.22);
-  color:var(--cyan);font-size:.76rem;font-family:var(--fc);
+  background:rgba(167,139,250,.09);border:1px solid rgba(167,139,250,.22);
+  color:var(--purple);font-size:.76rem;font-family:var(--fc);
   margin-bottom:22px; letter-spacing:.03em;
 }
 .hero h1{
@@ -150,7 +159,7 @@ body{
   line-height:1.15;margin-bottom:18px;color:var(--t1);
 }
 .hero h1 span{
-  background:linear-gradient(90deg,var(--cyan),var(--purple));
+  background:linear-gradient(90deg,var(--purple),var(--pink));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   background-clip:text;
 }
@@ -162,12 +171,12 @@ body{
   text-decoration:none;border:none;transition:.2s;
   display:inline-flex;align-items:center;gap:8px;
 }
-.btn-primary{background:linear-gradient(135deg,var(--cyan),#0ea5e9);color:#0d0f14;}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#7c3aed);color:#fff;}
 .btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px);}
 .btn-ghost{background:transparent;color:var(--t2);border:1px solid var(--border2);}
 .btn-ghost:hover{color:var(--t1);border-color:var(--t3);}
 .hero-stats{display:flex;gap:32px;flex-wrap:wrap;}
-.hstat .num{font-family:var(--fh);font-size:1.9rem;font-weight:900;color:var(--cyan);}
+.hstat .num{font-family:var(--fh);font-size:1.9rem;font-weight:900;color:var(--purple);}
 .hstat .lbl{font-size:.7rem;color:var(--t3);text-transform:uppercase;letter-spacing:.09em;margin-top:-2px;}
 @media(max-width:700px){
   .hero{padding:60px 24px 40px;}
@@ -205,6 +214,7 @@ body{
 .ch-num.pink{background:rgba(244,114,182,.14);color:var(--pink);}
 .ch-num.blue{background:rgba(96,165,250,.14);color:var(--blue);}
 .ch-num.teal{background:rgba(45,212,191,.14);color:var(--teal);}
+.ch-num.orange{background:rgba(251,146,60,.14);color:var(--orange);}
 .ch-title h2{font-family:var(--fh);font-size:1.22rem;font-weight:700;color:var(--t1);margin-bottom:5px;}
 .ch-title p{font-size:.86rem;color:var(--t2);line-height:1.55;}
 
@@ -214,7 +224,7 @@ body{
 .topic{
   padding:24px 32px;
   border-bottom:1px solid var(--border);
-  --accent:var(--cyan);
+  --accent:var(--purple);
 }
 .topic:last-child{border-bottom:none;}
 .topic-title{
@@ -232,7 +242,7 @@ body{
 code{
   font-family:var(--fc);font-size:.83em;
   background:rgba(255,255,255,.07);
-  padding:2px 7px;border-radius:5px;color:var(--cyan);
+  padding:2px 7px;border-radius:5px;color:var(--purple);
 }
 
 /* ══════════════════════════════════════════════════
@@ -245,7 +255,7 @@ code{
 @media(max-width:600px){.grid2,.grid3,.grid4{grid-template-columns:1fr;}}
 
 .cmp-card{
-  --accent:var(--cyan);
+  --accent:var(--purple);
   background:var(--card2);border:1px solid var(--border);
   border-radius:13px;padding:17px;
   border-top:3px solid var(--accent);
@@ -265,11 +275,11 @@ code{
   font-size:.87rem;margin:12px 0;
   border-right:3px solid; line-height:1.65;
 }
-.info{background:rgba(34,211,238,.07);border-color:var(--cyan);}
+.info{background:rgba(167,139,250,.07);border-color:var(--purple);}
 .warn{background:rgba(245,158,11,.07);border-color:var(--amber);}
 .danger{background:rgba(239,68,68,.08);border-color:var(--red);}
 .tip{background:rgba(74,222,128,.07);border-color:var(--green);}
-.info b{color:var(--cyan);}  .warn b{color:var(--amber);}
+.info b{color:var(--purple);}  .warn b{color:var(--amber);}
 .danger b{color:var(--red);} .tip b{color:var(--green);}
 
 /* ══════════════════════════════════════════════════
@@ -303,183 +313,69 @@ code{
 }
 .flow-row{
   display:flex;align-items:center;justify-content:center;
-  gap:0;flex-wrap:wrap;
+  gap:0;flex-wrap:wrap;flex-direction:row-reverse;
 }
-.flow-row.ltr{direction:ltr;}
 .flow-box{
   background:var(--card);border:1px solid var(--border2);
   border-radius:10px;padding:10px 16px;
   font-family:var(--fh);font-size:.8rem;font-weight:700;
-  color:var(--accent,var(--cyan));
-  border-top:2px solid var(--accent,var(--cyan));
-  text-align:center;min-width:110px;
+  color:var(--accent,var(--purple));
+  border-top:2px solid var(--accent,var(--purple));
+  text-align:center;min-width:120px;
 }
 .flow-arrow{color:var(--t4);font-size:1.1rem;padding:0 8px;flex-shrink:0;}
 .flow-note{
   text-align:center;font-family:var(--fh);font-size:.76rem;
   color:var(--t3);margin-top:12px;
 }
-.mgmt-map{
-  position:relative;direction:ltr;height:360px;
-  max-width:760px;margin:16px auto 6px;
-}
-.mgmt-lines{
-  position:absolute;inset:0;width:100%;height:100%;
-  z-index:0;overflow:visible;
-}
-.mgmt-lines path,.mgmt-lines line,.mgmt-lines polyline{
-  stroke:var(--orange);stroke-width:2;fill:none;
-  stroke-linecap:round;stroke-linejoin:round;
-}
-.mgmt-node{
-  position:absolute;z-index:1;width:210px;
-  padding:12px 16px;border-radius:8px;text-align:center;
-  background:var(--card);border:1px solid var(--border2);
-  border-top:3px solid var(--accent,var(--cyan));
-  color:var(--t1);font-family:var(--fh);font-weight:800;
-  font-size:.86rem;line-height:1.25;
-  box-shadow:0 10px 24px rgba(0,0,0,.28);
-}
-.mgmt-node small{
-  display:block;margin-top:3px;font-family:var(--fb);
-  color:var(--t3);font-weight:500;font-size:.68rem;
-}
-.mgmt-node.goals{top:10px;left:275px;}
-.mgmt-node.planning{top:126px;left:275px;}
-.mgmt-node.organizing{top:282px;left:275px;}
-.mgmt-node.influencing{top:204px;left:28px;}
-.mgmt-node.controlling{top:204px;right:28px;}
-@media(max-width:760px){
-  .mgmt-map{
-    height:auto;display:flex;flex-direction:column;
-    align-items:center;gap:10px;margin-top:14px;
-  }
-  .mgmt-lines{display:none;}
-  .mgmt-node{position:static;transform:none!important;width:min(100%,280px);}
-  .mgmt-node.goals{order:1;}
-  .mgmt-node.planning{order:2;}
-  .mgmt-node.organizing{order:3;}
-  .mgmt-node.influencing{order:4;}
-  .mgmt-node.controlling{order:5;}
-}
 
-/* SKILL PYRAMID */
-.pyramid{display:flex;flex-direction:column;align-items:center;gap:5px;margin:16px 0;}
-.pyr{
-  border-radius:9px;display:flex;align-items:center;justify-content:center;
-  font-family:var(--fh);font-weight:700;font-size:.85rem;
-  color:#fff;text-align:center;padding:12px;
-  transition:.2s; cursor:default;
-}
-.pyr:hover{filter:brightness(1.15);}
-.classic-skills-map{
-  display:grid;grid-template-columns:280px 1fr;gap:24px;
-  align-items:start;margin:18px auto;max-width:1040px;
-}
-.classic-map-title{
-  font-family:var(--fh);font-size:.78rem;font-weight:800;
-  color:var(--t3);text-align:center;text-transform:uppercase;
-  letter-spacing:.08em;margin-bottom:12px;
-}
-.levels-pyramid{display:flex;flex-direction:column;align-items:center;gap:4px;padding-top:2px;}
-.level-band{
-  height:74px;display:flex;align-items:center;justify-content:center;
-  text-align:center;font-family:var(--fh);font-weight:800;line-height:1.35;
-  color:var(--t1);border:1px solid var(--border2);
-}
-.level-top{
-  width:120px;height:82px;padding-top:20px;
-  background:linear-gradient(135deg,rgba(167,139,250,.24),rgba(96,165,250,.22));
-  clip-path:polygon(50% 0,100% 100%,0 100%);
-}
-.level-mid{width:210px;background:linear-gradient(135deg,rgba(96,165,250,.2),rgba(96,165,250,.34));}
-.level-low{width:280px;background:linear-gradient(135deg,rgba(74,222,128,.16),rgba(45,212,191,.24));}
-.skills-needed{display:flex;flex-direction:column;gap:10px;}
-.skill-row{
-  display:grid;grid-template-columns:128px 1fr;gap:14px;align-items:center;
-  min-height:74px;padding:12px 14px;border-radius:12px;
-  background:var(--card2);border:1px solid var(--border);
-}
-.skill-row-label{
-  font-family:var(--fh);font-size:.82rem;font-weight:800;
-  color:var(--t1);line-height:1.35;
-}
-.skill-bars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
-.skill-pill{
-  height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;
-  font-family:var(--fh);font-size:.72rem;font-weight:800;
-  color:var(--t3);background:rgba(255,255,255,.04);
-  border:1px solid var(--border);
-}
-.skill-pill.high{color:var(--green);background:rgba(74,222,128,.14);border-color:rgba(74,222,128,.32);}
-.skill-pill.mid{color:var(--blue);background:rgba(96,165,250,.12);border-color:rgba(96,165,250,.28);}
-.skill-pill.low{color:var(--t3);}
-.skill-pill.tech.high{color:var(--amber);background:rgba(245,158,11,.14);border-color:rgba(245,158,11,.32);}
-.skill-pill.human.high{color:var(--pink);background:rgba(244,114,182,.14);border-color:rgba(244,114,182,.32);}
-.skill-pill.concept.high{color:var(--purple);background:rgba(167,139,250,.14);border-color:rgba(167,139,250,.32);}
-.skill-head{
-  display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;
-  color:var(--t3);font-family:var(--fh);font-size:.7rem;
-  font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:.06em;
-  margin:0 14px 2px 142px;
-}
-.classic-skill-note{
-  text-align:center;color:var(--t3);font-size:.8rem;line-height:1.6;
-  margin-top:8px;
-}
-@media(max-width:900px){
-  .classic-skills-map{grid-template-columns:1fr;gap:18px;}
-  .skill-head{margin-left:142px;}
-}
-@media(max-width:560px){
-  .skill-row{grid-template-columns:1fr;gap:10px;}
-  .skill-head{margin:0;grid-template-columns:1fr 1fr 1fr;}
-  .skill-bars{gap:6px;}
-  .skill-pill{font-size:.66rem;}
-}
-
-/* PLANNING STEPS */
+/* PLAN STEPS */
 .plan-steps{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
 .plan-step{
   display:flex;align-items:flex-start;gap:14px;
   background:var(--card2);border:1px solid var(--border);
   border-radius:11px;padding:14px 16px;
-  border-right:3px solid var(--accent,var(--cyan));
+  border-right:3px solid var(--accent,var(--purple));
   transition:.2s;
 }
 .plan-step:hover{transform:translateX(-3px);}
 .ps-num{
   font-family:var(--fh);font-size:1.1rem;font-weight:900;
-  color:var(--accent,var(--cyan));min-width:30px;flex-shrink:0;
+  color:var(--accent,var(--purple));min-width:30px;flex-shrink:0;
 }
 .ps-title{font-family:var(--fh);font-size:.88rem;font-weight:700;color:var(--t1);margin-bottom:3px;}
 .ps-desc{font-size:.8rem;color:var(--t2);line-height:1.55;}
 
-/* EFFECTIVENESS MATRIX */
-.matrix{display:grid;grid-template-columns:auto 1fr 1fr;gap:1px;background:var(--border2);border-radius:12px;overflow:hidden;margin:14px 0;}
-.mx-cell{background:var(--card2);padding:14px;text-align:center;font-size:.83rem;}
-.mx-header{background:var(--card3);font-family:var(--fh);font-weight:700;font-size:.78rem;color:var(--t3);}
-.mx-row-label{background:var(--card3);font-family:var(--fh);font-weight:700;font-size:.78rem;color:var(--t3);writing-mode:horizontal-tb;display:flex;align-items:center;justify-content:center;}
-.mx-good{background:rgba(74,222,128,.1);}
-.mx-ok{background:rgba(245,158,11,.07);}
-.mx-bad{background:rgba(239,68,68,.08);}
-.mx-worst{background:rgba(239,68,68,.12);}
-
-/* FUNC CARD */
-.func-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0;}
-.func-card{
-  --accent:var(--cyan);
+/* DEFINITION CARDS */
+.def-card{
   background:var(--card2);border:1px solid var(--border);
-  border-radius:16px;padding:20px;
-  border-right:4px solid var(--accent);
+  border-radius:14px;padding:20px;margin-bottom:12px;
+  border-right:3px solid var(--accent,var(--purple));
 }
-.func-card h4{font-family:var(--fh);font-size:1rem;color:var(--accent);font-weight:700;margin-bottom:4px;}
-.func-sub{font-size:.72rem;color:var(--t3);font-family:var(--fc);margin-bottom:12px;letter-spacing:.04em;}
-.func-section{margin-bottom:10px;}
-.func-section-title{font-family:var(--fh);font-size:.75rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;}
-.func-section ul{padding-right:14px;font-size:.8rem;color:var(--t2);}
-.func-section li{margin-bottom:3px;line-height:1.5;}
-@media(max-width:800px){.func-grid{grid-template-columns:1fr;}}
+.def-label{
+  font-family:var(--fc);font-size:.68rem;font-weight:700;
+  color:var(--accent,var(--purple));letter-spacing:.08em;margin-bottom:8px;
+  text-transform:uppercase;
+}
+.def-text{font-size:.88rem;color:var(--t1);line-height:1.65;font-weight:500;}
+.def-note{font-size:.78rem;color:var(--t3);margin-top:6px;line-height:1.5;}
+
+/* MISTAKES / REMARKS BOX */
+.mistakes-box{
+  background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.18);
+  border-radius:11px;padding:16px;margin:10px 0;
+}
+.mistakes-box h5{font-family:var(--fh);font-size:.82rem;color:var(--red);font-weight:700;margin-bottom:8px;}
+.mistakes-box ul{padding-right:16px;font-size:.8rem;color:var(--t3);}
+.mistakes-box li{margin-bottom:4px;}
+
+.remarks-box{
+  background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.18);
+  border-radius:11px;padding:16px;margin:10px 0;
+}
+.remarks-box h5{font-family:var(--fh);font-size:.82rem;color:var(--green);font-weight:700;margin-bottom:8px;}
+.remarks-box ul{padding-right:16px;font-size:.8rem;color:var(--t3);}
+.remarks-box li{margin-bottom:4px;}
 
 /* ══════════════════════════════════════════════════
    QUIZ
@@ -502,7 +398,7 @@ code{
   border-radius:14px;padding:22px;margin-bottom:16px;
   border-left:3px solid var(--border2);transition:border-color .2s;
 }
-.q-item:hover{border-left-color:var(--cyan);}
+.q-item:hover{border-left-color:var(--purple);}
 .q-num{
   font-family:var(--fh);font-size:.73rem;font-weight:700;
   color:var(--t3);margin-bottom:10px;
@@ -510,8 +406,8 @@ code{
 }
 .q-src{
   font-family:var(--fc);font-size:.67rem;
-  background:rgba(34,211,238,.08);color:var(--cyan);
-  padding:2px 8px;border-radius:5px;border:1px solid rgba(34,211,238,.16);
+  background:rgba(167,139,250,.08);color:var(--purple);
+  padding:2px 8px;border-radius:5px;border:1px solid rgba(167,139,250,.16);
 }
 .q-text{font-size:.92rem;color:var(--t1);margin-bottom:16px;line-height:1.7;font-weight:500;}
 .quiz-section ul{padding-left:16px;padding-right:0!important;}
@@ -524,7 +420,7 @@ code{
   user-select:none;
 }
 .q-opt:hover{background:var(--card2);border-color:var(--border2);color:var(--t1);}
-.q-opt.selected{background:rgba(34,211,238,.09);border-color:rgba(34,211,238,.4);color:var(--t1);}
+.q-opt.selected{background:rgba(167,139,250,.09);border-color:rgba(167,139,250,.4);color:var(--t1);}
 .q-opt.correct{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.4);color:var(--green);}
 .q-opt.wrong{background:rgba(239,68,68,.09);border-color:rgba(239,68,68,.35);color:var(--red);}
 .q-opt-letter{
@@ -534,18 +430,18 @@ code{
   display:flex;align-items:center;justify-content:center;
   flex-shrink:0;color:var(--t3);
 }
-.q-opt.selected .q-opt-letter{background:rgba(34,211,238,.2);color:var(--cyan);}
+.q-opt.selected .q-opt-letter{background:rgba(167,139,250,.2);color:var(--purple);}
 .q-opt.correct .q-opt-letter{background:rgba(74,222,128,.2);color:var(--green);}
 .q-opt.wrong   .q-opt-letter{background:rgba(239,68,68,.2);color:var(--red);}
 
 .q-explain{
   display:none;margin-top:16px;padding:16px;
-  background:rgba(34,211,238,.05);border-radius:11px;
-  border:1px solid rgba(34,211,238,.12);
+  background:rgba(167,139,250,.05);border-radius:11px;
+  border:1px solid rgba(167,139,250,.12);
   font-size:.86rem;color:var(--t2);line-height:1.7;
   direction:rtl;text-align:right;font-family:var(--fa);
 }
-.q-explain b{color:var(--cyan);display:block;margin-bottom:6px;}
+.q-explain b{color:var(--purple);display:block;margin-bottom:6px;}
 .q-explain ul{padding-right:16px!important;padding-left:0!important;}
 .why-wrong{
   margin-top:10px;padding-top:10px;
@@ -585,14 +481,14 @@ code{
   background:var(--card2);border:1px solid var(--border);
   border-radius:14px;padding:20px;
 }
-.cheat h3{font-family:var(--fh);font-size:.95rem;color:var(--cyan);font-weight:700;margin-bottom:14px;}
+.cheat h3{font-family:var(--fh);font-size:.95rem;color:var(--purple);font-weight:700;margin-bottom:14px;}
 .cheat-item{
   display:flex;gap:12px;padding:8px 0;
   border-bottom:1px solid var(--border);font-size:.83rem;
 }
 .cheat-item:last-child{border-bottom:none;}
 .cheat-key{
-  min-width:160px;font-family:var(--fc);font-size:.76rem;
+  min-width:180px;font-family:var(--fc);font-size:.76rem;
   color:var(--amber);font-weight:600;flex-shrink:0;padding-top:2px;line-height:1.4;
 }
 .cheat-val{color:var(--t2);line-height:1.6;}
@@ -619,53 +515,76 @@ code{
 }
 .fc-front{
   background:var(--card2);border:1px solid var(--border);
-  border-top:3px solid var(--cyan);
+  border-top:3px solid var(--purple);
 }
 .fc-back{
-  background:linear-gradient(135deg,rgba(34,211,238,.13),rgba(167,139,250,.1));
-  border:1px solid rgba(34,211,238,.2);
+  background:linear-gradient(135deg,rgba(167,139,250,.13),rgba(244,114,182,.1));
+  border:1px solid rgba(167,139,250,.2);
   transform:rotateY(180deg);
 }
 .fc-q{font-size:.87rem;color:var(--t1);font-weight:600;line-height:1.45;}
-.fc-a{font-size:.87rem;color:var(--cyan);font-weight:700;line-height:1.5;}
+.fc-a{font-size:.87rem;color:var(--purple);font-weight:700;line-height:1.5;}
 .fc-hint{font-size:.65rem;color:var(--t4);margin-top:8px;font-family:var(--fc);}
 
-/* COMMON MISTAKES BOX */
-.mistakes-box{
-  background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.18);
-  border-radius:11px;padding:16px;margin:10px 0;
+/* HRM STEPS VISUAL */
+.hrm-pipeline{
+  display:flex;flex-direction:column;gap:0;margin:16px 0;
 }
-.mistakes-box h5{font-family:var(--fh);font-size:.82rem;color:var(--red);font-weight:700;margin-bottom:8px;}
-.mistakes-box ul{padding-right:16px;font-size:.8rem;color:var(--t3);}
-.mistakes-box li{margin-bottom:4px;}
-
-/* REMARKS BOX */
-.remarks-box{
-  background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.18);
-  border-radius:11px;padding:16px;margin:10px 0;
+.hrm-phase{
+  display:flex;align-items:stretch;gap:0;
+  margin-bottom:3px;
 }
-.remarks-box h5{font-family:var(--fh);font-size:.82rem;color:var(--green);font-weight:700;margin-bottom:8px;}
-.remarks-box ul{padding-right:16px;font-size:.8rem;color:var(--t3);}
-.remarks-box li{margin-bottom:4px;}
-
-/* DEFINITION CARDS */
-.def-card{
+.hrm-phase-label{
+  background:var(--card3);border:1px solid var(--border2);
+  border-radius:10px 0 0 10px;
+  padding:10px 16px;
+  font-family:var(--fh);font-size:.7rem;font-weight:800;
+  color:var(--t3);text-transform:uppercase;letter-spacing:.07em;
+  min-width:120px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.hrm-steps-row{
+  display:flex;align-items:center;flex:1;
   background:var(--card2);border:1px solid var(--border);
-  border-radius:14px;padding:20px;margin-bottom:12px;
-  border-right:3px solid var(--accent,var(--cyan));
+  border-radius:0 10px 10px 0;padding:10px 14px;gap:0;
+  border-left:none;
 }
-.def-label{
-  font-family:var(--fc);font-size:.68rem;font-weight:700;
-  color:var(--accent,var(--cyan));letter-spacing:.08em;margin-bottom:8px;
+.hrm-step-box{
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:8px;padding:8px 14px;
+  font-family:var(--fh);font-size:.78rem;font-weight:700;
+  color:var(--accent,var(--purple));
+  border-top:2px solid var(--accent,var(--purple));
+  text-align:center;flex:1;
+}
+.hrm-arrow{color:var(--t4);font-size:1.1rem;padding:0 8px;flex-shrink:0;}
+
+/* ══════════════════════════════════════════════════
+   WIKSTROM CARDS
+══════════════════════════════════════════════════ */
+.wik-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0;}
+@media(max-width:800px){.wik-grid{grid-template-columns:1fr;}}
+.wik-card{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:14px;padding:18px;
+  border-top:3px solid var(--accent,var(--purple));
+  transition:.2s;
+}
+.wik-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.35);}
+.wik-card .wik-num{
+  font-family:var(--fc);font-size:.65rem;color:var(--accent,var(--purple));
+  font-weight:700;letter-spacing:.06em;margin-bottom:8px;
   text-transform:uppercase;
 }
-.def-text{font-size:.88rem;color:var(--t1);line-height:1.65;font-weight:500;}
-.def-note{font-size:.78rem;color:var(--t3);margin-top:6px;line-height:1.5;}
-.sb-back{display:flex;align-items:center;gap:8px;margin:10px 16px 16px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:.75rem;text-decoration:none;transition:.2s}
-.sb-back:hover{border-color:var(--pink);color:var(--pink)}
+.wik-card h4{font-family:var(--fh);font-size:.9rem;color:var(--t1);font-weight:700;margin-bottom:8px;}
+.wik-card p{font-size:.8rem;color:var(--t2);line-height:1.6;}
+.wik-card .focus-tag{
+  display:inline-block;margin-top:8px;padding:3px 10px;border-radius:5px;
+  font-family:var(--fc);font-size:.68rem;font-weight:600;
+  background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.2);
+}
 </style>
 </head>
-
 <body>
 
 <!-- ════════ PROGRESS BAR ════════ -->
@@ -683,21 +602,24 @@ code{
   </div>
   <a class="sb-back" href="../index.html">← All Lectures</a>
   <a class="sb-back" href="../../index.html">↩ الرئيسية</a>
-  <div class="sb-section">Course Content</div>
+  <div class="sb-section">Chapter Content</div>
   <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Definitions</a>
-  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Providing HR Steps</a>
-  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Recruitment</a>
-  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Selection</a>
-  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Training</a>
-  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Performance Appraisal</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Recruitment</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Knowing the Job</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Sources of HR</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Knowing the Law</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Selection</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Training</a>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>Performance Appraisal</a>
 
   <div class="sb-section">Question Bank</div>
-  <a href="#quiz-tf" class="sb-link"><span class="sb-dot"></span>True / False (3 Questions)</a>
-  <a href="#quiz-mcq" class="sb-link"><span class="sb-dot"></span>MCQ Practice (6 Questions)</a>
+  <a href="#quiz-tf" class="sb-link"><span class="sb-dot"></span>True / False (10 Questions)</a>
+  <a href="#quiz-mcq" class="sb-link"><span class="sb-dot"></span>MCQ Practice (20 Questions)</a>
 
   <div class="sb-section">Final Revision</div>
   <a href="#cheat" class="sb-link"><span class="sb-dot"></span>Cheat Sheet</a>
   <a href="#revision" class="sb-link"><span class="sb-dot"></span>Flashcards</a>
+  <a href="chapter-15.html" class="next">Chapter 15 →</a>
 </nav>
 
 <button id="menu-btn" onclick="toggleSidebar()">☰</button>
@@ -710,18 +632,18 @@ code{
      HERO
 ══════════════════════════════════════════════════ -->
 <section class="hero">
-  <div class="hero-badge">📖 Chapter 13 · الموارد البشرية</div>
+  <div class="hero-badge">👥 Chapter 13 · Organizing · Human Resource Management</div>
   <h1>Human Resource <span>Management</span></h1>
-  <p>من الـ Recruitment للـ Training لحد الـ Performance Appraisal — كل تفاصيل إدارة الموارد البشرية. افهم كل خطوة واعرف الـ tools والـ laws المتعلقة بيها.</p>
+  <p>من الـ Recruitment للـ Selection للـ Training للـ Performance Appraisal — كل خطوة في توفير الـ Human Resources هتطلع في الامتحان. افهم الفرق بين كل مصطلح وكل أداة.</p>
   <div class="btn-row">
     <a href="#quiz-tf" class="btn btn-primary">🎯 ابدأ الأسئلة دلوقتي</a>
     <a href="#cheat" class="btn btn-ghost">📋 Cheat Sheet</a>
   </div>
   <div class="hero-stats">
-    <div class="hstat"><div class="num">6</div><div class="lbl">Topics</div></div>
-    <div class="hstat"><div class="num">3</div><div class="lbl">صح/غلط</div></div>
-    <div class="hstat"><div class="num">6</div><div class="lbl">MCQ</div></div>
-    <div class="hstat"><div class="num">4</div><div class="lbl">امتحانات</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Topics</div></div>
+    <div class="hstat"><div class="num">10</div><div class="lbl">صح/غلط</div></div>
+    <div class="hstat"><div class="num">20</div><div class="lbl">MCQ</div></div>
+    <div class="hstat"><div class="num">5</div><div class="lbl">امتحانات</div></div>
   </div>
 </section>
 
@@ -732,464 +654,1254 @@ code{
 ══════════════════════════════════════════════════ -->
 <div class="chapter" id="ch1">
   <div class="ch-header">
-    <div class="ch-num cyan">01</div>
+    <div class="ch-num purple">01</div>
     <div class="ch-title">
-      <h2>التعريفات الأساسية — Definitions</h2>
-      <p>مين هما الـ Human Resources وازاي نحدد قيمتهم للمنظمة؟</p>
+      <h2>Definitions — التعريفات الأساسية</h2>
+      <p>أول ما تدخل الشابتر، لازم تعرف الفرق بين الـ Appropriate وغيره، وإيه معنى Valuable Contribution.</p>
     </div>
   </div>
 
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">👥</span> Types of Human Resources</div>
-    <div class="grid2">
-      <div class="def-card" style="--accent:var(--green)">
-        <div class="def-label">Appropriate Human Resources</div>
-        <div class="def-text">Individuals who make a valuable contribution to management system goal attainment.</div>
-        <div class="def-note">الأشخاص اللي بيساهموا فعلاً في تحقيق أهداف المنظمة.</div>
-      </div>
-      <div class="def-card" style="--accent:var(--red)">
-        <div class="def-label">Inappropriate Human Resources</div>
-        <div class="def-text">Individuals who don’t make a valuable contribution to management system goal attainment.</div>
-        <div class="def-note">الأشخاص اللي مابيقدموش إضافة حقيقية لتحقيق الأهداف.</div>
-      </div>
-    </div>
-  </div>
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📖</span> المصطلحات الأساسية — Key Definitions</div>
 
-  <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">💎</span> Valuable Contribution</div>
+    <div class="def-card" style="--accent:var(--purple)">
+      <div class="def-label">Appropriate Human Resources</div>
+      <div class="def-text">The individuals within the organization who make a <strong>valuable contribution</strong> to management system goal attainment.</div>
+      <div class="def-note">يعني: الأشخاص اللي بيساهموا بشكل فعّال في تحقيق أهداف المنظمة.</div>
+    </div>
+
+    <div class="def-card" style="--accent:var(--red)">
+      <div class="def-label">Inappropriate Human Resources</div>
+      <div class="def-text">The individuals within the organization who <strong>don't make a valuable contribution</strong> to management system goal attainment.</div>
+      <div class="def-note">يعني: اللي مش بيساهموا بشكل فعّال — هدف الـ HRM إنهم يتحوّلوا لـ Appropriate أو يتم استبدالهم.</div>
+    </div>
+
     <div class="def-card" style="--accent:var(--amber)">
-      <div class="def-label">المساهمة القيّمة</div>
-      <div class="def-text">Could be determined by how human resources interact and cooperate to use all other management system resources.</div>
-      <div class="def-note">بنعرف قيمتهم من طريقة تفاعلهم وتعاونهم في استخدام باقي موارد المنظمة.</div>
+      <div class="def-label">Valuable Contribution</div>
+      <div class="def-text">Could be determined by how human resources <strong>interact and cooperate</strong> to use all other management system resources.</div>
+      <div class="def-note">مش بس إنه بيشتغل — المهم إزاي بيتعاون مع غيره ويستخدم كل الموارد المتاحة بكفاءة.</div>
+    </div>
+
+    <div class="warn">
+      <div><b>⚠️ نقطة مهمة:</b> الـ HRM مش بس بتوظيف — هي العملية الكاملة من Recruitment → Selection → Training → Performance Appraisal. الـ chapter ده جزء من الـ Organizing function.</div>
+    </div>
+  </div>
+
+  <!-- Big Picture Flow -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🗺️</span> الصورة الكبيرة — The 4 Steps of Providing HR</div>
+    <p>الـ chapter ده بيتكلم عن 4 خطوات أساسية لتوفير الـ Human Resources:</p>
+
+    <div class="hrm-pipeline">
+      <div class="hrm-phase">
+        <div class="hrm-phase-label" style="background:rgba(167,139,250,.1);color:var(--purple);border-color:rgba(167,139,250,.2);">Before Joining</div>
+        <div class="hrm-steps-row">
+          <div class="hrm-step-box" style="--accent:var(--purple)">STEP 1<br>Recruitment</div>
+          <div class="hrm-arrow">→</div>
+          <div class="hrm-step-box" style="--accent:var(--pink)">STEP 2<br>Selection</div>
+        </div>
+      </div>
+      <div class="hrm-phase" style="margin-top:8px;">
+        <div class="hrm-phase-label" style="background:rgba(74,222,128,.1);color:var(--green);border-color:rgba(74,222,128,.2);">After Joining</div>
+        <div class="hrm-steps-row">
+          <div class="hrm-step-box" style="--accent:var(--cyan)">STEP 3<br>Training</div>
+          <div class="hrm-arrow">→</div>
+          <div class="hrm-step-box" style="--accent:var(--amber)">STEP 4<br>Performance Appraisal</div>
+        </div>
+      </div>
+    </div>
+    <div class="tip">
+      <b>✅ قاعدة سهلة:</b> خطوتين قبل ما الموظف ينضم للمنظمة (Recruitment + Selection) وخطوتين بعد ما ينضم (Training + Performance Appraisal). سؤال متكرر في الامتحانات!
     </div>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════
-     CH2 — PROVIDING HR STEPS
+     CH2 — RECRUITMENT
 ══════════════════════════════════════════════════ -->
 <div class="chapter" id="ch2">
   <div class="ch-header">
     <div class="ch-num purple">02</div>
     <div class="ch-title">
-      <h2>خطوات توفير الموارد البشرية — Providing HR Steps</h2>
-      <p>الرحلة من قبل ما الموظف ينضم لحد ما يشتغل ونتأكد من أدائه.</p>
+      <h2>Recruitment — الاستقطاب</h2>
+      <p>أول خطوة في توفير الـ HR — إيه تعريفها؟ وإيه هدفها؟ وإيه الخطوات اللي فيها؟</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--purple)">
-    <div class="flow-wrap">
-      <h4 style="text-align:center; color:var(--purple); margin-bottom:15px; font-family:var(--fh);">Before Joining</h4>
-      <div class="flow-row ltr">
-        <div class="flow-box">STEP 1: Recruitment</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-box">STEP 2: Selection</div>
-      </div>
-      
-      <h4 style="text-align:center; color:var(--purple); margin:25px 0 15px; font-family:var(--fh);">After Joining</h4>
-      <div class="flow-row ltr">
-        <div class="flow-box">STEP 3: Training</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-box">STEP 4: Performance Appraisal</div>
-      </div>
-    </div>
-  </div>
-</div>
+    <div class="topic-title"><span class="icon">🎯</span> Definition & Purpose — التعريف والهدف</div>
 
-<!-- ══════════════════════════════════════════════════
-     CH3 — RECRUITMENT
-══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch3">
-  <div class="ch-header">
-    <div class="ch-num blue">03</div>
-    <div class="ch-title">
-      <h2>التوظيف — Recruitment</h2>
-      <p>جذب الموظفين المحتملين وتصفيتهم للوصول للمجموعة اللي هنختار منها.</p>
-    </div>
-  </div>
-
-  <div class="topic" style="--accent:var(--blue)">
-    <div class="topic-title"><span class="icon">🧲</span> Definition & Purpose</div>
-    <div class="def-card" style="--accent:var(--blue)">
-      <div class="def-label">Definition</div>
-      <div class="def-text">Is the initial attraction and screening of the supply of prospective human resources available to fill a position.</div>
-    </div>
-    <div class="def-card" style="--accent:var(--blue)">
-      <div class="def-label">Purpose</div>
-      <div class="def-text">To narrow a large field of prospective employees to a relatively small group from which someone will be hired.</div>
-      <div class="def-note">يعني نقلل العدد الكبير لمجموعة صغيرة نقدر نختار منها.</div>
-    </div>
-  </div>
-
-  <div class="topic" style="--accent:var(--cyan)">
-    <div class="topic-title"><span class="icon">🔍</span> 1. Knowing The Job (Job Analysis)</div>
-    <p>علشان نعين صح، لازم نفهم الوظيفة عن طريق <strong>Job Analysis</strong> واللي بتطلع لنا حاجتين:</p>
-    <div class="grid2">
-      <div class="cmp-card" style="--accent:var(--cyan)">
-        <h4>Job Description (وصف الوظيفة)</h4>
-        <p>A list of specific activities that must be performed by whoever holds the position.</p>
-        <div class="badge bc" style="margin-top:8px">Activities / المهام</div>
-      </div>
-      <div class="cmp-card" style="--accent:var(--pink)">
-        <h4>Job Specification (مواصفات الشخص)</h4>
-        <p>A list of specific characteristics of the individual who should be hired for the job.</p>
-        <div class="badge bp" style="margin-top:8px">Characteristics / المهارات والصفات</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="topic" style="--accent:var(--green)">
-    <div class="topic-title"><span class="icon">🏢</span> 2 & 3. Sources Inside the Organization</div>
-    <p>بعض الأحيان الترقية من الداخل (Promotion from within) بتكون أفضل. مميزاتها:</p>
-    <ul>
-      <li>Building employee morale. (بترفع الروح المعنوية)</li>
-      <li>Encouraging employees to work harder.</li>
-      <li>Attracting employees to stay with the organization.</li>
-    </ul>
-
-    <h4 style="color:var(--green); margin-top:20px;">Human Resource Inventory</h4>
-    <div class="def-card" style="--accent:var(--green)">
-      <div class="def-text">Information about the characteristics of organization members (Past Performance and Future Potential).</div>
-      <div class="def-note">Objective: To keep management up to date about the possibilities for filling a position from within.</div>
-    </div>
-
-    <h4 style="color:var(--amber); margin-top:20px;">Wikstrom Human Resource Inventory</h4>
-    <p>Wikstrom قال إن فيه 3 أنواع من السجلات (Records):</p>
-    <div class="grid3">
-      <div class="cmp-card" style="--accent:var(--blue)">
-        <h4>1. Management Inventory Card</h4>
-        <p>Contains an employee organizational history and an indication of how he might be used in the future.</p>
-      </div>
-      <div class="cmp-card" style="--accent:var(--pink)">
-        <h4>2. Position Replacement Form</h4>
-        <p>Focuses on position-centered information rather than people-centered information.</p>
-      </div>
-      <div class="cmp-card" style="--accent:var(--teal)">
-        <h4>3. Management Manpower Replacement Chart</h4>
-        <p>A composite view of the individuals management considers significant for HR planning.</p>
-      </div>
-    </div>
-    <div class="tip">
-      <div><b>مهم جداً:</b> نظام Wikstrom هو الأساس لعملية الـ <strong>Succession planning</strong> (التخطيط لمن سيخلف من في المناصب).</div>
-    </div>
-  </div>
-
-  <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">🌍</span> 4. Sources Outside the Organization</div>
-    <ul>
-      <li><strong>Competitors:</strong> الفرد عارف الشغل، المنافس دافع تكلفة التدريب، بتضعف المنافس.</li>
-      <li><strong>Employment Agencies:</strong> بيساعدوا الناس والشركات (عامة وخاصة).</li>
-      <li><strong>Readers of Certain Publications:</strong> الإعلانات في مجلات معينة.</li>
-      <li><strong>Educational Institutions:</strong> مقابلة الطلاب وقت التخرج.</li>
-    </ul>
-  </div>
-
-  <div class="topic" style="--accent:var(--red)">
-    <div class="topic-title"><span class="icon">⚖️</span> 5 & 6. Knowing the Law & Affirmative Action</div>
-    <div class="def-card" style="--accent:var(--red)">
-      <div class="def-label">Equal Employment Opportunity Commission (EEOC)</div>
-      <div class="def-text">Enforce laws prohibiting discrimination on basis of race, color, religion, sex, etc.</div>
-    </div>
     <div class="def-card" style="--accent:var(--purple)">
-      <div class="def-label">Affirmative Action Program</div>
-      <div class="def-text">To eliminate barriers and increase opportunities for underutilized and/or disadvantaged individuals.</div>
+      <div class="def-label">Recruitment — Definition</div>
+      <div class="def-text">Is the <strong>initial attraction and screening</strong> of the supply of prospective human resources available to fill a position.</div>
+      <div class="def-note">يعني: جذب وتصفية المرشحين المحتملين لملء وظيفة معينة.</div>
     </div>
-  </div>
-</div>
 
-<!-- ══════════════════════════════════════════════════
-     CH4 — SELECTION
-══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch4">
-  <div class="ch-header">
-    <div class="ch-num pink">04</div>
-    <div class="ch-title">
-      <h2>الاختيار — Selection</h2>
-      <p>اختيار الفرد المناسب للتعيين من ضمن الناس اللي قدموا.</p>
+    <div class="def-card" style="--accent:var(--cyan)">
+      <div class="def-label">Recruitment — Purpose</div>
+      <div class="def-text">To <strong>narrow a large field</strong> of prospective employees to a relatively small group of individuals from which someone eventually will be hired.</div>
+      <div class="def-note">الهدف مش الاختيار النهائي — ده شغل الـ Selection. الـ Recruitment بس بيضيّق الدائرة من كتير لقليل.</div>
+    </div>
+
+    <div class="info">
+      <b>📌 الفرق بين Recruitment وSelection:</b><br>
+      الـ <em>Recruitment</em> = جذب مجموعة كبيرة وتقليلها → الـ <em>Selection</em> = اختيار شخص واحد من المجموعة الصغيرة دي.
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--pink)">
-    <div class="topic-title"><span class="icon">🎯</span> Definition & Tools</div>
-    <p>كل مرحلة في الاختيار بتقلل عدد المتقدمين لحد ما نختار واحد.</p>
+    <div class="topic-title"><span class="icon">📋</span> 6 Steps of Recruitment — الخطوات الست</div>
+    <p>الـ Recruitment process بيمر بـ 6 خطوات أساسية:</p>
 
-    <h4 style="margin-top:20px; color:var(--pink)">Selection Tools: Testing</h4>
-    <div class="grid2">
-      <div class="cmp-card" style="--accent:var(--cyan)">
-        <h4>Aptitude Tests</h4>
-        <p>Measure the potential to perform a task (Intelligence, Special Abilities like mechanical/clerical).</p>
+    <div class="plan-steps" style="--accent:var(--pink)">
+      <div class="plan-step">
+        <div class="ps-num" style="color:var(--pink)">①</div>
+        <div>
+          <div class="ps-title">Knowing The Job</div>
+          <div class="ps-desc">فهم طبيعة الوظيفة من خلال الـ Job Analysis اللي بيطلع منه Job Description وJob Specification.</div>
+        </div>
       </div>
-      <div class="cmp-card" style="--accent:var(--green)">
-        <h4>Achievement Tests</h4>
-        <p>Measure the level of skill or knowledge (e.g., Typing tests).</p>
+      <div class="plan-step">
+        <div class="ps-num" style="color:var(--pink)">②</div>
+        <div>
+          <div class="ps-title">Knowing Sources of Human Resources</div>
+          <div class="ps-desc">مراقبة سوق العمل — المصادر بتتغير باستمرار، فالـ HR specialists بيراقبوا الـ labor market.</div>
+        </div>
       </div>
-      <div class="cmp-card" style="--accent:var(--amber)">
-        <h4>Vocational Interest Tests</h4>
-        <p>Measure interest in performing various kinds of jobs.</p>
+      <div class="plan-step">
+        <div class="ps-num" style="color:var(--pink)">③</div>
+        <div>
+          <div class="ps-title">Sources Inside the Organization</div>
+          <div class="ps-desc">ترقية موظفين موجودين (Promotion from within) — يبني الـ morale، يحفّز، ويخلّي الموظفين يفضلوا في المنظمة.</div>
+        </div>
       </div>
-      <div class="cmp-card" style="--accent:var(--purple)">
-        <h4>Personality Tests</h4>
-        <p>Describe personality dimensions (emotional maturity, honesty).</p>
+      <div class="plan-step">
+        <div class="ps-num" style="color:var(--pink)">④</div>
+        <div>
+          <div class="ps-title">Sources Outside the Organization</div>
+          <div class="ps-desc">Competitors / Employment Agencies / Publications / Educational Institutions.</div>
+        </div>
       </div>
-    </div>
-
-    <h4 style="margin-top:20px; color:var(--pink)">Selection Tools: Assessment Centers</h4>
-    <div class="def-card" style="--accent:var(--pink)">
-      <div class="def-text">A program (not a place) where participants engage in individual and group exercises (like leaderless discussions or role-playing) simulated for important activities.</div>
-      <div class="def-note">Trained assessors (Managers) observe and assess skills like communication, conflict resolution, leadership.</div>
+      <div class="plan-step">
+        <div class="ps-num" style="color:var(--pink)">⑤</div>
+        <div>
+          <div class="ps-title">Knowing the Law</div>
+          <div class="ps-desc">قوانين زي EEOC — حماية من التمييز على أساس العرق أو الجنس أو الدين أو الأصل أو الإعاقة.</div>
+        </div>
+      </div>
+      <div class="plan-step">
+        <div class="ps-num" style="color:var(--pink)">⑥</div>
+        <div>
+          <div class="ps-title">Affirmative Action</div>
+          <div class="ps-desc">برنامج لإزالة العوائق وزيادة الفرص للفئات المهمّشة (Underutilized / Disadvantaged individuals).</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════
-     CH5 — TRAINING
+     CH3 — KNOWING THE JOB
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num pink">03</div>
+    <div class="ch-title">
+      <h2>Knowing the Job — معرفة الوظيفة</h2>
+      <p>الخطوة الأولى في الـ Recruitment — Job Analysis → Job Description + Job Specification.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🔍</span> Job Analysis & Its Output</div>
+
+    <div class="def-card" style="--accent:var(--pink)">
+      <div class="def-label">Job Analysis</div>
+      <div class="def-text">Is a technique commonly used to gain understanding of the job with the aim of determining a <strong>job description</strong> and a <strong>job specification</strong>.</div>
+      <div class="def-note">أداة لفهم الوظيفة — بتطلع منها حاجتين: وصف الوظيفة (Description) + مواصفات الشخص (Specification).</div>
+    </div>
+
+    <div class="grid2" style="margin-top:16px;">
+      <div class="cmp-card" style="--accent:var(--cyan)">
+        <h4>📄 Job Description</h4>
+        <p>A list of <strong>specific activities</strong> that must be performed by whoever holds the position.</p>
+        <p style="margin-top:8px;font-size:.78rem;color:var(--t3);">بيوصف الوظيفة نفسها — إيه المهام والمسؤوليات.</p>
+        <ul>
+          <li>Job title</li>
+          <li>Job summary</li>
+          <li>Working conditions</li>
+          <li>Equipment used</li>
+          <li>Job responsibilities</li>
+        </ul>
+      </div>
+      <div class="cmp-card" style="--accent:var(--purple)">
+        <h4>🧑 Job Specification</h4>
+        <p>A list of <strong>specific characteristics</strong> of the individual who should be hired for the job.</p>
+        <p style="margin-top:8px;font-size:.78rem;color:var(--t3);">بيوصف الشخص المطلوب — إيه المهارات والمواصفات.</p>
+        <ul>
+          <li>Physical skills</li>
+          <li>Educational qualifications</li>
+          <li>Experience required</li>
+          <li>Personal qualities</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flow-wrap" style="margin-top:16px;">
+      <div class="flow-row ltr">
+        <div class="flow-box" style="--accent:var(--pink)">Job Analysis</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--cyan)">Job Description</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-box" style="--accent:var(--purple)">Job Specification</div>
+      </div>
+    </div>
+
+    <div class="warn">
+      <b>⚠️ سؤال متكرر (Midterm 2022 + Final 2021):</b> "Which is likely to be found in a job description?" → الإجابة: job responsibilities, equipment used, working conditions. أما الـ physical skills والـ educational qualifications فدي في الـ <em>Job Specification</em>.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CH4 — SOURCES OF HR
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num cyan">04</div>
+    <div class="ch-title">
+      <h2>Sources of Human Resources — مصادر الموارد البشرية</h2>
+      <p>داخلي أم خارجي؟ وإيه هو الـ Wikstrom Human Resource Inventory؟ (سؤال متكرر جداً!)</p>
+    </div>
+  </div>
+
+  <!-- Inside Sources -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🏢</span> Sources Inside the Organization — المصادر الداخلية</div>
+    <p>الترقية من الداخل <em>(Promotion from within)</em> ليها 3 مميزات رئيسية:</p>
+    <div class="grid3">
+      <div class="cmp-card" style="--accent:var(--green)">
+        <h4>💪 Building Morale</h4>
+        <p>تبني روح معنوية عالية بين الموظفين.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--cyan)">
+        <h4>⚡ Encouraging Work Harder</h4>
+        <p>تحفّز الموظفين على العمل أكثر لأنهم شايفين فرصة الترقي.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--purple)">
+        <h4>🔒 Attracting to Stay</h4>
+        <p>بتخلّي الموظفين يفضلوا في المنظمة ومش يدوروا بره.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HR Inventory -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📊</span> Human Resource Inventory</div>
+    <div class="def-card" style="--accent:var(--amber)">
+      <div class="def-label">Human Resource Inventory — Definition</div>
+      <div class="def-text">It consists of information about the characteristics of organization members — <strong>Past Performance</strong> and <strong>Future Potential</strong>.</div>
+      <div class="def-note">Objective: To keep management up to date about the possibilities for filling a position from within.</div>
+    </div>
+  </div>
+
+  <!-- Wikstrom -->
+  <div class="topic" style="--accent:var(--orange)">
+    <div class="topic-title"><span class="icon">⭐</span> Wikstrom Human Resource Inventory — سؤال امتحان متكرر!</div>
+    <p>Wikstrom قال إن المنظمات بتحتفظ بـ <strong>3 أنواع من السجلات</strong> يمكن دمجهم لعمل HR Inventory مفيد:</p>
+
+    <div class="wik-grid">
+      <div class="wik-card" style="--accent:var(--purple)">
+        <div class="wik-num">Record 01</div>
+        <h4>Management Inventory Card</h4>
+        <p>Contains an employee organizational history and an indication of how he might be used <strong>in the future</strong>.</p>
+        <span class="focus-tag">People-centered</span>
+      </div>
+      <div class="wik-card" style="--accent:var(--cyan)">
+        <div class="wik-num">Record 02</div>
+        <h4>Position Replacement Form</h4>
+        <p>Focuses on <strong>position-centered</strong> information rather than people-centered information.</p>
+        <span class="focus-tag" style="background:rgba(34,211,238,.1);color:var(--cyan);border-color:rgba(34,211,238,.2);">Position-centered</span>
+      </div>
+      <div class="wik-card" style="--accent:var(--amber)">
+        <div class="wik-num">Record 03</div>
+        <h4>Management Manpower Replacement Chart</h4>
+        <p>Presents a <strong>composite view</strong> of the individuals management considers significant for HR planning.</p>
+        <span class="focus-tag" style="background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.2);">Composite view</span>
+      </div>
+    </div>
+
+    <div class="def-card" style="--accent:var(--green);margin-top:14px;">
+      <div class="def-label">Succession Planning</div>
+      <div class="def-text">Is the process of outlining <strong>who will follow whom</strong> in various organizational positions.</div>
+      <div class="def-note">Wikstrom's system بيخدم كـ foundation للـ Succession Planning — يعني التخطيط لمن سيحل محل من في المناصب المختلفة.</div>
+    </div>
+
+    <div class="warn">
+      <b>⚠️ سؤال امتحان 2019 و2021:</b> "Explain the three types of records in Wikstrom Human Resource Inventory" — حفظ الـ 3 أنواع دي ضروري جداً. الـ Position Replacement Form مختلف عن الاتنين التانيين لأنه <em>position-centered مش people-centered</em>.
+    </div>
+
+    <div class="mistakes-box">
+      <h5>❌ أخطاء شائعة في الامتحانات</h5>
+      <ul>
+        <li>بعضهم بيقول إن Wikstrom's forms بس للـ managerial positions — ده <strong>غلط!</strong> ممكن تُستخدم للـ nonmanagerial positions كمان.</li>
+        <li>الـ Management Inventory Card مش نفس الـ Position Replacement Form — الأول people-centered والتاني position-centered.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Outside Sources -->
+  <div class="topic" style="--accent:var(--blue)">
+    <div class="topic-title"><span class="icon">🌐</span> Sources Outside the Organization — المصادر الخارجية</div>
+    <div class="grid2">
+      <div class="cmp-card" style="--accent:var(--red)">
+        <h4>🏆 Competitors</h4>
+        <p>جلب موظف من منافس — الموظف يعرف الصناعة، المنافس دفع تكاليف تدريبه، وده يضعف المنافس.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--blue)">
+        <h4>🏢 Employment Agencies</h4>
+        <p>وكالات بتساعد الناس والمنظمات لمطابقة الوظيفة (Public & Private).</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--amber)">
+        <h4>📰 Readers of Certain Publications</h4>
+        <p>إعلان في منشور مناسب بناءً على مستوى الوظيفة.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--green)">
+        <h4>🎓 Educational Institutions</h4>
+        <p>مقابلة الطلاب قرب وقت التخرج — مصدر ممتاز للمواهب الجديدة.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CH5 — KNOWING THE LAW
 ══════════════════════════════════════════════════ -->
 <div class="chapter" id="ch5">
   <div class="ch-header">
-    <div class="ch-num green">05</div>
+    <div class="ch-num amber">05</div>
     <div class="ch-title">
-      <h2>التدريب — Training</h2>
-      <p>تطوير مهارات الموظفين لزيادة إنتاجيتهم وتحقيق أهداف المنظمة.</p>
-    </div>
-  </div>
-
-  <div class="topic" style="--accent:var(--green)">
-    <div class="plan-steps">
-      <div class="plan-step">
-        <div class="ps-num">1</div>
-        <div>
-          <div class="ps-title">Determining Training Needs</div>
-          <div class="ps-desc">Evaluation of production process, direct feedback from employees, or looking into the future.</div>
-        </div>
-      </div>
-      <div class="plan-step">
-        <div class="ps-num">2</div>
-        <div>
-          <div class="ps-title">Designing the Training Program</div>
-          <div class="ps-desc">Assembling facts and activities to meet the established needs.</div>
-        </div>
-      </div>
-      <div class="plan-step">
-        <div class="ps-num">3</div>
-        <div>
-          <div class="ps-title">Administering the Training Program</div>
-          <div class="ps-desc">Transmitting information & Developing skills.</div>
-        </div>
-      </div>
-      <div class="plan-step">
-        <div class="ps-num">4</div>
-        <div>
-          <div class="ps-title">Evaluating the Training Program</div>
-          <div class="ps-desc">Determine whether it meets the needs for which it was designed.</div>
-        </div>
-      </div>
-    </div>
-
-    <h4 style="margin-top:20px; color:var(--green)">Techniques for Transmitting Information</h4>
-    <div class="grid2">
-      <div class="cmp-card" style="--accent:var(--cyan)">
-        <h4>Lectures</h4>
-        <p>One-way communication. Exposes trainees to maximum information quickly, but no opportunity to practice or ask questions.</p>
-      </div>
-      <div class="cmp-card" style="--accent:var(--amber)">
-        <h4>Programmed Learning</h4>
-        <p>Learning without a human instructor (e.g., computerized). Learn at own pace, but no one to answer confused learner's questions.</p>
-      </div>
-    </div>
-
-    <h4 style="margin-top:20px; color:var(--green)">Techniques for Developing Skills</h4>
-    <div class="grid2">
-      <div class="cmp-card" style="--accent:var(--blue)">
-        <h4>On-The-Job</h4>
-        <ul>
-          <li><strong>Coaching:</strong> Direct critiquing of performance.</li>
-          <li><strong>Position Rotation:</strong> Moving from job to job to understand the whole org.</li>
-          <li><strong>Special Project Committees:</strong> Assigning tasks to furnish experience.</li>
-        </ul>
-      </div>
-      <div class="cmp-card" style="--accent:var(--pink)">
-        <h4>Classroom</h4>
-        <ul>
-          <li><strong>Management Games:</strong> Small groups evaluate management decisions.</li>
-          <li><strong>Role-playing:</strong> Acting out to solve people-oriented problems.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════
-     CH6 — PERFORMANCE APPRAISAL
-══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch6">
-  <div class="ch-header">
-    <div class="ch-num amber">06</div>
-    <div class="ch-title">
-      <h2>تقييم الأداء — Performance Appraisal</h2>
-      <p>مراجعة أداء الموظفين وتقديم feedback لزيادة إنتاجيتهم.</p>
+      <h2>Knowing the Law — معرفة القانون</h2>
+      <p>EEOC والـ Affirmative Action — قوانين الحماية من التمييز في التوظيف.</p>
     </div>
   </div>
 
   <div class="topic" style="--accent:var(--amber)">
-    <div class="topic-title"><span class="icon">📈</span> Why Use It?</div>
-    <ul>
-      <li>Support salary increases, promotions, or terminations.</li>
-      <li>Tell subordinates how they are doing (where they stand with the boss).</li>
-      <li>Furnish a useful basis for coaching.</li>
-    </ul>
+    <div class="topic-title"><span class="icon">⚖️</span> EEOC — Equal Employment Opportunity Commission</div>
 
-    <h4 style="margin-top:20px; color:var(--amber)">Potential Weaknesses</h4>
-    <div class="mistakes-box">
-      <h5>Weaknesses to Avoid:</h5>
-      <ul>
-        <li>Focusing on short-term rewards instead of long-run success.</li>
-        <li>Viewing it as a reward-punishment situation.</li>
-        <li>Emphasis on completing paperwork rather than critiquing performance.</li>
-        <li>Viewed as unfair or biased.</li>
-      </ul>
+    <div class="def-card" style="--accent:var(--amber)">
+      <div class="def-label">EEOC</div>
+      <div class="def-text">Enforces federal laws prohibiting discrimination on the basis of <strong>race, color, religion, sex, and national origin</strong> in recruitment, hiring, firing, layoffs, and all other employment practices.</div>
+      <div class="def-note">هيئة حكومية بتطبّق القوانين الفيدرالية ضد التمييز في كل مراحل التوظيف.</div>
     </div>
+
+    <p>القوانين بتحمي من:</p>
+    <div class="grid3">
+      <div class="cmp-card" style="--accent:var(--red)">
+        <h4>🤰 Pregnancy Discrimination</h4>
+        <p>حماية الحوامل من التمييز في التوظيف.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--orange)">
+        <h4>👴 Age Discrimination</h4>
+        <p>حماية من التمييز على أساس السن.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--blue)">
+        <h4>♿ Disability Discrimination</h4>
+        <p>حماية ذوي الاحتياجات الخاصة من التمييز.</p>
+      </div>
+    </div>
+
+    <div class="info">
+      <b>📌 Equal Opportunity Legislation:</b> بتحمي حق المواطن في الشغل والأجر العادل بناءً على <em>Merit and Performance</em> — مش على أساس دين أو عرق أو جنس.
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🌟</span> Affirmative Action — العمل الإيجابي</div>
+
+    <div class="def-card" style="--accent:var(--green)">
+      <div class="def-label">Affirmative Action Program</div>
+      <div class="def-text">Is to <strong>eliminate barriers and increase opportunities</strong> for the purpose of increasing the utilization of underutilized and/or disadvantaged individuals.</div>
+      <div class="def-note">برنامج لإزالة العوائق وزيادة الفرص للفئات المهمّشة — مش لأن القانون يأمر بده، لكن لأن سوق العمل الحديث يتطلبه.</div>
+    </div>
+
+    <p>لقياس التقدم في إزالة العوائق، بنقارن <strong>3 أرقام</strong>:</p>
+    <div class="plan-steps" style="--accent:var(--green)">
+      <div class="plan-step">
+        <div class="ps-num" style="color:var(--green)">①</div>
+        <div>
+          <div class="ps-title">How many minority/disadvantaged individuals ARE employed</div>
+          <div class="ps-desc">الواقع الحالي — كام شخص من الفئات المهمّشة شغّال فعلاً.</div>
+        </div>
+      </div>
+      <div class="plan-step">
+        <div class="ps-num" style="color:var(--green)">②</div>
+        <div>
+          <div class="ps-title">How many SHOULD be employed (per EEOC guidelines)</div>
+          <div class="ps-desc">المستهدف — كام المفروض يشتغلوا حسب إرشادات الـ EEOC.</div>
+        </div>
+      </div>
+      <div class="plan-step">
+        <div class="ps-num" style="color:var(--green)">③</div>
+        <div>
+          <div class="ps-title">Comparing steps 1 and 2</div>
+          <div class="ps-desc">مقارنة الواقع بالمستهدف — ده اللي بيحدد مدى التقدم.</div>
+        </div>
+      </div>
+    </div>
+
     <div class="tip">
-      <div><b>How to Avoid:</b> Look at it as an opportunity to increase worth through constructive feedback, not punishment. Paperwork is just an aid. Feedback should be tactful and objective.</div>
+      <b>✅ نقطة مهمة:</b> الـ Modern Management بتقول المديرين يطبقوا الـ Affirmative Action <em>مش لأن القانون يجبرهم</em>، لكن لأن أكثر من نص القوى العاملة الأمريكية دلوقتي من minorities, immigrants, women.
     </div>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════
-     QUIZ
+     CH6 — SELECTION
 ══════════════════════════════════════════════════ -->
-<div class="quiz-section" id="quiz-tf">
-  <div class="quiz-header">
-    <div class="quiz-icon">📝</div>
-    <div>
-      <h3>True / False Questions</h3>
-      <p>أسئلة صح وغلط من امتحانات السنين اللي فاتت</p>
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num pink">06</div>
+    <div class="ch-title">
+      <h2>Selection — الاختيار</h2>
+      <p>بعد الـ Recruitment، بيجي الـ Selection — اختيار شخص واحد من بين المرشحين المتبقيين.</p>
     </div>
   </div>
 
-  <div class="q-item" data-correct="1">
-    <div class="q-num">Question 1 <span class="q-src">Final 2025</span></div>
-    <div class="q-text">The supply of individuals from which to recruit is continually changing, which means that at times, finding appropriate human resources will be much harder than at other times.</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="1"><div class="q-opt-letter">T</div>True</div>
-      <div class="q-opt" data-val="0"><div class="q-opt-letter">F</div>False</div>
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🎯</span> Definition</div>
+    <div class="def-card" style="--accent:var(--pink)">
+      <div class="def-label">Selection — Definition</div>
+      <div class="def-text">Choosing an individual to hire from <strong>all those who have been recruited</strong>.</div>
+      <div class="def-note">كل مرحلة في الـ Selection بتقلّل المجموعة لحد ما يتوظف شخص واحد. وهي دايماً <em>dependent on the recruitment step</em>.</div>
     </div>
-    <div class="q-explain"><b>Correct!</b><br>The supply of human resources is constantly changing in the labor market.</div>
   </div>
 
-  <div class="q-item" data-correct="0">
-    <div class="q-num">Question 2 <span class="q-src">Final 2021 & 2025</span></div>
-    <div class="q-text">Wikstrom's human resource inventory forms are meant to be used exclusively for filling managerial positions and cannot be used for filling nonmanagerial positions.</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="1"><div class="q-opt-letter">T</div>True</div>
-      <div class="q-opt" data-val="0"><div class="q-opt-letter">F</div>False</div>
-    </div>
-    <div class="q-explain"><b>False!</b><br>They can be used for nonmanagerial positions as well.</div>
+  <!-- Selection Steps Table -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📋</span> Selection Process Steps</div>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>Stage</th>
+          <th>Reason for Elimination</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Preliminary screening</strong> (records, data sheets)</td>
+          <td>Lack of adequate educational and performance record</td>
+        </tr>
+        <tr>
+          <td><strong>Preliminary interview</strong></td>
+          <td>Obvious misfit from outward appearance and conduct</td>
+        </tr>
+        <tr>
+          <td><strong>Intelligence tests, Aptitude tests</strong></td>
+          <td>Failure to meet minimum standards / minimum necessary aptitude</td>
+        </tr>
+        <tr>
+          <td><strong>Personality tests, Performance references</strong></td>
+          <td>Negative aspects of personality / Unfavorable past performance reports</td>
+        </tr>
+        <tr>
+          <td><strong>Diagnostic interview</strong></td>
+          <td>Lack of necessary innate ability, ambition, or other qualities</td>
+        </tr>
+        <tr>
+          <td><strong>Physical examination</strong></td>
+          <td>Physically unfit for job</td>
+        </tr>
+        <tr>
+          <td><strong>Personal judgment</strong></td>
+          <td>Remaining candidate placed in available position ✅</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="q-item" data-correct="0">
-    <div class="q-num">Question 3 <span class="q-src">Final 2021 & 2022</span></div>
-    <div class="q-text">Recruitment is the process of developing qualities in human resources that will enable them to be more productive and thus contribute more to organizational goal attainment.</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="1"><div class="q-opt-letter">T</div>True</div>
-      <div class="q-opt" data-val="0"><div class="q-opt-letter">F</div>False</div>
-    </div>
-    <div class="q-explain"><b>False!</b><br>This is the definition of <strong>Training</strong>, not Recruitment.</div>
-  </div>
+  <!-- Selection Tools -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🧰</span> Selection Tools — أدوات الاختيار</div>
 
-  <div class="q-controls">
-    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-tf')">Check Answers</button>
-    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-tf')">Reset</button>
-    <span class="q-score" id="score-tf"></span>
+    <div class="grid2">
+      <div class="cmp-card" style="--accent:var(--cyan)">
+        <h4>🧪 Testing</h4>
+        <p>Examining human resources for qualities relevant to performing available jobs.</p>
+        <ul>
+          <li><strong>Aptitude Tests:</strong> Measure <em>potential</em> (General Intelligence, Mechanical, Clerical, Visual)</li>
+          <li><strong>Achievement Tests:</strong> Measure <em>current skill level</em> (e.g., Typing Tests)</li>
+          <li><strong>Vocational Interest Tests:</strong> Measure <em>interest</em> in various jobs</li>
+          <li><strong>Personality Tests:</strong> Describe personality dimensions (emotional maturity, honesty, objectivity)</li>
+        </ul>
+      </div>
+      <div class="cmp-card" style="--accent:var(--purple)">
+        <h4>🏢 Assessment Centers</h4>
+        <p>A <strong>program (not a place!)</strong> in which participants engage in individual and group exercises to simulate important activities at levels they aspire to.</p>
+        <ul>
+          <li>Leaderless discussions</li>
+          <li>Oral presentations</li>
+          <li>Group problem solving</li>
+          <li>Trained Assessors observe exercises</li>
+        </ul>
+        <p style="margin-top:8px;font-size:.77rem;color:var(--t3);">Assessment criteria: oral communication, conflict resolution, leadership, persuasion, problem solving.</p>
+      </div>
+    </div>
+
+    <div class="warn">
+      <b>⚠️ نقطة مهمة عن Assessment Centers:</b> هي <em>program</em> مش <em>place</em>! كتير من الطلاب بيعتقدوا إنها مكان، لكن التعريف الصح: "A program in which participants engage in exercises..."
+    </div>
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════════
+     CH7 — TRAINING
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num cyan">07</div>
+    <div class="ch-title">
+      <h2>Training — التدريب</h2>
+      <p>الخطوة الثالثة بعد ما الموظف ينضم — تطوير مهاراته وزيادة إنتاجيته.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📚</span> Definition & Purpose</div>
+
+    <div class="def-card" style="--accent:var(--cyan)">
+      <div class="def-label">Training — Definition</div>
+      <div class="def-text">The process of developing qualities in human resources that will enable them to be <strong>more productive</strong> and thus contribute more to organizational goal attainment.</div>
+      <div class="def-note">يعني: تطوير الكفاءات اللي هتزوّد إنتاجية الموظف وإسهامه في تحقيق أهداف المنظمة.</div>
+    </div>
+
+    <div class="def-card" style="--accent:var(--green)">
+      <div class="def-label">Training — Purpose</div>
+      <div class="def-text">To <strong>increase the productivity</strong> of employees by influencing their behavior.</div>
+      <div class="def-note">الهدف مش بس التعليم — الهدف تغيير السلوك بما يزيد الإنتاجية.</div>
+    </div>
+  </div>
+
+  <!-- Training Steps -->
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🔄</span> 4 Steps of Training — الخطوات الأربعة (سؤال امتحان 2019!)</div>
+
+    <div class="flow-wrap">
+      <div class="flow-row ltr">
+        <div class="flow-box" style="--accent:var(--teal)">STEP 1<br>Determining Training Needs</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--cyan)">STEP 2<br>Designing the Program</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--purple)">STEP 3<br>Administering the Program</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--amber)">STEP 4<br>Evaluating the Program</div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <b>✅ سؤال امتحان 2019:</b> "Complete the missing training steps" — الإجابة: Step 2 = Design program, Step 3 = Administrate program, Step 4 = Evaluate.
+    </div>
+  </div>
+
+  <!-- Step 1: Determining Needs -->
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🔎</span> Step 1: Determining Training Needs</div>
+    <div class="def-card" style="--accent:var(--teal)">
+      <div class="def-label">Training Needs</div>
+      <div class="def-text">The information or skill areas of an individual/group that need further development to increase the productivity of that individual/group.</div>
+    </div>
+    <p>طرق تحديد الاحتياجات التدريبية:</p>
+    <ul>
+      <li>Evaluating the <strong>production process</strong> within the organization</li>
+      <li>Getting <strong>direct feedback from employees</strong> on what they believe are training needs</li>
+      <li><strong>Looking into the future</strong> — إيه اللي المنظمة هتحتاجه مستقبلاً</li>
+    </ul>
+    <div class="tip">
+      <b>✅ سؤال امتحان 2025 (Final):</b> "Which is a method used in group or organizational training needs assessment?" — الإجابة: Consideration of current and projected changes.
+    </div>
+  </div>
+
+  <!-- Step 3: Administering -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🎓</span> Step 3: Administering the Training Program</div>
+    <p>دلوقتي بنوصل للتنفيذ الفعلي — في 4 تقنيات أساسية:</p>
+
+    <div class="grid2">
+      <div>
+        <p style="font-family:var(--fh);font-size:.82rem;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">Techniques for Transmitting Information</p>
+        <div class="cmp-card" style="--accent:var(--cyan);margin-bottom:12px;">
+          <h4>📢 Lectures</h4>
+          <p>One-way communication — مدرس بيشرح لمجموعة مستمعين.</p>
+          <ul>
+            <li><span class="badge bg">Advantage</span> Exposes trainees to maximum information in short time</li>
+            <li><span class="badge br">Disadvantage</span> No chance to clarify, check understanding, or practice</li>
+            <li><span class="badge br">Disadvantage</span> Minimal value in changing attitudes or behavior</li>
+          </ul>
+        </div>
+        <div class="cmp-card" style="--accent:var(--teal)">
+          <h4>💻 Programmed Learning</h4>
+          <p>التعليم بدون مدرس بشري — المتدرب بيجاوب ويعرف صح أو غلط فوراً.</p>
+          <ul>
+            <li><span class="badge bg">Advantage</span> Learn at own pace</li>
+            <li><span class="badge bg">Advantage</span> Immediate feedback (right or wrong)</li>
+            <li><span class="badge bg">Advantage</span> Active participation</li>
+            <li><span class="badge br">Disadvantage</span> No one to answer confused learner's questions</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <p style="font-family:var(--fh);font-size:.82rem;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">Techniques for Developing Skills</p>
+        <div class="cmp-card" style="--accent:var(--purple);margin-bottom:12px;">
+          <h4>🏭 On-The-Job</h4>
+          <ul>
+            <li><strong>Coaching:</strong> Direct critiquing of how well an individual is performing</li>
+            <li><strong>Position Rotation:</strong> Moving from job to job to understand the whole organization</li>
+            <li><strong>Special Project Committees:</strong> Assigning a particular task to gain experience in a designated area</li>
+          </ul>
+        </div>
+        <div class="cmp-card" style="--accent:var(--pink)">
+          <h4>🏫 Classroom</h4>
+          <ul>
+            <li><strong>Management Games:</strong> Small groups make and evaluate management decisions</li>
+            <li><strong>Role-playing Format:</strong> Acting out people-oriented problems that must be solved</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn">
+      <b>⚠️ سؤال امتحان 2025:</b> "Which is a benefit of employee training?" — الإجابة الصح: يمكن تكون Improves morale, helps identify with organizational goals, أو provides a good climate for learning. (Final 2025 Q57)
+    </div>
+
+    <div class="warn">
+      <b>⚠️ سؤال امتحان 2025:</b> "In HRM, what does training and development refer to?" — الإجابة: Enhancing Employee Skills and Knowledge. (Final 2025 Q21)
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CH8 — PERFORMANCE APPRAISAL
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num amber">08</div>
+    <div class="ch-title">
+      <h2>Performance Appraisal — تقييم الأداء</h2>
+      <p>الخطوة الأخيرة — مراجعة الأداء السابق لتحسين الإنتاجية المستقبلية.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📊</span> Definition & Purpose</div>
+
+    <div class="def-card" style="--accent:var(--amber)">
+      <div class="def-label">Performance Appraisal (Review / Evaluation) — Definition</div>
+      <div class="def-text">The process of reviewing individuals' <strong>past productive activity</strong> to evaluate the contribution they have made toward attaining management system objectives.</div>
+      <div class="def-note">يعني: مراجعة الأداء الماضي — مش العقاب أو المكافأة، لكن التقييم الموضوعي.</div>
+    </div>
+
+    <div class="def-card" style="--accent:var(--green)">
+      <div class="def-label">Performance Appraisal — Purpose</div>
+      <div class="def-text">To furnish <strong>feedback</strong> to organization members about how they can become <strong>more productive and useful</strong> to the organization in its quest for quality.</div>
+      <div class="def-note">الهدف الأساسي = Feedback لتحسين الإنتاجية، مش مجرد ورق أو حكم على الموظف.</div>
+    </div>
+  </div>
+
+  <!-- Why Use PA -->
+  <div class="topic" style="--accent:var(--blue)">
+    <div class="topic-title"><span class="icon">❓</span> Why Use Performance Appraisals?</div>
+    <div class="plan-steps" style="--accent:var(--blue)">
+      <div class="plan-step">
+        <div class="ps-num" style="color:var(--blue)">①</div>
+        <div>
+          <div class="ps-title">Support HR Decisions</div>
+          <div class="ps-desc">بتوفر أحكام منهجية لدعم salary increases, promotions, transfers, demotions or terminations.</div>
+        </div>
+      </div>
+      <div class="plan-step">
+        <div class="ps-num" style="color:var(--blue)">②</div>
+        <div>
+          <div class="ps-title">Tell Subordinates How They're Doing</div>
+          <div class="ps-desc">بتخلّي الموظفين يعرفوا مكانتهم ومطلوب منهم إيه — تغيير في behavior, attitudes, skills, or job knowledge.</div>
+        </div>
+      </div>
+      <div class="plan-step">
+        <div class="ps-num" style="color:var(--blue)">③</div>
+        <div>
+          <div class="ps-title">Coaching and Counseling Basis</div>
+          <div class="ps-desc">بتوفر basis مفيد للـ coaching and counseling بين المديرين والموظفين.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Handling PA -->
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">✅</span> Handling Performance Appraisals — كيف تُجرى صح</div>
+    <div class="remarks-box">
+      <h5>✅ المبادئ الصحيحة للتقييم</h5>
+      <ul>
+        <li>It should stress <strong>performance in the position</strong> — مش انطباع المقيّم عن الموظف.</li>
+        <li>It should emphasize <strong>how well the individual is doing the job</strong> — مش work habits.</li>
+        <li>It should be <strong>acceptable to both the evaluator and the subject</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Potential Weaknesses -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">⚠️</span> Potential Weaknesses & How to Avoid Them</div>
+    <div class="grid2">
+      <div>
+        <div class="mistakes-box">
+          <h5>❌ المشاكل المحتملة</h5>
+          <ul>
+            <li>تركّز الموظفين على الـ short-term rewards بدل أهداف المنظمة البعيدة.</li>
+            <li>الموظفون يشوفوها كـ reward-punishment situation.</li>
+            <li>التركيز على الأوراق (paperwork) بدل النقد الفعلي للأداء.</li>
+            <li>الموظف يشوف العملية غير عادلة أو متحيزة.</li>
+            <li>الموظف يرد بشكل سلبي على التعليقات غير المواتية.</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="remarks-box">
+          <h5>✅ طرق تجنّب المشاكل</h5>
+          <ul>
+            <li>اشوف الـ appraisal كـ فرصة لتطوير الموظف، مش مكافأة/عقاب.</li>
+            <li>الـ paperwork وسيلة، مش هدف.</li>
+            <li>الـ feedback يكون <strong>tactful and objective</strong> قدر الإمكان.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn">
+      <b>⚠️ سؤال امتحان 2025:</b> "Which performance appraisal method consumes a lot of time?" — الإجابة: Essay method (Final 2025 Q56). وكمان: "The actual achievements compared with objectives = Job Performance" (Q55).
+    </div>
+    <div class="warn">
+      <b>⚠️ سؤال امتحان 2025:</b> "Which term refers to evaluating and improving employee performance?" — الإجابة: Performance Appraisal (Final 2025 Q49).
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     QUIZ — TRUE/FALSE
+══════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz-tf">
+  <div class="quiz-header">
+    <div class="quiz-icon">✅</div>
+    <div>
+      <h3>True / False — من امتحانات حقيقية</h3>
+      <p>10 أسئلة صح/غلط مأخوذة من امتحانات 2019 · 2021 · 2022 · 2025</p>
+    </div>
+  </div>
+
+  <!-- TF Q1 -->
+  <div class="q-item" id="tf1">
+    <div class="q-num">سؤال 1 / 10 <span class="q-src">Midterm 2022</span></div>
+    <div class="q-text">Recruitment is the process of developing qualities in human resources that will enable them to be more productive and thus contribute more to organizational goal attainment.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectTF('tf1','A','B')"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" onclick="selectTF('tf1','B','B')"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain" id="exp-tf1">
+      <b>❌ False — الإجابة الصحيحة</b>
+      الجملة دي هي تعريف الـ <strong>Training</strong> مش الـ Recruitment.<br>
+      تعريف الـ Recruitment الصح: "Is the initial attraction and screening of the supply of prospective human resources available to fill a position."
+    </div>
+  </div>
+
+  <!-- TF Q2 -->
+  <div class="q-item" id="tf2">
+    <div class="q-num">سؤال 2 / 10 <span class="q-src">Midterm 2022</span></div>
+    <div class="q-text">A job description refers to the characteristics of the individual who should be hired for the job.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectTF('tf2','A','B')"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" onclick="selectTF('tf2','B','B')"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain" id="exp-tf2">
+      <b>❌ False — الإجابة الصحيحة</b>
+      ده تعريف <strong>Job Specification</strong> مش Job Description.<br>
+      Job Description = list of specific <em>activities</em> to be performed.<br>
+      Job Specification = list of specific <em>characteristics</em> of the individual.
+    </div>
+  </div>
+
+  <!-- TF Q3 -->
+  <div class="q-item" id="tf3">
+    <div class="q-num">سؤال 3 / 10 <span class="q-src">Final 2021</span></div>
+    <div class="q-text">Wikstrom's human resource inventory forms are meant to be used exclusively for filling managerial positions and cannot be used for filling nonmanagerial positions.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectTF('tf3','A','B')"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" onclick="selectTF('tf3','B','B')"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain" id="exp-tf3">
+      <b>❌ False — الإجابة الصحيحة</b>
+      Wikstrom's forms ممكن تُستخدم لملء المناصب الـ nonmanagerial برضو — مش حكر على المديرين.
+    </div>
+  </div>
+
+  <!-- TF Q4 -->
+  <div class="q-item" id="tf4">
+    <div class="q-num">سؤال 4 / 10 <span class="q-src">Final 2025</span></div>
+    <div class="q-text">The supply of individuals from which to recruit is continually changing, which means that at times, finding appropriate human resources will be much harder than at other times.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectTF('tf4','A','B')"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" onclick="selectTF('tf4','B','B')"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain" id="exp-tf4">
+      <b>✅ True — الإجابة الصحيحة</b>
+      سوق العمل بيتغير باستمرار — أحياناً إيجاد الـ Appropriate HR بيكون أصعب من أوقات تانية. ده من الـ Slides عن "Knowing Sources of Human Resources".
+    </div>
+  </div>
+
+  <!-- TF Q5 -->
+  <div class="q-item" id="tf5">
+    <div class="q-num">سؤال 5 / 10 <span class="q-src">Final 2025</span></div>
+    <div class="q-text">An organization that wants to retain an employee may need to assist that employee's spouse in his or her career development as well.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectTF('tf5','A','B')"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" onclick="selectTF('tf5','B','B')"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain" id="exp-tf5">
+      <b>✅ True — الإجابة الصحيحة</b>
+      Modern management بتعترف إن الموظف الموهوب ممكن يرفض وظيفة أو يسيب المنظمة لو مرتّه/جوزه مش لاقي فرص. فالمنظمة ممكن تساعد في career development للزوج/الزوجة عشان تحتفظ بالموظف.
+    </div>
+  </div>
+
+  <!-- TF Q6 -->
+  <div class="q-item" id="tf6">
+    <div class="q-num">سؤال 6 / 10 <span class="q-src">Final 2021</span></div>
+    <div class="q-text">Recruitment is the initial attraction and screening of the supply of prospective human resources available to fill a position.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectTF('tf6','A','B')"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" onclick="selectTF('tf6','B','B')"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain" id="exp-tf6">
+      <b>✅ True — الإجابة الصحيحة</b>
+      ده التعريف الصح للـ Recruitment — "initial attraction and screening." لا تخلطه بالـ Training.
+    </div>
+  </div>
+
+  <!-- TF Q7 -->
+  <div class="q-item" id="tf7">
+    <div class="q-num">سؤال 7 / 10 <span class="q-src">Derived from Slides</span></div>
+    <div class="q-text">Job analysis is a technique commonly used to gain understanding of the job with the aim of determining a job description and a job specification.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectTF('tf7','A','A')"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" onclick="selectTF('tf7','B','A')"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain" id="exp-tf7">
+      <b>✅ True — الإجابة الصحيحة</b>
+      الـ Job Analysis هو الأداة الأساسية اللي من خلالها بنفهم طبيعة الوظيفة عشان نطلع منها الـ Job Description والـ Job Specification.
+    </div>
+  </div>
+
+  <!-- TF Q8 -->
+  <div class="q-item" id="tf8">
+    <div class="q-num">سؤال 8 / 10 <span class="q-src">Derived from Slides</span></div>
+    <div class="q-text">The purpose of Training is to increase the productivity of employees by influencing their behavior.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectTF('tf8','A','B')"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" onclick="selectTF('tf8','B','B')"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain" id="exp-tf8">
+      <b>✅ True — الإجابة الصحيحة</b>
+      ده نص التعريف من الـ Slides: "Purpose: To increase the productivity of employees by influencing their behavior."
+    </div>
+  </div>
+
+  <!-- TF Q9 -->
+  <div class="q-item" id="tf9">
+    <div class="q-num">سؤال 9 / 10 <span class="q-src">Derived from Slides</span></div>
+    <div class="q-text">Performance Appraisal's purpose is to punish or reward employees for their performance.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectTF('tf9','A','B')"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" onclick="selectTF('tf9','B','B')"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain" id="exp-tf9">
+      <b>❌ False — الإجابة الصحيحة</b>
+      ده من الـ Potential Weaknesses — النظرة الغلطة للـ Performance Appraisal.<br>
+      الـ Purpose الصح: "To furnish feedback about how they can become more productive" — مش reward/punishment situation.
+    </div>
+  </div>
+
+  <!-- TF Q10 -->
+  <div class="q-item" id="tf10">
+    <div class="q-num">سؤال 10 / 10 <span class="q-src">Derived from Slides</span></div>
+    <div class="q-text">Assessment Centers are actual physical locations where selection tests are conducted.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectTF('tf10','A','B')"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" onclick="selectTF('tf10','B','B')"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain" id="exp-tf10">
+      <b>❌ False — الإجابة الصحيحة</b>
+      Assessment Centers هي <strong>program مش place</strong>! التعريف: "A program in which participants engage in a number of individual and group exercises constructed to simulate important activities." مش مكان مادي.
+    </div>
+  </div>
+
+  <div class="q-controls">
+    <button class="quiz-btn btn-check" onclick="checkTF()">✅ تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetTF()">🔄 إعادة المحاولة</button>
+    <span class="q-score" id="score-tf" style="display:none"></span>
+    <div class="q-feedback" id="feedback-tf"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     QUIZ — MCQ
+══════════════════════════════════════════════════ -->
 <div class="quiz-section" id="quiz-mcq">
   <div class="quiz-header">
     <div class="quiz-icon">🎯</div>
     <div>
-      <h3>Multiple Choice Questions</h3>
-      <p>أسئلة اختيارات من امتحانات السنين اللي فاتت</p>
+      <h3>MCQ — من امتحانات حقيقية</h3>
+      <p>20 سؤال اختياري من امتحانات 2019 · 2021 · 2022 · 2024 · 2025</p>
     </div>
   </div>
 
-  <div class="q-item" data-correct="c">
-    <div class="q-num">Question 1 <span class="q-src">Final 2025</span></div>
-    <div class="q-text">In HRM, what does the term "training and development" refer to?</div>
+  <!-- MCQ 1 -->
+  <div class="q-item" id="mcq1">
+    <div class="q-num">سؤال 1 / 20 <span class="q-src">Final 2019 — Q4 (Training)</span></div>
+    <div class="q-text">What are the four steps of Training? (Complete the missing steps — Step 1 is Determining Training Needs)</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div>Evaluating Employee Performance</div>
-      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div>Improving Workplace Decor</div>
-      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div>Enhancing Employee Skills and Knowledge</div>
-      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div>Assessing Compensation and Benefits</div>
+      <div class="q-opt" onclick="selectMCQ('mcq1','A','B')"><div class="q-opt-letter">A</div> Design → Administer → Evaluate</div>
+      <div class="q-opt" onclick="selectMCQ('mcq1','B','B')"><div class="q-opt-letter">B</div> Interview → Train → Evaluate</div>
+      <div class="q-opt" onclick="selectMCQ('mcq1','C','B')"><div class="q-opt-letter">C</div> Select → Hire → Appraise</div>
+      <div class="q-opt" onclick="selectMCQ('mcq1','D','B')"><div class="q-opt-letter">D</div> Plan → Implement → Review</div>
     </div>
-    <div class="q-explain"><b>Correct Answer: C</b><br>Training aims to increase productivity by influencing behavior and developing skills.</div>
+    <div class="q-explain" id="exp-mcq1">
+      <b>✅ A — الإجابة الصحيحة</b>
+      الـ 4 خطوات: Determining Training Needs → <strong>Designing</strong> the program → <strong>Administering</strong> the program → <strong>Evaluating</strong> the program.
+      <div class="why-wrong"><b>ليه B غلط:</b> Interview مش خطوة في التدريب. <b>ليه C غلط:</b> Select وHire دي مراحل الـ Recruitment والـ Selection. <b>ليه D غلط:</b> Plan وImplement وReview غير دقيقة للمصطلحات الصح.</div>
+    </div>
   </div>
 
-  <div class="q-item" data-correct="c">
-    <div class="q-num">Question 2 <span class="q-src">Final 2025</span></div>
-    <div class="q-text">In the context of the personnel function, what is the significance of job analysis?</div>
+  <!-- MCQ 2 -->
+  <div class="q-item" id="mcq2">
+    <div class="q-num">سؤال 2 / 20 <span class="q-src">Final 2019 — Q8</span></div>
+    <div class="q-text">Explain the three types of records in Wikstrom Human Resource Inventory. Which record focuses on position-centered information?</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div>Assessing Financial Resources</div>
-      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div>Evaluating Marketing Strategies</div>
-      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div>Defining Job Roles and Responsibilities</div>
-      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div>Improving Workplace</div>
+      <div class="q-opt" onclick="selectMCQ('mcq2','A','B')"><div class="q-opt-letter">A</div> Management Inventory Card</div>
+      <div class="q-opt" onclick="selectMCQ('mcq2','B','B')"><div class="q-opt-letter">B</div> Position Replacement Form</div>
+      <div class="q-opt" onclick="selectMCQ('mcq2','C','B')"><div class="q-opt-letter">C</div> Management Manpower Replacement Chart</div>
+      <div class="q-opt" onclick="selectMCQ('mcq2','D','B')"><div class="q-opt-letter">D</div> Human Resource Inventory Card</div>
     </div>
-    <div class="q-explain"><b>Correct Answer: C</b><br>Job analysis determines job description (roles/activities) and specification.</div>
+    <div class="q-explain" id="exp-mcq2">
+      <b>✅ B — Position Replacement Form</b>
+      الـ Position Replacement Form هو الوحيد اللي بيركّز على الـ <em>position-centered information</em> — أما الـ Management Inventory Card فهي <em>people-centered</em>.
+      <div class="why-wrong"><b>ليه A غلط:</b> Management Inventory Card = people-centered (تاريخ الموظف ومستقبله). <b>ليه C غلط:</b> Management Manpower Replacement Chart = composite view عن كل المرشحين المهمين.</div>
+    </div>
   </div>
 
-  <div class="q-item" data-correct="c">
-    <div class="q-num">Question 3 <span class="q-src">Final 2025</span></div>
-    <div class="q-text">Which HRM function is responsible for recruiting and selecting employees?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div>Compensation and Benefits</div>
-      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div>Employee Relations</div>
-      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div>Recruitment and Selection</div>
-      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div>Training and Development</div>
-    </div>
-    <div class="q-explain"><b>Correct Answer: C</b><br>Very direct question.</div>
-  </div>
-
-  <div class="q-item" data-correct="b">
-    <div class="q-num">Question 4 <span class="q-src">Final 2025</span></div>
-    <div class="q-text">Which term refers to the process of evaluating and improving employee performance?</div>
-    <div class="q-opts">
-      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div>Compensation Management</div>
-      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div>Performance Appraisal</div>
-      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div>Employee Engagement</div>
-      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div>Succession Plan</div>
-    </div>
-    <div class="q-explain"><b>Correct Answer: B</b><br>Performance Appraisal is reviewing past activity to evaluate contribution.</div>
-  </div>
-
-  <div class="q-item" data-correct="c">
-    <div class="q-num">Question 5 <span class="q-src">Final 2021 & 2022</span></div>
+  <!-- MCQ 3 -->
+  <div class="q-item" id="mcq3">
+    <div class="q-num">سؤال 3 / 20 <span class="q-src">Final 2021 — Q35</span></div>
     <div class="q-text">_______ is the initial attraction and screening of the supply of prospective human resources available to fill a position.</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div>Onboarding</div>
-      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div>Promotion</div>
-      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div>Recruitment</div>
-      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div>Prospecting</div>
-      <div class="q-opt" data-val="e"><div class="q-opt-letter">E</div>Orientation</div>
+      <div class="q-opt" onclick="selectMCQ('mcq3','A','C')"><div class="q-opt-letter">A</div> Onboarding</div>
+      <div class="q-opt" onclick="selectMCQ('mcq3','B','C')"><div class="q-opt-letter">B</div> Promotion</div>
+      <div class="q-opt" onclick="selectMCQ('mcq3','C','C')"><div class="q-opt-letter">C</div> Recruitment</div>
+      <div class="q-opt" onclick="selectMCQ('mcq3','D','C')"><div class="q-opt-letter">D</div> Prospecting</div>
+      <div class="q-opt" onclick="selectMCQ('mcq3','E','C')"><div class="q-opt-letter">E</div> Orientation</div>
     </div>
-    <div class="q-explain"><b>Correct Answer: C</b><br>This is the exact definition of Recruitment.</div>
+    <div class="q-explain" id="exp-mcq3">
+      <b>✅ C — Recruitment</b>
+      ده التعريف الحرفي للـ Recruitment من الـ Slides. "Initial attraction and screening" = أول خطوة في توفير الـ HR.
+      <div class="why-wrong"><b>ليه A غلط:</b> Onboarding هو إدخال الموظف الجديد للمنظمة بعد التوظيف. <b>ليه B غلط:</b> Promotion هي ترقية من الداخل. <b>ليه D غلط:</b> Prospecting مصطلح مش موجود في المنهج.</div>
+    </div>
   </div>
 
-  <div class="q-item" data-correct="e">
-    <div class="q-num">Question 6 <span class="q-src">Final 2021 & 2022</span></div>
+  <!-- MCQ 4 -->
+  <div class="q-item" id="mcq4">
+    <div class="q-num">سؤال 4 / 20 <span class="q-src">Final 2021 — Q36</span></div>
     <div class="q-text">Which of the following items is likely to be found in a job specification?</div>
     <div class="q-opts">
-      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div>job title</div>
-      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div>working conditions</div>
-      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div>equipment used</div>
-      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div>job summary</div>
-      <div class="q-opt" data-val="e"><div class="q-opt-letter">E</div>physical skills</div>
+      <div class="q-opt" onclick="selectMCQ('mcq4','A','E')"><div class="q-opt-letter">A</div> job title</div>
+      <div class="q-opt" onclick="selectMCQ('mcq4','B','E')"><div class="q-opt-letter">B</div> working conditions</div>
+      <div class="q-opt" onclick="selectMCQ('mcq4','C','E')"><div class="q-opt-letter">C</div> equipment used</div>
+      <div class="q-opt" onclick="selectMCQ('mcq4','D','E')"><div class="q-opt-letter">D</div> job summary</div>
+      <div class="q-opt" onclick="selectMCQ('mcq4','E','E')"><div class="q-opt-letter">E</div> physical skills</div>
     </div>
-    <div class="q-explain"><b>Correct Answer: E</b><br>Job specification lists characteristics/skills of the individual.</div>
+    <div class="q-explain" id="exp-mcq4">
+      <b>✅ E — physical skills</b>
+      الـ Job Specification بتوصف خصائص <em>الشخص</em> — زي physical skills, educational qualifications, experience required.<br>
+      أما الباقي (job title, working conditions, equipment used, job summary) دي من الـ Job Description اللي بتوصف الوظيفة نفسها.
+    </div>
+  </div>
+
+  <!-- MCQ 5 -->
+  <div class="q-item" id="mcq5">
+    <div class="q-num">سؤال 5 / 20 <span class="q-src">Midterm 2022 — Q28</span></div>
+    <div class="q-text">Which of the following is the first step in providing appropriate human resources for an organization?</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq5','A','C')"><div class="q-opt-letter">A</div> Selection</div>
+      <div class="q-opt" onclick="selectMCQ('mcq5','B','C')"><div class="q-opt-letter">B</div> Orientation</div>
+      <div class="q-opt" onclick="selectMCQ('mcq5','C','C')"><div class="q-opt-letter">C</div> Recruitment</div>
+      <div class="q-opt" onclick="selectMCQ('mcq5','D','C')"><div class="q-opt-letter">D</div> Training</div>
+    </div>
+    <div class="q-explain" id="exp-mcq5">
+      <b>✅ C — Recruitment</b>
+      الـ Recruitment هو الخطوة الأولى (Step 1) في الـ 4 خطوات: Recruitment → Selection → Training → Performance Appraisal.
+      <div class="why-wrong"><b>ليه A غلط:</b> Selection هي الخطوة الثانية. <b>ليه D غلط:</b> Training هي الخطوة الثالثة — بعد ما الشخص ينضم للمنظمة.</div>
+    </div>
+  </div>
+
+  <!-- MCQ 6 -->
+  <div class="q-item" id="mcq6">
+    <div class="q-num">سؤال 6 / 20 <span class="q-src">Midterm 2022 — Q29</span></div>
+    <div class="q-text">Which of the following items is likely to be found in a job description?</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq6','A','D')"><div class="q-opt-letter">A</div> physical effort needed</div>
+      <div class="q-opt" onclick="selectMCQ('mcq6','B','D')"><div class="q-opt-letter">B</div> educational qualifications desired</div>
+      <div class="q-opt" onclick="selectMCQ('mcq6','C','D')"><div class="q-opt-letter">C</div> experience required</div>
+      <div class="q-opt" onclick="selectMCQ('mcq6','D','D')"><div class="q-opt-letter">D</div> job responsibilities</div>
+      <div class="q-opt" onclick="selectMCQ('mcq6','E','D')"><div class="q-opt-letter">E</div> physical skills</div>
+    </div>
+    <div class="q-explain" id="exp-mcq6">
+      <b>✅ D — job responsibilities</b>
+      الـ Job Description = "list of specific activities to be performed" — وبيشمل job title, job summary, working conditions, equipment used, <strong>job responsibilities</strong>.<br>
+      أما physical effort, educational qualifications, experience required, physical skills = Job Specification (خصائص الشخص).
+    </div>
+  </div>
+
+  <!-- MCQ 7 -->
+  <div class="q-item" id="mcq7">
+    <div class="q-num">سؤال 7 / 20 <span class="q-src">Midterm 2022 — Q30</span></div>
+    <div class="q-text">_______ is an on-the-job training technique that involves direct critiquing of how well an individual is performing a job.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq7','A','B')"><div class="q-opt-letter">A</div> Programmed learning</div>
+      <div class="q-opt" onclick="selectMCQ('mcq7','B','B')"><div class="q-opt-letter">B</div> Coaching</div>
+      <div class="q-opt" onclick="selectMCQ('mcq7','C','B')"><div class="q-opt-letter">C</div> Lecturing</div>
+      <div class="q-opt" onclick="selectMCQ('mcq7','D','B')"><div class="q-opt-letter">D</div> Position rotation</div>
+    </div>
+    <div class="q-explain" id="exp-mcq7">
+      <b>✅ B — Coaching</b>
+      Coaching = "Direct critiquing of how well an individual is performing a job." دي من تقنيات الـ On-The-Job training.
+      <div class="why-wrong"><b>ليه D غلط:</b> Position Rotation = نقل الموظف من وظيفة لوظيفة لفهم المنظمة ككل — مش نقد مباشر للأداء. <b>ليه A غلط:</b> Programmed learning = تقنية لنقل المعلومات (بدون مدرس)، مش لتطوير المهارات الوظيفية.</div>
+    </div>
+  </div>
+
+  <!-- MCQ 8 -->
+  <div class="q-item" id="mcq8">
+    <div class="q-num">سؤال 8 / 20 <span class="q-src">Final 2025 — Q21</span></div>
+    <div class="q-text">In HRM, what does the term "training and development" refer to?</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq8','A','C')"><div class="q-opt-letter">A</div> Evaluating Employee Performance</div>
+      <div class="q-opt" onclick="selectMCQ('mcq8','B','C')"><div class="q-opt-letter">B</div> Improving Workplace Decor</div>
+      <div class="q-opt" onclick="selectMCQ('mcq8','C','C')"><div class="q-opt-letter">C</div> Enhancing Employee Skills and Knowledge</div>
+      <div class="q-opt" onclick="selectMCQ('mcq8','D','C')"><div class="q-opt-letter">D</div> Assessing Compensation and Benefits</div>
+    </div>
+    <div class="q-explain" id="exp-mcq8">
+      <b>✅ C — Enhancing Employee Skills and Knowledge</b>
+      Training = "developing qualities in HR to be more productive." ده يترجم لـ Enhancing Skills and Knowledge.
+      <div class="why-wrong"><b>ليه A غلط:</b> Evaluating Performance = Performance Appraisal، مش Training.</div>
+    </div>
+  </div>
+
+  <!-- MCQ 9 -->
+  <div class="q-item" id="mcq9">
+    <div class="q-num">سؤال 9 / 20 <span class="q-src">Final 2025 — Q30</span></div>
+    <div class="q-text">In the context of the personnel function, what is the significance of job analysis?</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq9','A','C')"><div class="q-opt-letter">A</div> Assessing Financial Resources</div>
+      <div class="q-opt" onclick="selectMCQ('mcq9','B','C')"><div class="q-opt-letter">B</div> Evaluating Marketing Strategies</div>
+      <div class="q-opt" onclick="selectMCQ('mcq9','C','C')"><div class="q-opt-letter">C</div> Defining Job Roles and Responsibilities</div>
+      <div class="q-opt" onclick="selectMCQ('mcq9','D','C')"><div class="q-opt-letter">D</div> Improving Workplace</div>
+    </div>
+    <div class="q-explain" id="exp-mcq9">
+      <b>✅ C — Defining Job Roles and Responsibilities</b>
+      Job Analysis = "technique used to gain understanding of the job with aim of determining job description and job specification." ده بالضبط Defining Job Roles and Responsibilities.
+    </div>
+  </div>
+
+  <!-- MCQ 10 -->
+  <div class="q-item" id="mcq10">
+    <div class="q-num">سؤال 10 / 20 <span class="q-src">Final 2025 — Q33</span></div>
+    <div class="q-text">Which HRM function is responsible for recruiting and selecting employees?</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq10','A','C')"><div class="q-opt-letter">A</div> Compensation and Benefits</div>
+      <div class="q-opt" onclick="selectMCQ('mcq10','B','C')"><div class="q-opt-letter">B</div> Employee Relations</div>
+      <div class="q-opt" onclick="selectMCQ('mcq10','C','C')"><div class="q-opt-letter">C</div> Recruitment and Selection</div>
+      <div class="q-opt" onclick="selectMCQ('mcq10','D','C')"><div class="q-opt-letter">D</div> Training and Development</div>
+    </div>
+    <div class="q-explain" id="exp-mcq10">
+      <b>✅ C — Recruitment and Selection</b>
+      السؤال مباشر جداً — الـ Recruitment and Selection هي الـ function المسؤولة عن استقطاب واختيار الموظفين.
+    </div>
+  </div>
+
+  <!-- MCQ 11 -->
+  <div class="q-item" id="mcq11">
+    <div class="q-num">سؤال 11 / 20 <span class="q-src">Final 2025 — Q45</span></div>
+    <div class="q-text">Which of the following is a method used in group or organisational training needs assessment?</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq11','A','A')"><div class="q-opt-letter">A</div> Consideration of current and projected changes</div>
+      <div class="q-opt" onclick="selectMCQ('mcq11','B','A')"><div class="q-opt-letter">B</div> Rating scales</div>
+      <div class="q-opt" onclick="selectMCQ('mcq11','C','A')"><div class="q-opt-letter">C</div> Interviews</div>
+      <div class="q-opt" onclick="selectMCQ('mcq11','D','A')"><div class="q-opt-letter">D</div> Questionnaires</div>
+    </div>
+    <div class="q-explain" id="exp-mcq11">
+      <b>✅ A — Consideration of current and projected changes</b>
+      من الـ Slides، طرق تحديد Training Needs تشمل: evaluating production process, direct feedback from employees, و"Looking into the future" = considering current and projected changes.
+      <div class="why-wrong"><b>ليه B/C/D:</b> دي تقنيات Assessment Centers أو Performance Appraisal، مش Training Needs Assessment.</div>
+    </div>
+  </div>
+
+  <!-- MCQ 12 -->
+  <div class="q-item" id="mcq12">
+    <div class="q-num">سؤال 12 / 20 <span class="q-src">Final 2025 — Q49</span></div>
+    <div class="q-text">Which term refers to the process of evaluating and improving employee performance?</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq12','A','B')"><div class="q-opt-letter">A</div> Compensation Management</div>
+      <div class="q-opt" onclick="selectMCQ('mcq12','B','B')"><div class="q-opt-letter">B</div> Performance Appraisal</div>
+      <div class="q-opt" onclick="selectMCQ('mcq12','C','B')"><div class="q-opt-letter">C</div> Employee Engagement</div>
+      <div class="q-opt" onclick="selectMCQ('mcq12','D','B')"><div class="q-opt-letter">D</div> Succession Plan</div>
+    </div>
+    <div class="q-explain" id="exp-mcq12">
+      <b>✅ B — Performance Appraisal</b>
+      Performance Appraisal = "process of reviewing individuals' past productive activity to evaluate the contribution they have made." ده بالضبط evaluating and improving employee performance.
+    </div>
+  </div>
+
+  <!-- MCQ 13 -->
+  <div class="q-item" id="mcq13">
+    <div class="q-num">سؤال 13 / 20 <span class="q-src">Final 2025 — Q55</span></div>
+    <div class="q-text">The actual achievements compared with the objectives of the job is _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq13','A','A')"><div class="q-opt-letter">A</div> Job Performance</div>
+      <div class="q-opt" onclick="selectMCQ('mcq13','B','A')"><div class="q-opt-letter">B</div> Job evaluation</div>
+      <div class="q-opt" onclick="selectMCQ('mcq13','C','A')"><div class="q-opt-letter">C</div> Job description</div>
+      <div class="q-opt" onclick="selectMCQ('mcq13','D','A')"><div class="q-opt-letter">D</div> None of these</div>
+    </div>
+    <div class="q-explain" id="exp-mcq13">
+      <b>✅ A — Job Performance</b>
+      Job Performance = مقارنة الإنجازات الفعلية بأهداف الوظيفة. ده ارتباط مباشر بالـ Performance Appraisal.
+      <div class="why-wrong"><b>ليه B غلط:</b> Job evaluation = تقييم قيمة الوظيفة بالنسبة للأجر. <b>ليه C غلط:</b> Job description = قائمة بالأنشطة المطلوبة في الوظيفة.</div>
+    </div>
+  </div>
+
+  <!-- MCQ 14 -->
+  <div class="q-item" id="mcq14">
+    <div class="q-num">سؤال 14 / 20 <span class="q-src">Final 2025 — Q56</span></div>
+    <div class="q-text">Which performance appraisal method consumes a lot of time?</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq14','A','A')"><div class="q-opt-letter">A</div> Essay method</div>
+      <div class="q-opt" onclick="selectMCQ('mcq14','B','A')"><div class="q-opt-letter">B</div> Rating Scales</div>
+      <div class="q-opt" onclick="selectMCQ('mcq14','C','A')"><div class="q-opt-letter">C</div> Critical incident</div>
+      <div class="q-opt" onclick="selectMCQ('mcq14','D','A')"><div class="q-opt-letter">D</div> Tests and Observation</div>
+    </div>
+    <div class="q-explain" id="exp-mcq14">
+      <b>✅ A — Essay method</b>
+      الـ Essay method بيتطلب من المقيّم كتابة وصف تفصيلي عن أداء الموظف — وده بياخد وقت كتير مقارنة بالأساليب التانية.
+    </div>
+  </div>
+
+  <!-- MCQ 15 -->
+  <div class="q-item" id="mcq15">
+    <div class="q-num">سؤال 15 / 20 <span class="q-src">Derived from Slides — Training</span></div>
+    <div class="q-text">Which of the following is an on-the-job training technique that involves moving an individual from job to job to increase their understanding of the organization?</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq15','A','C')"><div class="q-opt-letter">A</div> Programmed learning</div>
+      <div class="q-opt" onclick="selectMCQ('mcq15','B','C')"><div class="q-opt-letter">B</div> Coaching</div>
+      <div class="q-opt" onclick="selectMCQ('mcq15','C','C')"><div class="q-opt-letter">C</div> Position rotation</div>
+      <div class="q-opt" onclick="selectMCQ('mcq15','D','C')"><div class="q-opt-letter">D</div> Management games</div>
+    </div>
+    <div class="q-explain" id="exp-mcq15">
+      <b>✅ C — Position rotation</b>
+      الـ Position Rotation بيتم فيه نقل الموظف من وظيفة لأخرى عشان يفهم شغل المنظمة ككل، ودي واحدة من تقنيات الـ On-The-Job training.
+      <div class="why-wrong"><b>ليه B غلط:</b> Coaching هو توجيه مباشر للأداء الحالي. <b>ليه A غلط:</b> ده بيعتمد على نقل المعلومات بدون مدرس.</div>
+    </div>
+  </div>
+
+  <!-- MCQ 16 -->
+  <div class="q-item" id="mcq16">
+    <div class="q-num">سؤال 16 / 20 <span class="q-src">Derived from Slides — Succession Planning</span></div>
+    <div class="q-text">Succession planning is the process of outlining _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq16','A','B')"><div class="q-opt-letter">A</div> how to train new managers</div>
+      <div class="q-opt" onclick="selectMCQ('mcq16','B','B')"><div class="q-opt-letter">B</div> who will follow whom in various organizational positions</div>
+      <div class="q-opt" onclick="selectMCQ('mcq16','C','B')"><div class="q-opt-letter">C</div> how to evaluate employee performance</div>
+      <div class="q-opt" onclick="selectMCQ('mcq16','D','B')"><div class="q-opt-letter">D</div> the organizational hierarchy for new employees</div>
+    </div>
+    <div class="q-explain" id="exp-mcq16">
+      <b>✅ B — who will follow whom in various organizational positions</b>
+      التعريف الحرفي من الـ Slides: "Succession planning is the process of outlining <em>who will follow whom</em> in various organizational positions." وده مرتبط بالـ Wikstrom HR Inventory.
+    </div>
+  </div>
+
+  <!-- MCQ 17 -->
+  <div class="q-item" id="mcq17">
+    <div class="q-num">سؤال 17 / 20 <span class="q-src">Derived from Slides — Affirmative Action</span></div>
+    <div class="q-text">The purpose of the Affirmative Action Program is _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq17','A','C')"><div class="q-opt-letter">A</div> to enforce immigration laws</div>
+      <div class="q-opt" onclick="selectMCQ('mcq17','B','C')"><div class="q-opt-letter">B</div> to reduce training costs</div>
+      <div class="q-opt" onclick="selectMCQ('mcq17','C','C')"><div class="q-opt-letter">C</div> to eliminate barriers and increase opportunities for underutilized/disadvantaged individuals</div>
+      <div class="q-opt" onclick="selectMCQ('mcq17','D','C')"><div class="q-opt-letter">D</div> to promote senior managers only</div>
+    </div>
+    <div class="q-explain" id="exp-mcq17">
+      <b>✅ C — eliminate barriers and increase opportunities</b>
+      التعريف الحرفي: "Is to eliminate barriers and increase opportunities for the purpose of increasing the utilization of underutilized and/or disadvantaged individuals."
+    </div>
+  </div>
+
+  <!-- MCQ 18 -->
+  <div class="q-item" id="mcq18">
+    <div class="q-num">سؤال 18 / 20 <span class="q-src">Derived from Slides — Selection Tools</span></div>
+    <div class="q-text">Assessment Centers are _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq18','A','B')"><div class="q-opt-letter">A</div> physical locations for conducting interviews</div>
+      <div class="q-opt" onclick="selectMCQ('mcq18','B','B')"><div class="q-opt-letter">B</div> programs in which participants engage in exercises to simulate organizational activities</div>
+      <div class="q-opt" onclick="selectMCQ('mcq18','C','B')"><div class="q-opt-letter">C</div> government agencies for employee assessment</div>
+      <div class="q-opt" onclick="selectMCQ('mcq18','D','B')"><div class="q-opt-letter">D</div> departments within HR for payroll processing</div>
+    </div>
+    <div class="q-explain" id="exp-mcq18">
+      <b>✅ B — programs (not places!)</b>
+      التعريف: "A <em>program</em> (not a place) in which participants engage in individual and group exercises constructed to simulate important activities at the organizational levels to which they aspire."
+      <div class="why-wrong"><b>ليه A غلط:</b> Assessment Centers مش مكان مادي — ده من أكتر الأخطاء الشائعة في هذا الموضوع.</div>
+    </div>
+  </div>
+
+  <!-- MCQ 19 -->
+  <div class="q-item" id="mcq19">
+    <div class="q-num">سؤال 19 / 20 <span class="q-src">Derived from Slides — PA Purpose</span></div>
+    <div class="q-text">The purpose of Performance Appraisal is to _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq19','A','C')"><div class="q-opt-letter">A</div> reward high performers and punish low performers</div>
+      <div class="q-opt" onclick="selectMCQ('mcq19','B','C')"><div class="q-opt-letter">B</div> complete required paperwork for compliance</div>
+      <div class="q-opt" onclick="selectMCQ('mcq19','C','C')"><div class="q-opt-letter">C</div> furnish feedback to help employees become more productive and useful</div>
+      <div class="q-opt" onclick="selectMCQ('mcq19','D','C')"><div class="q-opt-letter">D</div> determine the organizational hierarchy</div>
+    </div>
+    <div class="q-explain" id="exp-mcq19">
+      <b>✅ C — furnish feedback to become more productive</b>
+      التعريف الحرفي: "To furnish feedback to organization members about how they can become more productive and useful to the organization in its quest for quality."
+      <div class="why-wrong"><b>ليه A غلط:</b> ده من الـ Potential Weaknesses — النظرة الخاطئة للـ PA. <b>ليه B غلط:</b> الـ Slides بتقول الـ paperwork "should be viewed only as an aid," مش الهدف في حد ذاته.</div>
+    </div>
+  </div>
+
+  <!-- MCQ 20 -->
+  <div class="q-item" id="mcq20">
+    <div class="q-num">سؤال 20 / 20 <span class="q-src">Derived from Slides — HR Steps Order</span></div>
+    <div class="q-text">What is the correct order of steps in providing Human Resources?</div>
+    <div class="q-opts">
+      <div class="q-opt" onclick="selectMCQ('mcq20','A','C')"><div class="q-opt-letter">A</div> Selection → Recruitment → Training → Performance Appraisal</div>
+      <div class="q-opt" onclick="selectMCQ('mcq20','B','C')"><div class="q-opt-letter">B</div> Training → Selection → Recruitment → Performance Appraisal</div>
+      <div class="q-opt" onclick="selectMCQ('mcq20','C','C')"><div class="q-opt-letter">C</div> Recruitment → Selection → Training → Performance Appraisal</div>
+      <div class="q-opt" onclick="selectMCQ('mcq20','D','C')"><div class="q-opt-letter">D</div> Recruitment → Training → Selection → Performance Appraisal</div>
+    </div>
+    <div class="q-explain" id="exp-mcq20">
+      <b>✅ C — Recruitment → Selection → Training → Performance Appraisal</b>
+      ده ترتيب الـ 4 خطوات الأساسية من الـ Slides. الخطوتان الأوليان (Recruitment + Selection) قبل الانضمام، والخطوتان الأخيرتان (Training + Performance Appraisal) بعد الانضمام.
+    </div>
   </div>
 
   <div class="q-controls">
-    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-mcq')">Check Answers</button>
-    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-mcq')">Reset</button>
-    <span class="q-score" id="score-mcq"></span>
+    <button class="quiz-btn btn-check" onclick="checkMCQ()">✅ تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetMCQ()">🔄 إعادة المحاولة</button>
+    <span class="q-score" id="score-mcq" style="display:none"></span>
+    <div class="q-feedback" id="feedback-mcq"></div>
   </div>
 </div>
 
@@ -1198,30 +1910,114 @@ code{
 ══════════════════════════════════════════════════ -->
 <div class="chapter" id="cheat">
   <div class="ch-header">
-    <div class="ch-num teal">📝</div>
+    <div class="ch-num amber">📋</div>
     <div class="ch-title">
-      <h2>Cheat Sheet — خلاصة القوانين والمصطلحات</h2>
-      <p>لمة سريعة لأهم التعريفات والمقارنات علشان تراجع ليلة الامتحان.</p>
+      <h2>Cheat Sheet — ملخص سريع</h2>
+      <p>كل المصطلحات الأساسية في مكان واحد.</p>
     </div>
   </div>
-  <div class="topic">
+  <div class="topic" dir="ltr" style="--accent:var(--amber)">
     <div class="cheat-grid">
       <div class="cheat">
-        <h3>1. Definitions & Concepts</h3>
-        <div class="cheat-item"><div class="cheat-key">Recruitment</div><div class="cheat-val">Initial attraction and screening.</div></div>
-        <div class="cheat-item"><div class="cheat-key">Selection</div><div class="cheat-val">Choosing an individual to hire.</div></div>
-        <div class="cheat-item"><div class="cheat-key">Training</div><div class="cheat-val">Developing qualities to increase productivity.</div></div>
-        <div class="cheat-item"><div class="cheat-key">Performance Appraisal</div><div class="cheat-val">Reviewing past productive activity.</div></div>
-        <div class="cheat-item"><div class="cheat-key">Job Analysis</div><div class="cheat-val">Gaining understanding to determine description & spec.</div></div>
-        <div class="cheat-item"><div class="cheat-key">Job Description</div><div class="cheat-val">List of activities to be performed.</div></div>
-        <div class="cheat-item"><div class="cheat-key">Job Specification</div><div class="cheat-val">Characteristics of the individual.</div></div>
+        <h3>🔑 Core Definitions</h3>
+        <div class="cheat-item">
+          <div class="cheat-key">Appropriate HR</div>
+          <div class="cheat-val">Individuals who make a valuable contribution to goal attainment.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Recruitment</div>
+          <div class="cheat-val">Initial attraction & screening of prospective HR to fill a position.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Selection</div>
+          <div class="cheat-val">Choosing one individual to hire from all those recruited.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Training</div>
+          <div class="cheat-val">Developing qualities to increase productivity & contribute to goals.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Performance Appraisal</div>
+          <div class="cheat-val">Reviewing past activity to evaluate contribution to objectives.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Succession Planning</div>
+          <div class="cheat-val">Outlining who will follow whom in organizational positions.</div>
+        </div>
       </div>
       <div class="cheat">
-        <h3>2. Written Questions (Final 2019)</h3>
-        <div class="cheat-item"><div class="cheat-key">Training Steps</div><div class="cheat-val">1. Determining needs<br>2. Designing program<br>3. Administering program<br>4. Evaluating program</div></div>
-        <div class="cheat-item"><div class="cheat-key">Wikstrom 1: Inventory Card</div><div class="cheat-val">Employee organizational history & future use.</div></div>
-        <div class="cheat-item"><div class="cheat-key">Wikstrom 2: Position Form</div><div class="cheat-val">Position-centered information.</div></div>
-        <div class="cheat-item"><div class="cheat-key">Wikstrom 3: Replacement Chart</div><div class="cheat-val">Composite view for HR planning.</div></div>
+        <h3>📊 Wikstrom Records</h3>
+        <div class="cheat-item">
+          <div class="cheat-key">Inventory Card</div>
+          <div class="cheat-val">Employee history + future use. People-centered.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Replacement Form</div>
+          <div class="cheat-val">Position-centered information (not people).</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Replacement Chart</div>
+          <div class="cheat-val">Composite view of significant individuals for HR planning.</div>
+        </div>
+        <h3 style="margin-top:14px;">⚖️ Legal</h3>
+        <div class="cheat-item">
+          <div class="cheat-key">EEOC</div>
+          <div class="cheat-val">Enforces anti-discrimination laws in employment.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Affirmative Action</div>
+          <div class="cheat-val">Eliminate barriers, increase opportunities for disadvantaged.</div>
+        </div>
+      </div>
+      <div class="cheat">
+        <h3>🎓 Training Techniques</h3>
+        <div class="cheat-item">
+          <div class="cheat-key">Lectures</div>
+          <div class="cheat-val">One-way info transfer. Adv: max info. Disadv: no practice.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Programmed Learning</div>
+          <div class="cheat-val">No human instructor. Own pace. Adv: immediate feedback.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Coaching (OTJ)</div>
+          <div class="cheat-val">Direct critiquing of job performance.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Position Rotation (OTJ)</div>
+          <div class="cheat-val">Moving job to job to understand whole organization.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Mgmt Games (Class)</div>
+          <div class="cheat-val">Small groups make & evaluate management decisions.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Role-playing (Class)</div>
+          <div class="cheat-val">Acting out people-oriented problems.</div>
+        </div>
+      </div>
+      <div class="cheat">
+        <h3>🧪 Selection Tools</h3>
+        <div class="cheat-item">
+          <div class="cheat-key">Aptitude Tests</div>
+          <div class="cheat-val">Measure potential (general intelligence, mechanical, visual).</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Achievement Tests</div>
+          <div class="cheat-val">Measure current skill level (e.g., typing test).</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Vocational Interest Tests</div>
+          <div class="cheat-val">Measure interest in various kinds of jobs.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Personality Tests</div>
+          <div class="cheat-val">Describe emotional maturity, honesty, objectivity.</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-key">Assessment Centers</div>
+          <div class="cheat-val">PROGRAM (not place!) with simulated exercises.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1232,192 +2028,244 @@ code{
 ══════════════════════════════════════════════════ -->
 <div class="chapter" id="revision">
   <div class="ch-header">
-    <div class="ch-num purple">🎴</div>
+    <div class="ch-num purple">🃏</div>
     <div class="ch-title">
-      <h2>Flashcards — مراجعة سريعة</h2>
-      <p>اختبر نفسك بسرعة في أهم النقط.</p>
+      <h2>Flashcards — اضغط لقلب الكارت</h2>
+      <p>مراجعة سريعة على المصطلحات الأساسية.</p>
     </div>
   </div>
-  <div class="topic">
+  <div class="topic" style="--accent:var(--purple)">
     <div class="flashcards">
       <div class="flashcard" onclick="this.classList.toggle('flipped')">
         <div class="fc-inner">
-          <div class="fc-front">
-            <div class="fc-q">ما هو الفرق بين Job Description و Job Specification؟</div>
-            <div class="fc-hint">اضغط لرؤية الإجابة</div>
-          </div>
-          <div class="fc-back">
-            <div class="fc-a">Description = Activities<br>Specification = Characteristics of individual</div>
-          </div>
+          <div class="fc-front"><div class="fc-q">What is Recruitment?</div><div class="fc-hint">click to reveal</div></div>
+          <div class="fc-back"><div class="fc-a">Initial attraction & screening of prospective HR to fill a position.</div></div>
         </div>
       </div>
       <div class="flashcard" onclick="this.classList.toggle('flipped')">
         <div class="fc-inner">
-          <div class="fc-front">
-            <div class="fc-q">ما هو الـ Aptitude Test؟</div>
-            <div class="fc-hint">اضغط لرؤية الإجابة</div>
-          </div>
-          <div class="fc-back">
-            <div class="fc-a">Measure the potential of an individual to perform a task (Intelligence, Special abilities).</div>
-          </div>
+          <div class="fc-front"><div class="fc-q">What is Selection?</div><div class="fc-hint">click to reveal</div></div>
+          <div class="fc-back"><div class="fc-a">Choosing one individual to hire from all who were recruited.</div></div>
         </div>
       </div>
       <div class="flashcard" onclick="this.classList.toggle('flipped')">
         <div class="fc-inner">
-          <div class="fc-front">
-            <div class="fc-q">ما هو دور الـ EEOC؟</div>
-            <div class="fc-hint">اضغط لرؤية الإجابة</div>
-          </div>
-          <div class="fc-back">
-            <div class="fc-a">Enforce laws prohibiting discrimination on basis of race, color, religion, sex, etc.</div>
-          </div>
+          <div class="fc-front"><div class="fc-q">Job Description vs Job Specification?</div><div class="fc-hint">click to reveal</div></div>
+          <div class="fc-back"><div class="fc-a">Description = activities of the JOB. Specification = characteristics of the PERSON.</div></div>
         </div>
       </div>
       <div class="flashcard" onclick="this.classList.toggle('flipped')">
         <div class="fc-inner">
-          <div class="fc-front">
-            <div class="fc-q">ايه هي مراحل التدريب (Training Steps)؟</div>
-            <div class="fc-hint">اضغط لرؤية الإجابة</div>
-          </div>
-          <div class="fc-back">
-            <div class="fc-a">Needs → Design → Administer → Evaluate</div>
-          </div>
+          <div class="fc-front"><div class="fc-q">3 Wikstrom Records?</div><div class="fc-hint">click to reveal</div></div>
+          <div class="fc-back"><div class="fc-a">1. Management Inventory Card (people) 2. Position Replacement Form (position) 3. Replacement Chart (composite)</div></div>
         </div>
       </div>
       <div class="flashcard" onclick="this.classList.toggle('flipped')">
         <div class="fc-inner">
-          <div class="fc-front">
-            <div class="fc-q">لماذا يُستخدم Performance Appraisal؟</div>
-            <div class="fc-hint">اضغط لرؤية الإجابة</div>
-          </div>
-          <div class="fc-back">
-            <div class="fc-a">To furnish feedback, support salary increases/promotions, coaching.</div>
-          </div>
+          <div class="fc-front"><div class="fc-q">4 Steps of Training?</div><div class="fc-hint">click to reveal</div></div>
+          <div class="fc-back"><div class="fc-a">1. Determining Needs → 2. Designing → 3. Administering → 4. Evaluating</div></div>
         </div>
       </div>
       <div class="flashcard" onclick="this.classList.toggle('flipped')">
         <div class="fc-inner">
-          <div class="fc-front">
-            <div class="fc-q">ما هي الـ 3 أنواع لسجلات Wikstrom؟</div>
-            <div class="fc-hint">اضغط لرؤية الإجابة</div>
-          </div>
-          <div class="fc-back">
-            <div class="fc-a">Management Inventory Card, Position Replacement Form, Management Manpower Replacement Chart.</div>
-          </div>
+          <div class="fc-front"><div class="fc-q">Purpose of Performance Appraisal?</div><div class="fc-hint">click to reveal</div></div>
+          <div class="fc-back"><div class="fc-a">To furnish feedback so employees can become more productive — NOT reward/punishment!</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">What is an Assessment Center?</div><div class="fc-hint">click to reveal</div></div>
+          <div class="fc-back"><div class="fc-a">A PROGRAM (not a place!) with simulated individual & group exercises. Assessed by trained managers.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">What is Coaching?</div><div class="fc-hint">click to reveal</div></div>
+          <div class="fc-back"><div class="fc-a">On-the-job technique = direct critiquing of how well an individual is performing.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">What is EEOC?</div><div class="fc-hint">click to reveal</div></div>
+          <div class="fc-back"><div class="fc-a">Equal Employment Opportunity Commission — enforces anti-discrimination laws in all employment practices.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">What is Succession Planning?</div><div class="fc-hint">click to reveal</div></div>
+          <div class="fc-back"><div class="fc-a">Outlining who will follow whom in various organizational positions.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">Advantage of Lectures?</div><div class="fc-hint">click to reveal</div></div>
+          <div class="fc-back"><div class="fc-a">Exposes trainees to maximum information in a given time period.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front"><div class="fc-q">Advantage of Programmed Learning?</div><div class="fc-hint">click to reveal</div></div>
+          <div class="fc-back"><div class="fc-a">Learn at own pace + immediate feedback (right/wrong) + active participation.</div></div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-</div><!-- /content -->
+</div><!-- end .content -->
 </main>
 
+<!-- ════════ JAVASCRIPT ════════ -->
 <script>
-    /* ══════ SIDEBAR ══════ */
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-      document.getElementById('overlay').classList.toggle('open');
+// ── Progress Bar ──
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  const pct = (d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('scroll-top').classList.toggle('vis', d.scrollTop > 300);
+});
+
+// ── Sidebar ──
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// ── Active Sidebar Link ──
+const sections = document.querySelectorAll('[id]');
+const links = document.querySelectorAll('.sb-link');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  links.forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + cur);
+  });
+});
+
+function getQuizFeedback(pct) {
+  const messages = pct < 50 ? [
+    'متروحش تمتحن أحسن 😁 افتح الشرح وخد جولة تانية.'
+  ] : pct < 70 ? [
+    'مش وحش، بس لسه في كام سؤال عاملين نفسهم managers.'
+  ] : pct < 90 ? [
+    'أداء محترم. راجع الغلطات دي .'
+  ] : [
+    'جامد جدًا. كده الـ chapter تحت السيطرة 🔥'
+  ];
+  return messages[Math.floor(Math.random() * messages.length)];
+}
+
+// ── TRUE/FALSE Quiz ──
+const tfAnswers = {
+  tf1:'B', tf2:'B', tf3:'B', tf4:'A', tf5:'A',
+  tf6:'A', tf7:'A', tf8:'A', tf9:'B', tf10:'B'
+};
+
+function selectTF(qid, choice, correct) {
+  const item = document.getElementById(qid);
+  const opts = item.querySelectorAll('.q-opt');
+  opts.forEach(o => o.classList.remove('selected','correct','wrong'));
+  opts[choice.charCodeAt(0) - 65].classList.add('selected');
+  item.dataset.selected = choice;
+}
+
+function checkTF() {
+  let score = 0;
+  Object.keys(tfAnswers).forEach(qid => {
+    const item = document.getElementById(qid);
+    const selected = item.dataset.selected;
+    const correct = tfAnswers[qid];
+    const opts = item.querySelectorAll('.q-opt');
+    opts.forEach(o => o.classList.remove('selected','correct','wrong'));
+    if (selected) {
+      const si = selected.charCodeAt(0) - 65;
+      const ci = correct.charCodeAt(0) - 65;
+      if (selected === correct) { opts[si].classList.add('correct'); score++; }
+      else { opts[si].classList.add('wrong'); opts[ci].classList.add('correct'); }
+    } else {
+      opts[correct.charCodeAt(0) - 65].classList.add('correct');
     }
-    function closeSidebar() {
-      document.getElementById('sidebar').classList.remove('open');
-      document.getElementById('overlay').classList.remove('open');
+    document.getElementById('exp-' + qid).style.display = 'block';
+  });
+  const sc = document.getElementById('score-tf');
+  sc.style.display = 'block';
+  const pct = Math.round((score / 10) * 100);
+  sc.innerHTML = `النتيجة: ${score} / 10 — ${pct}%<div class="q-feedback">${getQuizFeedback(pct)}</div>`;
+  sc.style.color = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--amber)' : 'var(--red)';
+  const fb = document.getElementById('feedback-tf');
+  if (fb) fb.style.display = 'none';
+}
+
+function resetTF() {
+  Object.keys(tfAnswers).forEach(qid => {
+    const item = document.getElementById(qid);
+    delete item.dataset.selected;
+    item.querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected','correct','wrong'));
+    document.getElementById('exp-' + qid).style.display = 'none';
+  });
+  document.getElementById('score-tf').style.display = 'none';
+  const fb = document.getElementById('feedback-tf');
+  if (fb) fb.textContent = '';
+}
+
+// ── MCQ Quiz ──
+const mcqAnswers = {
+  mcq1:'A', mcq2:'B', mcq3:'C', mcq4:'E', mcq5:'C',
+  mcq6:'D', mcq7:'B', mcq8:'C', mcq9:'C', mcq10:'C',
+  mcq11:'A', mcq12:'B', mcq13:'A', mcq14:'A', mcq15:'C',
+  mcq16:'B', mcq17:'C', mcq18:'B', mcq19:'C', mcq20:'C'
+};
+
+function selectMCQ(qid, choice, correct) {
+  const item = document.getElementById(qid);
+  const opts = item.querySelectorAll('.q-opt');
+  opts.forEach(o => o.classList.remove('selected','correct','wrong'));
+  opts[choice.charCodeAt(0) - 65].classList.add('selected');
+  item.dataset.selected = choice;
+}
+
+function checkMCQ() {
+  let score = 0;
+  Object.keys(mcqAnswers).forEach(qid => {
+    const item = document.getElementById(qid);
+    const selected = item.dataset.selected;
+    const correct = mcqAnswers[qid];
+    const opts = item.querySelectorAll('.q-opt');
+    opts.forEach(o => o.classList.remove('selected','correct','wrong'));
+    if (selected) {
+      const si = selected.charCodeAt(0) - 65;
+      const ci = correct.charCodeAt(0) - 65;
+      if (selected === correct) { opts[si].classList.add('correct'); score++; }
+      else { opts[si].classList.add('wrong'); opts[ci].classList.add('correct'); }
+    } else {
+      opts[correct.charCodeAt(0) - 65].classList.add('correct');
     }
-    document.querySelectorAll('.sb-link').forEach(l => {
-      l.addEventListener('click', () => {
-        if (window.innerWidth <= 1100) closeSidebar();
-      });
-    });
-    /* ══════ ACTIVE SIDEBAR HIGHLIGHT ══════ */
-    const sections = document.querySelectorAll('[id]');
-    const sbLinks = document.querySelectorAll('.sb-link');
-    window.addEventListener('scroll', () => {
-      let cur = '';
-      sections.forEach(s => {
-        if (window.scrollY >= s.offsetTop - 200) cur = s.id;
-      });
-      sbLinks.forEach(l => {
-        l.classList.remove('active');
-        if (l.getAttribute('href') === '#' + cur) l.classList.add('active');
-      });
-    });
-    /* ══════ PROGRESS BAR ══════ */
-    window.addEventListener('scroll', () => {
-      const h = document.documentElement.scrollHeight - window.innerHeight;
-      const p = h > 0 ? (window.scrollY / h) * 100 : 0;
-      document.getElementById('prog-fill').style.width = p + '%';
-    });
-    /* ══════ SCROLL-TO-TOP ══════ */
-    window.addEventListener('scroll', () => {
-      document.getElementById('scroll-top').classList.toggle('vis', window.scrollY > 400);
-    });
-    /* ══════ QUIZ SYSTEM ══════ */
-    document.querySelectorAll('.q-opt').forEach(opt => {
-      opt.addEventListener('click', function () {
-        const item = this.closest('.q-item');
-        if (item.classList.contains('answered')) return;
-        item.querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
-        this.classList.add('selected');
-      });
-    });
-    function getQuizFeedback(pct) {
-      const messages = pct < 50 ? [
-        'متروحش تمتحن أحسن 😁 افتح الشرح وخد جولة تانية.'
-      ] : pct < 70 ? [
-        'مش وحش، بس لسه في كام سؤال عاملين نفسهم managers.'
-      ] : pct < 90 ? [
-        'أداء محترم. راجع الغلطات دي .',
-      ] : [
-        'جامد جدًا. كده الـ chapter تحت السيطرة 🔥'
-      ];
-      return messages[Math.floor(Math.random() * messages.length)];
-    }
-    function checkQuiz(sectionId) {
-      const section = document.getElementById(sectionId);
-      const items = section.querySelectorAll('.q-item');
-      let total = items.length, correct = 0;
-      items.forEach(item => {
-        const correctVal = item.dataset.correct;
-        const selected = item.querySelector('.q-opt.selected');
-        if (selected) {
-          item.classList.add('answered');
-          if (selected.dataset.val === correctVal) {
-            selected.classList.add('correct');
-            correct++;
-          } else {
-            selected.classList.add('wrong');
-            item.querySelectorAll('.q-opt').forEach(o => {
-              if (o.dataset.val === correctVal) o.classList.add('correct');
-            });
-          }
-        } else {
-          item.querySelectorAll('.q-opt').forEach(o => {
-            if (o.dataset.val === correctVal) o.classList.add('correct');
-          });
-          item.classList.add('answered');
-        }
-        const explain = item.querySelector('.q-explain');
-        if (explain) explain.style.display = 'block';
-      });
-      const scoreId = sectionId === 'quiz-tf' ? 'score-tf' : 'score-mcq';
-      const pct = Math.round((correct / total) * 100);
-      const el = document.getElementById(scoreId);
-      el.innerHTML = `${correct} / ${total} — ${pct}%<div class="q-feedback">${getQuizFeedback(pct)}</div>`;
-      el.style.color = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--amber)' : 'var(--red)';
-    }
-    function resetQuiz(sectionId) {
-      const section = document.getElementById(sectionId);
-      section.querySelectorAll('.q-item').forEach(item => {
-        item.classList.remove('answered');
-        item.querySelectorAll('.q-opt').forEach(o => {
-          o.classList.remove('selected', 'correct', 'wrong');
-        });
-        const explain = item.querySelector('.q-explain');
-        if (explain) explain.style.display = 'none';
-      });
-      const scoreId = sectionId === 'quiz-tf' ? 'score-tf' : 'score-mcq';
-      document.getElementById(scoreId).innerHTML = '';
-    }
-  </script>
+    document.getElementById('exp-' + qid).style.display = 'block';
+  });
+  const sc = document.getElementById('score-mcq');
+  sc.style.display = 'block';
+  const pct = Math.round((score / 20) * 100);
+  sc.innerHTML = `النتيجة: ${score} / 20 — ${pct}%<div class="q-feedback">${getQuizFeedback(pct)}</div>`;
+  sc.style.color = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--amber)' : 'var(--red)';
+  const fb = document.getElementById('feedback-mcq');
+  if (fb) fb.style.display = 'none';
+}
+
+function resetMCQ() {
+  Object.keys(mcqAnswers).forEach(qid => {
+    const item = document.getElementById(qid);
+    delete item.dataset.selected;
+    item.querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected','correct','wrong'));
+    document.getElementById('exp-' + qid).style.display = 'none';
+  });
+  document.getElementById('score-mcq').style.display = 'none';
+  const fb = document.getElementById('feedback-mcq');
+  if (fb) fb.textContent = '';
+}
+</script>
 </body>
 </html>

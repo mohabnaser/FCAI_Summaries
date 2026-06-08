@@ -400,7 +400,8 @@ code{
   font-size:.86rem;color:var(--t2);line-height:1.7;
   direction:rtl;text-align:right;font-family:var(--fa);
 }
-.q-explain b{color:var(--cyan);display:block;margin-bottom:6px;}
+.q-explain > b:first-child{color:var(--cyan);display:block;margin-bottom:6px;}
+.why-wrong b{color:var(--t2);display:inline;}
 .q-explain ul{padding-right:16px!important;padding-left:0!important;}
 .why-wrong{
   margin-top:10px;padding-top:10px;
