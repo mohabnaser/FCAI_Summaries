@@ -5,90 +5,230 @@
 <title>Lecture 01 — Introduction to Backend Development | IS231</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/shared.css">
+<style>
+/* ─── BIDI FIX ─── */
+code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+</style>
 </head>
 <body>
 <div id="prog-bar"><div id="prog-fill"></div></div>
 <div id="overlay"></div>
 <nav id="sidebar">
-  <div class="sb-logo"><h2>IS231 · Lecture 01</h2><p>Introduction to Backend Development</p><span class="sb-tag">Backend Python + Django</span></div>
-  <a class="sb-back" href="../index.html">← Back to IS231</a>
-  <div class="sb-section">Core Concepts</div>
-  <a class="sb-link" href="#backend"><span class="sb-dot"></span>What is Backend?</a>
-  <a class="sb-link" href="#architecture"><span class="sb-dot"></span>Web Architecture</a>
-  <a class="sb-link" href="#static-dynamic"><span class="sb-dot"></span>Static vs Dynamic</a>
-  <a class="sb-link" href="#python"><span class="sb-dot"></span>Why Python?</a>
-  <a class="sb-link" href="#framework"><span class="sb-dot"></span>What is a Framework?</a>
-  <a class="sb-link" href="#setup"><span class="sb-dot"></span>Environment Setup</a>
+  <div class="sb-logo"><h2>IS231 · Lecture 01</h2><p>مقدمة في تطوير الـ Backend</p><span class="sb-tag">Backend Python + Django</span></div>
+  <a class="sb-back" href="../index.html">← العودة للرئيسية</a>
+  
+  <div class="sb-section">المفاهيم الأساسية</div>
+  <a class="sb-link" href="#backend"><span class="sb-dot"></span>ما هو الـ Backend؟</a>
+  <a class="sb-link" href="#architecture"><span class="sb-dot"></span>بنية الويب و 3-Tier</a>
+  <a class="sb-link" href="#request-response"><span class="sb-dot"></span>دورة الـ Request &amp; Response</a>
+  <a class="sb-link" href="#static-dynamic"><span class="sb-dot"></span>Static مقابل Dynamic</a>
+  <a class="sb-link" href="#python-django"><span class="sb-dot"></span>ليه Python و Django؟</a>
+  
+  <div class="sb-section">أساسيات لغة Python</div>
+  <a class="sb-link" href="#python-vars"><span class="sb-dot"></span>المتغيرات والأنواع</a>
+  <a class="sb-link" href="#python-io"><span class="sb-dot"></span>المدخلات والـ Casting</a>
+  <a class="sb-link" href="#python-control"><span class="sb-dot"></span>الشروط والتكرار (Loops)</a>
+  <a class="sb-link" href="#python-func"><span class="sb-dot"></span>القوائم (Lists) والدوال</a>
+  
+  <div class="sb-section">اختبارات الامتحانات</div>
+  <a class="sb-link" href="#quiz-intro"><span class="sb-dot"></span>🎯 اختبار المفاهيم العامة</a>
+  <a class="sb-link" href="#quiz-python"><span class="sb-dot"></span>🐍 اختبار أساسيات Python</a>
+  <a class="sb-link" href="#quiz-django"><span class="sb-dot"></span>🛡️ اختبار Django والـ Framework</a>
 </nav>
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
 <main id="main">
   <div class="hero">
     <div class="hero-badge">⚡ IS231 · Lecture 01 · Dr. Mohamed Nour Eldien</div>
-    <h1>Introduction to <span>Backend Development</span></h1>
-    <p>Web architecture, backend roles, Python setup, VS Code, terminal basics, and the first Python program — مع شرح بالمصري الكلاسيك! 🇪🇬</p>
-    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← Back to Hub</a></div>
+    <h1>مقدمة في <span>Backend Development</span></h1>
+    <p>معماري الويب، دور الـ Backend، تهيئة بيئة العمل، أساسيات لغة Python، والمفاهيم المهمة للامتحانات — بالشرح المصري الدارج 🇪🇬</p>
+    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← العودة للمحور الأساسي</a></div>
     <div class="hero-stats">
-      <div class="hstat"><div class="num">6</div><div class="lbl">Topics</div></div>
-      <div class="hstat"><div class="num">3</div><div class="lbl">Tier Model</div></div>
+      <div class="hstat"><div class="num">8</div><div class="lbl">أقسام الشرح</div></div>
+      <div class="hstat"><div class="num">20+</div><div class="lbl">أسئلة امتحانات سابقة</div></div>
+      <div class="hstat"><div class="num">2021-2025</div><div class="lbl">سنوات الامتحانات</div></div>
     </div>
   </div>
   <div class="content">
 
+    <!-- CHAPTER 1: WHAT IS BACKEND -->
     <div class="chapter" id="backend">
-      <div class="ch-header"><div class="ch-num cyan">🧠</div><div class="ch-title"><h2>What is Backend Development?</h2><p>The server-side brain of every web application</p></div></div>
+      <div class="ch-header"><div class="ch-num cyan">01</div><div class="ch-title"><h2>What is Backend Development? — إيه هو الـ Backend؟</h2><p>العقل المدبر المخفي وراء أي موقع ويب</p></div></div>
       <div class="topic" style="--accent:var(--cyan)">
-        <div class="topic-title"><span class="icon">💡</span> Definition</div>
-        <p>Backend development is the part of a software system that runs on the <strong>server side</strong>. It receives requests, processes logic, talks to databases, enforces security, and returns responses. Think of the backend as the <em>"brain"</em> of the application.</p>
+        <div class="topic-title"><span class="icon">💡</span> تعريف الـ Backend</div>
+        <p>الـ Backend هو الجزء اللي بيشتغل على الـ <strong>Server side</strong> (ناحية الخادم). المستخدم مش بيشوفه مباشرة، لكنه بيمثل <strong>"العقل"</strong> الفعلي للبرنامج. هو اللي بيستقبل الـ Requests، وينفذ الـ Logic، ويتعامل مع قواعد البيانات (Databases)، وبيطبق الحماية والأمان (Security)، وبيرجع الـ Responses للـ Browser.</p>
       </div>
       <div class="topic" style="--accent:var(--amber)">
-        <div class="topic-title"><span class="icon">⚙️</span> Main Backend Responsibilities</div>
+        <div class="topic-title"><span class="icon">⚙️</span> مسؤوليات الـ Backend الرئيسية</div>
         <div class="grid2">
-          <div class="cmp-card" style="--accent:var(--cyan)"><h4>Data & Logic</h4><ul><li>Store and retrieve data from database</li><li>Validate user input before saving</li><li>Apply business rules (login checks, grade calculation)</li><li>Generate dynamic content based on user data</li></ul></div>
-          <div class="cmp-card" style="--accent:var(--pink)"><h4>Security & Integration</h4><ul><li>Authenticate users &amp; manage permissions</li><li>Handle errors and send appropriate messages</li><li>Connect to email, payment, or other APIs</li><li>Serve data to web pages or mobile apps</li></ul></div>
+          <div class="cmp-card" style="--accent:var(--cyan)">
+            <h4>البيانات والمنطق (Data &amp; Logic)</h4>
+            <ul>
+              <li>تخزين وجلب البيانات من الـ Database.</li>
+              <li>التحقق من صحة مدخلات المستخدم (Input Validation) قبل حفظها.</li>
+              <li>تطبيق قواعد العمل (Business Rules) زي عمليات الـ Login وحساب التقديرات الدراسية.</li>
+              <li>إنشاء محتوى ديناميكي (Dynamic Content) بناءً على بيانات المستخدم الحالي.</li>
+            </ul>
+          </div>
+          <div class="cmp-card" style="--accent:var(--pink)">
+            <h4>الأمان والتكامل (Security &amp; Integration)</h4>
+            <ul>
+              <li>التحقق من هوية المستخدمين (Authentication) وإدارة الصلاحيات (Permissions).</li>
+              <li>التعامل مع الأخطاء (Error Handling) وإرسال رسايل مناسبة بدل ما السيستم يقع.</li>
+              <li>التواصل مع الخدمات الخارجية (External APIs) زي بوابات الدفع الإلكتروني أو إرسال الإيميلات.</li>
+              <li>توفير البيانات للموقع أو لتطبيقات الموبايل.</li>
+            </ul>
+          </div>
         </div>
+      </div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">🎯</span> أمثلة من حياتنا اليومية لعمل الـ Backend</div>
+        <ul>
+          <li>عملية تسجيل الدخول (Login) للـ account بتاعك.</li>
+          <li>البحث عن منتج معين في موقع تسوق وعرض النتايج المتاحة بس.</li>
+          <li>تسجيل البيانات في فورم التقديم للكلية وحفظها في قاعدة البيانات.</li>
+          <li>التحقق إذا كان الـ Username اللي بتختاره متوفر ولا حد تاني حجزه قبلك.</li>
+          <li>عرض لوحة البيانات (Personalized Dashboard) الخاصة بتقديراتك ودرجاتك أنت بس.</li>
+        </ul>
       </div>
     </div>
 
+    <!-- CHAPTER 2: WEB ARCHITECTURE & 3-TIER -->
     <div class="chapter" id="architecture">
-      <div class="ch-header"><div class="ch-num purple">🏗️</div><div class="ch-title"><h2>Web Architecture</h2><p>The 3-tier model: Presentation → Application → Data</p></div></div>
+      <div class="ch-header"><div class="ch-num purple">02</div><div class="ch-title"><h2>Web Architecture &amp; 3-Tier Model — بنية الويب وموديل الـ 3-Tier</h2><p>رحلة البيانات من المتصفح إلى السيرفر والـ Database</p></div></div>
       <div class="topic" style="--accent:var(--purple)">
-        <div class="topic-title"><span class="icon">🌐</span> How a Website Works — Step by Step</div>
+        <div class="topic-title"><span class="icon">🌐</span> كيف يعمل موقع الويب؟ (خطوة بخطوة)</div>
         <div class="plan-steps">
-          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">1</div><div><div class="ps-title">User Action</div><div class="ps-desc">User enters a URL or clicks a link in the browser.</div></div></div>
-          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">2</div><div><div class="ps-title">HTTP Request Sent</div><div class="ps-desc">The browser sends an HTTP request to the server over the network.</div></div></div>
-          <div class="plan-step" style="--accent:var(--amber)"><div class="ps-num">3</div><div><div class="ps-title">Backend Processes</div><div class="ps-desc">The backend receives the request and decides what to do — runs logic, checks permissions.</div></div></div>
-          <div class="plan-step" style="--accent:var(--green)"><div class="ps-num">4</div><div><div class="ps-title">Database Interaction</div><div class="ps-desc">The backend may read from or write to the database.</div></div></div>
-          <div class="plan-step" style="--accent:var(--pink)"><div class="ps-num">5</div><div><div class="ps-title">HTTP Response Sent</div><div class="ps-desc">The server returns an HTTP response (HTML, JSON, redirect, or error).</div></div></div>
-          <div class="plan-step" style="--accent:var(--purple)"><div class="ps-num">6</div><div><div class="ps-title">Browser Renders</div><div class="ps-desc">The browser displays the page to the user.</div></div></div>
+          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">1</div><div><div class="ps-title">خطوة المستخدم (User Action)</div><div class="ps-desc">المستخدم بيكتب URL في الـ Browser أو بيدوس على Link.</div></div></div>
+          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">2</div><div><div class="ps-title">إرسال الـ HTTP Request</div><div class="ps-desc">الـ Browser بيبعت طلب (HTTP Request) للسيرفر عبر شبكة الإنترنت.</div></div></div>
+          <div class="plan-step" style="--accent:var(--amber)"><div class="ps-num">3</div><div><div class="ps-title">معالجة الـ Backend</div><div class="ps-desc">الـ Backend بيستقبل الـ Request ويبدأ يفحصه ويشوف محتاج ينفذ إيه (زي التحقق من الصلاحيات).</div></div></div>
+          <div class="plan-step" style="--accent:var(--green)"><div class="ps-num">4</div><div><div class="ps-title">التعامل مع الـ Database</div><div class="ps-desc">الـ Backend بيكلم الـ Database عشان يقرا منها بيانات أو يكتب فيها بيانات جديدة.</div></div></div>
+          <div class="plan-step" style="--accent:var(--pink)"><div class="ps-num">5</div><div><div class="ps-title">إرسال الـ HTTP Response</div><div class="ps-desc">السيرفر بيرجع الرد (HTTP Response) للـ Browser وفيه الكود (HTML/JSON) والـ Status Code.</div></div></div>
+          <div class="plan-step" style="--accent:var(--purple)"><div class="ps-num">6</div><div><div class="ps-title">عرض المتصفح (Render)</div><div class="ps-desc">الـ Browser بيستلم الرد ويعرضه بشكل مرئي ومفهوم للمستخدم.</div></div></div>
         </div>
       </div>
       <div class="topic" style="--accent:var(--green)">
-        <div class="topic-title"><span class="icon">📊</span> 3-Tier Application Model</div>
+        <div class="topic-title"><span class="icon">📊</span> نموذج الطبقات الثلاث (3-Tier Application Model)</div>
         <div class="grid3">
-          <div class="cmp-card" style="--accent:var(--cyan)"><h4>Presentation Layer</h4><p>HTML, CSS, JavaScript. The browser interface the user interacts with.</p></div>
-          <div class="cmp-card" style="--accent:var(--purple)"><h4>Application Layer</h4><p>Python, Django. Rules, business logic, and processing. The backend.</p></div>
-          <div class="cmp-card" style="--accent:var(--green)"><h4>Data Layer</h4><p>SQLite, MySQL, PostgreSQL. Persistent storage for application data.</p></div>
+          <div class="cmp-card" style="--accent:var(--cyan)">
+            <h4>1. Presentation Layer (Frontend)</h4>
+            <p>الواجهة اللي المستخدم بيتعامل معاها مباشرة. بتتكون من HTML, CSS, JavaScript وبترن بالكامل جوة الـ Browser.</p>
+          </div>
+          <div class="cmp-card" style="--accent:var(--purple)">
+            <h4>2. Application Layer (Backend)</h4>
+            <p>المنطق والعمليات الحسابية وقواعد السيستم. هنا بيشتغل كود الـ Python والـ Django على الـ Server.</p>
+          </div>
+          <div class="cmp-card" style="--accent:var(--green)">
+            <h4>3. Data Layer (Database)</h4>
+            <p>مكان حفظ البيانات بشكل دائم. زي SQLite, MySQL, PostgreSQL.</p>
+          </div>
         </div>
-        <div class="info"><b>Key:</b> The database does NOT talk directly to the user — the backend is always the middle layer.</div>
+        <div class="danger">
+          <b>⚠️ قاعدة ذهبية للامتحان:</b> الـ Database <strong>لا تتواصل أبداً</strong> مع المستخدم مباشرة! الـ Backend (Application Layer) هو دايماً وسيط النص اللي بيكلم الـ Database وبيجهز البيانات للـ Frontend.
+        </div>
       </div>
     </div>
 
-    <div class="chapter" id="static-dynamic">
-      <div class="ch-header"><div class="ch-num amber">⚡</div><div class="ch-title"><h2>Static vs Dynamic Websites</h2><p>Why backend development exists</p></div></div>
+    <!-- CHAPTER 3: REQUEST & RESPONSE CYCLE -->
+    <div class="chapter" id="request-response">
+      <div class="ch-header"><div class="ch-num amber">03</div><div class="ch-title"><h2>Request &amp; Response Cycle — دورة الطلب والاستجابة</h2><p>كل حركة على الويب هي عبارة عن سؤال وجواب</p></div></div>
       <div class="topic" style="--accent:var(--amber)">
-        <div class="topic-title"><span class="icon">📄</span> Two Types of Websites</div>
+        <div class="topic-title"><span class="icon">📤</span> مكونات الـ HTTP Request</div>
+        <p>لما الـ Browser بيبعت Request للسيرفر، بيبعت معاه شوية تفاصيل مهمة:</p>
+        <ul>
+          <li><strong>HTTP Method:</strong> نوع العملية المطلوبة (زي GET لجلب البيانات، أو POST لإرسال وحفظ بيانات جديدة).</li>
+          <li><strong>URL Path:</strong> المسار أو الصفحة المطلوبة على السيرفر زي <code>/login</code> أو <code>/students</code>.</li>
+          <li><strong>Headers:</strong> معلومات إضافية (Metadata) زي نوع المتصفح ولغة المستخدم والـ Caching.</li>
+          <li><strong>Body:</strong> البيانات الفعلية المبعوتة (ودي اختيارية وبتكون موجودة في POST أو PUT زي بيانات الفورم أو ملفات مرفوعة).</li>
+        </ul>
+      </div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">📥</span> مكونات الـ HTTP Response</div>
+        <p>الرد اللي بيرجع من السيرفر برضه بيتكون من أجزاء محددة:</p>
+        <ul>
+          <li><strong>Status Code:</strong> رقم من 3 خانات بيعبر عن نتيجة الطلب (زي 200 للموافقة، أو 404 لو الصفحة مش موجودة، أو 500 لو فيه مشكلة في كود السيرفر).</li>
+          <li><strong>Headers:</strong> معلومات إضافية السيرفر بيبعتها زي نوع المحتوى المرجّع (HTML أو JSON) وتاريخ انتهاء الصلاحية.</li>
+          <li><strong>Response Body:</strong> المحتوى الفعلي اللي هيتعرض للمستخدم (زي صفحة HTML أو بيانات JSON).</li>
+        </ul>
+      </div>
+      <div class="topic" style="--accent:var(--pink)">
+        <div class="topic-title"><span class="icon">⚡</span> مقارنة هامة جداً: GET مقابل POST</div>
+        <table class="tbl">
+          <tr>
+            <th>الصفة</th>
+            <th>GET Method</th>
+            <th>POST Method</th>
+          </tr>
+          <tr>
+            <td><strong>الهدف</strong></td>
+            <td>طلب وقراءة البيانات بدون تعديل.</td>
+            <td>إرسال وحفظ بيانات جديدة أو إحداث تغيير.</td>
+          </tr>
+          <tr>
+            <td><strong>البيانات</strong></td>
+            <td>بتتبعت في الـ URL كـ Query Parameters.</td>
+            <td>بتتبعت بشكل مخفي جوة الـ Request Body.</td>
+          </tr>
+          <tr>
+            <td><strong>الأمان</strong></td>
+            <td>غير آمنة للبيانات الحساسة (لأن البيانات بتظهر في الـ URL بار وتتحفظ في الـ History).</td>
+            <td>أكثر أماناً وحماية لأن البيانات مخفية عن الـ URL بار.</td>
+          </tr>
+          <tr>
+            <td><strong>الـ Body</strong></td>
+            <td>لا تحتوي على Body.</td>
+            <td>تحتوي على Request Body يحمل البيانات.</td>
+          </tr>
+        </table>
+        <div class="warn"><b>💡 موضع سؤال امتحان:</b> "POST is more robust and secure than GET" (الـ POST أكثر قوة وأماناً من الـ GET) لأن الداتا مش بتظهر مكشوفة في الـ URL.</div>
+      </div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">🔗</span> Anatomy of a URL — تشريح الـ URL</div>
+        <p>الـ URL هو العنوان الفريد لأي صفحة أو ملف على الويب. بيتكون من أجزاء:</p>
+        <pre style="background:var(--card2); border:1px solid var(--border); padding: 15px; border-radius: 8px; direction: ltr; text-align: left;">
+https://example.com:80/students/list/?level=2
+|___|  |_________| |__| |___________| |_____|
+  1         2       3         4          5
+        </pre>
+        <ol>
+          <li><strong>Protocol:</strong> زي <code>https</code> (الآمن) أو <code>http</code> (العادي).</li>
+          <li><strong>Domain / Host:</strong> اسم السيرفر أو الموقع (زي <code>example.com</code>).</li>
+          <li><strong>Port (اختياري):</strong> رقم المنفذ. الـ default في الـ HTTP هو <code>80</code> والـ HTTPS هو <code>443</code>. بيفصل بينه وبين الـ Host بنقطتين فوق بعض <code>:</code>.</li>
+          <li><strong>Path:</strong> مسار الصفحة على السيرفر (زي <code>/students/list/</code>).</li>
+          <li><strong>Query String:</strong> المعاملات الإضافية للفلترة وتبدأ بـ <code>?</code> (زي <code>level=2</code>).</li>
+        </ol>
+        <div class="info"><b>💡 نقطة امتحان سابقة:</b> "In a URL, an optional port number can be inserted between the host and the path, separated from the host by a colon."</div>
+      </div>
+    </div>
+
+    <!-- CHAPTER 4: STATIC VS DYNAMIC -->
+    <div class="chapter" id="static-dynamic">
+      <div class="ch-header"><div class="ch-num amber">04</div><div class="ch-title"><h2>Static vs Dynamic Websites — الفرق بين المواقع الـ Static والـ Dynamic</h2><p>ليه بنحتاج برمجة الـ Backend أصلاً؟</p></div></div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">📄</span> مقارنة المواقع الساكنة والديناميكية</div>
         <div class="grid2">
           <div class="cmp-card" style="--accent:var(--t3)">
-            <h4>📄 Static Website</h4>
-            <ul><li>Shows the same content to ALL users</li><li>Pages are plain HTML files</li><li>Good for simple informational websites</li><li>Changes require editing files manually</li></ul>
+            <h4>📄 Static Website (موقع ساكن)</h4>
+            <ul>
+              <li>بيعرض نفس المحتوى لكل الناس بلا أي تغيير.</li>
+              <li>الصفحات عبارة عن ملفات HTML ثابتة متخزنة على السيرفر.</li>
+              <li>مناسب للمواقع البسيطة التعرفية اللي مش بتتحدث كتير.</li>
+              <li>عشان تعدل كلمة، لازم تدخل تعدل ملف الـ HTML يدوياً وترفعه تاني.</li>
+            </ul>
             <pre style="background:rgba(255,255,255,.04);border-radius:8px;padding:10px;font-size:.75rem;direction:ltr;text-align:left;margin-top:10px">&lt;h1&gt;Welcome to the department&lt;/h1&gt;
-&lt;p&gt;Office hours: 9:00 AM - 2:00 PM&lt;/p&gt;
-&lt;!-- Everyone sees the same content --&gt;</pre>
+&lt;p&gt;Office hours: 9:00 AM - 2:00 PM&lt;/p&gt;</pre>
           </div>
           <div class="cmp-card" style="--accent:var(--cyan)">
-            <h4>⚡ Dynamic Website</h4>
-            <ul><li>Content changes based on user or database</li><li>Generated by backend code</li><li>Portals, stores, dashboards, social apps</li><li>Can process forms, logins, user-specific data</li></ul>
+            <h4>⚡ Dynamic Website (موقع ديناميكي)</h4>
+            <ul>
+              <li>المحتوى بيتغير بناءً على المستخدم أو البيانات المتسجلة.</li>
+              <li>الصفحة بيتم توليدها لحظياً بواسطة كود الـ Backend قبل ما تتبعت للمستخدم.</li>
+              <li>ضروري للمتاجر الإلكترونية، بوابات الطلاب، ولوحات التحكم.</li>
+              <li>البيانات بتيجي من الـ Database وتتعرض حسب الشخص اللي عامل Login.</li>
+            </ul>
             <pre style="background:rgba(255,255,255,.04);border-radius:8px;padding:10px;font-size:.75rem;direction:ltr;text-align:left;margin-top:10px">def dashboard(request):
     student_name = 'Mona'
     cgpa = 3.8
@@ -99,58 +239,229 @@
       </div>
     </div>
 
-    <div class="chapter" id="python">
-      <div class="ch-header"><div class="ch-num green">🐍</div><div class="ch-title"><h2>Why Python for Backend?</h2><p>The language powering this course</p></div></div>
+    <!-- CHAPTER 5: WHY PYTHON & DJANGO -->
+    <div class="chapter" id="python-django">
+      <div class="ch-header"><div class="ch-num green">05</div><div class="ch-title"><h2>Why Python &amp; Django? — ليه اخترنا Python و Django؟</h2><p>لغة قوية وإطار عمل متكامل لإنتاجية سريعة</p></div></div>
       <div class="topic" style="--accent:var(--green)">
-        <div class="topic-title"><span class="icon">✨</span> Python Strengths</div>
-        <div class="grid2">
-          <div class="cmp-card" style="--accent:var(--green)"><h4>Developer-Friendly</h4><ul><li>Readable syntax — close to natural language</li><li>Indentation is part of the syntax</li><li>Large community and many tutorials</li><li>Good for beginners AND real companies</li></ul></div>
-          <div class="cmp-card" style="--accent:var(--cyan)"><h4>Powerful Ecosystem</h4><ul><li>Strong libraries for web, data, AI, automation</li><li>Django and Flask for web development</li><li>Connects well with databases and APIs</li><li>Used by Google, Instagram, Spotify</li></ul></div>
+        <div class="topic-title"><span class="icon">🐍</span> مميزات لغة Python في الـ Backend</div>
+        <ul>
+          <li><strong>سهولة القراءة والفهم:</strong> الكود قريب جداً من اللغة الإنجليزية الطبيعية ومفهوم للمبتدئين والمحترفين.</li>
+          <li><strong>الإجبار على تنظيم الكود:</strong> الـ Indentation (المسافات البادئة) جزء أساسي من الـ Syntax بتاع اللغة، وده بيخلي الكود نظيف ومنظم غصب عنك.</li>
+          <li><strong>مكتبات ضخمة جداً:</strong> تدعم الويب، البيانات، الذكاء الاصطناعي، والأتمتة بكل سهولة.</li>
+          <li>مستخدمة في كبرى الشركات العالمية زي Google و Instagram و Spotify.</li>
+        </ul>
+      </div>
+      <div class="topic" style="--accent:var(--pink)">
+        <div class="topic-title"><span class="icon">🏗️</span> What is a Framework? — يعني إيه Framework؟</div>
+        <p>الـ Framework هو عبارة عن <strong>مجموعة أدوات وقواعد وهيكل جاهز</strong> بيوفر على المطورين إعادة اختراع العجلة. بدل ما تبني كل حاجة من الصفر (زي التعامل مع الـ Database والـ Routing والحماية)، الـ Framework بيوفرهالك جاهزة.</p>
+        <div class="tip">
+          <b>💡 تشبيه بسيط:</b> البناء بدون Framework = إنك تبني بيت وتبدأ تصنع الطوب والأسلاك والمواسير بنفسك. استخدام الـ Framework (زي Django) = إنك تشتري شقة كاملة المرافق فيها الحيطان والسباكة والكهرباء جاهزة، وتتفرغ أنت لفرشها وديكورها!
+        </div>
+      </div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">🛠️</span> إطار العمل Django ومفهوم الـ MVT</div>
+        <p>Django هو إطار عمل ويب عالي المستوى (High-level Python Web Framework) مبني بلغة Python بيشجع على التطوير السريع والأمان الفعال.</p>
+        <ul>
+          <li><strong>Batteries Included (بطاريات مدمجة):</strong> بييجي معاه أدوات جاهزة كتير زي نظام الصلاحيات، لوحة الإدارة (Admin Panel)، والـ ORM للتعامل مع الـ Database.</li>
+          <li><strong>MVT Architecture:</strong> بيعتمد على نمط Model-View-Template:
+            <ul>
+              <li><strong>Model:</strong> بيمثل هيكل البيانات والتعامل مع قاعدة البيانات.</li>
+              <li><strong>View:</strong> بيمثل الـ Logic اللي بيعالج الطلبات ويقرر إيه الداتا اللي هترجع.</li>
+              <li><strong>Template:</strong> بيمثل واجهة العرض (HTML) اللي بتتعرض للمستخدم.</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="warn"><b>🚨 نقطة امتحان مكررة:</b> Django يعتمد على نمط <strong>MVT</strong> وليس MVC بشكل صريح (الـ View في Django بيقوم بدور الـ Controller في الـ MVC التقليدي، والـ Template بيقوم بدور الـ View).</div>
+      </div>
+    </div>
+
+    <!-- CHAPTER 6: PYTHON VARIABLES & TYPES -->
+    <div class="chapter" id="python-vars">
+      <div class="ch-header"><div class="ch-num teal">06</div><div class="ch-title"><h2>Python Essentials — المتغيرات وأنواع البيانات في Python</h2><p>حجر الأساس لكتابة أي كود برمجي بلغة Python</p></div></div>
+      <div class="topic" style="--accent:var(--teal)">
+        <div class="topic-title"><span class="icon">📦</span> المتغيرات (Variables) وقواعد التسمية</div>
+        <p>المتغير هو مكان محجوز في الذاكرة (Memory) لتخزين قيمة معينة واستخدامها لاحقاً في الكود.</p>
+        <div class="danger">
+          <b>🚨 قواعد تسمية المتغيرات في Python (مهمة للامتحان):</b>
+          <ul>
+            <li>اسم المتغير لا يمكن أن يبدأ برقم (مثال: <code>1name</code> خطأ ❌، لكن <code>name1</code> صحيحة ✅).</li>
+            <li>اسم المتغير لا يمكن أن يحتوي على مسافات (مثال: <code>student name</code> خطأ ❌، بنستخدم الأندر سكور <code>student_name</code> بدالها ✅).</li>
+            <li>لا يمكن استخدام علامة الناقص أو الداش في التسمية (مثال: <code>my-var</code> خطأ ❌، الصح <code>my_var</code> ✅).</li>
+            <li>الاسم حساس لحالة الأحرف (Case-Sensitive) فـ <code>Age</code> غير <code>age</code>.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">📊</span> أنواع البيانات الأساسية (Basic Data Types)</div>
+        <table class="tbl">
+          <tr>
+            <th>النوع</th>
+            <th>الرمز</th>
+            <th>مثال في الكود</th>
+          </tr>
+          <tr>
+            <td><strong>نص (Text)</strong></td>
+            <td><code>str</code></td>
+            <td><code>name = 'Ali'</code> (بتتكتب بين علامات تنصيص single أو double quotes)</td>
+          </tr>
+          <tr>
+            <td><strong>رقم صحيح (Integer)</strong></td>
+            <td><code>int</code></td>
+            <td><code>level = 2</code></td>
+          </tr>
+          <tr>
+            <td><strong>رقم عشري (Float)</strong></td>
+            <td><code>float</code></td>
+            <td><code>gpa = 3.8</code></td>
+          </tr>
+          <tr>
+            <td><strong>قيمة منطقية (Boolean)</strong></td>
+            <td><code>bool</code></td>
+            <td><code>is_active = True</code> (لازم الحرف الأول كابيتال: True أو False)</td>
+          </tr>
+        </table>
+      </div>
+      <div class="topic" style="--accent:var(--amber)">
+        <div class="topic-title"><span class="icon">💬</span> التعليقات (Comments) في Python</div>
+        <p>التعليقات بنستخدمها عشان نوضح كود معين أو نكتب ملاحظات للمبرمجين، والـ Interpreter بتاع Python بيتجاهلها تماماً أثناء التشغيل.</p>
+        <ul>
+          <li>التعليق المكون من سطر واحد بيبدأ بعلامة الهاش <code>#</code>.</li>
+          <li>مفيش في Python تعليقات بـ <code>//</code> زي JavaScript.</li>
+        </ul>
+        <pre style="background:var(--card2); border:1px solid var(--border); padding: 15px; border-radius: 8px; direction: ltr; text-align: left; color:#cdd6f4;">
+<span style="color:#585b70"># ده تعليق سطر واحد ومش هيتنفذ</span>
+print("Hello, Backend World!")
+        </pre>
+      </div>
+    </div>
+
+    <!-- CHAPTER 7: INPUT & CASTING -->
+    <div class="chapter" id="python-io">
+      <div class="ch-header"><div class="ch-num teal">07</div><div class="ch-title"><h2>User Input &amp; Type Casting — مدخلات المستخدم وتحويل الأنواع</h2><p>كيف نجعل البرنامج تفاعلياً ويتعامل مع الأرقام بحرية</p></div></div>
+      <div class="topic" style="--accent:var(--teal)">
+        <div class="topic-title"><span class="icon">⌨️</span> مدخلات المستخدم (User Input)</div>
+        <p>بنستخدم دالة <code>input()</code> عشان نخلي البرنامج يقف ويستنى المستخدم يكتب قيمة من الكيبورد.</p>
+        <div class="danger">
+          <b>⚠️ الفخ الشهير في الامتحانات:</b> دالة <code>input()</code> بترجع دايماً قيمة نصية (String) بشكل افتراضي! حتى لو المستخدم كتب رقم <code>20</code>، البرنامج هيشوفه كـ نص <code>'20'</code> ومش هيقدر يعمل عليه عمليات حسابية مباشرة.
+        </div>
+      </div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">🔄</span> تحويل الأنواع (Type Casting)</div>
+        <p>عشان نحل مشكلة إن الـ Input بيكون String دايماً، بنعمله تحويل نوع (Casting) للنوع اللي احنا عايزينه:</p>
+        <ul>
+          <li>تحويل لنص: <code>str()</code></li>
+          <li>تحويل لرقم صحيح: <code>int()</code></li>
+          <li>تحويل لرقم عشري: <code>float()</code></li>
+        </ul>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Casting Example</div></div>
+          <pre><code><span class="cmt"># قراءة العمر كـ String وتحويله فوراً لـ Integer</span>
+age = int(input("Enter your age: "))
+
+<span class="cmt"># دلوقتي نقدر نجمع عليه أرقام عادي</span>
+print(age + 1)</code></pre>
         </div>
       </div>
     </div>
 
-    <div class="chapter" id="framework">
-      <div class="ch-header"><div class="ch-num pink">🛠️</div><div class="ch-title"><h2>What is a Framework?</h2><p>A professional starting structure for your application</p></div></div>
-      <div class="topic" style="--accent:var(--pink)">
-        <div class="topic-title"><span class="icon">🏗️</span> Framework Definition</div>
-        <p>A framework is a collection of <strong>ready-made tools, rules, and structure</strong> that helps developers build applications faster. Instead of writing everything from scratch, a framework handles routing, templates, database access, security, and project structure.</p>
-        <div class="tip"><b>Analogy:</b> Building without a framework = building a house starting from raw concrete. Using Django = moving into a house with walls, plumbing, and electricity already done.</div>
-      </div>
-    </div>
-
-    <div class="chapter" id="setup">
-      <div class="ch-header"><div class="ch-num teal">💻</div><div class="ch-title"><h2>Environment Setup</h2><p>Python + VS Code + Terminal</p></div></div>
-      <div class="topic" style="--accent:var(--teal)">
-        <div class="topic-title"><span class="icon">⚙️</span> Course Tech Stack</div>
-        <table class="tbl">
-          <tr><th>Tool</th><th>Role</th><th>Command</th></tr>
-          <tr><td><strong>Python</strong></td><td>Programming language</td><td><code>python --version</code></td></tr>
-          <tr><td><strong>VS Code</strong></td><td>Code editor</td><td>code.visualstudio.com</td></tr>
-          <tr><td><strong>Terminal</strong></td><td>Run commands, manage files</td><td><code>Ctrl + `</code> in VS Code</td></tr>
-          <tr><td><strong>Django</strong></td><td>Web framework</td><td><code>pip install django</code></td></tr>
-          <tr><td><strong>SQLite</strong></td><td>Default database</td><td>Built into Django</td></tr>
-        </table>
+    <!-- CHAPTER 8: CONTROL FLOW & LOOPS -->
+    <div class="chapter" id="python-control">
+      <div class="ch-header"><div class="ch-num purple">08</div><div class="ch-title"><h2>Control Flow &amp; Loops — اتخاذ القرارات والتكرار</h2><p>توجيه مسار البرنامج وتكرار العمليات</p></div></div>
+      <div class="topic" style="--accent:var(--purple)">
+        <div class="topic-title"><span class="icon">⚖️</span> شروط الـ if / elif / else والـ Indentation</div>
+        <p>في Python بنستخدم شروط <code>if</code> عشان ننفذ كود معين بس لو الشرط تحقق. وبنستخدم <code>elif</code> (اختصار لـ else if) للشروط الإضافية، و <code>else</code> لو مفيش أي شرط تحقق.</p>
+        <div class="danger">
+          <b>⚠️ أهم قاعدة في لغة Python:</b> المسافات البادئة (Indentation) إجبارية! لو نسيت تسيب مسافة بادئة (4 مسافات أو Tab) جوة البلوك بتاع الـ if أو الـ loop، الكود هيطلع <code>IndentationError</code> ومش هيشتغل.
+        </div>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Python Conditions</div></div>
+          <pre><code>score = 75
+if score >= 85:
+    print("Excellent")
+elif score >= 50:
+    print("Pass") <span class="cmt"># المسافة البادئة دي إجبارية!</span>
+else:
+    print("Fail")</code></pre>
+        </div>
       </div>
       <div class="topic" style="--accent:var(--amber)">
-        <div class="topic-title"><span class="icon">🖥️</span> First Python Program</div>
-        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:18px;font-family:var(--fc);font-size:.85rem;color:#cdd6f4;direction:ltr;text-align:left"><span style="color:#585b70"># hello.py</span>
-<span style="color:#89b4fa">print</span>(<span style="color:#a6e3a1">'Hello, Backend World!'</span>)
-
-<span style="color:#585b70"># Run with:</span>
-<span style="color:#585b70"># python hello.py</span></pre>
-        <div class="info"><b>Key Rule:</b> Always <code>Ctrl+S</code> to save before running. The terminal runs the saved version of the file.</div>
+        <div class="topic-title"><span class="icon">🔄</span> التكرار (Loops): for و while</div>
+        <ul>
+          <li><strong>for Loop:</strong> بنستخدمها لما نكون عارفين عدد المرات اللي هنكرر فيها الكود مسبقاً (زي المرور على عناصر قائمة أو استخدام <code>range()</code>).</li>
+          <li><strong>while Loop:</strong> بتفضل تكرر الكود طول ما فيه شرط معين بيساوي True. لازم تتأكد إن الشرط ده هيتغير جوة اللوب عشان ميعملش <strong>Infinite Loop</strong> (تكرار لانهائي) ويوقف السيرفر.</li>
+        </ul>
+        <div class="grid2">
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">for loop with range</div></div>
+            <pre><code><span class="cmt"># هيطبع من 0 لـ 4 (الـ 5 مش معانا)</span>
+for i in range(5):
+    print(i)</code></pre>
+          </div>
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">while loop with condition</div></div>
+            <pre><code>count = 0
+while count < 3:
+    print(count)
+    count += 1 <span class="cmt"># لو نسينا السطر ده، اللوب مش هتخلص!</span></code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="topic" style="--accent:var(--green)">
+        <div class="topic-title"><span class="icon">🧩</span> المعاملات المنطقية (Logical Operators)</div>
+        <p>بنستخدمهم لربط كذا شرط مع بعض:</p>
+        <ul>
+          <li><code>and</code>: لازم كل الشروط تكون صح عشان ترجع True.</li>
+          <li><code>or</code>: بيكفي إن شرط واحد بس يكون صح عشان ترجع True.</li>
+          <li><code>not</code>: بتعكس القيمة المنطقية (بتحول الـ True لـ False والعكس).</li>
+        </ul>
       </div>
     </div>
-    <!-- QUICK CONCEPTUAL QUIZ -->
+
+    <!-- CHAPTER 9: LISTS & FUNCTIONS -->
+    <div class="chapter" id="python-func">
+      <div class="ch-header"><div class="ch-num pink">09</div><div class="ch-title"><h2>Lists &amp; Functions — القوائم والدوال في Python</h2><p>تنظيم البيانات وإعادة استخدام الكود</p></div></div>
+      <div class="topic" style="--accent:var(--pink)">
+        <div class="topic-title"><span class="icon">📋</span> القوائم (Lists)</div>
+        <p>الـ List هي عبارة عن هيكل بيانات بيحفظ قيم كتير ورا بعض في متغير واحد. بتتكتب بين أقواس مربعة <code>[]</code> وبتتفصل العناصر بكومة <code>,</code>. العناصر بتبدأ بـ Index رقمه <strong>0</strong>.</p>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">List Example</div></div>
+          <pre><code>students = ['Ali', 'Mona', 'Sara']
+print(students[0]) <span class="cmt"># هيطبع Ali</span>
+
+<span class="cmt"># دالة pop() بتحذف العنصر الأخير وترجعه بشكل افتراضي</span>
+last_one = students.pop() <span class="cmt"># هيحذف Sara</span></code></pre>
+        </div>
+      </div>
+      <div class="topic" style="--accent:var(--cyan)">
+        <div class="topic-title"><span class="icon">⚙️</span> الدوال (Functions) والفرق بين print و return</div>
+        <p>الدالة هي بلوك من الكود ليه اسم وبياخد مدخلات ويقوم بوظيفة محددة عشان نقدر نكرر استخدامه بسهولة. بنعرفها بكلمة <code>def</code>.</p>
+        <div class="danger">
+          <b>🚨 الفرق بين print() و return (سؤال جوهري للمبتدئين):</b>
+          <ul>
+            <li><code>print()</code>: بيعرض النتيجة على الشاشة بس عشان المستخدم يشوفها. الدالة مش بتبعث القيمة دي لأي مكان تاني.</li>
+            <li><code>return</code>: بتبعت القيمة الناتجة للبرنامج الرئيسي اللي نادى الدالة، عشان يقدر يسيفها في متغير تاني ويستخدمها في عمليات تانية.</li>
+          </ul>
+        </div>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Function with Parameters &amp; Return</div></div>
+          <pre><code>def add_numbers(a, b):
+    return a + b
+
+result = add_numbers(5, 10)
+print(result) <span class="cmt"># هيطبع 15</span></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIZ 1: INTRO CONCEPTS -->
     <div class="quiz-section" id="quiz-intro">
       <div class="quiz-header">
         <div class="quiz-icon">🎯</div>
-        <div><h3>Intro Concepts — Quick Quiz</h3><p>Foundation questions with Egyptian slang 🇪🇬</p></div>
+        <div><h3>1. Intro Concepts Quiz — اختبار المفاهيم العامة</h3><p>أسئلة الامتحانات السابقة المتعلقة بمعماري الويب ونوع المواقع 🇪🇬</p></div>
       </div>
 
       <div class="q-item" data-correct="c">
-        <div class="q-num">Q1</div>
+        <div class="q-num">Q1 <span class="q-src">Final 2021 &amp; 2024</span></div>
         <div class="q-text">In a 3-tier web application, which layer does Django belong to?</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Presentation Layer (Frontend)</div>
@@ -159,51 +470,353 @@
           <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
         </div>
         <div class="q-explain">
-          <b>✅ Correct: C — Application Layer</b><br>
-          Django is backend (server-side). The 3 layers are: Presentation (HTML/CSS/JS) → Application (Django/Python) → Data (Database).
-          <span class="slang-tip">Django بيشتغل في الـ middle layer — Application Layer (Backend). الـ HTML/CSS/JS ده frontend (Presentation). الـ Database ده Data Layer. Django مابينقيلوش الـ browser مباشرة ومابيكلمش الـ database من غير الـ Django ORM.</span>
+          <b>✅ الإجابة الصحيحة: C — Application Layer</b><br>
+          الـ Django والـ Python بيشتغلوا في الـ Backend اللي هو بيمثل طبقة المعالجة والمنطق (Application Layer). الـ HTML/CSS/JS بتمثل الـ Presentation Layer، والـ Database بتمثل الـ Data Layer.
+          <span class="slang-tip">الـ Django هو قلب الـ Backend ومعالجة البيانات، عشان كده بيمثل الـ Application Layer أو الـ Logic Layer.</span>
         </div>
       </div>
 
       <div class="q-item" data-correct="a">
-        <div class="q-num">Q2</div>
-        <div class="q-text">What is the difference between a static and a dynamic website?</div>
+        <div class="q-num">Q2 <span class="q-src">محاكاة للامتحانات</span></div>
+        <div class="q-text">What is the main difference between static and dynamic websites?</div>
         <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Static shows same content to everyone; Dynamic shows personalized content</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Static uses more JavaScript; Dynamic uses less</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> They are the same thing</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Static sites require a database</div>
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Static websites show the same content to everyone; Dynamic websites change content based on user/database</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Static websites need a database; Dynamic websites do not</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Dynamic websites use HTML only; Static websites use Python</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> There is no difference</div>
         </div>
         <div class="q-explain">
-          <b>✅ Correct: A — Static same for all; Dynamic = personalized</b><br>
-          Static sites are fixed HTML files. Dynamic sites generate content based on who's visiting and what's in the database.
-          <span class="slang-tip">Static = نفس الصفحة لكل الناس. Dynamic = كل شخص يشوف حاجة مختلفة — زي Facebook اللي بيرجع feed مختلف لكل account. الـ backend هو اللي بيعمل الـ content الـ dynamic ده.</span>
+          <b>✅ الإجابة الصحيحة: A</b><br>
+          الموقع الـ Static هو صفحة HTML ثابتة نفس الكلام لكل الناس. الـ Dynamic بيتولد بواسطة الـ Backend وبيتعرض فيه بيانات مختلفة لكل شخص بناءً على الـ Database والـ Login.
+          <span class="slang-tip">افتكر دايماً: Static يعني ثابت زي صفحة مواعيد الدكاترة، Dynamic يعني متغير زي الـ News Feed بتاع الفيسبوك لكل مستخدم.</span>
         </div>
       </div>
 
-      <div class="q-item" data-correct="b">
-        <div class="q-num">Q3</div>
-        <div class="q-text">Which Python command installs Django?</div>
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q3 <span class="q-src">Final 2021 &amp; 2024</span></div>
+        <div class="q-text">"Expires: Tuesday, 17 Dec 2020 18:30 GMT" is a ______ header denoting ______:</div>
         <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> python install django</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> pip install django</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> django install</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> python -m django install</div>
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Request, Time-Based Caching</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Response, Content-Based Caching</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Request, Content-Type Caching</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Response, Time-Based Caching</div>
         </div>
         <div class="q-explain">
-          <b>✅ Correct: B — pip install django</b><br>
-          pip is Python's package manager. You use <code>pip install packagename</code> to install any package from PyPI.
-          <span class="slang-tip">pip هو الـ package manager بتاع Python — زي الـ npm لـ JavaScript. عايز تحمل حاجة؟ pip install اسمها. الأمر: pip install django وبعد كده بيحمل Django وكل dependencies بتاعتها.</span>
+          <b>✅ الإجابة الصحيحة: D — Response, Time-Based Caching</b><br>
+          الهيدر <code>Expires</code> بيبعته السيرفر مع الرد (Response) عشان يحدد تاريخ ووقت انتهاء صلاحية الملف ده في الكاش بتاع المتصفح. وبما إنه بيعتمد على وقت وتاريخ فده بيتسمى Time-Based Caching.
+          <span class="slang-tip">السيرفر هو اللي بيقول للـ browser الملف ده هينتهي امتى، فده Response Header وبما إنه تاريخ محدد يبقى Time-Based Caching.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q4 <span class="q-src">Final 2025</span></div>
+        <div class="q-text">If an application is running on Web Server Gateway Interface (WSGI), then it will handle client requests in a sequential manner. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: A — True</b><br>
+          مواصفة الـ WSGI التقليدية بتعالج الطلبات بشكل متزامن/تتابعي (Synchronous/Sequential) بعكس الـ ASGI الحديثة اللي بتسمح بالمعالجة غير المتزامنة (Asynchronous).
+          <span class="slang-tip">الـ WSGI بيمشي بالترتيب سطر ورا سطر (sequential)، لو محتاجين حاجات تشتغل مع بعض asynchronous بنستخدم الـ ASGI.</span>
         </div>
       </div>
 
       <div class="q-controls">
         <span class="q-score" id="score-intro"></span>
         <br>
-        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-intro')">✔ Check Answers</button>
-        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-intro')">↺ Reset</button>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-intro')">✔ التحقق من الإجابات</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-intro')">↺ إعادة المحاولة</button>
       </div>
     </div>
+
+    <!-- QUIZ 2: PYTHON BASICS -->
+    <div class="quiz-section" id="quiz-python">
+      <div class="quiz-header">
+        <div class="quiz-icon">🐍</div>
+        <div><h3>2. Python Basics Quiz — اختبار أساسيات Python</h3><p>أسئلة امتحانات 2021 و 2025 في لغة Python 🇪🇬</p></div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q1 <span class="q-src">Final 2025</span></div>
+        <div class="q-text">"my-var" is an incorrect variable name in Python. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: A — True</b><br>
+          علامة الداش أو الناقص <code>-</code> غير مسموحة في أسماء المتغيرات في Python لأنها بتترجم كعملية طرح. المسموح به هو الأندر سكور <code>_</code> فقط.
+          <span class="slang-tip">ممنوع تستخدم ناقص في اسم المتغير، دايماً استخدم أندر سكور (my_var) بدل (my-var).</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q2 <span class="q-src">Final 2025</span></div>
+        <div class="q-text">In Python, set pop removes an item. If we have: <code>myNumbers = [1,2,3]</code> and write <code>x = myNumbers.pop()</code>, the removed item will be 1. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: B — False</b><br>
+          دالة <code>pop()</code> في القوائم (Lists) بتحذف وبترجع العنصر <strong>الأخير</strong> في القائمة. بما إن القائمة <code>[1, 2, 3]</code> العنصر الأخير هو <code>3</code>، فالـ pop هيرجع 3 مش 1.
+          <span class="slang-tip">الـ pop من اليمين للأشمال في الـ list، يعني بيشيل آخر واحد خالص اللي هو 3 في الحالة دي.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q3 <span class="q-src">Final 2025</span></div>
+        <div class="q-text">"x = ('apple', 'banana', 'cherry')" is a definition of a list. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: B — False</b><br>
+          الأقواس الهلالية <code>()</code> بتعرف صف أو tuple (ثابت غير قابل للتعديل)، بينما القوائم (Lists) بتتعرف بالأقواس المربعة <code>[]</code>.
+          <span class="slang-tip">الأقواس الهلالية tuple، الأقواس المربعة list، والأقواس المتعرجة set أو dictionary. احفظ الأشكال دي كويس!</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q4 <span class="q-src">Final 2025</span></div>
+        <div class="q-text">The output of the following Python statements is "Hello, My":<br><code>b = "Hello, My Friend"</code><br><code>print(b[:8])</code><br>True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: A — True</b><br>
+          الـ String slicing بياخد من البداية لحد الـ index قبل الأخير (يعني من 0 لـ 7). لو عدينا الحروف:<br>
+          H(0), e(1), l(2), l(3), o(4), ,(5),  (6), M(7). وده بيدينا بالظبط "Hello, My".
+          <span class="slang-tip">الـ slicing في البايثون بيبدأ من 0 وبيمشي لحد الرقم اللي قبل علامة النقطتين، يعني 8 دي مش معانا وبناخد الحروف من 0 لـ 7 بس.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q5 <span class="q-src">Final 2021 &amp; 2025</span></div>
+        <div class="q-text">In Python, a set is a collection which is both unordered and indexed. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: B — False</b><br>
+          الـ Set في Python هي مجموعة غير مرتبة (unordered) وغير مفهرسة (unindexed). مفيهاش Index يعني مقدرش أقول <code>my_set[0]</code>.
+          <span class="slang-tip">الـ Set ملهاش ترتيب وملهاش index خالص، فما ينفعش نوصل لعناصرها بـ index.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q6 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What will the following Python code return?<br>
+          <code>x = { "name": "Ahmed", "id": "1", "mobile": 123456789, "mobile": 987654321 }</code><br>
+          <code>print(x)</code>
+        </div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> {'name': 'Ahmed', 'id': '1', 'mobile': 123456789, 'mobile': 987654321}</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> {'name': 'Ahmed', 'id': '1', 'mobile': 123456789}</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> {'name': 'Ahmed', 'id': '1', 'mobile': 987654321}</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error! As you cannot have duplicate keys in a dictionary</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: C</b><br>
+          في الـ Dictionary في بايثون، لو تكرر مفتاح (Key) معين، القيمة الأخيرة هي اللي بتطغى وتتحفظ، والمفتاح مش بيتكرر. فـ <code>mobile</code> هياخد القيمة الأخيرة <code>987654321</code>.
+          <span class="slang-tip">البايثون مش بتطلع error لو كررت الـ key، بس بتاخد آخر قيمة ليه وتنسى القيمة القديمة.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q7 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What will the following statement return?<br>
+          <code>def f(**person):</code><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<code>print("Person’s name is " + person["name"])</code><br>
+          <code>f(name="Ahmed", age=10)</code>
+        </div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Person’s name is Ahmed</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Person’s name is Ahmed and Age is 10</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Error as the function f doesn’t take except one argument</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error as the function f doesn’t take an argument called “name”</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: A</b><br>
+          علامتي النجمتين <code>**</code> في البارامترات بتعني استقبال عدد غير محدود من الـ Keyword Arguments كـ Dictionary. جوة الدالة بنطبع <code>person["name"]</code> اللي هي "Ahmed".
+          <span class="slang-tip">الـ <code>**kwargs</code> بتجمع أي keyword arguments مبعوتة في شكل dictionary فالدالة اشتغلت عادي وطبعت الاسم.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q8 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What will this statement return?<br>
+          <code>y = lambda x: x / 20</code><br>
+          <code>print(y(100))</code>
+        </div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Error as there is no function called y</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 100/20</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 5.0 (أو 5)</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> y(100)</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: C</b><br>
+          الـ Lambda هي دالة مجهولة سريعة بسطر واحد. بتاخد بارامتر <code>x</code> وبترجع <code>x / 20</code>. لما بعتنا 100، رجعت 100 تقسيم 20 اللي هي 5.0.
+          <span class="slang-tip">دوال الـ lambda بنستخدمها للحاجات السريعة. y(100) حسب المعادلة بيقسم 100 على 20 فيديك 5.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q9 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">In the following Python statements, what is the output?<br>
+          <code>if 2 < 1:</code><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<code>print("Two is less than one!")</code><br>
+          <code>print("Two is less than one!")</code>
+        </div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Two is less than one!<br>Two is less than one!</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Two is less than one!</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> No output</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> The output will be an Error</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: D — Error</b><br>
+          في الـ original exam paper، الكود مكتوب بمسافات خاطئة تسبب خطأ في الـ syntax أو الـ Indentation. السطر التالت مكتوب بدون مسافة بادئة ومباشرة بعد الـ if مما يسبب لخبطة للـ interpreter أو يسبب خطأ لو كان فيه else مفقودة أو مسافات بايظة.
+          <span class="slang-tip">الامتحان بيجيب أحياناً أسئلة فيها مسافات بادئة بايظة، أول ما تشوف بلوك كود مش متناسق المسافات البادئة فيه فكر في الـ Error على طول.</span>
+        </div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-python"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-python')">✔ التحقق من الإجابات</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-python')">↺ إعادة المحاولة</button>
+      </div>
+    </div>
+
+    <!-- QUIZ 3: DJANGO BASICS -->
+    <div class="quiz-section" id="quiz-django">
+      <div class="quiz-header">
+        <div class="quiz-icon">🛡️</div>
+        <div><h3>3. Django &amp; Framework Quiz — اختبار Django والـ Framework</h3><p>كل أسئلة الامتحانات الخاصة بتهيئة الـ Django وأساسيات الـ Admin والـ Apps 🇪🇬</p></div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q1 <span class="q-src">Final 2021 &amp; 2024</span></div>
+        <div class="q-text">Django is based on which framework?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> MVC (Model View Controller)</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> MVVM (Model View ViewModel)</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> MVT (Model View Template)</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the Above</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: C — MVT</b><br>
+          الـ Django بيستخدم معماري الـ <strong>MVT</strong> (Model View Template). الـ Model بيمثل البيانات، والـ View بيعالج الـ logic، والـ Template بيعرض الـ HTML.
+          <span class="slang-tip">مهمة جداً! Django = MVT. الـ View في Django بيقوم بعمل الـ Controller، والـ Template هو الـ View بتاع المعماري القديم.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q2 <span class="q-src">Final 2024</span></div>
+        <div class="q-text">What is a correct syntax for creating a Django project?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> django start my_tennis_club</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> py manage.py start-django my_tennis_club</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> django-admin startproject my_tennis_club</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: C — django-admin startproject</b><br>
+          الأمر الافتراضي لإنشاء مشروع جديد في Django هو <code>django-admin startproject اسم_المشروع</code>.
+          <span class="slang-tip">بنبدأ المشروع بـ django-admin، والـ app بنبدأه بـ python manage.py startapp. ميز بينهم كويس جداً!</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q3 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What is a Django App?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Django app is an extended package with base package is Django</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Django app is a python package with its own components</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Both A &amp; B</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> All of the above</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: C — Both A &amp; B</b><br>
+          الـ App في Django هو عبارة عن حزمة برمجية (Python package) ليها المكونات الخاصة بيها (زي views, models) ومبنية على الـ Django كحزمة أساسية.
+          <span class="slang-tip">الـ App حاجة صغيرة متكاملة جوة المشروع، يعني package لوحدها بس معتمدة على الـ base بتاع Django.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q4 <span class="q-src">Final 2021</span></div>
+        <div class="q-text">What does the architecture of Django consist of?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Views</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Models</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Templates</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> All of the Above</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: D — All of the Above</b><br>
+          معماري الـ Django (MVT) بيتكون من التلات حاجات دول مجتمعين: Models و Views و Templates.
+          <span class="slang-tip">سؤال هدية في الامتحان، معماري الـ MVT بيشمل التلات حاجات دول.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q5 <span class="q-src">Final 2024 &amp; 2025</span></div>
+        <div class="q-text">For a model to be visible in the admin interface it has to be registered in which file?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> settings.py</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> admin.py</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> views.py</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: B — admin.py</b><br>
+          عشان نعرض الـ Model بتاعنا في لوحة تحكم الـ Admin الجاهزة، لازم نسجله في ملف <code>admin.py</code> عن طريق كتابة <code>admin.site.register(ModelName)</code>.
+          <span class="slang-tip">سؤال مكرر في 2024 و 2025! التسجيل بيكون دايماً في الـ <code>admin.py</code>. لو جالك في الامتحان إنه بيسجل في settings.py قوله غلط فوراً.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q6 <span class="q-src">Final 2025</span></div>
+        <div class="q-text">Django views represents the presentation layer of Django. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: B — False</b><br>
+          في Django الـ <strong>Template</strong> هو اللي بيمثل الـ Presentation Layer (العرض والـ HTML)، بينما الـ <strong>View</strong> بيمثل الـ Business Logic (المعالجة والـ Logic).
+          <span class="slang-tip">الفخ ده بيقع فيه ناس كتير بسبب الاسم. الـ View في Django مش منظر! الـ View هو الـ Logic، والـ Template هو الـ Presentation.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q7 <span class="q-src">Final 2025</span></div>
+        <div class="q-text">"migrate" command in Django is used to show the changes happened in the database. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain">
+          <b>✅ الإجابة الصحيحة: B — False</b><br>
+          الأمر <code>makemigrations</code> هو اللي بيفحص الموديلز ويولد ملف الهجرة اللي بيعبر عن التغييرات. أما أمر <code>migrate</code> فهو اللي بيقوم بـ <strong>تطبيق</strong> التغييرات دي فعلياً على قاعدة البيانات.
+          <span class="slang-tip">الـ makemigrations بتجهز التغييرات وتكتبها، الـ migrate بتطبقها وتنفذها في الـ Database.</span>
+        </div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-django"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-django')">✔ التحقق من الإجابات</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-django')">↺ إعادة المحاولة</button>
+      </div>
+    </div>
+
   </div>
 </main>
 <script src="../assets/app.js"></script>
