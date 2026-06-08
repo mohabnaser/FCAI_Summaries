@@ -124,7 +124,7 @@ code{font-family:var(--fc);background:rgba(0,212,255,.08);color:var(--cyan);padd
 .cmp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--cyan)),transparent);opacity:.7}
 .cmp-card h4{font-family:var(--fh);font-weight:700;font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px;direction:rtl}
 .cmp-card ul{list-style:none;padding:0}
-.cmp-card ul li{padding:5px 0;color:var(--t2);font-size:.85rem;border-bottom:1px solid rgba(255,255,255,.04);direction:rtl;text-align:right}
+.cmp-card ul li{padding:5px 0;color:var(--t2);font-size:.85rem;border-bottom:1px solid rgba(255,255,255,.04);direction:rtl!important;text-align:right!important;unicode-bidi:isolate!important}
 .cmp-card ul li:last-child{border-bottom:none}
 .cmp-card ul li::before{content:'← ';color:var(--accent,var(--cyan));font-family:var(--fc)}
 
@@ -138,6 +138,9 @@ code{font-family:var(--fc);background:rgba(0,212,255,.08);color:var(--cyan);padd
 .q-num{font-family:var(--fc);font-size:.7rem;color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-direction:row-reverse;justify-content:flex-end}
 .q-num .q-src{background:rgba(139,92,246,.1);color:var(--purple);padding:2px 8px;border-radius:4px;font-size:.65rem}
 .q-text{font-size:.9rem;color:var(--t1);margin-bottom:14px;line-height:1.6;direction:ltr;text-align:left}
+.q-code{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin:10px 0;font-family:var(--fc);font-size:0.82rem;line-height:1.5;overflow-x:auto;direction:ltr;text-align:left;color:#cdd6f4}
+.q-code pre{margin:0;background:transparent;padding:0}
+.q-code code{background:transparent;padding:0;color:inherit;font-size:inherit}
 .q-opts{display:flex;flex-direction:column;gap:8px}
 .q-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:.2s;font-size:.85rem;color:var(--t2);user-select:none;direction:ltr;text-align:left}
 .q-opt:hover{border-color:var(--border2);color:var(--t1);background:rgba(255,255,255,.02)}
@@ -919,8 +922,14 @@ students_list = [s1.<span class="fn">to_dict</span>(), s2.<span class="fn">to_di
   <!-- Q1: 2021 - Class/Object Reference -->
   <div class="q-item" data-correct="b">
     <div class="q-num">Q1 <span class="q-src">Final 2021 — Q.26</span></div>
-    <div class="q-text">Which statement is correct about this Python code?<br>
-<code>class Name:<br>&nbsp;&nbsp;def __init__(self, name):<br>&nbsp;&nbsp;&nbsp;&nbsp;self.name = name<br>name1 = Name('ABC')<br>name2 = name1</code></div>
+    <div class="q-text">Which statement is correct about this Python code?
+      <div class="q-code"><pre><code><span class="kw">class</span> <span class="fn">Name</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="sel">self</span>, name):
+        <span class="sel">self</span>.name = name
+
+name1 = <span class="fn">Name</span>(<span class="str">'ABC'</span>)
+name2 = name1</code></pre></div>
+    </div>
     <div class="q-opts">
       <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> It will throw an error as multiple references to the same object is not possible.</div>
       <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> id(name1) and id(name2) will have the same value.</div>
@@ -1010,8 +1019,15 @@ students_list = [s1.<span class="fn">to_dict</span>(), s2.<span class="fn">to_di
   <!-- Q7: 2021 Python list of lists sort -->
   <div class="q-item" data-correct="d">
     <div class="q-num">Q7 <span class="q-src">Final 2021 — Q.27</span></div>
-    <div class="q-text">What will the following Python code print?<br>
-<code>lst = []<br>nums = [15, 6]<br>lst.append(nums)<br>nums = [10, 30, 20]<br>lst.append(nums)<br>lst.sort()<br>print(lst)</code></div>
+    <div class="q-text">What will the following Python code print?
+      <div class="q-code"><pre><code>lst = []
+nums = [<span class="num">15</span>, <span class="num">6</span>]
+lst.<span class="fn">append</span>(nums)
+nums = [<span class="num">10</span>, <span class="num">30</span>, <span class="num">20</span>]
+lst.<span class="fn">append</span>(nums)
+lst.<span class="fn">sort</span>()
+<span class="fn">print</span>(lst)</code></pre></div>
+    </div>
     <div class="q-opts">
       <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> [6, 10, 15, 20, 30]</div>
       <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> [[6, 15], [10, 20, 30]]</div>
@@ -1027,8 +1043,10 @@ students_list = [s1.<span class="fn">to_dict</span>(), s2.<span class="fn">to_di
   <!-- Q8: 2021 - Python dict duplicate keys -->
   <div class="q-item" data-correct="c">
     <div class="q-num">Q8 <span class="q-src">Final 2021 — Q.59</span></div>
-    <div class="q-text">What will the following Python code print?<br>
-<code>x = {"name": "Ahmed", "id": "1", "mobile": 123456789, "mobile": 987654321}<br>print(x)</code></div>
+    <div class="q-text">What will the following Python code print?
+      <div class="q-code"><pre><code>x = {<span class="str">"name"</span>: <span class="str">"Ahmed"</span>, <span class="str">"id"</span>: <span class="str">"1"</span>, <span class="str">"mobile"</span>: <span class="num">123456789</span>, <span class="str">"mobile"</span>: <span class="num">987654321</span>}
+<span class="fn">print</span>(x)</code></pre></div>
+    </div>
     <div class="q-opts">
       <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> {'name': 'Ahmed', 'id': '1', 'mobile': 123456789, 'mobile': 987654321}</div>
       <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> {'name': 'Ahmed', 'id': '1', 'mobile': 123456789}</div>
@@ -1044,8 +1062,12 @@ students_list = [s1.<span class="fn">to_dict</span>(), s2.<span class="fn">to_di
   <!-- Q9: 2021 - Python **kwargs -->
   <div class="q-item" data-correct="a">
     <div class="q-num">Q9 <span class="q-src">Final 2021 — Q.60</span></div>
-    <div class="q-text">What will the following Python code return?<br>
-<code>def f(**person):<br>&nbsp;&nbsp;print("Person's name is " + person["name"])<br>f(name="Ahmed", age=10)</code></div>
+    <div class="q-text">What will the following Python code return?
+      <div class="q-code"><pre><code><span class="kw">def</span> <span class="fn">f</span>(**person):
+    <span class="fn">print</span>(<span class="str">"Person's name is "</span> + person[<span class="str">"name"</span>])
+
+<span class="fn">f</span>(name=<span class="str">"Ahmed"</span>, age=<span class="num">10</span>)</code></pre></div>
+    </div>
     <div class="q-opts">
       <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Person's name is Ahmed</div>
       <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Person's name is Ahmed and Age is 10</div>
@@ -1061,8 +1083,10 @@ students_list = [s1.<span class="fn">to_dict</span>(), s2.<span class="fn">to_di
   <!-- Q10: 2021 - Python lambda -->
   <div class="q-item" data-correct="c">
     <div class="q-num">Q10 <span class="q-src">Final 2021 — Q.61</span></div>
-    <div class="q-text">What will the following Python code return?<br>
-<code>y = lambda x: x / 20<br>print(y(100))</code></div>
+    <div class="q-text">What will the following Python code return?
+      <div class="q-code"><pre><code>y = <span class="kw">lambda</span> x: x / <span class="num">20</span>
+<span class="fn">print</span>(y(<span class="num">100</span>))</code></pre></div>
+    </div>
     <div class="q-opts">
       <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Error as there is no function called y</div>
       <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 100/20</div>
