@@ -1007,6 +1007,17 @@ console.<span class="fn">log</span>(b); <span class="cmt">// ReferenceError! (wa
         </div>
         <div class="q-explain">✅ القسمة على صفر في JavaScript لا ترمي error؛ غالبًا تعطي <code>Infinity</code>. والـ semicolon الناقص غالبًا يتعالج بـ ASI.</div>
       </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q18 <span class="q-src">midterm-2026 Q9</span></div>
+        <div class="q-text">What is the output of <code>var name = " Hello World "; console.log(name.trim());</code>?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> "HelloWorld"</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> "Hello World"</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> "Hello World "</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> " Hello World"</div>
+        </div>
+        <div class="q-explain">✅ <code>trim()</code> يشيل المسافات من البداية والنهاية فقط، ولا يشيل المسافة بين Hello وWorld.</div>
+      </div>
 
     </div>
     <button class="quiz-btn btn-check" onclick="checkQuiz('qset-vars','score-vars')">Check Answers ✓</button>
@@ -1205,7 +1216,7 @@ document.<span class="fn">write</span>(result); <span class="cmt">// Output: 10<
       </div>
 
       <div class="q-item" data-correct="b">
-        <div class="q-num">Q2 <span class="q-src">final-2025 Q38</span></div>
+        <div class="q-num">Q2 <span class="q-src">final-2025 Q38 / final-2021 Q56</span></div>
         <div class="q-text">In the following function: function multiply(...myNumbers){...}, the "..." will:</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Allow the function to be waiting for more arguments</div>
@@ -1307,6 +1318,17 @@ document.<span class="fn">write</span>(result); <span class="cmt">// Output: 10<
           <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of them</div>
         </div>
         <div class="q-explain">✅ Rest parameter syntax هي <code>function f(...args)</code>، والنقط قبل اسم المتغير.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q11 <span class="q-src">midterm-2026 Q10</span></div>
+        <div class="q-text">Which ES6 arrow function is the concise equivalent of <code>function square(x) { return x * x; }</code>?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> const square = x =&gt; x * x;</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> const square = (x) =&gt; { x * x };</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> const square = x =&gt; return x * x;</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> const square = x = x * x;</div>
+        </div>
+        <div class="q-explain">✅ في الـ concise arrow body، التعبير بعد <code>=&gt;</code> بيرجع تلقائيًا. الاختيار B يحتاج <code>return</code> داخل braces، وC syntax error.</div>
       </div>
 
     </div>
@@ -2095,7 +2117,7 @@ window.history.<span class="fn">back</span>(); <span class="cmt">// بيرجعن
 
       <div class="q-item" data-correct="d">
         <div class="q-num">Q7 <span class="q-src">final-2025 Q58</span></div>
-        <div class="q-text">Based on HTML: <p>Wel.come</p> <div><p>p1</p><p>p2</p><section><p>p3</p></section><p>p4</p></div> <p class=center>p5</p> <p class=large>p6</p>. If we wrote "var x=document.getElementsByTagName('p')" inside a script tag, then the length of x will be:</div>
+        <div class="q-text">Based on HTML: &lt;p&gt;Wel.come&lt;/p&gt; &lt;div&gt;&lt;p&gt;p1&lt;/p&gt;&lt;p&gt;p2&lt;/p&gt;&lt;section&gt;&lt;p&gt;p3&lt;/p&gt;&lt;/section&gt;&lt;p&gt;p4&lt;/p&gt;&lt;/div&gt; &lt;p class=center&gt;p5&lt;/p&gt; &lt;p class=large&gt;p6&lt;/p&gt;. If we wrote "var x=document.getElementsByTagName('p')" inside a script tag, then the length of x will be:</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 5</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 6</div>
@@ -2107,7 +2129,7 @@ window.history.<span class="fn">back</span>(); <span class="cmt">// بيرجعن
 
       <div class="q-item" data-correct="c">
         <div class="q-num">Q8 <span class="q-src">final-2025 Q53</span></div>
-        <div class="q-text">What will be the output of "document.getElementById('id1').firstChild.nodeName;"? (where id1 is <h2 id="id1">Welcome to my page</h2>)</div>
+        <div class="q-text">What will be the output of "document.getElementById('id1').firstChild.nodeName;"? (where id1 is &lt;h2 id="id1"&gt;Welcome to my page&lt;/h2&gt;)</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
