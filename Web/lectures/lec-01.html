@@ -52,16 +52,16 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
       <div class="hstat"><div class="num">2021-2025</div><div class="lbl">سنوات الامتحانات</div></div>
     </div>
   </div>
-  <div class="content">
+  <div class="content" dir="rtl" style="text-align: right;">
 
     <!-- CHAPTER 1: WHAT IS BACKEND -->
-    <div class="chapter" id="backend">
-      <div class="ch-header"><div class="ch-num cyan">01</div><div class="ch-title"><h2>What is Backend Development? — إيه هو الـ Backend؟</h2><p>العقل المدبر المخفي وراء أي موقع ويب</p></div></div>
-      <div class="topic" style="--accent:var(--cyan)">
+    <div class="chapter" id="backend" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num cyan">01</div><div class="ch-title"><h2>What is Backend Development? — إيه هو الـ Backend؟</h2><p>العقل المدبر المخفي وراء أي موقع ويب</p></div></div>
+      <div class="topic" style="--accent:var(--cyan)" dir="rtl">
         <div class="topic-title"><span class="icon">💡</span> تعريف الـ Backend</div>
         <p>الـ Backend هو الجزء اللي بيشتغل على الـ <strong>Server side</strong> (ناحية الخادم). المستخدم مش بيشوفه مباشرة، لكنه بيمثل <strong>"العقل"</strong> الفعلي للبرنامج. هو اللي بيستقبل الـ Requests، وينفذ الـ Logic، ويتعامل مع قواعد البيانات (Databases)، وبيطبق الحماية والأمان (Security)، وبيرجع الـ Responses للـ Browser.</p>
       </div>
-      <div class="topic" style="--accent:var(--amber)">
+      <div class="topic" style="--accent:var(--amber)" dir="rtl">
         <div class="topic-title"><span class="icon">⚙️</span> مسؤوليات الـ Backend الرئيسية</div>
         <div class="grid2">
           <div class="cmp-card" style="--accent:var(--cyan)">
@@ -84,7 +84,7 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
           </div>
         </div>
       </div>
-      <div class="topic" style="--accent:var(--purple)">
+      <div class="topic" style="--accent:var(--purple)" dir="rtl">
         <div class="topic-title"><span class="icon">🎯</span> أمثلة من حياتنا اليومية لعمل الـ Backend</div>
         <ul>
           <li>عملية تسجيل الدخول (Login) للـ account بتاعك.</li>
@@ -97,9 +97,9 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
     </div>
 
     <!-- CHAPTER 2: WEB ARCHITECTURE & 3-TIER -->
-    <div class="chapter" id="architecture">
-      <div class="ch-header"><div class="ch-num purple">02</div><div class="ch-title"><h2>Web Architecture &amp; 3-Tier Model — بنية الويب وموديل الـ 3-Tier</h2><p>رحلة البيانات من المتصفح إلى السيرفر والـ Database</p></div></div>
-      <div class="topic" style="--accent:var(--purple)">
+    <div class="chapter" id="architecture" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num purple">02</div><div class="ch-title"><h2>Web Architecture &amp; 3-Tier Model — بنية الويب وموديل الـ 3-Tier</h2><p>رحلة البيانات من المتصفح إلى السيرفر والـ Database</p></div></div>
+      <div class="topic" style="--accent:var(--purple)" dir="rtl">
         <div class="topic-title"><span class="icon">🌐</span> كيف يعمل موقع الويب؟ (خطوة بخطوة)</div>
         <div class="plan-steps">
           <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">1</div><div><div class="ps-title">خطوة المستخدم (User Action)</div><div class="ps-desc">المستخدم بيكتب URL في الـ Browser أو بيدوس على Link.</div></div></div>
@@ -110,7 +110,7 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
           <div class="plan-step" style="--accent:var(--purple)"><div class="ps-num">6</div><div><div class="ps-title">عرض المتصفح (Render)</div><div class="ps-desc">الـ Browser بيستلم الرد ويعرضه بشكل مرئي ومفهوم للمستخدم.</div></div></div>
         </div>
       </div>
-      <div class="topic" style="--accent:var(--green)">
+      <div class="topic" style="--accent:var(--green)" dir="rtl">
         <div class="topic-title"><span class="icon">📊</span> نموذج الطبقات الثلاث (3-Tier Application Model)</div>
         <div class="grid3">
           <div class="cmp-card" style="--accent:var(--cyan)">
@@ -133,9 +133,9 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
     </div>
 
     <!-- CHAPTER 3: REQUEST & RESPONSE CYCLE -->
-    <div class="chapter" id="request-response">
-      <div class="ch-header"><div class="ch-num amber">03</div><div class="ch-title"><h2>Request &amp; Response Cycle — دورة الطلب والاستجابة</h2><p>كل حركة على الويب هي عبارة عن سؤال وجواب</p></div></div>
-      <div class="topic" style="--accent:var(--amber)">
+    <div class="chapter" id="request-response" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num amber">03</div><div class="ch-title"><h2>Request &amp; Response Cycle — دورة الطلب والاستجابة</h2><p>كل حركة على الويب هي عبارة عن سؤال وجواب</p></div></div>
+      <div class="topic" style="--accent:var(--amber)" dir="rtl">
         <div class="topic-title"><span class="icon">📤</span> مكونات الـ HTTP Request</div>
         <p>لما الـ Browser بيبعت Request للسيرفر، بيبعت معاه شوية تفاصيل مهمة:</p>
         <ul>
@@ -145,7 +145,7 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
           <li><strong>Body:</strong> البيانات الفعلية المبعوتة (ودي اختيارية وبتكون موجودة في POST أو PUT زي بيانات الفورم أو ملفات مرفوعة).</li>
         </ul>
       </div>
-      <div class="topic" style="--accent:var(--green)">
+      <div class="topic" style="--accent:var(--green)" dir="rtl">
         <div class="topic-title"><span class="icon">📥</span> مكونات الـ HTTP Response</div>
         <p>الرد اللي بيرجع من السيرفر برضه بيتكون من أجزاء محددة:</p>
         <ul>
@@ -154,7 +154,7 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
           <li><strong>Response Body:</strong> المحتوى الفعلي اللي هيتعرض للمستخدم (زي صفحة HTML أو بيانات JSON).</li>
         </ul>
       </div>
-      <div class="topic" style="--accent:var(--pink)">
+      <div class="topic" style="--accent:var(--pink)" dir="rtl">
         <div class="topic-title"><span class="icon">⚡</span> مقارنة هامة جداً: GET مقابل POST</div>
         <table class="tbl">
           <tr>
@@ -185,7 +185,7 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
         </table>
         <div class="warn"><b>💡 موضع سؤال امتحان:</b> "POST is more robust and secure than GET" (الـ POST أكثر قوة وأماناً من الـ GET) لأن الداتا مش بتظهر مكشوفة في الـ URL.</div>
       </div>
-      <div class="topic" style="--accent:var(--purple)">
+      <div class="topic" style="--accent:var(--purple)" dir="rtl">
         <div class="topic-title"><span class="icon">🔗</span> Anatomy of a URL — تشريح الـ URL</div>
         <p>الـ URL هو العنوان الفريد لأي صفحة أو ملف على الويب. بيتكون من أجزاء:</p>
         <pre style="background:var(--card2); border:1px solid var(--border); padding: 15px; border-radius: 8px; direction: ltr; text-align: left;">
@@ -205,9 +205,9 @@ https://example.com:80/students/list/?level=2
     </div>
 
     <!-- CHAPTER 4: STATIC VS DYNAMIC -->
-    <div class="chapter" id="static-dynamic">
-      <div class="ch-header"><div class="ch-num amber">04</div><div class="ch-title"><h2>Static vs Dynamic Websites — الفرق بين المواقع الـ Static والـ Dynamic</h2><p>ليه بنحتاج برمجة الـ Backend أصلاً؟</p></div></div>
-      <div class="topic" style="--accent:var(--amber)">
+    <div class="chapter" id="static-dynamic" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num amber">04</div><div class="ch-title"><h2>Static vs Dynamic Websites — الفرق بين المواقع الـ Static والـ Dynamic</h2><p>ليه بنحتاج برمجة الـ Backend أصلاً؟</p></div></div>
+      <div class="topic" style="--accent:var(--amber)" dir="rtl">
         <div class="topic-title"><span class="icon">📄</span> مقارنة المواقع الساكنة والديناميكية</div>
         <div class="grid2">
           <div class="cmp-card" style="--accent:var(--t3)">
@@ -240,9 +240,9 @@ https://example.com:80/students/list/?level=2
     </div>
 
     <!-- CHAPTER 5: WHY PYTHON & DJANGO -->
-    <div class="chapter" id="python-django">
-      <div class="ch-header"><div class="ch-num green">05</div><div class="ch-title"><h2>Why Python &amp; Django? — ليه اخترنا Python و Django؟</h2><p>لغة قوية وإطار عمل متكامل لإنتاجية سريعة</p></div></div>
-      <div class="topic" style="--accent:var(--green)">
+    <div class="chapter" id="python-django" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num green">05</div><div class="ch-title"><h2>Why Python &amp; Django? — ليه اخترنا Python و Django؟</h2><p>لغة قوية وإطار عمل متكامل لإنتاجية سريعة</p></div></div>
+      <div class="topic" style="--accent:var(--green)" dir="rtl">
         <div class="topic-title"><span class="icon">🐍</span> مميزات لغة Python في الـ Backend</div>
         <ul>
           <li><strong>سهولة القراءة والفهم:</strong> الكود قريب جداً من اللغة الإنجليزية الطبيعية ومفهوم للمبتدئين والمحترفين.</li>
@@ -251,14 +251,14 @@ https://example.com:80/students/list/?level=2
           <li>مستخدمة في كبرى الشركات العالمية زي Google و Instagram و Spotify.</li>
         </ul>
       </div>
-      <div class="topic" style="--accent:var(--pink)">
+      <div class="topic" style="--accent:var(--pink)" dir="rtl">
         <div class="topic-title"><span class="icon">🏗️</span> What is a Framework? — يعني إيه Framework؟</div>
         <p>الـ Framework هو عبارة عن <strong>مجموعة أدوات وقواعد وهيكل جاهز</strong> بيوفر على المطورين إعادة اختراع العجلة. بدل ما تبني كل حاجة من الصفر (زي التعامل مع الـ Database والـ Routing والحماية)، الـ Framework بيوفرهالك جاهزة.</p>
         <div class="tip">
           <b>💡 تشبيه بسيط:</b> البناء بدون Framework = إنك تبني بيت وتبدأ تصنع الطوب والأسلاك والمواسير بنفسك. استخدام الـ Framework (زي Django) = إنك تشتري شقة كاملة المرافق فيها الحيطان والسباكة والكهرباء جاهزة، وتتفرغ أنت لفرشها وديكورها!
         </div>
       </div>
-      <div class="topic" style="--accent:var(--purple)">
+      <div class="topic" style="--accent:var(--purple)" dir="rtl">
         <div class="topic-title"><span class="icon">🛠️</span> إطار العمل Django ومفهوم الـ MVT</div>
         <p>Django هو إطار عمل ويب عالي المستوى (High-level Python Web Framework) مبني بلغة Python بيشجع على التطوير السريع والأمان الفعال.</p>
         <ul>
@@ -276,9 +276,9 @@ https://example.com:80/students/list/?level=2
     </div>
 
     <!-- CHAPTER 6: PYTHON VARIABLES & TYPES -->
-    <div class="chapter" id="python-vars">
-      <div class="ch-header"><div class="ch-num teal">06</div><div class="ch-title"><h2>Python Essentials — المتغيرات وأنواع البيانات في Python</h2><p>حجر الأساس لكتابة أي كود برمجي بلغة Python</p></div></div>
-      <div class="topic" style="--accent:var(--teal)">
+    <div class="chapter" id="python-vars" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num teal">06</div><div class="ch-title"><h2>Python Essentials — المتغيرات وأنواع البيانات في Python</h2><p>حجر الأساس لكتابة أي كود برمجي بلغة Python</p></div></div>
+      <div class="topic" style="--accent:var(--teal)" dir="rtl">
         <div class="topic-title"><span class="icon">📦</span> المتغيرات (Variables) وقواعد التسمية</div>
         <p>المتغير هو مكان محجوز في الذاكرة (Memory) لتخزين قيمة معينة واستخدامها لاحقاً في الكود.</p>
         <div class="danger">
@@ -291,7 +291,7 @@ https://example.com:80/students/list/?level=2
           </ul>
         </div>
       </div>
-      <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic" style="--accent:var(--cyan)" dir="rtl">
         <div class="topic-title"><span class="icon">📊</span> أنواع البيانات الأساسية (Basic Data Types)</div>
         <table class="tbl">
           <tr>
@@ -321,7 +321,7 @@ https://example.com:80/students/list/?level=2
           </tr>
         </table>
       </div>
-      <div class="topic" style="--accent:var(--amber)">
+      <div class="topic" style="--accent:var(--amber)" dir="rtl">
         <div class="topic-title"><span class="icon">💬</span> التعليقات (Comments) في Python</div>
         <p>التعليقات بنستخدمها عشان نوضح كود معين أو نكتب ملاحظات للمبرمجين، والـ Interpreter بتاع Python بيتجاهلها تماماً أثناء التشغيل.</p>
         <ul>
@@ -336,16 +336,16 @@ print("Hello, Backend World!")
     </div>
 
     <!-- CHAPTER 7: INPUT & CASTING -->
-    <div class="chapter" id="python-io">
-      <div class="ch-header"><div class="ch-num teal">07</div><div class="ch-title"><h2>User Input &amp; Type Casting — مدخلات المستخدم وتحويل الأنواع</h2><p>كيف نجعل البرنامج تفاعلياً ويتعامل مع الأرقام بحرية</p></div></div>
-      <div class="topic" style="--accent:var(--teal)">
+    <div class="chapter" id="python-io" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num teal">07</div><div class="ch-title"><h2>User Input &amp; Type Casting — مدخلات المستخدم وتحويل الأنواع</h2><p>كيف نجعل البرنامج تفاعلياً ويتعامل مع الأرقام بحرية</p></div></div>
+      <div class="topic" style="--accent:var(--teal)" dir="rtl">
         <div class="topic-title"><span class="icon">⌨️</span> مدخلات المستخدم (User Input)</div>
         <p>بنستخدم دالة <code>input()</code> عشان نخلي البرنامج يقف ويستنى المستخدم يكتب قيمة من الكيبورد.</p>
         <div class="danger">
           <b>⚠️ الفخ الشهير في الامتحانات:</b> دالة <code>input()</code> بترجع دايماً قيمة نصية (String) بشكل افتراضي! حتى لو المستخدم كتب رقم <code>20</code>، البرنامج هيشوفه كـ نص <code>'20'</code> ومش هيقدر يعمل عليه عمليات حسابية مباشرة.
         </div>
       </div>
-      <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic" style="--accent:var(--cyan)" dir="rtl">
         <div class="topic-title"><span class="icon">🔄</span> تحويل الأنواع (Type Casting)</div>
         <p>عشان نحل مشكلة إن الـ Input بيكون String دايماً، بنعمله تحويل نوع (Casting) للنوع اللي احنا عايزينه:</p>
         <ul>
@@ -365,9 +365,9 @@ print(age + 1)</code></pre>
     </div>
 
     <!-- CHAPTER 8: CONTROL FLOW & LOOPS -->
-    <div class="chapter" id="python-control">
-      <div class="ch-header"><div class="ch-num purple">08</div><div class="ch-title"><h2>Control Flow &amp; Loops — اتخاذ القرارات والتكرار</h2><p>توجيه مسار البرنامج وتكرار العمليات</p></div></div>
-      <div class="topic" style="--accent:var(--purple)">
+    <div class="chapter" id="python-control" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num purple">08</div><div class="ch-title"><h2>Control Flow &amp; Loops — اتخاذ القرارات والتكرار</h2><p>توجيه مسار البرنامج وتكرار العمليات</p></div></div>
+      <div class="topic" style="--accent:var(--purple)" dir="rtl">
         <div class="topic-title"><span class="icon">⚖️</span> شروط الـ if / elif / else والـ Indentation</div>
         <p>في Python بنستخدم شروط <code>if</code> عشان ننفذ كود معين بس لو الشرط تحقق. وبنستخدم <code>elif</code> (اختصار لـ else if) للشروط الإضافية، و <code>else</code> لو مفيش أي شرط تحقق.</p>
         <div class="danger">
@@ -384,7 +384,7 @@ else:
     print("Fail")</code></pre>
         </div>
       </div>
-      <div class="topic" style="--accent:var(--amber)">
+      <div class="topic" style="--accent:var(--amber)" dir="rtl">
         <div class="topic-title"><span class="icon">🔄</span> التكرار (Loops): for و while</div>
         <ul>
           <li><strong>for Loop:</strong> بنستخدمها لما نكون عارفين عدد المرات اللي هنكرر فيها الكود مسبقاً (زي المرور على عناصر قائمة أو استخدام <code>range()</code>).</li>
@@ -406,7 +406,7 @@ while count < 3:
           </div>
         </div>
       </div>
-      <div class="topic" style="--accent:var(--green)">
+      <div class="topic" style="--accent:var(--green)" dir="rtl">
         <div class="topic-title"><span class="icon">🧩</span> المعاملات المنطقية (Logical Operators)</div>
         <p>بنستخدمهم لربط كذا شرط مع بعض:</p>
         <ul>
@@ -418,9 +418,9 @@ while count < 3:
     </div>
 
     <!-- CHAPTER 9: LISTS & FUNCTIONS -->
-    <div class="chapter" id="python-func">
-      <div class="ch-header"><div class="ch-num pink">09</div><div class="ch-title"><h2>Lists &amp; Functions — القوائم والدوال في Python</h2><p>تنظيم البيانات وإعادة استخدام الكود</p></div></div>
-      <div class="topic" style="--accent:var(--pink)">
+    <div class="chapter" id="python-func" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num pink">09</div><div class="ch-title"><h2>Lists &amp; Functions — القوائم والدوال في Python</h2><p>تنظيم البيانات وإعادة استخدام الكود</p></div></div>
+      <div class="topic" style="--accent:var(--pink)" dir="rtl">
         <div class="topic-title"><span class="icon">📋</span> القوائم (Lists)</div>
         <p>الـ List هي عبارة عن هيكل بيانات بيحفظ قيم كتير ورا بعض في متغير واحد. بتتكتب بين أقواس مربعة <code>[]</code> وبتتفصل العناصر بكومة <code>,</code>. العناصر بتبدأ بـ Index رقمه <strong>0</strong>.</p>
         <div class="code-wrap">
@@ -432,7 +432,7 @@ print(students[0]) <span class="cmt"># هيطبع Ali</span>
 last_one = students.pop() <span class="cmt"># هيحذف Sara</span></code></pre>
         </div>
       </div>
-      <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic" style="--accent:var(--cyan)" dir="rtl">
         <div class="topic-title"><span class="icon">⚙️</span> الدوال (Functions) والفرق بين print و return</div>
         <p>الدالة هي بلوك من الكود ليه اسم وبياخد مدخلات ويقوم بوظيفة محددة عشان نقدر نكرر استخدامه بسهولة. بنعرفها بكلمة <code>def</code>.</p>
         <div class="danger">
