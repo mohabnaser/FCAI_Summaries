@@ -5,195 +5,328 @@
 <title>Lecture 03 — OOP & File Handling | IS231</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/shared.css">
+<style>
+/* ─── BIDI FIX ─── */
+code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+</style>
 </head>
 <body>
 <div id="prog-bar"><div id="prog-fill"></div></div>
 <div id="overlay"></div>
 <nav id="sidebar">
-  <div class="sb-logo"><h2>IS231 · Lecture 03</h2><p>OOP & File Handling</p><span class="sb-tag">Backend Python + Django</span></div>
-  <a class="sb-back" href="../index.html">← Back to IS231</a>
-  <div class="sb-section">OOP Concepts</div>
-  <a class="sb-link" href="#classes"><span class="sb-dot"></span>Classes & Objects</a>
-  <a class="sb-link" href="#inheritance"><span class="sb-dot"></span>Inheritance & Polymorphism</a>
-  <a class="sb-link" href="#encapsulation"><span class="sb-dot"></span>4 Pillars of OOP</a>
-  <a class="sb-link" href="#files"><span class="sb-dot"></span>File Handling</a>
-  <div class="sb-section">Exam Quiz</div>
-  <a class="sb-link" href="#quiz-oop"><span class="sb-dot"></span>🎯 OOP Quiz</a>
+  <div class="sb-logo"><h2>IS231 · Lecture 03</h2><p>OOP & Files</p><span class="sb-tag">Backend Python + Django</span></div>
+  <a class="sb-back" href="../index.html">← العودة للرئيسية</a>
+  
+  <div class="sb-section">المفاهيم الأساسية</div>
+  <a class="sb-link" href="#why-oop"><span class="sb-dot"></span>ليه الـ OOP؟</a>
+  <a class="sb-link" href="#class-object"><span class="sb-dot"></span>Classes & Objects</a>
+  <a class="sb-link" href="#constructor"><span class="sb-dot"></span>Constructor & Self</a>
+  <a class="sb-link" href="#inheritance"><span class="sb-dot"></span>الوراثة (Inheritance)</a>
+  <a class="sb-link" href="#file-handling"><span class="sb-dot"></span>التعامل مع الملفات</a>
+  <a class="sb-link" href="#json"><span class="sb-dot"></span>أخطاء الملفات و JSON</a>
+
+  <div class="sb-section">اختبارات الامتحانات</div>
+  <a class="sb-link" href="#quiz-2021"><span class="sb-dot"></span>🎯 اختبار 2021</a>
+  <a class="sb-link" href="#quiz-2025"><span class="sb-dot"></span>🛡️ اختبار 2025</a>
 </nav>
+
 <button id="menu-btn">☰</button>
 <button id="scroll-top">↑</button>
+
 <main id="main">
   <div class="hero">
     <div class="hero-badge">⚡ IS231 · Lecture 03 · Dr. Mohamed Nour Eldien</div>
     <h1>OOP & <span>File Handling</span></h1>
-    <p>Classes, objects, inheritance, the 4 OOP pillars, file I/O, and exception handling — with Egyptian slang explanations 🇪🇬</p>
-    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← Back to Hub</a></div>
+    <p>النقلة من مجرد "سكربت" بسيط لبرنامج حقيقي منظم! شرح الـ Object-Oriented Programming والوراثة وإدارة الملفات والـ JSON بالعامية المصرية.</p>
+    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← العودة للرئيسية</a></div>
     <div class="hero-stats">
-      <div class="hstat"><div class="num">4</div><div class="lbl">Topics</div></div>
-      <div class="hstat"><div class="num">5</div><div class="lbl">Exam Q's</div></div>
+      <div class="hstat"><div class="num">6</div><div class="lbl">أقسام رئيسية</div></div>
+      <div class="hstat"><div class="num">4+</div><div class="lbl">سؤال امتحان</div></div>
+      <div class="hstat"><div class="num">21, 25</div><div class="lbl">سنوات الامتحانات</div></div>
     </div>
   </div>
-  <div class="content">
 
-    <div class="chapter" id="classes">
-      <div class="ch-header"><div class="ch-num cyan">🏗️</div><div class="ch-title"><h2>Classes & Objects</h2><p>The building blocks of OOP in Python</p></div></div>
-      <div class="topic" style="--accent:var(--cyan)">
-        <div class="topic-title"><span class="icon">📦</span> Defining a Class</div>
-        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left">class Student:
-    def __init__(self, name, gpa):  # constructor — runs when object is created
-        self.name = name            # instance attribute
-        self.gpa = gpa
+  <div class="content" dir="rtl" style="text-align: right;">
 
-    def greet(self):
-        print(f"Hello, I am {self.name}")
-
-s1 = Student("Ali", 3.8)
-s2 = s1          # s2 is a REFERENCE to the same object!
-# id(s1) == id(s2) → True</pre>
-        <div class="info"><b>Exam 2021:</b> When you do <code>name2 = name1</code>, both variables reference the <strong>same object</strong>. <code>id(name1) == id(name2)</code> = True.</div>
-        <div class="warn"><b>Key:</b> <code>self</code> is the first parameter of every method — it refers to the current object instance.</div>
+    <!-- 1. Why OOP? -->
+    <div class="chapter" id="why-oop" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num cyan">💡</div><div class="ch-title"><h2>Why OOP? — ليه بنستخدم الـ OOP؟</h2><p>تنظيم الداتا بشكل يعكس الواقع</p></div></div>
+      
+      <div class="topic" style="--accent:var(--cyan)" dir="rtl">
+        <div class="topic-title"><span class="icon">🤔</span> إيه المشكلة اللي الـ OOP بيحلها؟</div>
+        <p>البرامج الصغيرة ممكن نكتبها بشوية متغيرات ودوال (Variables & Functions) متبعترة. بس لما البرنامج يكبر ويبقى سيستم كامل لجامعة مثلاً، هيبقى عندنا آلاف الطلاب والكورسات. <strong>الـ OOP بيخلينا نبرمج الحاجات دي كأنها "كيانات" حقيقية (Entities) زي Student و Course.</strong> وده بيسهل قراءة وتعديل الكود.</p>
+        <div class="info"><b>ملحوظة مهمة للـ Backend:</b> كل ما هنيجي نعمل <strong>Model</strong> في الـ Django بعدين، إحنا في الحقيقة بنعمل <strong>Class</strong>. المحاضرة دي هي الأساس الحقيقي للـ Django!</div>
       </div>
-    </div>
 
-    <div class="chapter" id="inheritance">
-      <div class="ch-header"><div class="ch-num purple">🔗</div><div class="ch-title"><h2>Inheritance & Polymorphism</h2><p>Reusing and overriding code</p></div></div>
-      <div class="topic" style="--accent:var(--purple)">
-        <div class="topic-title"><span class="icon">👪</span> Inheritance Example</div>
-        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left">class Animal:
-    def speak(self):
-        return "..."
-
-class Dog(Animal):        # Dog inherits from Animal
-    def speak(self):      # Override (polymorphism!)
-        return "Woof!"
-
-class Cat(Animal):
-    def speak(self):
-        return "Meow!"
-
-d = Dog()
-print(d.speak())  # "Woof!" — uses Dog's version</pre>
-        <div class="tip"><b>Polymorphism:</b> Same method name (<code>speak</code>), different behavior depending on the class. Very powerful for building flexible systems.</div>
-      </div>
-    </div>
-
-    <div class="chapter" id="encapsulation">
-      <div class="ch-header"><div class="ch-num amber">🔒</div><div class="ch-title"><h2>The 4 Pillars of OOP</h2><p>Encapsulation · Inheritance · Polymorphism · Abstraction</p></div></div>
-      <div class="topic" style="--accent:var(--amber)">
-        <div class="topic-title"><span class="icon">🏛️</span> Four OOP Pillars</div>
+      <div class="topic" style="--accent:var(--purple)" dir="rtl">
+        <div class="topic-title"><span class="icon">🏛️</span> Class vs Object — الفرق بين التصميم والنسخة</div>
         <div class="grid2">
-          <div class="cmp-card" style="--accent:var(--cyan)"><h4>🔒 Encapsulation</h4><p>Bundle data + methods together. Hide internal state from outside. Use <code>_private</code> or <code>__private</code> to restrict access.</p></div>
-          <div class="cmp-card" style="--accent:var(--green)"><h4>🔗 Inheritance</h4><p>Child class inherits attributes and methods from parent class. Promotes code reuse — don't repeat yourself!</p></div>
-          <div class="cmp-card" style="--accent:var(--amber)"><h4>🎭 Polymorphism</h4><p>Same method name, different behavior in different classes. Override parent methods to customize behavior.</p></div>
-          <div class="cmp-card" style="--accent:var(--purple)"><h4>🎭 Abstraction</h4><p>Hide complex implementation details. Show only the essential interface to the user.</p></div>
+          <div class="cmp-card" style="--accent:var(--purple)">
+            <h4>الـ Class (التصميم / Blueprint)</h4>
+            <p>هو الرسمة أو "الأسطمبة". مفيش فيها داتا حقيقية، بس بتعرّف إيه البيانات اللي المفروض تكون موجودة وايه الأفعال الممكنة. (زي فكرة "نموذج فاضي لبيانات الطالب").</p>
+          </div>
+          <div class="cmp-card" style="--accent:var(--pink)">
+            <h4>الـ Object (النسخة / Instance)</h4>
+            <p>هو الحاجة الحقيقية اللي اتعملت من الأسطمبة دي. يعني "الطالب علي" أو "الطالبة منى"، كل واحد فيهم Object شايل بيانات مختلفة بس ليهم نفس الهيكل.</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="chapter" id="files">
-      <div class="ch-header"><div class="ch-num green">📂</div><div class="ch-title"><h2>File Handling</h2><p>Read, write, and append files in Python</p></div></div>
-      <div class="topic" style="--accent:var(--green)">
-        <div class="topic-title"><span class="icon">📄</span> File Operations</div>
-        <pre style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.82rem;color:#cdd6f4;direction:ltr;text-align:left"># Read a file
-with open("data.txt", "r") as f:
-    content = f.read()
+    <!-- 2. Class, Object, Attribute, Method -->
+    <div class="chapter" id="class-object" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num pink">📦</div><div class="ch-title"><h2>Attributes & Methods — البيانات والأفعال</h2><p>الكلاس بيتكون من إيه من جوه؟</p></div></div>
+      
+      <div class="topic" style="--accent:var(--pink)" dir="rtl">
+        <div class="topic-title"><span class="icon">🧩</span> إيه هما الـ Attributes والـ Methods؟</div>
+        <ul>
+          <li><strong>Attributes:</strong> هي "البيانات" اللي جوه الـ Object (يعني الكائن ده بيعرف إيه؟ زي اسمه وعمره).</li>
+          <li><strong>Methods:</strong> هي "الدوال" المكتوبة جوه الـ Class (يعني الكائن ده بيعرف يعمل إيه؟ زي إنه يطبع بياناته).</li>
+        </ul>
+      </div>
 
-# Write to a file (overwrites!)
-with open("output.txt", "w") as f:
-    f.write("Hello World")
+      <div class="topic" style="--accent:var(--cyan)" dir="rtl">
+        <div class="topic-title"><span class="icon">✨</span> إنشاء كلاس بسيط و Objects منه</div>
+        <p>عشان نكتب كلاس في بايثون بنستخدم كلمة <code>class</code>، وغالباً اسم الكلاس بيبدأ بحرف كابيتال (PascalCase).</p>
+        <pre dir="ltr" style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.85rem;color:#cdd6f4;text-align:left;">
+<span style="color:#585b70"># 1. إنشاء كلاس فاضي</span>
+class Student:
+    pass
 
-# Append to a file (does NOT overwrite)
-with open("log.txt", "a") as f:
-    f.write("new line\n")</pre>
-        <div class="tip"><b>Best Practice:</b> Always use <code>with</code> — it automatically closes the file even if an error occurs. No need to call <code>f.close()</code>.</div>
-        <table class="tbl" style="margin-top:14px">
-          <tr><th>Mode</th><th>Meaning</th><th>Creates if not exists?</th></tr>
-          <tr><td><code>"r"</code></td><td>Read only</td><td>❌ No (error)</td></tr>
-          <tr><td><code>"w"</code></td><td>Write (overwrites)</td><td>✅ Yes</td></tr>
-          <tr><td><code>"a"</code></td><td>Append (adds to end)</td><td>✅ Yes</td></tr>
-          <tr><td><code>"rb"</code></td><td>Read binary</td><td>❌ No</td></tr>
-        </table>
+<span style="color:#585b70"># 2. إنشاء Objects (Instantiation)</span>
+student1 = Student()
+student2 = Student()
+
+<span style="color:#585b70"># 3. إضافة Attributes يدوياً (دي طريقة مش مفضلة بس ممكنة)</span>
+student1.name = "Mona"
+student1.level = 2
+
+print(student1.name)  <span style="color:#585b70"># هيطبع Mona</span></pre>
+        <div class="tip"><b>ليه الطريقة اليدوية وحشة؟</b> لأنك ممكن تنسى تضيف <code>level</code> لـ <code>student2</code> وساعتها الكود هيضرب Error. عشان كده بنستخدم الـ Constructor!</div>
       </div>
     </div>
 
-    <!-- QUIZ -->
-    <div class="quiz-section" id="quiz-oop">
-      <div class="quiz-header">
+    <!-- 3. Constructor & Self -->
+    <div class="chapter" id="constructor" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num amber">⚙️</div><div class="ch-title"><h2>Constructor & Self — دالة البناء</h2><p>ازاي ننظم ولادة الأوبجكت؟</p></div></div>
+      
+      <div class="topic" style="--accent:var(--amber)" dir="rtl">
+        <div class="topic-title"><span class="icon">🏗️</span> دالة البناء __init__</div>
+        <p>دي دالة بتشتغل <strong>أوتوماتيك</strong> أول ما تعمل Object جديد، وظيفتها إنها تضمن إن الـ Object ده اتخلق وهو معاه كل الداتا الأساسية بتاعته.</p>
+        <pre dir="ltr" style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.85rem;color:#cdd6f4;text-align:left;">
+class Student:
+    <span style="color:#585b70"># הConstructor</span>
+    def __init__(self, name, level, department="General"):
+        self.name = name
+        self.level = level
+        self.department = department
+
+<span style="color:#585b70"># بمجرد ما بنعمل كده، بايثون بتنادي __init__ لوحدها</span>
+student1 = Student("Mona", 2, "IS")
+student2 = Student("Ali", 2) <span style="color:#585b70"># هياخد الـ default ("General")</span></pre>
+      </div>
+
+      <div class="topic" style="--accent:var(--green)" dir="rtl">
+        <div class="topic-title"><span class="icon">👤</span> يعني إيه كلمة self ؟</div>
+        <p>كلمة <code>self</code> بترمز <strong>للـ Object الحالي</strong> اللي بيتعمله إنشاء أو اللي بينادي الدالة. لما نقول <code>self.name = name</code> كأننا بنقول "يا بايثون، خد القيمة اللي جيالك وحطها في الـ Object اللي في إيدينا دلوقتي".</p>
+        <div class="warn"><b>خطأ شائع جداً:</b> لو كتبت دالة جوه الـ Class ونسيت تحط <code>self</code> كأول بارامتر، بايثون هيرمي Error أول ما تيجي تنادي الدالة دي!</div>
+      </div>
+    </div>
+
+    <!-- 4. Inheritance -->
+    <div class="chapter" id="inheritance" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num purple">🧬</div><div class="ch-title"><h2>Inheritance & Overriding — الوراثة والتعديل</h2><p>إعادة استخدام الكود بذكاء</p></div></div>
+      
+      <div class="topic" style="--accent:var(--purple)" dir="rtl">
+        <div class="topic-title"><span class="icon">👨‍👦</span> مفهوم الوراثة (Inheritance)</div>
+        <p>لو عندنا كلاسين شبه بعض (زي الطالب والمدرس، الاتنين أشخاص ليهم اسم)، بدل ما نكرر الكود، بنعمل كلاس كبير (Parent) اسمه <code>Person</code>، ونخلي الكلاس الصغير (Child) يورث منه. <strong>بايثون بتستخدم الأقواس للوراثة <code>class Student(Person):</code> ومش بتستخدم كلمة inherits!</strong></p>
+        <pre dir="ltr" style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.85rem;color:#cdd6f4;text-align:left;">
+class Person:
+    def __init__(self, name):
+        self.name = name
+    def introduce(self):
+        print("I am a person")
+
+class Student(Person):
+    def __init__(self, name, level):
+        <span style="color:#585b70"># super() بتنادي دالة الأب عشان نبني الجزء المشترك (الاسم)</span>
+        super().__init__(name)
+        self.level = level
+    
+    <span style="color:#585b70"># Method Overriding: بنعيد كتابة الدالة عشان نغير سلوكها للطالب بس</span>
+    def introduce(self):
+        print("I am a student")</pre>
+      </div>
+
+      <div class="topic" style="--accent:var(--cyan)" dir="rtl">
+        <div class="topic-title"><span class="icon">🔍</span> إيه لازمة دالة super() ؟</div>
+        <p>دالة <code>super()</code> بتديلك صلاحية توصل لدوال الكلاس الأب (Parent) وتشغلها جوه الكلاس الابن (Child). غالباً بنستخدمها عشان نشغل الـ <code>__init__</code> بتاعة الأب ومانكتبش كود الداتا الأساسية مرتين.</p>
+      </div>
+
+      <div class="topic" style="--accent:var(--red)" dir="rtl">
+        <div class="topic-title"><span class="icon">🔒</span> Private vs Public في بايثون</div>
+        <p>بايثون مافيهاش حاجة اسمها Private بالمعنى الحرفي زي Java! بس متعارف عليه بين المبرمجين إن لو اسم الـ Attribute بيبدأ بـ Underscore <code>_name</code>، يبقى ده للاستخدام الداخلي ومحدش من بره المفروض يغيره (Convention مش قانون).</p>
+      </div>
+    </div>
+
+    <!-- 5. File Handling -->
+    <div class="chapter" id="file-handling" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num green">📄</div><div class="ch-title"><h2>File Handling — التعامل مع الملفات</h2><p>حفظ الداتا بره الرامات</p></div></div>
+      
+      <div class="topic" style="--accent:var(--green)" dir="rtl">
+        <div class="topic-title"><span class="icon">📂</span> ليه بنستخدم الملفات في الـ Backend؟</div>
+        <p>المتغيرات بتتمسح أول ما البرنامج يقفل. لو عايز تحفظ Logs (سجلات) أو Settings أو بيانات يوزرز بشكل مبدئي قبل الداتابيز، بنستخدم الملفات. بنفتح الملف بدالة <code>open(filename, mode)</code>.</p>
+        <div class="grid2">
+          <div class="cmp-card" style="--accent:var(--cyan)">
+            <h4 dir="ltr" style="text-align:left">Modes (أوضاع فتح الملف)</h4>
+            <ul>
+              <li><code>"r"</code> (Read): للقراءة بس.</li>
+              <li><code>"w"</code> (Write): للكتابة. <strong>(بيمسح أي كلام قديم ويكتب مكانه!)</strong></li>
+              <li><code>"a"</code> (Append): بيضيف الكلام الجديد في آخر الملف بدون مسح.</li>
+            </ul>
+          </div>
+          <div class="cmp-card" style="--accent:var(--purple)">
+            <h4 dir="ltr" style="text-align:left">Reading Methods</h4>
+            <ul>
+              <li><code>read()</code>: بيقرأ الملف كله كـ String واحد.</li>
+              <li><code>readline()</code>: بيقرأ سطر واحد بس.</li>
+              <li><code>readlines()</code>: بيقرأ السطور ويرجعها في List.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic" style="--accent:var(--amber)" dir="rtl">
+        <div class="topic-title"><span class="icon">🛡️</span> الأسلوب الأأمن: with open(...)</div>
+        <p>لو استخدمت <code>open()</code> العادية، لازم تقفل الملف في الآخر بـ <code>file.close()</code>. الأفضل نستخدم <code>with open()</code> لأنها بتقفل الملف أوتوماتيك أول ما البلوك يخلص، حتى لو حصل Error في النص.</p>
+        <pre dir="ltr" style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.85rem;color:#cdd6f4;text-align:left;">
+<span style="color:#585b70"># كتابة الملف باستخدام with (طريقة آمنة)</span>
+with open("students.txt", "w") as file:
+    file.write("Mona\n")  <span style="color:#585b70"># الـ \n بتعمل سطر جديد</span>
+    file.write("Ali\n")
+<span style="color:#585b70"># هنا الملف اتقفل لوحده خلاص!</span></pre>
+      </div>
+    </div>
+
+    <!-- 6. JSON -->
+    <div class="chapter" id="json" dir="ltr" style="text-align: left;">
+      <div class="ch-header" dir="rtl"><div class="ch-num blue">🌐</div><div class="ch-title"><h2>Errors & JSON — أخطاء الملفات والجيسون</h2><p>ازاي بنبعت ونستقبل داتا في الويب؟</p></div></div>
+      
+      <div class="topic" style="--accent:var(--blue)" dir="rtl">
+        <div class="topic-title"><span class="icon">🐞</span> أشهر أخطاء الملفات</div>
+        <ul>
+          <li><code>FileNotFoundError</code>: بتظهر لو استخدمت وضع <code>"r"</code> لملف مش موجود أصلاً، أو كاتب مساره غلط. عشان نتجنب الكراش، بنحطها جوه <code>try/except</code>.</li>
+          <li><code>PermissionError</code>: لو البرنامج مش واخد صلاحية يدخل على الملف ده أو يكتب فيه.</li>
+        </ul>
+      </div>
+
+      <div class="topic" style="--accent:var(--pink)" dir="rtl">
+        <div class="topic-title"><span class="icon">📦</span> الـ JSON وأهميته في الـ Backend</div>
+        <p>الـ JSON (JavaScript Object Notation) هي طريقة بنرتب بيها البيانات عشان ننقلها بسهولة بين الـ Backend والـ Frontend. شكلها في بايثون شبه الـ <strong>Dictionary</strong> بالظبط.</p>
+        <p>لما يكون عندك Object، مينفعش ترميه زي ما هو في ملف JSON! لازم الأول تحوله لـ Dictionary عن طريق دالة بتعملها زي <code>to_dict()</code> (العملية دي اسمها Serialization).</p>
+        <pre dir="ltr" style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--fc);font-size:.85rem;color:#cdd6f4;text-align:left;">
+import json
+
+student = {"name": "Mona", "level": 2}
+
+<span style="color:#585b70"># json.dump(): بتحفظ الـ dict في ملف JSON</span>
+with open("data.json", "w") as f:
+    json.dump(student, f, indent=4)  <span style="color:#585b70"># indent بتخلي شكله منسق ومقروء</span>
+
+<span style="color:#585b70"># json.load(): بتقرأ من ملف JSON وترجعه لـ dict في بايثون</span>
+with open("data.json", "r") as f:
+    data = json.load(f)
+    print(data["name"])</pre>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════ QUIZ 2021 ═══════════════════════ -->
+    <div class="quiz-section" id="quiz-2021" dir="ltr" style="text-align: left;">
+      <div class="quiz-header" dir="rtl">
         <div class="quiz-icon">🎯</div>
-        <div><h3>OOP — Exam Quiz</h3><p>Real questions with Egyptian slang explanations 🇪🇬</p></div>
+        <div><h3>OOP — Final 2021</h3><p>أسئلة من فاينال 2021 عن الـ Objects 🇪🇬</p></div>
       </div>
 
-      <div class="q-item" data-correct="b">
+      <div class="q-item" data-correct="b" dir="ltr">
         <div class="q-num">Q1 <span class="q-src">Final 2021</span></div>
-        <div class="q-text">Consider: <code>name1 = Name('ABC'); name2 = name1</code>. Which statement is correct?</div>
+        <div class="q-text">Which statement is correct about this Python code?<br><code>class Name:<br>&nbsp;&nbsp;def __init__(self, name):<br>&nbsp;&nbsp;&nbsp;&nbsp;self.name = name<br>name1 = Name('ABC')<br>name2 = name1</code></div>
         <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Error — multiple references to same object not possible</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> id(name1) and id(name2) will have the same value</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> name2 is a copy of name1</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error — can't assign object to variable</div>
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> It will throw an error as multiple references to the same object is not possible.</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> id(name1) and id(name2) will have the same value.</div>
+          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> They are completely separate objects in memory.</div>
+          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> All of the above</div>
         </div>
-        <div class="q-explain">
-          <b>✅ Correct: B — id(name1) == id(name2)</b><br>
-          <code>name2 = name1</code> creates a reference, NOT a copy. Both variables point to the exact same object in memory. Their <code>id()</code> values are identical.
-          <span class="slang-tip">لما بتعمل name2 = name1 مش بتعمل نسخة — بتعمل اسم تاني لنفس الـ object. الاتنين بيشيروا لنفس المكان في الـ memory. ده زي ما لو قلت "محمد" و "كيميائي" — اتنين أسماء لنفس الشخص.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="a">
-        <div class="q-num">Q2 <span class="q-src">Final 2021</span></div>
-        <div class="q-text">What is the purpose of form control elements in the HTML DOM?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> User Interface elements</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> All possible elements</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Debugging elements</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Collecting elements</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ Correct: A — User Interface elements</b><br>
-          Form controls (input, button, select, textarea) are UI elements for user interaction and data input.
-          <span class="slang-tip">عناصر الفورم زي input وbutton وselect هي User Interface elements — يعني الأدوات اللي المستخدم بيتعامل معاها ويدخل فيها بياناته.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="a">
-        <div class="q-num">Q3 <span class="q-src">Final 2024</span></div>
-        <div class="q-text">Which OOP pillar means "same method name, different behavior in different classes"?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Polymorphism</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Encapsulation</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Abstraction</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Inheritance</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ Correct: A — Polymorphism</b><br>
-          Polymorphism = one interface, many forms. The same method name behaves differently across classes. Like <code>speak()</code> in Dog vs Cat.
-          <span class="slang-tip">Polymorphism = نفس الاسم، تصرف مختلف. زي طريقة speak() في الـ Dog بترجع "Woof" وفي الـ Cat بترجع "Meow" — نفس الاسم بس تصرف مختلف.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="c">
-        <div class="q-num">Q4 <span class="q-src">Final 2024</span></div>
-        <div class="q-text">Which file mode in Python ADDS content without overwriting existing content?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> "w" (write)</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> "r" (read)</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> "a" (append)</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> "rw" (read-write)</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ Correct: C — "a" (append)</b><br>
-          Mode "a" opens the file and adds content at the END without deleting existing content. Mode "w" overwrites everything.
-          <span class="slang-tip">"a" (append) = بيضيف في الآخر من غير ما يمسح اللي موجود. "w" (write) = بيمسح كل حاجة ويكتب من الأول. اتأكد تعرف الفرق ده!</span>
+        <div class="q-explain" dir="rtl">
+          <b>✅ الإجابة الصح: B — id(name1) and id(name2) will have the same value</b><br>
+          <span class="slang-tip">لما بتعمل <code>name2 = name1</code> إنت مش بتعمل نسخة جديدة من الـ Object! إنت بس بتعمل "إشارة" جديدة (Reference) لنفس المكان في الذاكرة. فالاتنين بيكون ليهم نفس الـ ID بالظبط.</span>
         </div>
       </div>
 
       <div class="q-controls">
-        <span class="q-score" id="score-oop"></span>
+        <span class="q-score" id="score-py21"></span>
         <br>
-        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-oop')">✔ Check Answers</button>
-        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-oop')">↺ Reset</button>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-2021')">✔ مراجعة 2021</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-2021')">↺ إعادة</button>
       </div>
     </div>
+
+    <!-- ═══════════════════════ QUIZ 2025 ═══════════════════════ -->
+    <div class="quiz-section" id="quiz-2025" dir="ltr" style="text-align: left;">
+      <div class="quiz-header" dir="rtl">
+        <div class="quiz-icon">🛡️</div>
+        <div><h3>OOP — Final 2025</h3><p>أسئلة الـ True/False من امتحان 2025 🇪🇬</p></div>
+      </div>
+
+      <div class="q-item" data-correct="b" dir="ltr">
+        <div class="q-num">Q1 <span class="q-src">Final 2025 (T/F)</span></div>
+        <div class="q-text">In python, to create a class that inherits from another class we use <code>inherits</code> keyword.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain" dir="rtl">
+          <b>✅ الإجابة الصح: B — False</b><br>
+          <span class="slang-tip">بايثون مفيهاش كلمة اسمها <code>inherits</code>! عشان نورث بنستخدم الأقواس العادية زي كده: <code>class Child(Parent):</code>. الفخ ده عشان يلخبطك مع لغات تانية زي Java اللي بتستخدم <code>extends</code>.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b" dir="ltr">
+        <div class="q-num">Q2 <span class="q-src">Final 2025 (T/F)</span></div>
+        <div class="q-text">In Python, when using the <code>super()</code> function, the child class will not inherit the methods and properties from the parent class.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain" dir="rtl">
+          <b>✅ الإجابة الصح: B — False</b><br>
+          <span class="slang-tip">العكس تماماً! دالة <code>super()</code> هي أصلاً اللي بنستخدمها عشان ننده على دوال الأب (زي الـ <code>__init__</code>) ونضمن إن الابن ورث واستفاد من خصائص الأب بالكامل.</span>
+        </div>
+      </div>
+
+      <div class="q-item" data-correct="b" dir="ltr">
+        <div class="q-num">Q3 <span class="q-src">Final 2025 (T/F)</span></div>
+        <div class="q-text">The <code>super()</code> function in python enables a class to have unlimited number of attributes.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+        </div>
+        <div class="q-explain" dir="rtl">
+          <b>✅ الإجابة الصح: B — False</b><br>
+          <span class="slang-tip">دالة <code>super()</code> ملهاش أي علاقة بعدد الـ Attributes! هي مجرد أداة عشان توصل لدوال الـ Parent class (الكلاس الأب). إنت تقدر تعمل عدد لا نهائي من الـ Attributes في أي كلاس حتى لو مش وارث من حد.</span>
+        </div>
+      </div>
+
+      <div class="q-controls">
+        <span class="q-score" id="score-py25"></span>
+        <br>
+        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-2025')">✔ مراجعة 2025</button>
+        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-2025')">↺ إعادة</button>
+      </div>
+    </div>
+
   </div>
 </main>
 <script src="../assets/app.js"></script>
