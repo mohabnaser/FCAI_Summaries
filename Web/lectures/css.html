@@ -214,8 +214,20 @@ code{font-family:var(--fc);background:rgba(244,114,182,.1);color:var(--pink);pad
 @media(min-width:901px){#menu-btn{display:none!important}}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-/* ─── BIDI FIX ─── */
-code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel {
+/* ─── BIDI FIX (ARABIC/ENGLISH MIX) ─── */
+p, h1, h2, h3, h4, h5, h6, li, td, th, 
+.topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div, .note div, 
+.q-text, .q-opt, .hero p, .hero-badge, .sb-link, 
+.topic p, .ch-title h2, .sb-logo p, .sb-logo h2, .q-num {
+  unicode-bidi: plaintext;
+  text-align: start;
+}
+.q-explain, .cheat-val, .cmt {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: embed;
+}
+code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel, .bool, .op {
   direction: ltr;
   unicode-bidi: isolate;
 }
@@ -1127,7 +1139,12 @@ p { color: blue; }
 
       <div class="q-item" data-correct="b">
         <div class="q-num">Q1 <span class="q-src">mid-2023 / final-2024</span></div>
-        <div class="q-text">By using this CSS selector <code>div &gt; p { color: red }</code>, how many p elements will be styled from the exam HTML?</div>
+        <div class="q-text">By using the following CSS selector, how many p elements will be styled from the exam HTML?
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">css</div></div>
+            <pre><code><span class="sel">div &gt; p</span> { <span class="prop">color</span>: <span class="val">red</span>; }</code></pre>
+          </div>
+        </div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 3</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
@@ -1139,7 +1156,12 @@ p { color: blue; }
 
       <div class="q-item" data-correct="b">
         <div class="q-num">Q2 <span class="q-src">mid-2023 / final-2024</span></div>
-        <div class="q-text">By using this CSS selector <code>div ~ p {color: blue}</code>, the number of p elements that will be styled is:</div>
+        <div class="q-text">By using the following CSS selector, the number of p elements that will be styled is:
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">css</div></div>
+            <pre><code><span class="sel">div ~ p</span> { <span class="prop">color</span>: <span class="val">blue</span>; }</code></pre>
+          </div>
+        </div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 3</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
@@ -1151,7 +1173,12 @@ p { color: blue; }
 
       <div class="q-item" data-correct="a">
         <div class="q-num">Q3 <span class="q-src">final-2025</span></div>
-        <div class="q-text">By using this CSS selector <code>div + p { color: red}</code>, how many p elements will be styled from the exam HTML?</div>
+        <div class="q-text">By using the following CSS selector, how many p elements will be styled from the exam HTML?
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">css</div></div>
+            <pre><code><span class="sel">div + p</span> { <span class="prop">color</span>: <span class="val">red</span>; }</code></pre>
+          </div>
+        </div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
@@ -1163,7 +1190,7 @@ p { color: blue; }
 
       <div class="q-item" data-correct="a">
         <div class="q-num">Q4 <span class="q-src">mid-2023 / final-2024</span></div>
-        <div class="q-text">In "a[target=_blank]", the [target=_blank] is called:</div>
+        <div class="q-text">In <code>a[target=_blank]</code>, the <code>[target=_blank]</code> is called:</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Attribute selector</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Anchor selector</div>
@@ -1175,7 +1202,12 @@ p { color: blue; }
 
       <div class="q-item" data-correct="a">
         <div class="q-num">Q5 <span class="q-src">mid-2023 / final-2024 / final-2025</span></div>
-        <div class="q-text">By using <code>p:first-child {color:red;}</code> on the CSS Selector exam HTML, how many elements will be styled?</div>
+        <div class="q-text">By using the following CSS selector on the CSS Selector exam HTML, how many elements will be styled?
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">css</div></div>
+            <pre><code><span class="sel">p:first-child</span> { <span class="prop">color</span>: <span class="val">red</span>; }</code></pre>
+          </div>
+        </div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 0 (None)</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 1</div>
@@ -1199,12 +1231,12 @@ p { color: blue; }
 
       <div class="q-item" data-correct="b">
         <div class="q-num">Q7 <span class="q-src">mid-2023 / final-2024 / final-2021 Q8</span></div>
-        <div class="q-text">To change the color of &lt;a&gt; elements to yellow when the mouse moves over it, you can use:</div>
+        <div class="q-text">To change the color of <code>&lt;a&gt;</code> elements to yellow when the mouse moves over it, you can use:</div>
         <div class="q-opts">
-          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> a::hover {background-color: yellow;}</div>
-          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> a:hover {background-color: yellow;}</div>
-          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> a:link {background-color: yellow;}</div>
-          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> a:active {background-color: yellow;}</div>
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> <code>a::hover {background-color: yellow;}</code></div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> <code>a:hover {background-color: yellow;}</code></div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> <code>a:link {background-color: yellow;}</code></div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> <code>a:active {background-color: yellow;}</code></div>
         </div>
         <div class="q-explain">✅ :hover = pseudo-class بـ single colon للـ hover state. ::hover مش موجود (double colon للـ pseudo-elements). :link = unvisited. :active = while clicking.</div>
       </div>
@@ -1967,7 +1999,12 @@ p { color: blue; }
 
       <div class="q-item" data-correct="b">
         <div class="q-num">Q1 <span class="q-src">final-2025</span></div>
-        <div class="q-text">Identify the error in this CSS code: <code>.class { color: blue; font-weight; bold; }</code></div>
+        <div class="q-text">Identify the error in this CSS code:
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">css</div></div>
+            <pre><code><span class="sel">.class</span> { <span class="prop">color</span>: <span class="val">blue</span>; <span class="prop">font-weight</span>; <span class="val">bold</span>; }</code></pre>
+          </div>
+        </div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Missing class name</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Syntax error in property declaration</div>
@@ -1979,7 +2016,12 @@ p { color: blue; }
 
       <div class="q-item" data-correct="c">
         <div class="q-num">Q2 <span class="q-src">final-2025</span></div>
-        <div class="q-text">Why might the CSS rule <code>.container p {color: green;}</code> not apply to a paragraph inside a div with class "container"?</div>
+        <div class="q-text">Why might the following CSS rule not apply to a paragraph inside a div with class "container"?
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">css</div></div>
+            <pre><code><span class="sel">.container p</span> { <span class="prop">color</span>: <span class="val">green</span>; }</code></pre>
+          </div>
+        </div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The div does not have the "container" class</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> The paragraph is not a direct child</div>
@@ -1991,7 +2033,16 @@ p { color: blue; }
 
       <div class="q-item" data-correct="d">
         <div class="q-num">Q3 <span class="q-src">mid-2023</span></div>
-        <div class="q-text">By using this CSS selector <code>p:empty {width: 100px; height: 20px; background: red;}</code>, the number of elements that will be styled from the exam HTML (3 visible p tags, no empty ones) is:</div>
+        <div class="q-text">By using the following CSS selector, the number of elements that will be styled from the exam HTML (3 visible p tags, no empty ones) is:
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">css</div></div>
+            <pre><code><span class="sel">p:empty</span> {
+  <span class="prop">width</span>: <span class="val">100px</span>;
+  <span class="prop">height</span>: <span class="val">20px</span>;
+  <span class="prop">background</span>: <span class="val">red</span>;
+}</code></pre>
+          </div>
+        </div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 3</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 0</div>
@@ -2003,7 +2054,12 @@ p { color: blue; }
 
       <div class="q-item" data-correct="a">
         <div class="q-num">Q4 <span class="q-src">final-2025</span></div>
-        <div class="q-text">In the following Python Statements (about CSS analogy), by using this CSS selector <code>p:empty {color:red;}</code>, how many elements will be styled from the final-2025 exam HTML?</div>
+        <div class="q-text">In the following Python Statements (about CSS analogy), by using the following CSS selector, how many elements will be styled from the final-2025 exam HTML?
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">css</div></div>
+            <pre><code><span class="sel">p:empty</span> { <span class="prop">color</span>: <span class="val">red</span>; }</code></pre>
+          </div>
+        </div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 0 (None — no empty p elements)</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 3</div>
@@ -2027,7 +2083,12 @@ p { color: blue; }
 
       <div class="q-item" data-correct="b">
         <div class="q-num">Q6 <span class="q-src">final-2025</span></div>
-        <div class="q-text">By using this CSS selector <code>p:first-child { color: blue;}</code> on the final-2025 exam HTML that starts with &lt;h2&gt;, how many elements will be styled?</div>
+        <div class="q-text">By using the following CSS selector on the final-2025 exam HTML that starts with &lt;h2&gt;, how many elements will be styled?
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">css</div></div>
+            <pre><code><span class="sel">p:first-child</span> { <span class="prop">color</span>: <span class="val">blue</span>; }</code></pre>
+          </div>
+        </div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 5</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 1 (the p inside div is first-child of div)</div>
@@ -2038,7 +2099,14 @@ p { color: blue; }
       </div>
       <div class="q-item" data-correct="a">
         <div class="q-num">Q7 <span class="q-src">midterm-2026 Q24</span></div>
-        <div class="q-text">If <code>p {color:blue;}</code>, <code>.title {color:green;}</code>, and <code>#main {color:red;}</code> all apply to the same paragraph, what color wins?</div>
+        <div class="q-text">If all of the following CSS rules apply to the same paragraph, what color wins?
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">css</div></div>
+            <pre><code><span class="sel">p</span> { <span class="prop">color</span>: <span class="val">blue</span>; }
+<span class="sel">.title</span> { <span class="prop">color</span>: <span class="val">green</span>; }
+<span class="sel">#main</span> { <span class="prop">color</span>: <span class="val">red</span>; }</code></pre>
+          </div>
+        </div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> red</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> green</div>

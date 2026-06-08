@@ -264,15 +264,17 @@ code{font-family:var(--fc);background:rgba(0,212,255,.08);color:var(--cyan);padd
 /* ─── BIDI FIX (ARABIC/ENGLISH MIX) ─── */
 p, h1, h2, h3, h4, h5, h6, li, td, th, 
 .topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div, .note div, 
-.q-text, .q-explain, .cheat-val, .cmt, .q-opt, .hero p, .hero-badge, .sb-link, 
+.q-text, .q-opt, .hero p, .hero-badge, .sb-link, 
 .topic p, .ch-title h2, .sb-logo p, .sb-logo h2, .q-num {
   unicode-bidi: plaintext;
-  text-align: left;
+  text-align: start;
 }
 .q-explain, .cheat-val, .cmt {
+  direction: rtl;
   text-align: right;
+  unicode-bidi: embed;
 }
-code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel {
+code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel, .bool, .op {
   direction: ltr;
   unicode-bidi: isolate;
 }
@@ -1853,11 +1855,11 @@ btn.dataset.role;   <span class="cmt">// "admin"</span></code></pre>
       </div>
       <div class="q-item" data-correct="b">
         <div class="q-num">Q8 <span class="q-src">mid-2023 / final-2024</span></div>
-        <div class="q-text">To get the TEXT of h2, document.getElementById("id1").innerHTML is equivalent to:</div>
+        <div class="q-text">To get the TEXT of h2, <code>document.getElementById("id1").innerHTML</code> is equivalent to:</div>
         <div class="q-opts">
-          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> document.getElementById("id1").text</div>
-          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> document.getElementById("id1").firstChild.nodeValue</div>
-          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> document.getElementById("id1").nodeValue</div>
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> <code>document.getElementById("id1").text</code></div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> <code>document.getElementById("id1").firstChild.nodeValue</code></div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> <code>document.getElementById("id1").nodeValue</code></div>
           <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
         </div>
         <div class="q-explain">✅ innerHTML = firstChild.nodeValue! الـ firstChild بيرجع الـ text node، وnodeValue بيرجع قيمة الـ text node.</div>
@@ -1875,7 +1877,7 @@ btn.dataset.role;   <span class="cmt">// "admin"</span></code></pre>
       </div>
       <div class="q-item" data-correct="a">
         <div class="q-num">Q10 <span class="q-src">mid-2023 / final-2024</span></div>
-        <div class="q-text">Using document.getElementById("id1").nodeType will return:</div>
+        <div class="q-text">Using <code>document.getElementById("id1").nodeType</code> will return:</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 3</div>
@@ -1886,7 +1888,7 @@ btn.dataset.role;   <span class="cmt">// "admin"</span></code></pre>
       </div>
       <div class="q-item" data-correct="c">
         <div class="q-num">Q11 <span class="q-src">mid-2023</span></div>
-        <div class="q-text">Using document.getElementById("id1").nodeValue will return:</div>
+        <div class="q-text">Using <code>document.getElementById("id1").nodeValue</code> will return:</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Hello World</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 1</div>
@@ -1897,7 +1899,7 @@ btn.dataset.role;   <span class="cmt">// "admin"</span></code></pre>
       </div>
       <div class="q-item" data-correct="c">
         <div class="q-num">Q12 <span class="q-src">mid-2023</span></div>
-        <div class="q-text">Using document.getElementById("id1").firstChild.nodeType will return:</div>
+        <div class="q-text">Using <code>document.getElementById("id1").firstChild.nodeType</code> will return:</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Hello World</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
@@ -1908,7 +1910,7 @@ btn.dataset.role;   <span class="cmt">// "admin"</span></code></pre>
       </div>
       <div class="q-item" data-correct="c">
         <div class="q-num">Q13 <span class="q-src">final-2025</span></div>
-        <div class="q-text">What will be the output of "document.getElementById("id1").firstChild.nodeName;"?</div>
+        <div class="q-text">What will be the output of <code>document.getElementById("id1").firstChild.nodeName;</code>?</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
@@ -1952,12 +1954,17 @@ btn.dataset.role;   <span class="cmt">// "admin"</span></code></pre>
       </div>
       <div class="q-item" data-correct="c">
         <div class="q-num">Q17 <span class="q-src">final-2021 Q18 / Q51</span></div>
-        <div class="q-text">Which JavaScript line changes the HTML inside <code>&lt;p id="demo"&gt;This is a demonstration.&lt;/p&gt;</code> to "Hello World!"?</div>
+        <div class="q-text">Which JavaScript line changes the HTML inside the following element to "Hello World!"?
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">html</div></div>
+            <pre><code><span class="tag">&lt;p</span> <span class="attr">id</span>=<span class="val">"demo"</span><span class="tag">&gt;</span>This is a demonstration.<span class="tag">&lt;/p&gt;</span></code></pre>
+          </div>
+        </div>
         <div class="q-opts">
-          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> #demo.innerHTML = "Hello World!";</div>
-          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> document.getElementByName("p").innerHTML = "Hello World!";</div>
-          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> document.getElementById("demo").innerHTML = "Hello World!";</div>
-          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> document.getElement("p").innerHTML = "Hello World!";</div>
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> <code>#demo.innerHTML = "Hello World!";</code></div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> <code>document.getElementByName("p").innerHTML = "Hello World!";</code></div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> <code>document.getElementById("demo").innerHTML = "Hello World!";</code></div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> <code>document.getElement("p").innerHTML = "Hello World!";</code></div>
         </div>
         <div class="q-explain">✅ بنجيب العنصر بالـ id باستخدام <code>document.getElementById("demo")</code> ثم نغير محتواه بـ <code>innerHTML</code>.</div>
       </div>
@@ -1974,7 +1981,12 @@ btn.dataset.role;   <span class="cmt">// "admin"</span></code></pre>
       </div>
       <div class="q-item" data-correct="b">
         <div class="q-num">Q19 <span class="q-src">midterm-2026 Q18</span></div>
-        <div class="q-text">What will be selected by <code>document.querySelector("#main .title")</code>?</div>
+        <div class="q-text">What will be selected by the following code?
+          <div class="code-wrap">
+            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">javascript</div></div>
+            <pre><code>document.<span class="fn">querySelector</span>(<span class="str">"#main .title"</span>);</code></pre>
+          </div>
+        </div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> All elements with class title inside #main</div>
           <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> The first element with class title inside #main</div>
