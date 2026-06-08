@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -298,6 +298,18 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
 .gn-current{background:var(--purple);color:#fff;border-color:rgba(139,92,246,.3);box-shadow:0 0 15px rgba(139,92,246,.25);cursor:default}
 .gn-disabled{background:rgba(148,163,184,.06);color:var(--t3);border-color:rgba(148,163,184,.14);cursor:not-allowed;opacity:.75}
 .gn-current:hover,.gn-disabled:hover{transform:none}
+/* ─── BIDI FIX (ARABIC/ENGLISH MIX) ─── */
+p, h1, h2, h3, h4, h5, h6, li, td, th,
+.topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div,
+.q-explain, .cheat-val, .cmt, .hero p, .hero-badge, .sb-link,
+.topic p, .ch-title h2, .sb-logo p, .sb-logo h2 {
+  unicode-bidi: plaintext;
+}
+code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
 </style>
 </head>
 <body>
@@ -2708,15 +2720,6 @@ document.addEventListener('DOMContentLoaded', () => {
   updateScrollTop();
   updateSidebar();
   animateCounters();
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('p, li, td, th, .topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div, .note div, .q-text, .q-explain, .cheat-val, .cmt, .q-opt, .hero p, .topic p, .q-num').forEach(el => {
-    if (/[\u0600-\u06FF]/.test(el.textContent) && !el.textContent.startsWith('\u200F') && !/^[\s]*[A-Za-z]/.test(el.textContent)) {
-        el.innerHTML = '&#x200F;' + el.innerHTML;
-    }
-  });
 });
 </script>
 </body>
