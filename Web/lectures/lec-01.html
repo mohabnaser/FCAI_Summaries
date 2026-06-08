@@ -1,825 +1,1560 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lecture 01 — Introduction to Backend Development | IS231</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fira+Code:wght@400;500;600&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/shared.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IS231 — المحاضرة الأولى | مقدمة في Backend Development</title>
+<meta name="description" content="ملخص شامل لمحاضرة 1 في مادة Web Technology IS231 — Backend, Python, Django, Request-Response Cycle بالشرح العربي والمصطلحات الإنجليزية">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ─── BIDI FIX ─── */
+:root{
+  --bg:#070c18;--bg2:#0b1120;--card:#0f172a;--card2:#141e33;
+  --border:#1e3a5f;--border2:#253650;
+  --cyan:#00d4ff;--cyan2:#0ea5e9;--amber:#f59e0b;--green:#10b981;
+  --red:#ef4444;--purple:#8b5cf6;--pink:#f472b6;--teal:#2dd4bf;
+  --t1:#e2e8f0;--t2:#94a3b8;--t3:#64748b;
+  --code:#0d1117;--fw:280px;
+  --fh:'Outfit',sans-serif;--fb:'DM Sans',sans-serif;--fc:'Fira Code',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.75;overflow-x:hidden}
+
+/* ─── PROGRESS BAR ─── */
+#prog-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--amber));z-index:9999;transition:width .2s;width:0}
+
+/* ─── SIDEBAR ─── */
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--fw);background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;z-index:100;padding:20px 0;transition:.3s}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.sb-logo{padding:12px 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.sb-logo h2{font-family:var(--fh);font-size:1.05rem;color:var(--cyan);font-weight:700}
+.sb-logo p{font-size:.72rem;color:var(--t3);margin-top:3px}
+.sb-section{padding:6px 20px 2px;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-top:10px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 20px;font-size:.82rem;color:var(--t2);text-decoration:none;transition:.2s;border-left:3px solid transparent;position:relative}
+.sb-link:hover,.sb-link.active{color:var(--t1);background:rgba(0,212,255,.06);border-left-color:var(--cyan)}
+.sb-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:.2s}
+.sb-link.active .sb-dot,.sb-link:hover .sb-dot{background:var(--cyan)}
+
+/* ─── MAIN ─── */
+#main{margin-left:var(--fw);padding:0 0 80px}
+.hero{background:linear-gradient(135deg,#060d1e 0%,#0a1628 40%,#0e0a2e 100%);padding:70px 60px 60px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,212,255,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-50px;left:200px;width:300px;height:300px;background:radial-gradient(circle,rgba(139,92,246,.06) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:20px;padding:5px 14px;font-size:.75rem;color:var(--cyan);margin-bottom:20px;font-family:var(--fc)}
+.hero h1{font-family:var(--fh);font-size:2.8rem;font-weight:800;line-height:1.15;margin-bottom:14px}
+.hero h1 span{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--t2);max-width:620px;font-size:1rem;text-align:right;direction:rtl}
+.hero-stats{display:flex;gap:30px;margin-top:30px}
+.hstat{text-align:center}
+.hstat .num{font-family:var(--fh);font-size:1.8rem;font-weight:700;color:var(--cyan)}
+.hstat .lbl{font-size:.72rem;color:var(--t3);margin-top:2px}
+
+/* ─── CONTENT ─── */
+.content{padding:40px 60px}
+.chapter{margin-bottom:80px}
+
+/* ─── SECTION TITLE ─── */
+.ch-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.ch-num{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:1rem;flex-shrink:0}
+.ch-num.blue{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.25)}
+.ch-num.purple{background:rgba(139,92,246,.12);color:var(--purple);border:1px solid rgba(139,92,246,.25)}
+.ch-num.amber{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+.ch-num.green{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+.ch-num.pink{background:rgba(244,114,182,.12);color:var(--pink);border:1px solid rgba(244,114,182,.25)}
+.ch-num.teal{background:rgba(45,212,191,.12);color:var(--teal);border:1px solid rgba(45,212,191,.25)}
+.ch-title h2{font-family:var(--fh);font-size:1.6rem;font-weight:700}
+.ch-title p{color:var(--t3);font-size:.85rem;margin-top:3px}
+
+/* ─── TOPIC CARD ─── */
+.topic{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden;transition:.25s}
+.topic::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--cyan)),transparent);opacity:.6}
+.topic:hover{border-color:var(--border2);transform:translateY(-1px)}
+.topic-title{font-family:var(--fh);font-size:1.05rem;font-weight:600;margin-bottom:10px;color:var(--t1);display:flex;align-items:center;gap:10px}
+.topic-title .icon{font-size:1.1rem}
+.topic p{color:var(--t2);font-size:.9rem;margin-bottom:10px}
+.topic p:last-child{margin-bottom:0}
+.topic ul{color:var(--t2);font-size:.9rem;padding-right:20px;direction:rtl}
+.topic ul li{margin-bottom:6px}
+
+/* ─── GRID ─── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+/* ─── CODE BLOCK ─── */
+.code-wrap{background:var(--code);border:1px solid #21262d;border-radius:10px;margin:14px 0;overflow:hidden}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid #21262d}
+.code-dots{display:flex;gap:6px}
+.code-dots span{width:10px;height:10px;border-radius:50%}
+.code-dots span:nth-child(1){background:#ff5f57}
+.code-dots span:nth-child(2){background:#febc2e}
+.code-dots span:nth-child(3){background:#28c840}
+.code-lang{font-family:var(--fc);font-size:.68rem;color:var(--t3)}
+.code-wrap pre{padding:16px 20px;font-family:var(--fc);font-size:.82rem;line-height:1.7;overflow-x:auto;color:#cdd6f4}
+.code-wrap pre code{background:transparent}
+/* Syntax colors */
+.kw{color:#cba6f7}.str{color:#a6e3a1}.num{color:#fab387}.fn{color:#89b4fa}
+.cmt{color:#585b70;font-style:italic}.prop{color:#89dceb}.tag{color:#f38ba8}
+.attr{color:#fab387}.val{color:#a6e3a1}.sel{color:#cba6f7}
+
+/* ─── INLINE CODE ─── */
+code{font-family:var(--fc);background:rgba(0,212,255,.08);color:var(--cyan);padding:2px 7px;border-radius:4px;font-size:.82em}
+
+/* ─── DIAGRAM ─── */
+.diagram{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:24px;margin:16px 0;overflow-x:auto}
+
+/* ─── INFO BOXES ─── */
+.tip,.warn,.info,.danger{display:flex;gap:12px;padding:14px 16px;border-radius:10px;margin:14px 0;font-size:.87rem;direction:rtl;text-align:right}
+.tip{background:rgba(16,185,129,.08);border-right:3px solid var(--green);color:#6ee7b7}
+.warn{background:rgba(245,158,11,.08);border-right:3px solid var(--amber);color:#fcd34d}
+.info{background:rgba(0,212,255,.08);border-right:3px solid var(--cyan);color:#7dd3fc}
+.danger{background:rgba(239,68,68,.08);border-right:3px solid var(--red);color:#fca5a5}
+.tip b,.warn b,.info b,.danger b{display:block;margin-bottom:3px;font-weight:600}
+
+/* ─── TABLE ─── */
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem}
+.tbl th{background:var(--card2);color:var(--cyan);font-family:var(--fh);font-weight:600;padding:10px 14px;text-align:right;border-bottom:2px solid var(--border)}
+.tbl td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--t2);text-align:right}
+.tbl tr:hover td{background:rgba(255,255,255,.02)}
+
+/* ─── FLOW DIAGRAM ─── */
+.flow-diagram{display:flex;align-items:center;justify-content:center;gap:0;padding:20px;flex-wrap:wrap}
+.flow-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px 20px;text-align:center;min-width:130px}
+.flow-box .fb-icon{font-size:1.8rem;margin-bottom:6px}
+.flow-box .fb-label{font-family:var(--fh);font-size:.82rem;font-weight:600;color:var(--t1)}
+.flow-box .fb-sub{font-size:.7rem;color:var(--t3);margin-top:2px}
+.flow-arrow{display:flex;flex-direction:column;align-items:center;padding:0 10px;gap:8px}
+.arrow-req{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--cyan)}
+.arrow-res{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--green)}
+.arr-line{flex:1;height:2px;min-width:50px;border-radius:1px}
+.arr-cyan{background:linear-gradient(90deg,var(--cyan),var(--cyan2))}
+.arr-green{background:linear-gradient(90deg,var(--green),var(--green))}
+.arr-tip{font-size:.8rem}
+
+/* ─── TIER DIAGRAM ─── */
+.tier-wrap{display:flex;gap:0;align-items:stretch;border-radius:14px;overflow:hidden;border:1px solid var(--border);margin:16px 0}
+.tier{flex:1;padding:20px 16px;text-align:center;border-right:1px solid var(--border)}
+.tier:last-child{border-right:none}
+.tier-icon{font-size:2rem;margin-bottom:8px}
+.tier-name{font-family:var(--fh);font-size:.9rem;font-weight:700;margin-bottom:4px}
+.tier-tech{font-family:var(--fc);font-size:.72rem;color:var(--t3);margin-bottom:8px}
+.tier-desc{font-size:.78rem;color:var(--t2);line-height:1.5}
+.tier1{background:rgba(0,212,255,.05)}
+.tier2{background:rgba(139,92,246,.05)}
+.tier3{background:rgba(16,185,129,.05)}
+.tier1 .tier-name{color:var(--cyan)}
+.tier2 .tier-name{color:var(--purple)}
+.tier3 .tier-name{color:var(--green)}
+
+/* ─── STEPS ─── */
+.steps{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+.step{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;background:var(--card2);border-radius:10px;border:1px solid var(--border)}
+.step-num{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:.85rem;flex-shrink:0}
+.step-body{flex:1;direction:rtl;text-align:right}
+.step-title{font-family:var(--fh);font-weight:600;font-size:.9rem;color:var(--t1);margin-bottom:2px}
+.step-desc{font-size:.82rem;color:var(--t2)}
+
+/* ─── BADGES ─── */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;font-family:var(--fc)}
+.badge-cyan{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
+.badge-green{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.badge-amber{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.badge-red{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.badge-purple{background:rgba(139,92,246,.1);color:var(--purple);border:1px solid rgba(139,92,246,.2)}
+.badge-pink{background:rgba(244,114,182,.1);color:var(--pink);border:1px solid rgba(244,114,182,.2)}
+
+/* ─── URL BREAKDOWN ─── */
+.url-box{background:var(--code);border:1px solid #21262d;border-radius:12px;padding:20px 24px;margin:16px 0;font-family:var(--fc);font-size:.9rem;position:relative;direction:ltr;text-align:left}
+.url-full{color:var(--t1);margin-bottom:18px;word-break:break-all;letter-spacing:.01em}
+.url-parts{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.url-part{display:flex;flex-direction:column;align-items:center;gap:4px}
+.url-part-val{font-family:var(--fc);font-size:.8rem;padding:4px 10px;border-radius:6px;font-weight:500}
+.url-part-key{font-size:.67rem;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
+.up-scheme{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
+.up-host{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.up-port{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.up-path{background:rgba(139,92,246,.12);color:var(--purple);border:1px solid rgba(139,92,246,.2)}
+.up-query{background:rgba(244,114,182,.12);color:var(--pink);border:1px solid rgba(244,114,182,.2)}
+
+/* ─── QUIZ ─── */
+.quiz-section{background:linear-gradient(135deg,#0c1830 0%,#0e1525 100%);border:1px solid var(--border);border-radius:16px;padding:30px;margin-top:40px}
+.quiz-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.quiz-icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.quiz-header h3{font-family:var(--fh);font-size:1.2rem;font-weight:700}
+.quiz-header p{font-size:.8rem;color:var(--t3)}
+.q-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:14px;transition:.2s}
+.q-num{font-family:var(--fc);font-size:.7rem;color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-direction:row-reverse;justify-content:flex-end}
+.q-num .q-src{background:rgba(139,92,246,.1);color:var(--purple);padding:2px 8px;border-radius:4px;font-size:.65rem}
+.q-text{font-size:.9rem;color:var(--t1);margin-bottom:14px;line-height:1.6;direction:ltr;text-align:left}
+.q-opts{display:flex;flex-direction:column;gap:8px}
+.q-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:.2s;font-size:.85rem;color:var(--t2);user-select:none;direction:ltr;text-align:left}
+.q-opt:hover{border-color:var(--border2);color:var(--t1);background:rgba(255,255,255,.02)}
+.q-opt.selected{border-color:var(--cyan);background:rgba(0,212,255,.06);color:var(--t1)}
+.q-opt.correct{border-color:var(--green)!important;background:rgba(16,185,129,.1)!important;color:#6ee7b7!important}
+.q-opt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important;color:#fca5a5!important}
+.q-opt-letter{width:22px;height:22px;border-radius:6px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-family:var(--fc);flex-shrink:0;font-weight:600}
+.q-explain{display:none;margin-top:12px;padding:12px 14px;background:rgba(0,212,255,.05);border-right:3px solid var(--cyan);border-radius:8px 0 0 8px;font-size:.83rem;color:#7dd3fc;line-height:1.6;direction:rtl;text-align:right}
+.q-explain.show{display:block}
+.quiz-btn{display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:9px 22px;border-radius:8px;border:none;cursor:pointer;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s}
+.btn-check{background:linear-gradient(135deg,var(--purple),var(--cyan2));color:#fff}
+.btn-check:hover{opacity:.9;transform:translateY(-1px)}
+.btn-reset{background:rgba(255,255,255,.06);color:var(--t2);margin-right:8px;border:1px solid var(--border)}
+.btn-reset:hover{background:rgba(255,255,255,.1);color:var(--t1)}
+.q-score{display:none;margin-top:16px;padding:14px 18px;border-radius:10px;font-family:var(--fh);font-weight:600;text-align:center}
+.q-score.good{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:var(--green)}
+.q-score.ok{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--amber)}
+.q-score.bad{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  :root{--fw:0px}
+  #sidebar{transform:translateX(-280px)}
+  #sidebar.open{transform:translateX(0);width:280px;box-shadow:0 0 20px rgba(0,0,0,.5)}
+  #main{margin-left:0}
+  .content{padding:24px 16px}
+  .hero{padding:40px 20px 32px}
+  .hero h1{font-size:1.8rem}
+  .grid2,.grid3{grid-template-columns:1fr}
+  #menu-btn{display:flex}
+  .hero-stats{gap:14px;flex-wrap:wrap}
+  .tier-wrap{flex-direction:column}
+  .tier{border-right:none;border-bottom:1px solid var(--border)}
+  .tier:last-child{border-bottom:none}
+}
+@media(max-width:400px){.hero-stats{flex-direction:column;align-items:flex-start}}
+@media(min-width:901px){#menu-btn{display:none!important}}
+#menu-btn{position:fixed;bottom:20px;left:20px;z-index:200;width:46px;height:46px;border-radius:12px;background:var(--cyan);border:none;cursor:pointer;color:#000;font-size:1.3rem;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,212,255,.4)}
+
+/* ─── SCROLL TO TOP ─── */
+#scroll-top{position:fixed;bottom:20px;right:20px;width:40px;height:40px;border-radius:10px;background:rgba(0,212,255,.15);border:1px solid rgba(0,212,255,.3);color:var(--cyan);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s;z-index:200}
+#scroll-top.show{opacity:1}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.animate{animation:fadeIn .4s ease forwards}
+.topic{animation:fadeIn .3s ease forwards}
+
+/* ─── BIDI FIX (ARABIC/ENGLISH MIX) ─── */
+p, h1, h2, h3, h4, h5, h6, li, td, th,
+.topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div,
+.q-explain, .cheat-val, .cmt, .hero p, .hero-badge, .sb-link,
+.topic p, .ch-title h2, .sb-logo p, .sb-logo h2 {
+  unicode-bidi: plaintext;
+}
 code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel {
   direction: ltr;
   unicode-bidi: isolate;
 }
+
+/* ─── CHEAT SHEET ─── */
+.cheat{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:18px}
+.cheat h3{font-family:var(--fh);font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--cyan);display:flex;align-items:center;gap:8px}
+.cheat-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem}
+.cheat-item:last-child{border-bottom:none}
+.cheat-key{min-width:200px;font-family:var(--fc);font-size:.75rem;color:var(--amber);flex-shrink:0;direction:ltr}
+.cheat-val{color:var(--t2);line-height:1.5;direction:rtl;text-align:right}
+
+/* ─── COMPARE TABLE ─── */
+.compare-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative;overflow:hidden}
+.compare-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--cyan)),transparent);opacity:.7}
+.compare-card h4{font-family:var(--fh);font-weight:700;font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.compare-card ul{list-style:none;padding:0}
+.compare-card ul li{padding:5px 0;color:var(--t2);font-size:.85rem;border-bottom:1px solid rgba(255,255,255,.04);direction:rtl;text-align:right}
+.compare-card ul li:last-child{border-bottom:none}
+.compare-card ul li::before{content:'→ ';color:var(--accent,var(--cyan));font-family:var(--fc)}
+
+/* ─── GLOBAL NAV ─── */
+.global-nav{display:flex;justify-content:center;gap:12px;padding:16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:90}
+.gn-link{display:flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;text-decoration:none;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s;border:1px solid transparent}
+.gn-link:hover{transform:translateY(-2px)}
+.gn-back{background:rgba(0,212,255,.08);color:var(--cyan);border-color:rgba(0,212,255,.2)}
+.gn-back:hover,.gn-back.active{background:var(--cyan);color:#000;box-shadow:0 0 15px rgba(0,212,255,.3)}
+.gn-lec1{background:rgba(139,92,246,.08);color:var(--purple);border-color:rgba(139,92,246,.2)}
+.gn-lec1.active{background:var(--purple);color:#fff;box-shadow:0 0 15px rgba(139,92,246,.3)}
+@media(max-width:900px){.global-nav{padding:12px 10px;flex-wrap:wrap;gap:8px}.gn-link{font-size:.78rem;padding:6px 14px}}
 </style>
 </head>
 <body>
-<div id="prog-bar"><div id="prog-fill"></div></div>
-<div id="overlay"></div>
+
+<!-- Progress Bar -->
+<div id="prog-bar"></div>
+
+<!-- Sidebar -->
 <nav id="sidebar">
-  <div class="sb-logo"><h2>IS231 · Lecture 01</h2><p>مقدمة في تطوير الـ Backend</p><span class="sb-tag">Backend Python + Django</span></div>
-  <a class="sb-back" href="../index.html">← العودة للرئيسية</a>
-  
+  <div class="sb-logo">
+    <h2>🐍 IS231 · Lecture 01</h2>
+    <p>Intro to Backend Development</p>
+  </div>
   <div class="sb-section">المفاهيم الأساسية</div>
-  <a class="sb-link" href="#backend"><span class="sb-dot"></span>ما هو الـ Backend؟</a>
-  <a class="sb-link" href="#architecture"><span class="sb-dot"></span>بنية الويب و 3-Tier</a>
-  <a class="sb-link" href="#request-response"><span class="sb-dot"></span>دورة الـ Request &amp; Response</a>
-  <a class="sb-link" href="#static-dynamic"><span class="sb-dot"></span>Static مقابل Dynamic</a>
-  <a class="sb-link" href="#python-django"><span class="sb-dot"></span>ليه Python و Django؟</a>
-  
-  <div class="sb-section">أساسيات لغة Python</div>
-  <a class="sb-link" href="#python-vars"><span class="sb-dot"></span>المتغيرات والأنواع</a>
-  <a class="sb-link" href="#python-io"><span class="sb-dot"></span>المدخلات والـ Casting</a>
-  <a class="sb-link" href="#python-control"><span class="sb-dot"></span>الشروط والتكرار (Loops)</a>
-  <a class="sb-link" href="#python-func"><span class="sb-dot"></span>القوائم (Lists) والدوال</a>
-  
-  <div class="sb-section">اختبارات الامتحانات</div>
-  <a class="sb-link" href="#quiz-intro"><span class="sb-dot"></span>🎯 اختبار المفاهيم العامة</a>
-  <a class="sb-link" href="#quiz-python"><span class="sb-dot"></span>🐍 اختبار أساسيات Python</a>
-  <a class="sb-link" href="#quiz-django"><span class="sb-dot"></span>🛡️ اختبار Django والـ Framework</a>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>ما هو الـ Backend؟</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Frontend vs Backend vs DB</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>3-Tier Architecture</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>دورة الـ Request &amp; Response</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Static vs Dynamic</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>HTTP Methods &amp; Status Codes</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>URL Anatomy</a>
+  <div class="sb-section">Python &amp; Django</div>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>Python &amp; Framework</a>
+  <a href="#ch9" class="sb-link"><span class="sb-dot"></span>Django — MVT</a>
+  <a href="#ch10" class="sb-link"><span class="sb-dot"></span>WSGI vs ASGI</a>
+  <div class="sb-section">أساسيات Python</div>
+  <a href="#ch11" class="sb-link"><span class="sb-dot"></span>Variables &amp; Data Types</a>
+  <a href="#ch12" class="sb-link"><span class="sb-dot"></span>Input &amp; Casting</a>
+  <a href="#ch13" class="sb-link"><span class="sb-dot"></span>Conditions &amp; Loops</a>
+  <a href="#ch14" class="sb-link"><span class="sb-dot"></span>Lists &amp; Functions</a>
+  <div class="sb-section">اختبار الامتحانات</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — أسئلة الامتحانات</a>
 </nav>
-<button id="menu-btn">☰</button>
-<button id="scroll-top">↑</button>
+
+<!-- Mobile menu -->
+<button id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- MAIN -->
 <main id="main">
-  <div class="hero">
-    <div class="hero-badge">⚡ IS231 · Lecture 01 · Dr. Mohamed Nour Eldien</div>
-    <h1>مقدمة في <span>Backend Development</span></h1>
-    <p>معماري الويب، دور الـ Backend، تهيئة بيئة العمل، أساسيات لغة Python، والمفاهيم المهمة للامتحانات — بالشرح المصري الدارج 🇪🇬</p>
-    <div class="btn-row"><a href="../index.html" class="btn btn-ghost">← العودة للمحور الأساسي</a></div>
-    <div class="hero-stats">
-      <div class="hstat"><div class="num">8</div><div class="lbl">أقسام الشرح</div></div>
-      <div class="hstat"><div class="num">20+</div><div class="lbl">أسئلة امتحانات سابقة</div></div>
-      <div class="hstat"><div class="num">2021-2025</div><div class="lbl">سنوات الامتحانات</div></div>
+
+<!-- Global Navigation -->
+<div class="global-nav">
+  <a href="../index.html" class="gn-link gn-back">← العودة للرئيسية</a>
+  <a href="#" class="gn-link gn-lec1 active">🐍 Lecture 01 — Backend Intro</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚡ IS231 · Lecture 01 · Dr. Mohamed Nour Eldien · أسئلة امتحانات 2021 – 2025</div>
+  <h1>Intro to<br><span>Backend Development</span></h1>
+  <p>مقدمة شاملة في تطوير الـ Backend — معمارية الويب، دورة الـ Request والـ Response، الفرق بين الـ Static والـ Dynamic، أساسيات Python، ومفاهيم Django — الشرح بالعربي والمصطلحات بالإنجليزي 🇪🇬</p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">14</div><div class="lbl">قسم شرح</div></div>
+    <div class="hstat"><div class="num">20+</div><div class="lbl">سؤال امتحان حقيقي</div></div>
+    <div class="hstat"><div class="num">2021–2025</div><div class="lbl">سنوات الامتحانات</div></div>
+    <div class="hstat"><div class="num">∞</div><div class="lbl">نجاح 🎯</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 1 — WHAT IS BACKEND?
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>What is Backend Development? — إيه هو الـ Backend؟</h2>
+      <p>العقل المدبر المخفي وراء أي تطبيق ويب</p>
     </div>
   </div>
-  <div class="content" dir="rtl" style="text-align: right;">
 
-    <!-- CHAPTER 1: WHAT IS BACKEND -->
-    <div class="chapter" id="backend" dir="ltr" style="text-align: left;">
-      <div class="ch-header" dir="rtl"><div class="ch-num cyan">01</div><div class="ch-title"><h2>What is Backend Development? — إيه هو الـ Backend؟</h2><p>العقل المدبر المخفي وراء أي موقع ويب</p></div></div>
-      <div class="topic" style="--accent:var(--cyan)" dir="rtl">
-        <div class="topic-title"><span class="icon">💡</span> تعريف الـ Backend</div>
-        <p>الـ Backend هو الجزء اللي بيشتغل على الـ <strong>Server side</strong> (ناحية الخادم). المستخدم مش بيشوفه مباشرة، لكنه بيمثل <strong>"العقل"</strong> الفعلي للبرنامج. هو اللي بيستقبل الـ Requests، وينفذ الـ Logic، ويتعامل مع قواعد البيانات (Databases)، وبيطبق الحماية والأمان (Security)، وبيرجع الـ Responses للـ Browser.</p>
-      </div>
-      <div class="topic" style="--accent:var(--amber)" dir="rtl">
-        <div class="topic-title"><span class="icon">⚙️</span> مسؤوليات الـ Backend الرئيسية</div>
-        <div class="grid2">
-          <div class="cmp-card" style="--accent:var(--cyan)">
-            <h4>البيانات والمنطق (Data &amp; Logic)</h4>
-            <ul>
-              <li>تخزين وجلب البيانات من الـ Database.</li>
-              <li>التحقق من صحة مدخلات المستخدم (Input Validation) قبل حفظها.</li>
-              <li>تطبيق قواعد العمل (Business Rules) زي عمليات الـ Login وحساب التقديرات الدراسية.</li>
-              <li>إنشاء محتوى ديناميكي (Dynamic Content) بناءً على بيانات المستخدم الحالي.</li>
-            </ul>
-          </div>
-          <div class="cmp-card" style="--accent:var(--pink)">
-            <h4>الأمان والتكامل (Security &amp; Integration)</h4>
-            <ul>
-              <li>التحقق من هوية المستخدمين (Authentication) وإدارة الصلاحيات (Permissions).</li>
-              <li>التعامل مع الأخطاء (Error Handling) وإرسال رسايل مناسبة بدل ما السيستم يقع.</li>
-              <li>التواصل مع الخدمات الخارجية (External APIs) زي بوابات الدفع الإلكتروني أو إرسال الإيميلات.</li>
-              <li>توفير البيانات للموقع أو لتطبيقات الموبايل.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="topic" style="--accent:var(--purple)" dir="rtl">
-        <div class="topic-title"><span class="icon">🎯</span> أمثلة من حياتنا اليومية لعمل الـ Backend</div>
-        <ul>
-          <li>عملية تسجيل الدخول (Login) للـ account بتاعك.</li>
-          <li>البحث عن منتج معين في موقع تسوق وعرض النتايج المتاحة بس.</li>
-          <li>تسجيل البيانات في فورم التقديم للكلية وحفظها في قاعدة البيانات.</li>
-          <li>التحقق إذا كان الـ Username اللي بتختاره متوفر ولا حد تاني حجزه قبلك.</li>
-          <li>عرض لوحة البيانات (Personalized Dashboard) الخاصة بتقديراتك ودرجاتك أنت بس.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- CHAPTER 2: WEB ARCHITECTURE & 3-TIER -->
-    <div class="chapter" id="architecture" dir="ltr" style="text-align: left;">
-      <div class="ch-header" dir="rtl"><div class="ch-num purple">02</div><div class="ch-title"><h2>Web Architecture &amp; 3-Tier Model — بنية الويب وموديل الـ 3-Tier</h2><p>رحلة البيانات من المتصفح إلى السيرفر والـ Database</p></div></div>
-      <div class="topic" style="--accent:var(--purple)" dir="rtl">
-        <div class="topic-title"><span class="icon">🌐</span> كيف يعمل موقع الويب؟ (خطوة بخطوة)</div>
-        <div class="plan-steps">
-          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">1</div><div><div class="ps-title">خطوة المستخدم (User Action)</div><div class="ps-desc">المستخدم بيكتب URL في الـ Browser أو بيدوس على Link.</div></div></div>
-          <div class="plan-step" style="--accent:var(--cyan)"><div class="ps-num">2</div><div><div class="ps-title">إرسال الـ HTTP Request</div><div class="ps-desc">الـ Browser بيبعت طلب (HTTP Request) للسيرفر عبر شبكة الإنترنت.</div></div></div>
-          <div class="plan-step" style="--accent:var(--amber)"><div class="ps-num">3</div><div><div class="ps-title">معالجة الـ Backend</div><div class="ps-desc">الـ Backend بيستقبل الـ Request ويبدأ يفحصه ويشوف محتاج ينفذ إيه (زي التحقق من الصلاحيات).</div></div></div>
-          <div class="plan-step" style="--accent:var(--green)"><div class="ps-num">4</div><div><div class="ps-title">التعامل مع الـ Database</div><div class="ps-desc">الـ Backend بيكلم الـ Database عشان يقرا منها بيانات أو يكتب فيها بيانات جديدة.</div></div></div>
-          <div class="plan-step" style="--accent:var(--pink)"><div class="ps-num">5</div><div><div class="ps-title">إرسال الـ HTTP Response</div><div class="ps-desc">السيرفر بيرجع الرد (HTTP Response) للـ Browser وفيه الكود (HTML/JSON) والـ Status Code.</div></div></div>
-          <div class="plan-step" style="--accent:var(--purple)"><div class="ps-num">6</div><div><div class="ps-title">عرض المتصفح (Render)</div><div class="ps-desc">الـ Browser بيستلم الرد ويعرضه بشكل مرئي ومفهوم للمستخدم.</div></div></div>
-        </div>
-      </div>
-      <div class="topic" style="--accent:var(--green)" dir="rtl">
-        <div class="topic-title"><span class="icon">📊</span> نموذج الطبقات الثلاث (3-Tier Application Model)</div>
-        <div class="grid3">
-          <div class="cmp-card" style="--accent:var(--cyan)">
-            <h4>1. Presentation Layer (Frontend)</h4>
-            <p>الواجهة اللي المستخدم بيتعامل معاها مباشرة. بتتكون من HTML, CSS, JavaScript وبترن بالكامل جوة الـ Browser.</p>
-          </div>
-          <div class="cmp-card" style="--accent:var(--purple)">
-            <h4>2. Application Layer (Backend)</h4>
-            <p>المنطق والعمليات الحسابية وقواعد السيستم. هنا بيشتغل كود الـ Python والـ Django على الـ Server.</p>
-          </div>
-          <div class="cmp-card" style="--accent:var(--green)">
-            <h4>3. Data Layer (Database)</h4>
-            <p>مكان حفظ البيانات بشكل دائم. زي SQLite, MySQL, PostgreSQL.</p>
-          </div>
-        </div>
-        <div class="danger">
-          <b>⚠️ قاعدة ذهبية للامتحان:</b> الـ Database <strong>لا تتواصل أبداً</strong> مع المستخدم مباشرة! الـ Backend (Application Layer) هو دايماً وسيط النص اللي بيكلم الـ Database وبيجهز البيانات للـ Frontend.
-        </div>
-      </div>
-    </div>
-
-    <!-- CHAPTER 3: REQUEST & RESPONSE CYCLE -->
-    <div class="chapter" id="request-response" dir="ltr" style="text-align: left;">
-      <div class="ch-header" dir="rtl"><div class="ch-num amber">03</div><div class="ch-title"><h2>Request &amp; Response Cycle — دورة الطلب والاستجابة</h2><p>كل حركة على الويب هي عبارة عن سؤال وجواب</p></div></div>
-      <div class="topic" style="--accent:var(--amber)" dir="rtl">
-        <div class="topic-title"><span class="icon">📤</span> مكونات الـ HTTP Request</div>
-        <p>لما الـ Browser بيبعت Request للسيرفر، بيبعت معاه شوية تفاصيل مهمة:</p>
-        <ul>
-          <li><strong>HTTP Method:</strong> نوع العملية المطلوبة (زي GET لجلب البيانات، أو POST لإرسال وحفظ بيانات جديدة).</li>
-          <li><strong>URL Path:</strong> المسار أو الصفحة المطلوبة على السيرفر زي <code>/login</code> أو <code>/students</code>.</li>
-          <li><strong>Headers:</strong> معلومات إضافية (Metadata) زي نوع المتصفح ولغة المستخدم والـ Caching.</li>
-          <li><strong>Body:</strong> البيانات الفعلية المبعوتة (ودي اختيارية وبتكون موجودة في POST أو PUT زي بيانات الفورم أو ملفات مرفوعة).</li>
-        </ul>
-      </div>
-      <div class="topic" style="--accent:var(--green)" dir="rtl">
-        <div class="topic-title"><span class="icon">📥</span> مكونات الـ HTTP Response</div>
-        <p>الرد اللي بيرجع من السيرفر برضه بيتكون من أجزاء محددة:</p>
-        <ul>
-          <li><strong>Status Code:</strong> رقم من 3 خانات بيعبر عن نتيجة الطلب (زي 200 للموافقة، أو 404 لو الصفحة مش موجودة، أو 500 لو فيه مشكلة في كود السيرفر).</li>
-          <li><strong>Headers:</strong> معلومات إضافية السيرفر بيبعتها زي نوع المحتوى المرجّع (HTML أو JSON) وتاريخ انتهاء الصلاحية.</li>
-          <li><strong>Response Body:</strong> المحتوى الفعلي اللي هيتعرض للمستخدم (زي صفحة HTML أو بيانات JSON).</li>
-        </ul>
-      </div>
-      <div class="topic" style="--accent:var(--pink)" dir="rtl">
-        <div class="topic-title"><span class="icon">⚡</span> مقارنة هامة جداً: GET مقابل POST</div>
-        <table class="tbl">
-          <tr>
-            <th>الصفة</th>
-            <th>GET Method</th>
-            <th>POST Method</th>
-          </tr>
-          <tr>
-            <td><strong>الهدف</strong></td>
-            <td>طلب وقراءة البيانات بدون تعديل.</td>
-            <td>إرسال وحفظ بيانات جديدة أو إحداث تغيير.</td>
-          </tr>
-          <tr>
-            <td><strong>البيانات</strong></td>
-            <td>بتتبعت في الـ URL كـ Query Parameters.</td>
-            <td>بتتبعت بشكل مخفي جوة الـ Request Body.</td>
-          </tr>
-          <tr>
-            <td><strong>الأمان</strong></td>
-            <td>غير آمنة للبيانات الحساسة (لأن البيانات بتظهر في الـ URL بار وتتحفظ في الـ History).</td>
-            <td>أكثر أماناً وحماية لأن البيانات مخفية عن الـ URL بار.</td>
-          </tr>
-          <tr>
-            <td><strong>الـ Body</strong></td>
-            <td>لا تحتوي على Body.</td>
-            <td>تحتوي على Request Body يحمل البيانات.</td>
-          </tr>
-        </table>
-        <div class="warn"><b>💡 موضع سؤال امتحان:</b> "POST is more robust and secure than GET" (الـ POST أكثر قوة وأماناً من الـ GET) لأن الداتا مش بتظهر مكشوفة في الـ URL.</div>
-      </div>
-      <div class="topic" style="--accent:var(--purple)" dir="rtl">
-        <div class="topic-title"><span class="icon">🔗</span> Anatomy of a URL — تشريح الـ URL</div>
-        <p>الـ URL هو العنوان الفريد لأي صفحة أو ملف على الويب. بيتكون من أجزاء:</p>
-        <pre style="background:var(--card2); border:1px solid var(--border); padding: 15px; border-radius: 8px; direction: ltr; text-align: left;">
-https://example.com:80/students/list/?level=2
-|___|  |_________| |__| |___________| |_____|
-  1         2       3         4          5
-        </pre>
-        <ol>
-          <li><strong>Protocol:</strong> زي <code>https</code> (الآمن) أو <code>http</code> (العادي).</li>
-          <li><strong>Domain / Host:</strong> اسم السيرفر أو الموقع (زي <code>example.com</code>).</li>
-          <li><strong>Port (اختياري):</strong> رقم المنفذ. الـ default في الـ HTTP هو <code>80</code> والـ HTTPS هو <code>443</code>. بيفصل بينه وبين الـ Host بنقطتين فوق بعض <code>:</code>.</li>
-          <li><strong>Path:</strong> مسار الصفحة على السيرفر (زي <code>/students/list/</code>).</li>
-          <li><strong>Query String:</strong> المعاملات الإضافية للفلترة وتبدأ بـ <code>?</code> (زي <code>level=2</code>).</li>
-        </ol>
-        <div class="info"><b>💡 نقطة امتحان سابقة:</b> "In a URL, an optional port number can be inserted between the host and the path, separated from the host by a colon."</div>
-      </div>
-    </div>
-
-    <!-- CHAPTER 4: STATIC VS DYNAMIC -->
-    <div class="chapter" id="static-dynamic" dir="ltr" style="text-align: left;">
-      <div class="ch-header" dir="rtl"><div class="ch-num amber">04</div><div class="ch-title"><h2>Static vs Dynamic Websites — الفرق بين المواقع الـ Static والـ Dynamic</h2><p>ليه بنحتاج برمجة الـ Backend أصلاً؟</p></div></div>
-      <div class="topic" style="--accent:var(--amber)" dir="rtl">
-        <div class="topic-title"><span class="icon">📄</span> مقارنة المواقع الساكنة والديناميكية</div>
-        <div class="grid2">
-          <div class="cmp-card" style="--accent:var(--t3)">
-            <h4>📄 Static Website (موقع ساكن)</h4>
-            <ul>
-              <li>بيعرض نفس المحتوى لكل الناس بلا أي تغيير.</li>
-              <li>الصفحات عبارة عن ملفات HTML ثابتة متخزنة على السيرفر.</li>
-              <li>مناسب للمواقع البسيطة التعرفية اللي مش بتتحدث كتير.</li>
-              <li>عشان تعدل كلمة، لازم تدخل تعدل ملف الـ HTML يدوياً وترفعه تاني.</li>
-            </ul>
-            <pre style="background:rgba(255,255,255,.04);border-radius:8px;padding:10px;font-size:.75rem;direction:ltr;text-align:left;margin-top:10px">&lt;h1&gt;Welcome to the department&lt;/h1&gt;
-&lt;p&gt;Office hours: 9:00 AM - 2:00 PM&lt;/p&gt;</pre>
-          </div>
-          <div class="cmp-card" style="--accent:var(--cyan)">
-            <h4>⚡ Dynamic Website (موقع ديناميكي)</h4>
-            <ul>
-              <li>المحتوى بيتغير بناءً على المستخدم أو البيانات المتسجلة.</li>
-              <li>الصفحة بيتم توليدها لحظياً بواسطة كود الـ Backend قبل ما تتبعت للمستخدم.</li>
-              <li>ضروري للمتاجر الإلكترونية، بوابات الطلاب، ولوحات التحكم.</li>
-              <li>البيانات بتيجي من الـ Database وتتعرض حسب الشخص اللي عامل Login.</li>
-            </ul>
-            <pre style="background:rgba(255,255,255,.04);border-radius:8px;padding:10px;font-size:.75rem;direction:ltr;text-align:left;margin-top:10px">def dashboard(request):
-    student_name = 'Mona'
-    cgpa = 3.8
-    return render(request, 'dashboard.html',
-        {'name': student_name, 'cgpa': cgpa})</pre>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CHAPTER 5: WHY PYTHON & DJANGO -->
-    <div class="chapter" id="python-django" dir="ltr" style="text-align: left;">
-      <div class="ch-header" dir="rtl"><div class="ch-num green">05</div><div class="ch-title"><h2>Why Python &amp; Django? — ليه اخترنا Python و Django؟</h2><p>لغة قوية وإطار عمل متكامل لإنتاجية سريعة</p></div></div>
-      <div class="topic" style="--accent:var(--green)" dir="rtl">
-        <div class="topic-title"><span class="icon">🐍</span> مميزات لغة Python في الـ Backend</div>
-        <ul>
-          <li><strong>سهولة القراءة والفهم:</strong> الكود قريب جداً من اللغة الإنجليزية الطبيعية ومفهوم للمبتدئين والمحترفين.</li>
-          <li><strong>الإجبار على تنظيم الكود:</strong> الـ Indentation (المسافات البادئة) جزء أساسي من الـ Syntax بتاع اللغة، وده بيخلي الكود نظيف ومنظم غصب عنك.</li>
-          <li><strong>مكتبات ضخمة جداً:</strong> تدعم الويب، البيانات، الذكاء الاصطناعي، والأتمتة بكل سهولة.</li>
-          <li>مستخدمة في كبرى الشركات العالمية زي Google و Instagram و Spotify.</li>
-        </ul>
-      </div>
-      <div class="topic" style="--accent:var(--pink)" dir="rtl">
-        <div class="topic-title"><span class="icon">🏗️</span> What is a Framework? — يعني إيه Framework؟</div>
-        <p>الـ Framework هو عبارة عن <strong>مجموعة أدوات وقواعد وهيكل جاهز</strong> بيوفر على المطورين إعادة اختراع العجلة. بدل ما تبني كل حاجة من الصفر (زي التعامل مع الـ Database والـ Routing والحماية)، الـ Framework بيوفرهالك جاهزة.</p>
-        <div class="tip">
-          <b>💡 تشبيه بسيط:</b> البناء بدون Framework = إنك تبني بيت وتبدأ تصنع الطوب والأسلاك والمواسير بنفسك. استخدام الـ Framework (زي Django) = إنك تشتري شقة كاملة المرافق فيها الحيطان والسباكة والكهرباء جاهزة، وتتفرغ أنت لفرشها وديكورها!
-        </div>
-      </div>
-      <div class="topic" style="--accent:var(--purple)" dir="rtl">
-        <div class="topic-title"><span class="icon">🛠️</span> إطار العمل Django ومفهوم الـ MVT</div>
-        <p>Django هو إطار عمل ويب عالي المستوى (High-level Python Web Framework) مبني بلغة Python بيشجع على التطوير السريع والأمان الفعال.</p>
-        <ul>
-          <li><strong>Batteries Included (بطاريات مدمجة):</strong> بييجي معاه أدوات جاهزة كتير زي نظام الصلاحيات، لوحة الإدارة (Admin Panel)، والـ ORM للتعامل مع الـ Database.</li>
-          <li><strong>MVT Architecture:</strong> بيعتمد على نمط Model-View-Template:
-            <ul>
-              <li><strong>Model:</strong> بيمثل هيكل البيانات والتعامل مع قاعدة البيانات.</li>
-              <li><strong>View:</strong> بيمثل الـ Logic اللي بيعالج الطلبات ويقرر إيه الداتا اللي هترجع.</li>
-              <li><strong>Template:</strong> بيمثل واجهة العرض (HTML) اللي بتتعرض للمستخدم.</li>
-            </ul>
-          </li>
-        </ul>
-        <div class="warn"><b>🚨 نقطة امتحان مكررة:</b> Django يعتمد على نمط <strong>MVT</strong> وليس MVC بشكل صريح (الـ View في Django بيقوم بدور الـ Controller في الـ MVC التقليدي، والـ Template بيقوم بدور الـ View).</div>
-      </div>
-    </div>
-
-    <!-- CHAPTER 6: PYTHON VARIABLES & TYPES -->
-    <div class="chapter" id="python-vars" dir="ltr" style="text-align: left;">
-      <div class="ch-header" dir="rtl"><div class="ch-num teal">06</div><div class="ch-title"><h2>Python Essentials — المتغيرات وأنواع البيانات في Python</h2><p>حجر الأساس لكتابة أي كود برمجي بلغة Python</p></div></div>
-      <div class="topic" style="--accent:var(--teal)" dir="rtl">
-        <div class="topic-title"><span class="icon">📦</span> المتغيرات (Variables) وقواعد التسمية</div>
-        <p>المتغير هو مكان محجوز في الذاكرة (Memory) لتخزين قيمة معينة واستخدامها لاحقاً في الكود.</p>
-        <div class="danger">
-          <b>🚨 قواعد تسمية المتغيرات في Python (مهمة للامتحان):</b>
-          <ul>
-            <li>اسم المتغير لا يمكن أن يبدأ برقم (مثال: <code>1name</code> خطأ ❌، لكن <code>name1</code> صحيحة ✅).</li>
-            <li>اسم المتغير لا يمكن أن يحتوي على مسافات (مثال: <code>student name</code> خطأ ❌، بنستخدم الأندر سكور <code>student_name</code> بدالها ✅).</li>
-            <li>لا يمكن استخدام علامة الناقص أو الداش في التسمية (مثال: <code>my-var</code> خطأ ❌، الصح <code>my_var</code> ✅).</li>
-            <li>الاسم حساس لحالة الأحرف (Case-Sensitive) فـ <code>Age</code> غير <code>age</code>.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="topic" style="--accent:var(--cyan)" dir="rtl">
-        <div class="topic-title"><span class="icon">📊</span> أنواع البيانات الأساسية (Basic Data Types)</div>
-        <table class="tbl">
-          <tr>
-            <th>النوع</th>
-            <th>الرمز</th>
-            <th>مثال في الكود</th>
-          </tr>
-          <tr>
-            <td><strong>نص (Text)</strong></td>
-            <td><code>str</code></td>
-            <td><code>name = 'Ali'</code> (بتتكتب بين علامات تنصيص single أو double quotes)</td>
-          </tr>
-          <tr>
-            <td><strong>رقم صحيح (Integer)</strong></td>
-            <td><code>int</code></td>
-            <td><code>level = 2</code></td>
-          </tr>
-          <tr>
-            <td><strong>رقم عشري (Float)</strong></td>
-            <td><code>float</code></td>
-            <td><code>gpa = 3.8</code></td>
-          </tr>
-          <tr>
-            <td><strong>قيمة منطقية (Boolean)</strong></td>
-            <td><code>bool</code></td>
-            <td><code>is_active = True</code> (لازم الحرف الأول كابيتال: True أو False)</td>
-          </tr>
-        </table>
-      </div>
-      <div class="topic" style="--accent:var(--amber)" dir="rtl">
-        <div class="topic-title"><span class="icon">💬</span> التعليقات (Comments) في Python</div>
-        <p>التعليقات بنستخدمها عشان نوضح كود معين أو نكتب ملاحظات للمبرمجين، والـ Interpreter بتاع Python بيتجاهلها تماماً أثناء التشغيل.</p>
-        <ul>
-          <li>التعليق المكون من سطر واحد بيبدأ بعلامة الهاش <code>#</code>.</li>
-          <li>مفيش في Python تعليقات بـ <code>//</code> زي JavaScript.</li>
-        </ul>
-        <pre style="background:var(--card2); border:1px solid var(--border); padding: 15px; border-radius: 8px; direction: ltr; text-align: left; color:#cdd6f4;">
-<span style="color:#585b70"># ده تعليق سطر واحد ومش هيتنفذ</span>
-print("Hello, Backend World!")
-        </pre>
-      </div>
-    </div>
-
-    <!-- CHAPTER 7: INPUT & CASTING -->
-    <div class="chapter" id="python-io" dir="ltr" style="text-align: left;">
-      <div class="ch-header" dir="rtl"><div class="ch-num teal">07</div><div class="ch-title"><h2>User Input &amp; Type Casting — مدخلات المستخدم وتحويل الأنواع</h2><p>كيف نجعل البرنامج تفاعلياً ويتعامل مع الأرقام بحرية</p></div></div>
-      <div class="topic" style="--accent:var(--teal)" dir="rtl">
-        <div class="topic-title"><span class="icon">⌨️</span> مدخلات المستخدم (User Input)</div>
-        <p>بنستخدم دالة <code>input()</code> عشان نخلي البرنامج يقف ويستنى المستخدم يكتب قيمة من الكيبورد.</p>
-        <div class="danger">
-          <b>⚠️ الفخ الشهير في الامتحانات:</b> دالة <code>input()</code> بترجع دايماً قيمة نصية (String) بشكل افتراضي! حتى لو المستخدم كتب رقم <code>20</code>، البرنامج هيشوفه كـ نص <code>'20'</code> ومش هيقدر يعمل عليه عمليات حسابية مباشرة.
-        </div>
-      </div>
-      <div class="topic" style="--accent:var(--cyan)" dir="rtl">
-        <div class="topic-title"><span class="icon">🔄</span> تحويل الأنواع (Type Casting)</div>
-        <p>عشان نحل مشكلة إن الـ Input بيكون String دايماً، بنعمله تحويل نوع (Casting) للنوع اللي احنا عايزينه:</p>
-        <ul>
-          <li>تحويل لنص: <code>str()</code></li>
-          <li>تحويل لرقم صحيح: <code>int()</code></li>
-          <li>تحويل لرقم عشري: <code>float()</code></li>
-        </ul>
-        <div class="code-wrap">
-          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Casting Example</div></div>
-          <pre><code><span class="cmt"># قراءة العمر كـ String وتحويله فوراً لـ Integer</span>
-age = int(input("Enter your age: "))
-
-<span class="cmt"># دلوقتي نقدر نجمع عليه أرقام عادي</span>
-print(age + 1)</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- CHAPTER 8: CONTROL FLOW & LOOPS -->
-    <div class="chapter" id="python-control" dir="ltr" style="text-align: left;">
-      <div class="ch-header" dir="rtl"><div class="ch-num purple">08</div><div class="ch-title"><h2>Control Flow &amp; Loops — اتخاذ القرارات والتكرار</h2><p>توجيه مسار البرنامج وتكرار العمليات</p></div></div>
-      <div class="topic" style="--accent:var(--purple)" dir="rtl">
-        <div class="topic-title"><span class="icon">⚖️</span> شروط الـ if / elif / else والـ Indentation</div>
-        <p>في Python بنستخدم شروط <code>if</code> عشان ننفذ كود معين بس لو الشرط تحقق. وبنستخدم <code>elif</code> (اختصار لـ else if) للشروط الإضافية، و <code>else</code> لو مفيش أي شرط تحقق.</p>
-        <div class="danger">
-          <b>⚠️ أهم قاعدة في لغة Python:</b> المسافات البادئة (Indentation) إجبارية! لو نسيت تسيب مسافة بادئة (4 مسافات أو Tab) جوة البلوك بتاع الـ if أو الـ loop، الكود هيطلع <code>IndentationError</code> ومش هيشتغل.
-        </div>
-        <div class="code-wrap">
-          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Python Conditions</div></div>
-          <pre><code>score = 75
-if score >= 85:
-    print("Excellent")
-elif score >= 50:
-    print("Pass") <span class="cmt"># المسافة البادئة دي إجبارية!</span>
-else:
-    print("Fail")</code></pre>
-        </div>
-      </div>
-      <div class="topic" style="--accent:var(--amber)" dir="rtl">
-        <div class="topic-title"><span class="icon">🔄</span> التكرار (Loops): for و while</div>
-        <ul>
-          <li><strong>for Loop:</strong> بنستخدمها لما نكون عارفين عدد المرات اللي هنكرر فيها الكود مسبقاً (زي المرور على عناصر قائمة أو استخدام <code>range()</code>).</li>
-          <li><strong>while Loop:</strong> بتفضل تكرر الكود طول ما فيه شرط معين بيساوي True. لازم تتأكد إن الشرط ده هيتغير جوة اللوب عشان ميعملش <strong>Infinite Loop</strong> (تكرار لانهائي) ويوقف السيرفر.</li>
-        </ul>
-        <div class="grid2">
-          <div class="code-wrap">
-            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">for loop with range</div></div>
-            <pre><code><span class="cmt"># هيطبع من 0 لـ 4 (الـ 5 مش معانا)</span>
-for i in range(5):
-    print(i)</code></pre>
-          </div>
-          <div class="code-wrap">
-            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">while loop with condition</div></div>
-            <pre><code>count = 0
-while count < 3:
-    print(count)
-    count += 1 <span class="cmt"># لو نسينا السطر ده، اللوب مش هتخلص!</span></code></pre>
-          </div>
-        </div>
-      </div>
-      <div class="topic" style="--accent:var(--green)" dir="rtl">
-        <div class="topic-title"><span class="icon">🧩</span> المعاملات المنطقية (Logical Operators)</div>
-        <p>بنستخدمهم لربط كذا شرط مع بعض:</p>
-        <ul>
-          <li><code>and</code>: لازم كل الشروط تكون صح عشان ترجع True.</li>
-          <li><code>or</code>: بيكفي إن شرط واحد بس يكون صح عشان ترجع True.</li>
-          <li><code>not</code>: بتعكس القيمة المنطقية (بتحول الـ True لـ False والعكس).</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- CHAPTER 9: LISTS & FUNCTIONS -->
-    <div class="chapter" id="python-func" dir="ltr" style="text-align: left;">
-      <div class="ch-header" dir="rtl"><div class="ch-num pink">09</div><div class="ch-title"><h2>Lists &amp; Functions — القوائم والدوال في Python</h2><p>تنظيم البيانات وإعادة استخدام الكود</p></div></div>
-      <div class="topic" style="--accent:var(--pink)" dir="rtl">
-        <div class="topic-title"><span class="icon">📋</span> القوائم (Lists)</div>
-        <p>الـ List هي عبارة عن هيكل بيانات بيحفظ قيم كتير ورا بعض في متغير واحد. بتتكتب بين أقواس مربعة <code>[]</code> وبتتفصل العناصر بكومة <code>,</code>. العناصر بتبدأ بـ Index رقمه <strong>0</strong>.</p>
-        <div class="code-wrap">
-          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">List Example</div></div>
-          <pre><code>students = ['Ali', 'Mona', 'Sara']
-print(students[0]) <span class="cmt"># هيطبع Ali</span>
-
-<span class="cmt"># دالة pop() بتحذف العنصر الأخير وترجعه بشكل افتراضي</span>
-last_one = students.pop() <span class="cmt"># هيحذف Sara</span></code></pre>
-        </div>
-      </div>
-      <div class="topic" style="--accent:var(--cyan)" dir="rtl">
-        <div class="topic-title"><span class="icon">⚙️</span> الدوال (Functions) والفرق بين print و return</div>
-        <p>الدالة هي بلوك من الكود ليه اسم وبياخد مدخلات ويقوم بوظيفة محددة عشان نقدر نكرر استخدامه بسهولة. بنعرفها بكلمة <code>def</code>.</p>
-        <div class="danger">
-          <b>🚨 الفرق بين print() و return (سؤال جوهري للمبتدئين):</b>
-          <ul>
-            <li><code>print()</code>: بيعرض النتيجة على الشاشة بس عشان المستخدم يشوفها. الدالة مش بتبعث القيمة دي لأي مكان تاني.</li>
-            <li><code>return</code>: بتبعت القيمة الناتجة للبرنامج الرئيسي اللي نادى الدالة، عشان يقدر يسيفها في متغير تاني ويستخدمها في عمليات تانية.</li>
-          </ul>
-        </div>
-        <div class="code-wrap">
-          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Function with Parameters &amp; Return</div></div>
-          <pre><code>def add_numbers(a, b):
-    return a + b
-
-result = add_numbers(5, 10)
-print(result) <span class="cmt"># هيطبع 15</span></code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- QUIZ 1: INTRO CONCEPTS -->
-    <div class="quiz-section" id="quiz-intro">
-      <div class="quiz-header">
-        <div class="quiz-icon">🎯</div>
-        <div><h3>1. Intro Concepts Quiz — اختبار المفاهيم العامة</h3><p>أسئلة الامتحانات السابقة المتعلقة بمعماري الويب ونوع المواقع 🇪🇬</p></div>
-      </div>
-
-      <div class="q-item" data-correct="c">
-        <div class="q-num">Q1 <span class="q-src">Final 2021 &amp; 2024</span></div>
-        <div class="q-text">In a 3-tier web application, which layer does Django belong to?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Presentation Layer (Frontend)</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Data Layer (Database)</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Application Layer (Backend)</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: C — Application Layer</b><br>
-          الـ Django والـ Python بيشتغلوا في الـ Backend اللي هو بيمثل طبقة المعالجة والمنطق (Application Layer). الـ HTML/CSS/JS بتمثل الـ Presentation Layer، والـ Database بتمثل الـ Data Layer.
-          <span class="slang-tip">الـ Django هو قلب الـ Backend ومعالجة البيانات، عشان كده بيمثل الـ Application Layer أو الـ Logic Layer.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="a">
-        <div class="q-num">Q2 <span class="q-src">محاكاة للامتحانات</span></div>
-        <div class="q-text">What is the main difference between static and dynamic websites?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Static websites show the same content to everyone; Dynamic websites change content based on user/database</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Static websites need a database; Dynamic websites do not</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Dynamic websites use HTML only; Static websites use Python</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> There is no difference</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: A</b><br>
-          الموقع الـ Static هو صفحة HTML ثابتة نفس الكلام لكل الناس. الـ Dynamic بيتولد بواسطة الـ Backend وبيتعرض فيه بيانات مختلفة لكل شخص بناءً على الـ Database والـ Login.
-          <span class="slang-tip">افتكر دايماً: Static يعني ثابت زي صفحة مواعيد الدكاترة، Dynamic يعني متغير زي الـ News Feed بتاع الفيسبوك لكل مستخدم.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="d">
-        <div class="q-num">Q3 <span class="q-src">Final 2021 &amp; 2024</span></div>
-        <div class="q-text">"Expires: Tuesday, 17 Dec 2020 18:30 GMT" is a ______ header denoting ______:</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Request, Time-Based Caching</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Response, Content-Based Caching</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Request, Content-Type Caching</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Response, Time-Based Caching</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: D — Response, Time-Based Caching</b><br>
-          الهيدر <code>Expires</code> بيبعته السيرفر مع الرد (Response) عشان يحدد تاريخ ووقت انتهاء صلاحية الملف ده في الكاش بتاع المتصفح. وبما إنه بيعتمد على وقت وتاريخ فده بيتسمى Time-Based Caching.
-          <span class="slang-tip">السيرفر هو اللي بيقول للـ browser الملف ده هينتهي امتى، فده Response Header وبما إنه تاريخ محدد يبقى Time-Based Caching.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="a">
-        <div class="q-num">Q4 <span class="q-src">Final 2025</span></div>
-        <div class="q-text">If an application is running on Web Server Gateway Interface (WSGI), then it will handle client requests in a sequential manner. True or False?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: A — True</b><br>
-          مواصفة الـ WSGI التقليدية بتعالج الطلبات بشكل متزامن/تتابعي (Synchronous/Sequential) بعكس الـ ASGI الحديثة اللي بتسمح بالمعالجة غير المتزامنة (Asynchronous).
-          <span class="slang-tip">الـ WSGI بيمشي بالترتيب سطر ورا سطر (sequential)، لو محتاجين حاجات تشتغل مع بعض asynchronous بنستخدم الـ ASGI.</span>
-        </div>
-      </div>
-
-      <div class="q-controls">
-        <span class="q-score" id="score-intro"></span>
-        <br>
-        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-intro')">✔ التحقق من الإجابات</button>
-        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-intro')">↺ إعادة المحاولة</button>
-      </div>
-    </div>
-
-    <!-- QUIZ 2: PYTHON BASICS -->
-    <div class="quiz-section" id="quiz-python">
-      <div class="quiz-header">
-        <div class="quiz-icon">🐍</div>
-        <div><h3>2. Python Basics Quiz — اختبار أساسيات Python</h3><p>أسئلة امتحانات 2021 و 2025 في لغة Python 🇪🇬</p></div>
-      </div>
-
-      <div class="q-item" data-correct="a">
-        <div class="q-num">Q1 <span class="q-src">Final 2025</span></div>
-        <div class="q-text">"my-var" is an incorrect variable name in Python. True or False?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: A — True</b><br>
-          علامة الداش أو الناقص <code>-</code> غير مسموحة في أسماء المتغيرات في Python لأنها بتترجم كعملية طرح. المسموح به هو الأندر سكور <code>_</code> فقط.
-          <span class="slang-tip">ممنوع تستخدم ناقص في اسم المتغير، دايماً استخدم أندر سكور (my_var) بدل (my-var).</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="b">
-        <div class="q-num">Q2 <span class="q-src">Final 2025</span></div>
-        <div class="q-text">In Python, set pop removes an item. If we have: <code>myNumbers = [1,2,3]</code> and write <code>x = myNumbers.pop()</code>, the removed item will be 1. True or False?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: B — False</b><br>
-          دالة <code>pop()</code> في القوائم (Lists) بتحذف وبترجع العنصر <strong>الأخير</strong> في القائمة. بما إن القائمة <code>[1, 2, 3]</code> العنصر الأخير هو <code>3</code>، فالـ pop هيرجع 3 مش 1.
-          <span class="slang-tip">الـ pop من اليمين للأشمال في الـ list، يعني بيشيل آخر واحد خالص اللي هو 3 في الحالة دي.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="b">
-        <div class="q-num">Q3 <span class="q-src">Final 2025</span></div>
-        <div class="q-text">"x = ('apple', 'banana', 'cherry')" is a definition of a list. True or False?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: B — False</b><br>
-          الأقواس الهلالية <code>()</code> بتعرف صف أو tuple (ثابت غير قابل للتعديل)، بينما القوائم (Lists) بتتعرف بالأقواس المربعة <code>[]</code>.
-          <span class="slang-tip">الأقواس الهلالية tuple، الأقواس المربعة list، والأقواس المتعرجة set أو dictionary. احفظ الأشكال دي كويس!</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="a">
-        <div class="q-num">Q4 <span class="q-src">Final 2025</span></div>
-        <div class="q-text">The output of the following Python statements is "Hello, My":<br><code>b = "Hello, My Friend"</code><br><code>print(b[:8])</code><br>True or False?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: A — True</b><br>
-          الـ String slicing بياخد من البداية لحد الـ index قبل الأخير (يعني من 0 لـ 7). لو عدينا الحروف:<br>
-          H(0), e(1), l(2), l(3), o(4), ,(5),  (6), M(7). وده بيدينا بالظبط "Hello, My".
-          <span class="slang-tip">الـ slicing في البايثون بيبدأ من 0 وبيمشي لحد الرقم اللي قبل علامة النقطتين، يعني 8 دي مش معانا وبناخد الحروف من 0 لـ 7 بس.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="b">
-        <div class="q-num">Q5 <span class="q-src">Final 2021 &amp; 2025</span></div>
-        <div class="q-text">In Python, a set is a collection which is both unordered and indexed. True or False?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: B — False</b><br>
-          الـ Set في Python هي مجموعة غير مرتبة (unordered) وغير مفهرسة (unindexed). مفيهاش Index يعني مقدرش أقول <code>my_set[0]</code>.
-          <span class="slang-tip">الـ Set ملهاش ترتيب وملهاش index خالص، فما ينفعش نوصل لعناصرها بـ index.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="c">
-        <div class="q-num">Q6 <span class="q-src">Final 2021</span></div>
-        <div class="q-text">What will the following Python code return?<br>
-          <code>x = { "name": "Ahmed", "id": "1", "mobile": 123456789, "mobile": 987654321 }</code><br>
-          <code>print(x)</code>
-        </div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> {'name': 'Ahmed', 'id': '1', 'mobile': 123456789, 'mobile': 987654321}</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> {'name': 'Ahmed', 'id': '1', 'mobile': 123456789}</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> {'name': 'Ahmed', 'id': '1', 'mobile': 987654321}</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error! As you cannot have duplicate keys in a dictionary</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: C</b><br>
-          في الـ Dictionary في بايثون، لو تكرر مفتاح (Key) معين، القيمة الأخيرة هي اللي بتطغى وتتحفظ، والمفتاح مش بيتكرر. فـ <code>mobile</code> هياخد القيمة الأخيرة <code>987654321</code>.
-          <span class="slang-tip">البايثون مش بتطلع error لو كررت الـ key، بس بتاخد آخر قيمة ليه وتنسى القيمة القديمة.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="a">
-        <div class="q-num">Q7 <span class="q-src">Final 2021</span></div>
-        <div class="q-text">What will the following statement return?<br>
-          <code>def f(**person):</code><br>
-          &nbsp;&nbsp;&nbsp;&nbsp;<code>print("Person’s name is " + person["name"])</code><br>
-          <code>f(name="Ahmed", age=10)</code>
-        </div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Person’s name is Ahmed</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Person’s name is Ahmed and Age is 10</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Error as the function f doesn’t take except one argument</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error as the function f doesn’t take an argument called “name”</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: A</b><br>
-          علامتي النجمتين <code>**</code> في البارامترات بتعني استقبال عدد غير محدود من الـ Keyword Arguments كـ Dictionary. جوة الدالة بنطبع <code>person["name"]</code> اللي هي "Ahmed".
-          <span class="slang-tip">الـ <code>**kwargs</code> بتجمع أي keyword arguments مبعوتة في شكل dictionary فالدالة اشتغلت عادي وطبعت الاسم.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="c">
-        <div class="q-num">Q8 <span class="q-src">Final 2021</span></div>
-        <div class="q-text">What will this statement return?<br>
-          <code>y = lambda x: x / 20</code><br>
-          <code>print(y(100))</code>
-        </div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Error as there is no function called y</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 100/20</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 5.0 (أو 5)</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> y(100)</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: C</b><br>
-          الـ Lambda هي دالة مجهولة سريعة بسطر واحد. بتاخد بارامتر <code>x</code> وبترجع <code>x / 20</code>. لما بعتنا 100، رجعت 100 تقسيم 20 اللي هي 5.0.
-          <span class="slang-tip">دوال الـ lambda بنستخدمها للحاجات السريعة. y(100) حسب المعادلة بيقسم 100 على 20 فيديك 5.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="d">
-        <div class="q-num">Q9 <span class="q-src">Final 2021</span></div>
-        <div class="q-text">In the following Python statements, what is the output?<br>
-          <code>if 2 < 1:</code><br>
-          &nbsp;&nbsp;&nbsp;&nbsp;<code>print("Two is less than one!")</code><br>
-          <code>print("Two is less than one!")</code>
-        </div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Two is less than one!<br>Two is less than one!</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Two is less than one!</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> No output</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> The output will be an Error</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: D — Error</b><br>
-          في الـ original exam paper، الكود مكتوب بمسافات خاطئة تسبب خطأ في الـ syntax أو الـ Indentation. السطر التالت مكتوب بدون مسافة بادئة ومباشرة بعد الـ if مما يسبب لخبطة للـ interpreter أو يسبب خطأ لو كان فيه else مفقودة أو مسافات بايظة.
-          <span class="slang-tip">الامتحان بيجيب أحياناً أسئلة فيها مسافات بادئة بايظة، أول ما تشوف بلوك كود مش متناسق المسافات البادئة فيه فكر في الـ Error على طول.</span>
-        </div>
-      </div>
-
-      <div class="q-controls">
-        <span class="q-score" id="score-python"></span>
-        <br>
-        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-python')">✔ التحقق من الإجابات</button>
-        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-python')">↺ إعادة المحاولة</button>
-      </div>
-    </div>
-
-    <!-- QUIZ 3: DJANGO BASICS -->
-    <div class="quiz-section" id="quiz-django">
-      <div class="quiz-header">
-        <div class="quiz-icon">🛡️</div>
-        <div><h3>3. Django &amp; Framework Quiz — اختبار Django والـ Framework</h3><p>كل أسئلة الامتحانات الخاصة بتهيئة الـ Django وأساسيات الـ Admin والـ Apps 🇪🇬</p></div>
-      </div>
-
-      <div class="q-item" data-correct="c">
-        <div class="q-num">Q1 <span class="q-src">Final 2021 &amp; 2024</span></div>
-        <div class="q-text">Django is based on which framework?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> MVC (Model View Controller)</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> MVVM (Model View ViewModel)</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> MVT (Model View Template)</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the Above</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: C — MVT</b><br>
-          الـ Django بيستخدم معماري الـ <strong>MVT</strong> (Model View Template). الـ Model بيمثل البيانات، والـ View بيعالج الـ logic، والـ Template بيعرض الـ HTML.
-          <span class="slang-tip">مهمة جداً! Django = MVT. الـ View في Django بيقوم بعمل الـ Controller، والـ Template هو الـ View بتاع المعماري القديم.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="c">
-        <div class="q-num">Q2 <span class="q-src">Final 2024</span></div>
-        <div class="q-text">What is a correct syntax for creating a Django project?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> django start my_tennis_club</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> py manage.py start-django my_tennis_club</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> django-admin startproject my_tennis_club</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: C — django-admin startproject</b><br>
-          الأمر الافتراضي لإنشاء مشروع جديد في Django هو <code>django-admin startproject اسم_المشروع</code>.
-          <span class="slang-tip">بنبدأ المشروع بـ django-admin، والـ app بنبدأه بـ python manage.py startapp. ميز بينهم كويس جداً!</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="c">
-        <div class="q-num">Q3 <span class="q-src">Final 2021</span></div>
-        <div class="q-text">What is a Django App?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Django app is an extended package with base package is Django</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Django app is a python package with its own components</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Both A &amp; B</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> All of the above</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: C — Both A &amp; B</b><br>
-          الـ App في Django هو عبارة عن حزمة برمجية (Python package) ليها المكونات الخاصة بيها (زي views, models) ومبنية على الـ Django كحزمة أساسية.
-          <span class="slang-tip">الـ App حاجة صغيرة متكاملة جوة المشروع، يعني package لوحدها بس معتمدة على الـ base بتاع Django.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="d">
-        <div class="q-num">Q4 <span class="q-src">Final 2021</span></div>
-        <div class="q-text">What does the architecture of Django consist of?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Views</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Models</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Templates</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> All of the Above</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: D — All of the Above</b><br>
-          معماري الـ Django (MVT) بيتكون من التلات حاجات دول مجتمعين: Models و Views و Templates.
-          <span class="slang-tip">سؤال هدية في الامتحان، معماري الـ MVT بيشمل التلات حاجات دول.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="b">
-        <div class="q-num">Q5 <span class="q-src">Final 2024 &amp; 2025</span></div>
-        <div class="q-text">For a model to be visible in the admin interface it has to be registered in which file?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> settings.py</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> admin.py</div>
-          <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> views.py</div>
-          <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: B — admin.py</b><br>
-          عشان نعرض الـ Model بتاعنا في لوحة تحكم الـ Admin الجاهزة، لازم نسجله في ملف <code>admin.py</code> عن طريق كتابة <code>admin.site.register(ModelName)</code>.
-          <span class="slang-tip">سؤال مكرر في 2024 و 2025! التسجيل بيكون دايماً في الـ <code>admin.py</code>. لو جالك في الامتحان إنه بيسجل في settings.py قوله غلط فوراً.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="b">
-        <div class="q-num">Q6 <span class="q-src">Final 2025</span></div>
-        <div class="q-text">Django views represents the presentation layer of Django. True or False?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: B — False</b><br>
-          في Django الـ <strong>Template</strong> هو اللي بيمثل الـ Presentation Layer (العرض والـ HTML)، بينما الـ <strong>View</strong> بيمثل الـ Business Logic (المعالجة والـ Logic).
-          <span class="slang-tip">الفخ ده بيقع فيه ناس كتير بسبب الاسم. الـ View في Django مش منظر! الـ View هو الـ Logic، والـ Template هو الـ Presentation.</span>
-        </div>
-      </div>
-
-      <div class="q-item" data-correct="b">
-        <div class="q-num">Q7 <span class="q-src">Final 2025</span></div>
-        <div class="q-text">"migrate" command in Django is used to show the changes happened in the database. True or False?</div>
-        <div class="q-opts">
-          <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
-          <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
-        </div>
-        <div class="q-explain">
-          <b>✅ الإجابة الصحيحة: B — False</b><br>
-          الأمر <code>makemigrations</code> هو اللي بيفحص الموديلز ويولد ملف الهجرة اللي بيعبر عن التغييرات. أما أمر <code>migrate</code> فهو اللي بيقوم بـ <strong>تطبيق</strong> التغييرات دي فعلياً على قاعدة البيانات.
-          <span class="slang-tip">الـ makemigrations بتجهز التغييرات وتكتبها، الـ migrate بتطبقها وتنفذها في الـ Database.</span>
-        </div>
-      </div>
-
-      <div class="q-controls">
-        <span class="q-score" id="score-django"></span>
-        <br>
-        <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-django')">✔ التحقق من الإجابات</button>
-        <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-django')">↺ إعادة المحاولة</button>
-      </div>
-    </div>
-
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">💡</span> تعريف الـ Backend Development</div>
+    <p>الـ <strong>Backend Development</strong> هو الجزء اللي بيشتغل على الـ <strong>Server Side</strong> (ناحية الخادم). المستخدم مش بيشوفه مباشرة، لكنه بيمثل <strong>"العقل" (The Brain)</strong> الفعلي للتطبيق.</p>
+    <p>هو اللي بيستقبل الـ <strong>Requests</strong>، ويشغّل الـ <strong>Business Logic</strong>، ويتعامل مع الـ <strong>Database</strong>، ويطبّق الأمان (<strong>Security</strong>)، ويبعت الـ <strong>Responses</strong> للمتصفح.</p>
+    <div class="info"><div><b>💡 من المحاضرة مباشرة:</b> "Backend development is the part of a software system that runs on the server side. It receives requests, processes logic, talks to databases, enforces security, and returns responses."</div></div>
   </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">⚙️</span> مسؤوليات Data &amp; Logic</div>
+      <ul>
+        <li>تخزين وجلب البيانات من الـ <strong>Database</strong></li>
+        <li>التحقق من صحة المدخلات (<strong>Input Validation</strong>)</li>
+        <li>تطبيق قواعد العمل (<strong>Business Rules</strong>) زي الـ Login وحساب التقديرات</li>
+        <li>توليد المحتوى الديناميكي (<strong>Dynamic Content</strong>) بناءً على بيانات المستخدم</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--pink)">
+      <div class="topic-title"><span class="icon">🔐</span> مسؤوليات Security &amp; Integration</div>
+      <ul>
+        <li>التحقق من هوية المستخدمين (<strong>Authentication</strong>) وإدارة الصلاحيات (<strong>Permissions</strong>)</li>
+        <li>معالجة الأخطاء (<strong>Error Handling</strong>)</li>
+        <li>التواصل مع الخدمات الخارجية (<strong>External APIs</strong>) زي بوابات الدفع</li>
+        <li>توفير البيانات للموقع أو تطبيقات الموبايل</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🎯</span> أمثلة من حياتنا اليومية — Daily-Life Examples</div>
+    <div class="grid2">
+      <ul>
+        <li>🔑 تسجيل الدخول (<strong>Login</strong>) لأي موقع</li>
+        <li>🔍 البحث عن منتج وعرض النتائج المتاحة فعلاً</li>
+        <li>📋 ملء فورم التقديم وحفظه في الـ Database</li>
+      </ul>
+      <ul>
+        <li>👤 التحقق إن الـ Username متاح أم لأ</li>
+        <li>📊 عرض لوحة درجاتك أنت بالذات (Personalized Dashboard)</li>
+        <li>💬 حفظ تعليق جديد أو منشور جديد</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 2 — FRONTEND vs BACKEND vs DATABASE
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num purple">02</div>
+    <div class="ch-title">
+      <h2>Frontend vs Backend vs Database</h2>
+      <p>مين بيعمل إيه في منظومة الويب</p>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="compare-card" style="--accent:var(--cyan)">
+      <h4 style="color:var(--cyan)">🖥️ Frontend (Client Side)</h4>
+      <ul>
+        <li>اللي المستخدم بيشوفه ويتعامل معاه</li>
+        <li>مبني بـ HTML, CSS, JavaScript</li>
+        <li>بيشتغل جوة المتصفح (Browser)</li>
+        <li>بيهتم بالشكل والألوان والتفاعل (UX)</li>
+      </ul>
+    </div>
+    <div class="compare-card" style="--accent:var(--purple)">
+      <h4 style="color:var(--purple)">⚙️ Backend (Server Side)</h4>
+      <ul>
+        <li>بيعالج الـ Requests القادمة من المستخدم</li>
+        <li>مبني بـ Python, JavaScript, Java, PHP…</li>
+        <li>بيشتغل على الـ Server</li>
+        <li>بيهتم بالـ Logic والأمان والبيانات</li>
+      </ul>
+    </div>
+    <div class="compare-card" style="--accent:var(--green)">
+      <h4 style="color:var(--green)">🗄️ Database (Data Layer)</h4>
+      <ul>
+        <li>بيحفظ البيانات بشكل دائم (Persistent)</li>
+        <li>زي SQLite, MySQL, PostgreSQL</li>
+        <li><strong>لا تتكلم مع المستخدم مباشرة أبداً!</strong></li>
+        <li>الـ Backend هو الوسيط بينها وبين الـ Frontend</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="danger"><div><b>🚨 قاعدة ذهبية للامتحان:</b> الـ Database <strong>لا تتواصل أبداً</strong> مع المستخدم مباشرة! الـ Backend هو دايماً الوسيط اللي بيكلم الـ Database ويجهّز البيانات للـ Frontend.</div></div>
+
+  <!-- Flow diagram -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔄</span> رحلة البيانات — The Data Flow</div>
+    <div class="flow-diagram">
+      <div class="flow-box">
+        <div class="fb-icon">👤</div>
+        <div class="fb-label">User / Browser</div>
+        <div class="fb-sub">المستخدم</div>
+      </div>
+      <div class="flow-arrow">
+        <div class="arrow-req"><div class="arr-line arr-cyan"></div><span class="arr-tip">→</span><span>Request</span></div>
+        <div class="arrow-res"><span>Response</span><span class="arr-tip">←</span><div class="arr-line arr-green" style="background:var(--green)"></div></div>
+      </div>
+      <div class="flow-box">
+        <div class="fb-icon">⚙️</div>
+        <div class="fb-label">Backend Server</div>
+        <div class="fb-sub">Python / Django</div>
+      </div>
+      <div class="flow-arrow">
+        <div class="arrow-req"><div class="arr-line arr-cyan"></div><span class="arr-tip">→</span><span>Query</span></div>
+        <div class="arrow-res"><span>Data</span><span class="arr-tip">←</span><div class="arr-line arr-green" style="background:var(--green)"></div></div>
+      </div>
+      <div class="flow-box">
+        <div class="fb-icon">🗄️</div>
+        <div class="fb-label">Database</div>
+        <div class="fb-sub">SQLite / MySQL</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 3 — 3-TIER ARCHITECTURE
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>3-Tier Application Architecture — نموذج الطبقات الثلاث</h2>
+      <p>النموذج المعياري لتقسيم تطبيقات الويب</p>
+    </div>
+  </div>
+
+  <div class="tier-wrap">
+    <div class="tier tier1">
+      <div class="tier-icon">🖥️</div>
+      <div class="tier-name">Presentation Layer</div>
+      <div class="tier-tech">HTML · CSS · JavaScript</div>
+      <div class="tier-desc">الواجهة اللي المستخدم بيشوفها ويتعامل معاها في المتصفح. هي الـ Frontend.</div>
+    </div>
+    <div class="tier tier2">
+      <div class="tier-icon">⚙️</div>
+      <div class="tier-name">Application Layer</div>
+      <div class="tier-tech">Python · Django</div>
+      <div class="tier-desc">المنطق والعمليات والقواعد. ده هو الـ Backend اللي بيشتغل على السيرفر.</div>
+    </div>
+    <div class="tier tier3">
+      <div class="tier-icon">🗄️</div>
+      <div class="tier-name">Data Layer</div>
+      <div class="tier-tech">SQLite · MySQL · PostgreSQL</div>
+      <div class="tier-desc">مكان تخزين البيانات بشكل دائم. ما بتكلمش المستخدم مباشرة أبداً.</div>
+    </div>
+  </div>
+
+  <div class="warn"><div><b>⚡ نقطة امتحان مكررة (2021 &amp; 2024):</b> Django بيقع في الـ <strong>Application Layer</strong> (الـ Backend) — مش في الـ Presentation Layer ولا الـ Data Layer.</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 4 — REQUEST & RESPONSE CYCLE
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num green">04</div>
+    <div class="ch-title">
+      <h2>Request–Response Cycle — دورة الطلب والاستجابة</h2>
+      <p>كل حركة على الويب هي سؤال وجواب</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🌐</span> كيف يعمل الموقع؟ — How a Website Works (6 خطوات)</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">1</div>
+        <div class="step-body"><div class="step-title">المستخدم يدخل URL أو يدوس Link</div><div class="step-desc">المستخدم بيكتب عنوان في الـ Browser أو بيضغط على رابط.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">2</div>
+        <div class="step-body"><div class="step-title">الـ Browser بيبعت HTTP Request</div><div class="step-desc">طلب مكتوب بصيغة HTTP بيتبعت للسيرفر عبر شبكة الإنترنت.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(245,158,11,.15);color:var(--amber)">3</div>
+        <div class="step-body"><div class="step-title">الـ Backend بيستقبل ويعالج الـ Request</div><div class="step-desc">السيرفر بيشوف الطلب، بيفحص الصلاحيات، وبيقرر إيه اللي هيعمله.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(16,185,129,.15);color:var(--green)">4</div>
+        <div class="step-body"><div class="step-title">الـ Backend بيكلم الـ Database</div><div class="step-desc">لو محتاج بيانات، بيبعت Query للـ Database ويستنى النتيجة.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(139,92,246,.15);color:var(--purple)">5</div>
+        <div class="step-body"><div class="step-title">السيرفر بيبعت HTTP Response</div><div class="step-desc">الرد بيتكون من Status Code + Headers + Body (HTML/JSON).</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(244,114,182,.15);color:var(--pink)">6</div>
+        <div class="step-body"><div class="step-title">الـ Browser يعرض الصفحة (Render)</div><div class="step-desc">المتصفح بيستلم الرد ويحوله لصفحة مرئية للمستخدم.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">📤</span> مكونات الـ HTTP Request</div>
+      <table class="tbl">
+        <tr><th>الجزء</th><th>الوصف</th></tr>
+        <tr><td><strong>HTTP Method</strong></td><td>نوع العملية زي <code>GET</code> أو <code>POST</code></td></tr>
+        <tr><td><strong>URL Path</strong></td><td>المسار المطلوب زي <code>/login</code></td></tr>
+        <tr><td><strong>Headers</strong></td><td>معلومات إضافية (Metadata) عن الـ request</td></tr>
+        <tr><td><strong>Body</strong></td><td>البيانات الفعلية — اختياري، موجود في POST/PUT بس</td></tr>
+      </table>
+      <div class="info"><div><b>📌 من الامتحان:</b> HTTP request message <strong>always contains</strong> a Request Line and a Header — الـ Body اختياري!</div></div>
+    </div>
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">📥</span> مكونات الـ HTTP Response</div>
+      <table class="tbl">
+        <tr><th>الجزء</th><th>الوصف</th></tr>
+        <tr><td><strong>Status Code</strong></td><td>رقم نتيجة الطلب (200, 404, 500…)</td></tr>
+        <tr><td><strong>Headers</strong></td><td>معلومات إضافية زي Content-Type</td></tr>
+        <tr><td><strong>Body</strong></td><td>المحتوى الفعلي (HTML, JSON…)</td></tr>
+      </table>
+      <div class="info"><div><b>📌 من الامتحان:</b> HTTP Response message <strong>must contain</strong> a Status Code — ده الإلزامي!</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 5 — STATIC VS DYNAMIC
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num pink">05</div>
+    <div class="ch-title">
+      <h2>Static vs Dynamic Websites — الفرق بين الساكن والديناميكي</h2>
+      <p>ليه أصلاً بنحتاج الـ Backend؟</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="compare-card" style="--accent:var(--t3)">
+      <h4 style="color:var(--t2)">📄 Static Website (موقع ساكن)</h4>
+      <ul>
+        <li>بيعرض نفس المحتوى لكل الناس بدون تغيير</li>
+        <li>الصفحات ملفات HTML ثابتة على السيرفر</li>
+        <li>مناسب للمواقع التعريفية البسيطة</li>
+        <li>عشان تعدل، لازم تعدل ملف الـ HTML يدوياً</li>
+        <li>لا يحتاج لـ Database</li>
+      </ul>
+      <div class="code-wrap" style="margin-top:12px">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">STATIC EXAMPLE</div></div>
+        <pre><code><span class="tag">&lt;h1&gt;</span>Welcome to the department<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;p&gt;</span>Office hours: 9:00 AM - 2:00 PM<span class="tag">&lt;/p&gt;</span>
+<span class="cmt">&lt;!-- نفس الكلام لكل الناس --&gt;</span></code></pre>
+      </div>
+    </div>
+    <div class="compare-card" style="--accent:var(--cyan)">
+      <h4 style="color:var(--cyan)">⚡ Dynamic Website (موقع ديناميكي)</h4>
+      <ul>
+        <li>المحتوى بيتغير بناءً على المستخدم أو البيانات</li>
+        <li>الصفحة بتتولد لحظياً بكود الـ Backend</li>
+        <li>ضروري للمتاجر، البوابات، الـ Dashboards</li>
+        <li>البيانات بتيجي من الـ Database</li>
+        <li>يدعم Login وبيانات مخصصة لكل شخص</li>
+      </ul>
+      <div class="code-wrap" style="margin-top:12px">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">DYNAMIC EXAMPLE — Django View</div></div>
+        <pre><code><span class="kw">def</span> <span class="fn">dashboard</span>(request):
+    student_name = <span class="str">'Mona'</span>
+    cgpa = <span class="num">3.8</span>
+    <span class="kw">return</span> render(request, <span class="str">'dashboard.html'</span>, {
+        <span class="str">'student_name'</span>: student_name,
+        <span class="str">'cgpa'</span>: cgpa
+    })</code></pre>
+      </div>
+    </div>
+  </div>
+  <div class="tip"><div><b>💡 تشبيه بسيط:</b> الـ Static زي لافتة مكتوب عليها "ساعات العمل: 9–2" — نفس الكلام لكل الناس. الـ Dynamic زي الـ News Feed بتاع الفيسبوك — كل شخص بيشوف محتوى مختلف بناءً على صفحاته وأصحابه.</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 6 — HTTP METHODS & STATUS CODES
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num blue">06</div>
+    <div class="ch-title">
+      <h2>HTTP Methods &amp; Status Codes — الأوامر ورموز الحالة</h2>
+      <p>لغة الحوار بين الـ Client والـ Server</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">📋</span> HTTP Methods — أوامر الـ Request</div>
+      <table class="tbl">
+        <tr><th>Method</th><th>الاستخدام</th></tr>
+        <tr><td><code>GET</code></td><td>قراءة بيانات — الـ Body <strong>فاضي</strong>! البيانات في الـ URL</td></tr>
+        <tr><td><code>POST</code></td><td>إرسال وإنشاء بيانات جديدة — البيانات في الـ Body</td></tr>
+        <tr><td><code>PUT</code></td><td>تعديل كامل لـ resource موجود</td></tr>
+        <tr><td><code>PATCH</code></td><td>تعديل جزئي (Partial Update) — مهم!</td></tr>
+        <tr><td><code>DELETE</code></td><td>حذف resource معين</td></tr>
+      </table>
+      <div class="danger"><div><b>🚨 من امتحان 2025:</b> الـ <strong>PATCH</strong> (مش PUT) هو المستخدم للتعديلات الجزئية (Partial Updates). الـ PUT بيبدّل الـ resource بالكامل.</div></div>
+    </div>
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">⚡</span> GET vs POST — الفرق المهم</div>
+      <table class="tbl">
+        <tr><th>الصفة</th><th>GET</th><th>POST</th></tr>
+        <tr><td><strong>الهدف</strong></td><td>قراءة بيانات</td><td>إرسال / تغيير بيانات</td></tr>
+        <tr><td><strong>البيانات</strong></td><td>في الـ URL (مكشوفة!)</td><td>في الـ Body (مخفية)</td></tr>
+        <tr><td><strong>الأمان</strong></td><td>غير آمن للبيانات الحساسة</td><td>أكثر أماناً</td></tr>
+        <tr><td><strong>Body</strong></td><td>لا يحتوي Body</td><td>يحتوي على Body</td></tr>
+      </table>
+      <div class="warn"><div><b>⚡ من امتحان 2021:</b> "POST is more robust and secure than GET" — الـ POST أقوى وأأمن من الـ GET لأن البيانات مش بتظهر في الـ URL.</div></div>
+    </div>
+  </div>
+
+  <!-- Status Codes -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🚦</span> HTTP Status Codes — رموز الحالة الأكثر تكراراً في الامتحانات</div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+      <span class="badge badge-cyan">1xx Informational</span>
+      <span class="badge badge-green">2xx Success</span>
+      <span class="badge badge-amber">3xx Redirection</span>
+      <span class="badge badge-red">4xx Client Error</span>
+      <span class="badge badge-pink">5xx Server Error</span>
+    </div>
+    <table class="tbl">
+      <tr><th>Code</th><th>المعنى</th><th>تذكّره كده</th></tr>
+      <tr><td><span class="badge badge-green">200 OK</span></td><td>طلبك اتنفذ بنجاح — User is authorized to see the response</td><td>✅ كله تمام</td></tr>
+      <tr><td><span class="badge badge-amber">301 Moved Permanently</span></td><td>الـ Resource اتنقل لعنوان جديد بشكل دائم</td><td>🔀 تحويل دائم</td></tr>
+      <tr><td><span class="badge badge-amber">304 Not Modified</span></td><td>استخدم النسخة المحفوظة في الـ Cache — ما اتغيرش</td><td>💾 خد من الكاش</td></tr>
+      <tr><td><span class="badge badge-red">400 Bad Request</span></td><td>الـ Request غلط في التنسيق</td><td>❌ طلبك غلط</td></tr>
+      <tr><td><span class="badge badge-red">401 Unauthorized</span></td><td>محتاج تسجل دخول الأول — Not authenticated</td><td>🔑 اعمل Login</td></tr>
+      <tr><td><span class="badge badge-red">403 Forbidden</span></td><td>Server reachable but user not authorized — وصلت للسيرفر بس ممنوع</td><td>🚫 ممنوع دخول</td></tr>
+      <tr><td><span class="badge badge-red">404 Not Found</span></td><td>الـ Resource مش موجود أصلاً</td><td>🔍 مش هنا</td></tr>
+      <tr><td><span class="badge badge-pink">500 Internal Server Error</span></td><td>فيه Bug في كود الـ Backend</td><td>💥 السيرفر اتكسر</td></tr>
+    </table>
+    <div class="danger"><div><b>🚨 الفرق بين 401 و 403 — سؤال متكرر:</b><br>
+    <strong>401</strong> = مش authenticated بعد (لازم تعمل Login أول) — مثال: دخلت موقع بدون تسجيل<br>
+    <strong>403</strong> = عملت Login بس مش عندك Permission — مثال: حاولت تدخل Admin Panel وانت طالب عادي</div></div>
+  </div>
+
+  <!-- Caching -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">💾</span> HTTP Caching — التخزين المؤقت</div>
+    <div class="grid2">
+      <div>
+        <p><strong>Time-Based Caching</strong> — بيعتمد على تاريخ ووقت معين. السيرفر بيقول "الملف ده هيبقى صالح لحد كذا تاريخ".</p>
+        <div class="code-wrap">
+          <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">RESPONSE HEADER</div></div>
+          <pre><code><span class="prop">Expires:</span> Tuesday, 17 Dec 2020 18:30 GMT</code></pre>
+        </div>
+        <div class="warn"><div><b>⚠️ من امتحان 2021 &amp; 2024:</b> هيدر <code>Expires</code> ده <strong>Response</strong> header (مش Request!) ومعناه <strong>Time-Based Caching</strong> لأنه بيحدد تاريخ انتهاء الصلاحية.</div></div>
+      </div>
+      <div>
+        <p><strong>Content-Based Caching</strong> — بيعتمد على مقارنة محتوى الملف نفسه. لو الملف ما اتغيرش، السيرفر بيرجع <code>304 Not Modified</code>.</p>
+        <table class="tbl">
+          <tr><th>Header</th><th>نوعه</th><th>وظيفته</th></tr>
+          <tr><td><code>Expires</code></td><td>Response</td><td>Time-Based Caching</td></tr>
+          <tr><td><code>If-Modified-Since</code></td><td>Request</td><td>Conditional Caching</td></tr>
+          <tr><td><code>Cache-Control</code></td><td>Response</td><td>التحكم في الـ Cache</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Authorization vs Authentication -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🔐</span> Authentication vs Authorization — الفرق المهم</div>
+    <div class="grid2">
+      <div>
+        <p><strong>Authentication (التحقق من الهوية):</strong> إنت مين؟ بيتحقق من هوية المستخدم عبر Username/Password.</p>
+        <div class="tip"><div>مثال: شاشة الـ Login</div></div>
+      </div>
+      <div>
+        <p><strong>Authorization (التصريح بالإذن):</strong> إنت عندك إذن بإيه؟ بيحدد الـ Permissions بعد الـ Login.</p>
+        <div class="warn"><div><b>💡 من الامتحان:</b> "To denote permission of using a resource, you must use Authorization" — <strong>Authorization</strong> مش Authentication!</div></div>
+      </div>
+    </div>
+    <div class="info"><div><b>🔒 Lock Icon في الـ Browser:</b> الأيقونة دي بتدل على اتصال <strong>HTTPS</strong> عبر بروتوكول <strong>TLS</strong> المشفّر — "Secured Hypertext Transfer Protocol over TLS, secured connection"</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 7 — URL ANATOMY
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num teal">07</div>
+    <div class="ch-title">
+      <h2>URL Anatomy — تشريح عنوان الويب</h2>
+      <p>فهم مكونات الـ URL خطوة خطوة</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🔗</span> أجزاء الـ URL</div>
+    <div class="url-box">
+      <div class="url-full"><span style="color:#89b4fa">https</span><span style="color:#585b70">://</span><span style="color:#a6e3a1">example.com</span><span style="color:#585b70">:</span><span style="color:#fab387">443</span><span style="color:#cba6f7">/students/list/</span><span style="color:#f38ba8">?level=2</span></div>
+      <div class="url-parts">
+        <div class="url-part"><div class="url-part-val up-scheme">https</div><div class="url-part-key">Protocol</div></div>
+        <div class="url-part"><div class="url-part-val up-host">example.com</div><div class="url-part-key">Host / Domain</div></div>
+        <div class="url-part"><div class="url-part-val up-port">443</div><div class="url-part-key">Port (اختياري)</div></div>
+        <div class="url-part"><div class="url-part-val up-path">/students/list/</div><div class="url-part-key">Path</div></div>
+        <div class="url-part"><div class="url-part-val up-query">?level=2</div><div class="url-part-key">Query String</div></div>
+      </div>
+    </div>
+    <table class="tbl" style="margin-top:16px">
+      <tr><th>الجزء</th><th>الوصف</th><th>مثال</th></tr>
+      <tr><td><strong>Protocol</strong></td><td>البروتوكول المستخدم</td><td><code>http</code> أو <code>https</code></td></tr>
+      <tr><td><strong>Host / Domain</strong></td><td>اسم الموقع على الإنترنت</td><td><code>google.com</code></td></tr>
+      <tr><td><strong>Port</strong></td><td>رقم المنفذ — اختياري، مفصول بنقطتين <code>:</code> عن الـ Host</td><td>HTTP=<code>80</code>, HTTPS=<code>443</code></td></tr>
+      <tr><td><strong>Path</strong></td><td>مسار الصفحة أو الـ Resource على السيرفر</td><td><code>/students/list/</code></td></tr>
+      <tr><td><strong>Query String</strong></td><td>معاملات إضافية، بتبدأ بـ <code>?</code></td><td><code>?level=2&year=1</code></td></tr>
+    </table>
+    <div class="warn"><div><b>⚠️ من امتحان 2021 (Q36):</b> "In a URL, an optional <strong>Port Number</strong> can be inserted between the host and the path, separated from the host by a colon." — الإجابة: Port Number!</div></div>
+  </div>
+
+  <!-- Cookie -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🍪</span> Cookie — من اللي بيعملها؟</div>
+    <p>الـ <strong>Cookie</strong> هي بيانات صغيرة بيتم تخزينها في متصفح المستخدم. بيستخدمها السيرفر عشان يتذكر المستخدم بين الـ Requests المختلفة (لأن HTTP بطبيعته Stateless).</p>
+    <div class="danger"><div><b>🚨 من امتحان 2021 (Q37):</b> الـ Cookie يتم إنشاؤها بواسطة <strong>الـ Server</strong> — مش الـ Client! السيرفر بيبعتها في الـ Response Header وبعدين المتصفح بيحتفظ بيها ويبعتها مع كل Request جديد.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 8 — PYTHON & FRAMEWORK
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num green">08</div>
+    <div class="ch-title">
+      <h2>Why Python &amp; What is a Framework? — ليه Python؟ ويعني إيه Framework؟</h2>
+      <p>اللغة القوية والهيكل الجاهز</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">🐍</span> مميزات Python في الـ Backend</div>
+      <ul>
+        <li><strong>Readable Syntax:</strong> الكود قريب من اللغة الإنجليزية الطبيعية — سهل القراءة والفهم</li>
+        <li><strong>Indentation:</strong> المسافات البادئة جزء من الـ Syntax — بتخلي الكود نظيم غصب عنك</li>
+        <li><strong>Large Community:</strong> مجتمع ضخم + مكتبات للويب والبيانات والـ AI</li>
+        <li>مستخدمة في Google و Instagram و Spotify و YouTube</li>
+        <li>سهلة للمبتدئين ومستخدمة في الشركات الكبيرة</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--pink)">
+      <div class="topic-title"><span class="icon">🏗️</span> ما هو الـ Framework؟</div>
+      <p>الـ <strong>Framework</strong> هو <strong>مجموعة أدوات وقواعد وهيكل جاهز</strong> بيساعد المطورين يبنوا تطبيقات أسرع بدون ما يبدأوا من الصفر.</p>
+      <p>الـ Framework بيتكفل بالـ Routing, Database Access, Security, Templates — وانت تتفرغ للـ Business Logic.</p>
+      <div class="tip"><div><b>🏠 تشبيه:</b> بدون Framework = تبني البيت وتصنع الطوب والأسلاك بنفسك. بالـ Framework (Django) = شقة جاهزة فيها كل المرافق، بس انت تفرشها!</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 9 — DJANGO & MVT
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="ch-header">
+    <div class="ch-num purple">09</div>
+    <div class="ch-title">
+      <h2>Django Framework &amp; MVT Architecture</h2>
+      <p>إطار العمل الأشمل لتطوير الويب بـ Python</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🛠️</span> ما هو Django؟</div>
+    <p>Django هو <strong>High-level Python Web Framework</strong> بيساعد المطورين يبنوا مواقع آمنة وقابلة للصيانة بشكل سريع. بيتبع مبدأ <strong>"Batteries Included"</strong> يعني بييجي معاه أدوات كتير جاهزة من الأول.</p>
+    <div class="grid2" style="margin-top:14px">
+      <div>
+        <p><strong>الأدوات الجاهزة في Django:</strong></p>
+        <ul>
+          <li><strong>URL Routing</strong> — ربط الـ URLs بالـ Views</li>
+          <li><strong>ORM</strong> — التعامل مع الـ Database بكود Python بدون SQL</li>
+          <li><strong>Admin Panel</strong> — لوحة إدارة جاهزة فوراً</li>
+          <li><strong>Authentication</strong> — نظام Login جاهز</li>
+          <li><strong>Template Engine</strong> — لإنشاء صفحات HTML ديناميكية</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Stack الكورس:</strong></p>
+        <table class="tbl">
+          <tr><th>الأداة</th><th>الدور</th></tr>
+          <tr><td>🐍 <strong>Python</strong></td><td>Programming Language</td></tr>
+          <tr><td>🏗️ <strong>Django</strong></td><td>Web Framework</td></tr>
+          <tr><td>🗄️ <strong>SQLite</strong></td><td>Default Database</td></tr>
+          <tr><td>📝 <strong>VS Code</strong></td><td>Code Editor</td></tr>
+          <tr><td>⌨️ <strong>Terminal</strong></td><td>Run Commands</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📐</span> MVT Architecture — نمط معمارية Django</div>
+    <div class="grid3">
+      <div class="compare-card" style="--accent:var(--green)">
+        <h4 style="color:var(--green)">M — Model</h4>
+        <ul>
+          <li>بيمثل هيكل البيانات</li>
+          <li>التعامل مع الـ Database</li>
+          <li>زي نموذج الـ Student أو الـ Course</li>
+        </ul>
+      </div>
+      <div class="compare-card" style="--accent:var(--amber)">
+        <h4 style="color:var(--amber)">V — View</h4>
+        <ul>
+          <li>الـ Logic والمعالجة</li>
+          <li>بيقرر إيه الداتا اللي هترجع</li>
+          <li>مثله زي الـ Controller في MVC</li>
+        </ul>
+      </div>
+      <div class="compare-card" style="--accent:var(--purple)">
+        <h4 style="color:var(--purple)">T — Template</h4>
+        <ul>
+          <li>واجهة العرض (HTML)</li>
+          <li>بتستقبل البيانات من الـ View</li>
+          <li>تستخدم <code>{{ variable }}</code></li>
+        </ul>
+      </div>
+    </div>
+    <div class="danger"><div><b>🚨 سؤال متكرر (2021 &amp; 2024):</b> Django is based on <strong>MVT</strong> (Model-View-Template) — مش MVC! الـ V في Django بيقوم بدور الـ Controller في MVC التقليدي.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 10 — WSGI vs ASGI
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch10">
+  <div class="ch-header">
+    <div class="ch-num teal">10</div>
+    <div class="ch-title">
+      <h2>WSGI vs ASGI — طريقة معالجة الـ Requests</h2>
+      <p>سؤال ظهر في امتحان 2025</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">🔄</span> WSGI — Web Server Gateway Interface</div>
+      <p>الـ <strong>WSGI</strong> هو الواجهة التقليدية اللي بيستخدمها Django. بيعالج الـ Requests بشكل <strong>Sequential (تتابعي/متزامن)</strong> — يعني طلب ورا طلب واحد واحد.</p>
+      <div class="danger"><div><b>🚨 من امتحان 2025:</b> "If an application is running on WSGI, then it will handle client requests in a <strong>sequential manner</strong>." — الإجابة: <strong>True ✅</strong></div></div>
+    </div>
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">⚡</span> ASGI — Async Server Gateway Interface</div>
+      <p>الـ <strong>ASGI</strong> هو البديل الحديث اللي بيدعم الـ <strong>Asynchronous (غير المتزامن)</strong> — بيقدر يعالج طلبات كتير في نفس الوقت، مناسب للـ WebSockets والتطبيقات Real-time.</p>
+      <div class="tip"><div>الـ ASGI أسرع وأكثر كفاءة للتطبيقات الحديثة التي تحتاج لـ Real-time features.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 11 — PYTHON VARIABLES & TYPES
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch11">
+  <div class="ch-header">
+    <div class="ch-num blue">11</div>
+    <div class="ch-title">
+      <h2>Python Variables &amp; Data Types — المتغيرات وأنواع البيانات</h2>
+      <p>حجر الأساس لكتابة أي كود Python</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📦</span> المتغيرات (Variables) وقواعد التسمية</div>
+    <p>المتغير هو مكان محجوز في الذاكرة (<strong>Memory</strong>) لتخزين قيمة معينة وإعادة استخدامها في الكود لاحقاً.</p>
+    <div class="danger"><div><b>🚨 قواعد التسمية — مهمة للامتحان:</b>
+    <ul style="direction:rtl;text-align:right;margin-top:8px">
+      <li>لا يبدأ برقم: <code>1name</code> ❌ ← <code>name1</code> ✅</li>
+      <li>لا يحتوي على مسافات: <code>student name</code> ❌ ← <code>student_name</code> ✅</li>
+      <li>لا يحتوي على علامة الناقص/Dash: <code>my-var</code> ❌ ← <code>my_var</code> ✅ (من امتحان 2025!)</li>
+      <li>حساس لحالة الأحرف (Case-Sensitive): <code>Age</code> غير <code>age</code></li>
+    </ul>
+    </div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📊</span> أنواع البيانات الأساسية — Basic Data Types</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Python — Basic Data Types</div></div>
+      <pre><code><span class="prop">name</span> = <span class="str">'Ali'</span>        <span class="cmt"># str — نص بين علامات تنصيص</span>
+<span class="prop">level</span> = <span class="num">2</span>          <span class="cmt"># int — رقم صحيح</span>
+<span class="prop">gpa</span> = <span class="num">3.8</span>         <span class="cmt"># float — رقم عشري</span>
+<span class="prop">is_active</span> = <span class="kw">True</span>  <span class="cmt"># bool — منطقي (لازم Capital!)</span>
+
+<span class="cmt"># معرفة نوع المتغير</span>
+<span class="fn">print</span>(<span class="fn">type</span>(level))  <span class="cmt"># &lt;class 'int'&gt;</span></code></pre>
+    </div>
+    <table class="tbl">
+      <tr><th>النوع</th><th>الرمز</th><th>ملاحظة مهمة</th></tr>
+      <tr><td><strong>نص (Text)</strong></td><td><code>str</code></td><td>بين single أو double quotes</td></tr>
+      <tr><td><strong>رقم صحيح</strong></td><td><code>int</code></td><td>بدون نقطة عشرية</td></tr>
+      <tr><td><strong>رقم عشري</strong></td><td><code>float</code></td><td>فيه نقطة عشرية</td></tr>
+      <tr><td><strong>قيمة منطقية</strong></td><td><code>bool</code></td><td><code>True</code> أو <code>False</code> — الحرف الأول Capital!</td></tr>
+    </table>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">💬</span> التعليقات (Comments) في Python</div>
+    <p>التعليقات بنستخدمها لشرح الكود. الـ Python Interpreter بيتجاهلها تماماً.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Python Comments</div></div>
+      <pre><code><span class="cmt"># ده تعليق سطر واحد — بيبدأ بعلامة #</span>
+name = <span class="str">'Mohamed'</span>
+
+<span class="cmt"># مفيش في Python تعليقات بـ // زي JavaScript</span>
+<span class="cmt"># ولا /* */ زي C أو Java للـ single-line</span></code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 12 — INPUT & CASTING
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch12">
+  <div class="ch-header">
+    <div class="ch-num amber">12</div>
+    <div class="ch-title">
+      <h2>User Input &amp; Type Casting — المدخلات وتحويل الأنواع</h2>
+      <p>كيف نخلي البرنامج يتفاعل مع المستخدم</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">⌨️</span> دالة input() — مدخلات المستخدم</div>
+    <p>بنستخدم <code>input()</code> عشان البرنامج يوقف ويستنى المستخدم يكتب حاجة من الكيبورد.</p>
+    <div class="danger"><div><b>🚨 الفخ الشهير في الامتحانات:</b> دالة <code>input()</code> بترجع دايماً <strong>String</strong> — حتى لو المستخدم كتب رقم <code>20</code>، البرنامج بيشوفه كـ <code>'20'</code> نص! لو حاولت تجمع رقمين هيعملوا Concatenation مش Addition.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔄</span> Type Casting — تحويل الأنواع</div>
+    <div class="grid2">
+      <div>
+        <p>عشان تتعامل مع الأرقام بصح، لازم تعمل <strong>Type Casting</strong>:</p>
+        <ul>
+          <li><code>str()</code> — تحويل لنص</li>
+          <li><code>int()</code> — تحويل لرقم صحيح</li>
+          <li><code>float()</code> — تحويل لرقم عشري</li>
+          <li><code>bool()</code> — تحويل لقيمة منطقية</li>
+        </ul>
+      </div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Type Casting Example</div></div>
+        <pre><code><span class="cmt"># بدون Casting — هيعمل Concatenation!</span>
+age_str = <span class="fn">input</span>(<span class="str">"Enter age: "</span>)
+<span class="fn">print</span>(age_str + <span class="num">1</span>)  <span class="cmt"># ERROR! Can't add str + int</span>
+
+<span class="cmt"># مع Casting — صح!</span>
+age = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Enter age: "</span>))
+<span class="fn">print</span>(age + <span class="num">1</span>)  <span class="cmt"># يعمل Addition صح</span></code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 13 — CONDITIONS & LOOPS
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch13">
+  <div class="ch-header">
+    <div class="ch-num pink">13</div>
+    <div class="ch-title">
+      <h2>Control Flow &amp; Loops — الشروط والحلقات</h2>
+      <p>التحكم في مسار البرنامج والتكرار</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">⚖️</span> if / elif / else — الشروط</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Python Conditions — مع الـ Indentation الإجباري</div></div>
+      <pre><code>score = <span class="num">75</span>
+
+<span class="kw">if</span> score >= <span class="num">85</span>:
+    <span class="fn">print</span>(<span class="str">"Excellent"</span>)      <span class="cmt"># 4 مسافات إجبارية!</span>
+<span class="kw">elif</span> score >= <span class="num">60</span>:
+    <span class="fn">print</span>(<span class="str">"Good"</span>)
+<span class="kw">elif</span> score >= <span class="num">50</span>:
+    <span class="fn">print</span>(<span class="str">"Pass"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Fail"</span>)</code></pre>
+    </div>
+    <div class="danger"><div><b>⚠️ أهم قاعدة في Python:</b> الـ <strong>Indentation</strong> (المسافات البادئة) إجبارية! لو نسيت المسافات، هتاخد <code>IndentationError</code> والكود مش هيشتغل.</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">🔄</span> for Loop</div>
+      <p>بنستخدمها لما نكون عارفين عدد المرات مسبقاً أو بنمر على قائمة.</p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">for loop</div></div>
+        <pre><code><span class="cmt"># هيطبع 0, 1, 2, 3, 4</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
+    <span class="fn">print</span>(i)
+
+<span class="cmt"># المرور على قائمة</span>
+students = [<span class="str">'Ali'</span>, <span class="str">'Mona'</span>, <span class="str">'Sara'</span>]
+<span class="kw">for</span> name <span class="kw">in</span> students:
+    <span class="fn">print</span>(name)</code></pre>
+      </div>
+    </div>
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">🔁</span> while Loop</div>
+      <p>بتفضل تكرر طول ما الشرط <code>True</code>. لازم تتأكد إن الشرط هيتغير!</p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">while loop</div></div>
+        <pre><code>count = <span class="num">0</span>
+<span class="kw">while</span> count < <span class="num">3</span>:
+    <span class="fn">print</span>(count)
+    count += <span class="num">1</span>  <span class="cmt"># مهم! لو نسيناه → Infinite Loop</span>
+<span class="cmt"># Output: 0, 1, 2</span></code></pre>
+      </div>
+      <div class="danger"><div><b>⚠️ تحذير:</b> لو ما غيّرتش الشرط جوة الـ while، هتحصل <strong>Infinite Loop</strong> ودي هتوقف السيرفر!</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 14 — LISTS & FUNCTIONS
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch14">
+  <div class="ch-header">
+    <div class="ch-num teal">14</div>
+    <div class="ch-title">
+      <h2>Lists &amp; Functions — القوائم والدوال</h2>
+      <p>تنظيم البيانات وإعادة استخدام الكود</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">📋</span> Lists — القوائم</div>
+    <p>الـ <strong>List</strong> هي هيكل بيانات بيحفظ قيم كتير ورا بعض في متغير واحد. بتتكتب بين أقواس مربعة <code>[]</code>. العناصر بتبدأ بـ Index رقمه <strong>0</strong>.</p>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">List Operations</div></div>
+        <pre><code>students = [<span class="str">'Ali'</span>, <span class="str">'Mona'</span>, <span class="str">'Sara'</span>]
+
+<span class="fn">print</span>(students[<span class="num">0</span>])   <span class="cmt"># Ali (أول عنصر)</span>
+<span class="fn">print</span>(students[-<span class="num">1</span>])  <span class="cmt"># Sara (آخر عنصر)</span>
+
+students.append(<span class="str">'Omar'</span>)  <span class="cmt"># يضيف في الآخر</span>
+last = students.pop()    <span class="cmt"># يشيل الآخر ويرجعه</span>
+<span class="fn">print</span>(last)              <span class="cmt"># Omar</span></code></pre>
+      </div>
+      <div>
+        <div class="danger"><div><b>🚨 من امتحان 2025 (Q21):</b><br>
+        <code>myNumbers = [1,2,3]</code><br>
+        <code>x = myNumbers.pop()</code><br><br>
+        الـ pop() بتشيل العنصر <strong>الأخير</strong> وهو <strong>3</strong> — مش 1!<br>
+        <strong>الإجابة: False</strong> (لو قالوا "سيُشال 1")</div></div>
+        <div class="info"><div><b>💡 قواعد Pop:</b><br>
+        • <code>list.pop()</code> → يشيل <strong>آخر</strong> عنصر<br>
+        • <code>list.pop(0)</code> → يشيل <strong>أول</strong> عنصر<br>
+        • <code>set.pop()</code> → عشوائي! (Sets unordered)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">⚙️</span> Functions — الدوال</div>
+    <p>الدالة هي بلوك من الكود ليه اسم وبنستخدمه أكتر من مرة. بنعرّفها بكلمة <code>def</code>.</p>
+    <div class="grid2">
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Function Definition &amp; Call</div></div>
+        <pre><code><span class="kw">def</span> <span class="fn">add_numbers</span>(a, b):
+    <span class="kw">return</span> a + b
+
+result = <span class="fn">add_numbers</span>(<span class="num">5</span>, <span class="num">10</span>)
+<span class="fn">print</span>(result)  <span class="cmt"># 15</span>
+
+<span class="cmt"># Lambda function (دالة قصيرة)</span>
+double = <span class="kw">lambda</span> x: x * <span class="num">2</span>
+<span class="fn">print</span>(<span class="fn">double</span>(<span class="num">7</span>))  <span class="cmt"># 14</span></code></pre>
+      </div>
+      <div>
+        <div class="danger"><div><b>🚨 الفرق بين print() و return:</b>
+        <ul style="direction:rtl;text-align:right;margin-top:8px">
+          <li><code>print()</code> → يعرض على الشاشة بس — القيمة مش بترجع للبرنامج</li>
+          <li><code>return</code> → يرجع القيمة للكود اللي نادى الدالة عشان يستخدمها</li>
+        </ul>
+        </div></div>
+        <div class="info"><div><b>💡 تذكّر:</b> الدالة بدون return بترجع <code>None</code> بشكل افتراضي.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     QUIZ SECTION — ALL RELATED EXAM QUESTIONS
+════════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Quiz — أسئلة الامتحانات الحقيقية (Lecture 1)</h3>
+      <p>جميع الأسئلة المتعلقة بمحتوى المحاضرة من امتحانات 2021 · 2024 · 2025</p>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-item" id="q1" data-correct="c">
+    <div class="q-num">Q1 <span class="q-src">Final 2021 &amp; 2024 — متكرر!</span></div>
+    <div class="q-text">Django is based on which framework / architecture?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> MVC (Model-View-Controller)</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> MVVM (Model-View-ViewModel)</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> MVT (Model-View-Template)</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — MVT (Model-View-Template)</b><br>
+      Django بيعتمد على نمط MVT — وليس MVC. الـ Model يمثل البيانات، الـ View يمثل الـ Logic (زي الـ Controller في MVC)، والـ Template يمثل واجهة العرض (HTML). السؤال ده ظهر في 2021 و2024.
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-item" id="q2" data-correct="d">
+    <div class="q-num">Q2 <span class="q-src">Final 2021 — Q43 &amp; Final 2024 — Q23</span></div>
+    <div class="q-text">"Expires: Tuesday, 17 Dec 2020 18:30 GMT" is a ______ header denoting ______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Request, Time-Based Caching</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Response, Content-Based Caching</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Request, Content-Type Caching</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Response, Time-Based Caching</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: D — Response, Time-Based Caching</b><br>
+      الهيدر <code>Expires</code> بيتبعته السيرفر في الـ Response (مش الـ Request). وبما إنه بيحدد تاريخ ووقت معين فده يُسمى Time-Based Caching. السؤال ده أشهر سؤال متكرر في الكورس — ظهر في 2021 و2024!
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-item" id="q3" data-correct="a">
+    <div class="q-num">Q3 <span class="q-src">Final 2021 — Q4</span></div>
+    <div class="q-text">HTTP uses the services of ______ on well-known port 80.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> TCP</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> UDP</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> SMTP</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> HTTPS</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — TCP</b><br>
+      HTTP يشتغل فوق بروتوكول TCP على الـ Port 80 بشكل افتراضي. الـ TCP بيضمن وصول البيانات بالترتيب وبدون أخطاء. HTTPS بيشتغل على TCP على الـ Port 443.
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-item" id="q4" data-correct="b">
+    <div class="q-num">Q4 <span class="q-src">Final 2021 — Q6</span></div>
+    <div class="q-text">An HTTP request message always contains ______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> A Header and A Body</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> A Request Line and A Header</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> A Status Line, A Header and A Body</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — A Request Line and A Header</b><br>
+      الـ HTTP Request لازم يحتوي دايماً على: Request Line (Method + URL + Version) + Headers. أما الـ Body فهو اختياري وبيكون موجود في POST/PUT بس — مش في GET. الـ Status Line دي بتبقى في الـ Response مش الـ Request!
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-item" id="q5" data-correct="c">
+    <div class="q-num">Q5 <span class="q-src">Final 2021 — Q7</span></div>
+    <div class="q-text">______ is more robust and secure than ______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> GET, POST</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> POST, PUT</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> POST, GET</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — POST, GET</b><br>
+      الـ POST أقوى وأأمن من الـ GET لأن البيانات في الـ POST بتتبعت في الـ Body مخفية، مش في الـ URL زي الـ GET. لو بعتت Password بـ GET، هيظهر في الـ URL ويتسجل في الـ Browser History!
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-item" id="q6" data-correct="a">
+    <div class="q-num">Q6 <span class="q-src">Final 2021 — Q36</span></div>
+    <div class="q-text">In a URL, an optional ______ can be inserted between the host and the path, separated from the host by a colon.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Port Number</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Protocol</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Host</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of them</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — Port Number</b><br>
+      في الـ URL، الـ Port Number اختياري وبييجي بعد الـ Host مفصول بنقطتين. مثال: <code>https://example.com:443/path</code> — الـ 443 ده الـ Port. لو مش موجود، المتصفح بيستخدم الـ Default (80 لـ HTTP أو 443 لـ HTTPS).
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-item" id="q7" data-correct="a">
+    <div class="q-num">Q7 <span class="q-src">Final 2021 — Q37</span></div>
+    <div class="q-text">A cookie is created by ______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Server</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Client</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Host</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of them</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — Server</b><br>
+      الـ Cookie بيتم إنشاؤها بواسطة الـ Server وبيتبعتها في الـ Response Header بـ <code>Set-Cookie</code>. المتصفح (Client) بيحتفظ بيها وبيبعتها مع كل Request جديد للـ Server. دور الـ Client هو الحفظ والإرسال فقط، مش الإنشاء.
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-item" id="q8" data-correct="d">
+    <div class="q-num">Q8 <span class="q-src">Final 2021 — Q38</span></div>
+    <div class="q-text">The ______ of the ______ can contain parameters sent to the server.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Header, Response</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Header, Request</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Body, Response</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Body, Request</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: D — Body, Request</b><br>
+      الـ Parameters اللي بتتبعت للسيرفر (زي بيانات فورم Login) بتكون في الـ Body بتاع الـ Request. الـ Response Body هو اللي بييجي من السيرفر للـ Client — مش العكس!
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="q-item" id="q9" data-correct="c">
+    <div class="q-num">Q9 <span class="q-src">Final 2021 — Q42</span></div>
+    <div class="q-text">An HTTP Response message must contain ______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Content coming from the server</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Content coming from the client</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Status code</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of them</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — Status Code</b><br>
+      الـ HTTP Response لازم يحتوي دايماً على Status Code (زي 200, 404, 500…). الـ Body اختياري — مثلاً الـ 204 No Content بييجي بدون Body. لكن الـ Status Code إجباري في كل Response.
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="q-item" id="q10" data-correct="c">
+    <div class="q-num">Q10 <span class="q-src">Final 2021 — Q44</span></div>
+    <div class="q-text">To denote permission of using a resource, you must use ______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Authentication</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Validation</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Authorization</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of them</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — Authorization</b><br>
+      الـ Authorization هو عملية تحديد الـ Permissions — يعني "هل مسموح للمستخدم ده يستخدم الـ Resource ده أم لأ؟". الـ Authentication هي عملية التحقق من هوية المستخدم (مين إنت؟). الفرق: Authentication = من إنت؟ | Authorization = مسموح لك بإيه؟
+    </div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="q-item" id="q11" data-correct="d">
+    <div class="q-num">Q11 <span class="q-src">Final 2021 — Q45 &amp; Final 2025 — Q36</span></div>
+    <div class="q-text">Using authorization, having a response of status 200 means that ______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> The user is not authorized to see the response</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Content cannot be displayed after authorization</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> None of the answers</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> User is authorized to see the response</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: D — User is authorized to see the response</b><br>
+      الـ Status 200 OK معناه "نجح الطلب" — في سياق الـ Authorization، يعني المستخدم عنده إذن وشاف المحتوى بنجاح. السؤال ده ظهر في 2021 و2025!
+    </div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="q-item" id="q12" data-correct="a">
+    <div class="q-num">Q12 <span class="q-src">Final 2025 — Q37</span></div>
+    <div class="q-text">Using authorization, having a response of status 403 means that ______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Server is reachable but the user is not authorized to see the response</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Server is not reachable, and the user is not authorized</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Server is reachable and no content available</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the answers</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — Server is reachable but user is not authorized</b><br>
+      الـ 403 Forbidden = وصلت للـ Server (السيرفر شغال ومتاح) لكن مش عندك Permission للـ Resource ده. الـ 404 = الـ Resource مش موجود. الـ 500 = فيه مشكلة في السيرفر نفسه.
+    </div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="q-item" id="q13" data-correct="b">
+    <div class="q-num">Q13 <span class="q-src">Final 2021 — Q46</span></div>
+    <div class="q-text">A lock icon in the browser denotes ______ for ______ connection.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Hypertext Transfer Protocol over TCP, secured</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Secured Hypertext Transfer Protocol over TLS, secured</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Hypertext Transfer Protocol over TCP, unsecured</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the answers</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — Secured Hypertext Transfer Protocol over TLS, secured</b><br>
+      أيقونة القفل في المتصفح تعني إن الاتصال مشفر بـ HTTPS (Hypertext Transfer Protocol Secure) فوق بروتوكول TLS (Transport Layer Security). ده اتصال آمن ومشفر. لو مفيش قفل = HTTP عادي غير مشفر.
+    </div>
+  </div>
+
+  <!-- Q14 -->
+  <div class="q-item" id="q14" data-correct="a">
+    <div class="q-num">Q14 <span class="q-src">Final 2025 — Q15</span></div>
+    <div class="q-text">If an application is running on Web Server Gateway Interface (WSGI), then it will handle client requests in a sequential manner. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — True</b><br>
+      الـ WSGI (بينطق "Whiskey") هو الواجهة التقليدية اللي Django بيستخدمها. بيعالج الـ Requests بشكل Sequential (تتابعي/متزامن) — يعني طلب ورا طلب. عشان تدعم الـ Asynchronous تستخدم ASGI بدلاً منه.
+    </div>
+  </div>
+
+  <!-- Q15 -->
+  <div class="q-item" id="q15" data-correct="a">
+    <div class="q-num">Q15 <span class="q-src">Final 2025 — Q24</span></div>
+    <div class="q-text">"my-var" is an incorrect variable name in Python. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — True</b><br>
+      علامة الناقص أو الداش <code>-</code> غير مسموحة في أسماء المتغيرات في Python لأنها بتُفسَّر كعملية طرح (Subtraction). الصح هو استخدام الـ Underscore: <code>my_var</code> بدلاً من <code>my-var</code>.
+    </div>
+  </div>
+
+  <!-- Q16 -->
+  <div class="q-item" id="q16" data-correct="a">
+    <div class="q-num">Q16 <span class="q-src">Final 2025 — Q35</span></div>
+    <div class="q-text">An HTTP response content type denotes ______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> The media type of the content</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> The image size of the content</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> The text size of the content</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the answers</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — The media type of the content</b><br>
+      الـ <code>Content-Type</code> header في الـ Response بيحدد نوع الـ Media (MIME type) للمحتوى المُرسَل. مثلاً: <code>text/html</code> للصفحات، <code>application/json</code> للـ APIs، <code>image/png</code> للصور.
+    </div>
+  </div>
+
+  <!-- Q17 -->
+  <div class="q-item" id="q17" data-correct="b">
+    <div class="q-num">Q17 <span class="q-src">Final 2025 — Q21</span></div>
+    <div class="q-text">In the following statement: <code>myNumbers = [1,2,3]</code> then <code>x = myNumbers.pop()</code> — The removed item will be 1. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — False</b><br>
+      دالة <code>pop()</code> بدون أي argument بتشيل العنصر <strong>الأخير</strong> من القائمة — وده هو <code>3</code> مش <code>1</code>. لو عايز تشيل أول عنصر اكتب <code>pop(0)</code>. الـ Output: <code>x = 3</code> والقائمة تبقى <code>[1, 2]</code>.
+    </div>
+  </div>
+
+  <!-- Q18 -->
+  <div class="q-item" id="q18" data-correct="b">
+    <div class="q-num">Q18 <span class="q-src">Final 2025 — Q1</span></div>
+    <div class="q-text">We use the PUT method in the HTTP request message for doing partial updates. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — False</b><br>
+      الـ <strong>PUT</strong> مش للـ Partial Updates — ده للتعديل الكامل (Full Update) للـ Resource. اللي بيُستخدم للـ <strong>Partial Updates</strong> هو الـ <strong>PATCH</strong>. مثلاً: عايز تغير رقم موبايل شخص بس → استخدم PATCH. عايز تستبدل كل بيانات الشخص → استخدم PUT.
+    </div>
+  </div>
+
+  <!-- Q19 -->
+  <div class="q-item" id="q19" data-correct="c">
+    <div class="q-num">Q19 <span class="q-src">Final 2021 — Q3</span></div>
+    <div class="q-text">Find the oddly matched HTTP status codes.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 200 — OK</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 400 — Bad Request</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 304 — Not Found</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> 301 — Moved Permanently</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — 304 — Not Found (غلط!)</b><br>
+      <strong>304</strong> اسمه "Not Modified" مش "Not Found"! الـ "Not Found" ده اسم الـ <strong>404</strong>. الـ 304 معناه "الـ Resource ما اتغيرش — استخدم النسخة اللي في الـ Cache". البقية كلها صح في تطابقها.
+    </div>
+  </div>
+
+  <!-- Q20 -->
+  <div class="q-item" id="q20" data-correct="c">
+    <div class="q-num">Q20 <span class="q-src">Final 2021 — Q1</span></div>
+    <div class="q-text">The number of objects in a web page which consists of 4 JPEG images and HTML text is:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 1</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 3</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 5</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> 8</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — 5</b><br>
+      في بروتوكول HTTP، كل ملف بيُعدّ Object مستقل. عندنا: 4 JPEG images + 1 HTML text file = <strong>5 objects</strong>. الـ Browser بيعمل HTTP Request لكل Object على حدة عشان يجمع الصفحة كاملة.
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:20px">
+    <span class="q-score" id="score-main"></span><br>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✔ تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↺ إعادة المحاولة</button>
+  </div>
+</div>
+
+</div><!-- /content -->
 </main>
-<script src="../assets/app.js"></script>
-<script src="../assets/quiz.js"></script>
+
+<script>
+// ─── Progress Bar ───
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  const pct = (d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100;
+  document.getElementById('prog-bar').style.width = pct + '%';
+  document.getElementById('scroll-top').classList.toggle('show', d.scrollTop > 400);
+});
+
+// ─── Sidebar Active Link ───
+const sectionIds = ['ch1','ch2','ch3','ch4','ch5','ch6','ch7','ch8','ch9','ch10','ch11','ch12','ch13','ch14','quiz'];
+const sbLinks = document.querySelectorAll('.sb-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      sbLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.sb-link[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sectionIds.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+
+// ─── Quiz Logic ───
+function checkQuiz(quizId) {
+  const section = document.getElementById(quizId);
+  const items = section.querySelectorAll('.q-item');
+  let correct = 0, total = 0;
+
+  items.forEach(item => {
+    const rightAns = item.dataset.correct;
+    const opts = item.querySelectorAll('.q-opt');
+    const explain = item.querySelector('.q-explain');
+    let selected = null;
+
+    opts.forEach(opt => {
+      if (opt.classList.contains('selected')) selected = opt.dataset.val;
+    });
+
+    if (!selected) return;
+    total++;
+
+    opts.forEach(opt => {
+      opt.style.pointerEvents = 'none';
+      if (opt.dataset.val === rightAns) {
+        opt.classList.add('correct');
+      } else if (opt.dataset.val === selected && selected !== rightAns) {
+        opt.classList.add('wrong');
+      }
+    });
+
+    if (selected === rightAns) correct++;
+    if (explain) explain.classList.add('show');
+  });
+
+  if (total === 0) { alert('اختار إجاباتك الأول!'); return; }
+  const scoreEl = document.getElementById('score-' + quizId.replace('quiz-','').replace('quiz','main'));
+  if (!scoreEl) return;
+  const pct = Math.round((correct / total) * 100);
+  scoreEl.textContent = `نتيجتك: ${correct} / ${total} (${pct}%)`;
+  scoreEl.style.display = 'block';
+  scoreEl.className = 'q-score ' + (pct >= 80 ? 'good' : pct >= 60 ? 'ok' : 'bad');
+}
+
+function resetQuiz(quizId) {
+  const section = document.getElementById(quizId);
+  section.querySelectorAll('.q-opt').forEach(opt => {
+    opt.classList.remove('selected','correct','wrong');
+    opt.style.pointerEvents = '';
+  });
+  section.querySelectorAll('.q-explain').forEach(e => e.classList.remove('show'));
+  const scoreEl = document.getElementById('score-' + quizId.replace('quiz-','').replace('quiz','main'));
+  if (scoreEl) { scoreEl.style.display = 'none'; scoreEl.textContent = ''; }
+}
+
+document.querySelectorAll('.q-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    if (opt.style.pointerEvents === 'none') return;
+    opt.closest('.q-item').querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+});
+</script>
 </body>
 </html>
