@@ -148,7 +148,7 @@ code{font-family:var(--fc);background:rgba(0,212,255,.08);color:var(--cyan);padd
 
 /* ─── STEPS ─── */
 .steps{display:flex;flex-direction:column;gap:10px;margin:14px 0}
-.step{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;background:var(--card2);border-radius:10px;border:1px solid var(--border)}
+.step{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;background:var(--card2);border-radius:10px;border:1px solid var(--border);direction:rtl}
 .step-num{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:.85rem;flex-shrink:0}
 .step-body{flex:1;direction:rtl;text-align:right}
 .step-title{font-family:var(--fh);font-weight:600;font-size:.9rem;color:var(--t1);margin-bottom:2px}
@@ -261,7 +261,7 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
 .compare-card ul{list-style:none;padding:0}
 .compare-card ul li{padding:5px 0;color:var(--t2);font-size:.85rem;border-bottom:1px solid rgba(255,255,255,.04);direction:rtl;text-align:right}
 .compare-card ul li:last-child{border-bottom:none}
-.compare-card ul li::before{content:'→ ';color:var(--accent,var(--cyan));font-family:var(--fc)}
+.compare-card ul li::before{content:'← ';color:var(--accent,var(--cyan));font-family:var(--fc)}
 
 /* ─── GLOBAL NAV ─── */
 .global-nav{display:flex;justify-content:center;gap:12px;padding:16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:90}
