@@ -571,6 +571,26 @@ document.<span class="fn">writeln</span>(<span class="str">"With newline"</span>
         </div>
         <div class="q-explain">✅ JavaScript is case-sensitive! يعني myVar ≠ MyVar ≠ MYVAR. Semicolons مش mandatory — JavaScript بيعملها ASI (Automatic Semicolon Insertion) بس الـ best practice تكتبها. White spaces مسموح بيها.</div>
       </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q7 <span class="q-src">final-2021 Q17</span></div>
+        <div class="q-text">When a user views a page containing a JavaScript program, which machine executes the script?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The user's machine running a web browser</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> The web server</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> The database server</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</div>
+        </div>
+        <div class="q-explain">✅ JavaScript العادي في صفحة الويب بيتنفذ client-side داخل المتصفح على جهاز المستخدم.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q8 <span class="q-src">final-2021 Q74</span></div>
+        <div class="q-text">JavaScript is a statically typed language. True or False?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ False! JavaScript dynamically typed: المتغير ممكن يبدأ number وبعدها يبقى string.</div>
+      </div>
 
     </div>
     <button class="quiz-btn btn-check" onclick="checkQuiz('qset-foundations','score-foundations')">Check Answers ✓</button>
@@ -912,6 +932,81 @@ console.<span class="fn">log</span>(b); <span class="cmt">// ReferenceError! (wa
         </div>
         <div class="q-explain">✅ Yes! Functions في JavaScript هم "first-class citizens" — ممكن تعمل: const f = function() {}; أو const f = () => {}; وبعدين تستخدمها زي أي variable!</div>
       </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q11 <span class="q-src">final-2021 Q39</span></div>
+        <div class="q-text">In JavaScript, the statement <code>"40" + 6</code> will return:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 46</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> "406"</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> "40"6</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Error</div>
+        </div>
+        <div class="q-explain">✅ مع <code>+</code> لو طرف string، JavaScript تعمل concatenation: <code>"40" + 6</code> = <code>"406"</code>.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q12 <span class="q-src">midterm-2026 Q4</span></div>
+        <div class="q-text">What is the output? <code>var x='5'; var y=2; console.log(x+y);</code></div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 52</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> "52"</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 7</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Error</div>
+        </div>
+        <div class="q-explain">✅ <code>+</code> مع string يعمل concatenation، فالنتيجة string قيمته <code>"52"</code>.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q13 <span class="q-src">midterm-2026 Q5</span></div>
+        <div class="q-text">What is the output? <code>var x='5'; var y=2; console.log(x-y);</code></div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 3</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> "52"</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 52</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Error</div>
+        </div>
+        <div class="q-explain">✅ عامل <code>-</code> يحاول يحول الـ string لرقم: <code>'5' - 2 = 3</code>.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q14 <span class="q-src">midterm-2026 Q6</span></div>
+        <div class="q-text">What is the output? <code>let x=5; if(true){ let x=2; } console.log(x);</code></div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 5</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 2</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Syntax error</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> undefined</div>
+        </div>
+        <div class="q-explain">✅ <code>let</code> block-scoped. الـ <code>x=2</code> موجودة داخل block فقط، وبعده <code>x</code> الخارجية لسه 5.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q15 <span class="q-src">midterm-2026 Q13</span></div>
+        <div class="q-text">What is the output of <code>console.log(null === undefined);</code>?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> true</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> false</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> undefined</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> error</div>
+        </div>
+        <div class="q-explain">✅ <code>===</code> يقارن القيمة والنوع. <code>null</code> و<code>undefined</code> قيمتان مختلفتان ونوعان مختلفان.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q16 <span class="q-src">final-2021 Q75</span></div>
+        <div class="q-text"><code>var a=200; var b="200";</code> — <code>a == b</code> returns true while <code>a === b</code> returns false.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> True</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> False</div>
+        </div>
+        <div class="q-explain">✅ <code>==</code> يعمل type coercion فيعتبرهما متساويين، أما <code>===</code> لا يحول النوع، فـ number لا يساوي string.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q17 <span class="q-src">final-2021 Q23</span></div>
+        <div class="q-text">In JavaScript, which one is not considered an error?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Syntax error</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Missing semicolons</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Division by zero</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Missing brackets</div>
+        </div>
+        <div class="q-explain">✅ القسمة على صفر في JavaScript لا ترمي error؛ غالبًا تعطي <code>Infinity</code>. والـ semicolon الناقص غالبًا يتعالج بـ ASI.</div>
+      </div>
 
     </div>
     <button class="quiz-btn btn-check" onclick="checkQuiz('qset-vars','score-vars')">Check Answers ✓</button>
@@ -1158,7 +1253,7 @@ document.<span class="fn">write</span>(result); <span class="cmt">// Output: 10<
       </div>
 
       <div class="q-item" data-correct="d">
-        <div class="q-num">Q6 <span class="q-src">final-2025 Q78</span></div>
+        <div class="q-num">Q6 <span class="q-src">final-2025 Q78 / final-2021 Q52</span></div>
         <div class="q-text">var writeMe = "console.log('document.writeln(x);')"; var x = 13; eval(writeMe); — What is the output?</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Prints 13 in the console</div>
@@ -1170,7 +1265,7 @@ document.<span class="fn">write</span>(result); <span class="cmt">// Output: 10<
       </div>
 
       <div class="q-item" data-correct="d">
-        <div class="q-num">Q7 <span class="q-src">final-2024 Q60</span></div>
+        <div class="q-num">Q7 <span class="q-src">final-2024 Q60 / final-2021 Q53</span></div>
         <div class="q-text">x = "20"; y = 10; document.writeln(x + y, x - y); — What is the output?</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 30, 10</div>
@@ -1179,6 +1274,39 @@ document.<span class="fn">write</span>(result); <span class="cmt">// Output: 10<
           <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 2010, 10</div>
         </div>
         <div class="q-explain">✅ "2010, 10"! x+"20"+10 = "2010" (string concatenation). x-y = "20"-10 = 10 (الـ - بيحوّل الـ string لـ number فعلاً!). writeln مع args متعددة بيفصل بينهم بمسافة.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q8 <span class="q-src">final-2021 Q54</span></div>
+        <div class="q-text">If <code>const f = (a, b) =&gt; a + b + 5;</code>, which statement is correct?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> f(3, 4) will return 12</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> f(4, 5) will return 9</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> f(4, 5) will return 5</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Not a correct syntax for an arrow function</div>
+        </div>
+        <div class="q-explain">✅ <code>f(3,4)</code> = 3 + 4 + 5 = 12. والـ arrow function syntax صحيحة.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q9 <span class="q-src">final-2021 Q57</span></div>
+        <div class="q-text">The <code>...</code> in <code>function multiply(...myNumbers)</code> is called:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Distribution parameter</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Arguments parameter</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Rest parameter</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Waiting parameter</div>
+        </div>
+        <div class="q-explain">✅ لما <code>...</code> تيجي في parameters بتسمى Rest parameter وبتجمع الـ arguments في array.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q10 <span class="q-src">midterm-2026 Q25</span></div>
+        <div class="q-text">Which syntax is used to accept multiple arguments as one array parameter?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> ...args</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> args...</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> args</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of them</div>
+        </div>
+        <div class="q-explain">✅ Rest parameter syntax هي <code>function f(...args)</code>، والنقط قبل اسم المتغير.</div>
       </div>
 
     </div>
@@ -1493,6 +1621,50 @@ myArr.<span class="fn">flat</span>(<span class="num">2</span>); <span class="cmt
         </div>
         <div class="q-explain">✅ h: 4,9! filter يخد 4 و9 فقط (كلاهم أقل من 16). الـ array [4,9] + "h: " يطبع "h: 4,9". &lt;br&gt; بيتعامل كـ HTML tag فيظهر كـ line break مش كـ text.</div>
       </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q15 <span class="q-src">final-2021 Q41</span></div>
+        <div class="q-text">A function <code>funcX</code> multiplies any input number by 3. For <code>Y = [1, 3, 4]</code>, the result of <code>Y.map(funcX)</code> is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> New array [3, 9, 12]</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Same array updated [3, 9, 12]</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> None of the answers</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Something else</div>
+        </div>
+        <div class="q-explain">✅ <code>map</code> لا يغير الـ original array؛ يرجع new array بعد تطبيق الـ callback على كل عنصر.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q16 <span class="q-src">midterm-2026 Q21</span></div>
+        <div class="q-text">What is the output of <code>var nums=[1,2,3,4]; console.log(typeof(nums));</code>?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> array</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> object</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> list</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Boolean</div>
+        </div>
+        <div class="q-explain">✅ Arrays في JavaScript نوعها الداخلي object، لذلك <code>typeof([])</code> يرجع <code>"object"</code>.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q17 <span class="q-src">midterm-2026 Q22</span></div>
+        <div class="q-text">What is the output of <code>var fruits=["Apple","Banana","Orange"]; console.log(fruits.includes("banana"));</code>?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> false</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> true</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> undefined</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> error</div>
+        </div>
+        <div class="q-explain">✅ <code>includes</code> case-sensitive. الموجود <code>"Banana"</code> بحرف B كبير، وليس <code>"banana"</code>.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q18 <span class="q-src">midterm-2026 Q23</span></div>
+        <div class="q-text">What is the output? <code>var nums=[1,2,3,4]; var sum=nums.reduce((total,value)=&gt;total+value); console.log(sum);</code></div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 10</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> undefined</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> error</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 4</div>
+        </div>
+        <div class="q-explain">✅ بدون initial value يبدأ reduce بأول عنصر: 1+2+3+4 = 10.</div>
+      </div>
 
     </div>
     <button class="quiz-btn btn-check" onclick="checkQuiz('qset-arrays','score-arrays')">Check Answers ✓</button>
@@ -1723,6 +1895,28 @@ document.<span class="fn">write</span>(c1.width); <span class="cmt">→ 20</span
           <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</div>
         </div>
         <div class="q-explain">✅ Three! نقدر نعلن عنهم بثلاث كلمات رئيسية وهم: <code>var</code> و <code>let</code> و <code>const</code>.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q8 <span class="q-src">final-2021 Q40</span></div>
+        <div class="q-text">To determine if an object contains a certain property, we can use the ________ operator.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> =</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> in</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> list</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> []</div>
+        </div>
+        <div class="q-explain">✅ <code>"name" in person</code> بيرجع true لو الـ property موجودة في object.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q9 <span class="q-src">midterm-2026 Q8</span></div>
+        <div class="q-text">Given <code>var person = { name:"Ali", age:19 };</code>, what is the output of <code>console.log(person.name + " is " + person.age);</code>?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Ali is 19</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Aliis19</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> error</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> undefined</div>
+        </div>
+        <div class="q-explain">✅ بنستخدم dot notation للوصول للـ properties: <code>person.name</code> و<code>person.age</code>. المسافات موجودة داخل strings.</div>
       </div>
 
     </div>
@@ -1958,6 +2152,61 @@ window.history.<span class="fn">back</span>(); <span class="cmt">// بيرجعن
         </div>
         <div class="q-explain">✅ To navigate to the previous page! بتوازي ضغطك على زر الـ Back في المتصفح بتاعك.</div>
       </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q12 <span class="q-src">final-2021 Q18 / Q51</span></div>
+        <div class="q-text">Which JavaScript line changes the HTML inside <code>&lt;p id="demo"&gt;This is a demonstration.&lt;/p&gt;</code> to "Hello World!"?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> #demo.innerHTML = "Hello World!";</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> document.getElementByName("p").innerHTML = "Hello World!";</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> document.getElementById("demo").innerHTML = "Hello World!";</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> document.getElement("p").innerHTML = "Hello World!";</div>
+        </div>
+        <div class="q-explain">✅ نستخدم <code>getElementById("demo")</code> للوصول للعنصر، ثم <code>innerHTML</code> لتغيير المحتوى.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q13 <span class="q-src">final-2021 Q24</span></div>
+        <div class="q-text">How are objects organized in the HTML DOM?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Class-wise</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Queue</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Hierarchy</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ الـ DOM tree عبارة عن hierarchy من nodes: document ثم elements ثم children.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q14 <span class="q-src">final-2021 Q25</span></div>
+        <div class="q-text">What is the purpose of form control elements in the HTML DOM?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> User interface elements</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> All possible elements</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Debugging elements</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Collecting elements</div>
+        </div>
+        <div class="q-explain">✅ Form controls زي input/select/button هي عناصر واجهة مستخدم للتفاعل وإدخال البيانات.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q15 <span class="q-src">midterm-2026 Q14</span></div>
+        <div class="q-text">What is the difference between <code>innerHTML</code> and <code>textContent</code>?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Both return raw text with HTML tags</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> innerHTML returns HTML markup; textContent returns plain text only</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> innerHTML returns plain text only; textContent parses HTML tags</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Both apply visual formatting like bold in console output</div>
+        </div>
+        <div class="q-explain">✅ <code>innerHTML</code> يعرض أو يقرأ الـ markup. <code>textContent</code> يقرأ النص فقط بدون tags.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q16 <span class="q-src">midterm-2026 Q18</span></div>
+        <div class="q-text">What will be selected by <code>document.querySelector("#main .title")</code>?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> All elements with class title inside #main</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> The first element with class title inside #main</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> All elements with class main inside .title</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The first element with class main inside .title</div>
+        </div>
+        <div class="q-explain">✅ <code>querySelector</code> يرجع أول element يطابق selector فقط. استخدم <code>querySelectorAll</code> لكل النتائج.</div>
+      </div>
 
     </div>
     <button class="quiz-btn btn-check" onclick="checkQuiz('qset-dom','score-dom')">Check Answers ✓</button>
@@ -2100,6 +2349,28 @@ window.history.<span class="fn">back</span>(); <span class="cmt">// بيرجعن
           <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Something else</div>
         </div>
         <div class="q-explain">✅ done! طالما إننا كاتبين await، الكود هيستنى ثانية لحد ما الـ promise تخلص بنجاح وهتخزن النتيجة في متغير اسمه result وهتم طباعته على طول وهو done!</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q4 <span class="q-src">midterm-2026 Q11</span></div>
+        <div class="q-text">What kind of function can use the keyword <code>await</code> directly inside it?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Promise</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Async function</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Normal function</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of them</div>
+        </div>
+        <div class="q-explain">✅ <code>await</code> تستخدم داخل <code>async function</code> عشان تنتظر Promise.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q5 <span class="q-src">midterm-2026 Q12</span></div>
+        <div class="q-text">A Promise has both a resolve handler and a reject handler passed to <code>.then()</code>. The appropriate handler runs after:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Resolving only</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Rejecting only</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Either resolving or rejecting</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Neither</div>
+        </div>
+        <div class="q-explain">✅ <code>then(onFulfilled, onRejected)</code>: أول handler يشتغل عند resolve، والتاني عند reject.</div>
       </div>
 
     </div>

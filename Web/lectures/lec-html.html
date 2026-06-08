@@ -987,6 +987,127 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
         </div>
         <div class="q-explain">✅ Content-Type header بيحدد الـ media type (MIME type) زي text/html أو application/json.</div>
       </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q14 <span class="q-src">final-2021 Q1</span></div>
+        <div class="q-text">The number of objects in a web page which consists of 4 JPEG images and HTML text is:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 1</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 3</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 5</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 8</div>
+        </div>
+        <div class="q-explain">✅ كل resource بيتحسب object: ملف الـ HTML نفسه + 4 JPEG images = 5 objects.</div>
+      </div>
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q15 <span class="q-src">final-2021 Q3</span></div>
+        <div class="q-text">Find the oddly matched HTTP status code:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 200 - OK</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 400 - Bad Request</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 301 - Moved Permanently</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 304 - Not Found</div>
+        </div>
+        <div class="q-explain">✅ 304 معناها Not Modified، إنما Not Found كودها 404. باقي الاختيارات مطابقة صح.</div>
+      </div>
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q16 <span class="q-src">midterm-2026 Q1</span></div>
+        <div class="q-text">What is the status code that indicates a URL has permanently moved to a new location?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> 200</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> 500</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> 404</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> 301</div>
+        </div>
+        <div class="q-explain">✅ 301 Moved Permanently = resource اتنقل لمكان جديد بشكل دائم.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q17 <span class="q-src">midterm-2026 Q3</span></div>
+        <div class="q-text">The status code in an HTTP response message appears in the:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Request line</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Header line</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Status line</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of them</div>
+        </div>
+        <div class="q-explain">✅ أول سطر في الـ response هو Status Line مثل: <code>HTTP/1.1 200 OK</code>.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q18 <span class="q-src">final-2021 Q7</span></div>
+        <div class="q-text">________ is more robust and secure than ________.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> GET, POST</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> POST, PUT</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> POST, GET</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</div>
+        </div>
+        <div class="q-explain">✅ POST أحسن من GET للبيانات الحساسة لأنه لا يضع البيانات في الـ URL، وبيستخدم body للبيانات.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q19 <span class="q-src">final-2021 Q36</span></div>
+        <div class="q-text">In a URL, an optional ________ can be inserted between the host and the path, separated from the host by a colon.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Port number</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Protocol</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Host</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of them</div>
+        </div>
+        <div class="q-explain">✅ مثال: <code>http://example.com:8080/path</code>، الرقم 8080 هو الـ port number.</div>
+      </div>
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q20 <span class="q-src">final-2021 Q38</span></div>
+        <div class="q-text">The ________ of the ________ can contain parameters sent to the server.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Header, response</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Header, request</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Body, response</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Body, request</div>
+        </div>
+        <div class="q-explain">✅ في POST مثلًا، البيانات أو parameters بتتبعت في body بتاع الـ request.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q21 <span class="q-src">final-2021 Q42</span></div>
+        <div class="q-text">An HTTP response message must contain:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Content coming from the server</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Content coming from the client</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Status code</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of them</div>
+        </div>
+        <div class="q-explain">✅ الـ response لازم يبدأ بـ status line فيها status code. الـ body ممكن يكون فاضي في بعض الردود.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q22 <span class="q-src">final-2021 Q44</span></div>
+        <div class="q-text">To denote permission of using a resource, you must use:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Authentication</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Validation</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Authorization</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of them</div>
+        </div>
+        <div class="q-explain">✅ Authentication = إثبات الهوية. Authorization = هل مسموح لك تستخدم الـ resource ولا لأ.</div>
+      </div>
+      <div class="q-item" data-correct="d">
+        <div class="q-num">Q23 <span class="q-src">final-2021 Q45</span></div>
+        <div class="q-text">Using authorization, a response with status 200 means that:</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The user is not authorized to see the response</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Content cannot be displayed after authorization</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> None of the answers</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> User is authorized to see the response</div>
+        </div>
+        <div class="q-explain">✅ 200 OK بعد authorization معناها إن الطلب اتقبل والـ user مسموح له يشوف الـ resource.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q24 <span class="q-src">final-2021 Q46</span></div>
+        <div class="q-text">A lock icon in the browser denotes ________ for a ________ connection.</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> HTTP over TCP, secured</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> HTTP over TLS, secured</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> HTTP over TCP, unsecured</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the answers</div>
+        </div>
+        <div class="q-explain">✅ رمز القفل يعني HTTPS: HTTP over TLS، والاتصال مشفر/secured.</div>
+      </div>
     </div>
 
     <button class="quiz-btn btn-check" onclick="checkQuiz('qset-http','score-http')">Check Answers ✓</button>
@@ -1335,7 +1456,7 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
         <div class="q-explain">✅ &lt;ol&gt; = Ordered List = أرقام. &lt;ul&gt; = Unordered List = نقاط (bullets). &lt;dl&gt; = Definition List.</div>
       </div>
       <div class="q-item" data-correct="c">
-        <div class="q-num">Q8 <span class="q-src">final-2024</span></div>
+        <div class="q-num">Q8 <span class="q-src">final-2024 / midterm-2026 Q15</span></div>
         <div class="q-text">Which is the correct HTML statement to display H₂O in a paragraph?</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;p&gt;H&lt;sup&gt;2&lt;/sup&gt;O&lt;/p&gt;</div>
@@ -1346,7 +1467,7 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
         <div class="q-explain">✅ H₂O = الـ 2 تحت = subscript = &lt;sub&gt;. &lt;sup&gt; ده superscript (فوق) زي x².</div>
       </div>
       <div class="q-item" data-correct="b">
-        <div class="q-num">Q9 <span class="q-src">final-2024</span></div>
+        <div class="q-num">Q9 <span class="q-src">final-2024 / final-2021 Q47</span></div>
         <div class="q-text">Which is correct to display "Hello" struck-through and "Hi" underlined?</div>
         <div class="q-opts">
           <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> &lt;p&gt;&lt;cut&gt;Hello&lt;/cut&gt;&lt;ins&gt;Hi&lt;/ins&gt;&lt;/p&gt;</div>
@@ -1806,6 +1927,61 @@ btn.dataset.role;   <span class="cmt">// "admin"</span></code></pre>
           <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> element.clear()</div>
         </div>
         <div class="q-explain">✅ element.remove() = Modern way. أو parent.removeChild(element) = Old way. delete وdestroy مش موجودين.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q15 <span class="q-src">final-2021 Q24</span></div>
+        <div class="q-text">How are objects organized in the HTML DOM?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Class-wise</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Queue</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Hierarchy</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None</div>
+        </div>
+        <div class="q-explain">✅ الـ DOM عبارة عن tree hierarchy: document ثم elements ثم text/attributes... إلخ.</div>
+      </div>
+      <div class="q-item" data-correct="a">
+        <div class="q-num">Q16 <span class="q-src">final-2021 Q25</span></div>
+        <div class="q-text">What is the purpose of form control elements in the HTML DOM?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> User interface elements</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> All possible elements</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Debugging elements</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Collecting elements</div>
+        </div>
+        <div class="q-explain">✅ Form controls زي input, select, textarea, button هي UI elements للتعامل مع المستخدم.</div>
+      </div>
+      <div class="q-item" data-correct="c">
+        <div class="q-num">Q17 <span class="q-src">final-2021 Q18 / Q51</span></div>
+        <div class="q-text">Which JavaScript line changes the HTML inside <code>&lt;p id="demo"&gt;This is a demonstration.&lt;/p&gt;</code> to "Hello World!"?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> #demo.innerHTML = "Hello World!";</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> document.getElementByName("p").innerHTML = "Hello World!";</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> document.getElementById("demo").innerHTML = "Hello World!";</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> document.getElement("p").innerHTML = "Hello World!";</div>
+        </div>
+        <div class="q-explain">✅ بنجيب العنصر بالـ id باستخدام <code>document.getElementById("demo")</code> ثم نغير محتواه بـ <code>innerHTML</code>.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q18 <span class="q-src">midterm-2026 Q14</span></div>
+        <div class="q-text">What is the difference between <code>innerHTML</code> and <code>textContent</code>?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Both return raw text with HTML tags</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> innerHTML returns HTML markup; textContent returns plain text only</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> innerHTML returns plain text only; textContent parses HTML tags</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Both apply visual formatting like bold in console output</div>
+        </div>
+        <div class="q-explain">✅ لو العنصر فيه <code>&lt;b&gt;paragraph&lt;/b&gt;</code>: innerHTML يرجع التاجات نفسها، أما textContent يرجع النص فقط بدون markup.</div>
+      </div>
+      <div class="q-item" data-correct="b">
+        <div class="q-num">Q19 <span class="q-src">midterm-2026 Q18</span></div>
+        <div class="q-text">What will be selected by <code>document.querySelector("#main .title")</code>?</div>
+        <div class="q-opts">
+          <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> All elements with class title inside #main</div>
+          <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> The first element with class title inside #main</div>
+          <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> All elements with class main inside .title</div>
+          <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The first element with class main inside .title</div>
+        </div>
+        <div class="q-explain">✅ querySelector بيرجع أول match فقط. لو عايز كل النتائج استخدم querySelectorAll.</div>
       </div>
     </div>
     <button class="quiz-btn btn-check" onclick="checkQuiz('qset-dom','score-dom')">Check Answers ✓</button>
