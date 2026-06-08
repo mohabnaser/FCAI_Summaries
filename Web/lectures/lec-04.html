@@ -260,6 +260,14 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
   unicode-bidi: isolate;
 }
 @media(max-width:900px){.global-nav{padding:12px 10px;flex-wrap:wrap;gap:8px}.gn-link{font-size:.78rem;padding:6px 14px}}
+.global-nav[aria-label="Lecture navigation"]{align-items:center;direction:ltr}
+.gn-home{background:rgba(0,212,255,.08);color:var(--cyan);border-color:rgba(0,212,255,.2)}
+.gn-home:hover{background:var(--cyan);color:#001018;box-shadow:0 0 15px rgba(0,212,255,.3)}
+.gn-prev,.gn-next{background:rgba(16,185,129,.08);color:var(--green);border-color:rgba(16,185,129,.2)}
+.gn-prev:hover,.gn-next:hover{background:var(--green);color:#02130d;box-shadow:0 0 15px rgba(16,185,129,.25)}
+.gn-current{background:var(--purple);color:#fff;border-color:rgba(139,92,246,.3);box-shadow:0 0 15px rgba(139,92,246,.25);cursor:default}
+.gn-disabled{background:rgba(148,163,184,.06);color:var(--t3);border-color:rgba(148,163,184,.14);cursor:not-allowed;opacity:.75}
+.gn-current:hover,.gn-disabled:hover{transform:none}
 </style>
 </head>
 <body>
@@ -306,9 +314,11 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
 <main id="main">
 
 <!-- Global Navigation -->
-<div class="global-nav">
-  <a href="../index.html" class="gn-link gn-back">← العودة للرئيسية</a>
-  <a href="#" class="gn-link gn-lec4 active">🌐 Lecture 04 — Web Basics & HTTP</a>
+<div class="global-nav" aria-label="Lecture navigation">
+  <a href="../index.html" class="gn-link gn-home">الرئيسية</a>
+  <a href="lec-03.html" class="gn-link gn-prev">← السابق: Lecture 03</a>
+  <span class="gn-link gn-current" aria-current="page">Lecture 04</span>
+  <a href="lec-05-django.html" class="gn-link gn-next">التالي: Lecture 05 →</a>
 </div>
 
 <!-- HERO -->

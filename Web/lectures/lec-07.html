@@ -170,6 +170,14 @@ strong,b,i,em,span{unicode-bidi:isolate}
 #scroll-top.show{opacity:1}
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .topic{animation:fadeIn .3s ease forwards}
+.global-nav[aria-label="Lecture navigation"]{align-items:center;direction:ltr}
+.gn-home{background:rgba(0,212,255,.08);color:var(--cyan);border-color:rgba(0,212,255,.2)}
+.gn-home:hover{background:var(--cyan);color:#001018;box-shadow:0 0 15px rgba(0,212,255,.3)}
+.gn-prev,.gn-next{background:rgba(16,185,129,.08);color:var(--green);border-color:rgba(16,185,129,.2)}
+.gn-prev:hover,.gn-next:hover{background:var(--green);color:#02130d;box-shadow:0 0 15px rgba(16,185,129,.25)}
+.gn-current{background:var(--purple);color:#fff;border-color:rgba(139,92,246,.3);box-shadow:0 0 15px rgba(139,92,246,.25);cursor:default}
+.gn-disabled{background:rgba(148,163,184,.06);color:var(--t3);border-color:rgba(148,163,184,.14);cursor:not-allowed;opacity:.75}
+.gn-current:hover,.gn-disabled:hover{transform:none}
 </style>
 </head>
 <body>
@@ -204,11 +212,11 @@ strong,b,i,em,span{unicode-bidi:isolate}
 <button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <main id="main">
-<div class="global-nav">
-  <a href="../index.html" class="gn-link gn-back">← الرئيسية</a>
-  <a href="lec-06-django.html" class="gn-link gn-back">Lecture 06</a>
-  <a href="lec-07.html" class="gn-link gn-active">Lecture 07</a>
-  <a href="lec-08.html" class="gn-link gn-back">Lecture 08 →</a>
+<div class="global-nav" aria-label="Lecture navigation">
+  <a href="../index.html" class="gn-link gn-home">الرئيسية</a>
+  <a href="lec-06-django.html" class="gn-link gn-prev">← السابق: Lecture 06</a>
+  <span class="gn-link gn-current" aria-current="page">Lecture 07</span>
+  <a href="lec-08.html" class="gn-link gn-next">التالي: Lecture 08 →</a>
 </div>
 
 <section class="hero">

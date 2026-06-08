@@ -231,6 +231,14 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
 .gn-js{background:rgba(245,158,11,.08);color:var(--amber);border-color:rgba(245,158,11,.2);}
 .gn-js:hover, .gn-js.active{background:var(--amber);color:#000;box-shadow:0 0 15px rgba(245,158,11,.3);}
 @media(max-width:900px){ .global-nav{padding:12px 10px;flex-wrap:wrap;gap:8px;} .gn-link{font-size:.78rem;padding:6px 14px;} }
+.global-nav[aria-label="Lecture navigation"]{align-items:center;direction:ltr}
+.gn-home{background:rgba(0,212,255,.08);color:var(--cyan);border-color:rgba(0,212,255,.2)}
+.gn-home:hover{background:var(--cyan);color:#001018;box-shadow:0 0 15px rgba(0,212,255,.3)}
+.gn-prev,.gn-next{background:rgba(16,185,129,.08);color:var(--green);border-color:rgba(16,185,129,.2)}
+.gn-prev:hover,.gn-next:hover{background:var(--green);color:#02130d;box-shadow:0 0 15px rgba(16,185,129,.25)}
+.gn-current{background:var(--purple);color:#fff;border-color:rgba(139,92,246,.3);box-shadow:0 0 15px rgba(139,92,246,.25);cursor:default}
+.gn-disabled{background:rgba(148,163,184,.06);color:var(--t3);border-color:rgba(148,163,184,.14);cursor:not-allowed;opacity:.75}
+.gn-current:hover,.gn-disabled:hover{transform:none}
 </style>
 </head>
 <body>
@@ -273,10 +281,11 @@ code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .s
 
 <main id="main">
 <!-- GLOBAL NAVIGATION -->
-<div class="global-nav">
-  <a href="index.html" class="gn-link gn-html"><span class="icon">📡</span> HTTP & HTML</a>
-  <a href="css.html" class="gn-link gn-css active"><span class="icon">🎨</span> CSS Guide</a>
-  <a href="js.html" class="gn-link gn-js"><span class="icon">⚡</span> JavaScript Guide</a>
+<div class="global-nav" aria-label="Lecture navigation">
+  <a href="../index.html" class="gn-link gn-home">الرئيسية</a>
+  <a href="lec-html.html" class="gn-link gn-prev">← السابق: HTML &amp; HTTP</a>
+  <span class="gn-link gn-current" aria-current="page">CSS</span>
+  <a href="js.html" class="gn-link gn-next">التالي: JavaScript →</a>
 </div>
 
 <!-- ─── HERO ─── -->
