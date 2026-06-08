@@ -127,6 +127,14 @@ code{font-family:var(--fc);background:rgba(0,212,255,.08);color:var(--cyan);padd
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}.topic{animation:fadeIn .3s ease forwards}
 p,h1,h2,h3,h4,h5,h6,li,td,th,.topic-title,.ch-title p,.tip div,.warn div,.info div,.danger div,.q-explain,.hero p,.hero-badge,.sb-link,.topic p,.ch-title h2,.sb-logo p,.sb-logo h2{unicode-bidi:plaintext}
 code,.kw,.str,.numc,.fn,.prop{direction:ltr;unicode-bidi:isolate}strong,b,i,em,span{unicode-bidi:isolate}
+.global-nav[aria-label="Lecture navigation"]{align-items:center;direction:ltr}
+.gn-home{background:rgba(0,212,255,.08);color:var(--cyan);border-color:rgba(0,212,255,.2)}
+.gn-home:hover{background:var(--cyan);color:#001018;box-shadow:0 0 15px rgba(0,212,255,.3)}
+.gn-prev,.gn-next{background:rgba(16,185,129,.08);color:var(--green);border-color:rgba(16,185,129,.2)}
+.gn-prev:hover,.gn-next:hover{background:var(--green);color:#02130d;box-shadow:0 0 15px rgba(16,185,129,.25)}
+.gn-current{background:var(--purple);color:#fff;border-color:rgba(139,92,246,.3);box-shadow:0 0 15px rgba(139,92,246,.25);cursor:default}
+.gn-disabled{background:rgba(148,163,184,.06);color:var(--t3);border-color:rgba(148,163,184,.14);cursor:not-allowed;opacity:.75}
+.gn-current:hover,.gn-disabled:hover{transform:none}
 </style>
 </head>
 <body>
@@ -155,9 +163,11 @@ code,.kw,.str,.numc,.fn,.prop{direction:ltr;unicode-bidi:isolate}strong,b,i,em,s
 <button id="scroll-top">↑</button>
 
 <main id="main">
-<div class="global-nav">
-  <a class="gn-link gn-back" href="../index.html">Back to IS231</a>
-  <a class="gn-link gn-lec8 active" href="#">Lecture 08</a>
+<div class="global-nav" aria-label="Lecture navigation">
+  <a href="../index.html" class="gn-link gn-home">الرئيسية</a>
+  <a href="lec-07.html" class="gn-link gn-prev">← السابق: Lecture 07</a>
+  <span class="gn-link gn-current" aria-current="page">Lecture 08</span>
+  <span class="gn-link gn-disabled" aria-disabled="true">لا يوجد تالي →</span>
 </div>
 
 <section class="hero">
