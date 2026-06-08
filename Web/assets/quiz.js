@@ -48,14 +48,20 @@
 
     const banner = quiz.querySelector('.q-score');
     if (banner) {
-      const pct = total ? Math.round((correct / total) * 100) : 0;
+      const attempted = quiz.querySelectorAll('.q-opt.selected').length;
       banner.classList.remove('good', 'ok', 'bad');
-      let cls = 'bad', emoji = '😬';
-      if (pct >= 80) { cls = 'good'; emoji = '🔥'; }
-      else if (pct >= 50) { cls = 'ok'; emoji = '💪'; }
-      banner.classList.add(cls);
+      if (attempted > 0) {
+        const pct = total ? Math.round((correct / total) * 100) : 0;
+        let cls = 'bad', emoji = '😬';
+        if (pct >= 80) { cls = 'good'; emoji = '🔥'; }
+        else if (pct >= 50) { cls = 'ok'; emoji = '💪'; }
+        banner.classList.add(cls);
+        banner.textContent = `${emoji}  ${correct} / ${total}  (${pct}%)  —  ${cls === 'good' ? 'ممتاز! جاهز للامتحان 🎯' : cls === 'ok' ? 'كويس بس فيه مفاهيم محتاجة مراجعة' : 'ارجع للشابتر وذاكر تاني'}`;
+      } else {
+        banner.classList.add('good');
+        banner.textContent = `📖✨ تم عرض الإجابات وتفسيراتها للمذاكرة والقراءة`;
+      }
       banner.style.display = 'block';
-      banner.textContent = `${emoji}  ${correct} / ${total}  (${pct}%)  —  ${cls === 'good' ? 'ممتاز! جاهز للامتحان 🎯' : cls === 'ok' ? 'كويس بس فيه مفاهيم محتاجة مراجعة' : 'ارجع للشابتر وذاكر تاني'}`;
     }
 
     const firstWrong = quiz.querySelector('.q-opt.wrong');

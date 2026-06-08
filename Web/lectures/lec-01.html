@@ -1500,7 +1500,9 @@ sectionIds.forEach(id => {
 function checkQuiz(quizId) {
   const section = document.getElementById(quizId);
   const items = section.querySelectorAll('.q-item');
-  let correct = 0, total = 0;
+  let correct = 0;
+  let attempted = 0;
+  const total = items.length;
 
   items.forEach(item => {
     const rightAns = item.dataset.correct;
@@ -1510,31 +1512,36 @@ function checkQuiz(quizId) {
 
     opts.forEach(opt => {
       if (opt.classList.contains('selected')) selected = opt.dataset.val;
+      opt.style.pointerEvents = 'none';
     });
 
-    if (!selected) return;
-    total++;
-
     opts.forEach(opt => {
-      opt.style.pointerEvents = 'none';
       if (opt.dataset.val === rightAns) {
         opt.classList.add('correct');
-      } else if (opt.dataset.val === selected && selected !== rightAns) {
+      } else if (selected && opt.dataset.val === selected && selected !== rightAns) {
         opt.classList.add('wrong');
       }
     });
 
-    if (selected === rightAns) correct++;
+    if (selected) {
+      attempted++;
+      if (selected === rightAns) correct++;
+    }
     if (explain) explain.classList.add('show');
   });
 
-  if (total === 0) { alert('اختار إجاباتك الأول!'); return; }
   const scoreEl = document.getElementById('score-' + quizId.replace('quiz-','').replace('quiz','main'));
   if (!scoreEl) return;
-  const pct = Math.round((correct / total) * 100);
-  scoreEl.textContent = `نتيجتك: ${correct} / ${total} (${pct}%)`;
+
+  if (attempted > 0) {
+    const pct = Math.round((correct / total) * 100);
+    scoreEl.textContent = `نتيجتك: ${correct} / ${total} (${pct}%)`;
+    scoreEl.className = 'q-score ' + (pct >= 80 ? 'good' : pct >= 60 ? 'ok' : 'bad');
+  } else {
+    scoreEl.textContent = `تم عرض الإجابات وتفسيراتها للمذاكرة 📖✨`;
+    scoreEl.className = 'q-score good';
+  }
   scoreEl.style.display = 'block';
-  scoreEl.className = 'q-score ' + (pct >= 80 ? 'good' : pct >= 60 ? 'ok' : 'bad');
 }
 
 function resetQuiz(quizId) {
