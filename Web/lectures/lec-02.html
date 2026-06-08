@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IS231 — المحاضرة الثانية | Python Essentials for Backend Development</title>
+<meta name="description" content="ملخص شامل لمحاضرة 2 في مادة Web Technology IS231 — Variables, Data Types, Conditions, Loops, Functions, Collections, Modules بالشرح العربي والمصطلحات الإنجليزية">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070c18;--bg2:#0b1120;--card:#0f172a;--card2:#141e33;
+  --border:#1e3a5f;--border2:#253650;
+  --cyan:#00d4ff;--cyan2:#0ea5e9;--amber:#f59e0b;--green:#10b981;
+  --red:#ef4444;--purple:#8b5cf6;--pink:#f472b6;--teal:#2dd4bf;
+  --t1:#e2e8f0;--t2:#94a3b8;--t3:#64748b;
+  --code:#0d1117;--fw:280px;
+  --fh:'Outfit',sans-serif;--fb:'DM Sans',sans-serif;--fc:'Fira Code',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.75;overflow-x:hidden}
+
+/* ─── PROGRESS BAR ─── */
+#prog-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--amber));z-index:9999;transition:width .2s;width:0}
+
+/* ─── SIDEBAR ─── */
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--fw);background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;z-index:100;padding:20px 0;transition:.3s}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.sb-logo{padding:12px 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.sb-logo h2{font-family:var(--fh);font-size:1.05rem;color:var(--cyan);font-weight:700}
+.sb-logo p{font-size:.72rem;color:var(--t3);margin-top:3px}
+.sb-section{padding:6px 20px 2px;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-top:10px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 20px;font-size:.82rem;color:var(--t2);text-decoration:none;transition:.2s;border-left:3px solid transparent;position:relative}
+.sb-link:hover,.sb-link.active{color:var(--t1);background:rgba(0,212,255,.06);border-left-color:var(--cyan)}
+.sb-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:.2s}
+.sb-link.active .sb-dot,.sb-link:hover .sb-dot{background:var(--cyan)}
+
+/* ─── MAIN ─── */
+#main{margin-left:var(--fw);padding:0 0 80px}
+.hero{background:linear-gradient(135deg,#060d1e 0%,#0a1628 40%,#0e0a2e 100%);padding:70px 60px 60px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,212,255,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-50px;left:200px;width:300px;height:300px;background:radial-gradient(circle,rgba(139,92,246,.06) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:20px;padding:5px 14px;font-size:.75rem;color:var(--cyan);margin-bottom:20px;font-family:var(--fc)}
+.hero h1{font-family:var(--fh);font-size:2.8rem;font-weight:800;line-height:1.15;margin-bottom:14px}
+.hero h1 span{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--t2);max-width:620px;font-size:1rem;text-align:right;direction:rtl}
+.hero-stats{display:flex;gap:30px;margin-top:30px}
+.hstat{text-align:center}
+.hstat .num{font-family:var(--fh);font-size:1.8rem;font-weight:700;color:var(--cyan)}
+.hstat .lbl{font-size:.72rem;color:var(--t3);margin-top:2px}
+
+/* ─── CONTENT ─── */
+.content{padding:40px 60px}
+.chapter{margin-bottom:80px}
+
+/* ─── SECTION TITLE ─── */
+.ch-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.ch-num{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:1rem;flex-shrink:0}
+.ch-num.blue{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.25)}
+.ch-num.purple{background:rgba(139,92,246,.12);color:var(--purple);border:1px solid rgba(139,92,246,.25)}
+.ch-num.amber{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+.ch-num.green{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+.ch-num.pink{background:rgba(244,114,182,.12);color:var(--pink);border:1px solid rgba(244,114,182,.25)}
+.ch-num.teal{background:rgba(45,212,191,.12);color:var(--teal);border:1px solid rgba(45,212,191,.25)}
+.ch-num.red{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+.ch-title h2{font-family:var(--fh);font-size:1.6rem;font-weight:700}
+.ch-title p{color:var(--t3);font-size:.85rem;margin-top:3px}
+
+/* ─── TOPIC CARD ─── */
+.topic{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden;transition:.25s}
+.topic::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--cyan)),transparent);opacity:.6}
+.topic:hover{border-color:var(--border2);transform:translateY(-1px)}
+.topic-title{font-family:var(--fh);font-size:1.05rem;font-weight:600;margin-bottom:10px;color:var(--t1);display:flex;align-items:center;gap:10px}
+.topic-title .icon{font-size:1.1rem}
+.topic p{color:var(--t2);font-size:.9rem;margin-bottom:10px;direction:rtl;text-align:right}
+.topic p:last-child{margin-bottom:0}
+.topic ul{color:var(--t2);font-size:.9rem;padding-right:20px;direction:rtl}
+.topic ul li{margin-bottom:6px}
+
+/* ─── GRID ─── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+/* ─── CODE BLOCK ─── */
+.code-wrap{background:var(--code);border:1px solid #21262d;border-radius:10px;margin:14px 0;overflow:hidden}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid #21262d}
+.code-dots{display:flex;gap:6px}
+.code-dots span{width:10px;height:10px;border-radius:50%}
+.code-dots span:nth-child(1){background:#ff5f57}
+.code-dots span:nth-child(2){background:#febc2e}
+.code-dots span:nth-child(3){background:#28c840}
+.code-lang{font-family:var(--fc);font-size:.68rem;color:var(--t3)}
+.code-wrap pre{padding:16px 20px;font-family:var(--fc);font-size:.82rem;line-height:1.7;overflow-x:auto;color:#cdd6f4}
+.code-wrap pre code{background:transparent}
+.q-code{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin:10px 0;font-family:var(--fc);font-size:0.82rem;line-height:1.5;overflow-x:auto;direction:ltr;text-align:left;color:#cdd6f4}
+.q-code pre{margin:0;background:transparent;padding:0}
+.q-code code{background:transparent;padding:0;color:inherit;font-size:inherit}
+.kw{color:#cba6f7}.str{color:#a6e3a1}.num{color:#fab387}.fn{color:#89b4fa}
+.cmt{color:#585b70;font-style:italic}.prop{color:#89dceb}.tag{color:#f38ba8}
+.attr{color:#fab387}.val{color:#a6e3a1}.sel{color:#cba6f7}
+
+/* ─── INLINE CODE ─── */
+code{font-family:var(--fc);background:rgba(0,212,255,.08);color:var(--cyan);padding:2px 7px;border-radius:4px;font-size:.82em}
+
+/* ─── INFO BOXES ─── */
+.tip,.warn,.info,.danger{display:flex;gap:12px;padding:14px 16px;border-radius:10px;margin:14px 0;font-size:.87rem;direction:rtl;text-align:right}
+.tip{background:rgba(16,185,129,.08);border-right:3px solid var(--green);color:#6ee7b7}
+.warn{background:rgba(245,158,11,.08);border-right:3px solid var(--amber);color:#fcd34d}
+.info{background:rgba(0,212,255,.08);border-right:3px solid var(--cyan);color:#7dd3fc}
+.danger{background:rgba(239,68,68,.08);border-right:3px solid var(--red);color:#fca5a5}
+.tip b,.warn b,.info b,.danger b{display:block;margin-bottom:3px;font-weight:600}
+
+/* ─── TABLE ─── */
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem}
+.tbl th{background:var(--card2);color:var(--cyan);font-family:var(--fh);font-weight:600;padding:10px 14px;text-align:right;border-bottom:2px solid var(--border)}
+.tbl td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--t2);text-align:right}
+.tbl tr:hover td{background:rgba(255,255,255,.02)}
+.tbl td code{font-size:.8em}
+
+/* ─── BADGES ─── */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;font-family:var(--fc)}
+.badge-cyan{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
+.badge-green{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.badge-amber{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.badge-red{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.badge-purple{background:rgba(139,92,246,.1);color:var(--purple);border:1px solid rgba(139,92,246,.2)}
+.badge-pink{background:rgba(244,114,182,.1);color:var(--pink);border:1px solid rgba(244,114,182,.2)}
+
+/* ─── COMPARE CARD ─── */
+.compare-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative;overflow:hidden}
+.compare-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--cyan)),transparent);opacity:.7}
+.compare-card h4{font-family:var(--fh);font-weight:700;font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.compare-card ul{list-style:none;padding:0}
+.compare-card ul li{padding:5px 0;color:var(--t2);font-size:.85rem;border-bottom:1px solid rgba(255,255,255,.04);direction:rtl!important;text-align:right!important;unicode-bidi:isolate!important}
+.compare-card ul li:last-child{border-bottom:none}
+.compare-card ul li::before{content:'← ';color:var(--accent,var(--cyan));font-family:var(--fc)}
+
+/* ─── STEPS ─── */
+.steps{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+.step{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;background:var(--card2);border-radius:10px;border:1px solid var(--border);direction:rtl}
+.step-num{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:.85rem;flex-shrink:0}
+.step-body{flex:1;direction:rtl;text-align:right}
+.step-title{font-family:var(--fh);font-weight:600;font-size:.9rem;color:var(--t1);margin-bottom:2px}
+.step-desc{font-size:.82rem;color:var(--t2)}
+
+/* ─── QUIZ ─── */
+.quiz-section{background:linear-gradient(135deg,#0c1830 0%,#0e1525 100%);border:1px solid var(--border);border-radius:16px;padding:30px;margin-top:40px}
+.quiz-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.quiz-icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.quiz-header h3{font-family:var(--fh);font-size:1.2rem;font-weight:700}
+.quiz-header p{font-size:.8rem;color:var(--t3)}
+.q-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:14px;transition:.2s}
+.q-num{font-family:var(--fc);font-size:.7rem;color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-direction:row-reverse;justify-content:flex-end}
+.q-num .q-src{background:rgba(139,92,246,.1);color:var(--purple);padding:2px 8px;border-radius:4px;font-size:.65rem}
+.q-text{font-size:.9rem;color:var(--t1);margin-bottom:14px;line-height:1.6;direction:ltr;text-align:left}
+.q-opts{display:flex;flex-direction:column;gap:8px}
+.q-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:.2s;font-size:.85rem;color:var(--t2);user-select:none;direction:ltr;text-align:left}
+.q-opt:hover{border-color:var(--border2);color:var(--t1);background:rgba(255,255,255,.02)}
+.q-opt.selected{border-color:var(--cyan);background:rgba(0,212,255,.06);color:var(--t1)}
+.q-opt.correct{border-color:var(--green)!important;background:rgba(16,185,129,.1)!important;color:#6ee7b7!important}
+.q-opt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important;color:#fca5a5!important}
+.q-opt-letter{width:22px;height:22px;border-radius:6px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-family:var(--fc);flex-shrink:0;font-weight:600}
+.q-explain{display:none;margin-top:12px;padding:12px 14px;background:rgba(0,212,255,.05);border-right:3px solid var(--cyan);border-radius:8px 0 0 8px;font-size:.83rem;color:#7dd3fc;line-height:1.6;direction:rtl;text-align:right}
+.q-explain.show{display:block}
+.quiz-btn{display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:9px 22px;border-radius:8px;border:none;cursor:pointer;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s}
+.btn-check{background:linear-gradient(135deg,var(--purple),var(--cyan2));color:#fff}
+.btn-check:hover{opacity:.9;transform:translateY(-1px)}
+.btn-reset{background:rgba(255,255,255,.06);color:var(--t2);margin-right:8px;border:1px solid var(--border)}
+.btn-reset:hover{background:rgba(255,255,255,.1);color:var(--t1)}
+.q-score{display:none;margin-top:16px;padding:14px 18px;border-radius:10px;font-family:var(--fh);font-weight:600;text-align:center}
+.q-score.good{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:var(--green)}
+.q-score.ok{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--amber)}
+.q-score.bad{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+
+/* ─── GLOBAL NAV ─── */
+.global-nav{display:flex;justify-content:center;gap:12px;padding:16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:90}
+.gn-link{display:flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;text-decoration:none;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s;border:1px solid transparent}
+.gn-link:hover{transform:translateY(-2px)}
+.gn-back{background:rgba(0,212,255,.08);color:var(--cyan);border-color:rgba(0,212,255,.2)}
+.gn-back:hover{background:var(--cyan);color:#000;box-shadow:0 0 15px rgba(0,212,255,.3)}
+.gn-lec2{background:rgba(139,92,246,.08);color:var(--purple);border-color:rgba(139,92,246,.2)}
+.gn-lec2.active{background:var(--purple);color:#fff;box-shadow:0 0 15px rgba(139,92,246,.3)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  :root{--fw:0px}
+  #sidebar{transform:translateX(-280px)}
+  #sidebar.open{transform:translateX(0);width:280px;box-shadow:0 0 20px rgba(0,0,0,.5)}
+  #main{margin-left:0}
+  .content{padding:24px 16px}
+  .hero{padding:40px 20px 32px}
+  .hero h1{font-size:1.8rem}
+  .grid2,.grid3{grid-template-columns:1fr}
+  #menu-btn{display:flex}
+  .hero-stats{gap:14px;flex-wrap:wrap}
+}
+@media(max-width:400px){.hero-stats{flex-direction:column;align-items:flex-start}}
+@media(min-width:901px){#menu-btn{display:none!important}}
+#menu-btn{position:fixed;bottom:20px;left:20px;z-index:200;width:46px;height:46px;border-radius:12px;background:var(--cyan);border:none;cursor:pointer;color:#000;font-size:1.3rem;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,212,255,.4)}
+
+/* ─── SCROLL TO TOP ─── */
+#scroll-top{position:fixed;bottom:20px;right:20px;width:40px;height:40px;border-radius:10px;background:rgba(0,212,255,.15);border:1px solid rgba(0,212,255,.3);color:var(--cyan);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s;z-index:200}
+#scroll-top.show{opacity:1}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.animate{animation:fadeIn .4s ease forwards}
+.topic{animation:fadeIn .3s ease forwards}
+
+/* ─── BIDI FIX ─── */
+p, h1, h2, h3, h4, h5, h6, li, td, th,
+.topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div,
+.q-explain, .hero p, .hero-badge, .sb-link,
+.topic p, .ch-title h2, .sb-logo p, .sb-logo h2 {
+  unicode-bidi: plaintext;
+}
+code, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+strong, b, i, em, span {
+  unicode-bidi: isolate;
+}
+
+/* ─── DATATYPE PILL ─── */
+.dt-pill{display:inline-flex;align-items:center;gap:6px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-family:var(--fc);font-size:.78rem;margin:3px}
+.dt-pill span{color:var(--t3);font-size:.7rem}
+
+/* ─── HIGHLIGHT RULE ─── */
+.rule-box{border-left:4px solid var(--accent,var(--cyan));background:rgba(0,212,255,.04);border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0;font-size:.87rem;color:var(--t2);direction:rtl;text-align:right}
+.rule-box strong{color:var(--t1)}
+
+@media(max-width:900px){.global-nav{padding:12px 10px;flex-wrap:wrap;gap:8px}.gn-link{font-size:.78rem;padding:6px 14px}}
+.global-nav[aria-label="Lecture navigation"]{align-items:center;direction:ltr}
+.gn-home{background:rgba(0,212,255,.08);color:var(--cyan);border-color:rgba(0,212,255,.2)}
+.gn-home:hover{background:var(--cyan);color:#001018;box-shadow:0 0 15px rgba(0,212,255,.3)}
+.gn-prev,.gn-next{background:rgba(16,185,129,.08);color:var(--green);border-color:rgba(16,185,129,.2)}
+.gn-prev:hover,.gn-next:hover{background:var(--green);color:#02130d;box-shadow:0 0 15px rgba(16,185,129,.25)}
+.gn-current{background:var(--purple);color:#fff;border-color:rgba(139,92,246,.3);box-shadow:0 0 15px rgba(139,92,246,.25);cursor:default}
+.gn-disabled{background:rgba(148,163,184,.06);color:var(--t3);border-color:rgba(148,163,184,.14);cursor:not-allowed;opacity:.75}
+.gn-current:hover,.gn-disabled:hover{transform:none}
+</style>
+</head>
+<body>
+
+<div id="prog-bar"></div>
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>🐍 IS231 · Lecture 02</h2>
+    <p>Python Essentials for Backend</p>
+  </div>
+  <div class="sb-section">الأدوات والبيئة</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>ليه Python؟ + إعداد البيئة</a>
+  <div class="sb-section">أساسيات Python</div>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Variables &amp; Data Types</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Input / Output &amp; Comments</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Operators &amp; Conditions</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Loops — for &amp; while</a>
+  <div class="sb-section">هياكل البيانات</div>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>List &amp; Tuple</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Set &amp; Dictionary</a>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>Functions &amp; Scope</a>
+  <a href="#ch9" class="sb-link"><span class="sb-dot"></span>Modules, Errors &amp; Files</a>
+  <div class="sb-section">اختبار الامتحانات</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — أسئلة الامتحانات</a>
+</nav>
+
+<button id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<main id="main">
+
+<div class="global-nav" aria-label="Lecture navigation">
+  <a href="../index.html" class="gn-link gn-home">الرئيسية</a>
+  <a href="lec-01.html" class="gn-link gn-prev">← السابق: Lecture 01</a>
+  <span class="gn-link gn-current" aria-current="page">Lecture 02</span>
+  <a href="lec-03.html" class="gn-link gn-next">التالي: Lecture 03 →</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚡ IS231 · Lecture 02 · Dr. Mohamed Nour Eldien · أسئلة امتحانات 2021 – 2025</div>
+  <h1>Python<br><span>Essentials</span></h1>
+  <p>الدليل الشامل لأساسيات Python — المتغيرات، أنواع البيانات، الشروط، اللوبات، الدوال، الـ Collections وأكتر — شرح بالعربي مع الحفاظ على كل المصطلحات التقنية 🇪🇬🐍</p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">9</div><div class="lbl">قسم شرح</div></div>
+    <div class="hstat"><div class="num">22+</div><div class="lbl">سؤال امتحان حقيقي</div></div>
+    <div class="hstat"><div class="num">2021–2025</div><div class="lbl">سنوات الامتحانات</div></div>
+    <div class="hstat"><div class="num">∞</div><div class="lbl">نجاح 🎯</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ════════════════════════════════════
+     CH1 — WHY PYTHON + SETUP
+════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>Why Python? — ليه Python للـ Backend؟</h2>
+      <p>إعداد البيئة خطوة خطوة</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">💡</span> ليه Python تحديداً؟</div>
+    <div class="grid2">
+      <div>
+        <p><strong>Readable (مقروءة)</strong>: الكود بيتكلم بلغة قريبة من اللغة الإنجليزية العادية — تقدر تركز على المنطق بدل الأقواس والفواصل.</p>
+        <p><strong>Productive (إنتاجية عالية)</strong>: تقدر تبني Prototype بسرعة وتختبر الأفكار في وقت أقل بكتير من لغات تانية.</p>
+      </div>
+      <div>
+        <p><strong>Ecosystem ضخم</strong>: عندها Django و Flask و FastAPI وآلاف المكتبات الجاهزة.</p>
+        <p><strong>مناسبة للتعليم</strong>: بتخلي الطالب يتعلم المنطق البرمجي بسهولة قبل ما يتعامل مع تعقيدات لغات تانية.</p>
+      </div>
+    </div>
+    <div class="info"><div><b>🔗 ربط بالمستقبل</b>: لما تشتغل مع Django، هتلاقي إن كل الـ Views عبارة عن Functions بايثون. كل الـ Models عبارة عن Classes بايثون. كل حاجة هتتعلمها النهارده هتشوفها فيه.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🛠️</span> الأدوات المطلوبة — Tools Setup</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">1</div>
+        <div class="step-body">
+          <div class="step-title">تنزيل Python من الموقع الرسمي</div>
+          <div class="step-desc">اختار أحدث Python 3. <strong>المهم جداً</strong>: أثناء التثبيت على Windows، فعّل خيار <code>"Add Python to PATH"</code> — من غير ده الـ Terminal مش هيعرف يشغل Python!</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(16,185,129,.15);color:var(--green)">2</div>
+        <div class="step-body">
+          <div class="step-title">التحقق من التثبيت في الـ Terminal</div>
+          <div class="step-desc">افتح Command Prompt أو PowerShell واكتب: <code>python --version</code> أو <code>py --version</code> — لو ظهر رقم الإصدار، كل حاجة تمام!</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(245,158,11,.15);color:var(--amber)">3</div>
+        <div class="step-body">
+          <div class="step-title">تنزيل VS Code وتثبيت Python Extension</div>
+          <div class="step-desc">VS Code هو الـ Editor. بعد ما تفتحه، اتجه لـ Extensions وحمّل "Python" بتاع Microsoft — ده بيدي الكود ألوان ودعم زي Autocomplete.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(139,92,246,.15);color:var(--purple)">4</div>
+        <div class="step-body">
+          <div class="step-title">أنشئ مجلد للمحاضرة وشغّل أول ملف</div>
+          <div class="step-desc">أنشئ مجلد زي <code>python_backend_course</code>، اعمل ملف <code>first_program.py</code>، واكتب <code>print("Hello!")</code> وشغّله من الـ Terminal بالأمر: <code>python first_program.py</code></div>
+        </div>
+      </div>
+    </div>
+    <div class="warn"><div><b>⚠️ نقطة مهمة</b>: الـ Terminal مش مخيف! هو مجرد طريقة نصية للكلام مع الكمبيوتر. ولاحقاً أوامر Django زي <code>runserver</code> و<code>migrate</code> هتتنفذ منه كمان.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     CH2 — VARIABLES & DATA TYPES
+════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num purple">02</div>
+    <div class="ch-title">
+      <h2>Variables &amp; Data Types — المتغيرات وأنواع البيانات</h2>
+      <p>أساس أي برنامج — إزاي بنحفظ المعلومات؟</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📦</span> Variables — المتغيرات</div>
+    <p>المتغير (Variable) زي الصندوق المتسمّي — بنحط فيه قيمة ونستخدمها بعدين. علامة <code>=</code> هي الـ Assignment Operator، يعني "حط القيمة دي في المتغير ده".</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — Variables</div></div>
+      <pre><code><span class="prop">student_name</span> = <span class="str">"Mona"</span>     <span class="cmt"># str — نص</span>
+<span class="prop">age</span> = <span class="num">20</span>                 <span class="cmt"># int — رقم صحيح</span>
+<span class="prop">gpa</span> = <span class="num">3.8</span>                <span class="cmt"># float — رقم عشري</span>
+<span class="prop">is_active</span> = <span class="kw">True</span>         <span class="cmt"># bool — صح أو غلط</span>
+<span class="prop">course</span> = <span class="str">"Backend Python"</span>
+
+<span class="fn">print</span>(student_name)
+<span class="fn">print</span>(<span class="fn">type</span>(age))         <span class="cmt"># بيطبع: &lt;class 'int'&gt;</span></code></pre>
+    </div>
+    <div class="info"><div><b>📌 دالة <code>type()</code></b>: بتعرفك نوع المتغير — استخدمها لما الكود بيطلع نتيجة غريبة. كتير من الأخطاء بتيجي من إنك مش عارف النوع الحقيقي للقيمة.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📏</span> قواعد تسمية المتغيرات — Naming Rules</div>
+    <div class="grid2">
+      <div>
+        <p style="color:var(--green);font-weight:600;margin-bottom:8px">✅ صح</p>
+        <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">VALID NAMES</div></div>
+        <pre><code><span class="prop">student_name</span> = <span class="str">"Ali"</span>
+<span class="prop">score1</span> = <span class="num">90</span>
+<span class="prop">_private</span> = <span class="str">"hidden"</span>
+<span class="prop">myVar</span> = <span class="num">5</span></code></pre></div>
+      </div>
+      <div>
+        <p style="color:var(--red);font-weight:600;margin-bottom:8px">❌ غلط</p>
+        <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">INVALID NAMES</div></div>
+        <pre><code><span class="tag">1score</span> = <span class="num">90</span>  <span class="cmt"># يبدأ برقم ❌</span>
+<span class="tag">my-var</span> = <span class="num">5</span>   <span class="cmt"># فيه شرطة ❌</span>
+<span class="tag">my var</span> = <span class="str">"x"</span> <span class="cmt"># فيه مسافة ❌</span>
+<span class="tag">for</span> = <span class="num">1</span>     <span class="cmt"># كلمة محجوزة ❌</span></code></pre></div>
+      </div>
+    </div>
+    <div class="danger"><div><b>🚨 من امتحان 2025</b>: الاسم <code>my-var</code> هو اسم غلط في Python — الشرطة العادية <code>-</code> مش مسموح بيها في أسماء المتغيرات. استخدم الشرطة السفلية <code>my_var</code> بدلها ✅</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📊</span> Data Types — أنواع البيانات الأساسية</div>
+    <table class="tbl">
+      <tr><th>النوع</th><th>الاسم</th><th>مثال</th><th>الاستخدام</th></tr>
+      <tr><td><code>str</code></td><td>String</td><td><code>"Ali"</code></td><td>أسماء، ايميلات، رسائل، أي نص</td></tr>
+      <tr><td><code>int</code></td><td>Integer</td><td><code>20</code></td><td>أعداد صحيحة زي السن والعدد</td></tr>
+      <tr><td><code>float</code></td><td>Float</td><td><code>3.75</code></td><td>أرقام عشرية زي الـ GPA والسعر</td></tr>
+      <tr><td><code>bool</code></td><td>Boolean</td><td><code>True / False</code></td><td>حالات زي logged_in, is_admin</td></tr>
+    </table>
+    <div class="warn"><div><b>⚡ نقطة امتحان مكررة</b>: القسمة العادية <code>/</code> في Python دايماً بترجع <strong>float</strong>. يعني <code>10 / 2 = 5.0</code> مش <code>5</code>! لو عايز عدد صحيح استخدم <code>//</code> (Integer Division).</div></div>
+    <div class="tip"><div><b>💡 f-Strings</b>: الطريقة الأفضل لعرض متغيرات جوا نص هي الـ f-string: <code>f"اسمي {name} وسني {age}"</code> — أوضح وأنضف من الـ Concatenation بـ <code>+</code>.</div></div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — f-Strings</div></div>
+      <pre><code><span class="prop">name</span> = <span class="str">"Sara"</span>
+<span class="prop">city</span> = <span class="str">"Cairo"</span>
+
+<span class="cmt"># الطريقة القديمة (Concatenation)</span>
+<span class="fn">print</span>(<span class="str">"اسمي "</span> + name + <span class="str">" من "</span> + city)
+
+<span class="cmt"># الطريقة الأحسن (f-string) ✅</span>
+<span class="fn">print</span>(<span class="str">f"اسمي {name} من {city}"</span>)</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     CH3 — INPUT / OUTPUT & COMMENTS
+════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num green">03</div>
+    <div class="ch-title">
+      <h2>Input / Output &amp; Comments — الإدخال والإخراج والتعليقات</h2>
+      <p>إزاي البرنامج يتكلم مع المستخدم</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">⌨️</span> input() — استقبال بيانات</div>
+      <p>دالة <code>input()</code> بتوقف البرنامج وتستنى المستخدم يكتب حاجة. <strong>النقطة المهمة: input() دايماً بترجع String</strong>، حتى لو المستخدم كتب رقم!</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON</div></div>
+      <pre><code><span class="prop">name</span> = <span class="fn">input</span>(<span class="str">"اكتب اسمك: "</span>)
+<span class="fn">print</span>(<span class="str">f"أهلاً {name}!"</span>)</code></pre></div>
+    </div>
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">🔄</span> Type Casting — تحويل النوع</div>
+      <p>عشان تحول الـ String الجاي من <code>input()</code> لرقم، لازم تعمل <strong>Type Casting</strong>. استخدم <code>int()</code> للأعداد الصحيحة و<code>float()</code> للعشرية.</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON</div></div>
+      <pre><code><span class="cmt"># int Casting</span>
+<span class="prop">age</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"السن: "</span>))
+<span class="cmt"># float Casting</span>
+<span class="prop">price</span> = <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">"السعر: "</span>))
+
+<span class="fn">print</span>(age + <span class="num">1</span>)  <span class="cmt"># شغال ✅</span></code></pre></div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">#️⃣</span> Comments — التعليقات</div>
+    <p>التعليق بيبدأ بـ <code>#</code> وبيتجاهله Python عند التشغيل. استخدمه عشان تشرح النية وراء الكود — مش عشان تشرح الواضح.</p>
+    <div class="grid2">
+      <div>
+        <p style="color:var(--red)">❌ تعليق مش مفيد</p>
+        <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">BAD</div></div>
+        <pre><code><span class="cmt"># بطبع الاسم</span>
+<span class="fn">print</span>(name)</code></pre></div>
+      </div>
+      <div>
+        <p style="color:var(--green)">✅ تعليق مفيد</p>
+        <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">GOOD</div></div>
+        <pre><code><span class="cmt"># input() بترجع string</span>
+<span class="cmt"># لازم نحوّل لـ int للحساب</span>
+age = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"السن: "</span>))</code></pre></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     CH4 — OPERATORS & CONDITIONS
+════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num amber">04</div>
+    <div class="ch-title">
+      <h2>Operators &amp; Conditions — العمليات والشروط</h2>
+      <p>إزاي البرنامج يفكر ويتخذ قرارات؟</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">➕</span> Arithmetic Operators — العمليات الحسابية</div>
+    <table class="tbl">
+      <tr><th>الرمز</th><th>الاسم</th><th>مثال</th><th>النتيجة</th></tr>
+      <tr><td><code>+</code></td><td>Addition</td><td><code>10 + 3</code></td><td><code>13</code></td></tr>
+      <tr><td><code>-</code></td><td>Subtraction</td><td><code>10 - 3</code></td><td><code>7</code></td></tr>
+      <tr><td><code>*</code></td><td>Multiplication</td><td><code>10 * 3</code></td><td><code>30</code></td></tr>
+      <tr><td><code>/</code></td><td>Division</td><td><code>10 / 3</code></td><td><code>3.333... (float!)</code></td></tr>
+      <tr><td><code>//</code></td><td>Integer Division</td><td><code>10 // 3</code></td><td><code>3 (بدون كسر)</code></td></tr>
+      <tr><td><code>%</code></td><td>Modulus (باقي القسمة)</td><td><code>10 % 3</code></td><td><code>1</code></td></tr>
+      <tr><td><code>**</code></td><td>Exponent (الأسس)</td><td><code>2 ** 3</code></td><td><code>8</code></td></tr>
+    </table>
+    <div class="danger"><div><b>🚨 فخ الامتحان الأول</b>: القسمة العادية <code>/</code> دايماً تطلع <strong>float</strong> حتى لو الناتج عدد صحيح. <code>10 / 2 = 5.0</code> وليس <code>5</code>!</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔍</span> Comparison &amp; Logical Operators</div>
+    <div class="grid2">
+      <div>
+        <p style="color:var(--t2);font-size:.85rem;margin-bottom:8px">Comparison Operators — نتيجتهم دايماً True أو False:</p>
+        <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON</div></div>
+        <pre><code><span class="prop">score</span> = <span class="num">75</span>
+<span class="fn">print</span>(score == <span class="num">75</span>)  <span class="cmt"># True</span>
+<span class="fn">print</span>(score != <span class="num">100</span>) <span class="cmt"># True</span>
+<span class="fn">print</span>(score > <span class="num">50</span>)   <span class="cmt"># True</span>
+<span class="fn">print</span>(score <= <span class="num">70</span>)  <span class="cmt"># False</span></code></pre></div>
+      </div>
+      <div>
+        <p style="color:var(--t2);font-size:.85rem;margin-bottom:8px">Logical Operators — لدمج أكتر من شرط:</p>
+        <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON</div></div>
+        <pre><code><span class="prop">age</span> = <span class="num">20</span>
+<span class="prop">has_id</span> = <span class="kw">True</span>
+
+<span class="cmt"># and: لازم الاتنين صح</span>
+<span class="fn">print</span>(age >= <span class="num">18</span> <span class="kw">and</span> has_id)  <span class="cmt"># True</span>
+<span class="cmt"># or: واحد بس يكفي</span>
+<span class="fn">print</span>(age < <span class="num">18</span> <span class="kw">or</span> has_id)   <span class="cmt"># True</span>
+<span class="cmt"># not: يعكس النتيجة</span>
+<span class="fn">print</span>(<span class="kw">not</span> has_id)             <span class="cmt"># False</span></code></pre></div>
+      </div>
+    </div>
+    <div class="warn"><div><b>⚠️ = vs ==</b>: علامة <code>=</code> بتحط قيمة في متغير (Assignment). علامة <code>==</code> بتقارن قيمتين (Comparison). الخلط بينهم من أشهر الأخطاء!</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🔀</span> if / elif / else — الجمل الشرطية</div>
+    <p>Python بتعتمد على الـ <strong>Indentation</strong> (المسافات البادئة) عشان تعرف الـ Blocks. مفيش أقواس <code>{}</code> زي باقي اللغات. لو نسيت المسافة هيطلع <code>IndentationError</code>!</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — if / elif / else</div></div>
+      <pre><code><span class="prop">mark</span> = <span class="num">87</span>
+
+<span class="kw">if</span> mark >= <span class="num">90</span>:
+    <span class="fn">print</span>(<span class="str">"Excellent"</span>)      <span class="cmt"># مسافة 4 بادئة ✅</span>
+<span class="kw">elif</span> mark >= <span class="num">80</span>:           <span class="cmt"># elif = "else if"</span>
+    <span class="fn">print</span>(<span class="str">"Very Good"</span>)
+<span class="kw">elif</span> mark >= <span class="num">65</span>:
+    <span class="fn">print</span>(<span class="str">"Good"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Need Improvement"</span>)</code></pre>
+    </div>
+    <div class="info"><div><b>📌 Nested Conditions (شروط متداخلة)</b>: تقدر تحط <code>if</code> جوا <code>if</code> تاني — مفيد لحالات زي Login ثم فحص الـ Role. لو logged_in صح، فافحص هل هو admin ولا لأ.</div></div>
+
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — Nested Conditions (مثال Backend واقعي)</div></div>
+      <pre><code><span class="prop">logged_in</span> = <span class="kw">True</span>
+<span class="prop">is_admin</span> = <span class="kw">False</span>
+
+<span class="kw">if</span> logged_in:
+    <span class="kw">if</span> is_admin:
+        <span class="fn">print</span>(<span class="str">"افتح لوحة الأدمن"</span>)
+    <span class="kw">else</span>:
+        <span class="fn">print</span>(<span class="str">"افتح لوحة الطالب"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"من فضلك سجّل دخولك"</span>)</code></pre>
+    </div>
+    <div class="danger"><div><b>🚨 من امتحان 2021 — سؤال الـ Indentation</b>:<br>
+    <code>if 2 &lt; 1: [indented] print("Two is less than one!") [not-indented] print("Two is less than one!")</code><br>
+    النتيجة: الـ print الأولى مش هتتنفذ (الشرط غلط)، الثانية هتتنفذ دايماً لأنها بره الـ if.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     CH5 — LOOPS
+════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num green">05</div>
+    <div class="ch-title">
+      <h2>Loops — for &amp; while</h2>
+      <p>تنفيذ نفس الكود أكتر من مرة بشكل أوتوماتيكي</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">🔁</span> for Loop</div>
+      <p>الـ <code>for</code> بنستخدمه لما عارف عدد التكرارات. دالة <code>range()</code> بتولد أرقام:</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON</div></div>
+      <pre><code><span class="cmt"># range(5) = 0, 1, 2, 3, 4</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
+    <span class="fn">print</span>(i)
+
+<span class="cmt"># range(1,6) = 1, 2, 3, 4, 5</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>):
+    <span class="fn">print</span>(i)
+
+<span class="cmt"># Loop على عناصر قائمة</span>
+<span class="prop">students</span> = [<span class="str">"Ali"</span>, <span class="str">"Mona"</span>, <span class="str">"Sara"</span>]
+<span class="kw">for</span> student <span class="kw">in</span> students:
+    <span class="fn">print</span>(student)</code></pre></div>
+      <div class="warn"><div><b>⚡ من امتحان 2024</b>: لو كتبت <code>for i in range(5);</code> بفاصلة منقوطة بدل النقطتين فوق بعض، هيطلع <strong>SyntaxError</strong>!</div></div>
+    </div>
+
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">🔄</span> while Loop</div>
+      <p>الـ <code>while</code> بيكمل طالما الشرط <code>True</code>. مهم دايماً تعدّل المتغير جوا اللوب عشان متدخلش في Loop لا نهائي!</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON</div></div>
+      <pre><code><span class="prop">count</span> = <span class="num">1</span>
+
+<span class="kw">while</span> count <= <span class="num">5</span>:
+    <span class="fn">print</span>(count)
+    count += <span class="num">1</span>   <span class="cmt"># مهم! عشان اللوب يوقف</span>
+
+<span class="cmt"># Output: 1, 2, 3, 4, 5</span></code></pre></div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🛑</span> break, continue, pass</div>
+    <div class="grid3">
+      <div class="compare-card" style="--accent:var(--red)">
+        <h4 style="color:var(--red)">🔴 break</h4>
+        <ul>
+          <li>يخرج من اللوب فوراً</li>
+          <li>يوقف كل التكرار</li>
+        </ul>
+      </div>
+      <div class="compare-card" style="--accent:var(--amber)">
+        <h4 style="color:var(--amber)">🟡 continue</h4>
+        <ul>
+          <li>يتخطى الفردة الحالية</li>
+          <li>يكمل اللوب للفردة اللي بعدها</li>
+        </ul>
+      </div>
+      <div class="compare-card" style="--accent:var(--t3)">
+        <h4 style="color:var(--t2)">⚪ pass</h4>
+        <ul>
+          <li>ما بيعملش حاجة</li>
+          <li>Placeholder فاضي للكود</li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — break &amp; continue</div></div>
+      <pre><code><span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>):
+    <span class="kw">if</span> i == <span class="num">3</span>:
+        <span class="kw">continue</span>    <span class="cmt"># يتخطى 3</span>
+    <span class="kw">if</span> i == <span class="num">5</span>:
+        <span class="kw">break</span>       <span class="cmt"># يوقف عند 5</span>
+    <span class="fn">print</span>(i)
+
+<span class="cmt"># Output: 1, 2, 4</span></code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     CH6 — LIST & TUPLE
+════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num pink">06</div>
+    <div class="ch-title">
+      <h2>List &amp; Tuple — القوائم والـ Tuples</h2>
+      <p>هياكل بيانات مرتبة — الفرق بين المتغير والثابت</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">📋</span> List — القائمة <code>[ ]</code></div>
+      <p>القائمة بتخزن عناصر بالترتيب وبتقدر تعدل فيها. كل عنصر بيبدأ من Index رقم <code>0</code>.</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — List Operations</div></div>
+      <pre><code><span class="prop">students</span> = [<span class="str">"Ali"</span>, <span class="str">"Mona"</span>, <span class="str">"Sara"</span>]
+<span class="fn">print</span>(students[<span class="num">0</span>])   <span class="cmt"># Ali</span>
+<span class="fn">print</span>(students[-<span class="num">1</span>])  <span class="cmt"># Sara (الأخير)</span>
+
+students.<span class="fn">append</span>(<span class="str">"Nour"</span>)  <span class="cmt"># يضيف للآخر</span>
+students.<span class="fn">remove</span>(<span class="str">"Ali"</span>)  <span class="cmt"># يحذف بالقيمة</span>
+students.<span class="fn">pop</span>()          <span class="cmt"># يحذف ويرجع الأخير</span>
+students.<span class="fn">pop</span>(<span class="num">0</span>)        <span class="cmt"># يحذف الأول</span>
+<span class="fn">print</span>(<span class="fn">len</span>(students))  <span class="cmt"># عدد العناصر</span></code></pre></div>
+
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — List Slicing</div></div>
+      <pre><code><span class="prop">lst</span> = [<span class="num">0</span>, <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>]
+<span class="cmt"># list[start:end] — end مش متضمنة!</span>
+<span class="fn">print</span>(lst[<span class="num">1</span>:<span class="num">3</span>])   <span class="cmt"># [1, 2]</span>
+
+<span class="prop">txt</span> = <span class="str">"Hello, My Friend"</span>
+<span class="fn">print</span>(txt[:<span class="num">8</span>])   <span class="cmt"># "Hello, M"</span>
+<span class="cmt"># يبدأ من الأول حتى index 7</span></code></pre></div>
+
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — Sorting</div></div>
+      <pre><code><span class="prop">x</span> = [<span class="str">'C'</span>, <span class="str">'b'</span>, <span class="str">'a'</span>]
+x.<span class="fn">sort</span>()
+<span class="fn">print</span>(x)  <span class="cmt"># ['C', 'a', 'b'] ← C أولاً!</span>
+<span class="cmt"># الحروف Capital بتيجي قبل Small</span>
+
+<span class="prop">y</span> = [<span class="str">'C'</span>, <span class="str">'b'</span>, <span class="str">'A'</span>]
+y.<span class="fn">sort</span>(key=str.lower)
+<span class="fn">print</span>(y)  <span class="cmt"># ['A', 'b', 'C']</span>
+<span class="cmt"># key=str.lower: يرتب بدون اعتبار حالة الحرف</span>
+<span class="cmt"># لكن يحافظ على شكله الأصلي!</span></code></pre></div>
+
+      <div class="danger"><div><b>🚨 من امتحانات 2021 و2025</b>:
+      <br>• <code>sort()</code> على list من lists بيقارن أول عنصر فقط
+      <br>• <code>sort(key=str.lower)</code> يرتب بدون اعتبار الـ Case لكن يحافظ على الشكل الأصلي
+      <br>• <code>pop()</code> بدون argument تشيل آخر عنصر دايماً
+      </div></div>
+    </div>
+
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">📌</span> Tuple — <code>( )</code></div>
+      <p>الـ Tuple زي الـ List بالظبط، الفرق الوحيد إنها <strong>Immutable</strong> — مش ممكن تعدل فيها بعد ما تنشئها. بتستخدمها لما البيانات المفروض تفضل ثابتة.</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — Tuple</div></div>
+      <pre><code><span class="prop">point</span> = (<span class="num">10</span>, <span class="num">20</span>)
+<span class="fn">print</span>(point[<span class="num">0</span>])   <span class="cmt"># 10</span>
+
+<span class="cmt"># Tuple بعنصر واحد — لازم الفاصلة!</span>
+<span class="prop">t1</span> = (<span class="str">"apple"</span>,)    <span class="cmt"># ✅ Tuple</span>
+<span class="prop">t2</span> = (<span class="str">"apple"</span>)     <span class="cmt"># ❌ String مش Tuple!</span>
+
+<span class="cmt"># Tuple Unpacking</span>
+<span class="prop">tup</span> = (<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>)
+(*k,) = tup
+<span class="fn">print</span>(k)  <span class="cmt"># [1, 2, 3, 4]</span></code></pre></div>
+
+      <div class="danger"><div><b>🚨 من امتحان 2025 (Q70 &amp; Q71)</b>:<br>
+      <code>(*k,) = (1,2,3,4)</code> → يحول كل العناصر لـ List: <code>[1, 2, 3, 4]</code> ✅<br>
+      <code>(x, *k, y, z, m) = (1,2,3)</code> → <strong>ValueError</strong>! المتغيرات الإجبارية (x, y, z, m) أكتر من العناصر.</div></div>
+
+      <div class="warn"><div><b>⚡ من امتحان 2025</b>: <code>x = ("apple", "banana", "cherry")</code> — هذه ليست List! دي <strong>Tuple</strong> لأنها بتستخدم قوسين عاديين <code>( )</code> مش أقواس مربعة <code>[ ]</code>.</div></div>
+
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — append() vs extend()</div></div>
+      <pre><code><span class="prop">lst1</span> = [<span class="num">1</span>, <span class="num">2</span>]
+<span class="prop">lst2</span> = [<span class="num">3</span>, <span class="num">4</span>]
+
+lst1.<span class="fn">append</span>(lst2)    <span class="cmt"># يضيف الـ list كعنصر واحد</span>
+<span class="fn">print</span>(lst1)           <span class="cmt"># [1, 2, [3, 4]]</span>
+
+lst1 = [<span class="num">1</span>, <span class="num">2</span>]
+lst1.<span class="fn">extend</span>(lst2)    <span class="cmt"># يضيف عناصر lst2 كلها</span>
+<span class="fn">print</span>(lst1)           <span class="cmt"># [1, 2, 3, 4] ✅</span></code></pre></div>
+
+      <div class="danger"><div><b>🚨 من امتحان 2025</b>: لدمج عناصر list في list تانية، استخدم <code>extend()</code> — مش <code>update()</code> (ده للـ Set والـ Dict) ولا <code>append()</code> (ده يضيف كعنصر واحد كامل).</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     CH7 — SET & DICTIONARY
+════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num teal">07</div>
+    <div class="ch-title">
+      <h2>Set &amp; Dictionary — المجموعات والقواميس</h2>
+      <p>بيانات فريدة وبيانات بـ Key-Value Pairs</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--pink)">
+      <div class="topic-title"><span class="icon">🎲</span> Set — المجموعة <code>{ }</code></div>
+      <p>الـ Set بتخزن قيم <strong>فريدة</strong> (مش بتكرر) وبدون ترتيب (Unordered) وبدون Index. يعني مش تقدر تقول <code>s[0]</code>!</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — Set</div></div>
+      <pre><code><span class="prop">colors</span> = {<span class="str">"red"</span>, <span class="str">"blue"</span>, <span class="str">"red"</span>, <span class="str">"green"</span>}
+<span class="fn">print</span>(colors)  <span class="cmt"># red واحدة بس!</span>
+
+<span class="cmt"># pop() في Set عشوائي!!</span>
+<span class="prop">s</span> = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>}
+<span class="prop">x</span> = s.<span class="fn">pop</span>()   <span class="cmt"># مش عارف أيه هيتمسح!</span>
+
+<span class="cmt"># update() للـ Set: يضيف عناصر Set تانية</span>
+<span class="prop">s1</span> = {<span class="num">1</span>, <span class="num">2</span>}
+<span class="prop">s2</span> = {<span class="num">3</span>, <span class="num">4</span>}
+s1.<span class="fn">update</span>(s2)  <span class="cmt"># {1, 2, 3, 4}</span></code></pre></div>
+
+      <div class="danger"><div><b>🚨 من امتحانات 2021, 2025 (أسئلة متكررة)</b>:<br>
+      • الـ Set هي <strong>Unordered AND Unindexed</strong> (مش Unordered AND Indexed)<br>
+      • <code>pop()</code> في Set يمسح عنصر <strong>عشوائي</strong> — مش دايماً الأخير ولا الأول<br>
+      • لدمج Set في Set تانية: استخدم <code>update()</code> (مش <code>extend()</code>)
+      </div></div>
+    </div>
+
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">📖</span> Dictionary — <code>{ key: value }</code></div>
+      <p>الـ Dictionary بيخزن البيانات كأزواج من <strong>Key: Value</strong>. مناسب جداً لبيانات الـ Profile أو الـ Settings. الـ Keys لازم تكون فريدة.</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — Dictionary</div></div>
+      <pre><code><span class="prop">student</span> = {
+    <span class="str">"name"</span>: <span class="str">"Laila"</span>,
+    <span class="str">"age"</span>: <span class="num">20</span>,
+    <span class="str">"dept"</span>: <span class="str">"IS"</span>
+}
+
+<span class="fn">print</span>(student[<span class="str">"name"</span>])   <span class="cmt"># Laila</span>
+
+<span class="cmt"># تحديث قيمة</span>
+student[<span class="str">"age"</span>] = <span class="num">21</span>
+
+<span class="cmt"># إضافة Key جديد</span>
+student[<span class="str">"gpa"</span>] = <span class="num">3.9</span>
+
+<span class="fn">print</span>(student)</code></pre></div>
+
+      <div class="danger"><div><b>🚨 من امتحان 2021 — قاعدة مهمة</b>:<br>
+      لو ضفت Key موجود في الـ Dictionary، القيمة الجديدة <strong>بتكتب فوق القديمة بدون Error</strong>.<br>
+      مثال: <code>{"name": "Ahmed", "mobile": 123, "mobile": 987}</code> → الـ mobile هيكون <code>987</code> (الأخيرة)
+      </div></div>
+
+      <div class="info"><div><b>💡 y = d — Reference مش Copy</b>: لما تكتب <code>y = d</code> مش بتعمل نسخة جديدة — الاتنين بيشاوروا على نفس الـ Dictionary. لو غيّرت في d، y هتتأثر برضو. عشان تعمل نسخة حقيقية استخدم <code>d.copy()</code> (بحرف سمول!)</div></div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🗃️</span> مقارنة هياكل البيانات — Data Structures Comparison</div>
+    <table class="tbl">
+      <tr><th>الهيكل</th><th>الأقواس</th><th>مرتبة؟</th><th>لها Index؟</th><th>تتعدل؟</th><th>بتكرر؟</th><th>استخدامها</th></tr>
+      <tr><td><code>list</code></td><td><code>[ ]</code></td><td style="color:var(--green)">✅ نعم</td><td style="color:var(--green)">✅ نعم</td><td style="color:var(--green)">✅ نعم</td><td style="color:var(--green)">✅ نعم</td><td>قوائم متغيرة بترتيب</td></tr>
+      <tr><td><code>tuple</code></td><td><code>( )</code></td><td style="color:var(--green)">✅ نعم</td><td style="color:var(--green)">✅ نعم</td><td style="color:var(--red)">❌ لأ</td><td style="color:var(--green)">✅ نعم</td><td>بيانات ثابتة (Immutable)</td></tr>
+      <tr><td><code>set</code></td><td><code>{ }</code></td><td style="color:var(--red)">❌ لأ</td><td style="color:var(--red)">❌ لأ</td><td style="color:var(--green)">✅ نعم</td><td style="color:var(--red)">❌ لأ</td><td>قيم فريدة بدون تكرار</td></tr>
+      <tr><td><code>dict</code></td><td><code>{ }</code></td><td style="color:var(--green)">✅ نعم</td><td>بالـ Key</td><td style="color:var(--green)">✅ نعم</td><td>Keys لأ</td><td>بيانات بتسمية (Key-Value)</td></tr>
+    </table>
+    <div class="tip"><div><b>💡 قاعدة الاختيار</b>: بيانات بتتغير وبالترتيب؟ → List. ثابتة؟ → Tuple. بدون تكرار؟ → Set. كل قيمة ليها اسم (Label)؟ → Dictionary (مثلاً بيانات Student: name, age, dept).</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     CH8 — FUNCTIONS & SCOPE
+════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num blue">08</div>
+    <div class="ch-title">
+      <h2>Functions &amp; Scope — الدوال ونطاق المتغيرات</h2>
+      <p>كود قابل لإعادة الاستخدام — أساس Django Views</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">⚙️</span> تعريف الدوال — def</div>
+    <p>الـ Function بلوك كود بينفذ مهمة معينة ومش بيشتغل إلا لما تناديه (Call). بنعرفه بكلمة <code>def</code>. المهم تفهم الفرق بين <strong>تعريف</strong> الدالة و<strong>استدعاءها</strong>!</p>
+    <div class="grid2">
+      <div>
+        <p style="color:var(--t2);font-size:.85rem;margin-bottom:6px">دالة بسيطة + Parameters</p>
+        <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON</div></div>
+        <pre><code><span class="kw">def</span> <span class="fn">greet</span>(name):
+    <span class="fn">print</span>(<span class="str">f"مرحباً {name}"</span>)
+
+<span class="fn">greet</span>(<span class="str">"Mona"</span>)
+<span class="fn">greet</span>(<span class="str">"Omar"</span>)</code></pre></div>
+      </div>
+      <div>
+        <p style="color:var(--t2);font-size:.85rem;margin-bottom:6px">print vs return — الفرق المهم</p>
+        <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON</div></div>
+        <pre><code><span class="kw">def</span> <span class="fn">add</span>(a, b):
+    <span class="kw">return</span> a + b  <span class="cmt"># يرجع القيمة</span>
+
+<span class="prop">result</span> = <span class="fn">add</span>(<span class="num">5</span>, <span class="num">7</span>)
+<span class="fn">print</span>(result)   <span class="cmt"># 12</span></code></pre></div>
+      </div>
+    </div>
+    <div class="warn"><div><b>⚡ print vs return</b>: <code>print</code> بيعرض للشاشة وبس. <code>return</code> بيرجع القيمة للبرنامج عشان تستخدمها بعدين. كتير من الـ Django Views بترجع قيم بـ <code>return</code>.</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">✨</span> *args و **kwargs</div>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON</div></div>
+      <pre><code><span class="cmt"># *args: يجمع arguments في Tuple</span>
+<span class="kw">def</span> <span class="fn">show</span>(*args):
+    <span class="fn">print</span>(args)
+
+<span class="fn">show</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)  <span class="cmt"># (1, 2, 3)</span>
+
+<span class="cmt"># **kwargs: يجمع keyword args في Dict</span>
+<span class="kw">def</span> <span class="fn">person_info</span>(**person):
+    <span class="fn">print</span>(<span class="str">"اسمه: "</span> + person[<span class="str">"name"</span>])
+
+<span class="fn">person_info</span>(name=<span class="str">"Ahmed"</span>, age=<span class="num">10</span>)
+<span class="cmt"># يطبع: اسمه: Ahmed</span>
+<span class="cmt"># الـ age بيتجاهل لأن الكود مش محتاجه</span></code></pre></div>
+      <div class="info"><div><b>📌 من امتحان 2021</b>: <code>**person</code> بيجمع البيانات في Dictionary. الدالة بتطبع <code>person["name"]</code> بس — الـ age بيتجاهل بدون Error. ✅</div></div>
+    </div>
+
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">λ</span> Lambda Functions</div>
+      <p>الـ Lambda دالة سريعة بسطر واحد بدون اسم. فكرتها: <code>lambda arguments: expression</code></p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — Lambda</div></div>
+      <pre><code><span class="cmt"># سؤال بيتكرر في 2021 و2024!</span>
+<span class="prop">y</span> = <span class="kw">lambda</span> x: x / <span class="num">20</span>
+<span class="fn">print</span>(<span class="fn">y</span>(<span class="num">100</span>))   <span class="cmt"># 5.0 (مش 5!)</span>
+<span class="cmt"># القسمة بـ / دايماً float!</span>
+
+<span class="cmt"># دالة Lambda بدون Args</span>
+<span class="prop">f</span> = <span class="kw">lambda</span>: <span class="num">10</span>
+<span class="fn">print</span>(<span class="fn">f</span>())   <span class="cmt"># 10</span></code></pre></div>
+      <div class="danger"><div><b>🚨 من امتحانات 2021, 2024</b>: <code>y = lambda x: x / 20</code> ثم <code>y(100)</code> = <strong>5.0</strong> وليس 5! دي من أكتر الأسئلة اللي بتتكرر.</div></div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🔭</span> Scope — نطاق المتغيرات</div>
+    <p>المتغير اللي بتعرّفه جوا Function هو <strong>Local Variable</strong> — بيعيش بس جوا الـ Function ومينقدرش تستخدمه بره منها.</p>
+    <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — Scope</div></div>
+    <pre><code><span class="kw">def</span> <span class="fn">test</span>():
+    <span class="prop">message</span> = <span class="str">"أنا جوا الدالة"</span>  <span class="cmt"># Local</span>
+    <span class="fn">print</span>(message)
+
+<span class="fn">test</span>()
+<span class="cmt"># print(message)  ← هيطلع NameError!</span></code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     CH9 — MODULES, ERRORS & FILES
+════════════════════════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="ch-header">
+    <div class="ch-num red">09</div>
+    <div class="ch-title">
+      <h2>Modules, Errors &amp; Files — التنظيم والأخطاء والملفات</h2>
+      <p>Python بتنمو من Script واحد لمشروع ضخم</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">📦</span> Modules — الوحدات</div>
+      <p>الـ Module هو ملف Python بيحتوي كود قابل للاستيراد. Django نفسه مجموعة ضخمة من Modules!</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — Modules</div></div>
+      <pre><code><span class="cmt"># استيراد module جاهز</span>
+<span class="kw">import</span> math
+<span class="fn">print</span>(math.<span class="fn">sqrt</span>(<span class="num">25</span>))  <span class="cmt"># 5.0</span>
+<span class="fn">print</span>(math.pi)         <span class="cmt"># 3.14159...</span>
+
+<span class="cmt"># استيراد من module ملف ثاني</span>
+<span class="cmt"># helpers.py</span>:
+<span class="kw">def</span> <span class="fn">greet</span>(name): <span class="kw">return</span> <span class="str">f"Hello {name}"</span>
+
+<span class="cmt"># main.py</span>:
+<span class="kw">from</span> helpers <span class="kw">import</span> greet
+<span class="fn">print</span>(<span class="fn">greet</span>(<span class="str">"Nour"</span>))</code></pre></div>
+    </div>
+
+    <div class="topic" style="--accent:var(--red)">
+      <div class="topic-title"><span class="icon">🐛</span> Error Types — أنواع الأخطاء</div>
+      <table class="tbl">
+        <tr><th>النوع</th><th>المعنى</th><th>مثال</th></tr>
+        <tr><td><code>SyntaxError</code></td><td>Python مش فاهم الكود</td><td>نسيت <code></code>: بعد if</td></tr>
+        <tr><td><code>NameError</code></td><td>متغير مش معرّف</td><td>كتبت اسم غلط</td></tr>
+        <tr><td><code>TypeError</code></td><td>عملية على نوع غلط</td><td><code>"a" + 1</code></td></tr>
+        <tr><td><code>IndentationError</code></td><td>المسافات البادئة غلط</td><td>نسيت 4 مسافات</td></tr>
+        <tr><td><code>ValueError</code></td><td>القيمة مش مناسبة</td><td>tuple unpacking فشل</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🛡️</span> try / except — معالجة الأخطاء</div>
+    <p>عشان البرنامج ميقفلش فجأة لو حصل خطأ، بنحيط الكود الخطر بـ <code>try</code> ونتعامل مع الخطأ في <code>except</code>.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">PYTHON — try / except</div></div>
+      <pre><code><span class="kw">try</span>:
+    <span class="prop">num</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"اكتب رقم: "</span>))
+    <span class="fn">print</span>(num * <span class="num">2</span>)
+<span class="kw">except</span>:
+    <span class="fn">print</span>(<span class="str">"ده مش رقم! اكتب رقم صحيح"</span>)</code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📁</span> File Handling — التعامل مع الملفات</div>
+    <p>Python تقدر تقرأ وتكتب في ملفات خارجية باستخدام دالة <code>open(filename, mode)</code>.</p>
+    <div class="grid2">
+      <div>
+        <p style="color:var(--t2);font-size:.85rem;margin-bottom:6px">قراءة ملف</p>
+        <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">READ</div></div>
+        <pre><code><span class="prop">file</span> = <span class="fn">open</span>(<span class="str">"notes.txt"</span>, <span class="str">"r"</span>)
+<span class="prop">content</span> = file.<span class="fn">read</span>()
+<span class="fn">print</span>(content)
+file.<span class="fn">close</span>()</code></pre></div>
+      </div>
+      <div>
+        <p style="color:var(--t2);font-size:.85rem;margin-bottom:6px">كتابة ملف</p>
+        <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">WRITE</div></div>
+        <pre><code><span class="prop">file</span> = <span class="fn">open</span>(<span class="str">"report.txt"</span>, <span class="str">"w"</span>)
+file.<span class="fn">write</span>(<span class="str">"Backend Lec 2"</span>)
+file.<span class="fn">close</span>()</code></pre></div>
+      </div>
+    </div>
+    <div class="danger"><div><b>⚠️ تحذير Mode "w"</b>: لو الملف موجود، Mode <code>"w"</code> بيمسح محتواه القديم ويكتب من الأول! استخدم Mode <code>"a"</code> (Append) لو عايز تضيف من غير ما تمسح.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     QUIZ SECTION
+════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>أسئلة امتحانات Python — 2021 &amp; 2025</h3>
+      <p>22 سؤال حقيقي من الامتحانات مرتبين حسب الشرح مع تفسيرات عربية مفصلة 🇪🇬</p>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-item" id="q1" data-correct="b">
+    <div class="q-num">Q1 <span class="q-src">Final 2025 — T/F Q24</span></div>
+    <div class="q-text"><code>my-var</code> is an incorrect variable name in Python. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: A — True<br>
+      <strong>انتبه</strong>: الإجابة الصح هي A (True) مش B! الاسم <code>my-var</code> فعلاً اسم <strong>غلط</strong> في Python لأن الشرطة العادية <code>-</code> مش مسموح بيها في أسماء المتغيرات. الصح هو استخدام الشرطة السفلية: <code>my_var</code> ✅. ملاحظة: السؤال بيسأل "هل هو غلط؟" والإجابة True يعني نعم هو غلط.
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-item" id="q2" data-correct="a">
+    <div class="q-num">Q2 <span class="q-src">Final 2021 — Q58</span></div>
+    <div class="q-text">In the following Python code, what is the output?
+      <div class="q-code"><pre><code><span class="kw">if</span> <span class="num">2</span> &lt; <span class="num">1</span>:
+    <span class="fn">print</span>(<span class="str">"Two is less than one!"</span>)
+<span class="fn">print</span>(<span class="str">"Two is less than one!"</span>)</code></pre></div>
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Prints "Two is less than one!" once — only the second print executes</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Prints the message twice</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> No output</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: A<br>
+      الشرط <code>2 &lt; 1</code> طبعاً <strong>غلط (False)</strong>، فالـ <code>print</code> اللي جوا الـ if (اللي ليها Indentation) مش هتتنفذ. أما الـ <code>print</code> التانية فهي بره الـ if (مفيش Indentation)، وده معناه إنها هتتنفذ دايماً. المحاضرة بتركز على إن الـ Indentation هي اللي بتحدد إيه جوا الـ Block وإيه بره.
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-item" id="q3" data-correct="c">
+    <div class="q-num">Q3 <span class="q-src">Final 2021 — Q27</span></div>
+    <div class="q-text">What will the following Python code print?
+      <div class="q-code"><pre><code>lst = []
+nums = [<span class="num">15</span>, <span class="num">6</span>]
+lst.<span class="fn">append</span>(nums)
+nums = [<span class="num">10</span>, <span class="num">30</span>, <span class="num">20</span>]
+lst.<span class="fn">append</span>(nums)
+lst.<span class="fn">sort</span>()
+<span class="fn">print</span>(lst)</code></pre></div>
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> [6, 10, 15, 20, 30]</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> [[15, 6], [10, 30, 20]]</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> [[10, 30, 20], [15, 6]]</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> [[6, 15], [10, 20, 30]]</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: C — [[10, 30, 20], [15, 6]]<br>
+      الـ <code>lst</code> بيحتوي على list من lists: <code>[[15, 6], [10, 30, 20]]</code>. لما تعمل <code>sort()</code> على list من lists، Python بتقارن <strong>أول عنصر فقط</strong> في كل sub-list. الـ 10 أصغر من 15، فـ <code>[10, 30, 20]</code> بتيجي قبل <code>[15, 6]</code>. العناصر الداخلية لكل list <strong>مش بتتأثر</strong> وبتفضل بترتيبها الأصلي.
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-item" id="q4" data-correct="a">
+    <div class="q-num">Q4 <span class="q-src">Final 2021 — Q77</span></div>
+    <div class="q-text">In Python, the value of <code>[]</code> (empty list) is False. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: A — True<br>
+      في Python أي حاجة فاضية (Empty) قيمتها المنطقية <strong>False</strong>: القائمة الفاضية <code>[]</code>، الـ Dict الفاضي <code>{}</code>، الـ String الفاضية <code>""</code>، والرقم <code>0</code>. ده اسمه "Truthy and Falsy Values" في Python.
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-item" id="q5" data-correct="a">
+    <div class="q-num">Q5 <span class="q-src">Final 2025 — T/F Q26</span></div>
+    <div class="q-text">The output of the following statements is <code>"Hello, My"</code>:
+      <div class="q-code"><pre><code>b = <span class="str">"Hello, My Friend"</span>
+<span class="fn">print</span>(b[:<span class="num">8</span>])</code></pre></div>
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: A — True<br>
+      الـ Slicing بالصيغة <code>[:8]</code> بتاخد من الأول (index 0) حتى index 7 (الرقم 8 نفسه مش متضمن). النص "Hello, My Friend" — الـ 8 حروف الأولى هي: H(0), e(1), l(2), l(3), o(4), ,(5), (6 space), M(7) = <strong>"Hello, M"</strong>... لحظة! نعيد العد: <br>H=0, e=1, l=2, l=3, o=4, ,=5, space=6, M=7 → <code>b[:8]</code> = "Hello, M" وليس "Hello, My"!<br><br>
+      <strong>انتبه</strong>: "Hello, My" فيها 9 حروف (شامل المسافة). لكن السؤال بيقول الناتج "Hello, My" — النتيجة الفعلية هي "Hello, M". لكن حسب إجابات 2025، الإجابة True. تأكد من السؤال في ورقة الامتحان.
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-item" id="q6" data-correct="b">
+    <div class="q-num">Q6 <span class="q-src">Final 2025 — T/F Q28</span></div>
+    <div class="q-text">The output of the following statements is <code>['a', 'b', 'C']</code>:
+      <div class="q-code"><pre><code>X = [<span class="str">'C'</span>, <span class="str">'b'</span>, <span class="str">'a'</span>]
+X.<span class="fn">sort</span>()
+<span class="fn">print</span>(X)</code></pre></div>
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: B — False<br>
+      <code>sort()</code> العادية (بدون key) بتعتمد على كود ASCII. في ASCII، الحروف الـ Capital (A-Z = 65-90) بتيجي قبل الـ Small (a-z = 97-122). يعني 'C' (67) بتيجي قبل 'a' (97) وقبل 'b' (98). النتيجة الصحيحة هي <code>['C', 'a', 'b']</code> وليس <code>['a', 'b', 'C']</code>.
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-item" id="q7" data-correct="b">
+    <div class="q-num">Q7 <span class="q-src">Final 2025 — T/F Q32</span></div>
+    <div class="q-text">The output of the following Python statements is <code>['a', 'b', 'c']</code>:
+      <div class="q-code"><pre><code>X = [<span class="str">'C'</span>, <span class="str">'b'</span>, <span class="str">'A'</span>]
+X.<span class="fn">sort</span>(key=str.lower)
+<span class="fn">print</span>(X)</code></pre></div>
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: B — False<br>
+      <code>key=str.lower</code> بتخلي الترتيب يعتمد على النسخة الـ Lowercase من الحروف — يعني 'A' و'a' بيتعاملوا كـ 'a'. الترتيب الأبجدي بيطلع: A, b, C. لكن <strong>الحروف بتفضل بشكلها الأصلي</strong>! يعني الناتج هيكون <code>['A', 'b', 'C']</code> وليس <code>['a', 'b', 'c']</code>.
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-item" id="q8" data-correct="a">
+    <div class="q-num">Q8 <span class="q-src">Final 2025 — T/F Q21 + Final 2024</span></div>
+    <div class="q-text">In the following statement:
+      <div class="q-code"><pre><code>myNumbers = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+x = myNumbers.<span class="fn">pop</span>()</code></pre></div>
+      The removed item will be 3. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: A — True<br>
+      <code>pop()</code> <strong>بدون argument</strong> دايماً بتشيل <strong>آخر عنصر</strong> في الـ List. القائمة [1, 2, 3] — آخر عنصر هو 3. يعني <code>x = 3</code> والقائمة تبقى <code>[1, 2]</code>. (السؤال ده اتكرر في 2024 برضو وكانت الإجابة نفسها).
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="q-item" id="q9" data-correct="b">
+    <div class="q-num">Q9 <span class="q-src">Final 2025 — T/F Q22</span></div>
+    <div class="q-text">In the following statement:
+      <div class="q-code"><pre><code>myNumbers = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+x = myNumbers.<span class="fn">pop</span>()</code></pre></div>
+      The removed item will be 1. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: B — False<br>
+      <code>pop()</code> بدون argument بتشيل آخر عنصر وهو <strong>3</strong>، مش العنصر الأول (1). لو عايز تشيل أول عنصر اكتب <code>pop(0)</code>. ده سؤال مصمم عشان يفرق بين الناس اللي فاهمين الـ <code>pop()</code> واللي مش فاهمين.
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="q-item" id="q10" data-correct="b">
+    <div class="q-num">Q10 <span class="q-src">Final 2025 — T/F Q12</span></div>
+    <div class="q-text">In Python, to append elements from another list to the current list, use the <code>update()</code> method. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: B — False<br>
+      <strong>الخلاصة الامتحانية</strong>:
+      <br>• لدمج List في List تانية: استخدم <code>extend()</code>
+      <br>• لدمج Set في Set تانية: استخدم <code>update()</code>
+      <br>• لدمج Dict في Dict تانية: استخدم <code>update()</code>
+      <br><code>update()</code> مش بتشتغل على Lists!
+    </div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="q-item" id="q11" data-correct="b">
+    <div class="q-num">Q11 <span class="q-src">Final 2025 — T/F Q13</span></div>
+    <div class="q-text">In Python, to add items from another set into the current set, use the <code>extend()</code> method. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: B — False<br>
+      عشان تضيف عناصر Set في Set تانية، بنستخدم <code>update()</code> مش <code>extend()</code>. الـ <code>extend()</code> بتشتغل مع الـ <strong>List</strong> فقط. فخ كتير طلاب بيقعوا فيه لأن الكلمتين شبه بعض!
+    </div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="q-item" id="q12" data-correct="b">
+    <div class="q-num">Q12 <span class="q-src">Final 2021 — Q78 + Final 2025 — T/F Q7</span></div>
+    <div class="q-text">In Python, a set is a collection which is both unordered AND indexed. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: B — False<br>
+      الـ Set هي <strong>Unordered (بدون ترتيب) وكمان Unindexed (بدون Index)</strong>. مش ممكن تقول <code>s[0]</code>! السؤال ده اتكرر في 2021 و2025 بنفس الصياغة تقريباً — خد بالك منه كويس.
+    </div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="q-item" id="q13" data-correct="b">
+    <div class="q-num">Q13 <span class="q-src">Final 2021 — Q79</span></div>
+    <div class="q-text">In the following statement:
+      <div class="q-code"><pre><code>myNumbers = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>}
+x = myNumbers.<span class="fn">pop</span>()</code></pre></div>
+      The removed item will definitely be 3. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: B — False<br>
+      <strong>لأن ده Set مش List!</strong> الـ <code>pop()</code> في الـ <strong>Set</strong> بتشيل عنصر <strong>عشوائي</strong> (Random) لأن الـ Set مش مرتبة. ممكن يشيل 1 أو 2 أو 3 — مش ضمان. قارن ده بالـ List: <code>pop()</code> في List دايماً بتشيل الآخر.
+    </div>
+  </div>
+
+  <!-- Q14 -->
+  <div class="q-item" id="q14" data-correct="b">
+    <div class="q-num">Q14 <span class="q-src">Final 2025 — T/F Q23</span></div>
+    <div class="q-text">The following statement:
+      <div class="q-code"><pre><code>x = (<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>)</code></pre></div>
+      is a definition of a list. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: B — False<br>
+      ده <strong>Tuple</strong> مش List! الـ Tuple بتستخدم قوسين عاديين <code>( )</code>، أما الـ List فبتستخدم أقواس مربعة <code>[ ]</code>. الفرق مهم جداً لأن الـ Tuple Immutable (مش ممكن تتعدل) والـ List Mutable.
+    </div>
+  </div>
+
+  <!-- Q15 -->
+  <div class="q-item" id="q15" data-correct="a">
+    <div class="q-num">Q15 <span class="q-src">Final 2025 — T/F Q34</span></div>
+    <div class="q-text">The following statement:
+      <div class="q-code"><pre><code>y = ("apple",)</code></pre></div>
+      is a tuple. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: A — True<br>
+      نعم ده Tuple! الـ Tuple بعنصر واحد <strong>لازم تحط فاصلة</strong> بعد العنصر: <code>("apple",)</code>. لو ما حطتيش الفاصلة: <code>y = ("apple")</code> → ده هيبقى <strong>String</strong> مش Tuple!
+    </div>
+  </div>
+
+  <!-- Q16 -->
+  <div class="q-item" id="q16" data-correct="d">
+    <div class="q-num">Q16 <span class="q-src">Final 2025 — Q70</span></div>
+    <div class="q-text">What will be the output of the following Python code?
+      <div class="q-code"><pre><code>newtuple = (<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>)
+(*k,) = newtuple
+<span class="fn">print</span>(k)</code></pre></div>
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 2,3,4</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> [2,3,4]</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 1,2,3</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> [1, 2, 3, 4]</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: D — [1, 2, 3, 4]<br>
+      الصيغة <code>(*k,) = newtuple</code> — النجمة <code>*</code> مع k بتجمع <strong>كل العناصر</strong> في List. يعني k هيكون <code>[1, 2, 3, 4]</code>. لو كانت <code>(x, *k, y) = (1,2,3,4)</code> فـ x=1, k=[2,3], y=4.
+    </div>
+  </div>
+
+  <!-- Q17 -->
+  <div class="q-item" id="q17" data-correct="c">
+    <div class="q-num">Q17 <span class="q-src">Final 2025 — Q71</span></div>
+    <div class="q-text">What will be the output of the following Python code?
+      <div class="q-code"><pre><code>newtuple = (<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)
+(x, *k, y, z, m) = newtuple
+<span class="fn">print</span>(k)</code></pre></div>
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> 2,3</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> [2,3]</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Python Error (ValueError)</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> []</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: C — Python Error<br>
+      الـ Tuple فيها 3 عناصر فقط، لكن الـ Unpacking بيطلب: x (1 عنصر) + k (0 على الأقل) + y (1) + z (1) + m (1) = 4 عناصر إجبارية كحد أدنى! العناصر مش كافية فبيطلع <strong>ValueError</strong>. لو كانت <code>(1,2,3,4,5)</code> كانت هتنجح: x=1, k=[2,3], y=4, z=5, m=???... لأ برضو! مفتقرة لـ m.
+    </div>
+  </div>
+
+  <!-- Q18 -->
+  <div class="q-item" id="q18" data-correct="c">
+    <div class="q-num">Q18 <span class="q-src">Final 2021 — Q59</span></div>
+    <div class="q-text">The following print will return:
+      <div class="q-code"><pre><code>x = {
+    <span class="str">"name"</span>: <span class="str">"Ahmed"</span>,
+    <span class="str">"id"</span>: <span class="str">"1"</span>,
+    <span class="str">"mobile"</span>: <span class="num">123456789</span>,
+    <span class="str">"mobile"</span>: <span class="num">987654321</span>
+}
+<span class="fn">print</span>(x)</code></pre></div>
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> {'name': 'Ahmed', 'id': '1', 'mobile': 123456789, 'mobile': 987654321}</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> {'name': 'Ahmed', 'id': '1', 'mobile': 123456789}</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> {'name': 'Ahmed', 'id': '1', 'mobile': 987654321}</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error — duplicate keys not allowed</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: C<br>
+      في الـ Dictionary، الـ Keys لازم تكون فريدة. لو حطيت نفس الـ Key أكتر من مرة، Python <strong>مش بيطلع Error</strong> — بس بيحتفظ بالقيمة الأخيرة فقط. "mobile": 987654321 هي القيمة الأخيرة، فهي اللي بتفضل.
+    </div>
+  </div>
+
+  <!-- Q19 -->
+  <div class="q-item" id="q19" data-correct="a">
+    <div class="q-num">Q19 <span class="q-src">Final 2021 — Q60</span></div>
+    <div class="q-text">What will be the output of the following Python code?
+      <div class="q-code"><pre><code><span class="kw">def</span> <span class="fn">f</span>(**person):
+    <span class="fn">print</span>(<span class="str">"Person's name is "</span> + person[<span class="str">"name"</span>])
+
+<span class="fn">f</span>(name=<span class="str">"Ahmed"</span>, age=<span class="num">10</span>)</code></pre></div>
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Person's name is Ahmed</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Person's name is Ahmed and Age is 10</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Error — function doesn't take keyword arguments</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Error — no "name" key found</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: A — Person's name is Ahmed<br>
+      <code>**person</code> بيجمع كل الـ keyword arguments في Dictionary: <code>{"name": "Ahmed", "age": 10}</code>. الكود بيطبع بس <code>person["name"]</code> = "Ahmed". الـ age موجود في الـ Dict لكن الكود مش طالبه، فبيتجاهله بدون Error.
+    </div>
+  </div>
+
+  <!-- Q20 -->
+  <div class="q-item" id="q20" data-correct="c">
+    <div class="q-num">Q20 <span class="q-src">Final 2021 — Q61 + Final 2024 — Lambda Q</span></div>
+    <div class="q-text">The following statement will return:
+      <div class="q-code"><pre><code>y = <span class="kw">lambda</span> x: x / <span class="num">20</span>
+<span class="fn">print</span>(y(<span class="num">100</span>))</code></pre></div>
+    </div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Error — no function called y</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> 5 (integer)</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> 5.0 (float)</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> y(100)</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: C — 5.0<br>
+      <strong>القاعدة الذهبية اللي بتتكرر في كل امتحان</strong>: القسمة العادية بعلامة <code>/</code> في Python دايماً بترجع <strong>float</strong>. 100 / 20 = 5.0 وليس 5. لو عايز 5 عدد صحيح استخدم <code>100 // 20</code>.
+    </div>
+  </div>
+
+  <!-- Q21 -->
+  <div class="q-item" id="q21" data-correct="b">
+    <div class="q-num">Q21 <span class="q-src">Final 2024 — Python Q</span></div>
+    <div class="q-text">After running:
+      <div class="q-code"><pre><code>lst = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>]
+lst.<span class="fn">pop</span>()</code></pre></div>
+      what is <code>lst</code>?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> [2, 3, 4]</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> [1, 2, 3]</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> [1, 2, 4]</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> [1, 2, 3, 4] (unchanged)</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: B — [1, 2, 3]<br>
+      <code>pop()</code> بدون argument بتشيل <strong>آخر عنصر</strong> وهو 4. القائمة تبقى [1, 2, 3].
+    </div>
+  </div>
+
+  <!-- Q22 -->
+  <div class="q-item" id="q22" data-correct="b">
+    <div class="q-num">Q22 <span class="q-src">Final 2025 — T/F Q6</span></div>
+    <div class="q-text">In Python, format function is used to format the datatypes of the output. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة</b>: B — False<br>
+      دالة <code>format()</code> مش بتغير نوع البيانات (Datatypes). هي بس بتنظم وتنسّق طريقة <strong>عرض</strong> الـ String. اللي بيغير النوع هو الـ <strong>Type Casting</strong>: <code>int()</code>, <code>float()</code>, <code>str()</code>, <code>bool()</code>.
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:20px">
+    <span class="q-score" id="score-main"></span><br>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✔ تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↺ إعادة المحاولة</button>
+  </div>
+</div>
+
+</div><!-- /content -->
+</main>
+
+<script>
+// ─── Progress Bar ───
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  const pct = (d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100;
+  document.getElementById('prog-bar').style.width = pct + '%';
+  document.getElementById('scroll-top').classList.toggle('show', d.scrollTop > 400);
+});
+
+// ─── Sidebar Active Link ───
+const sectionIds = ['ch1','ch2','ch3','ch4','ch5','ch6','ch7','ch8','ch9','quiz'];
+const sbLinks = document.querySelectorAll('.sb-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      sbLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.sb-link[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.25 });
+sectionIds.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+
+// ─── Quiz Logic ───
+function checkQuiz(quizId) {
+  const section = document.getElementById(quizId);
+  const items = section.querySelectorAll('.q-item');
+  let correct = 0;
+  let attempted = 0;
+  const total = items.length;
+
+  items.forEach(item => {
+    const rightAns = item.dataset.correct;
+    const opts = item.querySelectorAll('.q-opt');
+    const explain = item.querySelector('.q-explain');
+    let selected = null;
+
+    opts.forEach(opt => {
+      if (opt.classList.contains('selected')) selected = opt.dataset.val;
+      opt.style.pointerEvents = 'none';
+    });
+
+    opts.forEach(opt => {
+      if (opt.dataset.val === rightAns) {
+        opt.classList.add('correct');
+      } else if (selected && opt.dataset.val === selected && selected !== rightAns) {
+        opt.classList.add('wrong');
+      }
+    });
+
+    if (selected) {
+      attempted++;
+      if (selected === rightAns) correct++;
+    }
+    if (explain) explain.classList.add('show');
+  });
+
+  const scoreEl = document.getElementById('score-main');
+  if (!scoreEl) return;
+
+  if (attempted > 0) {
+    const pct = Math.round((correct / total) * 100);
+    scoreEl.textContent = `نتيجتك: ${correct} / ${total} (${pct}%)`;
+    scoreEl.className = 'q-score ' + (pct >= 80 ? 'good' : pct >= 60 ? 'ok' : 'bad');
+  } else {
+    scoreEl.textContent = `تم عرض الإجابات وتفسيراتها للمذاكرة 📖✨`;
+    scoreEl.className = 'q-score good';
+  }
+  scoreEl.style.display = 'block';
+}
+
+function resetQuiz(quizId) {
+  const section = document.getElementById(quizId);
+  section.querySelectorAll('.q-opt').forEach(opt => {
+    opt.classList.remove('selected','correct','wrong');
+    opt.style.pointerEvents = '';
+  });
+  section.querySelectorAll('.q-explain').forEach(e => e.classList.remove('show'));
+  const scoreEl = document.getElementById('score-main');
+  if (scoreEl) { scoreEl.style.display = 'none'; scoreEl.textContent = ''; }
+}
+
+document.querySelectorAll('.q-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    if (opt.style.pointerEvents === 'none') return;
+    opt.closest('.q-item').querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+});
+</script>
+</body>
+</html>

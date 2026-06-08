@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IS231 — المحاضرة الخامسة | Django Part I — Getting Started</title>
+<meta name="description" content="ملخص شامل لمحاضرة 5 في مادة Web Technology IS231 — Django Framework, MVT Architecture, Setup, Project Structure, Views, Templates, Migrations بالشرح العربي والمصطلحات الإنجليزية">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070c18;--bg2:#0b1120;--card:#0f172a;--card2:#141e33;
+  --border:#1e3a5f;--border2:#253650;
+  --cyan:#00d4ff;--cyan2:#0ea5e9;--amber:#f59e0b;--green:#10b981;
+  --red:#ef4444;--purple:#8b5cf6;--pink:#f472b6;--teal:#2dd4bf;
+  --t1:#e2e8f0;--t2:#94a3b8;--t3:#64748b;
+  --code:#0d1117;--fw:280px;
+  --fh:'Outfit',sans-serif;--fb:'DM Sans',sans-serif;--fc:'Fira Code',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.75;overflow-x:hidden}
+
+/* ─── PROGRESS BAR ─── */
+#prog-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--amber));z-index:9999;transition:width .2s;width:0}
+
+/* ─── SIDEBAR ─── */
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--fw);background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;z-index:100;padding:20px 0;transition:.3s}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.sb-logo{padding:12px 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.sb-logo h2{font-family:var(--fh);font-size:1.05rem;color:var(--cyan);font-weight:700}
+.sb-logo p{font-size:.72rem;color:var(--t3);margin-top:3px}
+.sb-section{padding:6px 20px 2px;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-top:10px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 20px;font-size:.82rem;color:var(--t2);text-decoration:none;transition:.2s;border-left:3px solid transparent;position:relative}
+.sb-link:hover,.sb-link.active{color:var(--t1);background:rgba(0,212,255,.06);border-left-color:var(--cyan)}
+.sb-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:.2s}
+.sb-link.active .sb-dot,.sb-link:hover .sb-dot{background:var(--cyan)}
+
+/* ─── MAIN ─── */
+#main{margin-left:var(--fw);padding:0 0 80px}
+.hero{background:linear-gradient(135deg,#060d1e 0%,#0a1628 40%,#0e0a2e 100%);padding:70px 60px 60px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,212,255,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-50px;left:200px;width:300px;height:300px;background:radial-gradient(circle,rgba(139,92,246,.06) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:20px;padding:5px 14px;font-size:.75rem;color:var(--cyan);margin-bottom:20px;font-family:var(--fc)}
+.hero h1{font-family:var(--fh);font-size:2.8rem;font-weight:800;line-height:1.15;margin-bottom:14px}
+.hero h1 span{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--t2);max-width:620px;font-size:1rem;text-align:right;direction:rtl}
+.hero-stats{display:flex;gap:30px;margin-top:30px}
+.hstat{text-align:center}
+.hstat .num{font-family:var(--fh);font-size:1.8rem;font-weight:700;color:var(--cyan)}
+.hstat .lbl{font-size:.72rem;color:var(--t3);margin-top:2px}
+
+/* ─── CONTENT ─── */
+.content{padding:40px 60px}
+.chapter{margin-bottom:80px}
+
+/* ─── SECTION TITLE ─── */
+.ch-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.ch-num{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:1rem;flex-shrink:0}
+.ch-num.blue{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.25)}
+.ch-num.purple{background:rgba(139,92,246,.12);color:var(--purple);border:1px solid rgba(139,92,246,.25)}
+.ch-num.amber{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+.ch-num.green{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+.ch-num.pink{background:rgba(244,114,182,.12);color:var(--pink);border:1px solid rgba(244,114,182,.25)}
+.ch-num.teal{background:rgba(45,212,191,.12);color:var(--teal);border:1px solid rgba(45,212,191,.25)}
+.ch-num.red{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+.ch-title h2{font-family:var(--fh);font-size:1.6rem;font-weight:700}
+.ch-title p{color:var(--t3);font-size:.85rem;margin-top:3px}
+
+/* ─── TOPIC CARD ─── */
+.topic{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden;transition:.25s}
+.topic::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--cyan)),transparent);opacity:.6}
+.topic:hover{border-color:var(--border2);transform:translateY(-1px)}
+.topic-title{font-family:var(--fh);font-size:1.05rem;font-weight:600;margin-bottom:10px;color:var(--t1);display:flex;align-items:center;gap:10px}
+.topic-title .icon{font-size:1.1rem}
+.topic p{color:var(--t2);font-size:.9rem;margin-bottom:10px;direction:rtl;text-align:right}
+.topic p:last-child{margin-bottom:0}
+.topic ul{color:var(--t2);font-size:.9rem;padding-right:20px;direction:rtl}
+.topic ul li{margin-bottom:6px}
+
+/* ─── GRID ─── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+/* ─── CODE BLOCK ─── */
+.code-wrap{background:var(--code);border:1px solid #21262d;border-radius:10px;margin:14px 0;overflow:hidden}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid #21262d}
+.code-dots{display:flex;gap:6px}
+.code-dots span{width:10px;height:10px;border-radius:50%}
+.code-dots span:nth-child(1){background:#ff5f57}
+.code-dots span:nth-child(2){background:#febc2e}
+.code-dots span:nth-child(3){background:#28c840}
+.code-lang{font-family:var(--fc);font-size:.68rem;color:var(--t3)}
+.code-wrap pre{padding:16px 20px;font-family:var(--fc);font-size:.82rem;line-height:1.7;overflow-x:auto;color:#cdd6f4}
+.code-wrap pre code{background:transparent}
+/* Syntax colors */
+.kw{color:#cba6f7}.str{color:#a6e3a1}.num{color:#fab387}.fn{color:#89b4fa}
+.cmt{color:#585b70;font-style:italic}.prop{color:#89dceb}.tag{color:#f38ba8}
+.attr{color:#fab387}.val{color:#a6e3a1}.sel{color:#cba6f7}
+
+/* ─── INLINE CODE ─── */
+code{font-family:var(--fc);background:rgba(0,212,255,.08);color:var(--cyan);padding:2px 7px;border-radius:4px;font-size:.82em}
+
+/* ─── INFO BOXES ─── */
+.tip,.warn,.info,.danger{display:flex;gap:12px;padding:14px 16px;border-radius:10px;margin:14px 0;font-size:.87rem;direction:rtl;text-align:right}
+.tip{background:rgba(16,185,129,.08);border-right:3px solid var(--green);color:#6ee7b7}
+.warn{background:rgba(245,158,11,.08);border-right:3px solid var(--amber);color:#fcd34d}
+.info{background:rgba(0,212,255,.08);border-right:3px solid var(--cyan);color:#7dd3fc}
+.danger{background:rgba(239,68,68,.08);border-right:3px solid var(--red);color:#fca5a5}
+.tip b,.warn b,.info b,.danger b{display:block;margin-bottom:3px;font-weight:600}
+
+/* ─── TABLE ─── */
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem}
+.tbl th{background:var(--card2);color:var(--cyan);font-family:var(--fh);font-weight:600;padding:10px 14px;text-align:right;border-bottom:2px solid var(--border)}
+.tbl td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--t2);text-align:right}
+.tbl tr:hover td{background:rgba(255,255,255,.02)}
+.tbl td code{font-size:.8em}
+
+/* ─── COMPARE CARD ─── */
+.compare-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative;overflow:hidden}
+.compare-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--cyan)),transparent);opacity:.7}
+.compare-card h4{font-family:var(--fh);font-weight:700;font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.compare-card ul{list-style:none;padding:0}
+.compare-card ul li{padding:5px 0;color:var(--t2);font-size:.85rem;border-bottom:1px solid rgba(255,255,255,.04);direction:rtl!important;text-align:right!important;unicode-bidi:isolate!important}
+.compare-card ul li:last-child{border-bottom:none}
+.compare-card ul li::before{content:'← ';color:var(--accent,var(--cyan));font-family:var(--fc)}
+
+/* ─── STEPS ─── */
+.steps{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+.step{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;background:var(--card2);border-radius:10px;border:1px solid var(--border);direction:rtl}
+.step-num{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700;font-size:.85rem;flex-shrink:0}
+.step-body{flex:1;direction:rtl;text-align:right}
+.step-title{font-family:var(--fh);font-weight:600;font-size:.9rem;color:var(--t1);margin-bottom:2px}
+.step-desc{font-size:.82rem;color:var(--t2)}
+
+/* ─── BADGES ─── */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;font-family:var(--fc)}
+.badge-cyan{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
+.badge-green{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.badge-amber{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.badge-red{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.badge-purple{background:rgba(139,92,246,.1);color:var(--purple);border:1px solid rgba(139,92,246,.2)}
+.badge-pink{background:rgba(244,114,182,.1);color:var(--pink);border:1px solid rgba(244,114,182,.2)}
+
+/* ─── FLOW DIAGRAM ─── */
+.flow-diagram{display:flex;align-items:center;justify-content:center;gap:0;padding:20px;flex-wrap:wrap}
+.flow-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px 20px;text-align:center;min-width:110px}
+.flow-box .fb-icon{font-size:1.8rem;margin-bottom:6px}
+.flow-box .fb-label{font-family:var(--fh);font-size:.82rem;font-weight:600;color:var(--t1)}
+.flow-box .fb-sub{font-size:.7rem;color:var(--t3);margin-top:2px}
+.flow-arrow{display:flex;flex-direction:column;align-items:center;padding:0 6px;gap:6px}
+.arrow-req{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--cyan)}
+.arrow-res{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--green)}
+.arr-line{flex:1;height:2px;min-width:40px;border-radius:1px}
+.arr-cyan{background:linear-gradient(90deg,var(--cyan),var(--cyan2))}
+.arr-green{background:var(--green)}
+.arr-tip{font-size:.8rem}
+
+/* ─── TIER / MVT DIAGRAM ─── */
+.tier-wrap{display:flex;gap:0;align-items:stretch;border-radius:14px;overflow:hidden;border:1px solid var(--border);margin:16px 0}
+.tier{flex:1;padding:20px 16px;text-align:center;border-right:1px solid var(--border)}
+.tier:last-child{border-right:none}
+.tier-icon{font-size:2rem;margin-bottom:8px}
+.tier-name{font-family:var(--fh);font-size:.9rem;font-weight:700;margin-bottom:4px}
+.tier-tech{font-family:var(--fc);font-size:.72rem;color:var(--t3);margin-bottom:8px}
+.tier-desc{font-size:.78rem;color:var(--t2);line-height:1.5}
+.tier1{background:rgba(16,185,129,.05)}.tier2{background:rgba(0,212,255,.05)}.tier3{background:rgba(244,114,182,.05)}
+.tier1 .tier-name{color:var(--green)}.tier2 .tier-name{color:var(--cyan)}.tier3 .tier-name{color:var(--pink)}
+
+/* ─── QUIZ ─── */
+.quiz-section{background:linear-gradient(135deg,#0c1830 0%,#0e1525 100%);border:1px solid var(--border);border-radius:16px;padding:30px;margin-top:40px}
+.quiz-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.quiz-icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.quiz-header h3{font-family:var(--fh);font-size:1.2rem;font-weight:700}
+.quiz-header p{font-size:.8rem;color:var(--t3)}
+.q-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:14px;transition:.2s}
+.q-num{font-family:var(--fc);font-size:.7rem;color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-direction:row-reverse;justify-content:flex-end}
+.q-num .q-src{background:rgba(139,92,246,.1);color:var(--purple);padding:2px 8px;border-radius:4px;font-size:.65rem}
+.q-text{font-size:.9rem;color:var(--t1);margin-bottom:14px;line-height:1.6;direction:ltr;text-align:left}
+.q-opts{display:flex;flex-direction:column;gap:8px}
+.q-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:.2s;font-size:.85rem;color:var(--t2);user-select:none;direction:ltr;text-align:left}
+.q-opt:hover{border-color:var(--border2);color:var(--t1);background:rgba(255,255,255,.02)}
+.q-opt.selected{border-color:var(--cyan);background:rgba(0,212,255,.06);color:var(--t1)}
+.q-opt.correct{border-color:var(--green)!important;background:rgba(16,185,129,.1)!important;color:#6ee7b7!important}
+.q-opt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important;color:#fca5a5!important}
+.q-opt-letter{width:22px;height:22px;border-radius:6px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-family:var(--fc);flex-shrink:0;font-weight:600}
+.q-explain{display:none;margin-top:12px;padding:12px 14px;background:rgba(0,212,255,.05);border-right:3px solid var(--cyan);border-radius:8px 0 0 8px;font-size:.83rem;color:#7dd3fc;line-height:1.6;direction:rtl;text-align:right}
+.q-explain.show{display:block}
+.quiz-btn{display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:9px 22px;border-radius:8px;border:none;cursor:pointer;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s}
+.btn-check{background:linear-gradient(135deg,var(--purple),var(--cyan2));color:#fff}
+.btn-check:hover{opacity:.9;transform:translateY(-1px)}
+.btn-reset{background:rgba(255,255,255,.06);color:var(--t2);margin-right:8px;border:1px solid var(--border)}
+.btn-reset:hover{background:rgba(255,255,255,.1);color:var(--t1)}
+.q-score{display:none;margin-top:16px;padding:14px 18px;border-radius:10px;font-family:var(--fh);font-weight:600;text-align:center}
+.q-score.good{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:var(--green)}
+.q-score.ok{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--amber)}
+.q-score.bad{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+
+/* ─── GLOBAL NAV ─── */
+.global-nav{display:flex;justify-content:center;gap:12px;padding:16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:90}
+.gn-link{display:flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;text-decoration:none;font-family:var(--fh);font-size:.85rem;font-weight:600;transition:.2s;border:1px solid transparent}
+.gn-link:hover{transform:translateY(-2px)}
+.gn-back{background:rgba(0,212,255,.08);color:var(--cyan);border-color:rgba(0,212,255,.2)}
+.gn-back:hover{background:var(--cyan);color:#000;box-shadow:0 0 15px rgba(0,212,255,.3)}
+.gn-lec5{background:rgba(139,92,246,.08);color:var(--purple);border-color:rgba(139,92,246,.2)}
+.gn-lec5.active{background:var(--purple);color:#fff;box-shadow:0 0 15px rgba(139,92,246,.3)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  :root{--fw:0px}
+  #sidebar{transform:translateX(-280px)}
+  #sidebar.open{transform:translateX(0);width:280px;box-shadow:0 0 20px rgba(0,0,0,.5)}
+  #main{margin-left:0}
+  .content{padding:24px 16px}
+  .hero{padding:40px 20px 32px}
+  .hero h1{font-size:1.8rem}
+  .grid2,.grid3{grid-template-columns:1fr}
+  #menu-btn{display:flex}
+  .hero-stats{gap:14px;flex-wrap:wrap}
+  .tier-wrap{flex-direction:column}
+  .tier{border-right:none;border-bottom:1px solid var(--border)}
+  .tier:last-child{border-bottom:none}
+  .flow-diagram{flex-direction:column}
+}
+@media(max-width:400px){.hero-stats{flex-direction:column;align-items:flex-start}}
+@media(min-width:901px){#menu-btn{display:none!important}}
+#menu-btn{position:fixed;bottom:20px;left:20px;z-index:200;width:46px;height:46px;border-radius:12px;background:var(--cyan);border:none;cursor:pointer;color:#000;font-size:1.3rem;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,212,255,.4)}
+
+/* ─── SCROLL TO TOP ─── */
+#scroll-top{position:fixed;bottom:20px;right:20px;width:40px;height:40px;border-radius:10px;background:rgba(0,212,255,.15);border:1px solid rgba(0,212,255,.3);color:var(--cyan);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s;z-index:200}
+#scroll-top.show{opacity:1}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.animate{animation:fadeIn .4s ease forwards}
+.topic{animation:fadeIn .3s ease forwards}
+
+/* ─── BIDI FIX (ARABIC/ENGLISH MIX) ─── */
+p, h1, h2, h3, h4, h5, h6, li, td, th,
+.topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div,
+.q-explain, .hero p, .hero-badge, .sb-link,
+.topic p, .ch-title h2, .sb-logo p, .sb-logo h2 {
+  unicode-bidi: plaintext;
+}
+code, strong, b, i, em, span, .kw, .str, .num, .fn, .prop, .tag, .attr, .val, .sel {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ─── RULE BOX ─── */
+.rule-box{border-left:4px solid var(--accent,var(--cyan));background:rgba(0,212,255,.04);border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0;font-size:.87rem;color:var(--t2);direction:rtl;text-align:right}
+.rule-box strong{color:var(--t1)}
+
+/* ─── FOLDER TREE ─── */
+.tree-box{background:var(--code);border:1px solid #21262d;border-radius:10px;padding:18px 20px;font-family:var(--fc);font-size:.82rem;color:var(--t2);direction:ltr;text-align:left;margin:14px 0}
+
+@media(max-width:900px){.global-nav{padding:12px 10px;flex-wrap:wrap;gap:8px}.gn-link{font-size:.78rem;padding:6px 14px}}
+.global-nav[aria-label="Lecture navigation"]{align-items:center;direction:ltr}
+.gn-home{background:rgba(0,212,255,.08);color:var(--cyan);border-color:rgba(0,212,255,.2)}
+.gn-home:hover{background:var(--cyan);color:#001018;box-shadow:0 0 15px rgba(0,212,255,.3)}
+.gn-prev,.gn-next{background:rgba(16,185,129,.08);color:var(--green);border-color:rgba(16,185,129,.2)}
+.gn-prev:hover,.gn-next:hover{background:var(--green);color:#02130d;box-shadow:0 0 15px rgba(16,185,129,.25)}
+.gn-current{background:var(--purple);color:#fff;border-color:rgba(139,92,246,.3);box-shadow:0 0 15px rgba(139,92,246,.25);cursor:default}
+.gn-disabled{background:rgba(148,163,184,.06);color:var(--t3);border-color:rgba(148,163,184,.14);cursor:not-allowed;opacity:.75}
+.gn-current:hover,.gn-disabled:hover{transform:none}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="prog-bar"></div>
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>🐍 IS231 · Lecture 05</h2>
+    <p>Getting Started with Django</p>
+  </div>
+  <div class="sb-section">مفاهيم Django</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>ليه Django؟ — Why Framework?</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>ما هو Django؟ — Definition</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>MVT Architecture</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Django Request Flow</a>
+  <div class="sb-section">إعداد البيئة والمشروع</div>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Setup Workflow — خطوات الإعداد</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Virtual Environment</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Project Structure — هيكل المشروع</a>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>Project vs App</a>
+  <div class="sb-section">Views & Templates & URLs</div>
+  <a href="#ch9" class="sb-link"><span class="sb-dot"></span>Views & URL Configuration</a>
+  <a href="#ch10" class="sb-link"><span class="sb-dot"></span>Django Templates</a>
+  <a href="#ch11" class="sb-link"><span class="sb-dot"></span>Migrations — الترحيلات</a>
+  <a href="#ch12" class="sb-link"><span class="sb-dot"></span>Django Admin</a>
+  <div class="sb-section">اختبار الامتحانات</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Quiz — أسئلة الامتحانات</a>
+</nav>
+
+<!-- Mobile menu -->
+<button id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- MAIN -->
+<main id="main">
+
+<!-- Global Navigation -->
+<div class="global-nav" aria-label="Lecture navigation">
+  <a href="../index.html" class="gn-link gn-home">الرئيسية</a>
+  <a href="lec-04.html" class="gn-link gn-prev">← السابق: Lecture 04</a>
+  <span class="gn-link gn-current" aria-current="page">Lecture 05</span>
+  <a href="lec-06-django.html" class="gn-link gn-next">التالي: Lecture 06 →</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚡ IS231 · Lecture 05 · Dr. Mohamed Nour Eldien · أسئلة امتحانات 2021 – 2025</div>
+  <h1>Django —<br><span>Part I: Getting Started</span></h1>
+  <p>مقدمة شاملة في Django Framework — ليه بنستخدم Framework، معمارية MVT، إعداد البيئة خطوة خطوة، هيكل المشروع، الـ Views والـ URLs والـ Templates والـ Migrations — الشرح بالعربي والمصطلحات بالإنجليزي 🇪🇬🐍</p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">12</div><div class="lbl">قسم شرح</div></div>
+    <div class="hstat"><div class="num">18+</div><div class="lbl">سؤال امتحان حقيقي</div></div>
+    <div class="hstat"><div class="num">2021–2025</div><div class="lbl">سنوات الامتحانات</div></div>
+    <div class="hstat"><div class="num">∞</div><div class="lbl">نجاح 🎯</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 1 — WHY DO WE NEED A FRAMEWORK?
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>Why Do We Need a Framework? — ليه بنحتاج Framework؟</h2>
+      <p>الفرق بين الكتابة من الصفر واستخدام إطار عمل جاهز</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">💡</span> المشكلة اللي بيحلها الـ Framework</div>
+    <p>الطالب دلوقتي عارف Python — بس محتاج طريقة أسرع عشان يبني Web Applications كاملة. من غير Framework، كل مشروع هتكتب فيه كل حاجة من الصفر: الـ Routing، الـ Forms، الـ Database Logic، الـ Templates، الـ Admin... ده بيضيع وقت ضخم جداً ومليان أخطاء.</p>
+    <div class="grid2">
+      <div class="compare-card" style="--accent:var(--red)">
+        <h4 style="color:var(--red)">❌ بدون Framework</h4>
+        <ul>
+          <li>تكتب الـ Routing يدوياً من الصفر</li>
+          <li>تبني الـ Database Layer وحدك</li>
+          <li>تعمل الـ Admin Interface يدوياً</li>
+          <li>تتعامل مع الـ Security وحدك</li>
+          <li>بطيء جداً وعرضة للأخطاء</li>
+        </ul>
+      </div>
+      <div class="compare-card" style="--accent:var(--green)">
+        <h4 style="color:var(--green)">✅ مع Django Framework</h4>
+        <ul>
+          <li>الـ Routing جاهز وسهل التكوين</li>
+          <li>ORM بيتعامل مع الـ Database بكود Python</li>
+          <li>Admin Panel جاهز تلقائياً</li>
+          <li>Security Features مدمجة</li>
+          <li>سريع، آمن، ومنظم</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip"><div><b>💡 تشبيه بسيط:</b> بناء موقع بدون Framework زي بناء عمارة بدون عمال ومعمار — ممكن تعملها بس هتاخد سنين وهتيجي غلط. الـ Framework زي المعمار اللي جاهز ليك الأساس والهيكل، إنت بس تضيف المحتوى.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🎯</span> مميزات استخدام Framework</div>
+    <div class="grid3">
+      <div>
+        <p style="color:var(--cyan);font-weight:600;margin-bottom:6px">📐 Structure</p>
+        <p>بيخلي الـ Team يشتغل على أسلوب واحد منظم — كل حاجة في مكانها الصح.</p>
+      </div>
+      <div>
+        <p style="color:var(--green);font-weight:600;margin-bottom:6px">⚡ Speed</p>
+        <p>بتبني Features أسرع بكتير عشان الأساسيات موجودة جاهزة.</p>
+      </div>
+      <div>
+        <p style="color:var(--amber);font-weight:600;margin-bottom:6px">🔒 Security</p>
+        <p>الـ Framework بيحميك من أشهر الثغرات زي SQL Injection و CSRF تلقائياً.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 2 — WHAT IS DJANGO?
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num purple">02</div>
+    <div class="ch-title">
+      <h2>What is Django? — ما هو Django؟</h2>
+      <p>تعريف شامل للـ Framework واللي بيميزه</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🐍</span> تعريف Django</div>
+    <p>الـ <strong>Django</strong> هو <strong>Web Framework</strong> مبني بـ <strong>Python</strong> ومصمم للـ <strong>Rapid Development</strong> (التطوير السريع). هو مش لغة برمجة — Python هي اللغة، وDjango هو إطار العمل المبني فوقيها.</p>
+    <div class="info"><div><b>📌 من الامتحان مباشرة (2021 &amp; 2024):</b> Django is a type of <strong>Web Framework</strong>. مش Programming Language ومش Software ومش Database. والـ Architecture بتاعته هي <strong>MVT (Model–View–Template)</strong>.</div></div>
+    <div class="grid2">
+      <div>
+        <p style="color:var(--t2);margin-bottom:8px">🔋 <strong>"Batteries Included"</strong> — Django بيجي بكل حاجة:</p>
+        <ul>
+          <li>نظام الـ Routing جاهز</li>
+          <li>Admin Interface مدمج</li>
+          <li>ORM للتعامل مع الـ Database</li>
+          <li>نظام الـ Authentication</li>
+          <li>معالجة الـ Forms</li>
+          <li>حماية من الثغرات الشائعة</li>
+        </ul>
+      </div>
+      <div>
+        <p style="color:var(--t2);margin-bottom:8px">🎯 <strong>ليه Django للتعليم؟</strong></p>
+        <ul>
+          <li>Readable و Practical زي Python</li>
+          <li>قريبة من طريقة عمل الـ Industry الحقيقي</li>
+          <li>Python + Web + Templates + URLs + Models في بيئة واحدة</li>
+          <li>Community ضخم جداً ودعم ممتاز</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn"><div><b>⚡ فرق مهم جداً:</b> <strong>Python</strong> هي لغة البرمجة — <strong>Django</strong> هو Framework (إطار عمل) مكتوب بـ Python. الفرق زي الفرق بين اللغة الإنجليزية (Python) وكتاب مكتوب بيها (Django).</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 3 — MVT ARCHITECTURE
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>MVT Architecture — معمارية نموذج-عرض-قالب</h2>
+      <p>قلب Django — Model · View · Template</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📐</span> MVT — الثلاثة أجزاء الأساسية</div>
+    <div class="tier-wrap">
+      <div class="tier tier1">
+        <div class="tier-icon">📦</div>
+        <div class="tier-name">Model</div>
+        <div class="tier-tech">models.py</div>
+        <div class="tier-desc">بيتعامل مع البيانات وجداول الـ Database. بيعرّف هيكل البيانات. الـ ORM بيترجم Python Classes لجداول SQL.</div>
+      </div>
+      <div class="tier tier2">
+        <div class="tier-icon">⚙️</div>
+        <div class="tier-name">View</div>
+        <div class="tier-tech">views.py</div>
+        <div class="tier-desc">بيستقبل الـ Requests، بيشغل الـ Logic، بيجيب البيانات من الـ Model، وبيرد بـ HTTP Response غالباً باستخدام Template.</div>
+      </div>
+      <div class="tier tier3">
+        <div class="tier-icon">🎨</div>
+        <div class="tier-name">Template</div>
+        <div class="tier-tech">*.html</div>
+        <div class="tier-desc">ملفات HTML بتتحكم في اللي المستخدم بيشوفه. بتستخدم Django Template Language: <code>{{ var }}</code>، <code>{% for %}</code>، <code>{% if %}</code>.</div>
+      </div>
+    </div>
+    <div class="warn"><div><b>⚡ MVT vs MVC — فرق مهم للامتحان:</b> Django بيستخدم MVT مش MVC. الـ View في Django بيعمل دور الـ Controller في MVC. الـ Template في Django بيعمل دور الـ View في MVC. الأسماء مختلفة بس الدور قريب جداً.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📋</span> مقارنة MVT مع MVC</div>
+    <table class="tbl">
+      <tr><th>الدور</th><th>في MVC</th><th>في Django MVT</th></tr>
+      <tr><td>إدارة البيانات</td><td><strong>Model</strong></td><td><strong>Model</strong></td></tr>
+      <tr><td>المنطق والـ Logic</td><td><strong>Controller</strong></td><td><strong>View</strong> (اسمه مختلف!)</td></tr>
+      <tr><td>العرض للمستخدم</td><td><strong>View</strong></td><td><strong>Template</strong> (اسمه مختلف!)</td></tr>
+    </table>
+    <div class="danger"><div><b>🚨 نقطة امتحان مكررة (2021 &amp; 2024):</b> Django's architecture consists of: <strong>Model, View, and Template (MVT)</strong>. مش Model and View only، ومش Template and View only. الثلاثة مع بعض.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 4 — DJANGO REQUEST FLOW
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num green">04</div>
+    <div class="ch-title">
+      <h2>Django Request–Response Flow — رحلة الـ Request في Django</h2>
+      <p>من المتصفح للـ Response — خطوة بخطوة</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔄</span> رحلة الـ Request كاملة</div>
+    <div class="flow-diagram">
+      <div class="flow-box">
+        <div class="fb-icon">🌐</div>
+        <div class="fb-label">Browser</div>
+        <div class="fb-sub">HTTP Request</div>
+      </div>
+      <div class="flow-arrow">
+        <div class="arrow-req"><div class="arr-line arr-cyan"></div><span class="arr-tip">→</span></div>
+      </div>
+      <div class="flow-box">
+        <div class="fb-icon">🗺️</div>
+        <div class="fb-label">urls.py</div>
+        <div class="fb-sub">URL Routing</div>
+      </div>
+      <div class="flow-arrow">
+        <div class="arrow-req"><div class="arr-line arr-cyan"></div><span class="arr-tip">→</span></div>
+      </div>
+      <div class="flow-box">
+        <div class="fb-icon">⚙️</div>
+        <div class="fb-label">views.py</div>
+        <div class="fb-sub">Logic</div>
+      </div>
+      <div class="flow-arrow">
+        <div class="arrow-req"><div class="arr-line arr-cyan"></div><span class="arr-tip">→</span></div>
+      </div>
+      <div class="flow-box">
+        <div class="fb-icon">📦</div>
+        <div class="fb-label">models.py</div>
+        <div class="fb-sub">Database</div>
+      </div>
+      <div class="flow-arrow">
+        <div class="arrow-req"><div class="arr-line arr-cyan"></div><span class="arr-tip">→</span></div>
+      </div>
+      <div class="flow-box">
+        <div class="fb-icon">🎨</div>
+        <div class="fb-label">Template</div>
+        <div class="fb-sub">HTML</div>
+      </div>
+      <div class="flow-arrow">
+        <div class="arrow-res"><div class="arr-line arr-green"></div><span class="arr-tip">→</span></div>
+      </div>
+      <div class="flow-box">
+        <div class="fb-icon">📤</div>
+        <div class="fb-label">Response</div>
+        <div class="fb-sub">للمستخدم</div>
+      </div>
+    </div>
+    <div class="steps" style="margin-top:20px">
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">1</div>
+        <div class="step-body"><div class="step-title">Browser يبعت Request</div><div class="step-desc">المستخدم يكتب URL أو يضغط زرار — المتصفح يبعت HTTP Request للسيرفر.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(245,158,11,.15);color:var(--amber)">2</div>
+        <div class="step-body"><div class="step-title">urls.py يعمل Routing</div><div class="step-desc">Django بيشوف الـ URL Path ويدور عليه في urlpatterns — بيحدد أي View هيتشغل.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(139,92,246,.15);color:var(--purple)">3</div>
+        <div class="step-body"><div class="step-title">views.py يشغّل الـ Logic</div><div class="step-desc">الـ View Function بتستقبل الـ Request، بتشتغل على المنطق، وممكن تتعامل مع الـ Model.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(16,185,129,.15);color:var(--green)">4</div>
+        <div class="step-body"><div class="step-title">models.py يجيب البيانات (لو محتاج)</div><div class="step-desc">لو الـ View محتاج بيانات، بيتعامل مع الـ Model اللي بيكلم الـ Database.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(244,114,182,.15);color:var(--pink)">5</div>
+        <div class="step-body"><div class="step-title">Template يتولد كـ HTML</div><div class="step-desc">الـ View بيبعت البيانات للـ Template اللي بيولّد HTML ديناميكي.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">6</div>
+        <div class="step-body"><div class="step-title">HTTP Response يترجع للمتصفح</div><div class="step-desc">الصفحة الكاملة بترجع للمستخدم وتتعرض.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 5 — SETUP WORKFLOW
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num pink">05</div>
+    <div class="ch-title">
+      <h2>Setup Workflow — خطوات إعداد بيئة Django</h2>
+      <p>من الصفر لسيرفر شغّال — 10 خطوات</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">📋</span> الـ 10 خطوات الكاملة — Full Setup Steps</div>
+    <div class="rule-box"><strong>القاعدة الذهبية:</strong> VS Code = اكتب الكود | Terminal = شغّل الأوامر | Browser = شوف النتيجة</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">1</div>
+        <div class="step-body">
+          <div class="step-title">افتح الفولدر في VS Code</div>
+          <div class="step-desc"><code>File → Open Folder → your_project_folder</code> — افتح الفولدر كله مش ملف واحد، عشان VS Code يدير المشروع كـ Workspace كامل ويفتح الـ Terminal في المكان الصح.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,212,255,.15);color:var(--cyan)">2</div>
+        <div class="step-body">
+          <div class="step-title">افتح الـ Terminal</div>
+          <div class="step-desc"><code>Terminal → New Terminal</code> أو <code>Ctrl + `</code> — الـ Terminal هو المكان اللي هتكتب فيه كل أوامر Django.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(16,185,129,.15);color:var(--green)">3</div>
+        <div class="step-body">
+          <div class="step-title">تأكد إن Python مثبت</div>
+          <div class="step-desc"><code>python --version</code> — لو ظهر رقم إصدار كل حاجة تمام. لو ظهر "not recognized" يبقى Python مش مثبت أو مش في الـ PATH.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(16,185,129,.15);color:var(--green)">4</div>
+        <div class="step-body">
+          <div class="step-title">أنشئ الـ Virtual Environment</div>
+          <div class="step-desc"><code>python -m venv venv</code> — بيعمل بيئة Python معزولة للمشروع ده بس. بعد التنفيذ هيتعمل فولدر اسمه <code>venv/</code> في مشروعك.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(245,158,11,.15);color:var(--amber)">5</div>
+        <div class="step-body">
+          <div class="step-title">شغّل (Activate) الـ Virtual Environment</div>
+          <div class="step-desc">
+            <strong>Windows:</strong> <code>venv\Scripts\activate</code><br>
+            <strong>macOS/Linux:</strong> <code>source venv/bin/activate</code><br>
+            لازم تشوف <code>(venv)</code> في أول سطر الـ Terminal — ده دليل إن البيئة شغّالة.
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(245,158,11,.15);color:var(--amber)">6</div>
+        <div class="step-body">
+          <div class="step-title">ثبّت Django</div>
+          <div class="step-desc"><code>pip install django</code> — بيحمّل Django في الـ Virtual Environment بس مش في النظام كله. تأكد إن الـ venv شغّال الأول!</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(139,92,246,.15);color:var(--purple)">7</div>
+        <div class="step-body">
+          <div class="step-title">أنشئ مشروع Django</div>
+          <div class="step-desc"><code>django-admin startproject myproject</code> — بيولّد هيكل المشروع تلقائياً مع كل الملفات الأساسية.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(139,92,246,.15);color:var(--purple)">8</div>
+        <div class="step-body">
+          <div class="step-title">ادخل فولدر المشروع</div>
+          <div class="step-desc"><code>cd myproject</code> — ضروري! لازم تكون في نفس الفولدر اللي فيه ملف <code>manage.py</code> عشان أوامر Django تشتغل.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(244,114,182,.15);color:var(--pink)">9</div>
+        <div class="step-body">
+          <div class="step-title">شغّل سيرفر التطوير</div>
+          <div class="step-desc"><code>python manage.py runserver</code> — بيبدأ الـ Local Development Server. هيظهر في الـ Terminal عنوان السيرفر. وقفه بـ <code>Ctrl + C</code></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(244,114,182,.15);color:var(--pink)">10</div>
+        <div class="step-body">
+          <div class="step-title">افتح في المتصفح</div>
+          <div class="step-desc"><code>http://127.0.0.1:8000/</code> — الـ IP <code>127.0.0.1</code> يعني جهازك (localhost). البورت <code>8000</code> هو البورت الافتراضي لـ Django.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🚨</span> أشهر مشاكل الإعداد وحلولها</div>
+    <table class="tbl">
+      <tr><th>المشكلة</th><th>السبب المحتمل</th><th>الحل</th></tr>
+      <tr><td>"python is not recognized"</td><td>Python مش مثبت أو مش في الـ PATH</td><td>أعد التثبيت وفعّل "Add Python to PATH"</td></tr>
+      <tr><td>Django مش موجود بعد <code>pip install</code></td><td>الـ Virtual Environment مش شغّال</td><td>تأكد من وجود <code>(venv)</code> في الـ Terminal</td></tr>
+      <tr><td>Port 8000 مشغول</td><td>تطبيق تاني شغّال على نفس البورت</td><td>استخدم <code>python manage.py runserver 8001</code></td></tr>
+      <tr><td>"manage.py not found"</td><td>إنت في الفولدر الغلط</td><td>تأكد إنك داخل فولدر المشروع الصح</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 6 — VIRTUAL ENVIRONMENT
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num teal">06</div>
+    <div class="ch-title">
+      <h2>Virtual Environment — البيئة الافتراضية</h2>
+      <p>عزل مشروعك عن باقي المشاريع على نفس الجهاز</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">🧪</span> ما هو الـ Virtual Environment؟</div>
+    <p>الـ <strong>Virtual Environment</strong> هو بيئة Python معزولة خاصة بكل مشروع. فكّر فيه زي "طاولة مختبر خاصة" — كل الأدوات (الـ Packages) اللي على الطاولة دي بتاعة المشروع ده بس.</p>
+    <div class="grid2">
+      <div class="compare-card" style="--accent:var(--red)">
+        <h4 style="color:var(--red)">❌ بدون Virtual Environment</h4>
+        <ul>
+          <li>كل الـ Packages بتتثبت globally في النظام</li>
+          <li>مشروعين محتاجين نفس الـ Package بإصدارات مختلفة = مشكلة</li>
+          <li>صعب تنقل المشروع لجهاز تاني</li>
+        </ul>
+      </div>
+      <div class="compare-card" style="--accent:var(--teal)">
+        <h4 style="color:var(--teal)">✅ مع Virtual Environment</h4>
+        <ul>
+          <li>كل مشروع عنده Packages منفصلة</li>
+          <li>مفيش تعارض بين المشاريع</li>
+          <li>سهل تنقل المشروع بـ requirements.txt</li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">TERMINAL — Virtual Environment Commands</div></div>
+      <pre><code><span class="cmt"># إنشاء الـ Virtual Environment</span>
+<span class="fn">python</span> -m venv venv
+
+<span class="cmt"># تشغيله على Windows</span>
+<span class="fn">venv\Scripts\activate</span>
+
+<span class="cmt"># تشغيله على macOS/Linux</span>
+<span class="fn">source</span> venv/bin/activate
+
+<span class="cmt"># لو شغّال هتشوف في الـ Terminal:</span>
+<span class="str">(venv) C:\Users\...></span>
+
+<span class="cmt"># إيقافه</span>
+<span class="fn">deactivate</span></code></pre>
+    </div>
+    <div class="danger"><div><b>🚨 قاعدة ثابتة:</b> دايماً شغّل الـ Virtual Environment الأول <strong>قبل</strong> ما تعمل <code>pip install django</code>. لو نسيت، الـ Django هيتثبت في النظام كله مش في المشروع.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 7 — PROJECT STRUCTURE
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num green">07</div>
+    <div class="ch-title">
+      <h2>Project Structure — هيكل مشروع Django</h2>
+      <p>كل ملف بيعمل إيه؟</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🗂️</span> الملفات اللي Django بيولّدها</div>
+    <div class="tree-box">myproject/                    ← الفولدر الخارجي
+├── manage.py              ← نقطة دخول الأوامر الرئيسية
+└── myproject/             ← الـ Inner Package (نفس الاسم!)
+    ├── __init__.py        ← بيعرّف الفولدر ده كـ Python Package
+    ├── settings.py        ← كل إعدادات المشروع (DB, Apps, Templates...)
+    ├── urls.py            ← الـ Root URL Configuration
+    ├── asgi.py            ← Async Server Interface (للـ async servers)
+    └── wsgi.py            ← Web Server Interface (للـ traditional servers)</div>
+    <div class="warn"><div><b>⚠️ نقطة تشويش شائعة:</b> فيه فولدرين باسم <code>myproject</code>! الأول هو الفولدر الخارجي (Outer). الثاني هو الـ Python Package الداخلي (Inner) اللي فيه الإعدادات.</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">⚡</span> manage.py</div>
+      <p><strong>نقطة دخول أوامر Django</strong> — الأمر ده بتشتغل منه:</p>
+      <ul>
+        <li><code>python manage.py runserver</code> — تشغيل السيرفر</li>
+        <li><code>python manage.py startapp</code> — إنشاء App</li>
+        <li><code>python manage.py makemigrations</code> — إنشاء Migrations</li>
+        <li><code>python manage.py migrate</code> — تطبيق Migrations</li>
+        <li><code>python manage.py createsuperuser</code> — إنشاء Admin User</li>
+      </ul>
+      <div class="info"><div><b>📌 قاعدة:</b> دايماً شغّل الأوامر دي من الفولدر اللي فيه <code>manage.py</code>.</div></div>
+    </div>
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">⚙️</span> settings.py</div>
+      <p><strong>لوحة التحكم الرئيسية للمشروع</strong> — فيه:</p>
+      <ul>
+        <li><code>INSTALLED_APPS</code> — قائمة الـ Apps المثبتة</li>
+        <li><code>DATABASES</code> — إعدادات الـ Database</li>
+        <li><code>TEMPLATES</code> — إعدادات الـ Templates</li>
+        <li><code>STATIC_URL</code> — مسار الملفات الثابتة</li>
+        <li><code>DEBUG</code> — وضع التطوير (True/False)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">🗺️</span> urls.py</div>
+      <p><strong>خريطة الطرق (Road Map)</strong> — بيربط URL Paths بالـ Views. لما المتصفح يطلب <code>/students/</code>، Django بيبص في urls.py عشان يعرف أي View يشتغل.</p>
+    </div>
+    <div class="topic" style="--accent:var(--teal)">
+      <div class="topic-title"><span class="icon">🔌</span> wsgi.py & asgi.py</div>
+      <p><strong>ملفات الـ Deployment</strong> — بتساعد الـ Web Servers يتكلم مع Django.</p>
+      <ul>
+        <li><strong>WSGI</strong> (Web Server Gateway Interface) — للـ Traditional Servers</li>
+        <li><strong>ASGI</strong> (Async Server Gateway Interface) — للـ Async Servers</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 8 — PROJECT VS APP
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num blue">08</div>
+    <div class="ch-title">
+      <h2>Django Project vs Django App — الفرق بين المشروع والتطبيق</h2>
+      <p>أحد أهم المفاهيم للمبتدئين في Django</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">🏗️</span> Django Project</div>
+      <p>الـ <strong>Project</strong> هو الحاوية الكبيرة (Container) للموقع كله. بيتنشأ بالأمر: <code>django-admin startproject myproject</code></p>
+      <ul>
+        <li>الـ Overall Configuration بتاعة الموقع</li>
+        <li>الـ Global URLs</li>
+        <li>الـ Database Settings</li>
+        <li>بيحتوي على كذا App جوّاه</li>
+      </ul>
+      <div class="tip"><div>زي الجامعة كلها — فيها كليات كتير.</div></div>
+    </div>
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">📦</span> Django App</div>
+      <p>الـ <strong>App</strong> هو Module متكامل بيركّز على Feature معينة. بيتنشأ بالأمر: <code>python manage.py startapp students</code></p>
+      <ul>
+        <li>بيحتوي على Models, Views, Templates, URLs خاصة بيه</li>
+        <li>مثال: <code>students</code>، <code>courses</code>، <code>blog</code></li>
+        <li>Python Package مكتمل</li>
+        <li>ممكن يتستخدم في مشاريع تانية</li>
+      </ul>
+      <div class="tip"><div>زي كلية واحدة جوّا الجامعة — بيعمل شغل معين.</div></div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📂</span> ملفات الـ App بعد startapp</div>
+    <div class="tree-box">students/                     ← الـ App Folder
+├── __init__.py            ← Python Package marker
+├── admin.py               ← تسجيل Models في الـ Admin Panel
+├── apps.py                ← إعدادات الـ App
+├── models.py              ← تعريف جداول البيانات (Model)
+├── views.py               ← الـ Logic بتاع الـ App (View)
+├── urls.py                ← الـ URL Patterns (بتعملها إنت)
+├── tests.py               ← الـ Unit Tests
+└── migrations/            ← ملفات الـ Migrations (بتتولد تلقائياً)
+    └── __init__.py</div>
+    <div class="danger"><div><b>🚨 قاعدة مهمة:</b> بعد ما تنشئ الـ App، لازم تضيف اسمها في <code>INSTALLED_APPS</code> في <code>settings.py</code> عشان Django يعرف بيها!</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">⚙️</span> تسجيل الـ App في settings.py</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">settings.py — INSTALLED_APPS</div></div>
+      <pre><code><span class="prop">INSTALLED_APPS</span> = [
+    <span class="str">'django.contrib.admin'</span>,
+    <span class="str">'django.contrib.auth'</span>,
+    <span class="str">'django.contrib.contenttypes'</span>,
+    <span class="str">'django.contrib.sessions'</span>,
+    <span class="str">'django.contrib.messages'</span>,
+    <span class="str">'django.contrib.staticfiles'</span>,
+    <span class="str">'students'</span>,  <span class="cmt"># ← ضيف اسم الـ App هنا</span>
+]</code></pre>
+    </div>
+  </div>
+
+  <div class="info"><div><b>📌 من امتحان 2021:</b> "What is a Django App?" → الإجابة: <strong>Both A and B</strong> — هي <em>extended Python package with base=Django</em> وفي نفس الوقت <em>Python package with its own components</em>.</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 9 — VIEWS & URL CONFIGURATION
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="ch-header">
+    <div class="ch-num purple">09</div>
+    <div class="ch-title">
+      <h2>Views &amp; URL Configuration — الـ Views والـ Routing</h2>
+      <p>ربط الـ URLs بالـ Python Logic</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">⚙️</span> ما هو الـ View؟</div>
+    <p>الـ <strong>View</strong> في Django هو Python Function (أو Class) بيستقبل <strong>HTTP Request</strong> ويرجع <strong>HTTP Response</strong>. هو اللي بيشتغل على الـ Logic ويقرر إيه اللي هيترجع للمستخدم.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">views.py — أبسط View ممكن</div></div>
+      <pre><code><span class="kw">from</span> django.http <span class="kw">import</span> HttpResponse
+
+<span class="kw">def</span> <span class="fn">home</span>(request):         <span class="cmt"># كل View لازم تاخد request</span>
+    <span class="kw">return</span> HttpResponse(<span class="str">"Hello, Django!"</span>)
+
+<span class="kw">def</span> <span class="fn">about</span>(request):
+    <span class="kw">return</span> HttpResponse(<span class="str">"About page"</span>)</code></pre>
+    </div>
+    <div class="info"><div><b>📌 ملاحظة:</b> الـ <code>HttpResponse</code> بيرجع نص بسيط — مناسب للـ Testing. في الواقع بنستخدم <code>render()</code> عشان نرجع Template HTML كاملة.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🗺️</span> URL Configuration — urls.py</div>
+    <p>الـ <strong>urls.py</strong> بيحدد "لما المستخدم يطلب URL معين، أي View تشتغل؟" — بيستخدم الدالة <code>path()</code> عشان يربط URL بـ View.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">urls.py — App Level URL Patterns</div></div>
+      <pre><code><span class="kw">from</span> django.urls <span class="kw">import</span> path
+<span class="kw">from</span> . <span class="kw">import</span> views
+
+<span class="prop">urlpatterns</span> = [
+    path(<span class="str">''</span>, views.home, name=<span class="str">'home'</span>),           <span class="cmt"># /</span>
+    path(<span class="str">'students/'</span>, views.student_list, name=<span class="str">'students'</span>),  <span class="cmt"># /students/</span>
+    path(<span class="str">'about/'</span>, views.about, name=<span class="str">'about'</span>),    <span class="cmt"># /about/</span>
+]</code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔗</span> ربط الـ App URLs بالـ Project URLs</div>
+    <p>المشروع الكبير (Project) بيستخدم <code>include()</code> عشان يحوّل الـ Requests للـ App المناسبة — بيخلي كل App تدير URLs بتاعتها.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">myproject/urls.py — Root URL Configuration</div></div>
+      <pre><code><span class="kw">from</span> django.contrib <span class="kw">import</span> admin
+<span class="kw">from</span> django.urls <span class="kw">import</span> path, include
+
+<span class="prop">urlpatterns</span> = [
+    path(<span class="str">'admin/'</span>, admin.site.urls),
+    path(<span class="str">'students/'</span>, include(<span class="str">'students.urls'</span>)),  <span class="cmt"># ← يحوّل لـ App</span>
+]</code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🎨</span> View مع render() — الأكثر استخداماً</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">views.py — View مع Template</div></div>
+      <pre><code><span class="kw">from</span> django.shortcuts <span class="kw">import</span> render
+
+<span class="kw">def</span> <span class="fn">student_list</span>(request):
+    students = [<span class="str">"Ali"</span>, <span class="str">"Mona"</span>, <span class="str">"Sara"</span>]  <span class="cmt"># أو من الـ Database</span>
+    <span class="kw">return</span> render(request, <span class="str">'students/list.html'</span>, {
+        <span class="str">'students'</span>: students,   <span class="cmt"># Context Dictionary</span>
+        <span class="str">'title'</span>: <span class="str">'Student List'</span>,
+    })</code></pre>
+    </div>
+    <div class="info"><div><b>📌 شرح render():</b> الـ <code>render(request, template_name, context)</code> بتاخد ثلاثة حاجات: الـ Request، اسم الـ Template، والـ Context Dictionary اللي فيه البيانات اللي هترجع للـ Template.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 10 — DJANGO TEMPLATES
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch10">
+  <div class="ch-header">
+    <div class="ch-num pink">10</div>
+    <div class="ch-title">
+      <h2>Django Templates — قوالب Django</h2>
+      <p>Dynamic HTML باستخدام Django Template Language (DTL)</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">📝</span> Template Variables &amp; Tags</div>
+    <div class="grid2">
+      <div>
+        <p style="color:var(--cyan);font-weight:600;margin-bottom:8px">&#123;&#123; &#125;&#125; — Variables</p>
+        <p>بيعرض قيمة متغير Python — Django بيبدّل <code>&#123;&#123; name &#125;&#125;</code> بقيمة الـ Variable من الـ context dictionary.</p>
+      </div>
+      <div>
+        <p style="color:var(--purple);font-weight:600;margin-bottom:8px">&#123;% %&#125; — Template Tags</p>
+        <p>للـ Logic والـ Control Flow — زي <code>for</code>، <code>if</code>، <code>block</code>، <code>load</code>. مش بتعرض قيمة، بتعمل منطق.</p>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Django Template Language — DTL</div></div>
+      <pre><code><span class="cmt">&lt;!-- {{ }} للمتغيرات — بيتبدّل بقيمة Python --&gt;</span>
+<span class="tag">&lt;h1&gt;</span>Hello, {{ name }}!<span class="tag">&lt;/h1&gt;</span>
+
+<span class="cmt">&lt;!-- {% %} للـ Logic والـ Control --&gt;</span>
+{% for student in students %}
+  <span class="tag">&lt;p&gt;</span>{{ student.name }}<span class="tag">&lt;/p&gt;</span>
+{% endfor %}
+
+{% if user.is_authenticated %}
+  <span class="tag">&lt;p&gt;</span>Welcome back!<span class="tag">&lt;/p&gt;</span>
+{% else %}
+  <span class="tag">&lt;p&gt;</span>Please login.<span class="tag">&lt;/p&gt;</span>
+{% endif %}
+
+<span class="cmt">&lt;!-- {# #} للـ Comments (مش بتظهر في HTML) --&gt;</span>
+{# ده comment مش بيظهر للمستخدم #}</code></pre>
+    </div>
+    <div class="danger"><div><b>🚨 نقطة امتحان مكررة (2021 &amp; 2024):</b> <code>&#123;&#123; name &#125;&#125;</code> = Variable (بيتبدّل بقيمة Python). <code>&#123;% tag %&#125;</code> = Logic Tag (for, if, block). <code>&#123;# comment #&#125;</code> = Comment.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔄</span> forloop Attributes — خصائص الـ For Loop في Templates</div>
+    <table class="tbl">
+      <tr><th>الخاصية</th><th>الوصف</th><th>مثال</th></tr>
+      <tr><td><code>forloop.counter</code></td><td>رقم التكرار الحالي (يبدأ من 1)</td><td>1، 2، 3...</td></tr>
+      <tr><td><code>forloop.counter0</code></td><td>رقم التكرار الحالي (يبدأ من 0)</td><td>0، 1، 2...</td></tr>
+      <tr><td><code>forloop.revcounter</code></td><td>عدد التكرارات المتبقية (من 1)</td><td>3، 2، 1...</td></tr>
+      <tr><td><code>forloop.first</code></td><td>True لو دي أول دورة</td><td>True / False</td></tr>
+      <tr><td><code>forloop.last</code></td><td>True لو دي آخر دورة</td><td>True / False</td></tr>
+    </table>
+    <div class="danger"><div><b>🚨 من امتحان 2021 — فخ خبيث:</b> الـ Valid attribute هو <code>forloop.counter</code> بدون أقواس. لو الامتحان عرضلك <code>forloop.counter()</code> بأقواس → ده <strong>غلط</strong>! الـ forloop attributes مش methods، مش ليها أقواس. وكمان <code>forloop.reverse</code> و<code>forloop.previous</code> و<code>forloop.lastitem</code> = مش موجودين.</div></div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Django Template — forloop في الواقع</div></div>
+      <pre><code>{% for student in students %}
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;td&gt;</span>{{ forloop.counter }}<span class="tag">&lt;/td&gt;</span>    <span class="cmt">{# الرقم من 1 #}</span>
+    <span class="tag">&lt;td&gt;</span>{{ student.name }}<span class="tag">&lt;/td&gt;</span>
+    {% if forloop.first %}
+      <span class="tag">&lt;td&gt;</span>First Student!<span class="tag">&lt;/td&gt;</span>
+    {% endif %}
+  <span class="tag">&lt;/tr&gt;</span>
+{% empty %}
+  <span class="tag">&lt;tr&gt;&lt;td&gt;</span>No students found.<span class="tag">&lt;/td&gt;&lt;/tr&gt;</span>
+{% endfor %}</code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔗</span> Template Syntax للـ For Loop — من الامتحان</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">EXAM QUESTION — Correct for Loop Syntax</div></div>
+      <pre><code><span class="cmt"># ✅ الصح — Template Tag في Django</span>
+{% for x in y %}
+  {{ x }}
+{% endfor %}
+
+<span class="cmt"># ❌ غلط — أقواس Python عادية</span>
+(for x in y)
+
+<span class="cmt"># ❌ غلط — صيغة PHP أو ERB</span>
+&lt;% for x in y %&gt;</code></pre>
+    </div>
+    <div class="info"><div><b>📌 من امتحان 2024:</b> الـ Template Tag الصح للـ for loop هو <code>{% for x in y %}</code> — مش <code>(for x in y)</code> ومش <code>&lt;% for x in y %&gt;</code>.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 11 — MIGRATIONS
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch11">
+  <div class="ch-header">
+    <div class="ch-num amber">11</div>
+    <div class="ch-title">
+      <h2>Migrations — ترحيل التغييرات للـ Database</h2>
+      <p>إزاي Django بيطبّق تغييرات الـ Model على الـ Database</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🗄️</span> ما هي الـ Migrations؟</div>
+    <p>الـ <strong>Migrations</strong> هي الطريقة اللي Django بيترجم بيها التغييرات اللي عملتها في الـ <strong>Models</strong> (Python Classes) لتغييرات حقيقية في الـ <strong>Database Tables</strong>. بدل ما تكتب SQL يدوياً، Django بيكتبه عنك.</p>
+    <div class="tip"><div><b>💡 تشبيه:</b> الـ Model زي الرسمة الهندسية (Blueprint) والـ Migration زي التصريح الرسمي بالبناء. لما تعدّل الرسمة (Model)، لازم تعمل تصريح جديد (makemigrations) وتطبّقه (migrate).</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">📋</span> makemigrations — إنشاء ملف الترحيل</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">TERMINAL</div></div>
+        <pre><code><span class="fn">python</span> manage.py makemigrations</code></pre>
+      </div>
+      <ul>
+        <li>بيفحص التغييرات في الـ Models</li>
+        <li>بيولّد ملف Migration في <code>migrations/</code></li>
+        <li>مش بيعدّل الـ Database فعلياً — بس بيجهّز الخطة</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">✅</span> migrate — تطبيق التغييرات</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">TERMINAL</div></div>
+        <pre><code><span class="fn">python</span> manage.py migrate</code></pre>
+      </div>
+      <ul>
+        <li>بيقرأ ملفات الـ Migrations</li>
+        <li>بيطبّقها على الـ Database الفعلي</li>
+        <li>بيعمل الجداول الجديدة أو يعدّل الموجودة</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="danger"><div><b>🚨 نقطة امتحان (2021 &amp; 2024):</b> "What are Migrations in Django?" → الإجابة: <strong>All of the above / D</strong> — لأنها بتعمل الثلاثة: تتبّع تغييرات الـ Schema، بتتنشأ بـ makemigrations، وبتتطبّق بـ migrate. كمان من 2024: لما بتعدّل Model، الأمر اللي بيطبّق التغييرات على الـ Database هو <code>python manage.py makemigrations</code> ثم <code>python manage.py migrate</code>.</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 12 — DJANGO ADMIN
+════════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch12">
+  <div class="ch-header">
+    <div class="ch-num red">12</div>
+    <div class="ch-title">
+      <h2>Django Admin — لوحة الإدارة المدمجة</h2>
+      <p>واجهة جاهزة لإدارة البيانات من غير ما تكتب كود</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🖥️</span> ما هو Django Admin؟</div>
+    <p>الـ <strong>Django Admin</strong> هو Interface جاهز ومدمج في Django بيخليك تتعامل مع البيانات في الـ Database بدون ما تكتب أي كود HTML أو Python إضافي. عبره تقدر تضيف وتعدّل وتحذف Records مباشرة.</p>
+    <div class="grid2">
+      <div>
+        <p style="color:var(--t2);margin-bottom:8px">🔑 <strong>ليه بيحبّوه؟</strong></p>
+        <ul>
+          <li>جاهز من أول يوم بدون Setup</li>
+          <li>بيعرض البيانات في Interface نظيف</li>
+          <li>مناسب للـ Testing في بداية التطوير</li>
+        </ul>
+      </div>
+      <div>
+        <p style="color:var(--t2);margin-bottom:8px">⚙️ <strong>خطوات الاستخدام:</strong></p>
+        <ul>
+          <li>سجّل الـ Model في <code>admin.py</code></li>
+          <li>أنشئ Superuser</li>
+          <li>افتح <code>/admin/</code> في المتصفح</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📝</span> تسجيل Model في Admin — admin.py</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">admin.py — تسجيل Model</div></div>
+      <pre><code><span class="kw">from</span> django.contrib <span class="kw">import</span> admin
+<span class="kw">from</span> .models <span class="kw">import</span> Student
+
+admin.site.<span class="fn">register</span>(Student)   <span class="cmt"># ← الـ Syntax الصح!</span>
+
+<span class="cmt"># ❌ غلط: admin.register(Student)</span>
+<span class="cmt"># ❌ غلط: site.admin.register(Student)</span>
+<span class="cmt"># ❌ غلط: models.admin.register(Student)</span></code></pre>
+    </div>
+    <div class="danger"><div><b>🚨 من امتحان 2021 و 2024 معاً:</b> الـ Syntax الصح لتسجيل Model في الـ Admin هو <code>admin.site.register(Model_name)</code>. <strong>مش</strong> <code>admin.register()</code> ومش <code>django.admin.register()</code>. ده السؤال الأكثر تكراراً في المادة!</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">👤</span> إنشاء Superuser</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">TERMINAL — Create Admin User</div></div>
+      <pre><code><span class="fn">python</span> manage.py createsuperuser
+
+<span class="cmt"># الـ Terminal هيطلب منك:</span>
+<span class="cmt"># Username: admin</span>
+<span class="cmt"># Email: admin@example.com</span>
+<span class="cmt"># Password: ****</span>
+
+<span class="cmt"># بعدين افتح: http://127.0.0.1:8000/admin/</span></code></pre>
+    </div>
+    <div class="warn"><div><b>⚠️ من امتحان 2025:</b> الأمر لإنشاء Superuser هو <code>python manage.py createsuperuser</code> — مش <code>python manage.py createuser</code>.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📥</span> Import Model — الـ Syntax الصح</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Python — Import Model Syntax</div></div>
+      <pre><code><span class="cmt"># ✅ الصح — من امتحان 2024</span>
+<span class="kw">from</span> members.models <span class="kw">import</span> Member
+
+<span class="cmt"># ❌ غلط</span>
+<span class="kw">import</span> Member <span class="kw">from</span> members
+<span class="kw">import</span> members.Member</code></pre>
+    </div>
+    <div class="info"><div><b>📌 من امتحان 2024:</b> إزاي تعمل import لـ Model اسمه <code>Member</code> من App اسمها <code>members</code>؟ الإجابة الصح: <code>from members.models import Member</code>.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     QUIZ SECTION — ALL EXAM QUESTIONS SORTED BY TOPIC
+════════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>أسئلة الامتحانات — Django Part I</h3>
+      <p>أسئلة من امتحانات 2021 و 2024 و 2025 مرتبة حسب ترتيب الشرح 🇪🇬</p>
+    </div>
+  </div>
+
+  <!-- === Django Type & Pattern === -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Q1 <span class="q-src">Final 2021 &amp; 2024</span></div>
+    <div class="q-text">Django is a type of:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Programming Language</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Software / Application</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Web Framework</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Database</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — Web Framework</b><br>
+      Django هو Python Web Framework — مش لغة برمجة ومش Software عام ومش Database. Python هي اللغة، وDjango هو الـ Framework المبني بيها.
+      <br><span style="color:var(--amber)">🇪🇬 زي الفرق بين اللغة الإنجليزية (Python) وكتاب مكتوب بيها (Django).</span>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Q2 <span class="q-src">Final 2021 &amp; 2024</span></div>
+    <div class="q-text">Django is based on which pattern / framework?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> MVC</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> MVVM</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> MVT (Model View Template)</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the Above</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — MVT</b><br>
+      Django بيستخدم نمط MVT (Model–View–Template). الـ View في Django بيشتغل زي الـ Controller في MVC، والـ Template بيشتغل زي الـ View في MVC.
+      <br><span style="color:var(--amber)">🇪🇬 المصطلح: Model = البيانات، View = المنطق، Template = الشكل.</span>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q3 <span class="q-src">Final 2024</span></div>
+    <div class="q-text">Django architecture consists of ______:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Model and View only</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Model, View, and Template</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Template and View only</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Model and Template only</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — Model, View, Template</b><br>
+      MVT = Model + View + Template. الثلاثة مع بعض ضروريين.
+      <br><span style="color:var(--amber)">🇪🇬 لما السؤال يسأل عن Django Architecture → دايماً الإجابة الثلاثة مع بعض.</span>
+    </div>
+  </div>
+
+  <!-- === Django App === -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Q4 <span class="q-src">Final 2021</span></div>
+    <div class="q-text">What is a Django App?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> An extended package with base package Django</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> A Python package with its own components</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Both A and B</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — Both A and B</b><br>
+      الـ Django App هي في نفس الوقت: Python Package بتستخدم Django كـ base، ولها مكوناتها الخاصة (Models, Views, Templates, URLs).
+      <br><span style="color:var(--amber)">🇪🇬 لما السؤال يقول "Both" أو "All" في Django، الغالب هي الإجابة الصح!</span>
+    </div>
+  </div>
+
+  <!-- === Project Creation === -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Q5 <span class="q-src">Final 2024</span></div>
+    <div class="q-text">What is a correct syntax for creating a Django project?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> <code>django start my_tennis_club</code></div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> <code>py manage.py start-django my_tennis_club</code></div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> <code>django-admin startproject my_tennis_club</code></div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — <code>django-admin startproject my_tennis_club</code></b><br>
+      الأمر الصح لإنشاء مشروع Django جديد هو <code>django-admin startproject project_name</code>.
+      <br><span style="color:var(--amber)">🇪🇬 حفظ: django-admin = أداة الأوامر. startproject = إنشاء مشروع.</span>
+    </div>
+  </div>
+
+  <!-- === Templates === -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Q6 <span class="q-src">Final 2021</span></div>
+    <div class="q-text">What does <code>{{ name }}</code> mean in Django Templates?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> {{ name }} will be output as-is</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> It will display the word "name"</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Replaced with the Python variable's value</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — Replaced with Python variable value</b><br>
+      الأقواس المزدوجة <code>{{ name }}</code> في الـ Template = متغير Python. Django بيبدّل <code>{{ name }}</code> بالقيمة الفعلية من الـ context dictionary.
+      <br><span style="color:var(--amber)">🇪🇬 {{ }} = Variable. {% %} = Logic Tag. {# #} = Comment.</span>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q7 <span class="q-src">Final 2024</span></div>
+    <div class="q-text">In Django templates, <code>{% %}</code> is used for:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Displaying a Python variable value</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Defining HTML content / logic tags</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Adding a comment</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — Defining HTML content / logic tags</b><br>
+      <code>{% %}</code> = template tags للـ Logic (for, if, block, load). مش للعرض ومش للـ comments.
+      <br><span style="color:var(--amber)">🇪🇬 Option A غلط لأن {{ }} هو اللي بيعرض variable. {% %} للـ Logic زي for وif.</span>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Q8 <span class="q-src">Final 2021</span></div>
+    <div class="q-text">Which of the following is a valid Django template forloop attribute?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> forloop.reverse</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> forloop.previous</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> forloop.counter</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> forloop.lastitem</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — forloop.counter</b><br>
+      الـ Valid forloop attributes هي: <code>counter</code>، <code>counter0</code>، <code>revcounter</code>، <code>first</code>، <code>last</code>.<br>
+      ملاحظة مهمة: الامتحان ظهر فيه <code>forloop.counter()</code> بأقواس — ده غلط! بدون أقواس. وforloop.reverse و forloop.previous و forloop.lastitem = مش موجودين.
+      <br><span style="color:var(--amber)">🇪🇬 الـ forloop attributes مش Methods — مش ليها أقواس!</span>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Q9 <span class="q-src">Final 2024</span></div>
+    <div class="q-text">To perform programming logic in Django templates, you can use 'template tags'. What is the correct syntax to start a 'for' loop?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> <code>(for x in y)</code></div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> <code>&lt;% for x in y %&gt;</code></div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> <code>{% for x in y %}</code></div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — <code>{% for x in y %}</code></b><br>
+      الـ Django Template Language بيستخدم <code>{% %}</code> للـ Tags. الـ for loop يبدأ بـ <code>{% for x in y %}</code> وبينتهي بـ <code>{% endfor %}</code>.
+      <br><span style="color:var(--amber)">🇪🇬 Option A صيغة Python عادية. Option B صيغة PHP/ERB. الصح دايماً {% %} في Django.</span>
+    </div>
+  </div>
+
+  <!-- === Admin === -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Q10 <span class="q-src">Final 2021 &amp; 2024</span></div>
+    <div class="q-text">To register a model in the Django admin panel, you write:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> <code>admin.site.register(Model_name)</code></div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> <code>admin.register(Model_name)</code></div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> <code>django.admin.register()</code></div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> <code>Model.admin.register()</code></div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — <code>admin.site.register(Model_name)</code></b><br>
+      ده السؤال الأكثر تكراراً — جاء في 2021 و2024 معاً! الـ Syntax الصح دايماً هو <code>admin.site.register()</code>.
+      <br><span style="color:var(--amber)">🇪🇬 احفظ ده كويس: admin.site.register(اسم الـ Model). لازم يكون admin.site مش admin بس.</span>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q11 <span class="q-src">Final 2024</span></div>
+    <div class="q-text">For a model to be visible in the admin interface it has to be registered in which file?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> settings.py</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> admin.py (using admin.site.register(Model_name))</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> views.py</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> models.py</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — admin.py</b><br>
+      عشان Model يظهر في الـ Admin Panel، لازم تسجّله في <code>admin.py</code> بالأمر <code>admin.site.register(Model_name)</code>.
+      <br><span style="color:var(--amber)">🇪🇬 من 2025: للـ Admin بتسجّل في admin.py مش settings.py!</span>
+    </div>
+  </div>
+
+  <!-- === Migrations === -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Q12 <span class="q-src">Final 2021</span></div>
+    <div class="q-text">What are Migrations in Django?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> They track changes to the database schema</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Created by running makemigrations command</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Apply changes to the database using migrate command</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> All of the above</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: D — All of the above</b><br>
+      الـ Migrations بتعمل الثلاثة حاجات: تتبّع تغييرات الـ Schema، بتتنشأ بـ makemigrations، وبتتطبّق بـ migrate.
+      <br><span style="color:var(--amber)">🇪🇬 لما السؤال يقول "All" في Django، الغالب هي الإجابة الصح!</span>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Q13 <span class="q-src">Final 2024</span></div>
+    <div class="q-text">When you have done changes in a model in Django, which command has to be executed in order to make the changes take effect in the database?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> <code>python manage.py runmigrations</code></div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> <code>python manage.py executemigrations</code></div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> <code>python manage.py makemigrations</code></div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — <code>python manage.py makemigrations</code></b><br>
+      الخطوة الأولى بعد تعديل Model هي <code>makemigrations</code> (بيولّد ملف الترحيل)، ثم <code>migrate</code> (بيطبّقه).
+      <br><span style="color:var(--amber)">🇪🇬 makemigrations = خطوة 1 (بيجهّز). migrate = خطوة 2 (بيطبّق).</span>
+    </div>
+  </div>
+
+  <!-- === Import === -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Q14 <span class="q-src">Final 2024</span></div>
+    <div class="q-text">If you have a Django application named <code>members</code>, and a model named <code>Member</code>, what is the correct syntax to import the model?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> <code>from members.models import Member</code></div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> <code>import Member from members</code></div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> <code>import members.Member</code></div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — <code>from members.models import Member</code></b><br>
+      الـ Models في Django بتكون في ملف <code>models.py</code> داخل الـ App. الـ Syntax الصح هو <code>from app_name.models import ModelName</code>.
+      <br><span style="color:var(--amber)">🇪🇬 دايماً: from [اسم الـ App].models import [اسم الـ Model]</span>
+    </div>
+  </div>
+
+  <!-- === 2025 True/False Questions === -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q15 <span class="q-src">Final 2025 — True/False</span></div>
+    <div class="q-text">Django views represents the presentation layer of Django.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — False</b><br>
+      الـ Views في Django تمثل الـ <strong>Logic Layer</strong> (زي الـ Controller في MVC). الـ <strong>Presentation Layer</strong> هو الـ Templates — اللي بيتحكم في إيه اللي المستخدم بيشوفه.
+      <br><span style="color:var(--amber)">🇪🇬 View = Logic. Template = Presentation. الخلط بينهم من أشهر الأخطاء!</span>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Q16 <span class="q-src">Final 2025 — True/False</span></div>
+    <div class="q-text">We can register models in the <code>admin.py</code> file to view it in the administration site of Django.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — True</b><br>
+      صح — بنسجّل الـ Models في <code>admin.py</code> بالأمر <code>admin.site.register(Model)</code> عشان تظهر في الـ Admin Interface.
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q17 <span class="q-src">Final 2025 — True/False</span></div>
+    <div class="q-text">When you create a Django project on your computer, you will get a folder for your project with a specific content including templates file.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — False</b><br>
+      لما تعمل <code>django-admin startproject</code>، الملفات اللي بتتولد هي: <code>manage.py</code>، <code>settings.py</code>، <code>urls.py</code>، <code>wsgi.py</code>، <code>asgi.py</code>. ملف templates <strong>مش</strong> من ضمن الملفات الافتراضية — إنت اللي بتعمله يدوياً.
+      <br><span style="color:var(--amber)">🇪🇬 الـ templates folder مش بيتعمل تلقائياً مع startproject.</span>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q18 <span class="q-src">Final 2025 — True/False</span></div>
+    <div class="q-text">Django comes with a built-in user interface that allows you to administrate your data. To create such user, you write: <code>python mange.py createuser</code></div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — False</b><br>
+      الجزء الأول صح — Django عنده Admin Interface مدمج. لكن الأمر <code>python manage.py createuser</code> غلط!<br>
+      الأمر الصح هو: <code>python manage.py <strong>createsuperuser</strong></code>
+      <br><span style="color:var(--amber)">🇪🇬 احفظ: createsuperuser مش createuser!</span>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q19 <span class="q-src">Final 2025 — True/False</span></div>
+    <div class="q-text">"migrate" command in Django is used to show the changes happened in the database.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — False</b><br>
+      الأمر <code>migrate</code> بيطبّق التغييرات على الـ Database (Apply Changes) — مش بيعرضها فقط. اللي بيعمل الملف الوصفي هو <code>makemigrations</code>.
+      <br><span style="color:var(--amber)">🇪🇬 migrate = بيطبّق. makemigrations = بيولّد ملف التغييرات.</span>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q20 <span class="q-src">Final 2025 — True/False</span></div>
+    <div class="q-text">If an application is running on Web Server Gateway Interface (WSGI), then it will handle client requests in a sequential manner.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: A — True</b><br>
+      الـ WSGI (Web Server Gateway Interface) بيتعامل مع الـ Requests بشكل <strong>Synchronous / Sequential</strong> — طلب طلب بالترتيب. للتعامل مع الـ Requests بشكل Async، بيستخدم ASGI.
+      <br><span style="color:var(--amber)">🇪🇬 WSGI = Sequential (متزامن). ASGI = Async (غير متزامن).</span>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q21 <span class="q-src">Final 2025 — True/False</span></div>
+    <div class="q-text">For a model to be visible in the admin interface it has to be registered in the <code>settings.py</code> file.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — False</b><br>
+      الـ settings.py مكانه تسجيل الـ <strong>Apps</strong> (في INSTALLED_APPS) — مش الـ Models. الـ Models بتتسجّل في <code>admin.py</code> بالأمر <code>admin.site.register()</code>.
+      <br><span style="color:var(--amber)">🇪🇬 settings.py = للـ Apps. admin.py = للـ Models.</span>
+    </div>
+  </div>
+
+  <!-- Quiz Controls -->
+  <div style="margin-top:24px">
+    <span class="q-score" id="score-django"></span>
+    <br>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✔ تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↺ إعادة</button>
+  </div>
+</div>
+
+</div><!-- end .content -->
+</main>
+
+<script>
+// ─── PROGRESS BAR ───
+window.addEventListener('scroll', () => {
+  const el = document.getElementById('prog-bar');
+  const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  el.style.width = pct + '%';
+  document.getElementById('scroll-top').classList.toggle('show', window.scrollY > 300);
+});
+
+// ─── SIDEBAR ACTIVE STATE ───
+const sections = document.querySelectorAll('.chapter, .quiz-section');
+const sbLinks = document.querySelectorAll('.sb-link');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = '#' + entry.target.id;
+      sbLinks.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === id);
+      });
+    }
+  });
+}, { threshold: 0.25, rootMargin: '-60px 0px -60px 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ─── QUIZ LOGIC ───
+document.querySelectorAll('.q-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    const item = opt.closest('.q-item');
+    item.querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+});
+
+function checkQuiz(sectionId) {
+  const section = document.getElementById(sectionId);
+  let correct = 0, total = 0;
+  section.querySelectorAll('.q-item').forEach(item => {
+    const ans = item.dataset.correct;
+    const sel = item.querySelector('.q-opt.selected');
+    const explain = item.querySelector('.q-explain');
+    item.querySelectorAll('.q-opt').forEach(o => {
+      o.classList.remove('correct', 'wrong');
+      if (o.dataset.val === ans) o.classList.add('correct');
+      else if (sel && o === sel) o.classList.add('wrong');
+    });
+    if (explain) explain.classList.add('show');
+    total++;
+    if (sel && sel.dataset.val === ans) correct++;
+  });
+  const scoreEl = section.querySelector('.q-score');
+  if (scoreEl) {
+    scoreEl.style.display = 'block';
+    const pct = Math.round((correct / total) * 100);
+    scoreEl.textContent = `النتيجة: ${correct}/${total} — ${pct}%`;
+    scoreEl.className = 'q-score ' + (pct >= 80 ? 'good' : pct >= 60 ? 'ok' : 'bad');
+  }
+}
+
+function resetQuiz(sectionId) {
+  const section = document.getElementById(sectionId);
+  section.querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected', 'correct', 'wrong'));
+  section.querySelectorAll('.q-explain').forEach(e => e.classList.remove('show'));
+  const scoreEl = section.querySelector('.q-score');
+  if (scoreEl) { scoreEl.style.display = 'none'; scoreEl.className = 'q-score'; }
+}
+</script>
+</body>
+</html>
