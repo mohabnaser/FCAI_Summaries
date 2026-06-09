@@ -1092,7 +1092,7 @@ lst.<span class="fn">sort</span>()
   </div>
 
   <!-- Q5 -->
-  <div class="q-item" id="q5" data-correct="a">
+  <div class="q-item" id="q5" data-correct="b">
     <div class="q-num">Q5 <span class="q-src">Final 2025 — T/F Q26</span></div>
     <div class="q-text">The output of the following statements is <code>"Hello, My"</code>:
       <div class="q-code"><pre><code>b = <span class="str">"Hello, My Friend"</span>
@@ -1103,9 +1103,10 @@ lst.<span class="fn">sort</span>()
       <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة</b>: A — True<br>
-      الـ Slicing بالصيغة <code>[:8]</code> بتاخد من الأول (index 0) حتى index 7 (الرقم 8 نفسه مش متضمن). النص "Hello, My Friend" — الـ 8 حروف الأولى هي: H(0), e(1), l(2), l(3), o(4), ,(5), (6 space), M(7) = <strong>"Hello, M"</strong>... لحظة! نعيد العد: <br>H=0, e=1, l=2, l=3, o=4, ,=5, space=6, M=7 → <code>b[:8]</code> = "Hello, M" وليس "Hello, My"!<br><br>
-      <strong>انتبه</strong>: "Hello, My" فيها 9 حروف (شامل المسافة). لكن السؤال بيقول الناتج "Hello, My" — النتيجة الفعلية هي "Hello, M". لكن حسب إجابات 2025، الإجابة True. تأكد من السؤال في ورقة الامتحان.
+      <b>✅ الإجابة</b>: B — False<br>
+      الـ Slicing بالصيغة <code>b[:8]</code> بتاخد من أول النص لحد قبل index 8، يعني العناصر من index 0 إلى index 7 فقط. العد هنا:
+      <br><code>H</code>(0), <code>e</code>(1), <code>l</code>(2), <code>l</code>(3), <code>o</code>(4), <code>,</code>(5), <code>space</code>(6), <code>M</code>(7)
+      <br>إذن الناتج الحقيقي هو <code>"Hello, M"</code> وليس <code>"Hello, My"</code>. عشان تطبع <code>"Hello, My"</code> محتاج تستخدم <code>b[:9]</code> لأن حرف <code>y</code> موجود عند index 8.
     </div>
   </div>
 
