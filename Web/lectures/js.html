@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 
 <head>
   <meta charset="UTF-8">
@@ -185,9 +185,7 @@
     }
 
     .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: inline-block;
       background: rgba(245, 158, 11, .08);
       border: 1px solid rgba(245, 158, 11, .2);
       border-radius: 20px;
@@ -195,7 +193,11 @@
       font-size: .75rem;
       color: var(--amber);
       margin-bottom: 20px;
-      font-family: var(--fc)
+      font-family: var(--fc);
+      max-width: 100%;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      line-height: 1.5
     }
 
     .hero h1 {
@@ -216,7 +218,9 @@
     .hero p {
       color: var(--t2);
       max-width: 620px;
-      font-size: .97rem
+      font-size: .97rem;
+      direction: rtl;
+      text-align: right
     }
 
     .hero-stats {
@@ -240,7 +244,8 @@
     }
 
     .content {
-      padding: 40px 60px
+      padding: 40px 60px;
+      min-width: 0
     }
 
     .chapter {
@@ -311,10 +316,15 @@
       font-weight: 700
     }
 
+    .ch-title {
+      min-width: 0
+    }
+
     .ch-title p {
       color: var(--t3);
       font-size: .84rem;
-      margin-top: 3px
+      margin-top: 3px;
+      overflow-wrap: anywhere
     }
 
     .topic {
@@ -325,7 +335,9 @@
       margin-bottom: 20px;
       position: relative;
       overflow: hidden;
-      transition: .25s
+      transition: .25s;
+      min-width: 0;
+      width: 100%
     }
 
     .topic::before {
@@ -350,23 +362,35 @@
       font-weight: 600;
       margin-bottom: 10px;
       color: var(--t1);
-      display: flex;
-      align-items: center;
-      gap: 10px
+      display: block;
+      min-width: 0;
+      overflow-wrap: anywhere
     }
 
     .topic-title .icon {
-      font-size: 1.1rem
+      display: inline-block;
+      font-size: 1.1rem;
+      margin-inline-end: 10px;
+      vertical-align: middle
     }
 
     .topic p {
       color: var(--t2);
       font-size: .9rem;
-      margin-bottom: 10px
+      margin-bottom: 10px;
+      overflow-wrap: anywhere
     }
 
     .topic p:last-child {
       margin-bottom: 0
+    }
+
+    .topic ul {
+      color: var(--t2);
+      font-size: .9rem;
+      padding-right: 20px;
+      direction: rtl;
+      text-align: right
     }
 
     .grid2 {
@@ -381,12 +405,18 @@
       gap: 14px
     }
 
+    .grid2>*,
+    .grid3>* {
+      min-width: 0
+    }
+
     .code-wrap {
       background: var(--code);
       border: 1px solid #21262d;
       border-radius: 10px;
       margin: 14px 0;
-      overflow: hidden
+      overflow: hidden;
+      max-width: 100%
     }
 
     .code-header {
@@ -433,7 +463,9 @@
       font-size: .82rem;
       line-height: 1.75;
       overflow-x: auto;
-      color: #cdd6f4
+      color: #cdd6f4;
+      max-width: 100%;
+      min-width: 0
     }
 
     .kw {
@@ -504,36 +536,39 @@
       padding: 14px 16px;
       border-radius: 10px;
       margin: 14px 0;
-      font-size: .87rem
+      font-size: .87rem;
+      direction: rtl;
+      text-align: right;
+      overflow-wrap: anywhere
     }
 
     .tip {
       background: rgba(16, 185, 129, .08);
-      border-left: 3px solid var(--green);
+      border-right: 3px solid var(--green);
       color: #6ee7b7
     }
 
     .warn {
       background: rgba(245, 158, 11, .08);
-      border-left: 3px solid var(--amber);
+      border-right: 3px solid var(--amber);
       color: #fcd34d
     }
 
     .info {
       background: rgba(0, 212, 255, .08);
-      border-left: 3px solid var(--cyan);
+      border-right: 3px solid var(--cyan);
       color: #7dd3fc
     }
 
     .danger {
       background: rgba(239, 68, 68, .08);
-      border-left: 3px solid var(--red);
+      border-right: 3px solid var(--red);
       color: #fca5a5
     }
 
     .note {
       background: rgba(244, 114, 182, .08);
-      border-left: 3px solid var(--pink);
+      border-right: 3px solid var(--pink);
       color: #f9a8d4
     }
 
@@ -560,14 +595,15 @@
       font-family: var(--fh);
       font-weight: 600;
       padding: 10px 14px;
-      text-align: left;
+      text-align: right;
       border-bottom: 2px solid var(--border)
     }
 
     .tbl td {
       padding: 9px 14px;
       border-bottom: 1px solid var(--border);
-      color: var(--t2)
+      color: var(--t2);
+      text-align: right
     }
 
     .tbl tr:hover td {
@@ -964,7 +1000,8 @@
       font-size: .9rem;
       color: var(--t1);
       margin-bottom: 14px;
-      line-height: 1.6
+      line-height: 1.6;
+      overflow-wrap: anywhere
     }
 
     .q-opts {
@@ -984,7 +1021,8 @@
       transition: .2s;
       font-size: .85rem;
       color: var(--t2);
-      user-select: none
+      user-select: none;
+      overflow-wrap: anywhere
     }
 
     .q-opt:hover {
@@ -1030,11 +1068,13 @@
       margin-top: 12px;
       padding: 12px 14px;
       background: rgba(245, 158, 11, .05);
-      border-left: 3px solid var(--amber);
-      border-radius: 0 8px 8px 0;
+      border-right: 3px solid var(--amber);
+      border-radius: 8px 0 0 8px;
       font-size: .83rem;
       color: #fcd34d;
-      line-height: 1.6
+      line-height: 1.6;
+      direction: rtl;
+      text-align: right
     }
 
     .q-explain.show {
@@ -1149,7 +1189,9 @@
 
     .cheat-val {
       color: var(--t2);
-      line-height: 1.5
+      line-height: 1.5;
+      direction: rtl;
+      text-align: right
     }
 
     /* ─── SCROLL & MOBILE ─── */
@@ -1305,6 +1347,7 @@
     .note div,
     .q-text,
     .q-opt,
+    .q-explain,
     .hero p,
     .hero-badge,
     .sb-link,
@@ -1312,25 +1355,30 @@
     .ch-title h2,
     .sb-logo p,
     .sb-logo h2,
-    .q-num {
+    .q-num,
+    .cheat h3,
+    .cheat-val,
+    .type-row,
+    .prio-name,
+    .prio-ex,
+    .scope-label,
+    .pipe-step,
+    .ps-node,
+    .quiz-header h3,
+    .quiz-header p {
       unicode-bidi: plaintext;
-      text-align: start;
     }
 
-    .q-explain,
-    .cheat-val,
-    .cmt {
-      direction: rtl;
+    [dir="rtl"] {
       text-align: right;
-      unicode-bidi: embed;
+    }
+
+    [dir="ltr"] {
+      text-align: left;
     }
 
     code,
-    strong,
-    b,
-    i,
-    em,
-    span,
+    pre,
     .kw,
     .str,
     .num,
@@ -1341,8 +1389,39 @@
     .val,
     .sel,
     .bool,
-    .op {
+    .op,
+    .q-opt-letter,
+    .badge,
+    .cheat-key,
+    .code-lang {
       direction: ltr;
+      unicode-bidi: isolate;
+    }
+
+    .bdi-ltr {
+      direction: ltr;
+      unicode-bidi: isolate;
+    }
+
+    strong,
+    b,
+    i,
+    em {
+      unicode-bidi: isolate;
+    }
+
+    .code-wrap,
+    .code-wrap pre,
+    .code-wrap code {
+      direction: ltr;
+      text-align: left;
+      unicode-bidi: normal;
+    }
+
+    .code-wrap pre span,
+    .code-wrap pre .cmt {
+      direction: ltr;
+      text-align: left;
       unicode-bidi: isolate;
     }
 
@@ -1480,7 +1559,7 @@
 
   <main id="main">
     <!-- GLOBAL NAVIGATION -->
-    <div class="global-nav">
+    <div class="global-nav" aria-label="Lecture navigation">
   <a href="../index.html" class="gn-link gn-home">الرئيسية</a>
   <a href="css.html" class="gn-link gn-prev">← السابق: CSS</a>
   <span class="gn-link gn-current" aria-current="page">JavaScript</span>
@@ -4820,11 +4899,93 @@ window.history.<span class="fn">back</span>(); <span class="cmt">// بيرجعن
   <!-- Auto-detect Arabic text and set RTL -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      document.querySelectorAll('p, li, td, th, .topic-title, .ch-title p, .tip div, .warn div, .info div, .danger div, .note div, .q-text, .q-explain, .cheat-val, .cmt, .q-opt, .hero p, .topic p, .q-num').forEach(el => {
-        if (/[\u0600-\u06FF]/.test(el.textContent)) {
+      const arabic = /[\u0600-\u06FF]/;
+      const latin = /[A-Za-z]/;
+      const latinRun = /([A-Za-z0-9][A-Za-z0-9_$.[\]{}():/#%&=+\-'"<>]*[?!]?(?:\s+[A-Za-z0-9][A-Za-z0-9_$.[\]{}():/#%&=+\-'"<>]*[?!]?)*)/g;
+      const inlineTags = new Set(['A', 'ABBR', 'B', 'BDI', 'BR', 'CODE', 'EM', 'I', 'KBD', 'MARK', 'SMALL', 'SPAN', 'STRONG', 'SUB', 'SUP', 'U']);
+      const textSelector = [
+        '.hero p',
+        '.hero-badge',
+        '#sidebar .sb-link',
+        '.global-nav .gn-link',
+        '.content p',
+        '.content li',
+        '.content td',
+        '.content th',
+        '.content h1',
+        '.content h2',
+        '.content h3',
+        '.content h4',
+        '.content h5',
+        '.content h6',
+        '.content div',
+        '.q-text',
+        '.q-opt',
+        '.q-explain',
+        '.cheat-val',
+        '.q-num'
+      ].join(',');
+
+      function isTextElement(el) {
+        if (el.closest('pre, code, .code-wrap, .code-header, .code-dots, script, style')) return false;
+        const children = Array.from(el.children);
+        if (!children.length) return true;
+        return children.every(child => inlineTags.has(child.tagName));
+      }
+
+      function isolateLatinRuns(el) {
+        if (!arabic.test(el.textContent) || !latin.test(el.textContent)) return;
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+          acceptNode(node) {
+            if (!node.nodeValue.trim() || !latin.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+            if (node.parentElement.closest('pre, code, .code-wrap, bdi')) return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+
+        nodes.forEach(node => {
+          const text = node.nodeValue;
+          latinRun.lastIndex = 0;
+          if (!latinRun.test(text)) return;
+          latinRun.lastIndex = 0;
+
+          const frag = document.createDocumentFragment();
+          let lastIndex = 0;
+          text.replace(latinRun, (match, _run, index) => {
+            if (index > lastIndex) frag.appendChild(document.createTextNode(text.slice(lastIndex, index)));
+            const bdi = document.createElement('bdi');
+            bdi.dir = 'ltr';
+            bdi.className = 'bdi-ltr';
+            bdi.textContent = match;
+            frag.appendChild(bdi);
+            lastIndex = index + match.length;
+            return match;
+          });
+          if (lastIndex < text.length) frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+          node.replaceWith(frag);
+        });
+      }
+
+      const textElements = [];
+      document.querySelectorAll(textSelector).forEach(el => {
+        if (!isTextElement(el)) return;
+        const text = el.textContent.trim();
+        if (!text) return;
+        textElements.push(el);
+        if (arabic.test(text)) {
           el.setAttribute('dir', 'rtl');
           el.style.textAlign = 'right';
+        } else if (latin.test(text)) {
+          el.setAttribute('dir', 'ltr');
         }
+      });
+
+      textElements.forEach(isolateLatinRuns);
+
+      document.querySelectorAll('pre, pre *, code, .code-wrap, .code-wrap *').forEach(el => {
+        el.setAttribute('dir', 'ltr');
       });
     });
   </script>
