@@ -509,7 +509,7 @@ admin.site.register(Student)</code></pre></div>
     <div class="q-explain"><b>الإجابة: A</b><br>الموديل موجود داخل ملف <code>models.py</code> في app اسمها <code>members</code>، لذلك الاستيراد الصحيح هو <code>from members.models import Member</code>.</div>
   </div>
 
-  <div class="q-item" data-correct="c">
+  <div class="q-item" data-correct="d">
     <div class="q-num">Q4 <span class="q-src">Final 2024</span></div>
     <div class="q-text">When you have done changes in a model in Django, which command has to be executed in order to make the changes take effect in the database?</div>
     <div class="q-opts">
@@ -518,7 +518,7 @@ admin.site.register(Student)</code></pre></div>
       <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> python manage.py makemigrations</div>
       <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
     </div>
-    <div class="q-explain"><b>الإجابة في ورقة 2024: C - makemigrations</b><br>السؤال يقصد أول command بعد تعديل model. عمليًا الـ workflow الصحيح: <code>makemigrations</code> لإنشاء ملف migration ثم <code>migrate</code> لتطبيقه على database.</div>
+    <div class="q-explain"><b>الإجابة الصحيحة علمياً: D - None of the previous</b><br>الأمر الذي يطبق التغييرات فعلياً على الـ database هو <code>migrate</code> وهو غير موجود بالخيارات. <code>makemigrations</code> ينشئ ملفات الـ migration فقط. <span style="color:var(--red)">(تنويه: بعض نماذج الإجابات احتسبت C بالخطأ، لكن D هي الأصح).</span></div>
   </div>
 
   <div class="q-item" data-correct="b">
