@@ -1066,7 +1066,7 @@ admin.site.register(Student)</div>
   </div>
 
   <!-- Q7 — makemigrations -->
-  <div class="q-item" data-correct="c">
+  <div class="q-item" data-correct="d">
     <div class="q-num">Q7 <span class="q-src">Final 2024 — Q.10</span></div>
     <div class="q-text">When you have done changes in a model in Django, which command has to be executed in order to make the changes take effect in the database?</div>
     <div class="q-opts">
@@ -1076,13 +1076,9 @@ admin.site.register(Student)</div>
       <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
     </div>
     <div class="q-explain">
-      <b>✅ الإجابة الصح: C — <code>python manage.py makemigrations</code></b><br>
-      لما بتعدّل الـ Model، لازم أمرين:
-      <ol style="margin-top:8px">
-        <li><code>python manage.py makemigrations</code> — بيعمل Migration File بيوصف التغييرات</li>
-        <li><code>python manage.py migrate</code> — بيطبّق التغييرات على الـ Database الفعلي</li>
-      </ol>
-      السؤال بيسأل عن أول خطوة.
+      <b>✅ الإجابة الصح: D — None of the previous</b><br>
+      الأمر اللي بيخلي التغييرات تتنفذ فعلياً في الـ Database هو <code>python manage.py migrate</code> وهو مش موجود في الاختيارات. <code>makemigrations</code> بيجهّز ملف الترحيل بس.
+      <br><span style="color:var(--amber)">🇪🇬 makemigrations = خطوة 1 (بيجهّز). migrate = خطوة 2 (بيطبّق في الـ DB).</span>
     </div>
   </div>
 
