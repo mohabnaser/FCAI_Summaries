@@ -10,9 +10,13 @@
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <style>
       :root {
         --bg: #050914;
@@ -82,25 +86,22 @@
         );
         border: 1px solid rgba(255, 255, 255, 0.03);
       }
-      .hero h1 {
-        font-family: "Outfit", sans-serif;
-        font-size: 1.6rem;
-        margin-bottom: 6px;
-      }
-      .hero p {
-        opacity: 0.85;
+      .hero img {
+        max-width: 100%;
+        height: auto;
+        display: block;
       }
       .grid {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 16px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
       }
       .card {
         position: relative;
-        min-height: 170px;
+        min-height: 180px;
         border: 1px solid var(--line);
         border-radius: 18px;
-        padding: 18px;
+        padding: 24px;
         background: linear-gradient(
           180deg,
           rgba(18, 29, 51, 0.96),
@@ -134,60 +135,33 @@
         position: relative;
         z-index: 1;
         font-family: "Outfit", sans-serif;
-        font-size: 1.45rem;
+        font-size: 1.55rem;
         font-weight: 800;
-        line-height: 1.1;
+        line-height: 1.2;
       }
       .card .desc {
         position: relative;
         z-index: 1;
-        font-size: 0.92rem;
+        font-size: 0.95rem;
         opacity: 0.85;
-        margin-top: 6px;
+        margin-top: 8px;
+        line-height: 1.5;
       }
       .icon {
         position: absolute;
-        top: 18px;
-        right: 18px;
-        width: 54px;
-        height: 54px;
+        top: 20px;
+        right: 20px;
+        width: 58px;
+        height: 58px;
         border-radius: 18px;
         display: grid;
         place-items: center;
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.08);
       }
-      #home-title {
-        font-size: 1.8rem;
-        color: var(--cyan);
-      }
-      .DB {
-        color: var(--cyan);
-      }
-      .SW {
-        color: var(--green);
-      }
-      .W {
-        color: var(--amber);
-      }
-      .MA {
-        color: var(--pink);
-      }
-      .DS {
-        color: var(--violet);
-      }
       .accent-cyan {
         --accent: var(--cyan);
-      }
-      .accent-green {
-        --accent: var(--green);
-      }
-      .accent-amber {
-        --accent: var(--amber);
-      }
-      .accent-pink {
-        --accent: var(--pink);
       }
       .accent-violet {
         --accent: var(--violet);
@@ -197,30 +171,10 @@
         background: rgba(34, 211, 238, 0.08);
         border-color: rgba(34, 211, 238, 0.16);
       }
-      .accent-green .icon {
-        color: var(--green);
-        background: rgba(52, 211, 153, 0.08);
-        border-color: rgba(52, 211, 153, 0.16);
-      }
-      .accent-amber .icon {
-        color: var(--amber);
-        background: rgba(251, 191, 36, 0.08);
-        border-color: rgba(251, 191, 36, 0.16);
-      }
-      .accent-pink .icon {
-        color: var(--pink);
-        background: rgba(244, 114, 182, 0.08);
-        border-color: rgba(244, 114, 182, 0.16);
-      }
       .accent-violet .icon {
         color: var(--violet);
         background: rgba(167, 139, 250, 0.08);
         border-color: rgba(167, 139, 250, 0.16);
-      }
-      @media (max-width: 1100px) {
-        .grid {
-          grid-template-columns: 1fr 1fr;
-        }
       }
       @media (max-width: 720px) {
         .wrap {
@@ -230,7 +184,8 @@
           grid-template-columns: 1fr;
         }
         .card {
-          min-height: 140px;
+          min-height: 150px;
+          padding: 18px;
         }
       }
       .ai-disclaimer {
@@ -244,7 +199,6 @@
         line-height: 1.7;
       }
       .ai-disclaimer strong {
-        font-family: var(--fh);
         color: #fde68a;
       }
       @media (max-width: 700px) {
@@ -262,45 +216,24 @@
     <main class="wrap">
       <section class="hero" aria-labelledby="home-title">
         <p>
-          <img src="1.png" />
+          <img src="1.png" alt="Hero banner" />
         </p>
       </section>
       <div class="grid">
-        <a class="card accent-cyan" href="DB/Home.html"
-          ><div class="icon" ><i class="fa-solid fa-database"></i></div>
+        <a class="card accent-cyan" href="2th secondary stage/index.html">
+          <div class="icon"><i class="fa-solid fa-graduation-cap"></i></div>
           <div>
-            <h4 class="DB">Database</h4>
-            <div class="desc">ER diagrams and project files</div>
-          </div></a
-        >
-        <a class="card accent-green" href="Software/index.html"
-          ><div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
+            <h4 style="color: var(--cyan);">2nd Year — Term 2</h4>
+            <div class="desc">Database, Software Engineering, Management, Web Development &amp; Data Structures</div>
+          </div>
+        </a>
+        <a class="card accent-violet" href="3rd Year/index.html">
+          <div class="icon"><i class="fa-solid fa-book-open"></i></div>
           <div>
-            <h4 class="SW">Software</h4>
-            <div class="desc">Tools, code snippets and projects</div>
-          </div></a
-        >
-        <a class="card accent-pink" href="Managment/index.html"
-          ><div class="icon"><i class="fa-solid fa-briefcase"></i></div>
-          <div>
-            <h4 class="MA">Management</h4>
-            <div class="desc">Reports and administrative materials</div>
-          </div></a
-        >
-        <a class="card accent-amber" href="Web/index.html"
-          ><div class="icon"><i class="fa-solid fa-globe"></i></div>
-          <div>
-            <h4 class="W">Web</h4>
-            <div class="desc">Sites and web development resources</div>
-          </div></a
-        >
-        <a class="card accent-violet" href="DS/index.html"
-          ><div class="icon"><i class="fa-solid fa-diagram-project"></i></div>
-          <div>
-            <h4 class="DS">Data Structures</h4>
-            <div class="desc">Algorithms, trees, graphs, and problems</div>
-          </div></a
-        >
+            <h4 style="color: var(--violet);">3rd Year — Term 1</h4>
+            <div class="desc">Summaries, lecture notes, and revision materials</div>
+          </div>
+        </a>
       </div>
     </main>
     <footer
