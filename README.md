@@ -1,0 +1,66 @@
+# FCAI Summaries
+
+Interactive revision site for Cairo University FCAI students. The original
+static HTML site lives in `legacy/`; the app in `src/` builds it into a React
+single-page application.
+
+## Stack
+
+- React / React DOM 19
+- TypeScript 7
+- Vite 8
+- React Router 7 (`BrowserRouter`)
+
+## Development
+
+```bash
+npm install
+npm run dev
+```
+
+Production build and local preview:
+
+```bash
+npm run build
+npm run preview
+```
+
+## Regenerating content
+
+`public/content/` and `src/data/content-pages.generated.ts` are generated from
+the pages in `legacy/`. The special pages (`SqlApp.tsx`, `home.css`,
+`exam2018.css`, and the standalone Data Structures 2022 exam) are generated
+from the same source.
+
+```bash
+npm run generate      # regenerate every extracted page
+npm run extract       # regenerate only the content fragments
+npm run build:special # regenerate only the special React/standalone pages
+```
+
+Do not edit generated files by hand. `npm run build` only compiles the app; it
+does not regenerate content.
+
+## Deployment
+
+Pushing to `main` (production) or `testing` triggers
+`.github/workflows/deploy.yml`. The workflow:
+
+1. installs dependencies with `npm ci` and builds the SPA;
+2. copies the contents of `dist/` to the corresponding web root on the server
+   (`/var/www/FCAI_Summaries/prod` or `/var/www/FCAI_Summaries/test`);
+3. reloads nginx.
+
+The site uses `BrowserRouter`, so nginx must fall back to `index.html` for
+client-side routes. The web root must contain the **built** files, not the
+repository root. A sample configuration is provided in
+[`deploy/nginx.conf`](deploy/nginx.conf):
+
+```nginx
+location / {
+    try_files $uri $uri/ /index.html;
+}
+```
+
+Without that fallback, opening a route such as
+`/2nd-year/software/lectures/01` directly returns a 404.

@@ -1,0 +1,814 @@
+<div id="prog-bar"></div>
+
+<nav id="sidebar" dir="ltr">
+  <div class="sb-logo">
+    <h2>🎬 CS251 — Lec 06</h2>
+    <p>Sequence Diagrams (Dynamic View)</p>
+  </div>
+  <a class="sb-back" href="/2nd-year/software">← All Lectures</a>
+  <a class="sb-back" href="/2nd-year">↩ الرئيسية</a>
+
+  <div class="sb-section">Foundation</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Why Model?</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>UML Pareto 80/20</a>
+
+  <div class="sb-section">Sequence Diagrams</div>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Interaction Diagrams</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Notation Elements</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Message Types</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Frames (opt, loop, alt)</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Create &amp; Destroy Objects</a>
+
+  <div class="sb-section">Apply</div>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>Library Example ⭐</a>
+  <a href="#ch9" class="sb-link"><span class="sb-dot"></span>Why Not Just Code?</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Practice Quiz</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Rapid Revision</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main" dir="rtl">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🎬 Lecture 06 · Dynamic view of UML</div>
+  <h1>UML <span>Sequence Diagrams</span></h1>
+  <p>رسم <bdi>Class diagram</bdi> بيوريك <strong><bdi>structure</bdi></strong> النظام. ورسم <bdi>Sequence diagram</bdi> بيوريك <strong>إزاي الـ <bdi>objects</bdi> بتتفاعل عبر الزمن</strong> لتنفيذ <bdi>use case</bdi>. مهم جداً في <bdi>Question 2</bdi> (4 <bdi>marks</bdi>).</p>
+  <div class="btn-row">
+    <a href="/2nd-year/software" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 Practice Quiz</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">9</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">4</div><div class="lbl">Message Types</div></div>
+    <div class="hstat"><div class="num">3</div><div class="lbl">Frame Types</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Practice Qs</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — WHY MODEL?
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>Why Model Software?</h2>
+      <p><bdi>Modeling</bdi> يعني بناء <bdi>abstraction</bdi> للواقع: بنتجاهل التفاصيل غير المهمة ونحتفظ بالمهمة.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">📖</span> What is Modeling?</div>
+      <ul>
+        <li>Modeling = <strong>building an abstraction of reality</strong>.</li>
+        <li>Abstractions = <strong>simplifications</strong> because:
+          <ul>
+            <li>بنتجاهل <bdi>irrelevant details</bdi>.</li>
+            <li>بنركز على <bdi>relevant details</bdi> بس.</li>
+          </ul>
+        </li>
+        <li>معنى <bdi>Relevant</bdi> بيتحدد حسب <strong>هدف الـ <bdi>model</bdi></strong>.</li>
+      </ul>
+    </div>
+
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">📈</span> Why Model Software?</div>
+      <ul>
+        <li>الـ <bdi>Software</bdi> بقى <strong>أكتر تعقيداً</strong> — <bdi>Windows 10</bdi> أكتر من 50 مليون سطر كود.</li>
+        <li>مبرمج واحد ما يقدرش يفهم كل الكود ده لوحده.</li>
+        <li>الكود <strong>مش سهل الفهم</strong> للمطورين اللي ما كتبوش.</li>
+        <li>نحتاج <strong>تمثيلات بسيطة لأنظمة معقدة</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Application vs Solution Domain -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🌐</span> Application Domain vs Solution Domain</div>
+    <div class="grid2">
+      <div>
+        <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin-bottom:6px">🏢 Application Domain</h4>
+        <p style="font-size:.88rem;color:var(--t2)">الـ <strong><bdi>environment</bdi></strong> اللي النظام بيشتغل فيه — مثلاً <bdi>Air Traffic Control</bdi>: الطيارات، الأبراج، الرادار.</p>
+        <p style="font-size:.85rem;color:var(--t3);margin-top:6px">→ يستخدم في <em>Requirements Analysis</em>.</p>
+      </div>
+      <div>
+        <h4 style="font-family:var(--fh);color:var(--green);font-size:.95rem;margin-bottom:6px">💻 Solution Domain</h4>
+        <p style="font-size:.88rem;color:var(--t2)">الـ <strong><bdi>technologies</bdi></strong> المتاحة لبناء النظام — <span dir="ltr">Classes, Databases, APIs, frameworks</span>.</p>
+        <p style="font-size:.85rem;color:var(--t3);margin-top:6px">→ يستخدم في <em>System Design</em> &amp; <em>Object Design</em>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — UML PARETO 80/20
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num green">02</div>
+    <div class="ch-title">
+      <h2>UML 80/20 Rule (Pareto)</h2>
+      <p>تقدر تمذج 80% من المشاكل باستخدام 20% من <bdi>UML</bdi>. هنركز على الـ 20% المهمين.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🎯</span> الـ 4 <bdi>Diagrams</bdi> الأساسية</div>
+    <table class="tbl">
+      <tr><th>Diagram</th><th>View</th><th>الغرض</th></tr>
+      <tr><td><strong><bdi>Use Case</bdi></strong></td><td><bdi>Functional</bdi></td><td>الـ <bdi>behavior</bdi> كما يراه المستخدم</td></tr>
+      <tr><td><strong><bdi>Class</bdi></strong></td><td><bdi>Static Structure</bdi></td><td>الـ <bdi>objects</bdi> و <bdi>attributes</bdi> و <bdi>associations</bdi></td></tr>
+      <tr><td><strong><bdi>Sequence</bdi></strong> ⭐</td><td><bdi>Dynamic</bdi></td><td>تفاعل الـ <bdi>objects</bdi> عبر الزمن لتنفيذ <bdi>use case</bdi></td></tr>
+      <tr><td><strong><bdi>State</bdi></strong></td><td><bdi>Dynamic</bdi></td><td>الـ <bdi>behavior</bdi> الداخلي لـ <bdi>object</bdi> واحد</td></tr>
+    </table>
+    <div class="info"><div><b>📚 ترتيب المحاضرات</b> غطينا <bdi>Use Cases</bdi> في <bdi>Lec 3</bdi>، و <bdi>Class diagrams</bdi> في <bdi>Lec 5</bdi>. دلوقتي <strong><bdi>Sequence diagrams</bdi></strong>، وبعدها <bdi>State diagrams</bdi>.</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — INTERACTION DIAGRAMS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title">
+      <h2>Interaction Diagrams</h2>
+      <p><bdi>Sequence</bdi> + <bdi>Communication diagrams</bdi>. بنستخدمهم لنمذجة الـ <bdi>dynamic aspects</bdi>.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🎬</span> What are Interaction Diagrams?</div>
+    <p>بتُستخدم لنمذجة الـ <strong>dynamic aspects</strong> للنظام:</p>
+    <ul>
+      <li>بتعرض <strong>إزاي النظام بيشتغل</strong>.</li>
+      <li>غالباً بتُبنى من <strong>use case + class diagram</strong>.</li>
+      <li>الهدف: نوضح إزاي مجموعة <bdi>objects</bdi> بتنفذ الـ <bdi>interactions</bdi> المطلوبة مع <bdi>actor</bdi>.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📦</span> 2 Types</div>
+    <div class="grid2">
+      <div class="cmp-card" style="--accent:var(--cyan)">
+        <h4>📈 Sequence Diagram</h4>
+        <p>أكتر شيوعاً. بيركز على <strong>الترتيب الزمني</strong> للـ <bdi>messages</bdi>. المحور الرأسي (<bdi>vertical axis</bdi>) = الزمن.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--purple)">
+        <h4>🕸️ Communication Diagram</h4>
+        <p>بيركز على <strong>الـ <bdi>relationships</bdi></strong> بين <bdi>objects</bdi>. الزمن مش <bdi>explicit</bdi>، وبدل كده بنرقّم الـ <bdi>messages</bdi>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🧱</span> Elements of Sequence Diagrams</div>
+    <ul>
+      <li><strong><bdi>Instances of classes</bdi></strong> — <bdi>boxes</bdi> فيها <bdi>object identifier</bdi> تحته خط (<bdi>underline</bdi>).</li>
+      <li><strong><bdi>Actors</bdi></strong> — <bdi>stick figures</bdi> زي <bdi>Use Case diagrams</bdi>.</li>
+      <li><strong><bdi>Messages</bdi></strong> — أسهم من <bdi>actor</bdi> لـ <bdi>object</bdi>، أو من <bdi>object</bdi> لـ <bdi>object</bdi>.</li>
+      <li><strong><bdi>Lifelines</bdi></strong> — خطوط منقطة (<bdi>dashed vertical lines</bdi>) ممتدة من كل <bdi>box</bdi>.</li>
+      <li><strong><bdi>Activation boxes</bdi></strong> — أعمدة طويلة على الـ <bdi>lifeline</bdi> بتبين الفترة اللي الـ <bdi>object</bdi> نشط فيها.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — NOTATION
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num purple">04</div>
+    <div class="ch-title">
+      <h2>Notation Elements</h2>
+      <p>Frame · Lifeline · Lifeline Names · Activation Boxes.</p>
+    </div>
+  </div>
+
+  <!-- Frame -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🖼️</span> Frame</div>
+    <p>الـ <bdi>Frame</bdi> هو الحاوية الخارجية. فيه <strong><bdi>heading</bdi></strong> بتحتوي على <code>sd</code> + اسم الـ <bdi>interaction</bdi>.</p>
+    <div class="frame-demo">
+      <span class="frame-tag">sd Frame_Name</span>
+      <div class="frame-body">[Lifelines and Message Flow inside]
+        <br>↓ Time flows downward</div>
+    </div>
+  </div>
+
+  <!-- Lifeline -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📏</span> Lifeline</div>
+    <p>كل <bdi>participant</bdi> عنده <strong><bdi>lifeline</bdi></strong>: خط منقط عمودي تحت الـ <bdi>box</bdi> بتاعه. الزمن (<bdi>Time</bdi>) بيمشي من <strong>فوق لتحت</strong>.</p>
+  </div>
+
+  <!-- Lifeline names -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🏷️</span> Lifeline Name Conventions</div>
+    <table class="tbl">
+      <tr><th>الـ <bdi>Notation</bdi></th><th>المعنى</th></tr>
+      <tr><td><code>seoclecturer</code></td><td><bdi>Object</bdi> اسمه <em><bdi>seoclecturer</bdi></em></td></tr>
+      <tr><td><code>seoclecturer : Lecturer</code></td><td><bdi>Object</bdi> اسمه <em><bdi>seoclecturer</bdi></em> من <bdi>class</bdi> اسمها <em><bdi>Lecturer</bdi></em></td></tr>
+      <tr><td><code>: Lecturer</code></td><td><bdi>Anonymous object</bdi> من <bdi>class</bdi> اسمها <em><bdi>Lecturer</bdi></em></td></tr>
+      <tr><td><code>lecturer[i] : Lecturer</code></td><td>الـ <bdi>Object</bdi> الموجود عند <bdi>index</bdi> اسمه <em><bdi>i</bdi></em></td></tr>
+    </table>
+    <div class="info"><div><b>💡 المهم</b> اسم الـ <bdi>object</bdi> دايماً <strong><bdi>underlined</bdi></strong> في <bdi>sequence diagrams</bdi> لأنه <bdi>instance</bdi> مش <bdi>class</bdi>. الاسم قبل النقطتين، والـ <bdi>class</bdi> بعدها.</div></div>
+  </div>
+
+  <!-- Mini example -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔍</span> Mini Example — Course Registration</div>
+    <div class="seq-canvas">
+      <div class="seq-actors">
+        <div class="seq-actor actor-stick"><div class="seq-actor-tag">actor</div>Student</div>
+        <div class="seq-actor"><div class="seq-actor-tag">:CourseSection</div>CourseSection</div>
+        <div class="seq-actor"><div class="seq-actor-tag">:Registration</div>Registration</div>
+        <div class="seq-actor"><div class="seq-actor-tag">:Student</div>Student</div>
+      </div>
+      <div style="text-align:center;color:var(--t3);margin-top:14px;font-style:italic;font-size:.78rem">
+        <strong>1.</strong> Student → CourseSection : requestToRegister<br>
+        <strong>2.</strong> CourseSection → Registration : ⇢ create (dashed)<br>
+        <strong>3.</strong> Registration → Student : addToSchedule<br>
+        <strong>4.</strong> Registration → CourseSection : addToRegistrationList
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — MESSAGE TYPES
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num red">05</div>
+    <div class="ch-title">
+      <h2>Message Types — 4 Types</h2>
+      <p>الدكتور بيحب يسأل عن الفرق بين <span dir="ltr">Synchronous, Asynchronous, Create, Reply</span>.</p>
+    </div>
+  </div>
+
+  <div class="msg-types">
+    <div style="--accent:var(--cyan)">
+      <h4 style="color:var(--cyan)">🔄 Synchronous Message</h4>
+      <div class="msg-arrow">──────▶  (solid arrow, filled triangle)</div>
+      <p>الـ <bdi>Sender</bdi> <strong>بيستنى</strong> لحد ما الـ <bdi>message</bdi> تتعالج قبل ما يكمل. دي <em><bdi>Wait semantics</bdi></em>، وده هو الـ <bdi>method call</bdi> العادي.</p>
+    </div>
+
+    <div style="--accent:var(--amber)">
+      <h4 style="color:var(--amber)">⚡ Asynchronous Message</h4>
+      <div class="msg-arrow">──────▷  (solid arrow, open arrowhead)</div>
+      <p>الـ <bdi>Sender</bdi> <strong>ما يستناش</strong>. دي <em><bdi>No-wait semantics</bdi></em>. مفيش <bdi>explicit return</bdi>، وده بيسمح للـ <bdi>objects</bdi> تشتغل <strong><bdi>concurrently</bdi></strong>.</p>
+    </div>
+
+    <div style="--accent:var(--green)">
+      <h4 style="color:var(--green)">↩️ Reply Message</h4>
+      <div class="msg-arrow">⇠⇠⇠⇠⇠  (dashed arrow, open arrowhead)</div>
+      <p>دي الـ <strong><bdi>return value</bdi></strong> من <bdi>message</bdi> سابقة. بترسم كـ <bdi>dashed line</bdi>. ممكن تتجاهلها لو الـ <bdi>flow</bdi> واضح.</p>
+    </div>
+
+    <div style="--accent:var(--purple)">
+      <h4 style="color:var(--purple)">🆕 Create Message</h4>
+      <div class="msg-arrow">⇢⇢⇢⇢⇢  (dashed arrow → object box)</div>
+      <p>بيخلق <strong><bdi>object</bdi> جديد</strong> أثناء الـ <bdi>interaction</bdi>. في <bdi>Java</bdi> = <bdi>constructor call</bdi> (<code>new ClassName()</code>). الـ <bdi>arrowhead</bdi> بيشاور للـ <bdi>object</bdi> الجديد.</p>
+    </div>
+  </div>
+
+  <div class="info"><div><b>💡 الفرق المهم</b> <bdi>Synchronous</bdi> = <bdi>wait</bdi>. <bdi>Asynchronous</bdi> = <bdi>no wait</bdi>. لو شفت <strong><bdi>filled arrowhead</bdi></strong> يبقى <bdi>synchronous</bdi> (<bdi>method call</bdi>). ولو شفت <strong><bdi>open arrowhead</bdi></strong> + <bdi>dashed</bdi> يبقى <bdi>reply</bdi>/<bdi>async</bdi>.</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — FRAMES (opt, loop, alt)
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num teal">06</div>
+    <div class="ch-title">
+      <h2>Combined Fragments — opt, loop, alt</h2>
+      <p>الـ <bdi>Frames</bdi> دي بتغلف أجزاء من الـ <bdi>sequence</bdi> للتحكم في الـ <bdi>control flow</bdi>.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">❓</span> opt — Optional</div>
+    <p>الـ <bdi>messages</bdi> داخل الـ <bdi>frame</bdi> بتتنفذ <strong>لو الـ <bdi>guard condition</bdi> = <bdi>true</bdi></strong>. زي <code>if</code>.</p>
+    <div class="frame-demo">
+      <span class="frame-tag">opt</span>
+      <div class="frame-cond">[hasPrerequisite]</div>
+      <div class="frame-body">create new :Registration<br>
+        :Registration → :Student : addToSchedule<br>
+        :Registration → :CourseSection : addToRegistrationList</div>
+    </div>
+    <p style="margin-top:8px;font-size:.85rem">لو الـ <bdi>student</bdi> ما عندوش الـ <bdi>prerequisite</bdi>، الـ <bdi>frame</bdi> ده بيتخطى بالكامل.</p>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔁</span> loop</div>
+    <p>الـ <bdi>messages</bdi> بتتنفذ <strong>عدة مرات</strong>. ممكن تحط <bdi>range</bdi> زي <code>0..n</code> أو <code>*</code>.</p>
+    <div class="frame-demo" style="border-color:var(--cyan)">
+      <span class="frame-tag" style="background:var(--cyan);color:#000">loop 0..numPurchases</span>
+      <div class="frame-body">:Bill → :Purchase : getSubtotal<br>
+        :Purchase → :Item : getUnitPrice</div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🔀</span> alt — Alternative (if/else)</div>
+    <p>اختيار بين <strong><bdi>multiple paths</bdi></strong> بناءً على شروط. زي <code>if/else</code> أو <code>switch</code>.</p>
+    <div class="frame-demo">
+      <span class="frame-tag">alt</span>
+      <div class="frame-cond">[credentials valid]</div>
+      <div class="frame-body">redirect to dashboard
+        <hr style="border:1px dashed var(--border);margin:8px 0">
+        <div class="frame-cond" style="padding-left:0">[else]</div>
+        show error message
+      </div>
+    </div>
+  </div>
+
+  <div class="info"><div><b>📌 <bdi>Other useful frames</bdi></b><br>
+    <code>par</code> — <bdi>Parallel</bdi> (<bdi>concurrent execution</bdi>).<br>
+    <code>break</code> — Like <code>break</code> in a loop, exits the current scope.<br>
+    <code>ref</code> — الرجوع لـ <bdi>sequence diagram</bdi> تانية (<bdi>reusable</bdi>).
+  </div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — CREATE & DESTROY
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num pink">07</div>
+    <div class="ch-title">
+      <h2>Object Creation &amp; Destruction</h2>
+      <p>إظهار حياة الـ <bdi>object</bdi>: من لحظة إنشائه لحد تدميره.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">🌱</span> Element Creation</div>
+      <p>الـ <bdi>Object</bdi> الجديد بيظهر <strong>في النص أو تحت</strong>، مش فوق مع الـ <bdi>objects</bdi> الموجودة من البداية.</p>
+      <p>السهم <strong><bdi>dashed arrow with open arrowhead</bdi></strong> بيشاور للـ <bdi>box</bdi> الجديد. الـ <bdi>box</bdi> هو اللي السهم بيوصله.</p>
+      <p>في الكود: ده بيمثل <code>new ClassName()</code>.</p>
+    </div>
+
+    <div class="topic" style="--accent:var(--red)">
+      <div class="topic-title"><span class="icon">💀</span> Element Destruction</div>
+      <p>الـ <bdi>Object</bdi> بينتهي بعلامة <strong><bdi>large X symbol</bdi></strong> على الـ <bdi>lifeline</bdi> عند نقطة الـ <bdi>destruction</bdi>.</p>
+      <p>الـ <bdi>message</bdi> اللي بتدمر الـ <bdi>object</bdi> بتخلص عند علامة <bdi>X</bdi>.</p>
+      <p>مثال: <code>cancelBooking</code> → <bdi>cancel</bdi> → <code>:Booking</code> ينتهي بـ <bdi>X</bdi>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 8 — LIBRARY EXAMPLE
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num cyan blue">08</div>
+    <div class="ch-title">
+      <h2>Library System — Full Example ⭐</h2>
+      <p>الدكتور عمل <bdi>sequence diagram</bdi> لـ <bdi>Issue a Book</bdi> مع <bdi>opt fragment</bdi>. ركز عليه.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📚</span> Use Case: Issue Book</div>
+    <p><strong>Actor:</strong> Librarian · <strong>Goal:</strong> Issue a book to a borrower if his status permits.</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">Main Scenario:</h4>
+    <table class="tbl">
+      <tr><th>Actor</th><th>System</th></tr>
+      <tr><td>1- Enter user's ID</td><td>2- Display info &amp; user status</td></tr>
+      <tr><td>3- If allowed to borrow, enter book copy ID</td><td>4- Create borrowing record<br>5- Update user's #books borrowed<br>6- Update book's availability</td></tr>
+    </table>
+
+    <h4 style="font-family:var(--fh);color:var(--red);font-size:.95rem;margin:14px 0 6px">Exceptional Flow — Suspended/MaxBorrowed:</h4>
+    <p style="font-size:.85rem;color:var(--t2)">If user is suspended or at max → deny issuing.</p>
+  </div>
+
+  <!-- Sequence flow steps -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">📈</span> Sequence Diagram Flow</div>
+    <p>الـ <bdi>Objects</bdi> المشاركة (من الـ <bdi>classes</bdi> الموجودة):</p>
+    <ul>
+      <li><span class="badge badge-pink">Librarian</span> — actor</li>
+      <li><span class="badge badge-green">GUI</span> — boundary</li>
+      <li><span class="badge badge-amber">LibrarySystem</span> — control</li>
+      <li><span class="badge badge-purple">Catalog</span> — entity</li>
+      <li><span class="badge badge-purple">Book / BookCopy</span> — entity</li>
+      <li><span class="badge badge-purple">User / Record</span> — entity</li>
+    </ul>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">Step-by-step:</h4>
+    <ol>
+      <li><code>Librarian → GUI : checkUserStatus(ID)</code></li>
+      <li><code>GUI → LibrarySystem : checkUserStatus(ID)</code></li>
+      <li><code>LibrarySystem → User : checkStatus()</code> → returns status</li>
+      <li>Return <em>"Allowed"</em> to Librarian</li>
+      <li><strong>opt [if Allowed]</strong>:
+        <ol style="margin-top:4px">
+          <li><code>Librarian → GUI : IssueBook(title, ID)</code></li>
+          <li><code>GUI → LibrarySystem : SearchCatalog(title, auth)</code></li>
+          <li><code>LibrarySystem → Catalog : findBook(title, auth)</code> → returns Book</li>
+          <li><code>LibrarySystem → Book : getCopyInfo()</code></li>
+          <li><code>LibrarySystem → User : updateBorrowed()</code> (self message)</li>
+          <li><code>LibrarySystem → BookCopy : updateAvailability()</code></li>
+        </ol>
+      </li>
+    </ol>
+
+    <div class="tip"><div><b>💡 المفاتيح للنجاح</b>
+      <ol style="margin-top:4px;padding-inline-start:22px">
+        <li>كل <bdi>step</bdi> في الـ <bdi>use case</bdi> = <bdi>message</bdi> أو اتنين في الـ <bdi>sequence</bdi>.</li>
+        <li>كل <bdi>method</bdi> جديدة لازم تكون <strong>في الـ <bdi>class diagram</bdi></strong>.</li>
+        <li>أسماء الـ <bdi>objects</bdi> لازم تكون <strong><bdi>underlined</bdi></strong>.</li>
+        <li>استخدم <strong><bdi>opt</bdi></strong> للـ <bdi>conditional flow</bdi>.</li>
+      </ol>
+    </div></div>
+  </div>
+
+  <!-- Common student mistakes -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🚨</span> أخطاء الطلبة المتكررة</div>
+    <ul>
+      <li>❌ نسيان <strong><bdi>underline</bdi></strong> لأسماء الـ <bdi>objects</bdi>.</li>
+      <li>❌ استخدام <strong><bdi>method names</bdi></strong> مش موجودة في الـ <bdi>class diagram</bdi>.</li>
+      <li>❌ نسيان الـ <strong><bdi>return messages</bdi></strong> (الـ <bdi>dashed lines</bdi>).</li>
+      <li>❌ ترتيب الـ <bdi>time</bdi> غلط (الزمن بيمشي <strong>من فوق لتحت</strong>).</li>
+      <li>❌ خلط الـ <strong><bdi>actor</bdi></strong> بـ <strong><bdi>object</bdi></strong> — <bdi>Actor</bdi> = <bdi>stick figure</bdi>، و <bdi>Object</bdi> = <bdi>box</bdi>.</li>
+      <li>❌ نسيان الـ <strong><bdi>opt frame</bdi></strong> للـ <bdi>conditional logic</bdi>.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 9 — WHY NOT JUST CODE?
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="ch-header">
+    <div class="ch-num amber">09</div>
+    <div class="ch-title">
+      <h2>Why Not Just Code It?</h2>
+      <p>سؤال طبيعي: لو الـ <bdi>sequence diagram</bdi> قريب من الكود، ليه نرسمه أصلاً؟ عندنا 4 أسباب.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title"><span class="icon">1️⃣</span> Above the level of real code</div>
+      <p>الـ <bdi>sequence diagram</bdi> بيركز على الـ <strong><bdi>interactions</bdi></strong>، مش تفاصيل الـ <bdi>syntax</bdi>. اللي عايز يشوف "إزاي الـ <bdi>objects</bdi> بتتكلم" هيفهمه بسرعة.</p>
+    </div>
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title"><span class="icon">2️⃣</span> Language-independent</div>
+      <p>نفس الـ <bdi>sequence diagram</bdi> ممكن يتنفذ في <span dir="ltr">Java, Python, C#, etc.</span>، والـ <bdi>design</bdi> بيفضل محفوظ بغض النظر عن الـ <bdi>implementation</bdi>.</p>
+    </div>
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title"><span class="icon">3️⃣</span> Non-coders can read/do them</div>
+      <p><span dir="ltr">Business analysts, project managers, clients</span> يقدروا يفهموا الـ <bdi>flow</bdi> ويراجعوا الـ <bdi>design</bdi> من غير ما يكونوا <bdi>programmers</bdi>.</p>
+    </div>
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title"><span class="icon">4️⃣</span> Visual representations</div>
+      <p>الـ <bdi>Visual representation</bdi> أسرع في الفهم من النص. <bdi>screenshot</bdi> واحد ممكن يختصر ألف سطر كود.</p>
+    </div>
+  </div>
+
+  <div class="warn"><div><b>⚠️ الـ <bdi>Risks</bdi></b> الـ <bdi>Dynamic modeling</bdi> صعب. في <bdi>systems</bdi> كبيرة فيه <strong>كم هائل من الـ <bdi>paths</bdi></strong>. الحل يكون <em><bdi>iteratively</bdi></em>: ابدأ بـ <span dir="ltr">class diagrams + use cases + interaction diagrams + state diagrams</span>، وراجعهم كلهم مع بعض.</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ — PRACTICE
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Practice Quiz — Lecture 6</h3>
+      <p>8 أسئلة على <bdi>Sequence Diagrams</bdi>. الـ <bdi>Question 2</bdi> في كل امتحان <bdi>final</bdi> فيه 4 <bdi>marks</bdi> على <bdi>sequence diagram</bdi>. ركز.</p>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 1 <span class="q-src">Practice — concept</span></div>
+    <div class="q-text">What does the <strong>vertical dimension</strong> represent in a sequence diagram?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Sequence of classes</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Time</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Number of messages</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Object visibility</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — <bdi>Time</bdi></b>
+      الـ <bdi>vertical</bdi> (<bdi>top to bottom</bdi>) = الزمن. والـ <bdi>horizontal</bdi> = الـ <bdi>objects</bdi> المختلفة.
+      <div class="why-wrong">
+        <strong>A</strong> — الـ <bdi>classes</bdi> بتظهر أفقياً مش رأسياً. ·
+        <strong>C, D</strong> — مش معنى الـ <bdi>vertical dimension</bdi>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 2 <span class="q-src">Practice — message types</span></div>
+    <div class="q-text">A <strong>synchronous</strong> message means:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> The sender does not wait for any response</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> The message creates a new object</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> The sender waits for the message to be handled before continuing</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> The message returns a value</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — <bdi>wait semantics</bdi></b>
+      <bdi>Synchronous</bdi> = <bdi>wait</bdi>. ده الـ <bdi>method call</bdi> العادي.
+      <div class="why-wrong">
+        <strong>A</strong> — ده <em>Asynchronous</em>. ·
+        <strong>B</strong> — ده <em>Create</em>. ·
+        <strong>D</strong> — ده <em>Reply</em>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 3 <span class="q-src">Practice — frames</span></div>
+    <div class="q-text">A team is modeling a login flow where credentials are checked, and if valid, user is sent to dashboard, otherwise error is shown. Which frame should be used?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> alt (alternative)</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> loop</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> par (parallel)</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> ref (reference)</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A — <bdi>alt</bdi></b>
+      Two distinct paths (valid/invalid) = <strong>alt</strong> (if/else).
+      <div class="why-wrong">
+        <strong>B (loop)</strong> — تكرار. هنا مش تكرار. ·
+        <strong>C (par)</strong> — concurrent execution. ·
+        <strong>D (ref)</strong> — reference to another diagram.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 4 <span class="q-src">Practice — lifeline names</span></div>
+    <div class="q-text">In a sequence diagram, you see <code>: Lecturer</code>. What does this mean?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Object named "Lecturer"</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Anonymous object of class Lecturer</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Object Lecturer at index 0</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Class named Lecturer</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — <bdi>Anonymous instance of class Lecturer</bdi></b>
+      Empty name + <code>:Class</code> = anonymous instance.
+      <div class="why-wrong">
+        <strong>A</strong> — كان لازم يكون <code>Lecturer</code> بدون نقطتين. ·
+        <strong>C</strong> — الـ <bdi>index</bdi> بيتكتب <code>lecturer[0]</code>. ·
+        <strong>D</strong> — في <bdi>sequence diagram</bdi> لازم تكون <bdi>instances</bdi> مش <bdi>classes</bdi>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 5 <span class="q-src">Practice — destruction</span></div>
+    <div class="q-text">How is the destruction of an object shown on its lifeline?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Lifeline ends with a square box</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Lifeline becomes a dashed red line</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> The object name is crossed out</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> A large X symbol at the end of the lifeline</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — <bdi>Large X at end of lifeline</bdi></b>
+      مثال: في <bdi>cancel booking</bdi>، الـ <code>:Booking</code> <bdi>object lifeline</bdi> بينتهي بـ <bdi>X</bdi>.
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 6 <span class="q-src">Practice — modeling concepts</span></div>
+    <div class="q-text">Which is <strong>NOT</strong> a good reason to draw a sequence diagram rather than just writing code?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Sequence diagrams are language-independent</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Non-coders can read them</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> They are faster to execute than real code</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> They provide a visual representation</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — <bdi>sequence diagrams DON'T execute</bdi></b>
+      <bdi>Sequence diagrams</bdi> هي <strong><bdi>design artifacts</bdi></strong>، مش <bdi>executable code</bdi>. أهدافها: مستقلة عن اللغة، يفهمها <bdi>non-coders</bdi>، تمثيل بصري، ومستوى أعلى من الكود.
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 7 <span class="q-src">Practice — create</span></div>
+    <div class="q-text">Which symbol represents object <strong>creation</strong> in a sequence diagram?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Solid arrow with filled triangle</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Dashed arrow with open arrowhead pointing to the new object box</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Large X at start of lifeline</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Double-headed arrow</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B</b>
+      <bdi>Create</bdi> = <strong><bdi>dashed arrow with open arrowhead</bdi></strong> بيشاور على <bdi>box</bdi> الـ <bdi>object</bdi> الجديد. مماثل لـ <code>new ClassName()</code> في <bdi>Java</bdi>.
+      <div class="why-wrong">
+        <strong>A</strong> — ده <bdi>synchronous message</bdi> عادي. ·
+        <strong>C</strong> — علامة <bdi>X</bdi> بتشير لـ <bdi>destruction</bdi> مش <bdi>creation</bdi>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 8 <span class="q-src">Practice — sequence + class</span></div>
+    <div class="q-text">Which of these MUST you have before drawing a sequence diagram?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> A complete state diagram</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> The full source code</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> A deployment diagram</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> A use case and a class diagram</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — <bdi>Use case + Class diagram</bdi></b>
+      الـ <bdi>Sequence diagram</bdi> بينفّذ <bdi>use case</bdi> معين، وبيستخدم الـ <bdi>methods</bdi> من الـ <bdi>class diagram</bdi>. لازم الاتنين يكونوا موجودين قبله.
+      <div class="why-wrong">
+        <strong>A</strong> — الـ <bdi>State diagram</bdi> اختياري ومفيد لـ <bdi>objects</bdi> عندها <bdi>complex states</bdi>. ·
+        <strong>B</strong> — الـ <bdi>sequence diagram</bdi> بيسبق الكود غالباً، مش العكس. ·
+        <strong>C</strong> — الـ <bdi>Deployment diagrams</bdi> تخص الـ <bdi>infrastructure</bdi>، مش <bdi>requirement</bdi>.
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet</h2>
+      <p>كل اللي محتاجه لرسم <bdi>sequence diagram</bdi> في <bdi>Question 2</bdi>.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+
+    <div class="cheat">
+      <h3>🧩 Elements</h3>
+      <div class="cheat-item"><div class="cheat-key">Actor</div><div class="cheat-val">Stick figure (left)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Object</div><div class="cheat-val">Box with <u>name:Class</u> underlined</div></div>
+      <div class="cheat-item"><div class="cheat-key">Lifeline</div><div class="cheat-val">Vertical dashed line</div></div>
+      <div class="cheat-item"><div class="cheat-key">Activation Box</div><div class="cheat-val">Tall rectangle on lifeline = active</div></div>
+      <div class="cheat-item"><div class="cheat-key">Frame</div><div class="cheat-val">Outer rectangle, sd Name</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📨 Message Types</h3>
+      <div class="cheat-item"><div class="cheat-key">Synchronous</div><div class="cheat-val">━━▶ (filled triangle) · wait</div></div>
+      <div class="cheat-item"><div class="cheat-key">Asynchronous</div><div class="cheat-val">━━▷ (open) · no wait</div></div>
+      <div class="cheat-item"><div class="cheat-key">Reply</div><div class="cheat-val">⇠⇠⇠ (dashed) · return value</div></div>
+      <div class="cheat-item"><div class="cheat-key">Create</div><div class="cheat-val">⇢⇢⇢ to new object box</div></div>
+      <div class="cheat-item"><div class="cheat-key">Destroy</div><div class="cheat-val">Large X at end of lifeline</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🖼️ Combined Fragments</h3>
+      <div class="cheat-item"><div class="cheat-key">opt</div><div class="cheat-val">Optional (single if)</div></div>
+      <div class="cheat-item"><div class="cheat-key">alt</div><div class="cheat-val">Alternative (if/else)</div></div>
+      <div class="cheat-item"><div class="cheat-key">loop</div><div class="cheat-val">Repeated (for/while)</div></div>
+      <div class="cheat-item"><div class="cheat-key">par</div><div class="cheat-val">Parallel (concurrent)</div></div>
+      <div class="cheat-item"><div class="cheat-key">break</div><div class="cheat-val">Exit (like break in loop)</div></div>
+      <div class="cheat-item"><div class="cheat-key">ref</div><div class="cheat-val">Reference (reuse another diagram)</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🏷️ Lifeline Names</h3>
+      <div class="cheat-item"><div class="cheat-key">name</div><div class="cheat-val">Just object name</div></div>
+      <div class="cheat-item"><div class="cheat-key">name : Class</div><div class="cheat-val">Named instance of Class</div></div>
+      <div class="cheat-item"><div class="cheat-key">: Class</div><div class="cheat-val">Anonymous instance</div></div>
+      <div class="cheat-item"><div class="cheat-key">name[i] : Class</div><div class="cheat-val">Indexed instance</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>✅ Question 2 Checklist (4 marks)</h3>
+      <div class="cheat-item"><div class="cheat-key">1.</div><div class="cheat-val">All necessary actors + objects with class names</div></div>
+      <div class="cheat-item"><div class="cheat-key">2.</div><div class="cheat-val">All object names underlined</div></div>
+      <div class="cheat-item"><div class="cheat-key">3.</div><div class="cheat-val"><bdi>Methods used</bdi> = <bdi>methods</bdi> الموجودة في <bdi>class diagram</bdi></div></div>
+      <div class="cheat-item"><div class="cheat-key">4.</div><div class="cheat-val">Return messages where needed</div></div>
+      <div class="cheat-item"><div class="cheat-key">5.</div><div class="cheat-val">opt/alt for conditional logic</div></div>
+      <div class="cheat-item"><div class="cheat-key">6.</div><div class="cheat-val">الزمن يمشي <bdi>top→bottom</bdi> باستمرار</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📚 Concepts</h3>
+      <div class="cheat-item"><div class="cheat-key">Modeling = ?</div><div class="cheat-val">Abstraction of reality</div></div>
+      <div class="cheat-item"><div class="cheat-key">App Domain</div><div class="cheat-val">Environment (requirements)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Solution Domain</div><div class="cheat-val">Technologies (design)</div></div>
+      <div class="cheat-item"><div class="cheat-key">Pareto rule</div><div class="cheat-val">20% UML → 80% problems</div></div>
+      <div class="cheat-item"><div class="cheat-key">Pre-req for SD</div><div class="cheat-val"><bdi>Use case</bdi> + <bdi>Class diagram</bdi></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     RAPID REVISION
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="revision" style="margin-top:60px">
+  <div class="ch-header">
+    <div class="ch-num pink">⚡</div>
+    <div class="ch-title">
+      <h2>Rapid Revision</h2>
+      <p>Flashcards · Common Mistakes · What the doctor loves.</p>
+    </div>
+  </div>
+
+  <div class="flashcards">
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">الـ <bdi>Vertical dimension</bdi> في <bdi>sequence diagram</bdi>؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">Time (top → bottom)</div></div>
+    </div></div>
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Synchronous vs Asynchronous؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">Sync = wait. Async = no wait.</div></div>
+    </div></div>
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">أشهر 3 <bdi>frame types</bdi>؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">opt · alt · loop</div></div>
+    </div></div>
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Object destruction symbol؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">Large X at end of lifeline</div></div>
+    </div></div>
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">المطلوب قبل <bdi>sequence diagram</bdi>؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a"><bdi>Use case</bdi> + <bdi>Class diagram</bdi></div></div>
+    </div></div>
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">معنى <bdi>UML 80/20</bdi>؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">20% UML → 80% problems</div></div>
+    </div></div>
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Anonymous object notation؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a"><code>: ClassName</code> (empty before colon)</div></div>
+    </div></div>
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Create message arrow style؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">Dashed arrow → new object box</div></div>
+    </div></div>
+    <div class="flashcard"><div class="fc-inner">
+      <div class="fc-front"><div class="fc-q">Application vs Solution Domain؟</div><div class="fc-hint">tap</div></div>
+      <div class="fc-back"><div class="fc-a">App = environment (analysis). Solution = tech (design).</div></div>
+    </div></div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
+
+  <div class="danger"><div><b>1. <bdi>Methods</bdi> مش موجودة في الـ <bdi>class diagram</bdi></b>كل <bdi>method</bdi> في الـ <bdi>sequence diagram</bdi> لازم تكون موجودة في الـ <bdi>class diagram</bdi>. لو ضفت <bdi>method</bdi> جديدة، ارجع وضيفها في الـ <bdi>class</bdi>.</div></div>
+
+  <div class="danger"><div><b>2. نسيان <bdi>underline</bdi> لأسماء الـ <bdi>objects</bdi></b>الـ <bdi>Object box</bdi> في <bdi>sequence diagram</bdi> اسمه دايماً <u>underlined</u> لأنه <bdi>instance</bdi> مش <bdi>class</bdi>.</div></div>
+
+  <div class="danger"><div><b>3. خلط <bdi>arrow types</bdi></b><span dir="ltr">Solid filled = sync · Solid open = async · Dashed = reply · Dashed to box = create.</span></div></div>
+
+  <div class="danger"><div><b>4. ترتيب الزمن غلط</b>الزمن بيمشي من <strong>فوق لتحت</strong>. لو رسمت msg أعلى من msg تاني، الأعلى بيحصل أولاً.</div></div>
+
+  <div class="danger"><div><b>5. نسيان <bdi>opt/alt</bdi> للـ <bdi>conditional flow</bdi></b>لو في <bdi>if</bdi> في الـ <bdi>use case</bdi>، لازم تكون <bdi>opt</bdi> أو <bdi>alt</bdi>. ما تتجاهلهاش.</div></div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--amber);margin:30px 0 12px">⭐ What Dr. El-Ramly Loves</h3>
+  <div class="info">
+    <div>
+      <b>🔥 الأسئلة المتكررة على <bdi>Lec 6</bdi></b>
+      <ol style="margin-top:6px;padding-inline-start:22px">
+        <li><strong><bdi>Question 2 (4 marks)</bdi></strong> — بيدي <bdi>use case</bdi> ويطلب <bdi>sequence diagram</bdi>. الـ <bdi>flow</bdi> ممكن يكون <span dir="ltr">Library / Email / Booking / Print order</span>. <em>ركز عليه</em>.</li>
+        <li><strong>استخدم <bdi>opt frame</bdi></strong> لما الـ <bdi>flow</bdi> يكون <bdi>conditional</bdi>.</li>
+        <li><strong>طابق الـ <bdi>methods</bdi> مع الـ <bdi>class diagram</bdi></strong> — أكتر سبب لخسارة <bdi>marks</bdi>.</li>
+        <li><strong><bdi>Self message</bdi></strong> لما <bdi>object</bdi> يكلم نفسه، زي <code>this.updateNum()</code>.</li>
+        <li><strong><bdi>Return values</bdi></strong> — لو الـ <bdi>method</bdi> بترجع <bdi>value</bdi>، اظهر الـ <bdi>return</bdi>.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.content -->
+</main>

@@ -1,0 +1,478 @@
+<div id="prog-bar"></div>
+
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>IS231 - Lecture 08</h2>
+    <p>Django Models and Database</p>
+  </div>
+  <div class="sb-section">أساس الفكرة</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Why Database?</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Django Model</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Fields and Options</a>
+  <div class="sb-section">التعامل مع البيانات</div>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Migrations Workflow</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Relationships</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>ORM CRUD</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>Django Admin</a>
+  <div class="sb-section">المراجعة</div>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>Exam Traps</a>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>Exam Quiz</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main">
+<div class="global-nav" aria-label="Lecture navigation">
+  <a href="/2nd-year/web" class="gn-link gn-home">الرئيسية</a>
+  <a href="/2nd-year/web/lectures/07" class="gn-link gn-prev">← السابق: Lecture 07</a>
+  <span class="gn-link gn-current" aria-current="page">Lecture 08</span>
+  <span class="gn-link gn-disabled" aria-disabled="true">لا يوجد تالي →</span>
+</div>
+
+<section class="hero">
+  <div class="hero-badge">IS231 / Backend Python + Django / Lecture 08</div>
+  <h1>Django <span>Models, Database, Migrations and Admin</span></h1>
+  <p>
+    المحاضرة دي هي النقلة من صفحات بتعرض بيانات مؤقتة إلى تطبيق Backend حقيقي عنده Database.
+    هنفهم يعني إيه Model، إزاي Django يحول Python class إلى Table، إمتى نستخدم
+    <code>makemigrations</code> و <code>migrate</code>، وإزاي Admin و ORM بيسهلوا الشغل.
+  </p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">8</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">12</div><div class="lbl">Exam Qs</div></div>
+    <div class="hstat"><div class="num">2021/24/25</div><div class="lbl">Final Sources</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<section class="chapter" id="ch1">
+  <div class="ch-header"><div class="ch-num blue">01</div><div class="ch-title"><h2>ليه محتاجين Database؟</h2><p>Persistence: البيانات تعيش بعد ما البرنامج يقفل</p></div></div>
+  <div class="grid2">
+    <div class="compare-card" style="--accent:var(--red)">
+      <h3>Without Database</h3>
+      <ul>
+        <li>البيانات اللي في variables بتعيش طول ما السيرفر شغال فقط.</li>
+        <li>لو عملت restart، البيانات المؤقتة بتضيع.</li>
+        <li>صعب تشارك نفس البيانات بين مستخدمين كتير بشكل منظم.</li>
+      </ul>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">memory.py</div></div><pre><code>student_list = [<span class="str">"Ali"</span>, <span class="str">"Mona"</span>]
+<span class="cmt"># after server restart, this list is gone</span></code></pre></div>
+    </div>
+    <div class="compare-card" style="--accent:var(--green)">
+      <h3>With Database</h3>
+      <ul>
+        <li>البيانات بتتخزن بشكل دائم داخل Tables.</li>
+        <li>تقدر تعمل Search, Filter, Update, Delete بسهولة.</li>
+        <li>نفس السجلات متاحة لأجزاء مختلفة من النظام.</li>
+      </ul>
+      <table class="tbl">
+        <tr><th>id</th><th>name</th><th>level</th><th>department</th></tr>
+        <tr><td>1</td><td>Ali</td><td>2</td><td>CS</td></tr>
+        <tr><td>2</td><td>Mona</td><td>2</td><td>AI</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="info"><div><b>امتحانيًا:</b> Database Storage = Persistent and structured. Program Memory = Fast but temporary.</div></div>
+</section>
+
+<section class="chapter" id="ch2">
+  <div class="ch-header"><div class="ch-num purple">02</div><div class="ch-title"><h2>What Is a Django Model?</h2><p>Python class describes stored data</p></div></div>
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title">Model = Blueprint for Data</div>
+    <p>
+      الـ <strong>Model</strong> في Django هو Python class بيورث من <code>models.Model</code>.
+      كل attribute جوه الكلاس بيتحول إلى Column في Database table، وكل object من الكلاس بيمثل Row.
+    </p>
+    <table class="tbl">
+      <tr><th>Django Code</th><th>Database Meaning</th></tr>
+      <tr><td><code>class Student(models.Model)</code></td><td>Table اسمه غالبًا students_student</td></tr>
+      <tr><td><code>name = models.CharField(...)</code></td><td>Column</td></tr>
+      <tr><td><code>Student(name="Ali")</code></td><td>Object / Row data</td></tr>
+      <tr><td><code>__str__</code></td><td>Readable display فقط، مش Column</td></tr>
+    </table>
+    <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">students/models.py</div></div><pre><code><span class="kw">from</span> django.db <span class="kw">import</span> models
+
+<span class="kw">class</span> <span class="fn">Student</span>(models.Model):
+    name = models.CharField(max_length=<span class="numc">100</span>)
+    age = models.IntegerField()
+    department = models.CharField(max_length=<span class="numc">50</span>)
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        <span class="kw">return</span> self.name</code></pre></div>
+    <div class="tip"><div><b>ليه بنورث من models.Model؟</b> عشان Django يعرف إن الكلاس ده Database model ويضيف له ORM abilities زي <code>objects</code>, <code>save()</code>, <code>delete()</code>.</div></div>
+  </div>
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title">Where Do Models Live?</div>
+    <p>غالبًا الموديلات بتتكتب داخل <code>models.py</code> في app معينة، لأن كل app بتمسك جزء منطقي من النظام.</p>
+    <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">project tree</div></div><pre><code>myproject/
+├── manage.py
+├── myproject/
+└── students/
+    ├── admin.py
+    ├── apps.py
+    ├── models.py      <span class="cmt"># models live here</span>
+    ├── views.py
+    └── migrations/</code></pre></div>
+  </div>
+</section>
+
+<section class="chapter" id="ch3">
+  <div class="ch-header"><div class="ch-num amber">03</div><div class="ch-title"><h2>Fields and Options</h2><p>اختيار نوع العمود وقواعده</p></div></div>
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title">Common Field Types</div>
+    <table class="tbl">
+      <tr><th>Field</th><th>Use Case</th><th>Example</th></tr>
+      <tr><td><code>CharField</code></td><td>نص قصير مثل name, code, department</td><td><code>max_length</code> مهم جدًا</td></tr>
+      <tr><td><code>TextField</code></td><td>نص طويل مثل description, notes</td><td>غالبًا لا يحتاج max_length</td></tr>
+      <tr><td><code>IntegerField</code></td><td>أرقام صحيحة مثل age, level, credit_hours</td><td>ليس مناسبًا للنصوص الرقمية مثل phone</td></tr>
+      <tr><td><code>EmailField</code></td><td>إيميل بمعنى واضح</td><td><code>email = models.EmailField(blank=True)</code></td></tr>
+      <tr><td><code>DateTimeField</code></td><td>وقت وتاريخ</td><td><code>auto_now_add</code>, <code>auto_now</code></td></tr>
+      <tr><td><code>BooleanField</code></td><td>True / False</td><td><code>is_active</code></td></tr>
+    </table>
+    <div class="warn"><div><b>مهم:</b> Django بيضيف <code>id</code> primary key تلقائيًا لو أنت معرفتش primary key بنفسك.</div></div>
+  </div>
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title">null, blank, default</div>
+      <ul>
+        <li><code>null=True</code>: قاعدة البيانات ينفع تخزن NULL.</li>
+        <li><code>blank=True</code>: الفورم/الـ admin يسمح إن الحقل يتساب فاضي.</li>
+        <li><code>default=1</code>: قيمة افتراضية لو المستخدم مدخلش قيمة.</li>
+      </ul>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">field options</div></div><pre><code>email = models.EmailField(blank=<span class="kw">True</span>)
+level = models.IntegerField(default=<span class="numc">1</span>)
+department = models.CharField(max_length=<span class="numc">50</span>)</code></pre></div>
+    </div>
+    <div class="topic" style="--accent:var(--teal)">
+      <div class="topic-title">choices and timestamps</div>
+      <p><code>choices</code> بتخلي القيم controlled بدل ما كل واحد يكتب قيمة بشكل مختلف.</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">models.py</div></div><pre><code>LEVEL_CHOICES = [
+    (<span class="numc">1</span>, <span class="str">"Level 1"</span>),
+    (<span class="numc">2</span>, <span class="str">"Level 2"</span>),
+]
+level = models.IntegerField(choices=LEVEL_CHOICES)
+created_at = models.DateTimeField(auto_now_add=<span class="kw">True</span>)
+updated_at = models.DateTimeField(auto_now=<span class="kw">True</span>)</code></pre></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ch4">
+  <div class="ch-header"><div class="ch-num green">04</div><div class="ch-title"><h2>Migrations Workflow</h2><p>من model code إلى database table</p></div></div>
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title">What Are Migrations?</div>
+    <p>
+      الـ <strong>Migrations</strong> هي ملفات Python بتسجل تغييرات شكل الـ Database:
+      إنشاء جدول، إضافة عمود، تعديل نوع Field... إلخ. اعتبرها history منظمة لتغييرات الـ schema.
+    </p>
+    <div class="steps">
+      <div class="step"><div class="step-num green">1</div><div class="step-body"><div class="step-title">Edit model code</div><div class="step-desc">تعدل <code>models.py</code> وتضيف/تغير fields.</div></div></div>
+      <div class="step"><div class="step-num amber">2</div><div class="step-body"><div class="step-title">Run makemigrations</div><div class="step-desc">Django يعمل migration file بناءً على التغييرات، لكنه لا يغير database لسه.</div></div></div>
+      <div class="step"><div class="step-num purple">3</div><div class="step-body"><div class="step-title">Run migrate</div><div class="step-desc">Django يطبق ملفات migration على قاعدة البيانات فعليًا.</div></div></div>
+    </div>
+    <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">terminal</div></div><pre><code>python manage.py makemigrations
+python manage.py migrate
+python manage.py showmigrations
+python manage.py sqlmigrate students 0001</code></pre></div>
+    <div class="danger"><div><b>فخ متكرر:</b> <code>makemigrations</code> ينشئ ملفات migration فقط. <code>migrate</code> هو اللي يطبقها على الـ database. سؤال 2025 بيحاول يبدل المعنيين.</div></div>
+  </div>
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title">Common Migration Problems</div>
+    <ul>
+      <li>عدلت model ونسيت تعمل <code>migrate</code>.</li>
+      <li>أضفت field إجباري على table فيها data قديمة من غير default.</li>
+      <li>عدلت migration قديم بعد ما اتطبق.</li>
+      <li>نسيت تضيف app في <code>INSTALLED_APPS</code> قبل شغل models.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="chapter" id="ch5">
+  <div class="ch-header"><div class="ch-num teal">05</div><div class="ch-title"><h2>Relationships Between Models</h2><p>الجداول الحقيقية مرتبطة ببعض</p></div></div>
+  <div class="grid3">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title">ForeignKey</div>
+      <p>Many-to-One: طلاب كتير ينتموا لقسم واحد.</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">ForeignKey</div></div><pre><code><span class="kw">class</span> <span class="fn">Department</span>(models.Model):
+    name = models.CharField(max_length=<span class="numc">100</span>)
+
+<span class="kw">class</span> <span class="fn">Student</span>(models.Model):
+    department = models.ForeignKey(
+        Department,
+        on_delete=models.CASCADE
+    )</code></pre></div>
+    </div>
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title">OneToOneField</div>
+      <p>One-to-One: طالب واحد له profile واحد فقط.</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">OneToOne</div></div><pre><code><span class="kw">class</span> <span class="fn">StudentProfile</span>(models.Model):
+    student = models.OneToOneField(
+        Student,
+        on_delete=models.CASCADE
+    )
+    phone = models.CharField(max_length=<span class="numc">20</span>)</code></pre></div>
+    </div>
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title">ManyToManyField</div>
+      <p>Many-to-Many: الطالب يأخذ كورسات كثيرة والكورس فيه طلاب كثير.</p>
+      <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">ManyToMany</div></div><pre><code><span class="kw">class</span> <span class="fn">Course</span>(models.Model):
+    title = models.CharField(max_length=<span class="numc">100</span>)
+
+<span class="kw">class</span> <span class="fn">Student</span>(models.Model):
+    courses = models.ManyToManyField(Course)</code></pre></div>
+    </div>
+  </div>
+  <div class="info"><div><b>اختيار العلاقة:</b> Department to Student = <code>ForeignKey</code>. Student to IDCard = <code>OneToOneField</code>. Student to Course = <code>ManyToManyField</code>.</div></div>
+</section>
+
+<section class="chapter" id="ch6">
+  <div class="ch-header"><div class="ch-num pink">06</div><div class="ch-title"><h2>Django ORM and CRUD</h2><p>Object Relational Mapper: تكلم مع database بـ Python</p></div></div>
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title">ORM = Python بدل SQL في البداية</div>
+    <p>
+      الـ <strong>ORM</strong> يخليك تتعامل مع records كأنها Python objects.
+      Django يحول أوامرك إلى SQL خلف الكواليس.
+    </p>
+    <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">Django shell examples</div></div><pre><code><span class="cmt"># Create</span>
+Student.objects.create(name=<span class="str">"Ali"</span>, level=<span class="numc">2</span>, department=<span class="str">"CS"</span>)
+
+<span class="cmt"># Read</span>
+Student.objects.all()
+Student.objects.filter(level=<span class="numc">2</span>)
+student = Student.objects.get(id=<span class="numc">1</span>)
+
+<span class="cmt"># Update</span>
+student.level = <span class="numc">3</span>
+student.save()
+
+<span class="cmt"># Delete</span>
+student.delete()</code></pre></div>
+    <div class="warn"><div><b>فخ:</b> <code>objects</code> بحروف صغيرة. في 2025 ظهر سؤال <code>Post.Objects.all()</code>، وده غلط لأن <code>Objects</code> capital.</div></div>
+  </div>
+</section>
+
+<section class="chapter" id="ch7">
+  <div class="ch-header"><div class="ch-num blue">07</div><div class="ch-title"><h2>Django Admin</h2><p>واجهة جاهزة لإدارة البيانات</p></div></div>
+  <div class="topic" style="--accent:var(--blue)">
+    <div class="topic-title">What Is Admin?</div>
+    <p>
+      Django Admin هي built-in management interface بتسمح للـ admins يعملوا
+      Add, Edit, Delete للـ records من غير ما تبني dashboard من الصفر.
+    </p>
+    <div class="steps">
+      <div class="step"><div class="step-num blue">1</div><div class="step-body"><div class="step-title">Register the model in admin.py</div><div class="step-desc">لو ما سجلتش model، مش هيظهر في admin interface.</div></div></div>
+      <div class="step"><div class="step-num green">2</div><div class="step-body"><div class="step-title">Run migrations</div><div class="step-desc">لازم tables تكون موجودة في database.</div></div></div>
+      <div class="step"><div class="step-num amber">3</div><div class="step-body"><div class="step-title">Create superuser</div><div class="step-desc">تحتاج username/password للدخول على <code>/admin/</code>.</div></div></div>
+    </div>
+    <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">students/admin.py</div></div><pre><code><span class="kw">from</span> django.contrib <span class="kw">import</span> admin
+<span class="kw">from</span> .models <span class="kw">import</span> Student
+
+admin.site.register(Student)</code></pre></div>
+    <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">terminal</div></div><pre><code>python manage.py createsuperuser</code></pre></div>
+    <div class="danger"><div><b>امتحانيًا:</b> التسجيل يكون في <code>admin.py</code> وليس <code>settings.py</code>. وإنشاء admin user بالأمر <code>createsuperuser</code> وليس <code>createuser</code>.</div></div>
+  </div>
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title">Customize Admin with ModelAdmin</div>
+    <p>لو عايز الـ admin list تبقى أوضح، استخدم <code>list_display</code>, <code>search_fields</code>, <code>list_filter</code>.</p>
+    <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">admin.py</div></div><pre><code><span class="kw">from</span> django.contrib <span class="kw">import</span> admin
+<span class="kw">from</span> .models <span class="kw">import</span> Student
+
+<span class="prop">@admin.register</span>(Student)
+<span class="kw">class</span> <span class="fn">StudentAdmin</span>(admin.ModelAdmin):
+    list_display = (<span class="str">"id"</span>, <span class="str">"name"</span>, <span class="str">"level"</span>, <span class="str">"department"</span>)
+    search_fields = (<span class="str">"name"</span>, <span class="str">"department"</span>)
+    list_filter = (<span class="str">"level"</span>, <span class="str">"department"</span>)</code></pre></div>
+  </div>
+</section>
+
+<section class="chapter" id="ch8">
+  <div class="ch-header"><div class="ch-num red">08</div><div class="ch-title"><h2>Exam Traps and Missing Points</h2><p>نواقص مهمة مقارنة بالصفحة القديمة والامتحانات</p></div></div>
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--red)">
+      <div class="topic-title">الصفحة القديمة كانت ناقصة/مش في المحاضرة</div>
+      <ul>
+        <li>كانت مركزة على Authentication, Sessions, Permissions, Static Files.</li>
+        <li>المحاضرة الأصلية Lecture 8 عن Models, Database, Migrations, Admin.</li>
+        <li>تمت إضافة: Field types, relationships, ORM CRUD, admin registration, superuser, choices, timestamps.</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title">أسئلة متكررة من Finals</div>
+      <ul>
+        <li><span class="badge badge-purple">Final 2024</span> Django is based on MVT.</li>
+        <li><span class="badge badge-purple">Final 2024</span> Model appears in admin after registration in <code>admin.py</code>.</li>
+        <li><span class="badge badge-purple">Final 2024</span> Import model: <code>from members.models import Member</code>.</li>
+        <li><span class="badge badge-purple">Final 2024</span> After model changes: <code>makemigrations</code> then <code>migrate</code>.</li>
+        <li><span class="badge badge-green">Final 2025</span> <code>Post.objects.all()</code> retrieves all objects; capitalization matters.</li>
+        <li><span class="badge badge-green">Final 2025</span> Built-in admin requires superuser command <code>createsuperuser</code>.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title">Mini Project Design</div>
+    <p>تصميم بسيط متوافق مع المحاضرة: Department + Student + Course.</p>
+    <div class="code-wrap"><div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-lang">models.py</div></div><pre><code><span class="kw">class</span> <span class="fn">Department</span>(models.Model):
+    name = models.CharField(max_length=<span class="numc">100</span>)
+
+<span class="kw">class</span> <span class="fn">Course</span>(models.Model):
+    title = models.CharField(max_length=<span class="numc">100</span>)
+    code = models.CharField(max_length=<span class="numc">10</span>)
+    credit_hours = models.IntegerField()
+    description = models.TextField(blank=<span class="kw">True</span>)
+
+<span class="kw">class</span> <span class="fn">Student</span>(models.Model):
+    name = models.CharField(max_length=<span class="numc">100</span>)
+    level = models.IntegerField(default=<span class="numc">1</span>)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    courses = models.ManyToManyField(Course, blank=<span class="kw">True</span>)</code></pre></div>
+  </div>
+</section>
+
+<section class="quiz-section" id="quiz">
+  <div class="quiz-header"><div class="quiz-icon">Q</div><div><h3>Lecture 08 - Exam Quiz</h3><p>Models, migrations, ORM, admin - compiled from lecture + finals</p></div></div>
+
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Q1 <span class="q-src">Final 2024</span></div>
+    <div class="q-text">Django is based on which framework?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> MVC</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> MVVM</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> MVT</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
+    </div>
+    <div class="q-explain"><b>الإجابة: C - MVT</b><br>Django architecture اسمها Model-View-Template. Model للبيانات، View للمنطق، Template للعرض.</div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q2 <span class="q-src">Final 2024 / 2025</span></div>
+    <div class="q-text">For a model to be visible in the admin interface it has to be registered in which file?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> settings.py</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> admin.py</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> views.py</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
+    </div>
+    <div class="q-explain"><b>الإجابة: B - admin.py</b><br>استخدم <code>admin.site.register(ModelName)</code> أو <code>@admin.register(ModelName)</code>. التسجيل في <code>settings.py</code> إجابة خاطئة ظهرت كفخ.</div>
+  </div>
+
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Q3 <span class="q-src">Final 2024</span></div>
+    <div class="q-text">If you have a Django application named members, and a model named Member, what is a correct syntax to import the model?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> from members.models import Member</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> import Member from members</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> import members.Member</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
+    </div>
+    <div class="q-explain"><b>الإجابة: A</b><br>الموديل موجود داخل ملف <code>models.py</code> في app اسمها <code>members</code>، لذلك الاستيراد الصحيح هو <code>from members.models import Member</code>.</div>
+  </div>
+
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Q4 <span class="q-src">Final 2024</span></div>
+    <div class="q-text">When you have done changes in a model in Django, which command has to be executed in order to make the changes take effect in the database?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> python manage.py runmigrations</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> python manage.py executemigrations</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> python manage.py makemigrations</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
+    </div>
+    <div class="q-explain"><b>الإجابة الصحيحة علمياً: D - None of the previous</b><br>الأمر الذي يطبق التغييرات فعلياً على الـ database هو <code>migrate</code> وهو غير موجود بالخيارات. <code>makemigrations</code> ينشئ ملفات الـ migration فقط. <span style="color:var(--red)">(تنويه: بعض نماذج الإجابات احتسبت C بالخطأ، لكن D هي الأصح).</span></div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q5 <span class="q-src">Lecture Core</span></div>
+    <div class="q-text">What does python manage.py migrate do?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Creates migration files only</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Applies pending migrations to the database</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Opens the admin panel</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> Creates a superuser</div>
+    </div>
+    <div class="q-explain"><b>الإجابة: B</b><br><code>migrate</code> يقرأ migration files ويطبقها على database. أما <code>makemigrations</code> فينشئ الملفات فقط.</div>
+  </div>
+
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Q6 <span class="q-src">Lecture Quick Quiz</span></div>
+    <div class="q-text">Which relationship fits: one student can take many courses, and one course can have many students?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> ForeignKey</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> OneToOneField</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> ManyToManyField</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> CharField</div>
+    </div>
+    <div class="q-explain"><b>الإجابة: C</b><br>Student to Course علاقة many-to-many: الطالب له كورسات كثيرة، والكورس فيه طلاب كثير.</div>
+  </div>
+
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Q7 <span class="q-src">Lecture Core</span></div>
+    <div class="q-text">In Django, each object created from a model usually represents ______ in the database.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> One row</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> One database</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> One column</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> One migration folder</div>
+    </div>
+    <div class="q-explain"><b>الإجابة: A</b><br>Model class يتحول إلى table، والـ fields تتحول إلى columns، والـ object يتحول إلى row.</div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q8 <span class="q-src">Final 2025</span></div>
+    <div class="q-text">Post.Objects.all() will retrieve all objects in the Post table. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain"><b>الإجابة: B - False</b><br>الصحيح <code>Post.objects.all()</code> بحرف صغير في <code>objects</code>. Python وDjango case-sensitive.</div>
+  </div>
+
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Q9 <span class="q-src">Final 2025</span></div>
+    <div class="q-text">We can register models in the admin.py file to view it in the administration site of Django. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain"><b>الإجابة: A - True</b><br>دي نقطة أساسية في المحاضرة: <code>admin.py</code> هو مكان تسجيل models للظهور داخل admin interface.</div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q10 <span class="q-src">Final 2025</span></div>
+    <div class="q-text">"migrate" command in Django is used to show the changes happened in the database. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain"><b>الإجابة: B - False</b><br><code>migrate</code> يطبق التغييرات، مش يعرضها. لو عايز تشوف حالة migrations استخدم <code>showmigrations</code>، ولو عايز SQL استخدم <code>sqlmigrate</code>.</div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q11 <span class="q-src">Final 2025</span></div>
+    <div class="q-text">When you create a Django project on your computer, you will get a folder for your project with a specific content including templates file. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain"><b>الإجابة: B - False</b><br><code>startproject</code> ينشئ ملفات مثل <code>settings.py</code>, <code>urls.py</code>, <code>asgi.py</code>, <code>wsgi.py</code>، لكنه لا ينشئ templates folder تلقائيًا.</div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Q12 <span class="q-src">Final 2025</span></div>
+    <div class="q-text">To create the admin user for Django admin, you write: python manage.py createuser. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain"><b>الإجابة: B - False</b><br>الأمر الصحيح هو <code>python manage.py createsuperuser</code>. لاحظ كمان إن <code>manage.py</code> مش <code>mange.py</code>.</div>
+  </div>
+
+  <div style="text-align:center;margin-top:20px">
+    <span class="q-score" id="score-main"></span><br>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">إعادة المحاولة</button>
+  </div>
+</section>
+
+</div>
+</main>

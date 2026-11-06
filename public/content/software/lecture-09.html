@@ -1,0 +1,796 @@
+<div id="prog-bar"></div>
+
+<nav id="sidebar" dir="ltr">
+  <div class="sb-logo">
+    <h2>💎 CS251 — Lec 09</h2>
+    <p>SOLID Principles</p>
+  </div>
+  <a class="sb-back" href="/2nd-year/software">← All Lectures</a>
+  <a class="sb-back" href="/2nd-year">↩ الرئيسية</a>
+
+  <div class="sb-section">SOLID Principles</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>SOLID Overview</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>S — SRP</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>O — OCP ⭐</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>L — LSP</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>I — ISP</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>D — DIP ⭐</a>
+
+  <div class="sb-section">McConnell</div>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>7 Design Characteristics</a>
+
+  <div class="sb-section">Exam Prep</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>🎯 Practice Quiz</a>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>📋 Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>⚡ Rapid Revision</a>
+</nav>
+
+<button id="menu-btn">☰</button>
+<button id="scroll-top">↑</button>
+
+<main id="main" dir="auto">
+
+<section class="hero">
+  <div class="hero-badge">💎 Lecture 09 · Design Principles by Uncle Bob</div>
+  <h1>SOLID <span>Principles</span></h1>
+  <p>5 principles by <strong>Robert C. Martin (Uncle Bob)</strong> — أساس الـ OOD الصحيح. <strong>OCP</strong> و <strong>DIP</strong> أهمهم في الامتحان. مرتبطين مباشرة بـ Strategy Pattern.</p>
+  <div class="btn-row">
+    <a href="/2nd-year/software" class="btn btn-ghost">← All Lectures</a>
+    <a href="#quiz" class="btn btn-primary">🎯 Practice Quiz</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">5</div><div class="lbl">SOLID Letters</div></div>
+    <div class="hstat"><div class="num">7</div><div class="lbl">McConnell Traits</div></div>
+    <div class="hstat"><div class="num">7</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">Practice Qs</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════════
+     CH 1 — SOLID OVERVIEW
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title">
+      <h2>SOLID Overview</h2>
+      <p>5 guidelines لتجنب bad design. حروف SOLID = اختصار للـ 5 principles.</p>
+    </div>
+  </div>
+
+  <div class="solid-grid">
+    <div class="solid-tile"><div class="solid-letter">S</div><div class="solid-name">Single Responsibility</div></div>
+    <div class="solid-tile"><div class="solid-letter">O</div><div class="solid-name">Open-Close</div></div>
+    <div class="solid-tile"><div class="solid-letter">L</div><div class="solid-name">Liskov Substitution</div></div>
+    <div class="solid-tile"><div class="solid-letter">I</div><div class="solid-name">Interface Segregation</div></div>
+    <div class="solid-tile"><div class="solid-letter">D</div><div class="solid-name">Dependency Inversion</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">👨‍💼</span> Robert C. Martin — "Uncle Bob"</div>
+    <ul>
+      <li>Author of <strong>Clean Code</strong> + <em>Agile Software Craftsmanship</em>.</li>
+      <li>SOLID = set of guidelines to avoid bad OOP design.</li>
+      <li>الـ goal: code <strong>maintainable, extensible, testable</strong>.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 2 — SRP
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num blue">02</div>
+    <div class="ch-title">
+      <h2>S — Single Responsibility Principle (SRP)</h2>
+      <p>"A class should have <strong>only one reason to change</strong>."</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📖</span> الفكرة</div>
+    <ul>
+      <li>كل class بيمثل <strong>concept واحد</strong> ويحمل <strong>responsibility واحدة</strong>.</li>
+      <li>لو فيه <strong>2 reasons لتغيير الـ class</strong>، يبقى لازم تقسمه لـ class اتنين.</li>
+      <li>كل class يهتم بـ <strong>one responsibility + one reason to change</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">💻</span> Example</div>
+    <div class="ba-compare">
+      <div class="ba-bad">
+        <h4>❌ Bad — 2 responsibilities</h4>
+        <div class="code-wrap">
+<pre><code><span class="kw">class</span> <span class="fn">User</span> {
+  <span class="kw">String</span> name;
+  <span class="kw">String</span> email;
+
+  <span class="kw">void</span> <span class="fn">save</span>() {
+    <span class="cmt">// DB logic</span>
+  }
+  <span class="kw">void</span> <span class="fn">sendEmail</span>() {
+    <span class="cmt">// SMTP logic</span>
+  }
+}</code></pre>
+        </div>
+        <p style="font-size:.78rem;color:var(--red);margin-top:8px">⚠️ 2 reasons to change: DB schema changes OR email server changes.</p>
+      </div>
+      <div class="ba-good">
+        <h4>✅ Good — SRP</h4>
+        <div class="code-wrap">
+<pre><code><span class="kw">class</span> <span class="fn">User</span> {
+  <span class="kw">String</span> name; email;
+}
+<span class="kw">class</span> <span class="fn">UserRepository</span> {
+  <span class="kw">void</span> <span class="fn">save</span>(<span class="fn">User</span> u) {...}
+}
+<span class="kw">class</span> <span class="fn">EmailService</span> {
+  <span class="kw">void</span> <span class="fn">send</span>(<span class="fn">User</span> u) {...}
+}</code></pre>
+        </div>
+        <p style="font-size:.78rem;color:var(--green);margin-top:8px">✓ Each class has ONE reason to change.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 3 — OCP ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num green">03</div>
+    <div class="ch-title">
+      <h2>O — Open-Close Principle (OCP) ⭐</h2>
+      <p>"Software entities should be <strong>open for extension</strong>, but <strong>closed for modification</strong>." — الأهم لأنه أساس Strategy Pattern.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🔌</span> الفكرة</div>
+    <p>اقدر <strong>تضيف functionality جديد</strong> بدون ما تغيّر existing code.</p>
+    <p>زي <strong>mixer kitchen</strong> — تقدر تغير الـ attachments بدون ما تغير الـ engine.</p>
+
+    <h4 style="font-family:var(--fh);color:var(--cyan);font-size:.95rem;margin:14px 0 6px">كيف نطبقه؟</h4>
+    <ul>
+      <li>Use <strong>Interfaces / Abstract Classes</strong>.</li>
+      <li>Use <strong>Design Patterns</strong> (Strategy, Decorator, etc.).</li>
+    </ul>
+  </div>
+
+  <!-- Motivating problem from slides -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">📚</span> Motivating Problem — Sorting</div>
+    <p>عايز ArrayList بسـ <code>sort()</code> method. ابدأ بـ bubble sort:</p>
+    <div class="code-wrap">
+<pre><code><span class="kw">class</span> <span class="fn">ArrayList</span>&lt;<span class="fn">T</span>&gt; {
+  <span class="kw">void</span> <span class="fn">sort</span>() { <span class="cmt">/* bubble sort */</span> }
+}</code></pre>
+    </div>
+
+    <p style="margin-top:14px">عايز تبدّل لـ merge sort؟ احذف bubble وضف merge. سهل.</p>
+    <p style="margin-top:8px">عايز <strong>الاتنين متاحين</strong>؟ ضف if statement:</p>
+    <div class="code-wrap">
+<pre><code><span class="kw">void</span> <span class="fn">sort</span>(<span class="kw">int</span> sortChoice) {
+  <span class="kw">if</span> (sortChoice == <span class="num">1</span>) { <span class="cmt">/* merge sort */</span> }
+  <span class="kw">if</span> (sortChoice == <span class="num">2</span>) { <span class="cmt">/* bubble sort */</span> }
+}</code></pre>
+    </div>
+
+    <div class="danger"><div><b>🔴 المشكلة</b>كل ما تضيف algorithm جديد، لازم تعدل الكود. هذا <strong>violation للـ OCP</strong>. مع كل تعديل، الكلاينتس اللي بيستخدموا الـ class ممكن يتأثروا.</div></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">💡</span> Uncle Bob's Solution</div>
+    <blockquote style="border-inline-start:3px solid var(--green);padding:10px 16px;background:rgba(16,185,129,.05);font-style:italic;color:var(--t2)">
+      "When writing a class, ensure that when you need to extend its behavior, you <strong>don't have to change the class</strong> but to <strong>extend it</strong>."
+    </blockquote>
+    <p>الحل: استخدم <strong>Abstract Classes + concrete classes</strong> لتنفيذ behavior. ده الـ <strong>Strategy Pattern</strong> — هتشوفه تفصيلاً في Lecture 12.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 4 — LSP
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num amber">04</div>
+    <div class="ch-title">
+      <h2>L — Liskov Substitution Principle (LSP)</h2>
+      <p>"Subtypes must be <strong>substitutable</strong> for their base types."</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">📖</span> الفكرة (Barbara Liskov)</div>
+    <p>لو S هو subtype من T، يبقى objects من type T ممكن تتبدل بـ objects من type S <strong>بدون ما تأثر على correctness</strong>.</p>
+    <p>اللي الـ subclass <strong>ما يلغيش</strong> أو <strong>يكسرش</strong> contract الـ superclass.</p>
+  </div>
+
+  <!-- Classic example -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🟦</span> Classic Example — Square vs Rectangle</div>
+    <div class="ba-compare">
+      <div class="ba-bad">
+        <h4>❌ Violates LSP</h4>
+        <div class="code-wrap">
+<pre><code><span class="kw">class</span> <span class="fn">Rectangle</span> {
+  <span class="kw">int</span> w, h;
+  <span class="kw">void</span> <span class="fn">setWidth</span>(<span class="kw">int</span> w) { ... }
+  <span class="kw">void</span> <span class="fn">setHeight</span>(<span class="kw">int</span> h) { ... }
+}
+
+<span class="cmt">// Square is-a Rectangle?</span>
+<span class="kw">class</span> <span class="fn">Square</span> <span class="kw">extends</span> <span class="fn">Rectangle</span> {
+  <span class="cmt">// w must = h always</span>
+  <span class="kw">void</span> <span class="fn">setWidth</span>(<span class="kw">int</span> w) {
+    <span class="kw">this</span>.w = w;
+    <span class="kw">this</span>.h = w;  <span class="cmt">// surprise!</span>
+  }
+}</code></pre>
+        </div>
+      </div>
+      <div class="ba-good">
+        <h4>✅ Test if substitutable</h4>
+        <div class="code-wrap">
+<pre><code><span class="kw">void</span> <span class="fn">resize</span>(<span class="fn">Rectangle</span> r) {
+  r.setWidth(<span class="num">5</span>);
+  r.setHeight(<span class="num">4</span>);
+  assert(r.area() == <span class="num">20</span>);
+}
+
+<span class="cmt">// Passing a Square FAILS:</span>
+<span class="cmt">// setHeight changes width too</span>
+<span class="cmt">// → area = 16, not 20</span>
+<span class="cmt">// Square is NOT substitutable for Rectangle</span></code></pre>
+        </div>
+      </div>
+    </div>
+    <div class="warn"><div><b>🤯 الـ paradox</b>في الـ math، square IS-A rectangle. بس في OOP، subclass = behavior. لو behavior بيكسر expectations، يبقى violation للـ LSP. الحل: ما تخليش Square ترث من Rectangle — اعملهم separate types أو حدد abstraction أعلى.</div></div>
+  </div>
+
+  <!-- Example 2: Bird / Penguin -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🐧</span> Example 2 — Bird vs Penguin</div>
+    <p>لو عندك <code>Bird</code> class فيها <code>fly()</code>، و <code>Penguin extends Bird</code> — بس البطريق <strong>ما بيطيرش</strong>! → بيكسر الـ substitutability.</p>
+    <p><b>الحل:</b> افصل الطيور الطايرة عن غير الطايرة. استخدم interfaces / abstractions مناسبة (مثلاً <code>Flyable</code> منفصل).</p>
+  </div>
+
+  <!-- Example 3: Employee / VolunteerEmployee (from slides) -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">🧑‍💼</span> Example 3 — Employee vs VolunteerEmployee ⭐</div>
+    <p>عندك <code>Employee</code> hierarchy، و <code>VolunteerEmployee extends Employee</code>. بس الـ VolunteerEmployee <strong>ملوش salary/payment</strong> → الـ <code>calcPay()</code> بتبقى مشكلة.</p>
+    <div class="danger"><div><b>🔴 ليه ده أسوأ؟</b>الكود اللي المفروض يشتغل على الـ <code>Employee</code> base class هيضطر يعمل <strong>explicit reference لواحد من الـ derivatives</strong> (يـفحص: هل ده VolunteerEmployee؟). ده violation صريح للـ LSP:
+      <ul style="margin-top:6px;padding-inline-start:20px">
+        <li><code>VolunteerEmployee</code> مش <strong>substitutable</strong> لـ <code>Employee</code>.</li>
+        <li>الـ users بتوع <code>Employee</code> بيتأثروا بمجرد <strong>وجود</strong> الـ <code>VolunteerEmployee</code>.</li>
+      </ul>
+    </div></div>
+    <div class="info"><div><b>✅ الحل (من السلايدات)</b>
+      <ul style="margin:0;padding-inline-start:20px">
+        <li>الـ Volunteers <strong>مش</strong> employees أصلاً.</li>
+        <li><code>VolunteerEmployee</code> <strong>ما يورّثش</strong> من <code>Employee</code>.</li>
+        <li>ما يتبعتش لـ functions بتحتاج <code>calcPay()</code>.</li>
+      </ul>
+    </div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 5 — ISP
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num purple">05</div>
+    <div class="ch-title">
+      <h2>I — Interface Segregation Principle (ISP)</h2>
+      <p>"Clients should <strong>not be forced</strong> to depend upon interfaces they do not use."</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">📖</span> الفكرة</div>
+    <p>قسّم الـ <strong>"fat" interfaces</strong> لـ smaller, more specific ones.</p>
+    <p>الـ "Fat" interfaces بتؤدي لـ "polluted" classes — مجبرين implement methods ما يحتاجوهاش (غالباً بيرموا <code>NotImplementedException</code>).</p>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">💻</span> Example</div>
+    <div class="ba-compare">
+      <div class="ba-bad">
+        <h4>❌ Fat interface</h4>
+        <div class="code-wrap">
+<pre><code><span class="kw">interface</span> <span class="fn">Worker</span> {
+  <span class="kw">void</span> <span class="fn">work</span>();
+  <span class="kw">void</span> <span class="fn">eat</span>();
+  <span class="kw">void</span> <span class="fn">sleep</span>();
+}
+
+<span class="kw">class</span> <span class="fn">Robot</span> <span class="kw">implements</span> <span class="fn">Worker</span> {
+  <span class="kw">void</span> <span class="fn">work</span>() {...}
+  <span class="kw">void</span> <span class="fn">eat</span>() {
+    <span class="kw">throw</span> <span class="kw">new</span>
+      <span class="fn">NotImplementedException</span>();
+  }
+  <span class="cmt">// Robots don't eat/sleep!</span>
+}</code></pre>
+        </div>
+      </div>
+      <div class="ba-good">
+        <h4>✅ Segregated interfaces</h4>
+        <div class="code-wrap">
+<pre><code><span class="kw">interface</span> <span class="fn">Workable</span> {
+  <span class="kw">void</span> <span class="fn">work</span>();
+}
+<span class="kw">interface</span> <span class="fn">Feedable</span> {
+  <span class="kw">void</span> <span class="fn">eat</span>();
+}
+
+<span class="kw">class</span> <span class="fn">Robot</span> <span class="kw">implements</span>
+                <span class="fn">Workable</span> {
+  <span class="kw">void</span> <span class="fn">work</span>() {...}
+}
+<span class="kw">class</span> <span class="fn">Human</span> <span class="kw">implements</span>
+        <span class="fn">Workable</span>, <span class="fn">Feedable</span> {
+  <span class="kw">void</span> <span class="fn">work</span>() {...}
+  <span class="kw">void</span> <span class="fn">eat</span>() {...}
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Door / SecurityDoor example -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🚪</span> Example 2 — Door &amp; SecurityDoor</div>
+    <p>عندك <code>IDoor { lock(); unlock(); isOpen(); }</code>. جه عايز <code>SecurityDoor</code> تطلّق alarm لو فضلت مفتوحة → ضفت <code>timeOut()</code> للـ <code>IDoor</code>.</p>
+    <div class="danger"><div><b>🔴 المشكلة</b>مش كل الأبواب timed! إضافة <code>timeOut()</code> للـ <code>IDoor</code> بتلوّثه (polluted interface) وبتجبر كل door تعمل dummy implementation.</div></div>
+    <div class="ba-compare">
+      <div class="ba-good">
+        <h4>✅ Segregated</h4>
+        <div class="code-wrap">
+<pre><code><span class="kw">interface</span> <span class="fn">IDoor</span> {
+  <span class="kw">void</span> <span class="fn">lock</span>();
+  <span class="kw">void</span> <span class="fn">unlock</span>();
+  <span class="kw">bool</span> <span class="fn">isOpen</span>();
+}
+<span class="kw">interface</span> <span class="fn">ITimerClient</span> {
+  <span class="kw">void</span> <span class="fn">timeOut</span>();
+}
+
+<span class="kw">class</span> <span class="fn">SecurityDoor</span> <span class="kw">implements</span>
+              <span class="fn">IDoor</span>, <span class="fn">ITimerClient</span> {
+  <span class="kw">void</span> <span class="fn">timeOut</span>() {...}
+}</code></pre>
+        </div>
+      </div>
+      <div class="ba-good">
+        <h4>📋 Vehicle Example</h4>
+        <div class="code-wrap">
+<pre><code><span class="cmt">// ❌ Vehicle{ drive(); fly(); }</span>
+<span class="cmt">// Car.fly() → OOPS</span>
+<span class="cmt">// Drone.drive() → OOPS</span>
+
+<span class="cmt">// ✅ Split them:</span>
+<span class="kw">interface</span> <span class="fn">Drivable</span> { <span class="kw">void</span> <span class="fn">drive</span>(); }
+<span class="kw">interface</span> <span class="fn">Flyable</span>   { <span class="kw">void</span> <span class="fn">fly</span>(); }
+
+<span class="kw">class</span> <span class="fn">Car</span>      <span class="kw">implements</span> <span class="fn">Drivable</span>
+<span class="kw">class</span> <span class="fn">Airplane</span> <span class="kw">implements</span> <span class="fn">Drivable</span>, <span class="fn">Flyable</span>
+<span class="kw">class</span> <span class="fn">Drone</span>    <span class="kw">implements</span> <span class="fn">Flyable</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info"><div><b>📌 نقاط مهمة من السلايدات</b>
+    <ul style="margin:0;padding-inline-start:20px">
+      <li><strong>Many client-specific interfaces &gt; one general-purpose interface.</strong></li>
+      <li><strong>Fat interface = Fat class</strong> — حتى التغيير في method مش مستخدمة ممكن يأثر على الـ users.</li>
+      <li>ISP <strong>مش</strong> معناه interface واحد لكل class — المعنى: <strong>group clients by type</strong> (لو غيّرت لـ ClientA ما يأثرش على ClientB/ClientC).</li>
+      <li>مثال واقعي: <strong>ASP.NET Membership Provider</strong> أجبر الـ custom provider على implement <strong>27 method/property</strong> — fat interface كلاسيكي.</li>
+    </ul>
+  </div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 6 — DIP ⭐
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num pink">06</div>
+    <div class="ch-title">
+      <h2>D — Dependency Inversion Principle (DIP) ⭐</h2>
+      <p>"High-level modules should <strong>not</strong> depend on low-level modules. <strong>Both should depend on abstractions</strong>."</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">📖</span> الفكرة</div>
+    <ul>
+      <li><strong>Abstractions should not depend on details</strong>.</li>
+      <li><strong>Details should depend on abstractions</strong>.</li>
+    </ul>
+    <p style="margin-top:14px">في الـ traditional design: high-level modules بتعتمد على low-level. أي تغيير في low-level بيخرب high-level.</p>
+    <p>في الـ DIP: الاتنين بيعتمدوا على <strong>interface (abstraction)</strong>.</p>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">💻</span> Example</div>
+    <div class="ba-compare">
+      <div class="ba-bad">
+        <h4>❌ Direct dependency</h4>
+        <div class="code-wrap">
+<pre><code><span class="kw">class</span> <span class="fn">MySQLDatabase</span> {
+  <span class="kw">void</span> <span class="fn">save</span>(<span class="kw">String</span> data) {...}
+}
+
+<span class="kw">class</span> <span class="fn">UserService</span> {
+  <span class="kw">private</span> <span class="fn">MySQLDatabase</span> db;
+
+  <span class="fn">UserService</span>() {
+    <span class="cmt">// hard-coded dependency</span>
+    db = <span class="kw">new</span> <span class="fn">MySQLDatabase</span>();
+  }
+}</code></pre>
+        </div>
+        <p style="font-size:.78rem;color:var(--red);margin-top:8px">⚠️ UserService can't switch to Postgres without code change.</p>
+      </div>
+      <div class="ba-good">
+        <h4>✅ Depend on abstraction</h4>
+        <div class="code-wrap">
+<pre><code><span class="kw">interface</span> <span class="fn">Database</span> {
+  <span class="kw">void</span> <span class="fn">save</span>(<span class="kw">String</span> data);
+}
+<span class="kw">class</span> <span class="fn">MySQLDatabase</span>
+            <span class="kw">implements</span> <span class="fn">Database</span> {...}
+<span class="kw">class</span> <span class="fn">PostgresDatabase</span>
+            <span class="kw">implements</span> <span class="fn">Database</span> {...}
+
+<span class="kw">class</span> <span class="fn">UserService</span> {
+  <span class="kw">private</span> <span class="fn">Database</span> db;
+
+  <span class="fn">UserService</span>(<span class="fn">Database</span> db) {
+    <span class="kw">this</span>.db = db;  <span class="cmt">// injected</span>
+  }
+}</code></pre>
+        </div>
+        <p style="font-size:.78rem;color:var(--green);margin-top:8px">✓ Easy swap. Easy testing (inject mock).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="info"><div><b>💡 Strongly Related to Strategy Pattern</b>الـ DIP بيعمل الـ foundation للـ Strategy. لما UserService بيعتمد على Database interface بدل concrete، تقدر تستبدل implementations في runtime — exactly الـ Strategy Pattern.</div></div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title"><span class="icon">🧷</span> Practical Notes (من السلايدات)</div>
+    <ul>
+      <li><strong>ليه DIP؟</strong> الـ concrete classes بتتغير كتير (volatile)، الـ abstractions بتتغير أقل. الـ abstractions = <strong>"hinge points"</strong> (نقاط ارتكاز ثابتة). وبيدعم الـ Open/Close Principle.</li>
+      <li><strong>آمن</strong> إنك تعتمد على concrete classes مستقرة (stable) زي <code>String</code> و <code>Vector</code> — مش كل concrete class ممنوعة. تجنّب الـ <strong>volatile</strong> concrete classes بس.</li>
+      <li><strong>UML check:</strong> الـ dependency arrows المفروض تشاور على <strong>interfaces / abstract classes</strong> — مش على concrete classes.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CH 7 — McConnell's 7 Characteristics
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num teal">07</div>
+    <div class="ch-title">
+      <h2>Steve McConnell — Views on Design</h2>
+      <p>من كتاب <strong>"Code Complete" — Chapter 5</strong>. جوهر الـ design = <strong>managing complexity</strong>.</p>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📍</span> Where Does Design Fit?</div>
+    <p>الـ design بيقع بين الـ requirements والـ code — مرحلتين:</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-family:var(--fh);font-size:.82rem;margin:12px 0">
+      <span style="padding:5px 12px;border:1px solid var(--cyan);border-radius:6px">Requirements</span> <span style="color:var(--t3)">→</span>
+      <span style="padding:5px 12px;border:1px solid var(--green);border-radius:6px">Architecture / High-Level Design</span> <span style="color:var(--t3)">→</span>
+      <span style="padding:5px 12px;border:1px solid var(--amber);border-radius:6px">Low-Level Design</span> <span style="color:var(--t3)">→</span>
+      <span style="padding:5px 12px;border:1px solid var(--pink)">Code</span>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">🪜</span> Levels of Design</div>
+    <ul>
+      <li><strong>High-level design</strong> — الـ system components والـ connections بينهم.</li>
+      <li><strong>Low-level design</strong> — الـ objects · classes · algorithms · variables.</li>
+      <li>الحد بين الاتنين <strong>blurry</strong> (مش واضح تماماً).</li>
+    </ul>
+  </div>
+
+  <div class="info"><div><b>💬 Quotes عن الـ Design</b>
+    "The driving force behind design is <strong>managing complexity</strong>." ·
+    "The goal of software design techniques is <strong>breaking complicated problems into simple pieces</strong>." ·
+    "The key to performance is <strong>elegance, not battalions of special cases</strong>." — Bentley &amp; McIlroy
+  </div></div>
+
+  <h3 style="font-family:var(--fh);font-size:1.05rem;color:var(--teal);margin:26px 0 12px">7 Characteristics of Good Design</h3>
+  <div class="char-list">
+    <div class="char-item"><div class="char-num">1</div><div class="char-content"><h4>Minimal Complexity</h4><p>Divide &amp; conquer · use abstractions · reduce coupling · increase cohesion · remove dead code · avoid clever tricks · comment · document.</p></div></div>
+    <div class="char-item"><div class="char-num">2</div><div class="char-content"><h4>Loose Coupling</h4><p>قلّل الـ connections بين أجزاء البرنامج. بيبسّط الـ integration / testing / maintenance.</p></div></div>
+    <div class="char-item"><div class="char-num">3</div><div class="char-content"><h4>Strong Cohesion</h4><p>الـ routines بتدعم الـ purpose المركزي للـ module. الهدف: maximize cohesion.</p></div></div>
+    <div class="char-item"><div class="char-num">4</div><div class="char-content"><h4>Extensibility</h4><p>تطوّر النظام من غير ما تخرّب structure-ه. التغييرات المتوقعة تسبب أقل trauma.</p></div></div>
+    <div class="char-item"><div class="char-num">5</div><div class="char-content"><h4>Reusability</h4><p>إعادة استخدام أجزاء في systems تانية.</p></div></div>
+    <div class="char-item"><div class="char-num">6</div><div class="char-content"><h4>Maintainability</h4><p>أسهل في إصلاح الـ bugs · التحسين · إضافة features.</p></div></div>
+    <div class="char-item"><div class="char-num">7</div><div class="char-content"><h4>Leanness</h4><p>مفيش أجزاء زيادة. Voltaire: "الكتاب يخلص لما مفيش حاجة تانية ممكن تتشال". الكود الزيادة بيزوّد effort الـ dev/review/testing/maintenance.</p></div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     QUIZ — PRACTICE
+══════════════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Practice Quiz — Lecture 9</h3>
+      <p>8 أسئلة على SOLID + McConnell. Q3 في امتحانات Winter 2023 بـ 24 marks على DIP + Adapter + Observer.</p>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 1 <span class="q-src">Practice — SRP</span></div>
+    <div class="q-text">What does <strong>"Single Responsibility Principle"</strong> mean?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> A class should have only one method</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> A class should have only one attribute</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> A class should have only one reason to change</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> A class should have only one instance</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — One reason to change</b>
+      SRP = single concept + single responsibility = one reason to change.
+      <div class="why-wrong">
+        <strong>A, B</strong> — Classes can have multiple methods/attributes — that's normal. ·
+        <strong>D</strong> — That's <em>Singleton</em> pattern.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 2 <span class="q-src">Practice — OCP</span></div>
+    <div class="q-text">"Software entities should be open for extension, but closed for modification" means:</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Classes should never be modified</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Add new functionality by extending, not by changing existing code</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> All classes must be marked final</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Don't use inheritance</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B</b>
+      OCP = extend behavior without modifying source. Achieved by interfaces, abstract classes, or design patterns (Strategy, Decorator).
+      <div class="why-wrong">
+        <strong>A</strong> — Bug fixes are allowed; "closed for modification" means closed against extensions changing logic. ·
+        <strong>C</strong> — final blocks all extension, opposite of OCP. ·
+        <strong>D</strong> — Inheritance is actually part of how OCP is achieved.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">Question 3 <span class="q-src">Practice — Strategy/OCP</span></div>
+    <div class="q-text">A <code>sort()</code> method uses an <code>if/else</code> chain to switch between bubble, merge, and quick sort. To add a new sort algorithm requires editing this chain. Which principle is violated?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Open-Close Principle</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Single Responsibility</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Liskov Substitution</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Interface Segregation</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: A — OCP</b>
+      كل ما تضيف algorithm جديد، تعدل الكود الموجود. Open for extension = NO. Closed for modification = NO. الحل: Strategy Pattern.
+      <div class="why-wrong">
+        <strong>B (SRP)</strong> — The class still has one responsibility (sorting). ·
+        <strong>C (LSP)</strong> — No subclass involved. ·
+        <strong>D (ISP)</strong> — No interface issue.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">Question 4 <span class="q-src">Practice — LSP</span></div>
+    <div class="q-text">A <code>Square</code> class extends a <code>Rectangle</code> class. Setting width on Square also changes height, breaking caller assumptions. Which principle is violated?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Open-Close</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Single Responsibility</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Liskov Substitution</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Dependency Inversion</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: C — LSP</b>
+      Square's behavior breaks the contract of Rectangle. Code expecting Rectangle won't work correctly with Square.
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 5 <span class="q-src">Practice — ISP</span></div>
+    <div class="q-text">A <code>Worker</code> interface has methods <code>work()</code>, <code>eat()</code>, <code>sleep()</code>. A <code>Robot</code> class implementing it must throw <code>NotImplementedException</code> for eat and sleep. Which principle is violated?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> SRP</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> OCP</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> LSP</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> ISP</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — ISP</b>
+      The Worker interface is too "fat". Robot is forced to depend on methods it doesn't use. الحل: split into <code>Workable</code>, <code>Feedable</code>, <code>Sleepable</code>.
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 6 <span class="q-src">Practice — DIP</span></div>
+    <div class="q-text">Which of these correctly applies <strong>Dependency Inversion</strong>?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> <code>class Service { MySQLDb db = new MySQLDb(); }</code></div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> <code>class Service { Database db; Service(Database d) { this.db = d; }}</code></div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> <code>class Service extends Database { }</code></div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> <code>class Service { static MySQLDb db = new MySQLDb(); }</code></div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B</b>
+      الـ Service بيعتمد على <strong>Database interface</strong> (abstraction)، وبيتم inject الـ concrete implementation. ده DIP — depend on abstractions, not concretes.
+      <div class="why-wrong">
+        <strong>A, D</strong> — direct dependency على concrete <code>MySQLDb</code>. Violation. ·
+        <strong>C</strong> — inheritance، مش dependency.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">Question 7 <span class="q-src">Practice — McConnell</span></div>
+    <div class="q-text">According to McConnell (Code Complete), what is the <strong>driving force</strong> behind software design?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Maximizing performance</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Managing complexity</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Writing the fewest lines of code</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Using as many design patterns as possible</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: B — Managing complexity</b>
+      McConnell: "The driving force behind design is <strong>managing complexity</strong>." الهدف تكسير المشاكل المعقّدة لأجزاء بسيطة. (الـ 7 characteristics بتخدم الهدف ده: minimal complexity, loose coupling, strong cohesion, extensibility, reusability, maintainability, leanness).
+      <div class="why-wrong">
+        <strong>A</strong> — "The key to performance is elegance, <em>not</em> battalions of special cases" — الأداء مش الـ driving force. ·
+        <strong>C</strong> — leanness مفيدة، بس مش "أقل سطور" بأي ثمن. ·
+        <strong>D</strong> — الـ patterns وسيلة، مش هدف.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-item" data-correct="d">
+    <div class="q-num">Question 8 <span class="q-src">Practice — comprehensive</span></div>
+    <div class="q-text">Which SOLID principle is the <strong>foundation</strong> for the Strategy Pattern?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Single Responsibility</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Liskov Substitution</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Interface Segregation</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Open-Close Principle</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة الصح: D — OCP</b>
+      Strategy = encapsulate algorithms in classes, swap them at runtime. الـ system بيكون open for adding new algorithms (just create a new strategy class) and closed for modification (the context class never changes). DIP بيدعم الـ OCP لكن الأساس هو OCP.
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">✓ Check Answers</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">↻ Reset</button>
+    <div class="q-score"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CHEAT SHEET
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="cheat" style="margin-top:80px">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet</h2>
+      <p>SOLID + McConnell في صفحة واحدة.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="cheat">
+      <h3>🔵 SOLID</h3>
+      <div class="cheat-item"><div class="cheat-key">S — SRP</div><div class="cheat-val">One reason to change per class</div></div>
+      <div class="cheat-item"><div class="cheat-key">O — OCP ⭐</div><div class="cheat-val">Open for extension, closed for modification</div></div>
+      <div class="cheat-item"><div class="cheat-key">L — LSP</div><div class="cheat-val">Subtype substitutable for base</div></div>
+      <div class="cheat-item"><div class="cheat-key">I — ISP</div><div class="cheat-val">No fat interfaces; split &amp; specialize</div></div>
+      <div class="cheat-item"><div class="cheat-key">D — DIP ⭐</div><div class="cheat-val">Depend on abstractions, not concretes</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>📐 McConnell — 7 Good Design Traits</h3>
+      <div class="cheat-item"><div class="cheat-key">1. Minimal Complexity</div><div class="cheat-val">Simple &gt; clever (driving force)</div></div>
+      <div class="cheat-item"><div class="cheat-key">2. Loose Coupling</div><div class="cheat-val">Few connections</div></div>
+      <div class="cheat-item"><div class="cheat-key">3. Strong Cohesion</div><div class="cheat-val">Routines serve one purpose</div></div>
+      <div class="cheat-item"><div class="cheat-key">4. Extensibility</div><div class="cheat-val">Change w/o damaging structure</div></div>
+      <div class="cheat-item"><div class="cheat-key">5. Reusability</div><div class="cheat-val">Reuse parts elsewhere</div></div>
+      <div class="cheat-item"><div class="cheat-key">6. Maintainability</div><div class="cheat-val">Easy fix/enhance/add</div></div>
+      <div class="cheat-item"><div class="cheat-key">7. Leanness</div><div class="cheat-val">No extra parts (Voltaire)</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>🔑 Quick Identifiers</h3>
+      <div class="cheat-item"><div class="cheat-key">if/else chain → ?</div><div class="cheat-val">OCP violation. Use Strategy.</div></div>
+      <div class="cheat-item"><div class="cheat-key">class with 2 jobs → ?</div><div class="cheat-val">SRP violation</div></div>
+      <div class="cheat-item"><div class="cheat-key">throw NotImplemented → ?</div><div class="cheat-val">ISP violation</div></div>
+      <div class="cheat-item"><div class="cheat-key">new ConcreteClass() in constructor → ?</div><div class="cheat-val">DIP violation</div></div>
+      <div class="cheat-item"><div class="cheat-key">subclass breaks parent contract → ?</div><div class="cheat-val">LSP violation</div></div>
+    </div>
+
+    <div class="cheat">
+      <h3>👨‍💼 Authors</h3>
+      <div class="cheat-item"><div class="cheat-key">Uncle Bob</div><div class="cheat-val">Robert C. Martin · Clean Code · SOLID</div></div>
+      <div class="cheat-item"><div class="cheat-key">McConnell</div><div class="cheat-val">Steve · Code Complete · 7 design traits</div></div>
+      <div class="cheat-item"><div class="cheat-key">Liskov</div><div class="cheat-val">Barbara Liskov · 1987 · LSP</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     RAPID REVISION
+══════════════════════════════════════════════════════════ -->
+<div class="chapter" id="revision" style="margin-top:60px">
+  <div class="ch-header">
+    <div class="ch-num pink">⚡</div>
+    <div class="ch-title">
+      <h2>Rapid Revision</h2>
+      <p>Flashcards · Mistakes · Doctor favorites.</p>
+    </div>
+  </div>
+
+  <div class="flashcards">
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">SOLID expanded؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">SRP · OCP · LSP · ISP · DIP</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">SOLID author؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Robert C. Martin (Uncle Bob)</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">SRP in 1 line؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">One reason to change</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">OCP in 1 line؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Open for extension, closed for modification</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">LSP in 1 line؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Subtype substitutable for base</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">ISP in 1 line؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">No fat interfaces — split &amp; specialize</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">DIP in 1 line؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Depend on abstractions, not concretes</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">if/else chain for behavior = which violation؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">OCP — fix with Strategy</div></div></div></div>
+    <div class="flashcard"><div class="fc-inner"><div class="fc-front"><div class="fc-q">McConnell: driving force of design؟</div><div class="fc-hint">tap</div></div><div class="fc-back"><div class="fc-a">Managing complexity</div></div></div></div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:30px 0 12px">🚨 Common Mistakes</h3>
+
+  <div class="danger"><div><b>1. خلط SRP و ISP</b>SRP عن الـ <em>class</em> (one job). ISP عن الـ <em>interface</em> (no fat APIs).</div></div>
+  <div class="danger"><div><b>2. اعتبار "Square extends Rectangle" valid</b>في math نعم، في OOP لأ — بيكسر LSP.</div></div>
+  <div class="danger"><div><b>3. DIP = "use interfaces"</b>مش بس استخدام interfaces. DIP = الـ high-level يعتمد على abstraction، و الـ low-level يعتمد على نفس الـ abstraction.</div></div>
+  <div class="danger"><div><b>4. McConnell's design traits = 7 مش 10</b>الـ 7 الصح: Minimal complexity · Loose coupling · Strong cohesion · Extensibility · Reusability · Maintainability · Leanness. (Fan-in/Fan-out مش ضمن الـ list بتاعة الدكتور).</div></div>
+
+  <h3 style="font-family:var(--fh);font-size:1rem;color:var(--amber);margin:30px 0 12px">⭐ What Dr. El-Ramly Loves</h3>
+  <div class="info">
+    <div>
+      <b>🔥 SOLID في الامتحان</b>
+      <ol style="margin-top:6px;padding-inline-start:22px">
+        <li><strong>Q3 (15-24 marks)</strong> — Apply Strategy + DIP + Adapter في كود يدوي. اقرأ Lec 12 كمان.</li>
+        <li><strong>OCP scenario</strong> — يدي كود فيه if/else ويطلب identify الـ violation.</li>
+        <li><strong>DIP code</strong> — Winter 2025 Q1.09 — أي كود implement DIP؟</li>
+        <li><strong>Match principle to scenario</strong> — squarerectangle = LSP, fat interface = ISP, إلخ.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+</div>
+</main>

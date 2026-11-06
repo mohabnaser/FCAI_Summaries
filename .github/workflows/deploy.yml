@@ -1,40 +1,98 @@
-name: Deploy FCAI SUMMARIES to Server
+name: Deploy FCAI Summaries
 
 on:
   push:
     branches:
       - main
       - testing
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Deploy Production
-        if: github.ref == 'refs/heads/main'
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build SPA
+        run: npm run build
+
+      - name: Upload dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcai-dist
+          path: dist
+          if-no-files-found: error
+
+  deploy-production:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download dist
+        uses: actions/download-artifact@v4
+        with:
+          name: fcai-dist
+          path: dist
+
+      - name: Publish built site
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.SERVER_HOST }}
+          username: ${{ vars.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "dist/*"
+          target: /var/www/FCAI_Summaries/prod
+          strip_components: 1
+          overwrite: true
+
+      - name: Reload nginx
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ vars.SERVER_HOST }}
           username: ${{ vars.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            cd /var/www/FCAI_Summaries/prod
+          script: sudo systemctl reload nginx
 
-            git pull origin main
+  deploy-testing:
+    if: github.ref == 'refs/heads/testing'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download dist
+        uses: actions/download-artifact@v4
+        with:
+          name: fcai-dist
+          path: dist
 
-            sudo systemctl reload nginx
+      - name: Publish built site
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.SERVER_HOST }}
+          username: ${{ vars.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "dist/*"
+          target: /var/www/FCAI_Summaries/test
+          strip_components: 1
+          overwrite: true
 
-      - name: Deploy Testing
-        if: github.ref == 'refs/heads/testing'
+      - name: Reload nginx
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ vars.SERVER_HOST }}
           username: ${{ vars.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            cd /var/www/FCAI_Summaries/test
-
-            git pull origin testing
-
-            sudo systemctl reload nginx
+          script: sudo systemctl reload nginx

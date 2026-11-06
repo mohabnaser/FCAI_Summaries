@@ -1,0 +1,1007 @@
+<div id="prog-bar"><div id="prog-fill"></div></div>
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ════════ SIDEBAR ════════ -->
+<nav id="sidebar" dir="ltr">
+  <div class="sb-logo">
+    <h2>📚 DS251 &amp; SHU233</h2>
+    <p>Fundamentals of Management</p>
+    <span class="sb-tag">Dr. Doaa Saleh</span>
+</div>
+      <a class="sb-back" href="/2nd-year/management">← All Lectures</a>
+    <a class="sb-back" href="/2nd-year">↩ الرئيسية</a>
+  <div class="sb-section">Course Content</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>Control &amp; Definitions</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>The Controlling Process</a>
+  <a href="#ch2-step1" class="sb-link"><span class="sb-dot"></span>Step 1 — Measuring Performance</a>
+  <a href="#ch2-step2" class="sb-link"><span class="sb-dot"></span>Step 2 — Standards &amp; MBE</a>
+  <a href="#ch2-step3" class="sb-link"><span class="sb-dot"></span>Step 3 — Corrective Action</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Power and Control</a>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>Making Controlling Successful</a>
+
+  <div class="sb-section">Question Bank</div>
+  <a href="#quiz-tf" class="sb-link"><span class="sb-dot"></span>True / False (8 Questions)</a>
+  <a href="#quiz-mcq" class="sb-link"><span class="sb-dot"></span>MCQ Practice (16 Questions)</a>
+
+  <div class="sb-section">Final Revision</div>
+  <a href="#cheat" class="sb-link"><span class="sb-dot"></span>Cheat Sheet</a>
+  <a href="#revision" class="sb-link"><span class="sb-dot"></span>Flashcards</a>
+</nav>
+
+<button id="menu-btn" onclick="toggleSidebar()">☰</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ════════ MAIN ════════ -->
+<main id="main" dir="rtl">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">📊 Chapter 21 · الرقابة الإدارية · Siamese Twin of Planning</div>
+  <h1>Controlling <span>Fundamentals</span></h1>
+  <p>شرح كامل للـ Controlling من الـ definitions لـ Mockler للـ process للـ power للـ success factors — كل سؤال في الامتحان عن Chapter 21 بييجي من المحتوى ده. افهم كل مصطلح واعرف الفرق بين كل مفهوم.</p>
+  <div class="btn-row">
+    <a href="#quiz-tf" class="btn btn-primary">🎯 ابدأ الأسئلة دلوقتي</a>
+    <a href="#cheat" class="btn btn-ghost">📋 Cheat Sheet</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">4</div><div class="lbl">Chapters</div></div>
+    <div class="hstat"><div class="num">8</div><div class="lbl">صح/غلط</div></div>
+    <div class="hstat"><div class="num">16</div><div class="lbl">MCQ</div></div>
+    <div class="hstat"><div class="num">6</div><div class="lbl">امتحانات</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<!-- ══════════════════════════════════════════════════
+     CH1 — CONTROL & CONTROLLING DEFINITIONS
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num amber">01</div>
+    <div class="ch-title">
+      <h2>Control &amp; Controlling — التعريفات الأساسية</h2>
+      <p>تعريف الـ Control، قانون Murphy، وتعريف الـ Controlling حسب Mockler — الأساس الأول للـ chapter ومنه بييجي كل حاجة.</p>
+    </div>
+  </div>
+
+  <!-- Control -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🎯</span> Control — التحكم والرقابة</div>
+    <div class="def-card" style="--accent:var(--amber)">
+      <div class="def-label">Control</div>
+      <div class="def-text">Ensuring that an event occurs as it was planned to occur.</div>
+      <div class="def-note">يعني: التأكد من أن الأحداث تسير كما خُطط لها بالضبط — مش بس مراقبة، لكن تدخّل فوري لو في انحراف.</div>
+    </div>
+    <div class="info">
+      <div><b>⭐ Planning &amp; Controlling = "Siamese Twins of Management"</b> — الـ Planning والـ Controlling مرتبطين جداً لدرجة إنهم اتسموا بـ "التوأم السيامي للإدارة". الـ Planning بتضع الـ Standards، والـ Controlling بتقارن بيها وبترجع الـ feedback.</div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="tip"><div><b>Planning without Controlling</b> = Meaningless — بتخطط بس مش بتراقب هل الخطة اتنفذت!</div></div>
+      <div class="tip"><div><b>Controlling without Planning</b> = Blind — بتراقب بدون معيار محدد مسبقاً!</div></div>
+    </div>
+    <div class="danger">
+      <div><b>🔴 سؤال متكرر جداً (MCQ &amp; T/F):</b> "Planning and controlling are <em>separable</em> twins" → <strong>FALSE / الخيار الغلط!</strong> هم Siamese (غير قابلين للفصل). أي خيار بيقول "separable" هو الإجابة الخاطئة في سؤال "which does NOT highlight the relationship".</div>
+    </div>
+  </div>
+
+  <!-- Murphy's Law -->
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title"><span class="icon">⚠️</span> Murphy's Law — قانون مورفي</div>
+    <div class="def-card" style="--accent:var(--red)">
+      <div class="def-label">Murphy's Law</div>
+      <div class="def-text">Anything that can go wrong will go wrong.</div>
+      <div class="def-note">أي شيء ممكن يغلط هيغلط فعلاً — هذا القانون بيذكّر المديرين بالبقاء متيقظين للمشاكل المحتملة دائماً.</div>
+    </div>
+    <p>Murphy's Law بيخلي المدير في يقظة مستمرة — وعشان كده الـ Controlling مش كمالة، لكن ضرورة حقيقية. أي حدث ممكن ينحرف عن الخطة في أي وقت.</p>
+  </div>
+
+  <!-- Mockler Definition -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">📖</span> Controlling — تعريف Roberto Mockler ⭐</div>
+    <div class="def-card" style="--accent:var(--cyan)">
+      <div class="def-label">⭐ Controlling — Roberto Mockler (التعريف الرسمي الأهم)</div>
+      <div class="def-text">A systematic effort by business management to compare performance to predetermined standards, plans, or objectives to determine whether performance is in line with these standards and presumably to take any remedial action required to see that human and other corporate resources are being used in the most effective and efficient way possible in achieving corporate objectives.</div>
+      <div class="def-note">مقارنة منهجية للأداء بالمعايير المحددة مسبقاً لمعرفة إذا كان الأداء في المسار الصحيح، واتخاذ الإجراءات التصحيحية لضمان أفضل استخدام للموارد.</div>
+    </div>
+    <div class="warn">
+      <div><b>⚠️ الكلمات المفتاحية في تعريف Mockler — احفظها:</b>
+        <ul style="margin-top:8px;padding-right:16px">
+          <li><strong>Systematic effort</strong> — مجهود منهجي منظم (مش عشوائي)</li>
+          <li><strong>Predetermined standards</strong> — معايير محددة مسبقاً (من الـ Planning)</li>
+          <li><strong>Remedial action</strong> = نفس الـ Corrective Action بالضبط</li>
+          <li><strong>Most effective and efficient</strong> — فاعلية وكفاءة في استخدام الموارد معاً</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controlling Subsystem -->
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">⚙️</span> The Controlling Subsystem — الغرض</div>
+    <div class="def-card" style="--accent:var(--teal)">
+      <div class="def-label">Purpose of the Controlling Subsystem</div>
+      <div class="def-text">To help managers enhance the success of the overall management system through effective controlling.</div>
+      <div class="def-note">مساعدة المديرين على تعزيز نجاح نظام الإدارة الكلي من خلال الرقابة الفعّالة.</div>
+    </div>
+    <div class="flow-wrap">
+      <p style="text-align:center;font-family:var(--fh);font-size:.78rem;color:var(--t3);margin-bottom:14px">Controlling Subsystem Flow</p>
+      <div class="flow-row ltr">
+        <div class="flow-box" style="--accent:var(--cyan)">📥 INPUT<br><small style="color:var(--t3);font-size:.65rem">People · Money<br>Raw Materials · Machines</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--amber)">⚙️ CONTROLLING<br><small style="color:var(--t3);font-size:.65rem">Measure → Compare → Act</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--green)">📤 OUTPUT<br><small style="color:var(--t3);font-size:.65rem">Work Continues<br>OR Corrective Action</small></div>
+      </div>
+      <div class="flow-note">إذا الأداء وافق المعايير → Work continues. إذا في انحراف → Take Corrective Action.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CH2 — THE CONTROLLING PROCESS
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num cyan">02</div>
+    <div class="ch-title">
+      <h2>The Controlling Process — خطوات الرقابة</h2>
+      <p>الـ 3 خطوات الأساسية + الـ 5 خطوات التفصيلية. لازم تحفظ الترتيب الصح — بييجي في كل امتحان.</p>
+    </div>
+  </div>
+
+  <!-- Overview -->
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title"><span class="icon">🔄</span> نظرة عامة — 3 Steps vs 5 Steps</div>
+    <div class="grid2">
+      <div class="def-card" style="--accent:var(--cyan)">
+        <div class="def-label">⭐ الـ 3 خطوات الأساسية (Chapter 21 Slides)</div>
+        <div class="def-text">1. Measuring Performance<br>2. Comparing Measured Performance To Standards<br>3. Taking Corrective Action</div>
+        <div class="def-note">ده التنظيم الأساسي من الـ textbook. في هذا الـ version، Measuring هي أول خطوة — لأن الـ Standards بتيجي من الـ Planning مسبقاً.</div>
+      </div>
+      <div class="def-card" style="--accent:var(--purple)">
+        <div class="def-label">⭐ الـ 5 خطوات التفصيلية (بييجي في "correct sequence")</div>
+        <div class="def-text">1. Setting Performance Standards<br>2. Measurement of Actual Performance<br>3. Comparison of Actual Performance with Standards<br>4. Analysing Deviations<br>5. Taking Corrective Action</div>
+        <div class="def-note">الـ 5-step version بييجي في أسئلة الترتيب "Identify the correct sequence" في الامتحانات.</div>
+      </div>
+    </div>
+    <div class="flow-wrap" style="margin-top:16px">
+      <p style="text-align:center;font-family:var(--fh);font-size:.78rem;color:var(--t3);margin-bottom:14px">Controlling Process Full Flow (5-Step)</p>
+      <div class="flow-row ltr">
+        <div class="flow-box" style="--accent:var(--blue)">📐 Set<br>Standards</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--purple)">📏 Measure<br>Performance</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--teal)">⚖️ Compare to<br>Standards</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--amber)">🔍 Analyse<br>Deviations</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="--accent:var(--red)">🔧 Corrective<br>Action</div>
+      </div>
+      <div class="flow-note">لو الأداء مطابق للمعايير → Work continues (no corrective action). لو في انحراف هام → Take corrective action.</div>
+    </div>
+    <div class="remarks-box">
+      <h5>✅ Remarks مهمة عن الـ Controlling Process</h5>
+      <ul>
+        <li>الـ Planning هي اللي بتضع الـ <strong>ground standards</strong> اللي الـ Controlling بتقارن بيها ⭐</li>
+        <li>الـ Controlling بترجع الدورة الإدارية <strong>back to Planning</strong> ⭐</li>
+        <li>بتتم على <strong>كل مستويات الإدارة</strong> (Top + Middle + Lower) — مش مستوى واحد</li>
+        <li>لو الأداء مطابق → Work continues — لا حاجة للـ Corrective Action</li>
+        <li>لو في انحراف هام → Corrective Action — تغيير الخطط أو التنظيم أو أساليب الـ Influencing</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Step 1: Measuring -->
+  <div class="topic" style="--accent:var(--purple)" id="ch2-step1">
+    <div class="topic-title"><span class="icon">📏</span> Step 1 — Measuring Performance (قياس الأداء)</div>
+    <p>أول خطوة في الـ Controlling Process هي قياس الأداء الفعلي.</p>
+    <div class="grid2">
+      <div class="def-card" style="--accent:var(--purple)">
+        <div class="def-label">How to Measure — إزاي تقيس؟</div>
+        <div class="def-text">1. Establish units of measure that represent target performance.<br>2. Determine the level of each unit accomplished by each target employee.</div>
+        <div class="def-note">أولاً حدد وحدات القياس، ثم حدد ما حققه كل موظف مقابل هذه الوحدات.</div>
+      </div>
+      <div class="def-card" style="--accent:var(--blue)">
+        <div class="def-label">What to Measure — إيه اللي تقيسه؟</div>
+        <div class="def-text">A wide range of organizational activities can be measured as part of the control process.</div>
+        <div class="def-note">"Managers must always keep in mind that a wide range of organizational activities can be measured" — مش نشاط واحد بس.</div>
+      </div>
+    </div>
+    <div class="info">
+      <div><b>💡 في الـ 3-Step version:</b> Measuring Performance هي <strong>أول خطوة</strong> — لأن الـ Standards بتيجي من الـ Planning مسبقاً، وبعدين بتبدأ الـ Controlling بالقياس.</div>
+    </div>
+  </div>
+
+  <!-- Step 2: Standards + MBE -->
+  <div class="topic" style="--accent:var(--blue)" id="ch2-step2">
+    <div class="topic-title"><span class="icon">⚖️</span> Step 2 — Comparing to Standards + Management by Exception</div>
+    <div class="def-card" style="--accent:var(--blue)">
+      <div class="def-label">⭐ Standard — المعيار (سؤال متكرر جداً)</div>
+      <div class="def-text">The level of activity established to serve as a model for evaluating organizational performance.</div>
+      <div class="def-note">مستوى النشاط المحدد كنموذج لتقييم أداء المنظمة. الـ Planning هي اللي بتضعه.</div>
+    </div>
+    <div class="tip">
+      <div><b>💡 مثال حقيقي — American Airlines Standards:</b>
+        <ul style="margin-top:8px;padding-right:16px">
+          <li>At least <strong>95%</strong> of flight arrival times should be accurate (actual arrival ≤ 15 min from posted time)</li>
+          <li>At least <strong>85%</strong> of customers at the airport ticket counter should not wait more than <strong>5 minutes</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <h4 style="font-family:var(--fh);color:var(--blue);font-size:.92rem;margin-bottom:8px;margin-top:18px">📊 نوعا المعايير — Quantitative vs Qualitative</h4>
+    <div class="grid2">
+      <div class="cmp-card" style="--accent:var(--cyan)">
+        <h4>📊 Quantitative Standard</h4>
+        <p>معيار قابل للقياس بالأرقام والنسب المئوية.</p>
+        <p style="color:var(--t3);font-size:.76rem;margin-top:6px">مثال: تقليل غياب العمال 20% · وصول 95% من الرحلات في الوقت المحدد</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--purple)">
+        <h4>📝 Qualitative Standard</h4>
+        <p>معيار غير قابل للقياس بالأرقام — جودة الأداء والقيم.</p>
+        <p style="color:var(--t3);font-size:.76rem;margin-top:6px">مثال: رضا العملاء · الالتزام بقيم المنظمة · جودة الخدمة</p>
+      </div>
+    </div>
+
+    <h4 style="font-family:var(--fh);color:var(--amber);font-size:.95rem;margin-bottom:10px;margin-top:20px">📌 Management by Exception (MBE) ⭐</h4>
+    <div class="def-card" style="--accent:var(--amber)">
+      <div class="def-label">Management by Exception (MBE)</div>
+      <div class="def-text">The practice of notifying management only when significant variances from planned results (standards) occur.</div>
+      <div class="def-note">الإدارة ما تتنبّهش إلا لما في انحراف كبير وهام عن الخطة. الانحرافات البسيطة بتتعامل معها على المستويات الأدنى.</div>
+    </div>
+    <div class="warn">
+      <div><b>⚠️ السؤال المتكرر عن MBE (Final 2025 Q16):</b> "What is the main purpose of management by exception?" → <strong>"To notify management only of significant variances from planned results"</strong>. مش "involve management in every decision" — ده العكس تماماً.</div>
+    </div>
+  </div>
+
+  <!-- Step 3: Corrective Action -->
+  <div class="topic" style="--accent:var(--red)" id="ch2-step3">
+    <div class="topic-title"><span class="icon">🔧</span> Step 3 — Taking Corrective Action ⭐</div>
+    <div class="def-card" style="--accent:var(--red)">
+      <div class="def-label">⭐ Corrective Action (سؤال متكرر في كل امتحان)</div>
+      <div class="def-text">Managerial activity aimed at bringing organizational performance up to the level of performance standards.</div>
+      <div class="def-note">النشاط الإداري الهادف لرفع الأداء التنظيمي لمستوى المعايير المحددة. آخر خطوة في الـ Controlling Process.</div>
+    </div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="def-card" style="--accent:var(--orange)">
+        <div class="def-label">Problem — المشكلة ⭐</div>
+        <div class="def-text">Any factor within an organization that is a barrier to organizational goal attainment.</div>
+        <div class="def-note">أي عامل داخل المنظمة يعيق تحقيق أهدافها — ده السبب الجذري (Root Cause).</div>
+      </div>
+      <div class="def-card" style="--accent:var(--amber)">
+        <div class="def-label">Symptom — العَرَض / العلامة ⭐</div>
+        <div class="def-text">A sign that a problem exists.</div>
+        <div class="def-note">علامة تدل على وجود مشكلة — مش المشكلة نفسها. مثال: انخفاض المبيعات عَرَض وليس مشكلة.</div>
+      </div>
+    </div>
+    <div class="danger">
+      <div><b>🔴 فرق جوهري — Problem vs Symptom:</b>
+        <ul style="margin-top:8px;padding-right:16px">
+          <li><strong>Problem</strong> = السبب الجذري (Root Cause) — العائق الحقيقي للهدف</li>
+          <li><strong>Symptom</strong> = العلامة الظاهرة — دليل على وجود مشكلة</li>
+          <li>مثال: انخفاض المبيعات = Symptom · ضعف جودة المنتج = Problem</li>
+          <li>مثال: ارتفاع الغياب = Symptom · انخفاض الروح المعنوية = Problem</li>
+        </ul>
+      </div>
+    </div>
+
+    <h4 style="font-family:var(--fh);color:var(--red);font-size:.92rem;margin-bottom:10px;margin-top:18px">📋 الـ 5 خطوات بالتفصيل والترتيب — The Correct Sequence</h4>
+    <div class="plan-steps">
+      <div class="plan-step" style="--accent:var(--blue)">
+        <div class="ps-num">1</div>
+        <div><div class="ps-title">Setting Performance Standards</div><div class="ps-desc">تحديد معايير الأداء المطلوبة — بتيجي من الـ Planning مسبقاً.</div></div>
+      </div>
+      <div class="plan-step" style="--accent:var(--purple)">
+        <div class="ps-num">2</div>
+        <div><div class="ps-title">Measurement of Actual Performance</div><div class="ps-desc">قياس الأداء الفعلي الحادث بالوحدات المحددة.</div></div>
+      </div>
+      <div class="plan-step" style="--accent:var(--teal)">
+        <div class="ps-num">3</div>
+        <div><div class="ps-title">Comparison of Actual Performance with Standards</div><div class="ps-desc">مقارنة ما تم تحقيقه بالمعايير المحددة — هنا بتظهر الـ Deviations.</div></div>
+      </div>
+      <div class="plan-step" style="--accent:var(--amber)">
+        <div class="ps-num">4</div>
+        <div><div class="ps-title">Analysing Deviations</div><div class="ps-desc">تحليل الانحرافات لمعرفة أسبابها — تمييز الـ Problem (السبب) عن الـ Symptom (العلامة).</div></div>
+      </div>
+      <div class="plan-step" style="--accent:var(--red)">
+        <div class="ps-num">5</div>
+        <div><div class="ps-title">Taking Corrective Action ⭐ (Last Step)</div><div class="ps-desc">اتخاذ الإجراءات التصحيحية: تغيير الخطط، أو التنظيم، أو أساليب الـ Influencing.</div></div>
+      </div>
+    </div>
+
+    <div class="mistakes-box">
+      <h5>❌ Common Mistakes in Controlling</h5>
+      <ul>
+        <li><strong>Not monitoring progress in carrying out plans</strong> ⭐ — ده أكتر خطأ بييجي في الامتحان</li>
+        <li>Not establishing appropriate performance standards</li>
+        <li>Not measuring performance to see where improvements might be made</li>
+      </ul>
+    </div>
+
+    <table class="tbl" style="margin-top:16px">
+      <tr><th>المصطلح</th><th>التعريف المختصر</th><th>مثال</th></tr>
+      <tr><td><span class="ba badge">Standard</span></td><td>نموذج لتقييم الأداء التنظيمي</td><td>وصول 95% من الرحلات في الوقت</td></tr>
+      <tr><td><span class="br badge">Deviation</span></td><td>الفرق بين الأداء الفعلي والمعيار</td><td>وصلت 80% فقط بدل 95%</td></tr>
+      <tr><td><span class="bg badge">Corrective Action</span></td><td>رفع الأداء UP لمستوى المعيار</td><td>تحسين جداول الرحلات</td></tr>
+      <tr><td><span class="bc badge">Quantitative Std</span></td><td>معيار قابل للقياس بالأرقام</td><td>تقليل الغياب 20% بالضبط</td></tr>
+      <tr><td><span class="bo badge">MBE</span></td><td>إبلاغ الإدارة فقط بالانحرافات الهامة</td><td>تجاهل انحرافات أقل من 2%</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CH3 — POWER AND CONTROL
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num teal">03</div>
+    <div class="ch-title">
+      <h2>Power and Control — السلطة والنفوذ</h2>
+      <p>الفرق بين Authority وPower، معادلة Total Power، وإزاي المدير يزيد الـ Personal Power بتاعته.</p>
+    </div>
+  </div>
+
+  <!-- Authority vs Power -->
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title"><span class="icon">⚡</span> Authority vs Power — الصلاحية مقابل القوة</div>
+    <div class="grid2">
+      <div class="def-card" style="--accent:var(--blue)">
+        <div class="def-label">Authority — الصلاحية الرسمية</div>
+        <div class="def-text">The right to command or give orders.</div>
+        <div class="def-note">حق إصدار الأوامر والتوجيهات — بييجي رسمياً من المنظمة. حق قانوني.</div>
+      </div>
+      <div class="def-card" style="--accent:var(--purple)">
+        <div class="def-label">Power — القوة / النفوذ الفعلي</div>
+        <div class="def-text">The extent to which an individual is able to influence others so they respond to orders.</div>
+        <div class="def-note">مدى قدرة الشخص على التأثير في الآخرين وحملهم على الاستجابة. قدرة فعلية.</div>
+      </div>
+    </div>
+    <div class="info">
+      <div><b>💡 الفرق البسيط:</b> Authority = حق قانوني رسمي تمنحه المنظمة · Power = قدرة فعلية على التأثير تتضمن Authority + ما هو أكتر. ممكن يكون عندك Authority بدون Power الكافية!</div>
+    </div>
+  </div>
+
+  <!-- Total Power -->
+  <div class="topic" style="--accent:var(--blue)">
+    <div class="topic-title"><span class="icon">🔢</span> Total Power = Position Power + Personal Power ⭐</div>
+    <div class="flow-wrap">
+      <div class="flow-row ltr" style="align-items:center;gap:16px;flex-wrap:wrap">
+        <div class="flow-box" style="--accent:var(--cyan);min-width:150px;padding:14px 18px">💼 Position Power<br><small style="color:var(--t3);font-size:.65rem">من المنصب الوظيفي</small></div>
+        <div style="font-family:var(--fh);font-size:2rem;color:var(--t3);flex-shrink:0">+</div>
+        <div class="flow-box" style="--accent:var(--purple);min-width:150px;padding:14px 18px">🤝 Personal Power<br><small style="color:var(--t3);font-size:.65rem">من العلاقات الشخصية</small></div>
+        <div style="font-family:var(--fh);font-size:2rem;color:var(--t3);flex-shrink:0">=</div>
+        <div class="flow-box" style="--accent:var(--amber);min-width:150px;padding:14px 18px">⚡ Total Power<br><small style="color:var(--t3);font-size:.65rem">القوة الكلية للمدير</small></div>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:16px">
+      <div class="def-card" style="--accent:var(--cyan)">
+        <div class="def-label">Position Power — قوة المنصب</div>
+        <div class="def-text">Power derived from the organizational position a manager holds.</div>
+        <div class="def-note">بييجي من المنصب الرسمي في المنظمة. <strong>المنظمة</strong> هي اللي بتمنحه — المدير مش بيتحكم فيه بنفسه.</div>
+      </div>
+      <div class="def-card" style="--accent:var(--purple)">
+        <div class="def-label">Personal Power — القوة الشخصية</div>
+        <div class="def-text">Power derived from a manager's relationships with others.</div>
+        <div class="def-note">بييجي من علاقات المدير مع الآخرين. <strong>المدير</strong> هو اللي بيبنيه من خلال سلوكه ومعاملاته.</div>
+      </div>
+    </div>
+    <div class="danger">
+      <div><b>🔴 خطأ شائع جداً (T/F):</b> "Most managers have substantial control over increasing their <em>position</em> power" → <strong>FALSE!</strong> الـ Position Power بييجي من المنصب الوظيفي — المنظمة بتمنحه. اللي المدير يقدر يزيده بنفسه هو <strong>Personal Power</strong>.</div>
+    </div>
+    <div class="tip">
+      <div><b>💡 مثال من الامتحان (Final 2021 Q48):</b> "Because Jamie is the manager, her subordinates follow her instructions. This is an example of _______ power." → <strong>Position Power</strong> — لأن الاتباع هنا بسبب منصبها الرسمي مش بسبب علاقتها الشخصية معهم.</div>
+    </div>
+  </div>
+
+  <!-- Increasing Personal Power -->
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title"><span class="icon">🚀</span> How to Increase Personal Power — 4 اتجاهات</div>
+    <p>عشان المدير يزيد الـ Personal Power بتاعته، لازم يطور هذه المعتقدات والاتجاهات في المرؤوسين:</p>
+    <div class="plan-steps">
+      <div class="plan-step" style="--accent:var(--purple)">
+        <div class="ps-num">1</div>
+        <div><div class="ps-title">A sense of obligation toward the manager</div><div class="ps-desc">الشعور بالالتزام تجاه المدير — يحصل لما المدير بيساعد الناس ويعمل معروفاً.</div></div>
+      </div>
+      <div class="plan-step" style="--accent:var(--blue)">
+        <div class="ps-num">2</div>
+        <div><div class="ps-title">A belief that the manager possesses a high level of expertise</div><div class="ps-desc">الإيمان بأن المدير يمتلك خبرة عالية ومعرفة متخصصة في المنظمة.</div></div>
+      </div>
+      <div class="plan-step" style="--accent:var(--teal)">
+        <div class="ps-num">3</div>
+        <div><div class="ps-title">A sense of identification with the manager</div><div class="ps-desc">الشعور بالتوحد والانتماء للمدير — الناس بتتبعه لأنهم بيتماثلوا معاه.</div></div>
+      </div>
+      <div class="plan-step" style="--accent:var(--cyan)">
+        <div class="ps-num">4</div>
+        <div><div class="ps-title">The perception that they are dependent on the manager</div><div class="ps-desc">الإحساس بالاعتماد على المدير لتحقيق أهدافهم ومصالحهم.</div></div>
+      </div>
+    </div>
+    <div class="tip">
+      <div><b>💡 سؤال من الامتحان (Final 2019 Q2h / Final 2024 Q2):</b> "In order to preserve their position power, managers should avoid doing personal favors for subordinates." → <strong>FALSE</strong> — عمل المعروف بيزيد الـ Personal Power (Sense of Obligation) مش Position Power. والـ Position Power أصلاً مش بتتأثر بالمعاملة الشخصية.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CH4 — MAKING CONTROLLING SUCCESSFUL
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num green">04</div>
+    <div class="ch-title">
+      <h2>Making Controlling Successful — عوامل نجاح الرقابة</h2>
+      <p>4 عوامل أساسية لنجاح الـ Controlling + أهمية الرقابة + الأخطاء الشائعة — بيجي في أسئلة المقال والـ MCQ.</p>
+    </div>
+  </div>
+
+  <!-- 4 Factors -->
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title"><span class="icon">✅</span> 4 Factors for Successful Controlling — العوامل الأربعة</div>
+    <p>الـ slide بيقول: "Managers should make sure to take the following factors into account":</p>
+    <div class="grid2" style="margin-top:14px">
+      <div class="cmp-card" style="--accent:var(--cyan)">
+        <h4>🎯 1. Specific Organizational Activities Being Focused On</h4>
+        <p>تحديد الأنشطة التنظيمية المحددة اللي هيتم رقابتها — مش رقابة كل شيء بدون تركيز.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--amber)">
+        <h4>🏆 2. Different Kinds of Organizational Goals</h4>
+        <p>مراعاة الأنواع المختلفة من الأهداف التنظيمية في عملية الرقابة — مش هدف واحد فقط.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--red)">
+        <h4>⏱️ 3. Timely Corrective Action</h4>
+        <p>الإجراءات التصحيحية لازم تكون في الوقت المناسب — التأخير بيزيد الضرر.</p>
+      </div>
+      <div class="cmp-card" style="--accent:var(--purple)">
+        <h4>📢 4. Communication of the Mechanics of the Control Process</h4>
+        <p>شرح آليات الـ Control Process لكل الأفراد المعنيين — كلهم لازم يفهموا إزاي الـ Controlling بيشتغل.</p>
+      </div>
+    </div>
+    <div class="info">
+      <div><b>💡 ليه العامل الرابع مهم؟</b> ده بيشرح ليه T/F بيقول "For control to be successful, all individuals involved in controlling must have a working knowledge of how the control process operates" → <strong>TRUE</strong> — ده مباشرة من عوامل نجاح الـ Controlling.</div>
+    </div>
+  </div>
+
+  <!-- Importance + Mistakes -->
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title"><span class="icon">🔍</span> أهمية Controlling + الأخطاء الشائعة</div>
+    <div class="grid2">
+      <div class="cmp-card" style="--accent:var(--green)">
+        <h4>✅ من أهمية Controlling (صحيح)</h4>
+        <ul>
+          <li>Ensures order and discipline — بتضمن النظام والانضباط</li>
+          <li>Helps in judging the accuracy of standards</li>
+          <li>Improves employee motivation</li>
+          <li><strong>Highlights deviations in the process</strong> ⭐</li>
+          <li><strong>Enables coordination in action</strong> ⭐</li>
+          <li>Facilitates effective and efficient use of resources</li>
+        </ul>
+      </div>
+      <div class="cmp-card" style="--accent:var(--red)">
+        <h4>❌ مش من أهمية Controlling (خطأ)</h4>
+        <p style="color:var(--red);font-weight:700;margin-bottom:8px">"It restricts coordination in action"</p>
+        <p>ده الخيار الغلط في الامتحانات! الـ Controlling بتُمكّن التنسيق وبتدعمه — مش بتقيّده.</p>
+        <p style="color:var(--t3);font-size:.76rem;margin-top:8px">⭐ بييجي في سؤال: "Which of the following is NOT important for the controlling function?" (Final 2025 Q40)</p>
+      </div>
+    </div>
+    <div class="mistakes-box" style="margin-top:16px">
+      <h5>❌ Common Mistakes in Controlling</h5>
+      <ul>
+        <li><strong>Not monitoring progress in carrying out plans</strong> ⭐ — الأكثر بيجي في الامتحان (Final 2021 Q26, 2022)</li>
+        <li>Not establishing appropriate performance standards (Final 2024 Q65)</li>
+        <li>Not measuring performance to see where improvements might be made</li>
+      </ul>
+    </div>
+
+    <table class="tbl" style="margin-top:16px">
+      <tr><th>نوع الخطأ</th><th>المشكلة</th><th>الوظيفة المتأثرة</th></tr>
+      <tr><td>Not monitoring progress</td><td>ما بيتابعش تنفيذ الخطط</td><td><span class="ba badge">Controlling ⭐</span></td></tr>
+      <tr><td>Not establishing standards</td><td>ما بيحددش معايير الأداء</td><td><span class="ba badge">Controlling</span></td></tr>
+      <tr><td>Not establishing departments</td><td>ما بينظمش الأقسام صح</td><td><span class="bg badge">Organizing</span></td></tr>
+      <tr><td>Not communicating properly</td><td>ما بيتواصلش مع فريقه</td><td><span class="bp badge">Influencing</span></td></tr>
+      <tr><td>Not exploring alternatives</td><td>ما بيبحثش عن بدائل كافية</td><td><span class="bc badge">Planning</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     QUIZ A — TRUE / FALSE
+══════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz-tf">
+  <div class="quiz-header">
+    <div class="quiz-icon">✅</div>
+    <div>
+      <h3>Quiz A — صح / غلط (True / False)</h3>
+      <p>8 سؤال صح وغلط حقيقي من امتحانات 2019 → 2025 · اختار ثم اتحقق</p>
+    </div>
+  </div>
+
+  <!-- TF-1 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">TF-1 <span class="q-src">Final 2019 Q2g</span></div>
+    <div class="q-text">"After actual performance has been measured and compared with established performance standards, the next step in the controlling process is to take corrective action if necessary."</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: صحيح (TRUE)</b>
+      ترتيب خطوات الـ Controlling Process:
+      <ul>
+        <li>Measure Performance</li>
+        <li>Compare to Standards</li>
+        <li><strong>Take Corrective Action (if needed)</strong> ← ده اللي بيصف السؤال</li>
+      </ul>
+      بعد القياس والمقارنة، لو في انحراف → الخطوة التالية = Corrective Action.
+    </div>
+  </div>
+
+  <!-- TF-2 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">TF-2 <span class="q-src">Final 2021 Q19 · Final 2022 Q19</span></div>
+    <div class="q-text">"The process of guiding the activities of organization members in appropriate directions is called controlling."</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: خطأ (FALSE)</b>
+      ده تعريف <strong>Influencing</strong> مش Controlling!
+      <ul>
+        <li><strong>Influencing</strong> = "Guiding the activities of organization members in appropriate directions" ← ده</li>
+        <li><strong>Controlling</strong> = "Systematic effort to compare performance to predetermined standards"</li>
+      </ul>
+      <div class="why-wrong"><b>الفخ الشائع:</b> الـ Doctor بيعكس التعريفات في T/F. كلمة "guiding activities" = Influencing دايماً.</div>
+    </div>
+  </div>
+
+  <!-- TF-3 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">TF-3 <span class="q-src">Final 2021 Q22 · Final 2022 Q22</span></div>
+    <div class="q-text">"Measuring performance is the first step in the controlling process."</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: صحيح (TRUE)</b>
+      في الـ <strong>3-step version</strong> بتاع Chapter 21 (الـ textbook الأساسي):
+      <ul>
+        <li><strong>Step 1: Measuring Performance ← أول خطوة</strong></li>
+        <li>Step 2: Comparing Measured Performance To Standards</li>
+        <li>Step 3: Taking Corrective Action</li>
+      </ul>
+      الـ Standards بتيجي من الـ Planning مسبقاً، وبعدين بتبدأ الـ Controlling بالقياس.
+    </div>
+  </div>
+
+  <!-- TF-4 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">TF-4 <span class="q-src">Final 2021 Q23 · Final 2022 Q23</span></div>
+    <div class="q-text">"For control to be successful, all individuals involved in controlling must have a working knowledge of how the control process operates."</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: صحيح (TRUE)</b>
+      ده بييجي من العامل الرابع لنجاح الـ Controlling: <strong>"Communication of the Mechanics of the Control Process"</strong> — كل الأشخاص المشاركين في الـ Controlling لازم يفهموا إزاي العملية بتشتغل عشان يكون الـ Control ناجحاً.
+    </div>
+  </div>
+
+  <!-- TF-5 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">TF-5 <span class="q-src">Final 2021 Q24 · Final 2022 Q24</span></div>
+    <div class="q-text">"Most managers have substantial control over increasing their position power."</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: خطأ (FALSE)</b>
+      الـ <strong>Position Power</strong> = "Power derived from the organizational position a manager holds" — بييجي من المنصب الوظيفي الرسمي في المنظمة. المدير مش بيتحكم فيه بنفسه — المنظمة هي اللي بتمنحه.
+      <div class="why-wrong"><b>اللي الممكن يزيده المدير:</b> Personal Power — من خلال علاقاته وسلوكه مع الآخرين (4 طرق: Obligation + Expertise + Identification + Dependence).</div>
+    </div>
+  </div>
+
+  <!-- TF-6 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">TF-6 <span class="q-src">Final 2019 Q2h · Final 2024 Q2</span></div>
+    <div class="q-text">"In order to preserve their position power, managers should avoid doing personal favors for subordinates."</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: خطأ (FALSE)</b>
+      عمل المعروف للمرؤوسين بيزيد الـ <strong>Personal Power</strong> (من خلال "sense of obligation") — مش Position Power.
+      <ul>
+        <li>Position Power = من المنصب الرسمي — مش بتتأثر بالمعاملة الشخصية</li>
+        <li>Personal Power = من العلاقات — بتزيد بعمل المعروف والتعامل الحسن</li>
+      </ul>
+      <div class="why-wrong"><b>الغلطة الشائعة:</b> الناس بتفتكر عمل المعروف بيضعف سلطة المدير — العكس صح، بيزيد نفوذه الشخصي.</div>
+    </div>
+  </div>
+
+  <!-- TF-7 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">TF-7 <span class="q-src">Final 2025 Q1</span></div>
+    <div class="q-text">"Controlling does not highlight the deviations in the process."</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: خطأ (FALSE)</b>
+      من أهم أهداف الـ Controlling هو رصد وتحديد الـ <strong>Deviations</strong> (الانحرافات عن المعايير). الـ Controlling بالضبط هي اللي بتعمل "Highlight" للانحرافات عشان يتم تصحيحها. بدون الـ Controlling ما حدش هيعرف في انحراف.
+    </div>
+  </div>
+
+  <!-- TF-8 -->
+  <div class="q-item" data-correct="a">
+    <div class="q-num">TF-8 <span class="q-src">Final 2025 Q4</span></div>
+    <div class="q-text">"Corrective actions are necessary after analyzing the deviations."</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">✓</span> صحيح — TRUE</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">✗</span> خطأ — FALSE</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: صحيح (TRUE)</b>
+      لما يتم تحليل الانحرافات ويتم اكتشاف مشكلة، الـ Corrective Action بتبقى ضرورية لرفع الأداء للمعيار المطلوب. السؤال بيتكلم عن "after analyzing the <em>deviations</em>" — وجود الانحرافات يستدعي الإجراء التصحيحي.
+      <div class="why-wrong"><b>ملاحظة:</b> لو الأداء مطابق للمعايير → Work continues بدون Corrective Action. لكن السؤال هنا بيتكلم صراحة عن وجود deviations.</div>
+    </div>
+  </div>
+
+  <div class="q-controls">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-tf')">✓ تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-tf')">↻ إعادة تعيين</button>
+    <div class="q-score" id="score-tf"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     QUIZ B — MCQ
+══════════════════════════════════════════════════ -->
+<div class="quiz-section" id="quiz-mcq">
+  <div class="quiz-header">
+    <div class="quiz-icon">🎯</div>
+    <div>
+      <h3>Quiz B — اختيار متعدد (Multiple Choice)</h3>
+      <p>16 سؤال MCQ حقيقي من 6 امتحانات (2019→2025) · مرتبة حسب الموضوع</p>
+    </div>
+  </div>
+
+  <!-- SECTION: DEFINITIONS -->
+  <div class="q-section-label" style="color:var(--amber)">📖 Definitions &amp; Core Concepts</div>
+
+  <!-- MCQ-1 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">MCQ-1 <span class="q-src">Final 2019 Q1j · Final 2021 Q44 · Final 2022 Q44 · Final 2024 Q23 · Final 2025 Q29</span></div>
+    <div class="q-text">_______ is the systematic effort to compare performance to predetermined standards in order to determine whether performance is in line with those standards, or needs to be corrected.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Planning</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Organizing</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Controlling</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Influencing</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — Controlling</b>
+      ده تعريف الـ Controlling بالنص الحرفي من Mockler. الكلمات المفتاحية: <strong>systematic + predetermined standards + compare + corrected</strong>.
+      <div class="why-wrong"><b>A Planning:</b> بتضع الخطط والمعايير — مش بتقارن الأداء بيها · <b>D Influencing:</b> = guiding people's activities in appropriate directions.</div>
+    </div>
+  </div>
+
+  <!-- MCQ-2 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">MCQ-2 <span class="q-src">Final 2025 Q22</span></div>
+    <div class="q-text">It is the process of ensuring that events conform to plans.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Planning</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Controlling</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Organising</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Directing</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — Controlling</b>
+      "Ensuring that events conform to plans" = ده التعريف المختصر للـ Control. تذكّر: Control = "Ensuring that an event occurs as it was planned to occur" = التأكد من توافق الأحداث مع الخطط.
+    </div>
+  </div>
+
+  <!-- MCQ-3 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">MCQ-3 <span class="q-src">Final 2021 Q45 · Final 2022 Q45 · Final 2024 Q17</span></div>
+    <div class="q-text">_______ and _______ have been called the "Siamese twins of management."</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Setting standards; measuring performance</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Managing; leading</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Planning; controlling</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Organizing; controlling</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — Planning; controlling</b>
+      التوأم السيامي للإدارة = Planning و Controlling — سُمّيا كده لأنهم مرتبطين بشكل لا ينفصل:
+      <ul>
+        <li>Planning بتضع المعايير (Standards)</li>
+        <li>Controlling بتقارن الأداء بيها وبترجع feedback للـ Planning</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- MCQ-4 -->
+  <div class="q-item" data-correct="c">
+    <div class="q-num">MCQ-4 <span class="q-src">Final 2021 Q46 · Final 2022 Q46 · Final 2024 Q19</span></div>
+    <div class="q-text">The level of activity established to serve as a model for evaluating organizational performance is a(n) _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Symptom</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Problem</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Standard</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Correction</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — Standard</b>
+      الـ Standard = "The level of activity established to serve as a model for evaluating organizational performance." ده المعيار اللي الـ Controlling بتقارن بيه الأداء.
+      <div class="why-wrong"><b>A Symptom:</b> علامة تدل على وجود مشكلة · <b>B Problem:</b> عائق تحقيق الأهداف · <b>D Correction:</b> الإجراء التصحيحي.</div>
+    </div>
+  </div>
+
+  <!-- MCQ-5 -->
+  <div class="q-item" data-correct="b">
+    <div class="q-num">MCQ-5 <span class="q-src">Final 2019 Q1i · Final 2021 Q47 · Final 2022 Q47</span></div>
+    <div class="q-text">_______ is managerial activity aimed at bringing organizational performance up to the level of performance standards.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Laddering</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Corrective action</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Reprogramming</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Market correction</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — Corrective action</b>
+      الـ Corrective Action = "Managerial activity aimed at bringing organizational performance up to the level of performance standards." يعني لو الأداء أقل من المطلوب، المدير يعمل تعديل يرجّع الأداء للمعيار.
+      <div class="why-wrong"><b>الفخ:</b> كلمة "bringing performance up to standards" = Corrective Action مباشرة.</div>
+    </div>
+  </div>
+
+  <div class="q-section-label" style="color:var(--cyan)">⚙️ The Controlling Process</div>
+
+  <div class="q-item" data-correct="d">
+    <div class="q-num">MCQ-6 <span class="q-src">Final 2021 Q26 · Final 2022 Q26</span></div>
+    <div class="q-text">Which of the following is an error managers make during the controlling stage of management?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> not establishing departments appropriately</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> not taking the time to communicate properly with organization members</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> establishing improper communication networks</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> not monitoring progress in carrying out plans</div>
+    </div>
+    <div class="q-explain"><b>✅ الإجابة: D — not monitoring progress</b> Controlling أصلاً قائم على متابعة الأداء ومقارنته بالمعايير. فعدم متابعة تنفيذ الخطط خطأ واضح في وظيفة التحكم.</div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">MCQ-7 <span class="q-src">Final 2024 Q27</span></div>
+    <div class="q-text">As part of the controlling process, you have finished measuring the performance of your team. What must you do next?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Take corrective action.</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Compare measured performance to standards.</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Establish a unit of measure to gauge performance.</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Modify past plans.</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — Compare measured performance to standards</b>
+      ترتيب الشابتر: <strong>Measure performance → Compare to standards → Take corrective action</strong>. بما إنه خلّص القياس، يبقى الخطوة التالية المقارنة.
+      <div class="why-wrong"><b>A غلط:</b> التصحيح بييجي بعد المقارنة ومعرفة هل فيه deviation ولا لأ.</div>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="c">
+    <div class="q-num">MCQ-8 <span class="q-src">Final 2025 Q41</span></div>
+    <div class="q-text">Identify the correct sequence of the steps involved in the controlling process.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Measurement, corrective action, standards, comparison, deviations</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Comparison, standards, measurement, deviations, corrective action</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Setting standards, measurement, comparison, analysing deviations, corrective action</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Corrective action, measurement, comparison, deviations, standards</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: C — Setting standards → Measurement → Comparison → Analysing deviations → Corrective action</b>
+      سؤال 2025 بيستخدم النسخة التفصيلية. المعايير جاية من التخطيط، وبعدها القياس والمقارنة وتحليل الانحرافات والتصحيح.
+      <div class="why-wrong"><b>ملاحظة امتحانية:</b> لو السؤال سأل "first step in controlling process" من شرايح Ch21 يبقى Measuring Performance. لكن لو حاطط sequence فيها Setting Standards اختار الترتيب الكامل.</div>
+    </div>
+  </div>
+
+  <div class="q-item" data-correct="a">
+    <div class="q-num">MCQ-9 <span class="q-src">Final 2025 Q44</span></div>
+    <div class="q-text">In controlling, reducing the workers' absenteeism in a factory by 20% is an example of _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Quantitative standard</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Qualitative standard</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Deviation</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</div>
+    </div>
+    <div class="q-explain"><b>✅ الإجابة: A — Quantitative standard</b> وجود رقم واضح <strong>20%</strong> يخليها معيار كمي. أي معيار بنسبة أو رقم = quantitative.</div>
+  </div>
+
+  <div class="q-section-label" style="color:var(--purple)">⚡ Power & Control</div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">MCQ-10 <span class="q-src">Final 2021 Q48 · Final 2022 Q48</span></div>
+    <div class="q-text">Because Jamie is the manager, her subordinates follow her instructions. This is an example of _______ power.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Personal</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Position</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Total</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Social</div>
+    </div>
+    <div class="q-explain">
+      <b>✅ الإجابة: B — Position power</b>
+      "Because Jamie is the manager" معناها الناس بتتبعها بسبب المنصب الرسمي. ده Position Power.
+      <div class="why-wrong"><b>Personal power:</b> من العلاقات والخبرة والاعتماد والتقدير الشخصي، مش من اللقب الوظيفي.</div>
+    </div>
+  </div>
+
+  <div class="q-section-label" style="color:var(--green)">🔁 Planning & Control</div>
+
+  <div class="q-item" data-correct="c">
+    <div class="q-num">MCQ-11 <span class="q-src">Final 2025 Q31</span></div>
+    <div class="q-text">Controlling function brings the management cycle back to the _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Organising function</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Directing function</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Planning function</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> None of the above</div>
+    </div>
+    <div class="q-explain"><b>✅ الإجابة: C — Planning function</b> التحكم بيطلع feedback: هل الخطة نجحت؟ هل المعايير واقعية؟ لذلك بيرجع دورة الإدارة للتخطيط.</div>
+  </div>
+
+  <div class="q-item" data-correct="a">
+    <div class="q-num">MCQ-12 <span class="q-src">Final 2025 Q35</span></div>
+    <div class="q-text">Which of the following statements does not highlight the relationship between planning and controlling?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Planning and controlling are separable twins of management.</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Planning without controlling is meaningless; controlling without planning is blind.</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Planning is prescriptive, controlling is evaluative.</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Planning and controlling are interrelated and interdependent.</div>
+    </div>
+    <div class="q-explain"><b>✅ الإجابة: A — separable twins</b> الشريحة بتقول Planning و Control <strong>virtually inseparable</strong> واتسمّوا Siamese twins. إذن "separable" هي الجملة الغلط.</div>
+  </div>
+
+  <div class="q-item" data-correct="a">
+    <div class="q-num">MCQ-13 <span class="q-src">Final 2024 Q55 · Final 2025 Q51</span></div>
+    <div class="q-text">Planning establishes a ground standard for _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Controlling</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Directing</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Staffing</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Organizing</div>
+    </div>
+    <div class="q-explain"><b>✅ الإجابة: A — Controlling</b> التخطيط بيحدد الأهداف والمعايير، والتحكم يستخدم المعايير دي علشان يقيس الأداء. من غير planning مفيش standard تقارن بيه.</div>
+  </div>
+
+  <div class="q-section-label" style="color:var(--orange)">🎯 Importance & Application</div>
+
+  <div class="q-item" data-correct="d">
+    <div class="q-num">MCQ-14 <span class="q-src">Final 2025 Q26</span></div>
+    <div class="q-text">The controlling function is performed by _______.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Top-level management</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Lower level management</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Middle level management</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> All of the above</div>
+    </div>
+    <div class="q-explain"><b>✅ الإجابة: D — All of the above</b> كل مستويات الإدارة بتعمل control، لكن نطاق التحكم بيختلف حسب المستوى الإداري.</div>
+  </div>
+
+  <div class="q-item" data-correct="b">
+    <div class="q-num">MCQ-15 <span class="q-src">Final 2025 Q40</span></div>
+    <div class="q-text">Which of the following is not important for controlling function?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> It ensures order and discipline.</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> It restricts coordination in action.</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> It helps in judging the accuracy of standards.</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> It improves employee motivation.</div>
+    </div>
+    <div class="q-explain"><b>✅ الإجابة: B — It restricts coordination in action</b> التحكم المفروض يساعد التنسيق ويكشف الانحرافات، مش يقيّد coordination. كلمة restricts هي علامة الغلط.</div>
+  </div>
+
+  <div class="q-item" data-correct="c">
+    <div class="q-num">MCQ-16 <span class="q-src">Final 2024 Q65</span></div>
+    <div class="q-text">Gayle has not established appropriate performance standards for her team. This is a fault in the _______ function of management.</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><span class="q-opt-letter">A</span> Organizing</div>
+      <div class="q-opt" data-val="b"><span class="q-opt-letter">B</span> Influencing</div>
+      <div class="q-opt" data-val="c"><span class="q-opt-letter">C</span> Controlling</div>
+      <div class="q-opt" data-val="d"><span class="q-opt-letter">D</span> Planning</div>
+    </div>
+    <div class="q-explain"><b>✅ الإجابة: C — Controlling</b> Performance standards هي أساس المقارنة في الـ Controlling. لو المعايير مش مناسبة، التحكم كله هيدي نتائج غلط.</div>
+  </div>
+
+  <div class="q-controls">
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz-mcq')">✓ تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz-mcq')">↻ إعادة تعيين</button>
+    <div class="q-score" id="score-mcq"></div>
+  </div>
+</div>
+
+<div class="chapter" id="cheat">
+  <div class="ch-header">
+    <div class="ch-num amber">📋</div>
+    <div class="ch-title">
+      <h2>Cheat Sheet — آخر مراجعة قبل الامتحان</h2>
+      <p>الكلمات اللي بتفتح السؤال بسرعة في Chapter 21</p>
+    </div>
+  </div>
+  <div class="topic">
+    <div class="cheat-grid">
+      <div class="cheat">
+        <h3>Core Definitions</h3>
+        <div class="cheat-item"><div class="cheat-key">Control</div><div class="cheat-val">Ensuring that an event occurs as it was planned to occur.</div></div>
+        <div class="cheat-item"><div class="cheat-key">Controlling</div><div class="cheat-val">Systematic effort to compare performance to predetermined standards.</div></div>
+        <div class="cheat-item"><div class="cheat-key">Standard</div><div class="cheat-val">Level of activity used as a model for evaluating performance.</div></div>
+        <div class="cheat-item"><div class="cheat-key">Corrective action</div><div class="cheat-val">Managerial activity to bring performance up to standards.</div></div>
+      </div>
+      <div class="cheat">
+        <h3>Process ترتيب الخطوات</h3>
+        <div class="cheat-item"><div class="cheat-key">3-step version</div><div class="cheat-val">Measure → Compare → Corrective action</div></div>
+        <div class="cheat-item"><div class="cheat-key">After measuring</div><div class="cheat-val">Compare measured performance to standards</div></div>
+        <div class="cheat-item"><div class="cheat-key">After deviation</div><div class="cheat-val">Analyze ثم corrective action</div></div>
+        <div class="cheat-item"><div class="cheat-key">No deviation</div><div class="cheat-val">Work continues; no corrective action necessary</div></div>
+      </div>
+      <div class="cheat">
+        <h3>Planning + Control</h3>
+        <div class="cheat-item"><div class="cheat-key">Siamese twins</div><div class="cheat-val">Planning and controlling</div></div>
+        <div class="cheat-item"><div class="cheat-key">Planning gives</div><div class="cheat-val">Ground standards for controlling</div></div>
+        <div class="cheat-item"><div class="cheat-key">Control returns to</div><div class="cheat-val">Planning function through feedback</div></div>
+        <div class="cheat-item"><div class="cheat-key">Wrong word</div><div class="cheat-val">"separable twins" غلط؛ هما inseparable</div></div>
+      </div>
+      <div class="cheat">
+        <h3>Power</h3>
+        <div class="cheat-item"><div class="cheat-key">Total power</div><div class="cheat-val">Position Power + Personal Power</div></div>
+        <div class="cheat-item"><div class="cheat-key">Position power</div><div class="cheat-val">From the official organizational position.</div></div>
+        <div class="cheat-item"><div class="cheat-key">Personal power</div><div class="cheat-val">From relationships with others.</div></div>
+        <div class="cheat-item"><div class="cheat-key">Increase personal</div><div class="cheat-val">Obligation · Expertise · Identification · Dependence</div></div>
+      </div>
+      <div class="cheat">
+        <h3>Successful Controlling</h3>
+        <div class="cheat-item"><div class="cheat-key">1</div><div class="cheat-val">Specific organizational activities being focused on</div></div>
+        <div class="cheat-item"><div class="cheat-key">2</div><div class="cheat-val">Different kinds of organizational goals</div></div>
+        <div class="cheat-item"><div class="cheat-key">3</div><div class="cheat-val">Timely corrective action</div></div>
+        <div class="cheat-item"><div class="cheat-key">4</div><div class="cheat-val">Communication of mechanics of the control process</div></div>
+      </div>
+      <div class="cheat">
+        <h3>Exam Traps</h3>
+        <div class="cheat-item"><div class="cheat-key">Guiding activities</div><div class="cheat-val">Influencing, not controlling</div></div>
+        <div class="cheat-item"><div class="cheat-key">20% absenteeism</div><div class="cheat-val">Quantitative standard</div></div>
+        <div class="cheat-item"><div class="cheat-key">Restricts coordination</div><div class="cheat-val">Not important / wrong statement</div></div>
+        <div class="cheat-item"><div class="cheat-key">All managers?</div><div class="cheat-val">Controlling is performed at all levels</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter" id="revision" style="margin-top:24px">
+  <div class="ch-header">
+    <div class="ch-num pink">⚡</div>
+    <div class="ch-title">
+      <h2>Flashcards — مراجعة سريعة</h2>
+      <p>اضغط على أي card علشان تشوف الإجابة</p>
+    </div>
+  </div>
+  <div class="topic">
+    <div class="flashcards">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Control يعني إيه؟</div><div class="fc-hint">tap to flip</div></div><div class="fc-back"><div class="fc-a">Ensuring that an event occurs as it was planned to occur.</div></div></div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Controlling definition؟</div><div class="fc-hint">tap to flip</div></div><div class="fc-back"><div class="fc-a">Compare performance to predetermined standards to decide if correction is needed.</div></div></div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Planning + Controlling اسمهم إيه؟</div><div class="fc-hint">tap to flip</div></div><div class="fc-back"><div class="fc-a">Siamese twins of management.</div></div></div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">خطوات controlling الثلاثة؟</div><div class="fc-hint">tap to flip</div></div><div class="fc-back"><div class="fc-a">Measure performance → Compare to standards → Take corrective action.</div></div></div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Standard = ؟</div><div class="fc-hint">tap to flip</div></div><div class="fc-back"><div class="fc-a">Level of activity used as a model for evaluating organizational performance.</div></div></div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Corrective action = ؟</div><div class="fc-hint">tap to flip</div></div><div class="fc-back"><div class="fc-a">Managerial activity aimed at bringing performance up to standards.</div></div></div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Position power جاية منين؟</div><div class="fc-hint">tap to flip</div></div><div class="fc-back"><div class="fc-a">From the organizational position a manager holds.</div></div></div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">Personal power جاية منين؟</div><div class="fc-hint">tap to flip</div></div><div class="fc-back"><div class="fc-a">From a manager's relationships with others.</div></div></div></div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front"><div class="fc-q">4 factors for successful controlling؟</div><div class="fc-hint">tap to flip</div></div><div class="fc-back"><div class="fc-a">Focus activities · Goal types · Timely correction · Communicate mechanics.</div></div></div></div>
+    </div>
+    <h3 style="font-family:var(--fh);font-size:1rem;color:var(--red);margin:28px 0 12px">🚨 أخطاء شائعة لازم تتجنبها</h3>
+    <div class="danger"><b>1. Guiding activities = Influencing:</b> لو السؤال قال guiding the activities يبقى مش Controlling.</div>
+    <div class="danger"><b>2. Position vs Personal:</b> المنصب الرسمي = Position Power. العلاقات والخبرة والاعتماد = Personal Power.</div>
+    <div class="danger"><b>3. بعد القياس مش تصحيح فوراً:</b> بعد Measure لازم Compare الأول، وبعد المقارنة نقرر هل فيه corrective action.</div>
+    <div class="tip"><b>🎯 نصيحة أخيرة:</b> احفظ الكلمات المفتاحية: predetermined standards = controlling · level of activity = standard · bringing performance up = corrective action · Siamese twins = planning and controlling.</div>
+  </div>
+</div>
+
+</div><!-- /.content -->
+</main>

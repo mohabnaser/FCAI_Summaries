@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CS214 · Data Structures Exam</title>
+<meta name="description" content="Interactive CS214 Data Structures Exam with 73 questions, instant feedback, and detailed explanations.">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05070f;--card:rgba(12,17,35,.85);--card-solid:#0c1123;
+  --border:rgba(90,110,200,.18);--brite:rgba(130,155,230,.3);
+  --p:#82b4ff;--pg:rgba(130,180,255,.15);--s:#aacfff;
+  --acc:#ffd166;--ok:#1fe3a1;--okg:rgba(31,227,161,.11);
+  --er:#ff4f88;--erg:rgba(255,79,136,.11);
+  --txt:#e8eeff;--dim:#6e81b8;--gold:#fbbf24;
+  --glass:rgba(10,17,38,.72);--glass-border:rgba(130,180,255,.11);
+  --purple:#b97fff;--purpleg:rgba(185,127,255,.12);
+  --neon-cyan:rgba(130,180,255,.55);
+  --neon-green:rgba(31,227,161,.55);
+  --neon-red:rgba(255,79,136,.55);
+}
+
+html{scroll-behavior:smooth;height:-webkit-fill-available}
+body{
+  background:var(--bg);color:var(--txt);
+  font-family:'Inter','Space Grotesk',sans-serif;
+  min-height:100vh;min-height:100dvh;
+  min-height:-webkit-fill-available;
+  overflow-x:hidden;line-height:1.6;
+}
+
+/* ═══════════ AURORA BACKGROUND ═══════════ */
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.55;will-change:transform}
+
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  will-change:transform;
+  background:
+    radial-gradient(ellipse 80% 55% at 8% 18%,rgba(90,50,200,.22) 0%,transparent 52%),
+    radial-gradient(ellipse 65% 50% at 92% 82%,rgba(20,90,210,.18) 0%,transparent 52%),
+    radial-gradient(ellipse 55% 45% at 55% 5%,rgba(130,180,255,.09) 0%,transparent 58%),
+    radial-gradient(ellipse 50% 45% at 78% 22%,rgba(185,127,255,.1) 0%,transparent 50%),
+    radial-gradient(ellipse 40% 35% at 25% 75%,rgba(31,227,161,.06) 0%,transparent 55%);
+  animation:auroraShift 16s ease infinite alternate;
+}
+@keyframes auroraShift{
+  0%{filter:hue-rotate(0deg) brightness(1);opacity:1}
+  40%{filter:hue-rotate(22deg) brightness(1.1);opacity:.9}
+  100%{filter:hue-rotate(-18deg) brightness(1.05);opacity:1}
+}
+
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(130,180,255,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(130,180,255,.022) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 100% 100% at center,black 20%,transparent 75%);
+}
+
+/* ─── SCREENS ─── */
+.screen{
+  position:fixed;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:16px;z-index:2;
+  height:100vh;height:100dvh;
+  transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1);
+  will-change:opacity,transform;
+}
+.gone{opacity:0;pointer-events:none;transform:scale(.96) translateY(30px)}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(130,180,255,.18);border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:rgba(130,180,255,.38)}
+
+/* ══════════════════════════════════════════
+   ███████ INTRO ███████
+══════════════════════════════════════════ */
+#intro{gap:24px;text-align:center;position:relative}
+
+/* Glowing orb behind the title */
+#intro::before{
+  content:'';position:absolute;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(90,50,200,.14) 0%,rgba(130,180,255,.05) 40%,transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-58%);pointer-events:none;
+  animation:orbPulse 7s ease infinite;
+}
+@keyframes orbPulse{
+  0%,100%{transform:translate(-50%,-58%) scale(1);opacity:.6}
+  50%{transform:translate(-50%,-58%) scale(1.2);opacity:1}
+}
+
+.badge{
+  display:inline-flex;align-items:center;gap:9px;
+  background:rgba(130,180,255,.05);
+  border:1px solid rgba(130,180,255,.22);
+  border-radius:99px;padding:7px 20px;
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  color:var(--s);letter-spacing:2.5px;text-transform:uppercase;
+  animation:fadeDown .7s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 24px rgba(130,180,255,.05),inset 0 1px 0 rgba(255,255,255,.04);
+  position:relative;
+}
+.badge::before{content:'◈';color:var(--p);font-size:13px;filter:drop-shadow(0 0 6px var(--p))}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-22px)}to{opacity:1;transform:translateY(0)}}
+
+/* MEGA TITLE */
+.main-title{
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(34px,7vw,80px);
+  font-weight:900;letter-spacing:5px;line-height:1.02;
+  background:linear-gradient(128deg,
+    #d0e8ff 0%,
+    #82b4ff 20%,
+    #c084fc 45%,
+    #5fd4ff 68%,
+    #82b4ff 85%,
+    #d0e8ff 100%);
+  background-size:300% 300%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:gradShift 6s ease infinite;
+  filter:drop-shadow(0 0 35px rgba(130,180,255,.28));
+}
+@keyframes gradShift{
+  0%,100%{background-position:0% 60%}
+  50%{background-position:100% 40%}
+}
+
+.sub-title{
+  font-size:15px;color:var(--dim);letter-spacing:.8px;font-weight:400;
+  animation:fadeUp .65s ease .12s both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* INFO CARDS ROW */
+.info-row{
+  display:flex;flex-wrap:wrap;gap:12px;
+  justify-content:center;max-width:680px;width:100%;
+  animation:fadeUp .65s ease .22s both;
+}
+.info-box{
+  background:rgba(10,17,38,.7);
+  backdrop-filter:blur(24px) saturate(200%);
+  border:1px solid rgba(130,180,255,.1);
+  border-radius:18px;padding:18px 24px;text-align:left;flex:1;min-width:130px;
+  transition:transform .38s cubic-bezier(.34,1.56,.64,1),border-color .35s,box-shadow .35s;
+  position:relative;overflow:hidden;
+}
+.info-box::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:100px;height:100px;border-radius:50%;
+  background:radial-gradient(circle,rgba(130,180,255,.07) 0%,transparent 70%);
+  transition:transform .4s;
+}
+.info-box:hover{
+  transform:translateY(-6px) scale(1.03);
+  border-color:rgba(130,180,255,.28);
+  box-shadow:0 16px 45px rgba(130,180,255,.1),0 0 0 1px rgba(130,180,255,.07);
+}
+.info-box:hover::before{transform:scale(1.5)}
+.info-lbl{
+  font-size:9px;color:var(--dim);letter-spacing:2.5px;
+  text-transform:uppercase;margin-bottom:7px;font-weight:600;
+}
+.info-val{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--p);font-weight:700;letter-spacing:.5px}
+
+/* TOGGLE OPTIONS */
+.intro-opts{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;animation:fadeUp .65s ease .32s both}
+.toggle-opt{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(10,17,38,.65);backdrop-filter:blur(18px);
+  border:1px solid rgba(130,180,255,.1);border-radius:14px;
+  padding:13px 20px;cursor:pointer;
+  transition:all .32s cubic-bezier(.4,0,.2,1);
+  font-size:13px;color:var(--dim);user-select:none;
+}
+.toggle-opt:hover{border-color:rgba(130,180,255,.28);color:var(--txt);background:rgba(130,180,255,.06)}
+.toggle-opt.active{
+  border-color:rgba(130,180,255,.38);color:var(--p);
+  background:rgba(130,180,255,.07);
+  box-shadow:0 0 24px rgba(130,180,255,.07);
+}
+.toggle-dot{
+  width:40px;height:22px;border-radius:99px;
+  background:rgba(255,255,255,.06);position:relative;
+  transition:background .3s;border:1px solid rgba(130,180,255,.13);
+}
+.toggle-dot::after{
+  content:'';position:absolute;left:3px;top:3px;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--dim);transition:all .32s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 2px 6px rgba(0,0,0,.4);
+}
+.toggle-opt.active .toggle-dot{background:rgba(130,180,255,.22)}
+.toggle-opt.active .toggle-dot::after{left:21px;background:var(--p);box-shadow:0 0 12px rgba(130,180,255,.65)}
+
+/* START BUTTON */
+.btn-start{
+  background:linear-gradient(135deg,#2541c4 0%,#5080e8 40%,#82b4ff 75%,#60a0ff 100%);
+  background-size:200% 200%;
+  border:none;border-radius:18px;color:#fff;
+  font-family:'Outfit',sans-serif;font-size:16px;font-weight:800;
+  letter-spacing:3.5px;padding:20px 64px;cursor:pointer;
+  transition:all .38s cubic-bezier(.4,0,.2,1);
+  box-shadow:
+    0 8px 32px rgba(130,180,255,.35),
+    0 0 0 1px rgba(255,255,255,.07),
+    inset 0 1px 0 rgba(255,255,255,.22);
+  position:relative;overflow:hidden;
+  animation:fadeUp .65s ease .42s both;
+}
+.btn-start::before{
+  content:'';position:absolute;top:-50%;left:-60%;
+  width:50%;height:200%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:skewX(-20deg);transition:left .7s ease;
+}
+.btn-start:hover{
+  transform:translateY(-5px) scale(1.03);
+  box-shadow:0 16px 55px rgba(130,180,255,.5),0 0 0 1px rgba(255,255,255,.1),inset 0 1px 0 rgba(255,255,255,.25);
+}
+.btn-start:hover::before{left:130%}
+
+.btn-resume{
+  background:linear-gradient(135deg,#0a4030 0%,#0ea570 50%,#1fe3a1 100%);
+  box-shadow:0 8px 32px rgba(31,227,161,.3),inset 0 1px 0 rgba(255,255,255,.18);
+}
+.btn-resume:hover{box-shadow:0 16px 55px rgba(31,227,161,.5)}
+
+.kbd-hint{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);text-align:center;padding:6px 0;animation:fadeUp .65s ease .52s both}
+kbd{
+  display:inline-block;
+  background:rgba(130,180,255,.06);
+  border:1px solid rgba(130,180,255,.16);border-bottom:2px solid rgba(130,180,255,.22);
+  border-radius:5px;padding:2px 7px;font-family:inherit;margin:0 1px;
+  font-size:10.5px;color:var(--s);
+}
+
+/* ══════════════════════════════════════════
+   ███████ QUIZ ███████
+══════════════════════════════════════════ */
+#quiz{justify-content:flex-start;padding:0;overflow-y:auto;align-items:center}
+
+/* TOPBAR */
+.topbar{
+  position:sticky;top:0;width:100%;max-width:920px;
+  padding:12px 22px 14px;
+  background:rgba(5,7,15,.88);backdrop-filter:blur(28px) saturate(200%);
+  border-bottom:1px solid rgba(130,180,255,.07);z-index:10;
+}
+.topbar-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;gap:10px}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+
+.qnum{
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  color:var(--p);white-space:nowrap;
+  background:rgba(130,180,255,.07);border:1px solid rgba(130,180,255,.14);
+  border-radius:7px;padding:5px 11px;font-weight:600;
+}
+.timer{
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  color:var(--acc);display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;
+  background:rgba(255,209,102,.07);border:1px solid rgba(255,209,102,.14);
+  border-radius:7px;padding:5px 11px;
+  min-width: 85px;
+  font-variant-numeric: tabular-nums;
+}
+#timer-val{
+  min-width: 38px;
+  display: inline-block;
+  text-align: left;
+}
+.timer-ico{display:inline-block}
+
+.score-live{
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  color:var(--ok);white-space:nowrap;
+  background:rgba(31,227,161,.07);border:1px solid rgba(31,227,161,.14);
+  border-radius:7px;padding:5px 11px;font-weight:600;
+}
+.btn-map{
+  background:rgba(130,180,255,.07);border:1px solid rgba(130,180,255,.18);
+  border-radius:9px;color:var(--p);font-family:'JetBrains Mono',monospace;
+  font-size:11px;padding:5px 13px;cursor:pointer;transition:all .22s;white-space:nowrap;
+  font-weight:600;
+}
+.btn-map:hover{background:rgba(130,180,255,.15);border-color:var(--p);box-shadow:0 0 18px rgba(130,180,255,.2)}
+
+/* ANIMATED PROGRESS BAR */
+.pbar-track{
+  width:100%;height:5px;
+  background:rgba(130,180,255,.06);
+  border-radius:99px;overflow:hidden;
+}
+.pbar-fill{
+  height:100%;
+  background:linear-gradient(90deg,#9b59f5,#5080ff,#82b4ff,#1fe3a1);
+  background-size:300% 100%;
+  border-radius:99px;
+  transition:width .7s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 14px rgba(130,180,255,.5);
+  animation:barFlow 3s linear infinite;
+}
+@keyframes barFlow{0%{background-position:100% 0}100%{background-position:-200% 0}}
+
+/* QUESTION WRAP */
+.qwrap{width:100%;max-width:920px;padding:22px 20px 120px;margin:0 auto}
+
+/* NAV BUTTONS */
+.nav-row{display:flex;gap:10px;margin-bottom:18px}
+.btn-nav{
+  flex:1;
+  background:rgba(10,17,38,.7);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(130,180,255,.11);border-radius:14px;
+  color:var(--s);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
+  padding:13px 16px;cursor:pointer;
+  transition:all .28s cubic-bezier(.34,1.56,.64,1);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.btn-nav:hover:not(:disabled){
+  background:rgba(130,180,255,.1);
+  border-color:rgba(130,180,255,.33);
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(130,180,255,.12),0 0 0 1px rgba(130,180,255,.06);
+}
+.btn-nav:disabled{opacity:.22;cursor:not-allowed}
+.btn-nav.primary{background:rgba(130,180,255,.09);border-color:rgba(130,180,255,.24);color:var(--p)}
+
+.btn-bookmark{
+  background:rgba(255,209,102,.04);border-color:rgba(255,209,102,.14);
+  color:var(--acc);min-width:50px;max-width:50px;font-size:21px;
+}
+.btn-bookmark:hover{background:rgba(255,209,102,.1);border-color:var(--acc);box-shadow:0 0 22px rgba(255,209,102,.22)}
+.btn-bookmark.active{
+  background:rgba(255,209,102,.12);border-color:var(--acc);
+  text-shadow:0 0 20px var(--acc);
+  box-shadow:0 0 28px rgba(255,209,102,.28);
+}
+
+/* ══════════ QUESTION CARD ══════════ */
+.qcard{
+  background:rgba(8,13,28,.78);
+  backdrop-filter:blur(28px) saturate(220%);
+  border:1px solid rgba(130,180,255,.09);
+  border-radius:26px;padding:38px 34px;margin-bottom:18px;
+  animation:slideIn .42s cubic-bezier(.4,0,.2,1);
+  position:relative;overflow:hidden;
+}
+/* Rainbow top glow line */
+.qcard::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,
+    transparent 5%,rgba(155,89,245,.7) 20%,
+    rgba(130,180,255,.9) 50%,
+    rgba(31,227,161,.5) 80%,transparent 95%);
+  opacity:.7;
+}
+/* Top-center glow halo */
+.qcard::after{
+  content:'';position:absolute;top:-50px;left:50%;transform:translateX(-50%);
+  width:70%;height:100px;
+  background:radial-gradient(ellipse,rgba(130,180,255,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+@keyframes slideIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+
+.qtag{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--acc);letter-spacing:2.5px;
+  display:flex;align-items:center;gap:10px;margin-bottom:16px;
+  text-transform:uppercase;font-weight:700;
+}
+.qtag::before{
+  content:'';width:7px;height:7px;border-radius:50%;
+  background:var(--acc);box-shadow:0 0 10px var(--acc),0 0 20px rgba(255,209,102,.3);
+  animation:dotGlow 2s ease infinite;
+}
+@keyframes dotGlow{0%,100%{box-shadow:0 0 10px var(--acc)}50%{box-shadow:0 0 20px var(--acc),0 0 30px rgba(255,209,102,.4)}}
+.qtag::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,209,102,.2),transparent)}
+
+.qtext{font-size:16.5px;line-height:1.8;color:var(--txt);font-weight:400}
+.qtext strong{color:var(--p);font-weight:600}
+.qtext em{color:var(--purple);font-style:normal;font-weight:500}
+.qtext code{
+  font-family:'JetBrains Mono',monospace;font-size:13px;
+  background:rgba(130,180,255,.08);padding:2px 8px;border-radius:6px;
+  color:#bfd8ff;border:1px solid rgba(130,180,255,.1);
+}
+
+pre.codeblock{
+  font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.72;
+  background:rgba(3,6,18,.9);
+  border:1px solid rgba(130,180,255,.09);
+  border-left:3px solid var(--p);
+  border-radius:14px;padding:20px 22px;margin:16px 0;
+  color:#b8d8ff;overflow-x:auto;white-space:pre;
+  box-shadow:0 6px 28px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.02);
+}
+.kw{color:#ffad6e}.fn{color:#82b4ff}.str{color:#7effa2}.cm{color:#344f70;font-style:italic}
+
+.qvis{
+  background:rgba(3,6,18,.75);
+  border:1px solid rgba(130,180,255,.09);
+  border-radius:16px;padding:26px;margin:18px 0;
+  text-align:center;overflow-x:auto;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.02),0 4px 20px rgba(0,0,0,.3);
+}
+.vis-label{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;
+  color:var(--dim);letter-spacing:2.5px;margin-bottom:14px;text-transform:uppercase;font-weight:600;
+}
+.side-by-side{display:flex;gap:28px;justify-content:center;flex-wrap:wrap}
+.tree-section{text-align:center}
+.tree-section .vis-label{font-size:11px;color:var(--s)}
+
+/* ══════════════ OPTIONS ══════════════ */
+.opts{display:grid;gap:10px;margin-top:6px}
+
+.opt{
+  background:rgba(8,14,32,.65);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(90,110,200,.14);
+  border-radius:16px;padding:17px 22px;cursor:pointer;
+  display:flex;align-items:flex-start;gap:14px;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  animation:optIn .38s cubic-bezier(.4,0,.2,1) both;
+  position:relative;overflow:hidden;
+}
+/* Animated left accent bar */
+.opt::after{
+  content:'';position:absolute;left:0;top:4px;bottom:4px;width:3px;
+  background:linear-gradient(180deg,var(--p),var(--purple));
+  border-radius:0 3px 3px 0;opacity:0;
+  transition:opacity .25s cubic-bezier(.4,0,.2,1);
+}
+.opt:nth-child(1){animation-delay:.05s}
+.opt:nth-child(2){animation-delay:.11s}
+.opt:nth-child(3){animation-delay:.17s}
+.opt:nth-child(4){animation-delay:.23s}
+@keyframes optIn{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
+
+.opt:hover:not(.off){
+  border-color:rgba(130,180,255,.28);
+  background:rgba(130,180,255,.07);
+  transform:translateX(7px);
+  box-shadow:0 5px 20px rgba(130,180,255,.08),inset 0 0 0 1px rgba(130,180,255,.05);
+}
+.opt:hover:not(.off)::after{opacity:1}
+
+/* CORRECT answer */
+.opt.ok{
+  border-color:rgba(31,227,161,.42)!important;
+  background:rgba(31,227,161,.08)!important;
+  box-shadow:0 0 28px rgba(31,227,161,.14),inset 0 0 0 1px rgba(31,227,161,.08)!important;
+  animation:correctPop .48s cubic-bezier(.34,1.56,.64,1)!important;
+}
+@keyframes correctPop{
+  0%{transform:scale(1)}
+  35%{transform:scale(1.018)}
+  65%{transform:scale(.997)}
+  100%{transform:scale(1)}
+}
+
+/* WRONG answer */
+.opt.er{
+  border-color:rgba(255,79,136,.38)!important;
+  background:rgba(255,79,136,.08)!important;
+  box-shadow:0 0 22px rgba(255,79,136,.13)!important;
+  animation:wrongShake .42s cubic-bezier(.4,0,.2,1)!important;
+}
+@keyframes wrongShake{
+  0%,100%{transform:translateX(0)}
+  18%{transform:translateX(-7px)}
+  38%{transform:translateX(6px)}
+  58%{transform:translateX(-4px)}
+  78%{transform:translateX(3px)}
+}
+
+.opt.selected-prev{
+  border-color:rgba(130,180,255,.32)!important;
+  background:rgba(130,180,255,.07)!important;
+}
+.opt.off{cursor:default}
+
+.olbl{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+  color:var(--dim);width:32px;height:32px;
+  border:1px solid rgba(90,110,200,.22);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .28s cubic-bezier(.34,1.56,.64,1);margin-top:1px;
+  background:rgba(90,110,200,.07);
+}
+.opt:hover:not(.off) .olbl{
+  border-color:var(--p);color:var(--p);
+  background:rgba(130,180,255,.12);
+  box-shadow:0 0 14px rgba(130,180,255,.22);
+  transform:scale(1.05);
+}
+.opt.ok .olbl{
+  border-color:var(--ok);color:var(--ok);
+  background:rgba(31,227,161,.1);
+  box-shadow:0 0 16px rgba(31,227,161,.28);
+}
+.opt.er .olbl{
+  border-color:var(--er);color:var(--er);
+  background:rgba(255,79,136,.1);
+  box-shadow:0 0 12px rgba(255,79,136,.22);
+}
+.opt.selected-prev .olbl{border-color:var(--p);color:var(--p);background:var(--pg)}
+
+.otxt{font-size:15px;line-height:1.65;flex:1;color:var(--txt)}
+.otxt code{font-family:'JetBrains Mono',monospace;font-size:13px;color:#bfd8ff}
+.oico{
+  font-size:19px;opacity:0;
+  transition:all .32s cubic-bezier(.34,1.56,.64,1);
+  margin-top:3px;flex-shrink:0;
+}
+.opt.ok .oico{opacity:1;filter:drop-shadow(0 0 10px var(--ok));transform:scale(1.15)}
+.opt.er .oico{opacity:1;filter:drop-shadow(0 0 10px var(--er))}
+
+/* ═══════════ FEEDBACK BOX ═══════════ */
+.feedback{
+  background:rgba(8,13,28,.82);
+  backdrop-filter:blur(24px) saturate(200%);
+  border:1px solid rgba(130,180,255,.09);
+  border-radius:20px;padding:26px 28px;margin-bottom:18px;
+  display:none;animation:fbIn .4s cubic-bezier(.4,0,.2,1);
+  position:relative;overflow:hidden;
+}
+.feedback::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(130,180,255,.45),rgba(155,89,245,.3),transparent);
+}
+@keyframes fbIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.feedback.show{display:block}
+
+.fb-head{display:flex;align-items:center;gap:13px;margin-bottom:13px}
+.fb-ico{font-size:26px}
+.fb-title{font-family:'Outfit',sans-serif;font-size:14.5px;font-weight:700;letter-spacing:.5px}
+.fb-title.ok{color:var(--ok)}
+.fb-title.er{color:var(--er)}
+.fb-body{font-size:14.5px;line-height:1.82;color:var(--dim)}
+.fb-body strong{color:var(--txt);font-weight:600}
+.fb-body em{color:var(--p);font-style:normal}
+.fb-body code{
+  font-family:'JetBrains Mono',monospace;font-size:13px;
+  background:rgba(130,180,255,.08);padding:1px 6px;border-radius:5px;
+  color:#bfd8ff;border:1px solid rgba(130,180,255,.1);
+}
+
+/* ════════════ QUESTION MAP ════════════ */
+.map-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);
+  backdrop-filter:blur(6px);z-index:90;
+  opacity:0;pointer-events:none;transition:opacity .32s;
+}
+.map-overlay.show{opacity:1;pointer-events:auto}
+
+.qmap{
+  position:fixed;top:0;right:-400px;width:380px;max-width:90vw;height:100vh;
+  background:rgba(5,8,20,.97);backdrop-filter:blur(32px);
+  border-left:1px solid rgba(130,180,255,.09);z-index:100;
+  transition:right .4s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  box-shadow:-24px 0 70px rgba(0,0,0,.6);
+}
+.qmap.open{right:0}
+.qmap-head{padding:24px 24px 18px;border-bottom:1px solid rgba(130,180,255,.07)}
+.qmap-title{
+  font-family:'Outfit',sans-serif;font-size:14px;color:var(--p);
+  letter-spacing:1.5px;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:space-between;font-weight:800;
+  text-transform:uppercase;
+}
+.qmap-close{
+  background:rgba(255,79,136,.07);border:1px solid rgba(255,79,136,.2);
+  border-radius:9px;color:var(--er);width:32px;height:32px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:15px;transition:all .22s;
+}
+.qmap-close:hover{background:rgba(255,79,136,.16);border-color:var(--er);box-shadow:0 0 18px rgba(255,79,136,.22)}
+.qmap-stats{display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim)}
+.qmap-stats span{color:var(--p);font-weight:700}
+.qmap-legend{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--dim)}
+.legend-dot{width:10px;height:10px;border-radius:4px;border:1px solid}
+.legend-dot.l-empty{background:transparent;border-color:rgba(90,110,200,.28)}
+.legend-dot.l-answered{background:rgba(130,180,255,.2);border-color:var(--p)}
+.legend-dot.l-correct{background:rgba(31,227,161,.2);border-color:var(--ok)}
+.legend-dot.l-wrong{background:rgba(255,79,136,.2);border-color:var(--er)}
+.legend-dot.l-bookmarked{background:rgba(255,209,102,.15);border-color:var(--acc)}
+
+.qmap-body{flex:1;overflow-y:auto;padding:18px 24px}
+.qmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:8px}
+.qmap-btn{
+  width:46px;height:46px;border-radius:11px;
+  border:1px solid rgba(90,110,200,.16);
+  background:rgba(12,18,40,.7);color:var(--dim);
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  cursor:pointer;transition:all .24s cubic-bezier(.34,1.56,.64,1);
+  position:relative;display:flex;align-items:center;justify-content:center;
+}
+.qmap-btn:hover{
+  border-color:var(--p);transform:scale(1.12);
+  box-shadow:0 0 20px rgba(130,180,255,.22);
+}
+.qmap-btn.current{
+  border-color:var(--p);color:var(--p);
+  box-shadow:0 0 22px rgba(130,180,255,.3);
+  background:rgba(130,180,255,.1);
+}
+.qmap-btn.answered{background:rgba(130,180,255,.08);border-color:rgba(130,180,255,.28);color:var(--p)}
+.qmap-btn.correct{
+  background:rgba(31,227,161,.08);border-color:rgba(31,227,161,.32);color:var(--ok);
+  box-shadow:0 0 12px rgba(31,227,161,.12);
+}
+.qmap-btn.wrong{background:rgba(255,79,136,.08);border-color:rgba(255,79,136,.32);color:var(--er)}
+.qmap-btn .bkmk{
+  position:absolute;top:-4px;right:-4px;font-size:10px;
+  color:var(--acc);text-shadow:0 0 10px var(--acc);
+}
+
+/* ══════════════ RESULTS ══════════════ */
+#results{
+  gap:26px;text-align:center;max-width:680px;margin:0 auto;
+  overflow-y:auto;justify-content:flex-start;
+  padding-top:55px;padding-bottom:55px;
+}
+
+.res-title{
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);
+  letter-spacing:5px;text-transform:uppercase;
+  animation:fadeDown .5s ease;font-weight:600;
+}
+
+.score-ring{
+  width:210px;height:210px;border-radius:50%;
+  background:rgba(8,13,28,.95);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;margin:0 auto;
+  animation:scaleIn .75s cubic-bezier(.34,1.56,.64,1) .2s both;
+}
+@keyframes scaleIn{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:scale(1)}}
+.score-ring::before{
+  content:'';position:absolute;inset:-5px;border-radius:50%;
+  background:conic-gradient(var(--ring-color,var(--p)) calc(var(--pct,0)*1%),rgba(90,110,200,.1) 0);
+  z-index:-1;transition:all 2s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 40px rgba(130,180,255,.2);
+}
+.score-ring::after{content:'';position:absolute;inset:5px;border-radius:50%;background:rgba(8,13,28,.98)}
+.score-ring>*{position:relative;z-index:1}
+.score-big{
+  font-family:'Outfit',sans-serif;font-size:58px;font-weight:900;
+  color:var(--p);line-height:1;
+  text-shadow:0 0 35px rgba(130,180,255,.5);
+}
+.score-tot{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--dim)}
+
+.grade-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;animation:fadeUp .5s ease .4s both}
+.grade-letter{
+  font-family:'Outfit',sans-serif;font-size:88px;font-weight:900;line-height:1;
+  text-shadow:0 0 70px currentColor;
+  animation:gradeGlow 3.5s ease infinite;
+}
+@keyframes gradeGlow{
+  0%,100%{filter:brightness(1) drop-shadow(0 0 30px currentColor)}
+  50%{filter:brightness(1.35) drop-shadow(0 0 60px currentColor)}
+}
+.grade-label{font-size:14px;color:var(--dim);font-weight:500}
+
+.stats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .5s ease .5s both}
+.stat{
+  background:rgba(8,13,28,.8);backdrop-filter:blur(18px);
+  border:1px solid rgba(130,180,255,.09);border-radius:16px;
+  padding:18px 26px;font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--dim);min-width:100px;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s;
+}
+.stat:hover{transform:translateY(-6px);box-shadow:0 14px 35px rgba(130,180,255,.08)}
+.stat span{
+  color:var(--p);font-size:28px;font-weight:900;display:block;margin-bottom:5px;
+  font-family:'Outfit',sans-serif;line-height:1;
+}
+.stat.ok-stat span{color:var(--ok)}
+.stat.er-stat span{color:var(--er)}
+.time-stat span{color:var(--acc)}
+
+.res-btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;animation:fadeUp .5s ease .6s both}
+.btn-restart{
+  background:linear-gradient(135deg,#152a80 0%,#2e56e8 55%,#82b4ff 100%);
+  border:none;border-radius:14px;color:#fff;
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
+  letter-spacing:2.5px;padding:16px 38px;cursor:pointer;transition:all .35s;
+  box-shadow:0 0 35px rgba(130,180,255,.3),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.btn-restart:hover{transform:translateY(-4px);box-shadow:0 0 55px rgba(130,180,255,.55)}
+.btn-review{
+  background:linear-gradient(135deg,#200e5a 0%,#6b21d6 55%,#a78bfa 100%);
+  border:none;border-radius:14px;color:#fff;
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
+  letter-spacing:2.5px;padding:16px 38px;cursor:pointer;transition:all .35s;
+  box-shadow:0 0 35px rgba(167,139,250,.3),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.btn-review:hover{transform:translateY(-4px);box-shadow:0 0 55px rgba(167,139,250,.55)}
+
+.res-msg{font-size:15.5px;color:var(--dim);max-width:480px;line-height:1.75;animation:fadeUp .5s ease .55s both}
+.res-msg strong{color:var(--txt);font-weight:600}
+
+/* REVIEW BANNER */
+.review-banner{
+  position:sticky;top:0;width:100%;max-width:920px;
+  padding:13px 20px;
+  background:rgba(28,10,65,.92);backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(185,127,255,.18);
+  z-index:10;display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.review-label{
+  font-family:'Outfit',sans-serif;font-size:12px;
+  color:var(--purple);letter-spacing:1.5px;
+  display:flex;align-items:center;gap:8px;font-weight:700;text-transform:uppercase;
+}
+.review-nav{display:flex;gap:8px;align-items:center}
+.review-nav .qnum{
+  color:var(--purple);background:rgba(185,127,255,.08);
+  border-color:rgba(185,127,255,.2);
+}
+.btn-exit-review{
+  background:rgba(255,79,136,.08);border:1px solid rgba(255,79,136,.22);
+  border-radius:9px;color:var(--er);font-size:12px;font-family:'Inter',sans-serif;
+  padding:7px 16px;cursor:pointer;transition:all .22s;font-weight:600;
+}
+.btn-exit-review:hover{background:rgba(255,79,136,.18);border-color:var(--er);box-shadow:0 0 18px rgba(255,79,136,.22)}
+
+/* CONFETTI */
+#confetti{position:fixed;inset:0;z-index:200;pointer-events:none}
+
+/* ─── MOBILE ─── */
+@media(max-width:650px){
+  .topbar-row{flex-direction:column;align-items:stretch;gap:10px}
+  .topbar-left, .topbar-right{width:100%;justify-content:space-between}
+  .qcard{padding:24px 18px}
+  .info-row{gap:10px}
+  .info-box{min-width:110px;padding:14px 16px}
+  .stats{gap:10px}
+  .stat{padding:14px 18px;min-width:82px}
+  .stat span{font-size:24px}
+  .qmap{width:100vw;max-width:100vw}
+  .nav-row{gap:8px}
+  .btn-nav{padding:12px 10px;font-size:12px}
+  .res-btns{flex-direction:column;width:100%}
+  .btn-restart,.btn-review{width:100%}
+  .grade-letter{font-size:68px}
+  .score-ring{width:175px;height:175px}
+  .score-big{font-size:46px}
+  .main-title{letter-spacing:2px}
+  .btn-start{padding:18px 48px;font-size:15px}
+  /* Disable heavy filter animations on mobile to prevent repaints */
+  body::before{animation:none}
+  #intro::before{animation:none}
+  .qtag::before{animation:none}
+  #particles{opacity:0.3}
+}
+
+/* SVG TREE NODES */
+.node-circle{fill:url(#ng);stroke-width:2;transition:all .3s}
+.node-txt{
+  fill:#cce4ff;font-family:'JetBrains Mono',monospace;
+  font-weight:700;text-anchor:middle;dominant-baseline:central;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:34px;left:50%;
+  transform:translateX(-50%) translateY(110px);
+  background:rgba(8,13,28,.95);backdrop-filter:blur(24px);
+  border:1px solid rgba(130,180,255,.14);border-radius:16px;
+  padding:14px 30px;font-size:14px;color:var(--txt);
+  z-index:300;transition:transform .48s cubic-bezier(.34,1.56,.64,1),opacity .48s;
+  opacity:0;pointer-events:none;white-space:nowrap;font-weight:500;
+  box-shadow:0 14px 50px rgba(0,0,0,.6),0 0 0 1px rgba(130,180,255,.07);
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast .t-ico{margin-right:10px}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<canvas id="confetti"></canvas>
+
+<!-- ▓▓ INTRO ▓▓ -->
+<div id="intro" class="screen">
+  <div class="badge">Faculty of Computers and Artificial Intelligence</div>
+  <div class="main-title">DATA STRUCTURES</div>
+  <div class="sub-title">CS214 · Interactive Exam · 73 Questions</div>
+  <div class="info-row">
+    <div class="info-box"><div class="info-lbl">Course Code</div><div class="info-val">CS214</div></div>
+    <div class="info-box"><div class="info-lbl">Total Questions</div><div class="info-val">73 MCQ/T-F</div></div>
+    <div class="info-box"><div class="info-lbl">Instructor</div><div class="info-val">Basheer Youssef</div></div>
+    <div class="info-box"><div class="info-lbl">Total Marks</div><div class="info-val">60 pts</div></div>
+  </div>
+  <div class="intro-opts">
+    <div class="toggle-opt" id="opt-shuffle" onclick="toggleShuffle()">
+      <div class="toggle-dot"></div>
+      <span>🔀 Shuffle Questions</span>
+    </div>
+  </div>
+  <div style="font-size:13px;color:var(--dim);max-width:460px;text-align:center;line-height:1.6">
+    Answer each question — get instant feedback with detailed explanations. Navigate freely between questions. Your progress is <strong style="color:var(--p)">auto-saved</strong>.
+  </div>
+  <button class="btn-start" id="btn-start-main" onclick="startQuiz()">START EXAM ›</button>
+  <div id="resume-wrap" style="display:none">
+    <button class="btn-start btn-resume" onclick="resumeQuiz()">↺ RESUME PREVIOUS EXAM</button>
+  </div>
+  <div class="kbd-hint">
+    <kbd>A</kbd><kbd>B</kbd><kbd>C</kbd><kbd>D</kbd> select · <kbd>←</kbd><kbd>→</kbd> navigate · <kbd>B</kbd><sup>ookmark</sup> · <kbd>M</kbd><sup>ap</sup> · <kbd>Enter</kbd> next
+  </div>
+</div>
+
+<!-- ▓▓ QUIZ ▓▓ -->
+<div id="quiz" class="screen gone">
+  <div class="topbar" id="topbar-quiz">
+    <div class="topbar-row">
+      <div class="topbar-left">
+        <span class="qnum" id="qnum">Q 1 / 73</span>
+        <span class="timer" id="timer"><span class="timer-ico">⏱</span> <span id="timer-val">0:00</span></span>
+      </div>
+      <div class="topbar-right">
+        <span class="score-live" id="slive">✓ 0 correct</span>
+        <button class="btn-map" onclick="toggleMap()">☰ Map</button>
+      </div>
+    </div>
+    <div class="pbar-track"><div class="pbar-fill" id="pbar" style="width:0%"></div></div>
+  </div>
+  <div class="qwrap" id="qwrap"></div>
+</div>
+
+<!-- ▓▓ REVIEW ▓▓ -->
+<div id="review" class="screen gone">
+  <div class="review-banner">
+    <div class="review-label">📖 REVIEW MODE</div>
+    <div class="review-nav">
+      <span class="qnum" id="rev-qnum">Q 1 / 73</span>
+      <button class="btn-map" onclick="toggleMap()">☰ Map</button>
+      <button class="btn-exit-review" onclick="exitReview()">✕ Exit</button>
+    </div>
+  </div>
+  <div class="qwrap" id="rev-qwrap"></div>
+</div>
+
+<!-- ▓▓ RESULTS ▓▓ -->
+<div id="results" class="screen gone">
+  <div class="res-title">Exam Complete</div>
+  <div class="score-ring" id="sring">
+    <div class="score-big" id="sbig">0</div>
+    <div class="score-tot" id="stot">/ 73</div>
+  </div>
+  <div class="grade-wrap">
+    <div class="grade-letter" id="gltr">—</div>
+    <div class="grade-label" id="glbl"></div>
+  </div>
+  <div class="stats">
+    <div class="stat ok-stat"><span id="rcnt">0</span>Correct</div>
+    <div class="stat er-stat"><span id="wcnt">0</span>Wrong</div>
+    <div class="stat"><span id="skpcnt">0</span>Skipped</div>
+    <div class="stat time-stat"><span id="ttim">0:00</span>Time</div>
+  </div>
+  <div class="res-msg" id="rmsg"></div>
+  <div class="res-btns">
+    <button class="btn-review" onclick="startReview()">📖 REVIEW ANSWERS</button>
+    <button class="btn-restart" onclick="restartQuiz()">↺ RESTART EXAM</button>
+  </div>
+</div>
+
+<!-- ▓▓ QUESTION MAP ▓▓ -->
+<div class="map-overlay" id="map-overlay" onclick="toggleMap()"></div>
+<div class="qmap" id="qmap">
+  <div class="qmap-head">
+    <div class="qmap-title">
+      <span>Question Map</span>
+      <button class="qmap-close" onclick="toggleMap()">✕</button>
+    </div>
+    <div class="qmap-stats">
+      Answered: <span id="map-answered">0</span>/<span id="map-total">73</span> &nbsp;·&nbsp;
+      Bookmarked: <span id="map-bookmarked">0</span>
+    </div>
+    <div class="qmap-legend">
+      <div class="legend-item"><div class="legend-dot l-empty"></div>Unanswered</div>
+      <div class="legend-item"><div class="legend-dot l-correct"></div>Correct</div>
+      <div class="legend-item"><div class="legend-dot l-wrong"></div>Wrong</div>
+      <div class="legend-item"><div class="legend-dot l-bookmarked"></div>Bookmarked</div>
+    </div>
+  </div>
+  <div class="qmap-body">
+    <div class="qmap-grid" id="qmap-grid"></div>
+  </div>
+</div>
+
+<!-- ▓▓ TOAST ▓▓ -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   PARTICLE SYSTEM
+═══════════════════════════════════════════════ */
+(function initParticles() {
+  const c = document.getElementById('particles');
+  if (window.innerWidth < 768) {
+    c.style.display = 'none';
+    return;
+  }
+  const ctx = c.getContext('2d');
+  let W, H, particles = [];
+  function resize() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
+  window.addEventListener('resize', resize); resize();
+  for (let i = 0; i < 60; i++) {
+    particles.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*2+.5, dx: (Math.random()-.5)*.3, dy: (Math.random()-.5)*.3, o: Math.random()*.3+.05 });
+  }
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    for (const p of particles) {
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(56,189,248,${p.o})`; ctx.fill();
+      p.x += p.dx; p.y += p.dy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+    }
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i+1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < 120) {
+          ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(56,189,248,${.06*(1-d/120)})`; ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ═══════════════════════════════════════════════
+   CONFETTI
+═══════════════════════════════════════════════ */
+function launchConfetti() {
+  const c = document.getElementById('confetti');
+  const ctx = c.getContext('2d');
+  c.width = window.innerWidth; c.height = window.innerHeight;
+  const colors = ['#fbbf24','#34d399','#38bdf8','#fb7185','#a480cf','#f4a261','#90e0ef'];
+  let pieces = [];
+  for (let i = 0; i < 150; i++) {
+    pieces.push({
+      x: Math.random()*c.width, y: Math.random()*c.height - c.height,
+      w: Math.random()*10+5, h: Math.random()*6+3,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      dx: (Math.random()-.5)*4, dy: Math.random()*4+2,
+      rot: Math.random()*360, dr: (Math.random()-.5)*8,
+      o: 1
+    });
+  }
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0,0,c.width,c.height);
+    let alive = false;
+    for (const p of pieces) {
+      if (p.o <= 0) continue;
+      alive = true;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle = p.color; ctx.globalAlpha = p.o;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+      p.x += p.dx; p.y += p.dy; p.rot += p.dr;
+      p.dy += .08;
+      if (frame > 60) p.o -= .008;
+    }
+    frame++;
+    if (alive) requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,c.width,c.height);
+  }
+  draw();
+}
+
+/* ═══════════════════════════════════════════════
+   SVG TREE UTILITIES
+═══════════════════════════════════════════════ */
+function svgTree(edges, nodes, w, h) {
+  let s = `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;overflow:visible">
+  <defs><radialGradient id="ng" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#0d2a46"/><stop offset="100%" stop-color="#030e1e"/></radialGradient></defs>`;
+  for (const [x1,y1,x2,y2] of edges)
+    s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#1a4060" stroke-width="2.5" stroke-linecap="round"/>`;
+  for (const [x,y,v,clr='#38bdf8'] of nodes) {
+    const fs = String(v).length > 2 ? 11 : 14;
+    s += `<circle cx="${x}" cy="${y}" r="22" fill="url(#ng)" stroke="${clr}" stroke-width="2.5"/>`;
+    s += `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="central" fill="#cae8ff" font-size="${fs}" font-family="JetBrains Mono,monospace" font-weight="700">${v}</text>`;
+  }
+  return s + '</svg>';
+}
+
+/* ─── TREE DATA ─── */
+const TREES = {
+  bst1: () => svgTree([
+    [260,38,160,108],[260,38,360,108],
+    [160,108,208,178],[360,108,308,178],[360,108,418,178],
+    [308,178,268,248],[308,178,348,248],[418,178,468,248]
+  ],[
+    [260,38,'5'],[160,108,'3'],[360,108,'9'],
+    [208,178,'4'],[308,178,'7'],[418,178,'12'],
+    [268,248,'6'],[348,248,'8'],[468,248,'20']
+  ],530,285),
+  avl2: () => svgTree([
+    [200,38,100,108],[200,38,305,108],
+    [100,108,55,178],[100,108,145,178],[305,108,370,178]
+  ],[
+    [200,38,'P'],[100,108,'L'],[305,108,'R'],
+    [55,178,'1'],[145,178,'M'],[370,178,'T','#f4a261']
+  ],440,215),
+  tree7: () => svgTree([
+    [240,38,128,108],[240,38,352,108],
+    [128,108,68,178],[128,108,185,178],
+    [352,108,296,178],[352,108,415,178],
+    [296,178,255,248],[415,178,470,248]
+  ],[
+    [240,38,'14'],[128,108,'2'],[352,108,'11'],
+    [68,178,'1'],[185,178,'3'],[296,178,'10'],[415,178,'30'],
+    [255,248,'7'],[470,248,'40']
+  ],510,290),
+  bst10: () => svgTree([
+    [190,38,95,108],[190,38,285,108],
+    [95,108,50,178],[95,108,148,178],
+    [148,178,112,248]
+  ],[
+    [190,38,'14'],[95,108,'2'],[285,108,'16'],
+    [50,178,'1'],[148,178,'5'],[112,248,'4']
+  ],360,285),
+  avl31i: () => svgTree([
+    [160,38,90,108],[160,38,230,108],
+    [90,108,50,178],[90,108,128,178]
+  ],[
+    [160,38,'10'],[90,108,'4'],[230,108,'13'],
+    [50,178,'2'],[128,178,'8']
+  ],300,215),
+  avl31ii: () => svgTree([
+    [120,48,65,118],[120,48,175,118]
+  ],[
+    [120,48,'11'],[65,118,'10'],[175,118,'13']
+  ],260,165),
+  heap36: () => svgTree([
+    [255,38,155,115],[255,38,355,115],
+    [155,115,95,195],[155,115,215,195],
+    [355,115,295,195],[355,115,418,195]
+  ],[
+    [255,38,'97'],[155,115,'53'],[355,115,'59'],
+    [95,195,'26'],[215,195,'41'],[295,195,'58'],[418,195,'31']
+  ],510,235),
+};
+
+/* ═══════════════════════════════════════════════
+   QUESTION DATA (73 questions) — FIXED
+═══════════════════════════════════════════════ */
+const Q_ORIGINAL = [
+  // ── 1 ──
+  {q:`The BST below was built by inserting items in sequence. Which input sequence will <strong>NOT</strong> produce this tree?`,
+  v:'bst1',
+  o:['5 3 4 9 12 7 8 6 20','5 9 3 7 6 8 4 12 20','5 9 7 8 6 12 20 3 4','5 9 3 6 7 8 4 12 20'],a:3,
+  x:`Sequence D inserts 6 before 7. Since 6 < 9, it becomes the <em>left child of 9</em>. Then 7 > 6 becomes 6's right child — not 9's left child as in the target tree. The target tree has <strong>7 as the direct left child of 9</strong> (with 6 as 7's left child). Sequences A, B, C all produce the correct BST.`},
+
+  // ── 2 ──
+  {q:`The figure shows a balanced AVL tree with nodes L, P, M, 1, R, T. If a node is inserted as a child of node <strong>T</strong>, how many nodes will become unbalanced?`,
+  v:'avl2',
+  o:['3','2','1','4'],a:2,
+  x:`Inserting a child of T increases T's height from 0 to 1. This causes T's parent <strong>R</strong> to become unbalanced (balance factor becomes −2). R's parent <strong>P</strong> also experiences a height change, but its balance factor becomes −1, so it remains balanced. Therefore, only <strong>1 node</strong> (R) becomes unbalanced.`},
+
+  // ── 3 ──
+  {q:`What does this function do?<pre class="codeblock"><span class="kw">void</span> <span class="fn">func</span>(Tree1 root) {
+  cout &lt;&lt; root-&gt;<span class="fn">data</span>();   <span class="cm">// visits root first</span>
+  <span class="fn">func</span>(root-&gt;<span class="fn">left</span>());
+  <span class="fn">func</span>(root-&gt;<span class="fn">right</span>());
+}</pre>`,
+  o:['Inorder','Postorder','Preorder','Level-order'],a:2,
+  x:`The function outputs node data <strong>before</strong> recursing into left and right subtrees. This is <em>Root → Left → Right</em> order — the definition of <strong>Preorder traversal</strong>.<br>• Inorder = Left → Root → Right<br>• Postorder = Left → Right → Root<br>• Level-order uses a queue (not recursion).`},
+
+  // ── 4 ──
+  {q:`What are the <strong>worst-case</strong> and <strong>average-case</strong> time complexities of an AVL tree?`,
+  o:['O(n), O(n)','O(logn), O(logn)','O(n), O(logn)','O(logn), O(n)'],a:1,
+  x:`AVL trees maintain a strict balance condition (height difference ≤ 1) at every node, guaranteeing tree height of <strong>O(log n)</strong>. Therefore search, insert, and delete all run in <strong>O(log n)</strong> for both worst-case and average-case.`},
+
+  // ── 5 ──
+  {q:`What is the time complexity of finding the <strong>minimum element</strong> in a balanced binary search tree?`,
+  o:['n','n lgn','lgn','1'],a:2,
+  x:`The minimum element is always the <strong>leftmost node</strong>. In a balanced BST of height h, traversing left h times takes O(h) = <strong>O(log n)</strong> steps.`},
+
+  // ── 6 ──
+  {q:`What is the time complexity of <strong>sorting</strong> a list of numbers stored in a Binary Search Tree?`,
+  o:['n','n lgn','lgn','1'],a:0,
+  x:`Sorting is accomplished via <strong>inorder traversal</strong> (Left → Root → Right), which visits each of the n nodes exactly <em>once</em>. Total complexity = <strong>O(n)</strong>, regardless of balance.`},
+
+  // ── 7 ──
+  {q:`What is the <strong>postorder traversal</strong> of the following tree?`,
+  v:'tree7',
+  o:['1, 3, 2, 7, 40, 10, 30, 11, 14','1, 3, 2, 7, 10, 40, 30, 11, 14','1, 2, 3, 14, 7, 10, 11, 40, 30','1, 3, 2, 14, 7, 40, 10, 30, 11'],a:1,
+  x:`Postorder = <em>Left → Right → Root</em>. <br>Node 2's subtree → 1, 3, 2.<br>Node 10's subtree → 7 (left child), then 10.<br>Node 30's subtree → 40 (right child), then 30.<br>Node 11 (right subtree root) → 11.<br>Root → 14.<br>Full result: <strong>1, 3, 2, 7, 10, 40, 30, 11, 14</strong>.`},
+
+  // ── 8 ──
+  {q:`How many <strong>leaf nodes</strong> does the tree from Q7 have?`,
+  v:'tree7',
+  o:['1','2','3','4'],a:3,
+  x:`Leaves are nodes with <em>no children</em>. From the tree: <strong>1</strong> (no children), <strong>3</strong> (no children), <strong>7</strong> (left child of 10, no children), <strong>40</strong> (right child of 30, no children). That is <strong>4 leaf nodes</strong>.`},
+
+  // ── 9 ──
+  {q:`A binary tree has <strong>16 nodes</strong>. What is the minimum possible depth?<br><small style="color:var(--dim)"></small>`,
+  o:['5','2','3','4'],a:3,
+  x:`A <em>perfect</em> binary tree of depth 3 holds at most 2⁴−1 = <strong>15 nodes</strong>. For 16 nodes we must have at least one node at depth 4. A complete binary tree with 16 nodes (all levels full except the last, filled left-to-right) has depth <strong>4</strong>.`},
+
+  // ── 10 ──
+  {q:`Remove the root (14) and replace it with the <strong>inorder predecessor</strong> (largest value in the left subtree). What is the new root?`,
+  v:'bst10',
+  o:['1','4','5','16'],a:2,
+  x:`The inorder predecessor of 14 is the <em>rightmost node in the left subtree</em>. Starting at 2 and going right: 2 → 5 (right child) → 5 has no right child. Therefore <strong>5</strong> is the largest value in the left subtree and becomes the new root.`},
+
+  // ── 11 ──
+  {q:`In a heap stored as an array, if a node's value is at <code>data[i]</code>, where is its <strong>left child</strong> stored?`,
+  o:['data[i+1]','data[i+2]','data[2*i+1]','data[2*i+2]'],a:2,
+  x:`In a 0-indexed array representation of a heap:<br>• <strong>Left child</strong> of node i → index <strong>2i + 1</strong><br>• Right child → index 2i + 2<br>• Parent of node i → index ⌊(i−1)/2⌋`},
+
+  // ── 12 ──
+  {q:`To produce a <strong>sorted sequence</strong> from a Binary Search Tree, which traversal should be used?`,
+  o:['Inorder','Postorder','Preorder','Level-order'],a:0,
+  x:`<strong>Inorder traversal</strong> (Left → Root → Right) visits BST nodes in ascending sorted order. This is the fundamental property of a BST: the inorder sequence is always sorted.`},
+
+  // ── 13 ──
+  {q:`Which data structure most naturally and efficiently represents a <strong>heap</strong>?`,
+  o:['stack','Doubly linked list','Linear Array','Linked list'],a:2,
+  x:`A <strong>linear (1D) array</strong> is ideal for heaps. The parent–child relationship is captured by simple index arithmetic (parent at ⌊i/2⌋, children at 2i and 2i+1), giving O(1) access with no pointer overhead and excellent cache performance.`},
+
+  // ── 14 ──
+  {q:`What is the <strong>minimum number of fields</strong> in each node of a doubly linked list?`,
+  o:['2','3','4','None of the above'],a:1,
+  x:`Each node in a doubly linked list requires exactly <strong>3 fields</strong>:<br>1. <em>data</em> — the stored value<br>2. <em>next</em> — pointer to the next node<br>3. <em>prev</em> — pointer to the previous node`},
+
+  // ── 15 ──
+  {q:`The elements of a linked list are stored in…`,
+  o:['Structure','array','Anywhere the computer has space for them','contiguous memory locations'],a:2,
+  x:`Unlike arrays, linked list nodes are <strong>not stored in contiguous memory</strong>. Each node is a dynamically allocated object placed wherever the memory allocator finds free space. Nodes are connected through pointers, not physical adjacency.`},
+
+  // ── 16 ──
+  {q:`A <strong>parentheses checker</strong> program would best be implemented using…`,
+  o:['List','Queue','Stack','Any of the above'],a:2,
+  x:`A <strong>Stack</strong> is perfect for parentheses checking. Push every opening bracket onto the stack; when a closing bracket is encountered, pop from the stack and verify it matches. The LIFO property ensures brackets are matched in correct nesting order.`},
+
+  // ── 17 ──
+  {q:`To perform <strong>level-order traversal</strong> (BFS) on a binary tree, which data structure is required?`,
+  o:['Hash table','Queue','Binary search tree','Stack'],a:1,
+  x:`Level-order traversal processes nodes level by level (left to right). A <strong>Queue</strong> (FIFO) is used: enqueue the root, then repeatedly dequeue a node, visit it, and enqueue its children. The FIFO property ensures level-by-level processing.`},
+
+  // ── 18 ──
+  {q:`Which data structure is required to convert an <strong>infix expression to postfix</strong> notation?`,
+  o:['Hash table','Queue','Binary search tree','Stack'],a:3,
+  x:`The <strong>Shunting-Yard Algorithm</strong> uses a Stack for the infix→postfix conversion. Operands go directly to output; operators are pushed/popped from the stack based on precedence; parentheses control the order of popping.`},
+
+  // ── 19 ──
+  {q:`A BST whose left and right subtrees differ in height by <strong>at most 1</strong> at every node is called…`,
+  o:['AVL tree','Red-black tree','Lemma tree','None of the above'],a:0,
+  x:`This is the precise definition of an <strong>AVL tree</strong> (named after Adelson-Velsky and Landis). The balance factor (left height − right height) at every node must be in {−1, 0, +1}. Red-Black trees use a different (color-based) balancing strategy.`},
+
+  // ── 20 ──
+  {q:`Inserting an item into a <em>non-full</em> stack is called ___ and deleting from a <em>non-empty</em> stack is called ___`,
+  o:['push, pop','pop, push','insert, delete','delete, insert'],a:0,
+  x:`Standard stack terminology: <strong>push</strong> adds an element to the top; <strong>pop</strong> removes the top element. Both operate in O(1) time and only at the top end of the stack (LIFO).`},
+
+  // ── 21 ──
+  {q:`A data structure where items are <strong>added at one end</strong> and <strong>removed from the other</strong> is called…`,
+  o:['Stack','Queue','List','linked list'],a:1,
+  x:`This describes a <strong>Queue</strong> — a FIFO (First In, First Out) structure. Items are enqueued at the rear and dequeued from the front. Real-world analogy: a line of people waiting.`},
+
+  // ── 22 ──
+  {q:`Which data structure is most useful when data must be stored and then <strong>retrieved in reverse order</strong>?`,
+  o:['Stack','Queue','List','linked list'],a:0,
+  x:`A <strong>Stack</strong> is the ideal choice. Its LIFO (Last In, First Out) property naturally reverses order: the last item pushed is the first item popped. Applications include undo operations, recursive call management, and expression evaluation.`},
+
+  // ── 23 ──
+  {q:`Which data structure <strong>cannot</strong> store non-homogeneous (mixed-type) data elements?`,
+  o:['Arrays','Records','Pointers','None'],a:0,
+  x:`Traditional <strong>Arrays</strong> require all elements to be of the same data type — they are homogeneous by definition. Records (structs) can hold mixed types. Stacks and linked lists can be implemented to hold any data type.`},
+
+  // ── 24 ──
+  {q:`Which of the following is a <strong>non-linear</strong> data structure?`,
+  o:['Stacks','List','Strings','Trees'],a:3,
+  x:`<strong>Trees</strong> are non-linear because elements have hierarchical (parent-child) relationships — a single element can have multiple children. Stacks, lists, and strings are linear — each element has at most one predecessor and one successor.`},
+
+  // ── 25 ──
+  {q:`Which data structure is most suitable for representing a <strong>hierarchical relationship</strong>?`,
+  o:['queue','stack','Tree','array'],a:2,
+  x:`A <strong>Tree</strong> is the natural structure for hierarchy: a root node with children, each having their own children, and so on. Examples: file systems, org charts, HTML DOM, and BSTs. Stacks/queues/arrays are linear and cannot express hierarchy directly.`},
+
+  // ── 26 ──
+  {q:`Match the search algorithm properties:<br><br>a) Completeness &nbsp; i) How long does it take to find a solution<br>b) Time Complexity &nbsp; ii) How much memory is needed<br>c) Space Complexity &nbsp; iii) Is the strategy guaranteed to find a solution when one exists`,
+  o:['a-iii, b-ii, c-i','a-i, b-ii, c-iii','a-iii, b-i, c-ii','a-i, b-iii, c-ii'],a:2,
+  x:`<strong>Completeness</strong> → iii (guaranteed to find a solution if one exists). <strong>Time Complexity</strong> → i (how long the search takes). <strong>Space Complexity</strong> → ii (memory requirements). This is standard AI/algorithms search property terminology.`},
+
+  // ── 27 ──
+  {q:`In ___ search, the algorithm starts at the beginning of the list and checks every element in order.`,
+  o:['Sequential search','Binary search','Hash Search','Binary Tree search'],a:0,
+  x:`<strong>Sequential (Linear) search</strong> examines elements one by one from the start. It works on both sorted and unsorted data but is O(n) in the worst case. Binary search requires sorted data and is O(log n); hash search is O(1) average.`},
+
+  // ── 28 ──
+  {q:`Which of the following sorting algorithms is <strong>NOT</strong> an in-place sort?`,
+  o:['Insertion Sort','Bubble Sort','Merge Sort','Heap Sort'],a:2,
+  x:`<strong>Merge Sort</strong> requires O(n) auxiliary space for merging — it is <em>not</em> in-place. The other algorithms (Insertion, Bubble, Heap) sort within the original array using only O(1) extra space. Heap Sort builds the heap in-place.`},
+
+  // ── 29 ──
+  {q:`Which statements are true?<br><br>i) Using singly linked lists and circular lists, traversal backwards is <strong>not possible</strong>.<br>ii) To find the predecessor of a node in a singly linked list, you must traverse <strong>from the first node</strong>.`,
+  o:['i-only','ii-only','Both i and ii','None of both'],a:2,
+  x:`<strong>Both statements are true</strong>. Singly linked (and circular) lists have only forward pointers — you cannot go backward. To find a node's predecessor in a singly linked list, you must start from the head and traverse until you find the node before the target — O(n).`},
+
+  // ── 30 ──
+  {q:`Which of the following is <strong>NOT</strong> a standard queue operation?`,
+  o:['Insertion','Deletion','Retrieval','Traversal'],a:3,
+  x:`Standard queue operations are: <strong>Enqueue</strong> (insert at rear), <strong>Dequeue</strong> (remove from front), and <strong>Peek/Front</strong> (view front element without removing). <em>Traversal</em> (visiting every element) is not a standard abstract queue operation — it breaks the abstraction.`},
+
+  // ── 31 ──
+  {q:`Which of the following diagrams satisfies the <strong>AVL tree property</strong>?`,
+  v:'avl31',
+  o:['only i','both i and ii','only ii','i is not a binary search tree'],a:1,
+  x:`<strong>Both trees are valid AVL trees.</strong><br>Tree i: All balance factors are within [−1, +1] and it follows BST ordering (2 < 4 < 8 < 10 < 13). ✓<br>Tree ii: Root 11 has left child 10 and right child 13. All balance factors = 0. ✓<br>Both satisfy the BST property and AVL balance condition.`},
+
+  // ── 32 ──
+  {q:`What is the <strong>maximum height</strong> of an AVL tree with <em>p</em> nodes?`,
+  o:['p','log(p)','log(p)/2','p/2'],a:1,
+  x:`By the AVL balance property, the maximum height is bounded by <strong>O(log p)</strong> — specifically, h ≤ 1.44 × log₂(p+2) − 1.328. This logarithmic height guarantee is what makes AVL trees efficient for all operations.`},
+
+  // ── 33 ──
+  {q:`To restore the AVL property after inserting an element, we start at the <strong>insertion point and move toward the root</strong>. Is this true?`,
+  o:['true','false'],a:0,
+  x:`<strong>True.</strong> After insertion, we backtrack from the newly inserted node up to the root, checking each ancestor's balance factor. If an imbalance is found, we perform a rotation (single or double). We always move bottom-up (from insertion point toward root) to find and fix violations.`},
+
+  // ── 34 ──
+  {q:`Given an empty AVL tree, how would you construct it from a set of numbers <strong>without performing any rotations</strong>?`,
+  o:['just build the tree with the given input','find the median of the set of elements given, make it as root and construct the tree','use trial and error','use dynamic programming to build the tree'],a:1,
+  x:`Insert the <strong>median as the root</strong>, then recursively apply the same strategy to the left and right halves. This naturally produces a balanced tree — no rotations are needed because the tree is balanced by construction.`},
+
+  // ── 35 ──
+  {q:`What is the time complexity of the <strong>build-heap</strong> (heapify) operation?`,
+  o:['O(N)','O(N log N)','O(log N)','O(N^2)'],a:0,
+  x:`Despite appearing to be O(N log N), the <strong>build-heap</strong> operation is actually <strong>O(N)</strong>. Most nodes are near the leaves and require very little work to heapify. A careful amortized analysis shows the total work converges to O(N).`},
+
+  // ── 36 ──
+  {q:`What is the array representation of the heap shown below?`,
+  v:'heap36',
+  o:['26,53,41,97,58,59,31','26,31,41,53,58,59,97','97,53,59,26,41,58,31','97,59,53,41,26,31,58'],a:2,
+  x:`The array representation of a heap follows <strong>level-order (BFS) traversal</strong>: read nodes level by level, left to right.<br>Level 0: 97<br>Level 1: 53, 59<br>Level 2: 26, 41, 58, 31<br>Result: <strong>[97, 53, 59, 26, 41, 58, 31]</strong>`},
+
+  // ── 37 ──
+  {q:`What is the typical running time of <strong>Heap Sort</strong>?`,
+  o:['O(N)','O(N log N)','O(log N)','O(N^2)'],a:1,
+  x:`Heap Sort: Build-heap costs O(N), then extract the max (or min) N times — each extraction takes O(log N) to restore the heap. Total: O(N) + N × O(log N) = <strong>O(N log N)</strong>. This is both worst-case and average-case.`},
+
+  // ── 38 ──
+  {q:`What is the time complexity of a <strong>delete-min</strong> (or delete-max) operation in a heap?`,
+  o:['O(N)','O(N log N)','O(log N)','O(N^2)'],a:2,
+  x:`After removing the root (min/max), the last element is placed at the root and <em>sifted down</em>. The sift-down travels at most h = O(log N) levels. Total: <strong>O(log N)</strong>.`},
+
+  // ── 39 ──
+  {q:`Unsorted <strong>singly linked list</strong> with both a <strong>head</strong> and <strong>tail</strong> pointer. Which operations are O(1)?<br><br>i) Insert at front &nbsp; ii) Insert at end &nbsp; iii) Delete front node &nbsp; iv) Delete last node`,
+  o:['I and II','I and III','I, II and III','I and IV'],a:2,
+  x:`With both head and tail pointers:<br>• <strong>i) Insert front</strong>: Update new_node.next = head, head = new_node → O(1) ✓<br>• <strong>ii) Insert end</strong>: Update tail.next = new_node, tail = new_node → O(1) ✓<br>• <strong>iii) Delete front</strong>: Update head = head.next → O(1) ✓<br>• iv) Delete last: Needs traversal to find second-to-last → O(n) ✗<br>Therefore, operations <strong>I, II, and III</strong> are all O(1).`},
+
+  // ── 40 ──
+  {q:`Unsorted <strong>singly linked list</strong> with <strong>head pointer only</strong>. Which operations are O(1)?<br><br>i) Insert at front &nbsp; ii) Insert at end &nbsp; iii) Delete front node &nbsp; iv) Delete last node`,
+  o:['I and II','I and III','I, II and IV','None'],a:1,
+  x:`With head pointer only:<br>• <strong>i) Insert front</strong>: O(1) — just update head ✓<br>• <strong>iii) Delete front</strong>: O(1) — just update head ✓<br>• ii) Insert end: Requires traversal to reach last node → O(n) ✗<br>• iv) Delete last: Requires traversal → O(n) ✗`},
+
+  // ── 41 ──
+  {q:`Unsorted <strong>doubly linked list</strong> with <strong>head</strong> and <strong>tail</strong> pointers. Which operations are O(1)?<br><br>i) Insert at front &nbsp; ii) Insert at end &nbsp; iii) Delete front node &nbsp; iv) Delete end node`,
+  o:['I and II','I and III','I, II and III','I, II, III and IV'],a:3,
+  x:`With both head and tail pointers AND prev/next pointers in each node:<br>• <strong>i) Insert front</strong>: O(1) — update head ✓<br>• <strong>ii) Insert end</strong>: O(1) — update tail ✓<br>• <strong>iii) Delete front</strong>: O(1) — update head and prev of new head ✓<br>• <strong>iv) Delete end</strong>: O(1) — tail gives direct access; use prev pointer to update ✓`},
+
+  // ── 42 ──
+  {q:`In a <strong>circular linked list</strong>, how many pointer modifications does inserting a new node require?`,
+  o:['One pointer','Two pointer','Three pointer','None'],a:1,
+  x:`Inserting a node into a circular linked list requires modifying <strong>two pointers</strong>:<br>1. New node's <em>next</em> pointer → points to the next node<br>2. The previous node's <em>next</em> pointer → points to the new node<br>This maintains the circular structure.`},
+
+  // ── 43 ──
+  {q:`The function below moves the <strong>last element to the front</strong> of a singly linked list. Choose the correct replacement for the blank:
+<pre class="codeblock"><span class="kw">typedef struct</span> node { <span class="kw">int</span> value; <span class="kw">struct</span> node* next; }Node;
+Node* <span class="fn">move_to_front</span>(Node* head) {
+  Node *p, *q;
+  <span class="kw">if</span>((head == NULL) || (head->next == NULL)) <span class="kw">return</span> head;
+  q = NULL; p = head;
+  <span class="kw">while</span>(p->next != NULL) { q = p; p = p->next; }
+  <span class="cm">/* ??? */</span>
+  <span class="kw">return</span> head;
+}</pre>`,
+  o:['q=NULL; p->next=head; head=p;','q->next=NULL; head=p; p->next=head;','head=p; p->next=q; q->next=NULL;','q->next=NULL; p->next=head; head=p;'],a:3,
+  x:`After the loop: <strong>p</strong> = last node, <strong>q</strong> = second-to-last node.<br>Step 1: <code>q->next = NULL</code> — detach last node from the list.<br>Step 2: <code>p->next = head</code> — last node now points to old head.<br>Step 3: <code>head = p</code> — last node becomes new head.<br>Option B is wrong because it sets head=p first, then p->next=head creates a self-loop.`},
+
+  // ── 44 ──
+  {q:`The function below rearranges a singly linked list. Called with <code>1→2→3→4→5→6→7</code>, what is the result?
+<pre class="codeblock"><span class="kw">void</span> <span class="fn">rearrange</span>(<span class="kw">struct</span> node* list) {
+  <span class="kw">struct</span> node *p, *q; <span class="kw">int</span> temp;
+  <span class="kw">if</span>(!list || !list->next) <span class="kw">return</span>;
+  p = list; q = list->next;
+  <span class="kw">while</span>(q) {
+    temp = p->value; p->value = q->value; q->value = temp;
+    p = q->next; q = p ? p->next : <span class="str">0</span>;
+  }
+}</pre>`,
+  o:['1, 2, 3, 4, 5, 6, 7','2, 1, 4, 3, 6, 5, 7','1, 3, 2, 5, 4, 7, 6','2, 3, 4, 5, 6, 7, 1'],a:1,
+  x:`The function swaps values in adjacent pairs:<br>Pair (1,2) → swap → 2,1<br>Pair (3,4) → swap → 4,3<br>Pair (5,6) → swap → 6,5<br>Node 7 has no partner (odd length).<br>Result: <strong>2, 1, 4, 3, 6, 5, 7</strong>`},
+
+  // ── 45 ──
+  {q:`A BST has height <em>h</em> (number of edges on longest root-to-leaf path). The <strong>maximum number of nodes</strong> possible is?`,
+  o:['2^{h-1}-1','2^{h+1}-1','2^{h}+1','2^{h-1}+1'],a:1,
+  x:`A <em>perfect</em> binary tree (all levels fully filled) maximizes node count. A perfect tree of height h has 2^0 + 2^1 + … + 2^h = <strong>2^(h+1) − 1</strong> nodes total.`},
+
+  // ── 46 ──
+  {q:`The number of <strong>external (leaf) nodes</strong> in a full binary tree with <em>n</em> internal nodes is?`,
+  o:['n','n+1','2n','2n+1'],a:1,
+  x:`In a full binary tree (every node has 0 or 2 children), the number of leaves is always exactly <strong>n + 1</strong> where n is the number of internal nodes. This can be proved by induction: base case n=0 gives 1 leaf (just the root).`},
+
+  // ── 47 ──
+  {q:`We're searching for <strong>363</strong> in a BST containing numbers 1–1000. Which sequence of examined nodes is <strong>impossible</strong>?`,
+  o:['2, 252, 401, 398, 330, 344, 397, 363','924, 220, 911, 244, 898, 258, 362, 363','925, 202, 911, 240, 912, 245, 258, 363','2, 399, 387, 219, 266, 382, 381, 278, 363'],a:2,
+  x:`In a valid BST search, every subsequent node must stay within the narrowing valid range.<br>Sequence C: After visiting 911, we go left (because 363 < 911). The left subtree of 911 can only contain values <strong>less than 911</strong>. But then we visit <strong>912</strong> — which is greater than 911 — impossible in a valid BST! This sequence is invalid.`},
+
+  // ── 48 ──
+  {q:`A complete binary tree has height <em>h</em> > 0. The <strong>minimum number of leaf nodes</strong> in terms of h is?`,
+  o:['2^{h}-1','2^{h-1}+1','2^{h}+1','2^{h-1}'],a:3,
+  x:`The minimum occurs when only <strong>one node exists at the last level</strong> (level h). At level h−1 there are 2^(h−1) nodes; exactly one is the parent of the node at level h (so it's not a leaf), and the rest 2^(h−1) − 1 are leaves. Adding the single leaf at level h gives: (2^(h−1) − 1) + 1 = <strong>2^(h−1)</strong> leaf nodes.`},
+
+  // ── 49 ──
+  {q:`The runtime for <strong>traversing and printing all nodes</strong> of a BST with <em>n</em> nodes in order is:`,
+  o:['O(nlg(n))','O(n)','O(n^2)','O(log(n))'],a:1,
+  x:`Inorder traversal visits each node <em>exactly once</em>, performing constant work per node. Total runtime = <strong>O(n)</strong>. The "n log n" option would apply if work per node was O(log n), which it is not for simple printing.`},
+
+  // ── 50 ──
+  {q:`To sort <em>n</em> numbers in <strong>ascending order</strong> in O(n log n) time, which heap-based structure should be used?`,
+  o:['Binary tree','Binary search tree','Max-heap','Min-heap'],a:2,
+  x:`Standard in-place <strong>Heap Sort</strong> for ascending order uses a <strong>Max-Heap</strong>. The maximum element is extracted from the root and swapped with the last element in the array, placing it in its correct final position at the end. As this process repeats, the array becomes sorted in ascending order.`},
+
+  // ── 51 ──
+  {q:`A BST is built by inserting: <strong>50, 15, 62, 5, 20, 58, 91, 3, 8, 37, 60, 24</strong> (in this order). How many nodes are in the <strong>left subtree</strong> and <strong>right subtree</strong> of the root?`,
+  o:['(4, 7)','(7, 4)','(8, 3)','(3, 8)'],a:1,
+  x:`Root = 50. <br><strong>Left subtree</strong> (values < 50): 15, 5, 20, 3, 8, 37, 24 → <strong>7 nodes</strong><br><strong>Right subtree</strong> (values > 50): 62, 58, 91, 60 → <strong>4 nodes</strong><br>Answer: <strong>(7, 4)</strong>`},
+
+  // ── 52 ──
+  {q:`In which tree structure is the parent node's value always <strong>greater than or equal to</strong> both of its children's values?`,
+  o:['Binary search tree','Threaded binary tree','Complete binary tree','Max-heap'],a:3,
+  x:`This is the <strong>Max-Heap property</strong>: every parent ≥ both children. The root is always the maximum element. A BST has left child < parent < right child (not symmetric). A max-heap has no ordering between left and right children — only parent ≥ children.`},
+
+  // ── 53 ──
+  {q:`What is the time complexity of the following method (called on a heap of <em>n</em> integers)?
+<pre class="codeblock"><span class="kw">void</span> <span class="fn">mystery</span>(Heap* h) {
+  <span class="kw">int</span> s = <span class="str">0</span>;
+  <span class="kw">for</span> (<span class="kw">int</span> i = <span class="str">0</span>; i &lt; <span class="str">5</span>; i++) {
+    <span class="kw">int</span> v = h-&gt;<span class="fn">remove</span>();
+    cout &lt;&lt; s;   <span class="cm">// prints s (always 0)</span>
+  }
+}</pre>`,
+  o:['O(nlg(n))','O(n)','O(n^2)','O(log(n))'],a:3,
+  x:`The loop runs a <strong>constant 5 times</strong>, regardless of n. Each <code>remove()</code> call is O(log n). Total = 5 × O(log n) = O(5 log n) = <strong>O(log n)</strong>. The constant factor 5 is absorbed by the Big-O notation.`},
+
+  // ── 54 ──
+  {q:`When deleting a node that has <strong>2 children</strong> from a BST, which node should replace it?`,
+  o:["right subtree's leftmost child or left subtree's rightmost child",'left child or right child','PARENT',"right subtree's rightmost child or left subtree's leftmost child"],a:0,
+  x:`The replacement must maintain BST ordering. There are two valid choices:<br>• <strong>Inorder successor</strong>: smallest node in right subtree (rightmost's leftmost child) ✓<br>• <strong>Inorder predecessor</strong>: largest node in left subtree (leftmost's rightmost child) ✓<br>Both preserve the BST property after replacement.`},
+
+  // ── 55 ──
+  {q:`Which operation is performed <strong>more efficiently</strong> by a doubly linked list than a singly linked list?`,
+  o:['Deleting a node whose location is given','Searching of an unsorted list for a given item','Inverting a node after the node with given location','Traversing a list to process each node'],a:0,
+  x:`When deleting a node from a <strong>singly linked list</strong>, you must traverse from the head to find the predecessor (O(n)). In a <strong>doubly linked list</strong>, each node has a <em>prev</em> pointer — you access the predecessor in O(1) and perform the deletion without traversal. This is the key advantage.`},
+
+  // ── 56 ──
+  {q:`Unsorted <strong>singly linked list</strong>, <strong>head pointer only</strong>. Which operations are O(1)?<br><br>i) Insert at front &nbsp; ii) Insert at end &nbsp; iii) Delete front node &nbsp; iv) Delete last node`,
+  o:['I and II','I and III','I,II and III','I,II and IV'],a:1,
+  x:`With a head pointer only in a singly linked list, only <strong>front operations</strong> are O(1):<br>• Insert at front: O(1) ✓ (update head)<br>• Delete front: O(1) ✓ (update head)<br>• Insert/delete at end requires full traversal → O(n) ✗`},
+
+  // ── 57 ──
+  {q:`Again — unsorted <strong>singly linked list</strong> with <strong>head pointer only</strong>. Which operations run in O(1)?<br><br>i) Insert at front &nbsp; ii) Insert at end &nbsp; iii) Delete front node &nbsp; iv) Delete last node`,
+  o:['I and II','I and III','I,II and III','I,II and IV'],a:1,
+  x:`Only <strong>operations at the front</strong> are O(1) with head-only singly linked list:<br>• Insert at front: O(1) ✓<br>• Delete front: O(1) ✓<br>End operations (insert/delete at tail) require traversal to the last node → O(n).`},
+
+  // ── 58 ──
+  {q:`Unsorted <strong>doubly linked list</strong> with <strong>head and tail pointers</strong>. Which operations are O(1)?<br><br>i) Insert at front &nbsp; ii) Insert at end &nbsp; iii) Delete front node &nbsp; iv) Delete end node`,
+  o:['I and II','I and III','I,II and III','I,II,III and IV'],a:3,
+  x:`With head + tail + prev pointers, <strong>all four</strong> operations are O(1):<br>• i) Insert front: update head ✓<br>• ii) Insert end: update tail ✓<br>• iii) Delete front: use head, update head.prev ✓<br>• iv) Delete end: use tail, update tail.prev directly ✓<br>The doubly linked + head/tail combination is the most flexible configuration.`},
+
+  // ── 59 ──
+  {q:`Unsorted <strong>doubly linked list</strong> with <strong>head pointer only</strong>. Which operations are O(1)?<br><br>i) Insert at front &nbsp; ii) Insert at end &nbsp; iii) Delete front node &nbsp; iv) Delete end node`,
+  o:['I and II','I and III','I,II and III','I,II,III and IV'],a:1,
+  x:`Without a tail pointer, we <em>cannot access the last node directly</em>:<br>• <strong>i) Insert front</strong>: O(1) ✓<br>• <strong>iii) Delete front</strong>: O(1) ✓<br>• ii) Insert end: must traverse to reach tail → O(n) ✗<br>• iv) Delete end: must traverse to find last node → O(n) ✗<br>Having <em>prev</em> pointers doesn't help without knowing where the tail is.`},
+
+  // ── 60 ──
+  {q:`Unsorted <strong>circular linked list</strong> with <strong>head pointer only</strong>. Which operations are O(1)?<br><br>i) Insert at front &nbsp; ii) Insert at end &nbsp; iii) Delete front node &nbsp; iv) Delete end node`,
+  o:['I and II','I and III','I, II, III and IV','None'],a:3,
+  x:`With only a head pointer in a circular linked list, <em>every listed operation requires O(n)</em>:<br>• Inserting at front or deleting from front requires updating the last node's <em>next</em> pointer (to maintain circularity) — but finding the last node takes O(n).<br>• All four operations need traversal. Answer: <strong>None</strong>.<br>(Note: if we track the <em>tail</em> instead of head, front insert/delete become O(1))`},
+
+  // ── 61 ──
+  {q:`What is the time complexity to <strong>count the number of elements</strong> in a linked list?`,
+  o:['O(1)','O(n)','O(logn)','O(n^2)'],a:1,
+  x:`Counting requires traversing the entire list from head to tail, visiting each node once. With n nodes, this takes <strong>O(n)</strong> time. (If a <em>size</em> field is maintained in the list header, it could be O(1), but the default/general answer is O(n).)`},
+
+  // ── 62 ──
+  {q:`Array elements are stored in…`,
+  o:['Sequential','Random','A & B','None'],a:0,
+  x:`Arrays store elements in <strong>contiguous (sequential) memory locations</strong>. This enables O(1) random access via index arithmetic: element[i] is at base_address + i × element_size. Linked lists, by contrast, can store nodes anywhere in memory.`},
+
+  // ── 63 ──
+  {q:`What is the time complexity to <strong>find an element</strong> in a linked list?`,
+  o:['O(1)','O(n)','O(n^2)','None'],a:1,
+  x:`To find an element in a linked list (unsorted), we must scan from the head in the worst case, potentially examining all n nodes. Time complexity: <strong>O(n)</strong>. Unlike arrays, linked lists don't support random access, so binary search is not applicable.`},
+
+  // ── 64 ──
+  {q:`Which data structures can be used to <strong>implement a stack</strong>?`,
+  o:['Array & Linked List.','tree.','Only Array.','None of the above.'],a:0,
+  x:`A stack can be implemented using either:<br>• <strong>Array</strong>: Maintain a top index; push/pop at O(1). May have fixed capacity.<br>• <strong>Linked List</strong>: Add/remove from head at O(1). Dynamically sized.<br>Both correctly implement LIFO behavior.`},
+
+  // ── 65 ──
+  {q:`Which statement is correct about a <strong>stack</strong>?`,
+  o:['It is a non-linear data structure.','Stack is a LIFO.','Stack is a FIFO.','None.'],a:1,
+  x:`A stack is a <strong>linear</strong> data structure following <strong>LIFO</strong> (Last In, First Out) order. The last element pushed is the first to be popped — like a stack of plates. FIFO describes a Queue, not a Stack.`},
+
+  // ── 66 ──
+  {q:`What is the correct output for the following sequence of stack operations?<br><br><code>push(5)  push(8)  pop  push(2)  push(5)  pop  pop  pop  push(1)  pop</code>`,
+  o:['8 5 2 5 1','8 5 5 2 1','8 2 5 5 1','8 1 2 5 5'],a:0,
+  x:`Trace the operations:<br>push(5)→[5]  push(8)→[5,8]  <strong>pop→8</strong>  push(2)→[5,2]  push(5)→[5,2,5]<br><strong>pop→5</strong>  <strong>pop→2</strong>  <strong>pop→5</strong>  push(1)→[1]  <strong>pop→1</strong><br>Output sequence: <strong>8, 5, 2, 5, 1</strong>`},
+
+  // ── 67 ──
+  {q:`A queue follows which principle?`,
+  o:['FIFO (First In First Out) principle','LIFO (Last In First Out) principle','Ordered array','Linear tree'],a:0,
+  x:`A queue follows <strong>FIFO (First In, First Out)</strong>: the first element enqueued is the first dequeued. Think of a real-world queue/line — the person who arrived first is served first. This contrasts with a stack's LIFO principle.`},
+
+  // ── 68 ──
+  {q:`Which of the following are applications of the <strong>Stack</strong> data structure?`,
+  o:['Managing function calls','expression evaluation.','convert infix to postfix expression','All.'],a:3,
+  x:`Stacks have many applications:<br>• <strong>Function calls</strong>: Each call pushes a stack frame; return pops it.<br>• <strong>Expression evaluation</strong>: Evaluate postfix expressions using a stack.<br>• <strong>Infix to postfix</strong>: Shunting-yard algorithm uses a stack for operators.<br>All three — and more (undo/redo, DFS, backtracking) — use stacks.`},
+
+  // ── 69 ──
+  {q:`Which statement is true about linked-list implementation of a <strong>stack</strong>?<br><br>a) If push inserts at the beginning, pop must remove from the end.<br>b) If push inserts at the end, pop must remove from the beginning.`,
+  o:['In push operation, if new nodes are inserted at the beginning of linked list, then in pop operation, nodes must be removed from end.','In push operation, if new nodes are inserted at the end, then in pop operation, nodes must be removed from the beginning.','Both.','None.'],a:3,
+  x:`Both statements describe <strong>FIFO (queue) behavior</strong>, not LIFO (stack) behavior!<br>For a correct stack: push and pop must operate on the <em>same end</em>.<br>• Correct: push at beginning AND pop at beginning (O(1)) ✓<br>• Correct: push at end AND pop at end ✓<br>Mismatched ends give FIFO order (a queue), not a stack.`},
+
+  // ── 70 ──
+  {q:`Can a Stack be used to implement a <strong>parentheses balancing</strong> program?`,
+  o:['Yes.','No.'],a:0,
+  x:`<strong>Yes!</strong> This is one of the classic stack applications. Algorithm:<br>1. Scan left to right.<br>2. Push every opening bracket ( [ { onto the stack.<br>3. For each closing bracket, pop from stack and check if it matches.<br>4. At end, stack should be empty for balanced parentheses.`},
+
+  // ── 71 ──
+  {q:`In a linked-list implementation of a queue, where is a <strong>new element inserted</strong>?`,
+  o:['At the head of link list','At the centre position in the link list','At the tail of the linked list','At any position in the linked list'],a:2,
+  x:`In a queue (FIFO), new elements are <strong>enqueued at the tail (rear)</strong> and dequeued from the head (front). The tail pointer makes tail insertion O(1). Inserting at the head would give LIFO (stack) behavior, not FIFO.`},
+
+  // ── 72 ──
+  {q:`In a linked-list queue, <strong>both front and rear pointers</strong> are maintained. When inserting into an <strong>empty queue</strong>, which pointer(s) change?`,
+  o:['only front','Only rear','Both front and rear pointer','No pointer will be changed'],a:2,
+  x:`When inserting into an <em>empty queue</em>, the new node is both the front <strong>and</strong> the rear simultaneously (the queue goes from empty to having one element). Therefore <strong>both front and rear</strong> must be updated to point to this new node.`},
+
+  // ── 73 ──
+  {q:`Which statement is true about a <strong>queue implemented with a linked list</strong>?`,
+  o:['In push operation, if new nodes are inserted at the beginning of linked list, then in pop operation, nodes must be removed from end','In push operation, if new nodes are inserted at the beginning, then in pop operation, nodes must be removed from the beginning','In push operation, if new nodes are inserted at the end, then in pop operation, nodes must be removed from end','none'],a:0,
+  x:`Statement A describes valid FIFO behavior: inserting at the front pushes older elements toward the back; removing from the back always gives the oldest element first. Though this works logically (FIFO), the standard efficient implementation inserts at the <strong>tail</strong> and removes from the <strong>head</strong> for O(1) both operations.`},
+];
+
+/* ═══════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════ */
+const STORAGE_KEY = 'cs214_exam_2022_v2';
+let Q = [...Q_ORIGINAL]; // working copy (may be shuffled)
+let cur = 0, score = 0, startTime = null, elapsedBefore = 0;
+let answers = [];       // user's answer for each question (-1 = unanswered)
+let bookmarks = [];     // boolean array
+let shuffleOrder = null;
+let shuffleEnabled = false;
+let timerInterval = null;
+let isReviewMode = false;
+let examFinished = false;
+
+/* ─── SAVE / LOAD ─── */
+function saveState() {
+  const state = {
+    cur, score, answers, bookmarks, shuffleOrder, shuffleEnabled,
+    elapsedBefore: getElapsed(), examFinished,
+    timestamp: Date.now()
+  };
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch(e) { return null; }
+}
+
+function clearState() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+}
+
+function getElapsed() {
+  if (!startTime) return elapsedBefore;
+  return elapsedBefore + Math.floor((Date.now() - startTime) / 1000);
+}
+
+/* ─── INIT ─── */
+function init() {
+  const saved = loadState();
+  if (saved && !saved.examFinished && saved.answers && saved.answers.some(a => a !== -1)) {
+    document.getElementById('resume-wrap').style.display = 'block';
+  }
+}
+init();
+
+/* ─── TOAST ─── */
+let toastTimer = null;
+function showToast(icon, msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = `<span class="t-ico">${icon}</span>${msg}`;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* ─── SHUFFLE ─── */
+function toggleShuffle() {
+  shuffleEnabled = !shuffleEnabled;
+  document.getElementById('opt-shuffle').classList.toggle('active', shuffleEnabled);
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ─── SCREEN ─── */
+function show(id) {
+  ['intro','quiz','results','review'].forEach(s => {
+    const el = document.getElementById(s);
+    if (s === id) el.classList.remove('gone');
+    else el.classList.add('gone');
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   START / RESUME / RESTART
+═══════════════════════════════════════════════ */
+function startQuiz() {
+  clearState();
+  cur = 0; score = 0; elapsedBefore = 0; examFinished = false;
+  isReviewMode = false;
+
+  if (shuffleEnabled) {
+    shuffleOrder = shuffleArray([...Array(Q_ORIGINAL.length).keys()]);
+    Q = shuffleOrder.map(i => Q_ORIGINAL[i]);
+  } else {
+    shuffleOrder = null;
+    Q = [...Q_ORIGINAL];
+  }
+
+  answers = new Array(Q.length).fill(-1);
+  bookmarks = new Array(Q.length).fill(false);
+  startTime = Date.now();
+  startTimer();
+  show('quiz');
+  renderQ(0);
+  updateMap();
+  saveState();
+  showToast('🚀', 'Exam started! Good luck!');
+}
+
+function resumeQuiz() {
+  const saved = loadState();
+  if (!saved) { startQuiz(); return; }
+
+  cur = saved.cur || 0;
+  score = saved.score || 0;
+  answers = saved.answers || new Array(Q_ORIGINAL.length).fill(-1);
+  bookmarks = saved.bookmarks || new Array(Q_ORIGINAL.length).fill(false);
+  shuffleOrder = saved.shuffleOrder;
+  shuffleEnabled = saved.shuffleEnabled || false;
+  elapsedBefore = saved.elapsedBefore || 0;
+  examFinished = false;
+  isReviewMode = false;
+
+  if (shuffleOrder) {
+    Q = shuffleOrder.map(i => Q_ORIGINAL[i]);
+  } else {
+    Q = [...Q_ORIGINAL];
+  }
+
+  // Recalculate score
+  score = 0;
+  for (let i = 0; i < answers.length; i++) {
+    if (answers[i] === Q[i].a) score++;
+  }
+
+  startTime = Date.now();
+  startTimer();
+  show('quiz');
+  renderQ(cur);
+  updateMap();
+  showToast('↺', 'Exam resumed! Keep going!');
+}
+
+function restartQuiz() {
+  clearState();
+  shuffleEnabled = false;
+  show('intro');
+  document.getElementById('opt-shuffle').classList.remove('active');
+  document.getElementById('resume-wrap').style.display = 'none';
+  stopTimer();
+}
+
+/* ═══════════════════════════════════════════════
+   TIMER
+═══════════════════════════════════════════════ */
+function startTimer() {
+  stopTimer();
+  updateTimerDisplay();
+  timerInterval = setInterval(updateTimerDisplay, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById('timer-val');
+  if (!el) return;
+  const total = getElapsed();
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  el.textContent = `${m}:${String(s).padStart(2,'0')}`;
+}
+
+/* ═══════════════════════════════════════════════
+   RENDER QUESTION
+═══════════════════════════════════════════════ */
+function renderQ(i) {
+  cur = i;
+  const q = Q[i];
+  const isAnswered = answers[i] !== -1;
+  const pct = ((answers.filter(a => a !== -1).length) / Q.length) * 100;
+
+  document.getElementById('qnum').textContent = `Q ${i+1} / ${Q.length}`;
+  document.getElementById('slive').textContent = `✓ ${score} correct`;
+  document.getElementById('pbar').style.width = pct + '%';
+
+  const wrap = document.getElementById('qwrap');
+  const labels = ['A','B','C','D','E'];
+
+  /* Visual section */
+  let visHTML = '';
+  if (q.v) {
+    if (q.v === 'avl31') {
+      visHTML = `<div class="qvis">
+        <div class="vis-label">AVL Tree Diagrams</div>
+        <div class="side-by-side">
+          <div class="tree-section"><div class="vis-label">Tree i</div>${TREES.avl31i()}</div>
+          <div class="tree-section"><div class="vis-label">Tree ii</div>${TREES.avl31ii()}</div>
+        </div></div>`;
+    } else {
+      visHTML = `<div class="qvis"><div class="vis-label">Reference Diagram</div>${TREES[q.v]()}</div>`;
+    }
+  }
+
+  /* Options */
+  const optsHTML = q.o.map((opt, j) => {
+    let cls = 'opt';
+    let icoText = '';
+    if (isAnswered) {
+      cls += ' off';
+      if (j === q.a) { cls += ' ok'; icoText = '✓'; }
+      else if (j === answers[i]) { cls += ' er'; icoText = '✗'; }
+    }
+    return `<div class="${cls}" id="opt${j}" onclick="pick(${j})">
+      <div class="olbl">${labels[j]}</div>
+      <div class="otxt">${opt}</div>
+      <div class="oico" id="ico${j}" style="${icoText?'opacity:1':''}">${icoText}</div>
+    </div>`;
+  }).join('');
+
+  /* Feedback for already answered */
+  let fbHTML = '';
+  if (isAnswered) {
+    const isRight = answers[i] === q.a;
+    fbHTML = `<div class="feedback show" id="fb">
+      <div class="fb-head">
+        <div class="fb-ico">${isRight ? '🎯' : '💡'}</div>
+        <div class="fb-title ${isRight?'ok':'er'}">${isRight ? 'Correct!' : `Incorrect — correct answer is ${labels[q.a]}`}</div>
+      </div>
+      <div class="fb-body">${q.x}</div>
+    </div>`;
+  } else {
+    fbHTML = `<div class="feedback" id="fb">
+      <div class="fb-head">
+        <div class="fb-ico" id="fb-ico"></div>
+        <div class="fb-title" id="fb-title"></div>
+      </div>
+      <div class="fb-body" id="fb-body"></div>
+    </div>`;
+  }
+
+  const isBookmarked = bookmarks[i];
+  const allAnswered = answers.every(a => a !== -1);
+
+  wrap.innerHTML = `
+    <div class="nav-row">
+      <button class="btn-nav" onclick="goQ(cur-1)" ${i===0?'disabled':''}>← Previous</button>
+      <button class="btn-nav btn-bookmark ${isBookmarked?'active':''}" id="btn-bkmk" onclick="toggleBookmark()" title="Bookmark this question">${isBookmarked?'★':'☆'}</button>
+      <button class="btn-nav primary" onclick="goNext()" ${i>=Q.length-1 && !allAnswered?'':''}>${i < Q.length-1 ? 'Next →' : (allAnswered ? '→ See Results' : 'Next →')}</button>
+    </div>
+    <div class="qcard">
+      <div class="qtag">QUESTION ${i+1}</div>
+      <div class="qtext">${q.q}</div>
+      ${visHTML}
+      <div class="opts" id="opts">${optsHTML}</div>
+    </div>
+    ${fbHTML}
+    <div class="kbd-hint"><kbd>A</kbd><kbd>B</kbd><kbd>C</kbd><kbd>D</kbd> select · <kbd>←</kbd><kbd>→</kbd> nav · <kbd>K</kbd> bookmark · <kbd>M</kbd> map</div>`;
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  updateMap();
+}
+
+/* ═══════════════════════════════════════════════
+   PICK ANSWER
+═══════════════════════════════════════════════ */
+function pick(j) {
+  if (answers[cur] !== -1) return; // already answered
+  if (isReviewMode) return;
+
+  answers[cur] = j;
+  const q = Q[cur];
+  const correct = q.a;   // ← FIXED! was q.ans (undefined)
+  const isRight = j === correct;
+
+  if (isRight) score++;
+
+  // Disable all options
+  document.querySelectorAll('.opt').forEach(o => o.classList.add('off'));
+
+  // Style chosen and correct
+  const chosen = document.getElementById(`opt${j}`);
+  const correctEl = document.getElementById(`opt${correct}`);
+
+  if (isRight) {
+    chosen.classList.add('ok');
+    document.getElementById(`ico${j}`).textContent = '✓';
+    document.getElementById(`ico${j}`).style.opacity = '1';
+  } else {
+    chosen.classList.add('er');
+    document.getElementById(`ico${j}`).textContent = '✗';
+    document.getElementById(`ico${j}`).style.opacity = '1';
+    correctEl.classList.add('ok');
+    document.getElementById(`ico${correct}`).textContent = '✓';
+    document.getElementById(`ico${correct}`).style.opacity = '1';
+  }
+
+  // Feedback
+  const fb = document.getElementById('fb');
+  const fbIco = document.getElementById('fb-ico');
+  const fbTitle = document.getElementById('fb-title');
+  const fbBody = document.getElementById('fb-body');
+  const labels = ['A','B','C','D'];
+
+  if (isRight) {
+    fbIco.textContent = '🎯';
+    fbTitle.textContent = 'Correct!';
+    fbTitle.className = 'fb-title ok';
+  } else {
+    fbIco.textContent = '💡';
+    fbTitle.textContent = `Incorrect — correct answer is ${labels[correct]}`;
+    fbTitle.className = 'fb-title er';
+  }
+  fbBody.innerHTML = q.x;
+  fb.classList.add('show');
+
+  // Update score display
+  document.getElementById('slive').textContent = `✓ ${score} correct`;
+
+  // Update progress bar
+  const pct = ((answers.filter(a => a !== -1).length) / Q.length) * 100;
+  document.getElementById('pbar').style.width = pct + '%';
+
+  updateMap();
+  saveState();
+}
+
+/* ═══════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════ */
+function goQ(i) {
+  if (i < 0 || i >= Q.length) return;
+  if (isReviewMode) {
+    cur = i;
+    renderReviewQ(i);
+  } else {
+    renderQ(i);
+  }
+}
+
+function goNext() {
+  if (cur < Q.length - 1) {
+    goQ(cur + 1);
+  } else {
+    // Check if all answered
+    const unanswered = answers.filter(a => a === -1).length;
+    if (unanswered > 0) {
+      // Find next unanswered
+      const nextUnanswered = answers.findIndex(a => a === -1);
+      if (nextUnanswered !== -1) {
+        showToast('⚠️', `${unanswered} question${unanswered>1?'s':''} still unanswered!`);
+        goQ(nextUnanswered);
+        return;
+      }
+    }
+    finishExam();
+  }
+}
+
+/* ─── BOOKMARK ─── */
+function toggleBookmark() {
+  bookmarks[cur] = !bookmarks[cur];
+  const btn = document.getElementById('btn-bkmk');
+  if (btn) {
+    btn.classList.toggle('active', bookmarks[cur]);
+    btn.textContent = bookmarks[cur] ? '★' : '☆';
+  }
+  showToast(bookmarks[cur] ? '🔖' : '📄', bookmarks[cur] ? 'Question bookmarked!' : 'Bookmark removed');
+  updateMap();
+  saveState();
+}
+
+/* ═══════════════════════════════════════════════
+   QUESTION MAP
+═══════════════════════════════════════════════ */
+function toggleMap() {
+  document.getElementById('qmap').classList.toggle('open');
+  document.getElementById('map-overlay').classList.toggle('show');
+}
+
+function updateMap() {
+  const grid = document.getElementById('qmap-grid');
+  if (!grid) return;
+
+  let html = '';
+  let answeredCount = 0;
+  let bookmarkedCount = 0;
+
+  for (let i = 0; i < Q.length; i++) {
+    let cls = 'qmap-btn';
+    if (i === cur) cls += ' current';
+    if (answers[i] !== -1) {
+      answeredCount++;
+      if (answers[i] === Q[i].a) cls += ' correct';
+      else cls += ' wrong';
+    }
+    const bkmk = bookmarks[i] ? '<span class="bkmk">★</span>' : '';
+    if (bookmarks[i]) bookmarkedCount++;
+    html += `<button class="${cls}" onclick="mapGoQ(${i})">${i+1}${bkmk}</button>`;
+  }
+
+  grid.innerHTML = html;
+  document.getElementById('map-answered').textContent = answeredCount;
+  document.getElementById('map-total').textContent = Q.length;
+  document.getElementById('map-bookmarked').textContent = bookmarkedCount;
+}
+
+function mapGoQ(i) {
+  toggleMap();
+  setTimeout(() => goQ(i), 200);
+}
+
+/* ═══════════════════════════════════════════════
+   FINISH EXAM
+═══════════════════════════════════════════════ */
+function finishExam() {
+  stopTimer();
+  examFinished = true;
+  elapsedBefore = getElapsed();
+  saveState();
+  showResults();
+}
+
+function showResults() {
+  show('results');
+  const elapsed = getElapsed();
+  const pct = Math.round((score / Q.length) * 100);
+  const m = Math.floor(elapsed/60), s = elapsed % 60;
+  const skipped = answers.filter(a => a === -1).length;
+
+  // Animate score
+  let n = 0;
+  const sbig = document.getElementById('sbig');
+  const timer = setInterval(() => {
+    sbig.textContent = n;
+    if (n >= score) clearInterval(timer);
+    n++;
+  }, 30);
+
+  // Grade
+  let grade, gcolor, msg;
+  if (pct >= 90) { grade='A+'; gcolor='#fbbf24'; msg='Outstanding! You mastered Data Structures. 🏆'; }
+  else if (pct >= 85) { grade='A'; gcolor='#fbbf24'; msg='Excellent work! Strong understanding. 🌟'; }
+  else if (pct >= 80) { grade='B+'; gcolor='#38bdf8'; msg='Very good! Minor gaps to address. 💪'; }
+  else if (pct >= 75) { grade='B'; gcolor='#38bdf8'; msg='Good performance! Review weak areas. 📘'; }
+  else if (pct >= 70) { grade='C+'; gcolor='#a480cf'; msg='Above average — keep reviewing. 📝'; }
+  else if (pct >= 65) { grade='C'; gcolor='#a480cf'; msg='Average — focus on your weak topics. 📖'; }
+  else if (pct >= 60) { grade='D'; gcolor='#f4a261'; msg='Borderline — serious review needed. ⚠️'; }
+  else { grade='F'; gcolor='#fb7185'; msg='Did not pass. Start from the foundations. 📚'; }
+
+  document.getElementById('gltr').textContent = grade;
+  document.getElementById('gltr').style.color = gcolor;
+  document.getElementById('glbl').textContent = `${pct}% · ${score} out of ${Q.length} correct`;
+  document.getElementById('rcnt').textContent = score;
+  document.getElementById('wcnt').textContent = Q.length - score - skipped;
+  document.getElementById('skpcnt').textContent = skipped;
+  document.getElementById('ttim').textContent = `${m}:${String(s).padStart(2,'0')}`;
+  document.getElementById('rmsg').innerHTML = `<strong>${msg}</strong><br><span style="font-size:13px">You answered ${score} questions correctly out of ${Q.length} in ${m}m ${s}s.</span>`;
+
+  // Score ring
+  const ring = document.getElementById('sring');
+  ring.style.setProperty('--ring-color', gcolor);
+  setTimeout(() => ring.style.setProperty('--pct', pct), 100);
+
+  // Confetti for good scores
+  if (pct >= 80) {
+    setTimeout(launchConfetti, 500);
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   REVIEW MODE
+═══════════════════════════════════════════════ */
+function startReview() {
+  isReviewMode = true;
+  cur = 0;
+  show('review');
+  renderReviewQ(0);
+  updateMap();
+}
+
+function renderReviewQ(i) {
+  cur = i;
+  const q = Q[i];
+  const userAnswer = answers[i];
+  const isRight = userAnswer === q.a;
+  const labels = ['A','B','C','D','E'];
+
+  document.getElementById('rev-qnum').textContent = `Q ${i+1} / ${Q.length}`;
+
+  /* Visual */
+  let visHTML = '';
+  if (q.v) {
+    if (q.v === 'avl31') {
+      visHTML = `<div class="qvis">
+        <div class="vis-label">AVL Tree Diagrams</div>
+        <div class="side-by-side">
+          <div class="tree-section"><div class="vis-label">Tree i</div>${TREES.avl31i()}</div>
+          <div class="tree-section"><div class="vis-label">Tree ii</div>${TREES.avl31ii()}</div>
+        </div></div>`;
+    } else {
+      visHTML = `<div class="qvis"><div class="vis-label">Reference Diagram</div>${TREES[q.v]()}</div>`;
+    }
+  }
+
+  /* Options */
+  const optsHTML = q.o.map((opt, j) => {
+    let cls = 'opt off';
+    let icoText = '';
+    if (j === q.a) { cls += ' ok'; icoText = '✓'; }
+    else if (j === userAnswer && userAnswer !== -1) { cls += ' er'; icoText = '✗'; }
+    return `<div class="${cls}">
+      <div class="olbl">${labels[j]}</div>
+      <div class="otxt">${opt}</div>
+      <div class="oico" style="${icoText?'opacity:1':''}">${icoText}</div>
+    </div>`;
+  }).join('');
+
+  /* Status label */
+  let statusLabel;
+  if (userAnswer === -1) statusLabel = '<span style="color:var(--acc)">⊘ SKIPPED</span>';
+  else if (isRight) statusLabel = '<span style="color:var(--ok)">✓ CORRECT</span>';
+  else statusLabel = '<span style="color:var(--er)">✗ INCORRECT — you chose ' + labels[userAnswer] + '</span>';
+
+  const wrap = document.getElementById('rev-qwrap');
+  wrap.innerHTML = `
+    <div class="nav-row">
+      <button class="btn-nav" onclick="goQ(cur-1)" ${i===0?'disabled':''}>← Previous</button>
+      <button class="btn-nav primary" onclick="goQ(cur+1)" ${i>=Q.length-1?'disabled':''}>Next →</button>
+    </div>
+    <div class="qcard">
+      <div class="qtag">QUESTION ${i+1} — ${statusLabel}</div>
+      <div class="qtext">${q.q}</div>
+      ${visHTML}
+      <div class="opts">${optsHTML}</div>
+    </div>
+    <div class="feedback show">
+      <div class="fb-head">
+        <div class="fb-ico">📖</div>
+        <div class="fb-title ok">Explanation</div>
+      </div>
+      <div class="fb-body">${q.x}</div>
+    </div>`;
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  updateMap();
+}
+
+function exitReview() {
+  isReviewMode = false;
+  show('results');
+}
+
+/* ═══════════════════════════════════════════════
+   KEYBOARD SUPPORT
+═══════════════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+  // Don't interfere with intro
+  const quizVisible = !document.getElementById('quiz').classList.contains('gone');
+  const reviewVisible = !document.getElementById('review').classList.contains('gone');
+  const mapOpen = document.getElementById('qmap').classList.contains('open');
+
+  if (mapOpen && e.key === 'Escape') {
+    toggleMap(); return;
+  }
+
+  if (!quizVisible && !reviewVisible) return;
+
+  // Navigation
+  if (e.key === 'ArrowRight' || (e.key === 'Enter' && (answers[cur] !== -1 || isReviewMode))) {
+    e.preventDefault();
+    if (isReviewMode) goQ(cur + 1);
+    else goNext();
+    return;
+  }
+  if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    goQ(cur - 1);
+    return;
+  }
+
+  // Bookmark
+  if (e.key.toLowerCase() === 'k' && !isReviewMode) {
+    toggleBookmark(); return;
+  }
+
+  // Map
+  if (e.key.toLowerCase() === 'm') {
+    toggleMap(); return;
+  }
+
+  // Answer selection (only in quiz mode, not review)
+  if (!isReviewMode && answers[cur] === -1) {
+    const map = {'1':0,'2':1,'3':2,'4':3,'a':0,'b':1,'c':2,'d':3};
+    const idx = map[e.key.toLowerCase()];
+    if (idx !== undefined && idx < Q[cur].o.length) pick(idx);
+  }
+});
+
+/* ═══════════════════════════════════════════════
+   HANDLE TAB VISIBILITY (pause timer)
+═══════════════════════════════════════════════ */
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    if (startTime) {
+      elapsedBefore = getElapsed();
+      startTime = null;
+      stopTimer();
+    }
+  } else {
+    if (!examFinished && !document.getElementById('quiz').classList.contains('gone')) {
+      startTime = Date.now();
+      startTimer();
+    }
+  }
+});
+</script>
+</body>
+</html>

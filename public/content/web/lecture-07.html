@@ -1,0 +1,888 @@
+<div id="prog-bar"></div>
+
+<nav id="sidebar">
+  <div class="sb-logo">
+    <h2>IS231 · Lecture 07</h2>
+    <p>Django Templates and Dynamic Pages</p>
+  </div>
+  <div class="sb-section">الفكرة العامة</div>
+  <a href="#ch1" class="sb-link"><span class="sb-dot"></span>MVT + Templates</a>
+  <a href="#ch2" class="sb-link"><span class="sb-dot"></span>Static vs Dynamic</a>
+  <a href="#ch3" class="sb-link"><span class="sb-dot"></span>Template Location</a>
+  <div class="sb-section">ربط View بالصفحة</div>
+  <a href="#ch4" class="sb-link"><span class="sb-dot"></span>render() + URL Flow</a>
+  <a href="#ch5" class="sb-link"><span class="sb-dot"></span>Context + Variables</a>
+  <a href="#ch6" class="sb-link"><span class="sb-dot"></span>Lists + for + empty</a>
+  <a href="#ch7" class="sb-link"><span class="sb-dot"></span>if + Template Logic</a>
+  <div class="sb-section">Template Power</div>
+  <a href="#ch8" class="sb-link"><span class="sb-dot"></span>Objects + Filters</a>
+  <a href="#ch9" class="sb-link"><span class="sb-dot"></span>Inheritance + include</a>
+  <a href="#ch10" class="sb-link"><span class="sb-dot"></span>static + url + csrf</a>
+  <a href="#ch11" class="sb-link"><span class="sb-dot"></span>Mini Project</a>
+  <a href="#ch12" class="sb-link"><span class="sb-dot"></span>Debugging + Best Practices</a>
+  <div class="sb-section">أسئلة الامتحانات</div>
+  <a href="#quiz" class="sb-link"><span class="sb-dot"></span>Exam Questions</a>
+</nav>
+
+<button id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<main id="main">
+<div class="global-nav" aria-label="Lecture navigation">
+  <a href="/2nd-year/web" class="gn-link gn-home">الرئيسية</a>
+  <a href="/2nd-year/web/lectures/06" class="gn-link gn-prev">← السابق: Lecture 06</a>
+  <span class="gn-link gn-current" aria-current="page">Lecture 07</span>
+  <a href="/2nd-year/web/lectures/08" class="gn-link gn-next">التالي: Lecture 08 →</a>
+</div>
+
+<section class="hero">
+  <div class="hero-badge">IS231 · Lecture 07 · Django Templates</div>
+  <h1>Django — <span>Templates and Dynamic Pages</span></h1>
+  <p>
+    المحاضرة دي هي الجسر بين صفحة HTML ثابتة وبين Web Application حقيقي. هنفهم إزاي الـ <code>View</code> يجهز البيانات،
+    يبعتها كـ <code>context</code>، والـ <code>Template</code> يعرضها باستخدام <code>{{ variable }}</code> و<code>{% tag %}</code>
+    قبل ما المتصفح يستلم HTML النهائي.
+  </p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">12</div><div class="lbl">شرح مرتب</div></div>
+    <div class="hstat"><div class="num">7</div><div class="lbl">Exam Q's</div></div>
+    <div class="hstat"><div class="num">1</div><div class="lbl">Mini Project</div></div>
+  </div>
+</section>
+
+<div class="content">
+
+<section class="chapter" id="ch1">
+  <div class="ch-header">
+    <div class="ch-num blue">01</div>
+    <div class="ch-title"><h2>مكان الـ Template في Django MVT</h2><p>Model View Template — مين بيعمل إيه؟</p></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title">الفكرة الأساسية</div>
+    <p>
+      Django مبني على نمط <code>MVT</code>: الـ <code>Model</code> مسؤول عن البيانات، الـ <code>View</code> مسؤول عن استقبال الـ
+      <code>Request</code> وتجهيز البيانات، والـ <code>Template</code> مسؤول عن شكل العرض النهائي للمستخدم.
+    </p>
+    <div class="flow">
+      <div class="flow-step"><b>Browser</b><span>يرسل Request</span></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step"><b>URLconf</b><span>يختار View</span></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step"><b>View</b><span>يبني context</span></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step"><b>Template</b><span>يعرض HTML</span></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step"><b>Response</b><span>يرجع للمتصفح</span></div>
+    </div>
+    <div class="info">
+      <div><b>نقطة امتحانية</b> الـ <code>Template</code> هو أقرب جزء للـ presentation layer. الـ <code>View</code> في Django مش هو شاشة العرض؛ هو Python function/class بيربط الطلب بالبيانات والـ template.</div>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="mini" style="--accent:var(--cyan)">
+      <h4>Model</h4>
+      <p>بيمثل البيانات وقواعد التعامل مع الـ Database.</p>
+    </div>
+    <div class="mini" style="--accent:var(--purple)">
+      <h4>View</h4>
+      <p>بيستقبل الـ Request، يجهز البيانات، ويرجع <code>HttpResponse</code> غالبا عن طريق <code>render()</code>.</p>
+    </div>
+    <div class="mini" style="--accent:var(--green)">
+      <h4>Template</h4>
+      <p>ملف HTML فيه Django Template Language عشان يعرض البيانات بشكل Dynamic.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ch2">
+  <div class="ch-header">
+    <div class="ch-num purple">02</div>
+    <div class="ch-title"><h2>Static HTML vs Dynamic Template</h2><p>ليه أصلا محتاجين Templates؟</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title">Static HTML</div>
+      <ul>
+        <li>المحتوى مكتوب ثابت داخل الملف.</li>
+        <li>لو فتحت الصفحة 100 مرة هتشوف نفس الكلام.</li>
+        <li>مناسب لصفحة بسيطة جدا، لكنه ضعيف مع Student Portal أو E-commerce.</li>
+        <li>لو عندك 100 طالب، مش منطقي تعمل 100 ملف HTML.</li>
+      </ul>
+    </div>
+
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title">Django Template</div>
+      <ul>
+        <li>HTML عادي لكن فيه placeholders زي <code>{{ student_name }}</code>.</li>
+        <li>بيستقبل values من الـ <code>View</code> من خلال <code>context dictionary</code>.</li>
+        <li>يقدر يعمل loop على قائمة records.</li>
+        <li>يقدر يظهر أو يخفي أجزاء باستخدام <code>{% if %}</code>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title">المتصفح بيشوف إيه؟</div>
+    <p>
+      المتصفح عمره ما بيشوف <code>{{ name }}</code> أو <code>{% for %}</code> كـ Django syntax. الـ Template بيتعمله processing على
+      الـ Server، وبعدها المتصفح يستلم HTML جاهز.
+    </p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">final HTML received by browser</span></div>
+      <pre><code>&lt;h1&gt;Welcome Mona&lt;/h1&gt;
+&lt;p&gt;Your academic level is 2&lt;/p&gt;</code></pre>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ch3">
+  <div class="ch-header">
+    <div class="ch-num amber">03</div>
+    <div class="ch-title"><h2>Where Do We Store Templates?</h2><p>تنظيم الملفات قبل ما الصفحة تكبر</p></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title">الترتيب الآمن داخل الـ App</div>
+    <p>
+      الطريقة الشائعة والأكثر أمانا هي إن كل app يبقى جواه folder اسمه <code>templates</code>، وجواه folder باسم الـ app نفسه.
+      السبب: لو عندك أكتر من app وفيهم ملف اسمه <code>list.html</code>، Django ممكن يتلخبط بين الملفات.
+    </p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">recommended structure</span></div>
+      <pre><code>students/
+  templates/
+    students/
+      home.html
+      list.html
+      profile.html</code></pre>
+    </div>
+    <div class="tip">
+      <div><b>قاعدة حفظ</b> المسار <code>students/templates/students/list.html</code> أحسن من <code>templates/list.html</code> داخل app، لأنه بيمنع name collisions بين التطبيقات.</div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title">Project-level templates folder</div>
+    <p>
+      أحيانا بنعمل folder عام اسمه <code>templates</code> على مستوى المشروع كله. وقتها لازم نضيفه في إعدادات <code>TEMPLATES</code>
+      داخل <code>settings.py</code>.
+    </p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">settings.py</span></div>
+      <pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+TEMPLATES = [
+    {
+        <span class="str">'BACKEND'</span>: <span class="str">'django.template.backends.django.DjangoTemplates'</span>,
+        <span class="str">'DIRS'</span>: [BASE_DIR / <span class="str">'templates'</span>],
+        <span class="str">'APP_DIRS'</span>: <span class="kw">True</span>,
+        <span class="str">'OPTIONS'</span>: {
+            <span class="str">'context_processors'</span>: [
+                <span class="str">'django.template.context_processors.request'</span>,
+                <span class="str">'django.contrib.auth.context_processors.auth'</span>,
+                <span class="str">'django.contrib.messages.context_processors.messages'</span>,
+            ],
+        },
+    },
+]</code></pre>
+    </div>
+    <div class="warn">
+      <div><b>فخ امتحاني</b> لما تعمل <code>django-admin startproject</code>، Django مش بيعمل لك <code>templates</code> file/folder جاهز تلقائيا؛ أنت اللي بتنظمه حسب مشروعك.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ch4">
+  <div class="ch-header">
+    <div class="ch-num green">04</div>
+    <div class="ch-title"><h2>Using render() and URL Flow</h2><p>إزاي الـ View يرجع Template؟</p></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title">أول Template File</div>
+    <p>ملف الـ Template في البداية ممكن يكون HTML عادي جدا. الديناميكية هتيجي لما الـ <code>View</code> يبعتله data.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">students/templates/students/home.html</span></div>
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Students Home&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Welcome to the Students App&lt;/h1&gt;
+  &lt;p&gt;This page is rendered by Django.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title">views.py</div>
+      <p>دالة <code>render()</code> بتاخد <code>request</code> واسم الـ <code>template</code>، وترجع <code>HttpResponse</code> جاهز.</p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">views.py</span></div>
+        <pre><code><span class="kw">from</span> django.shortcuts <span class="kw">import</span> render
+
+<span class="kw">def</span> <span class="fn">home</span>(request):
+    <span class="kw">return</span> render(request, <span class="str">'students/home.html'</span>)</code></pre>
+      </div>
+    </div>
+
+    <div class="topic" style="--accent:var(--purple)">
+      <div class="topic-title">urls.py</div>
+      <p>الـ <code>URLconf</code> هو اللي بيستقبل path من المتصفح ويقرر أي <code>View</code> يتنفذ.</p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">urls.py</span></div>
+        <pre><code><span class="kw">from</span> django.urls <span class="kw">import</span> path
+<span class="kw">from</span> . <span class="kw">import</span> views
+
+urlpatterns = [
+    path(<span class="str">''</span>, views.home, name=<span class="str">'home'</span>),
+]</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="info">
+    <div><b>ترتيب مهم</b> الـ Browser ما بيفتحش الـ Template مباشرة. المسار الطبيعي هو: <code>Request → URLconf → View → Template → Response</code>.</div>
+  </div>
+</section>
+
+<section class="chapter" id="ch5">
+  <div class="ch-header">
+    <div class="ch-num pink">05</div>
+    <div class="ch-title"><h2>Context and Template Variables</h2><p>إرسال values من Python إلى HTML</p></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--pink)">
+    <div class="topic-title">ما هو الـ context؟</div>
+    <p>
+      الـ <code>context</code> هو <code>dictionary</code>: الـ keys هي الأسماء اللي هتستخدمها داخل الـ Template، والـ values هي البيانات الحقيقية.
+      في الـ Template بنطبع قيمة variable باستخدام double curly braces: <code>{{ variable_name }}</code>.
+    </p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">views.py</span></div>
+      <pre><code><span class="kw">from</span> django.shortcuts <span class="kw">import</span> render
+
+<span class="kw">def</span> <span class="fn">welcome</span>(request):
+    context = {
+        <span class="str">'student_name'</span>: <span class="str">'Ali'</span>,
+        <span class="str">'level'</span>: <span class="num">2</span>,
+    }
+    <span class="kw">return</span> render(request, <span class="str">'students/welcome.html'</span>, context)</code></pre>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">welcome.html</span></div>
+      <pre><code>&lt;h1&gt;Welcome {{ student_name }}&lt;/h1&gt;
+&lt;p&gt;Your academic level is {{ level }}&lt;/p&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title">ملاحظات دقيقة على Variables</div>
+    <ul>
+      <li>اسم الـ variable داخل template لازم يطابق key موجود في الـ <code>context dictionary</code>.</li>
+      <li>لو variable مش موجود، Django غالبا يعرض empty output بدل ما يطبع error واضح في الصفحة.</li>
+      <li>ممكن تبعت String أو Number أو List أو Object أو Model Instance.</li>
+      <li>الـ Template بيعرض البيانات، لكن الحسابات الثقيلة وقرارات الـ business logic مكانها الـ <code>View</code> أو <code>Model</code>.</li>
+    </ul>
+    <div class="rule-box" style="--accent:var(--cyan)">
+      <strong>خد بالك:</strong> المفتاح <code>'student_name'</code> في الـ context هو اللي بيظهر في HTML كـ <code>{{ student_name }}</code>. اسم Python variable نفسه مش شرط يكون هو نفس الاسم.
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ch6">
+  <div class="ch-header">
+    <div class="ch-num teal">06</div>
+    <div class="ch-title"><h2>Lists, for Loops, and empty</h2><p>عرض records كتير بدل قيمة واحدة</p></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title">Sending a List to the Template</div>
+    <p>
+      معظم الصفحات الواقعية بتعرض list: courses, students, messages, notifications, comments. بنبعت الـ list في context عادي،
+      وبعدها نستخدم <code>{% for %}</code> جوه الـ Template.
+    </p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">views.py</span></div>
+      <pre><code><span class="kw">def</span> <span class="fn">course_list</span>(request):
+    courses = [<span class="str">'Python'</span>, <span class="str">'Database'</span>, <span class="str">'AI'</span>, <span class="str">'Networks'</span>]
+    <span class="kw">return</span> render(request, <span class="str">'students/courses.html'</span>, {<span class="str">'courses'</span>: courses})</code></pre>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title">Template for Loop</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">courses.html</span></div>
+        <pre><code>&lt;h2&gt;Registered Courses&lt;/h2&gt;
+&lt;ul&gt;
+  {% for course in courses %}
+    &lt;li&gt;{{ course }}&lt;/li&gt;
+  {% endfor %}
+&lt;/ul&gt;</code></pre>
+      </div>
+      <p>الـ block بين <code>{% for %}</code> و<code>{% endfor %}</code> بيتكرر مرة لكل item في الـ list.</p>
+    </div>
+
+    <div class="topic" style="--accent:var(--amber)">
+      <div class="topic-title">Handling an Empty List</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">if + for</span></div>
+        <pre><code>&lt;h2&gt;Registered Courses&lt;/h2&gt;
+{% if courses %}
+  &lt;ul&gt;
+    {% for course in courses %}
+      &lt;li&gt;{{ course }}&lt;/li&gt;
+    {% endfor %}
+  &lt;/ul&gt;
+{% else %}
+  &lt;p&gt;No courses found.&lt;/p&gt;
+{% endif %}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title">الأقوى: {% empty %}</div>
+    <p>داخل <code>for</code> في Django تقدر تستخدم <code>{% empty %}</code> كـ fallback لو الـ list فاضية.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">for empty</span></div>
+      <pre><code>&lt;ul&gt;
+  {% for course in courses %}
+    &lt;li&gt;{{ course }}&lt;/li&gt;
+  {% empty %}
+    &lt;li&gt;No courses found.&lt;/li&gt;
+  {% endfor %}
+&lt;/ul&gt;</code></pre>
+    </div>
+    <div class="tip">
+      <div><b>امتحاني جدا</b> syntax بداية الـ loop هو <code>{% for x in y %}</code>، ولازم تقفله بـ <code>{% endfor %}</code>.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ch7">
+  <div class="ch-header">
+    <div class="ch-num red">07</div>
+    <div class="ch-title"><h2>if Tag and Template Logic</h2><p>إظهار أو إخفاء أجزاء من الصفحة</p></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title">Template if Tag</div>
+    <p>
+      الـ <code>{% if %}</code> بيخلي الـ Template يعرض HTML معين حسب condition. ممكن تستخدم <code>{% elif %}</code> و<code>{% else %}</code>،
+      ولازم تقفل بـ <code>{% endif %}</code>.
+    </p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">result.html</span></div>
+      <pre><code>&lt;h2&gt;Student Result&lt;/h2&gt;
+
+{% if mark &gt;= 50 %}
+  &lt;p&gt;Passed&lt;/p&gt;
+{% else %}
+  &lt;p&gt;Failed&lt;/p&gt;
+{% endif %}</code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title">Logic in View vs Logic in Template</div>
+    <table class="tbl">
+      <thead>
+        <tr><th>Good in the View</th><th>Good in the Template</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Database queries</td><td>Display variables</td></tr>
+        <tr><td>Complex calculations</td><td>Simple display conditions</td></tr>
+        <tr><td>Business rules</td><td>Loops for rendering lists</td></tr>
+        <tr><td>Preparing context data</td><td>Formatting output with filters</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      <div><b>قاعدة مهمة</b> الـ Template مش مكان نحط فيه logic تقيل. خليه readable: اعرض، كرر، اخفي/اظهر، وformat بس.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ch8">
+  <div class="ch-header">
+    <div class="ch-num blue">08</div>
+    <div class="ch-title"><h2>Objects, Dot Notation, and Filters</h2><p>عرض attributes وتنسيق القيم</p></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title">Displaying Object Attributes</div>
+    <p>
+      لو بعتت object أو Model Instance باسم <code>student</code>، تقدر توصل للـ attributes باستخدام dot notation:
+      <code>{{ student.name }}</code>. Django Template Language بيسهل الوصول للبيانات بدون Python parentheses.
+    </p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">profile.html</span></div>
+      <pre><code>&lt;h2&gt;Student Profile&lt;/h2&gt;
+&lt;p&gt;Name: {{ student.name }}&lt;/p&gt;
+&lt;p&gt;Level: {{ student.level }}&lt;/p&gt;
+&lt;p&gt;Department: {{ student.department }}&lt;/p&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title">Looping Over Objects</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">students.html</span></div>
+      <pre><code>&lt;ul&gt;
+  {% for student in students %}
+    &lt;li&gt;{{ student.name }} - Level {{ student.level }}&lt;/li&gt;
+  {% endfor %}
+&lt;/ul&gt;</code></pre>
+    </div>
+    <p>كل iteration بيطلع object واحد من <code>students</code>، وتقدر تعرض attributes بتاعته.</p>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title">Template Filters</div>
+    <p>
+      الـ <code>Filter</code> بيغير طريقة عرض القيمة فقط، من غير ما يغير البيانات الأصلية. syntax بتاعه هو pipe:
+      <code>{{ value|filter }}</code>.
+    </p>
+    <table class="tbl">
+      <thead>
+        <tr><th>Filter</th><th>Example</th><th>Use</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>upper</code></td><td><code>{{ name|upper }}</code></td><td>تحويل النص لـ uppercase.</td></tr>
+        <tr><td><code>lower</code></td><td><code>{{ name|lower }}</code></td><td>تحويل النص لـ lowercase.</td></tr>
+        <tr><td><code>title</code></td><td><code>{{ department|title }}</code></td><td>أول حرف من كل كلمة capital.</td></tr>
+        <tr><td><code>length</code></td><td><code>{{ students|length }}</code></td><td>عدد الحروف أو عناصر list.</td></tr>
+        <tr><td><code>default</code></td><td><code>{{ email|default:"No email" }}</code></td><td>fallback لو القيمة empty.</td></tr>
+        <tr><td><code>truncatechars</code></td><td><code>{{ text|truncatechars:20 }}</code></td><td>اختصار النص بعد عدد characters.</td></tr>
+        <tr><td><code>date</code></td><td><code>{{ created_at|date:"Y-m-d" }}</code></td><td>تنسيق التاريخ.</td></tr>
+        <tr><td><code>join</code></td><td><code>{{ courses|join:", " }}</code></td><td>دمج عناصر list في string.</td></tr>
+        <tr><td><code>safe</code></td><td><code>{{ content|safe }}</code></td><td>اعتبار المحتوى HTML آمن، ويستخدم بحذر شديد.</td></tr>
+        <tr><td><code>escape</code></td><td><code>{{ content|escape }}</code></td><td>منع HTML rendering وعرضه كنص.</td></tr>
+      </tbody>
+    </table>
+    <div class="danger">
+      <div><b>Security note</b> لا تستخدم <code>safe</code> مع user input غير موثوق؛ ممكن يفتح باب XSS. الافتراضي في Django هو escaping لحماية الصفحة.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ch9">
+  <div class="ch-header">
+    <div class="ch-num purple">09</div>
+    <div class="ch-title"><h2>Template Inheritance and include</h2><p>تقليل التكرار وبناء layout قابل لإعادة الاستخدام</p></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title">The Problem of Repetition</div>
+    <p>
+      لو كل صفحة فيها نفس <code>navbar</code> و<code>footer</code> وHTML structure، أي تعديل بسيط هيتكرر في كل الملفات.
+      Django بيحل المشكلة بـ <code>template inheritance</code>: ملف parent اسمه غالبا <code>base.html</code>، وصفحات child بتعمل
+      <code>{% extends %}</code> وتملأ blocks.
+    </p>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title">base.html</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">students/base.html</span></div>
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;{% block title %}Students App{% endblock %}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;Students Portal&lt;/header&gt;
+
+  {% block content %}
+  {% endblock %}
+
+  &lt;footer&gt;Faculty of Computers and AI&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title">child template</div>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">students/courses.html</span></div>
+        <pre><code>{% extends 'students/base.html' %}
+
+{% block title %}Courses{% endblock %}
+
+{% block content %}
+  &lt;h2&gt;Registered Courses&lt;/h2&gt;
+  &lt;p&gt;This content replaces the content block.&lt;/p&gt;
+{% endblock %}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title">Rules of Template Inheritance</div>
+    <ul>
+      <li>استخدم أسماء blocks واضحة زي <code>title</code>, <code>content</code>, <code>sidebar</code>, <code>scripts</code>.</li>
+      <li>حط <code>{% extends %}</code> في أعلى child template.</li>
+      <li>خلي <code>base.html</code> عام وقابل لإعادة الاستخدام، من غير تفاصيل page-specific.</li>
+      <li>أي content خارج blocks في child غالبا مش هيظهر بالطريقة اللي متوقعها.</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="--accent:var(--teal)">
+    <div class="topic-title">Using include for Reusable Pieces</div>
+    <p>
+      <code>{% include %}</code> بيستخدم لما تحب تدخل template صغير جوه template تانية، زي <code>navbar.html</code> أو
+      <code>alert.html</code> أو <code>student_card.html</code>. الفرق: <code>extends</code> لهيكل الصفحة الكامل، و<code>include</code> لقطعة صغيرة قابلة لإعادة الاستخدام.
+    </p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">base.html</span></div>
+      <pre><code>&lt;body&gt;
+  {% include 'students/navbar.html' %}
+  {% block content %}{% endblock %}
+&lt;/body&gt;</code></pre>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ch10">
+  <div class="ch-header">
+    <div class="ch-num green">10</div>
+    <div class="ch-title"><h2>Static Files, url Tag, and csrf_token</h2><p>إكمال بناء الصفحة الحقيقية</p></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title">Loading Static Files</div>
+    <p>
+      الـ <code>Static files</code> زي CSS, JavaScript, images مش بنكتب path كامل من جهازنا. بنستخدم نظام Django static:
+      أول حاجة <code>{% load static %}</code>، وبعدها <code>{% static 'path/file.css' %}</code>.
+    </p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">base.html</span></div>
+      <pre><code>{% load static %}
+
+&lt;link rel="stylesheet" href="{% static 'students/css/style.css' %}"&gt;
+&lt;img src="{% static 'students/images/logo.png' %}" alt="Logo"&gt;</code></pre>
+    </div>
+    <div class="warn">
+      <div><b>خطأ متكرر</b> نسيان <code>{% load static %}</code> قبل استخدام <code>{% static %}</code>.</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title">Linking Pages with url Tag</div>
+      <p><code>{% url %}</code> بيستخدم route name من <code>urls.py</code> بدل hard-coded path. لو path اتغير واسم route ثابت، اللينك يفضل شغال.</p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">template links</span></div>
+        <pre><code>&lt;a href="{% url 'home' %}"&gt;Home&lt;/a&gt;
+&lt;a href="{% url 'student_list' %}"&gt;Students&lt;/a&gt;
+&lt;a href="{% url 'student_detail' student.id %}"&gt;View Profile&lt;/a&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="topic" style="--accent:var(--pink)">
+      <div class="topic-title">csrf_token in Forms</div>
+      <p>
+        أي form في Django يستخدم <code>POST</code> غالبا لازم يحتوي على <code>{% csrf_token %}</code> للحماية من
+        <code>Cross-Site Request Forgery</code>.
+      </p>
+      <div class="code-wrap">
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">form.html</span></div>
+        <pre><code>&lt;form method="post"&gt;
+  {% csrf_token %}
+  &lt;input type="text" name="name"&gt;
+  &lt;button type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title">Template Tags Cheat Sheet</div>
+    <table class="tbl">
+      <thead><tr><th>Tag</th><th>الغرض</th><th>مثال</th></tr></thead>
+      <tbody>
+        <tr><td><code>{% extends %}</code></td><td>يرث من parent template.</td><td><code>{% extends 'base.html' %}</code></td></tr>
+        <tr><td><code>{% block %}</code></td><td>يحدد جزء child template يقدر يغيره.</td><td><code>{% block content %}</code></td></tr>
+        <tr><td><code>{% include %}</code></td><td>يدخل template صغيرة داخل أخرى.</td><td><code>{% include 'navbar.html' %}</code></td></tr>
+        <tr><td><code>{% if %}</code></td><td>condition لعرض HTML معين.</td><td><code>{% if user.is_authenticated %}</code></td></tr>
+        <tr><td><code>{% for %}</code></td><td>loop على list أو QuerySet.</td><td><code>{% for student in students %}</code></td></tr>
+        <tr><td><code>{% empty %}</code></td><td>ينفذ لو loop list فاضية.</td><td><code>{% empty %}</code></td></tr>
+        <tr><td><code>{% load static %}</code></td><td>تحميل static template library.</td><td><code>{% load static %}</code></td></tr>
+        <tr><td><code>{% url %}</code></td><td>يبني URL من route name.</td><td><code>{% url 'home' %}</code></td></tr>
+        <tr><td><code>{% csrf_token %}</code></td><td>حماية POST forms.</td><td><code>{% csrf_token %}</code></td></tr>
+        <tr><td><code>{# comment #}</code></td><td>تعليق لا يظهر في الـ rendered output.</td><td><code>{# hidden note #}</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="chapter" id="ch11">
+  <div class="ch-header">
+    <div class="ch-num amber">11</div>
+    <div class="ch-title"><h2>Mini Project: Student List Page</h2><p>تطبيق عملي يجمع render + context + loop + inheritance</p></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title">Goal</div>
+    <p>
+      هنفترض إن عندنا صفحة تعرض list of student dictionaries. لاحقا في محاضرات الـ Models، نفس الفكرة هتيجي من Database بدل hard-coded list.
+    </p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Create base.html</div><div class="step-desc">فيه layout العام وblocks.</div></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Create students/list.html</div><div class="step-desc">يعمل extends من base ويعرض list.</div></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Write the View</div><div class="step-desc">يبني <code>students</code> list ويبعته كـ context.</div></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Connect URL</div><div class="step-desc">route باسم <code>student_list</code>.</div></div></div>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--cyan)">
+    <div class="topic-title">Mini Project View</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">views.py</span></div>
+      <pre><code><span class="kw">from</span> django.shortcuts <span class="kw">import</span> render
+
+<span class="kw">def</span> <span class="fn">student_list</span>(request):
+    students = [
+        {<span class="str">'name'</span>: <span class="str">'Ali'</span>, <span class="str">'level'</span>: <span class="num">2</span>},
+        {<span class="str">'name'</span>: <span class="str">'Mona'</span>, <span class="str">'level'</span>: <span class="num">2</span>},
+        {<span class="str">'name'</span>: <span class="str">'Omar'</span>, <span class="str">'level'</span>: <span class="num">3</span>},
+    ]
+    <span class="kw">return</span> render(request, <span class="str">'students/list.html'</span>, {<span class="str">'students'</span>: students})</code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--green)">
+    <div class="topic-title">Mini Project Template</div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">students/list.html</span></div>
+      <pre><code>{% extends 'students/base.html' %}
+
+{% block title %}Students{% endblock %}
+
+{% block content %}
+  &lt;h2&gt;Students List&lt;/h2&gt;
+  &lt;ul&gt;
+    {% for student in students %}
+      &lt;li&gt;{{ student.name }} - Level {{ student.level }}&lt;/li&gt;
+    {% empty %}
+      &lt;li&gt;No students found.&lt;/li&gt;
+    {% endfor %}
+  &lt;/ul&gt;
+{% endblock %}</code></pre>
+    </div>
+  </div>
+
+  <div class="topic" style="--accent:var(--purple)">
+    <div class="topic-title">Simple CSS Reminder</div>
+    <p>الـ CSS بيحسن شكل العرض، لكنه مش بيخلي الصفحة Dynamic لوحده. الديناميكية جاية من Django rendering والـ context.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">style.css</span></div>
+      <pre><code>body{
+  font-family: Arial, sans-serif;
+}
+
+li{
+  margin-bottom: 8px;
+  padding: 6px;
+  background-color: #f4f7fb;
+}</code></pre>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ch12">
+  <div class="ch-header">
+    <div class="ch-num red">12</div>
+    <div class="ch-title"><h2>Common Errors, Debugging, and Best Practices</h2><p>أغلب مشاكل الـ Templates صغيرة لكن بتوقف الصفحة</p></div>
+  </div>
+
+  <div class="topic" style="--accent:var(--red)">
+    <div class="topic-title">Common Template Errors</div>
+    <table class="tbl">
+      <thead><tr><th>Error</th><th>السبب المعتاد</th><th>راجع إيه؟</th></tr></thead>
+      <tbody>
+        <tr><td><code>TemplateDoesNotExist</code></td><td>path غلط أو الملف في folder غلط.</td><td><code>templates/app_name/file.html</code> و<code>TEMPLATES</code> settings.</td></tr>
+        <tr><td>Empty output</td><td>variable مش موجود في context.</td><td>أسماء keys في <code>context dictionary</code>.</td></tr>
+        <tr><td>TemplateSyntaxError</td><td>ناقص <code>%}</code> أو <code>}}</code> أو closing tag.</td><td><code>{% endfor %}</code>, <code>{% endif %}</code>, <code>{% endblock %}</code>.</td></tr>
+        <tr><td>Static file not loading</td><td>نسيان <code>{% load static %}</code> أو path غلط.</td><td>static folder structure وtemplate tag.</td></tr>
+        <tr><td><code>NoReverseMatch</code></td><td><code>{% url %}</code> باسم route غلط أو parameters ناقصة.</td><td><code>urls.py</code> route name والـ arguments المطلوبة.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="topic" style="--accent:var(--amber)">
+    <div class="topic-title">Broken Template Activity</div>
+    <p>المثال ده فيه missing brace وunclosed tag. دي أخطاء واقعية جدا في اللاب.</p>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">broken template</span></div>
+      <pre><code>&lt;ul&gt;
+  {% for student in students %}
+    &lt;li&gt;{{ student.name } - Level {{ student.level }}&lt;/li&gt;
+  {% endfor %
+&lt;/ul&gt;</code></pre>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-lang">fixed template</span></div>
+      <pre><code>&lt;ul&gt;
+  {% for student in students %}
+    &lt;li&gt;{{ student.name }} - Level {{ student.level }}&lt;/li&gt;
+  {% endfor %}
+&lt;/ul&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="topic" style="--accent:var(--cyan)">
+      <div class="topic-title">Debugging Checklist</div>
+      <ul>
+        <li>ابدأ بالـ template path في <code>render()</code>.</li>
+        <li>راجع folder structure: app/templates/app/file.html.</li>
+        <li>اطبع أو راجع context keys في الـ <code>View</code>.</li>
+        <li>اقرأ traceback؛ غالبا هيقولك اسم الملف والسطر.</li>
+        <li>اختبر بنسخة أبسط من الـ Template لو المشكلة مش واضحة.</li>
+      </ul>
+    </div>
+    <div class="topic" style="--accent:var(--green)">
+      <div class="topic-title">Best Practices</div>
+      <ul>
+        <li>استخدم variable names واضحة: <code>student_name</code>, <code>course_list</code>, <code>total_marks</code>.</li>
+        <li>استخدم <code>inheritance</code> بدل copy-paste للـ layout.</li>
+        <li>استخدم <code>include</code> للقطع الصغيرة المتكررة.</li>
+        <li>خلي الـ Template بسيط، والـ View يجهز البيانات.</li>
+        <li>شغل <code>python manage.py runserver</code> وجرب صفحة واحدة في كل مرة.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="quiz-section" id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-icon">Q</div>
+    <div>
+      <h3>Lecture 07 — Exam Questions</h3>
+      <p>أسئلة من امتحانات 2021 و2024 و2025، مرتبة حسب ترتيب الشرح.</p>
+    </div>
+  </div>
+
+  <div class="q-item" id="q1" data-correct="c">
+    <div class="q-num">Q1 <span class="q-src">Final 2024 — Q1 + Final 2021 — Q30</span></div>
+    <div class="q-text">Django is based on which framework?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> MVC</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> MVVM</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> MVT</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
+    </div>
+    <div class="q-explain">
+      <b>الإجابة: C — MVT</b><br>
+      Django بيستخدم <code>Model View Template</code>. وده مهم جدا في المحاضرة دي لأن الـ <code>Template</code> هو جزء العرض اللي بيستقبل data من الـ <code>View</code>.
+    </div>
+  </div>
+
+  <div class="q-item" id="q2" data-correct="b">
+    <div class="q-num">Q2 <span class="q-src">Final 2025 — T/F Q5</span></div>
+    <div class="q-text">Django views represents the presentation layer of Django. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>الإجابة: B — False</b><br>
+      في Django MVT، الـ <code>Template</code> هو الأقرب للـ presentation layer. الـ <code>View</code> بيستقبل request ويجهز context ويختار template.
+    </div>
+  </div>
+
+  <div class="q-item" id="q3" data-correct="d">
+    <div class="q-num">Q3 <span class="q-src">Final 2021 — Q33</span></div>
+    <div class="q-text">What does the architecture of Django consist of?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> Views</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> Models</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> Templates</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> All of the Above</div>
+    </div>
+    <div class="q-explain">
+      <b>الإجابة: D — All of the Above</b><br>
+      architecture بتاعة Django بتجمع <code>Models</code> و<code>Views</code> و<code>Templates</code>. المحاضرة دي مركزة على الـ Templates ودورها في عرض البيانات.
+    </div>
+  </div>
+
+  <div class="q-item" id="q4" data-correct="b">
+    <div class="q-num">Q4 <span class="q-src">Final 2025 — T/F Q29</span></div>
+    <div class="q-text">When you create a Django project on your computer, you will get a folder for your project with a specific content including templates file. True or False?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> True</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> False</div>
+    </div>
+    <div class="q-explain">
+      <b>الإجابة: B — False</b><br>
+      <code>django-admin startproject</code> بيعمل ملفات المشروع الأساسية زي <code>settings.py</code> و<code>urls.py</code>، لكن مش بيعمل template file تلقائيا. أنت بتنظم <code>templates</code> folder بنفسك.
+    </div>
+  </div>
+
+  <div class="q-item" id="q5" data-correct="c">
+    <div class="q-num">Q5 <span class="q-src">Final 2021 — Q31</span></div>
+    <div class="q-text">What does <code>{{ name }}</code> mean in Django Templates?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> {{ name }} will be the output.</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> It will be displayed as name in HTML.</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> The name will be replaced with values of Python variable.</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the above.</div>
+    </div>
+    <div class="q-explain">
+      <b>الإجابة: C</b><br>
+      <code>{{ name }}</code> معناها إن Django هيستبدل placeholder بقيمة <code>name</code> القادمة من الـ <code>context</code>. المتصفح يستلم القيمة النهائية، مش الـ Django syntax.
+    </div>
+  </div>
+
+  <div class="q-item" id="q6" data-correct="c">
+    <div class="q-num">Q6 <span class="q-src">Final 2024 — Q4</span></div>
+    <div class="q-text">To perform programming logic in Django templates, you can use 'template tags', what is a correct syntax to start a 'for' loop?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> (for x in y)</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> &lt;% for x in y %&gt;</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> {% for x in y %}</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> None of the previous</div>
+    </div>
+    <div class="q-explain">
+      <b>الإجابة: C — <code>{% for x in y %}</code></b><br>
+      الـ <code>for</code> في Django Template Tag بيتكتب بين <code>{%</code> و<code>%}</code>، ولازم يتقفل بـ <code>{% endfor %}</code>.
+    </div>
+  </div>
+
+  <div class="q-item" id="q7" data-correct="c">
+    <div class="q-num">Q7 <span class="q-src">Final 2021 — Q32</span></div>
+    <div class="q-text">Which of the following is a valid forloop attribute of Django Template System?</div>
+    <div class="q-opts">
+      <div class="q-opt" data-val="a"><div class="q-opt-letter">A</div> forloop.reverse</div>
+      <div class="q-opt" data-val="b"><div class="q-opt-letter">B</div> forloop.lastitem</div>
+      <div class="q-opt" data-val="c"><div class="q-opt-letter">C</div> forloop.counter</div>
+      <div class="q-opt" data-val="d"><div class="q-opt-letter">D</div> forloop.index()</div>
+    </div>
+    <div class="q-explain">
+      <b>الإجابة: C — <code>forloop.counter</code></b><br>
+      داخل Django loop تقدر تستخدم <code>{{ forloop.counter }}</code> عشان تعرض رقم iteration يبدأ من 1. مفيش parentheses في template variable؛ يعني نكتب <code>forloop.counter</code> مش <code>forloop.counter()</code>.
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:20px">
+    <span class="q-score" id="score-main"></span><br>
+    <button class="quiz-btn btn-check" onclick="checkQuiz('quiz')">تحقق من الإجابات</button>
+    <button class="quiz-btn btn-reset" onclick="resetQuiz('quiz')">إعادة المحاولة</button>
+  </div>
+</section>
+
+</div>
+</main>
