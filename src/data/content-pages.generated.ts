@@ -23,7 +23,7 @@ export const contentPages = {
     "hasSidebar": false,
     "hasQuiz": false,
     "hasFlashcards": false,
-    "bytes": 1968
+    "bytes": 2013
   },
   "year-2": {
     "id": "year-2",
@@ -47,7 +47,7 @@ export const contentPages = {
     "hasSidebar": false,
     "hasQuiz": false,
     "hasFlashcards": false,
-    "bytes": 1698
+    "bytes": 2040
   },
   "software/hub": {
     "id": "software/hub",

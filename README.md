@@ -10,6 +10,7 @@ single-page application.
 - TypeScript 7
 - Vite 8
 - React Router 7 (`BrowserRouter`)
+- Tailwind CSS 4 and Vitest (used by the subjects in `src/subjects/`)
 
 ## Development
 
@@ -18,12 +19,36 @@ npm install
 npm run dev
 ```
 
-Production build and local preview:
+Production build, local preview and tests:
 
 ```bash
 npm run build
 npm run preview
+npm test
 ```
+
+## Subjects built as React apps
+
+Newer subjects are full React apps instead of extracted legacy pages. Each one
+lives in `src/subjects/<id>/` and is registered in `src/subjects/index.ts`,
+which mounts it at its own base path and code-splits it.
+
+| Subject | Route | Code | Source material |
+| --- | --- | --- | --- |
+| Operating Systems (3rd year) | `/3rd-year/os` | `src/subjects/os/` | `sources/3rd-year/os/` |
+
+Rules a subject follows so it stays independent of the rest of the site:
+
+- Its routes are relative and its links go through a base-path helper
+  (see `src/subjects/os/paths.ts`).
+- Its stylesheet is imported with `?inline` and mounted only while the subject
+  is on screen, so Tailwind's reset never reaches the legacy pages. Tailwind
+  scans only the subject's folder (`@import "tailwindcss" source("./")`).
+- It restores any `<html>` attributes it changes (theme, language) on unmount.
+
+To add a subject: create its folder, add it to `src/subjects/index.ts`, then
+add a card for it to its year hub (e.g. `legacy/3rd Year/index.html`) and run
+`npm run extract`.
 
 ## Regenerating content
 

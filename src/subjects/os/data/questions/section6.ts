@@ -1,0 +1,150 @@
+import type { Question } from '../../types'
+export const section6Questions: Question[] = [
+  {
+    id: 's6-process-fill',
+    sectionId: 'resource-management',
+    topic: 'Process management',
+    concept: 'Definition of a process',
+    difficulty: 'core',
+    type: 'fill',
+    origin: 'historical',
+    prompt: 'A {{1}} is a program in execution.',
+    blanks: [{ id: 'b1', label: 'Blank 1', accepted: ['process'] }],
+    sourceRefs: [{ examId: 'final_nodate2', question: 'Q1.5' }],
+    answerStatus: 'independently-verified',
+    explanation: {
+      en: 'A process is a program in execution. The program is a passive entity (code and data); the process is an active entity with a program counter, registers, and other execution state. A process also needs resources such as CPU time, memory, files, and I/O devices.',
+      ar: 'الـ process هو program in execution. البرنامج passive entity (code وdata)، والـ process active entity فيها program counter وregisters وحالة تنفيذ. وكمان محتاجة resources زي CPU time وmemory وfiles وI/O devices.',
+    },
+    takeaway: {
+      en: 'Program = passive; process = active execution.',
+      ar: 'البرنامج passive، والـ process active execution.',
+    },
+  },
+  {
+    id: 's6-define-process',
+    sectionId: 'resource-management',
+    topic: 'Process management',
+    concept: 'Definition of a process',
+    difficulty: 'core',
+    type: 'short',
+    origin: 'historical',
+    prompt: 'Briefly define the following term: Process.',
+    modelAnswer:
+      'A process is a program in execution. It is the unit of work in the system and is an active entity, whereas a program is passive. A process needs resources such as CPU time, memory, I/O devices, and files, and it has execution state including a program counter, registers, and a stack. When a process terminates, its reusable resources are reclaimed.',
+    keywordGroups: [
+      { label: 'program in execution', patterns: ['program in execution', 'executing program', 'running program'] },
+      { label: 'active entity', patterns: ['active'] },
+      { label: 'resources', patterns: ['resource', 'cpu', 'memory', 'i/o', 'file'] },
+      { label: 'execution state', patterns: ['program counter', 'register', 'state', 'stack'] },
+      { label: 'unit of work', patterns: ['unit of work', 'work'] },
+    ],
+    passRatio: 0.6,
+    sourceRefs: [{ examId: 'midterm_2022', question: 'Q3.2' }],
+    answerStatus: 'independently-verified',
+    explanation: {
+      en: 'The core definition is “program in execution.” Add that it is active, needs resources, and has execution state. Those details distinguish a process from a static program file.',
+      ar: 'التعريف الأساسي “program in execution”. زوّد إنه active، ومحتاج resources، وله execution state. التفاصيل دي بتفرق بين الـ process والبرنامج الساكن.',
+    },
+    takeaway: {
+      en: 'Define, then contrast: process (active) vs. program (passive).',
+      ar: 'عرّف وبعدين قارن: process active مقابل program passive.',
+    },
+  },
+  {
+    id: 's6-program-vs-process',
+    sectionId: 'resource-management',
+    topic: 'Process management',
+    concept: 'Program vs. process',
+    difficulty: 'core',
+    type: 'mcq',
+    origin: 'historical',
+    prompt:
+      'The difference between a program and a process is that a program is a(n) ______ entity while a process is a ______ entity.',
+    options: [
+      { id: 'a', text: 'passive, active' },
+      { id: 'b', text: 'active, passive' },
+      { id: 'c', text: 'dynamic, static' },
+      { id: 'd', text: 'static, dynamic' },
+    ],
+    correct: 'a',
+    sourceRefs: [{ examId: 'midterm_2021', question: 'Q1.11' }],
+    answerStatus: 'independently-verified',
+    explanation: {
+      en: 'A program is passive: it is code and data stored on disk. A process is active: it is that program in execution, with a program counter, registers, and runtime state. Option (d) uses similar adjectives but swaps the order and is not the course’s standard phrasing.',
+      ar: 'البرنامج passive: code وdata متخزنين. الـ process active: البرنامج وهو بيتنفذ، وله program counter وregisters وحالة. الاختيار (d) قريب في المعنى لكن ترتيبه معكوس ومش صياغة الكورس.',
+    },
+    optionNotes: {
+      a: { en: 'Correct: passive program, active process.', ar: 'صح: program passive وprocess active.' },
+      b: { en: 'Reversed.', ar: 'معكوس.' },
+      c: { en: 'Wrong order; a process is dynamic, a program is static.', ar: 'الترتيب غلط: process dynamic وprogram static.' },
+      d: { en: 'Meaning is close, but the exam’s expected pairing is passive/active.', ar: 'المعنى قريب، لكن المطلوب passive/active.' },
+    },
+    takeaway: {
+      en: 'The exam phrase to remember: program is passive, process is active.',
+      ar: 'الجملة اللي تحفظها: program passive، process active.',
+    },
+  },
+  {
+    id: 's6-multithread-pc-tf',
+    sectionId: 'resource-management',
+    topic: 'Process management',
+    concept: 'Program counters in single- and multi-threaded processes',
+    difficulty: 'core',
+    type: 'tf',
+    origin: 'historical',
+    prompt: 'The multi-threaded process has one program counter for all its threads.',
+    correct: false,
+    sourceRefs: [{ examId: 'midterm_2022', question: 'Q1.6' }],
+    answerStatus: 'independently-verified',
+    explanation: {
+      en: 'False. The lecture states it directly: a single-threaded process has one program counter specifying the next instruction to execute, while a multi-threaded process has one program counter per thread. Each thread is at its own place in the code, so each needs its own “next instruction” pointer, even though the threads share the process’s code, data and files.',
+      ar: 'غلط. المحاضرة بتقولها صريحة: الـ single-threaded process ليها program counter واحد بيحدد الـ instruction الجاية، أما الـ multi-threaded process فليها program counter لكل thread. كل thread واقفة في مكان مختلف في الكود، فكل واحدة محتاجة مؤشر “instruction الجاية” خاص بيها، حتى لو الـ threads بيشاركوا الـ code والـ data والـ files بتوع الـ process.',
+    },
+    optionNotes: {
+      true: {
+        en: 'One shared program counter describes a single-threaded process, not a multi-threaded one.',
+        ar: 'Program counter واحد مشترك ده وصف الـ single-threaded process، مش الـ multi-threaded.',
+      },
+      false: {
+        en: 'Correct: one program counter per thread.',
+        ar: 'صح: program counter لكل thread.',
+      },
+    },
+    takeaway: {
+      en: 'Single-threaded → one PC. Multi-threaded → one PC per thread.',
+      ar: 'Single-threaded ← PC واحد. Multi-threaded ← PC لكل thread.',
+    },
+    hint: {
+      en: 'Ask how two threads could be at different instructions if they shared one counter.',
+      ar: 'اسأل نفسك: إزاي اتنين threads يبقوا عند instructions مختلفة لو بيشاركوا counter واحد؟',
+    },
+  },
+  {
+    id: 's6-process-activity-tf',
+    sectionId: 'resource-management',
+    topic: 'Process management',
+    concept: 'Process-management activities',
+    difficulty: 'core',
+    type: 'tf',
+    origin: 'historical',
+    prompt:
+      'Creating and deleting both user and system processes are considered one.',
+    correct: true,
+    sourceRefs: [{ examId: 'midterm_2022', question: 'Q1.7' }],
+    answerStatus: 'needs-review',
+    unscored: true,
+    explanation: {
+      en: 'The original sentence is elliptical; “one” presumably means “one of the operating system’s process-management activities.” Under that reading it is true: Chapter 1 lists creating and deleting both user and system processes as an OS responsibility. Because the printed wording is incomplete, this item is flagged and not counted in your score.',
+      ar: 'الجملة الأصلية ناقصة؛ “one” غالبًا معناها “one of the OS process-management activities”. بهذا المعنى صح: Chapter 1 بيذكر إن إنشاء وحذف user وsystem processes من مسؤوليات الـ OS. عشان الصياغة المطبوعة ناقصة، السؤال متسجل للمراجعة ومش محسوب في الدرجة.',
+    },
+    optionNotes: {
+      true: { en: 'Best reading: it is one of the process-management activities.', ar: 'أفضل قراءة: من process-management activities.' },
+      false: { en: 'Only defensible if “one” is read as something else.', ar: 'ممكن بس لو “one” معناها حاجة تانية.' },
+    },
+    takeaway: {
+      en: 'Process management includes creating/deleting user and system processes.',
+      ar: 'process management بيشمل إنشاء وحذف user وsystem processes.',
+    },
+  },
+]

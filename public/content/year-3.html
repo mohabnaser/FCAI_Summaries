@@ -10,12 +10,22 @@
           <img src="/media/1.png" alt="Hero banner" />
         </p>
       </section>
-      <div class="notice-card">
-        <div class="notice-icon"><i class="fa-solid fa-hourglass-half"></i></div>
-        <h2 class="notice-title">3rd Year — Term 1 Coming Soon</h2>
-        <p class="notice-desc">
-          Summaries, lecture notes, and revision sheets are currently being organized and will be available here soon.
-        </p>
+      <!-- One card per subject. Add new subjects as more <a class="card"> entries. -->
+      <div class="grid">
+        <a class="card accent-cyan" href="/3rd-year/os"
+          ><div class="icon"><i class="fa-solid fa-microchip"></i></div>
+          <div>
+            <h4 class="OS">Operating Systems</h4>
+            <div class="desc">Lessons, quizzes and past exams</div>
+          </div></a
+        >
+        <div class="card card-soon" aria-label="More subjects coming soon">
+          <div class="icon"><i class="fa-solid fa-hourglass-half"></i></div>
+          <div>
+            <h4>More subjects</h4>
+            <div class="desc">Coming soon</div>
+          </div>
+        </div>
       </div>
     </main>
     <footer

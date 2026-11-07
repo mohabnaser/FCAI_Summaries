@@ -1,0 +1,1676 @@
+@import "tailwindcss" source("./");
+
+@theme {
+  --font-sans: "Inter Variable", "Noto Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk Variable", "Inter Variable", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
+
+  --color-ink-950: #070d18;
+  --color-ink-900: #0a1422;
+  --color-ink-850: #0d1929;
+  --color-ink-800: #112034;
+  --color-ink-750: #172941;
+  --color-ink-700: #1d3250;
+  --color-line: #28405f;
+  --color-line-soft: #1c304b;
+
+  --color-mist-50: #f7faff;
+  --color-mist-100: #eaf1fb;
+  --color-mist-200: #d3e0ef;
+  --color-mist-300: #b4c6dc;
+  --color-mist-400: #91a7c2;
+  --color-mist-500: #7088a5;
+  --color-mist-600: #526b88;
+
+  --color-cyan-neon: #35d8ee;
+  --color-teal-neon: #39d5bd;
+  --color-violet-neon: #b09afa;
+  --color-amber-neon: #f7c454;
+  --color-rose-neon: #fb8495;
+  --color-lime-neon: #b0e95c;
+}
+
+:root {
+  color-scheme: dark;
+  --sidebar-width: 17.5rem;
+  --topbar-height: 4.25rem;
+  --reading-text: #c3d2e5;
+  --glow-strength: 1;
+}
+
+/*
+ * "Bloom" theme: Chapter 2's default (selectable anywhere from the top bar).
+ * Deep indigo background, soft white text, pink as the main accent balanced by
+ * mint, sky blue, sunny yellow, purple and coral. Every surface and every Tailwind
+ * token class derives from these variables, so the whole app re-colours at once.
+ */
+:root[data-theme="bloom"],
+[data-theme-preview="bloom"] {
+  --color-ink-950: #0d0a1c;
+  --color-ink-900: #130f27;
+  --color-ink-850: #181331;
+  --color-ink-800: #1e1840;
+  --color-ink-750: #261f4e;
+  --color-ink-700: #30285f;
+  --color-line: #41377a;
+  --color-line-soft: #2e2759;
+
+  --color-mist-50: #fff8fd;
+  --color-mist-100: #f6eefa;
+  --color-mist-200: #e7dcf3;
+  --color-mist-300: #cfc1e6;
+  --color-mist-400: #b0a2cf;
+  --color-mist-500: #9184b6;
+  --color-mist-600: #6f6396;
+
+  /* Token names are semantic roles; in Bloom: primary = pink, success = mint. */
+  --color-cyan-neon: #ff6bc1;
+  --color-teal-neon: #3ee8b5;
+  --color-violet-neon: #a98bff;
+  --color-amber-neon: #ffcf5c;
+  --color-rose-neon: #ff7b6e;
+  --color-lime-neon: #4fc8ff;
+
+  --reading-text: #e4d9f0;
+}
+
+/*
+ * "Sunset" theme: Chapter 3's default. A deep sea-teal background with warm apricot as
+ * the main accent, balanced by sun gold, sea green, sky blue, lavender and coral —
+ * sunset over the sea. Shares Bloom's motion; only the colours differ.
+ */
+:root[data-theme="sunset"],
+[data-theme-preview="sunset"] {
+  --color-ink-950: #06161b;
+  --color-ink-900: #0a1e24;
+  --color-ink-850: #0d242b;
+  --color-ink-800: #112c34;
+  --color-ink-750: #16353e;
+  --color-ink-700: #1c4049;
+  --color-line: #2b5a63;
+  --color-line-soft: #1d4149;
+
+  --color-mist-50: #fff8ef;
+  --color-mist-100: #f5eee4;
+  --color-mist-200: #e2ddd2;
+  --color-mist-300: #c4c9c1;
+  --color-mist-400: #a2b0ab;
+  --color-mist-500: #81938f;
+  --color-mist-600: #5f7470;
+
+  /* Semantic roles: primary = apricot, success = sea green, lime slot = sky blue. */
+  --color-cyan-neon: #ff9e5e;
+  --color-teal-neon: #45e0a8;
+  --color-violet-neon: #b9a4ff;
+  --color-amber-neon: #ffd166;
+  --color-rose-neon: #ff6b81;
+  --color-lime-neon: #5cc9f5;
+
+  --reading-text: #e3e2d9;
+}
+
+/*
+ * "Jade" theme: Chapter 5's default. Neutral graphite surfaces that are fully opaque,
+ * crisp near-white text and a jade accent, balanced by violet, gold, sky and coral.
+ * Built for maximum legibility: no translucent glass, no background blobs.
+ */
+:root[data-theme="jade"],
+[data-theme-preview="jade"] {
+  --color-ink-950: #0e1216;
+  --color-ink-900: #151a20;
+  --color-ink-850: #1a2028;
+  --color-ink-800: #1f2730;
+  --color-ink-750: #262f39;
+  --color-ink-700: #2e3843;
+  --color-line: #3d4a57;
+  --color-line-soft: #2c3640;
+
+  --color-mist-50: #ffffff;
+  --color-mist-100: #f2f6f9;
+  --color-mist-200: #e2e9ef;
+  --color-mist-300: #cdd7df;
+  --color-mist-400: #b0bdc8;
+  --color-mist-500: #94a3af;
+  --color-mist-600: #74838f;
+
+  /* Semantic roles: primary = jade, success = green, lime slot = sky blue. */
+  --color-cyan-neon: #34d399;
+  --color-teal-neon: #4ade80;
+  --color-violet-neon: #a78bfa;
+  --color-amber-neon: #fbbf24;
+  --color-rose-neon: #fb7185;
+  --color-lime-neon: #60a5fa;
+
+  --reading-text: #e6ecf1;
+}
+
+
+/* Slowly drifting colour blobs behind everything. */
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) body {
+  background-image: none;
+  background-color: var(--color-ink-950);
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) body::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(38% 32% at 18% 12%, color-mix(in srgb, var(--color-cyan-neon) 16%, transparent), transparent 70%),
+    radial-gradient(34% 30% at 86% 10%, color-mix(in srgb, var(--color-lime-neon) 13%, transparent), transparent 70%),
+    radial-gradient(36% 34% at 70% 88%, color-mix(in srgb, var(--color-teal-neon) 10%, transparent), transparent 70%),
+    radial-gradient(30% 28% at 10% 82%, color-mix(in srgb, var(--color-violet-neon) 12%, transparent), transparent 70%);
+  animation: bloom-drift 28s ease-in-out infinite alternate;
+}
+
+@keyframes bloom-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(3%, -2%, 0) scale(1.06); }
+  100% { transform: translate3d(-3%, 2%, 0) scale(1.02); }
+}
+
+@keyframes bloom-shift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+@keyframes bloom-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  70% { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Hero: a colourful sheen that moves slowly across the card. */
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .lesson-hero {
+  border-color: color-mix(in srgb, var(--color-cyan-neon) 30%, var(--color-line));
+  background:
+    linear-gradient(120deg,
+      color-mix(in srgb, var(--color-cyan-neon) 14%, transparent),
+      color-mix(in srgb, var(--color-violet-neon) 12%, transparent) 30%,
+      color-mix(in srgb, var(--color-lime-neon) 10%, transparent) 55%,
+      color-mix(in srgb, var(--color-teal-neon) 10%, transparent) 75%,
+      color-mix(in srgb, var(--color-cyan-neon) 14%, transparent)),
+    linear-gradient(150deg, var(--color-ink-800), var(--color-ink-900));
+  background-size: 300% 100%, 100% 100%;
+  animation: bloom-shift 18s linear infinite;
+  box-shadow: 0 30px 80px -50px color-mix(in srgb, var(--color-cyan-neon) 70%, transparent);
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .lesson-title {
+  background: linear-gradient(90deg, var(--color-mist-50), color-mix(in srgb, var(--color-cyan-neon) 55%, var(--color-mist-50)), var(--color-mist-50));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .exam-focus-card {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--color-amber-neon) 12%, var(--color-ink-900)), var(--color-ink-900) 60%);
+}
+
+/* Buttons: pink to purple gradient with a light sweep on hover. */
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .btn-primary,
+[data-theme-preview="bloom"] .btn-primary,
+[data-theme-preview="sunset"] .btn-primary,
+[data-theme-preview="jade"] .btn-primary {
+  border-color: transparent;
+  background: linear-gradient(120deg, var(--color-cyan-neon), var(--color-violet-neon));
+  color: var(--color-ink-950);
+  box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--color-cyan-neon) 90%, transparent);
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(120deg, color-mix(in srgb, var(--color-cyan-neon) 85%, white), var(--color-violet-neon));
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px -14px color-mix(in srgb, var(--color-cyan-neon) 95%, transparent);
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 -60%;
+  width: 45%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-18deg);
+  transition: left 600ms ease;
+  pointer-events: none;
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .btn-primary:hover::after {
+  left: 120%;
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .btn-secondary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--color-cyan-neon) 45%, var(--color-line));
+}
+
+/* Cards lift, glow, and their icon does a little wiggle. */
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-card {
+  transition: transform 220ms cubic-bezier(.2, .8, .2, 1), box-shadow 220ms ease, background-color 220ms ease;
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-card:hover {
+  transform: translateY(-5px);
+  background-color: var(--color-ink-800);
+  box-shadow: 0 22px 44px -26px color-mix(in srgb, var(--color-cyan-neon) 75%, transparent);
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-icon {
+  transition: transform 300ms cubic-bezier(.3, 1.6, .5, 1);
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-card:hover .vb-icon {
+  transform: rotate(-8deg) scale(1.12);
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-panel,
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .panel {
+  box-shadow: 0 18px 50px -40px color-mix(in srgb, var(--color-violet-neon) 80%, transparent);
+}
+
+/* Memory hooks: the phrase shimmers through the whole palette. */
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-hook-phrase {
+  background: linear-gradient(90deg, var(--color-cyan-neon), var(--color-amber-neon), var(--color-teal-neon), var(--color-lime-neon), var(--color-violet-neon), var(--color-cyan-neon));
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: bloom-shift 10s linear infinite;
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-hook {
+  border-color: color-mix(in srgb, var(--color-cyan-neon) 35%, transparent);
+  background:
+    radial-gradient(ellipse 60% 90% at 100% 0%, color-mix(in srgb, var(--color-cyan-neon) 18%, transparent), transparent 60%),
+    radial-gradient(ellipse 50% 80% at 0% 100%, color-mix(in srgb, var(--color-lime-neon) 12%, transparent), transparent 60%),
+    linear-gradient(150deg, var(--color-ink-800), var(--color-ink-900));
+}
+
+/* Recap ticks pop in when the recap appears. */
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) [data-reveal="in"] .vb-tick {
+  animation: bloom-pop 420ms cubic-bezier(.3, 1.6, .5, 1) both;
+}
+
+/* Progress bars get a moving gradient; the active nav item a soft pink wash. */
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .bg-gradient-to-r.from-cyan-neon {
+  background-image: linear-gradient(90deg, var(--color-cyan-neon), var(--color-amber-neon), var(--color-teal-neon), var(--color-cyan-neon));
+  background-size: 300% 100%;
+  animation: bloom-shift 6s linear infinite;
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .nav-link-active {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--color-cyan-neon) 16%, transparent), color-mix(in srgb, var(--color-violet-neon) 8%, transparent));
+}
+
+/* Lesson blocks fade up as they scroll into view (Bloom only). */
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 600ms ease, transform 600ms cubic-bezier(.2, .8, .2, 1);
+}
+
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) [data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+  :root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) body::before {
+    animation: none;
+  }
+}
+
+@media print {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Sunset-only overrides (after the shared motion rules so they win). */
+/* A warm horizon glow behind the hero title. */
+:root[data-theme="sunset"] .lesson-hero {
+  background:
+    radial-gradient(70% 120% at 100% 0%, color-mix(in srgb, var(--color-amber-neon) 16%, transparent), transparent 60%),
+    linear-gradient(120deg,
+      color-mix(in srgb, var(--color-cyan-neon) 16%, transparent),
+      color-mix(in srgb, var(--color-rose-neon) 10%, transparent) 30%,
+      color-mix(in srgb, var(--color-violet-neon) 9%, transparent) 55%,
+      color-mix(in srgb, var(--color-lime-neon) 9%, transparent) 75%,
+      color-mix(in srgb, var(--color-cyan-neon) 16%, transparent)),
+    linear-gradient(160deg, var(--color-ink-800), var(--color-ink-900));
+  background-size: 100% 100%, 300% 100%, 100% 100%;
+}
+
+:root[data-theme="sunset"] .btn-primary,
+[data-theme-preview="sunset"] .btn-primary {
+  background: linear-gradient(120deg, var(--color-amber-neon), var(--color-cyan-neon) 55%, var(--color-rose-neon));
+}
+
+/* Jade-only overrides: solid surfaces and a calm, opaque page. */
+:root[data-theme="jade"] body {
+  background-color: var(--color-ink-950);
+}
+
+:root[data-theme="jade"] body::before {
+  display: none;
+}
+
+:root[data-theme="jade"] .panel,
+:root[data-theme="jade"] .vb-panel {
+  background: var(--color-ink-900);
+  border-color: var(--color-line-soft);
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.04) inset, 0 14px 32px -22px rgba(0, 0, 0, 0.85);
+}
+
+:root[data-theme="jade"] .vb-card {
+  background-color: var(--color-ink-900);
+}
+
+:root[data-theme="jade"] .vb-card:hover {
+  background-color: var(--color-ink-850);
+}
+
+:root[data-theme="jade"] .lesson-hero {
+  border-color: color-mix(in srgb, var(--color-cyan-neon) 40%, var(--color-line));
+  background:
+    linear-gradient(90deg, var(--color-cyan-neon), var(--color-lime-neon) 50%, var(--color-violet-neon)) top / 100% 3px no-repeat,
+    linear-gradient(160deg, var(--color-ink-800), var(--color-ink-900));
+  animation: none;
+  box-shadow: 0 24px 60px -40px color-mix(in srgb, var(--color-cyan-neon) 70%, transparent);
+}
+
+:root[data-theme="jade"] .vb-hook {
+  background: linear-gradient(150deg, var(--color-ink-800), var(--color-ink-900));
+}
+
+:root[data-theme="jade"] .btn-primary,
+[data-theme-preview="jade"] .btn-primary {
+  background: linear-gradient(120deg, var(--color-cyan-neon), var(--color-lime-neon));
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-ink-950);
+  color: var(--color-mist-200);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 18% -12%, color-mix(in srgb, var(--color-cyan-neon) 7.5%, transparent), transparent 58%),
+    radial-gradient(ellipse 65% 45% at 100% 4%, color-mix(in srgb, var(--color-violet-neon) 5.5%, transparent), transparent 62%);
+  background-attachment: fixed;
+}
+
+.app-shell {
+  --sidebar-width: 17.5rem;
+}
+
+.app-shell[data-sidebar="collapsed"] {
+  --sidebar-width: 4.75rem;
+}
+
+@media (min-width: 1024px) {
+  .app-sidebar {
+    width: var(--sidebar-width);
+    transition: width 220ms ease;
+  }
+
+  .app-content {
+    padding-left: var(--sidebar-width);
+    transition: padding-left 220ms ease;
+  }
+}
+
+.page-container {
+  width: 100%;
+  max-width: 1760px;
+  margin-inline: auto;
+}
+
+.lesson-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+}
+
+@media (min-width: 1536px) {
+  .lesson-layout {
+    grid-template-columns: minmax(0, 1fr) 15.5rem;
+    gap: 2.5rem;
+  }
+
+  .lesson-rail {
+    position: sticky;
+    top: 5.75rem;
+    align-self: start;
+    max-height: calc(100vh - 7rem);
+    overflow-y: auto;
+  }
+}
+
+.lesson-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-line) 72%, transparent);
+  border-radius: 1.35rem;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--color-ink-750) 92%, transparent) 0%, color-mix(in srgb, var(--color-ink-900) 96%, transparent) 58%, color-mix(in srgb, var(--color-ink-850) 92%, transparent) 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.045) inset,
+    0 32px 80px -52px rgba(0, 0, 0, 0.95);
+}
+
+.lesson-hero::before {
+  content: "";
+  position: absolute;
+  inset: -30% auto auto -8%;
+  width: 36rem;
+  height: 26rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-cyan-neon) 12%, transparent), transparent 68%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.lesson-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto -10% -50% auto;
+  width: 34rem;
+  height: 26rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-violet-neon) 7.5%, transparent), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.lesson-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.55rem + 1.35vw, 2.55rem);
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: var(--color-mist-50);
+  text-wrap: balance;
+}
+
+.lesson-lede {
+  max-width: 68rem;
+  font-size: clamp(1.08rem, 0.98rem + 0.35vw, 1.3rem);
+  line-height: 1.7;
+  color: var(--color-mist-300);
+  text-wrap: pretty;
+}
+
+.lesson-lede .prose-atlas {
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.lesson-lede .arabic-note {
+  font-size: 0.98em;
+  color: var(--color-mist-300);
+}
+
+.lesson-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.lesson-divider {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--color-cyan-neon) 30%, transparent), color-mix(in srgb, var(--color-line) 40%, transparent) 32%, transparent 90%);
+}
+
+.study-band {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .study-band {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    align-items: stretch;
+  }
+}
+
+.lesson-body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+
+.lesson-body > * {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .lesson-body {
+    gap: 2.75rem;
+  }
+}
+
+.lesson-copy {
+  max-width: 86ch;
+  color: var(--reading-text);
+  font-size: clamp(1.0625rem, 0.98rem + 0.28vw, 1.1875rem);
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+
+.lesson-copy p {
+  margin: 0;
+}
+
+.lesson-copy p + p {
+  margin-top: 1rem;
+}
+
+.concept-card {
+  border: 1px solid color-mix(in srgb, var(--color-line) 72%, transparent);
+  border-radius: 1.15rem;
+  background:
+    linear-gradient(150deg, color-mix(in srgb, var(--color-ink-800) 78%, transparent), color-mix(in srgb, var(--color-ink-900) 90%, transparent));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.035) inset;
+  padding: clamp(1.25rem, 2vw, 2rem);
+}
+
+.concept-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 1.1rem + 0.55vw, 1.6rem);
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--color-mist-50);
+  text-wrap: balance;
+}
+
+.block-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-mist-500);
+}
+
+.section-map {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--color-line) 55%, transparent);
+  border-radius: 0.8rem;
+  background: color-mix(in srgb, var(--color-ink-900) 42%, transparent);
+  padding: 0.6rem 0.85rem;
+}
+
+.section-map-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+}
+
+.section-map-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  border-radius: 0.45rem;
+  padding: 0.2rem 0.4rem;
+  color: var(--color-mist-400);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.section-map-link:hover,
+.section-map-link:focus-visible {
+  color: var(--color-cyan-neon);
+  background: color-mix(in srgb, var(--color-cyan-neon) 7%, transparent);
+}
+
+.subsection-block {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid color-mix(in srgb, var(--color-line) 55%, transparent);
+  padding-top: 1.4rem;
+  margin-bottom: -0.9rem;
+}
+
+.subsection-block:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.subsection-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 1.2rem + 0.7vw, 1.85rem);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--color-mist-50);
+  text-wrap: balance;
+}
+
+.rail-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  border-inline-start: 1px solid var(--color-line-soft);
+  padding: 0.35rem 0 0.35rem 0.8rem;
+  color: var(--color-mist-500);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.rail-link:hover {
+  color: var(--color-mist-200);
+  border-color: var(--color-line);
+}
+
+.rail-link[data-active="true"] {
+  color: var(--color-cyan-neon);
+  border-color: var(--color-cyan-neon);
+}
+
+.glossary-card {
+  border: 1px solid color-mix(in srgb, var(--color-line) 70%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--color-ink-900) 58%, transparent);
+  padding: 1rem 1.1rem;
+}
+
+.exam-focus-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-amber-neon) 28%, transparent);
+  border-radius: 1.15rem;
+  background:
+    linear-gradient(150deg, rgba(62, 47, 17, 0.36), color-mix(in srgb, var(--color-ink-900) 90%, transparent) 55%);
+  padding: clamp(1.25rem, 2vw, 1.85rem);
+}
+
+.exam-focus-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--color-amber-neon), color-mix(in srgb, var(--color-amber-neon) 10%, transparent));
+}
+
+/* ─── Content Cards (visual containers for prose & list blocks) ─── */
+.content-card {
+  --_accent: var(--color-cyan-neon);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--_accent) 20%, transparent);
+  border-radius: 1.25rem;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--_accent) 5.5%, transparent) 0%,
+    color-mix(in srgb, var(--color-ink-900) 88%, transparent) 65%
+  );
+  padding: clamp(1.25rem, 2.2vw, 1.85rem);
+  box-shadow:
+    0 4px 20px -2px rgba(0, 0, 0, 0.4),
+    0 0 0 1px color-mix(in srgb, var(--_accent) 8%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px);
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+.content-card:hover {
+  border-color: color-mix(in srgb, var(--_accent) 38%, transparent);
+  box-shadow:
+    0 8px 30px -4px rgba(0, 0, 0, 0.55),
+    0 0 25px -4px color-mix(in srgb, var(--_accent) 22%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transform: translateY(-1.5px);
+}
+
+/* Side accent bar (default — used for titled cards) using logical start */
+.content-card::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 3.5px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--_accent) 95%, transparent),
+    color-mix(in srgb, var(--_accent) 20%, transparent) 75%,
+    transparent
+  );
+}
+
+/* Top accent bar variant (used for untitled prose blocks) */
+.content-card--top::before {
+  inset-block-start: 0;
+  inset-inline: 0;
+  inset-block-end: auto;
+  width: auto;
+  height: 2.5px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--_accent) 90%, transparent) 20%,
+    color-mix(in srgb, var(--_accent) 75%, transparent) 50%,
+    transparent 85%
+  );
+}
+
+[dir="rtl"] .content-card--top::before {
+  background: linear-gradient(
+    270deg,
+    transparent,
+    color-mix(in srgb, var(--_accent) 90%, transparent) 20%,
+    color-mix(in srgb, var(--_accent) 75%, transparent) 50%,
+    transparent 85%
+  );
+}
+
+/* Subtle glowing accent tag/badge for cards */
+.content-card-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.7rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--_accent) 32%, transparent);
+  background: color-mix(in srgb, var(--_accent) 10%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--_accent) 98%, transparent);
+}
+
+/* Colored bullet dot for unordered lists inside content cards */
+.content-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--_accent) 90%, transparent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--_accent) 60%, transparent);
+  margin-top: 0.6em;
+}
+
+/* Numbered badge for ordered lists inside content cards */
+.content-step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  border-radius: 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--_accent) 35%, transparent);
+  background: color-mix(in srgb, var(--_accent) 10%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--_accent) 98%, transparent);
+  box-shadow: 0 0 12px -2px color-mix(in srgb, var(--_accent) 25%, transparent);
+}
+
+.content-card strong {
+  color: var(--color-mist-50);
+  font-weight: 650;
+  text-shadow: 0 0 16px color-mix(in srgb, var(--_accent) 25%, transparent);
+}
+
+/* ─── Visual teaching blocks (cards, flows, layers, versus, hooks) ─── */
+.vb-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-cyan-neon);
+}
+
+.vb-lead {
+  position: relative;
+  max-width: 82ch;
+  padding-inline-start: 1.1rem;
+  border-inline-start: 3px solid color-mix(in srgb, var(--color-cyan-neon) 55%, transparent);
+  color: var(--color-mist-100);
+  font-size: clamp(1.1rem, 1rem + 0.35vw, 1.28rem);
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+.vb-lead strong {
+  color: var(--color-mist-50);
+  font-weight: 650;
+}
+
+.vb-panel {
+  border: 1px solid color-mix(in srgb, var(--color-line) 60%, transparent);
+  border-radius: 1.25rem;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--color-ink-800) 70%, transparent), color-mix(in srgb, var(--color-ink-950) 88%, transparent));
+  padding: clamp(1rem, 2vw, 1.6rem);
+}
+
+.vb-card {
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.vb-card:hover {
+  transform: translateY(-2px);
+  background-color: color-mix(in srgb, var(--color-ink-800) 70%, transparent);
+}
+
+.vb-card strong,
+.vb-panel strong {
+  color: var(--color-mist-50);
+  font-weight: 650;
+}
+
+.vb-chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--color-line) 90%, transparent);
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--color-ink-950) 55%, transparent);
+  padding: 0.15rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-mist-200);
+}
+
+.vb-hook {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-violet-neon) 32%, transparent);
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(ellipse 60% 90% at 100% 0%, color-mix(in srgb, var(--color-violet-neon) 16%, transparent), transparent 60%),
+    linear-gradient(150deg, color-mix(in srgb, var(--color-ink-750) 55%, transparent), color-mix(in srgb, var(--color-ink-900) 92%, transparent));
+  padding: clamp(1.15rem, 2.2vw, 1.75rem);
+}
+
+/* Interactive diagrams: a selectable element inside a visual. */
+.viz-node {
+  border: 1px solid color-mix(in srgb, var(--color-line) 85%, transparent);
+  border-radius: 0.85rem;
+  background: color-mix(in srgb, var(--color-ink-900) 75%, transparent);
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+}
+
+.viz-node[data-active="true"] {
+  border-color: color-mix(in srgb, var(--color-cyan-neon) 70%, transparent);
+  background: color-mix(in srgb, var(--color-cyan-neon) 10%, transparent);
+  box-shadow: 0 0 30px -12px color-mix(in srgb, var(--color-cyan-neon) 90%, transparent);
+}
+
+.viz-node[data-dim="true"] {
+  opacity: 0.38;
+}
+
+@keyframes viz-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.viz-pulse {
+  animation: viz-pulse 1.4s ease-in-out infinite;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-cyan-neon) 28%, transparent);
+  color: var(--color-mist-50);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-ink-700);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-mist-600) 60%, var(--color-line));
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-cyan-neon);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+a,
+button,
+summary,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+summary {
+  user-select: none;
+}
+
+@layer components {
+  .panel {
+    border: 1px solid var(--color-line-soft);
+    border-radius: 1rem;
+    background:
+      linear-gradient(160deg, color-mix(in srgb, var(--color-ink-750) 72%, transparent), color-mix(in srgb, var(--color-ink-900) 86%, transparent));
+    box-shadow:
+      0 1px 0 0 rgba(255, 255, 255, 0.03) inset,
+      0 20px 48px -32px rgba(0, 0, 0, 0.9);
+  }
+
+  .panel-soft {
+    border: 1px solid color-mix(in srgb, var(--color-ink-700) 70%, transparent);
+    border-radius: 0.875rem;
+    background: color-mix(in srgb, var(--color-ink-850) 72%, transparent);
+  }
+
+  .panel-glow {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 16rem;
+    height: 9rem;
+    background: radial-gradient(circle at top left, color-mix(in srgb, var(--color-cyan-neon) 14%, transparent), transparent 70%);
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-cyan-neon);
+  }
+
+  .display-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+    color: var(--color-mist-50);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 1.2rem + 1.7vw, 2.6rem);
+    line-height: 1.08;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    color: var(--color-mist-50);
+    text-wrap: balance;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.6rem;
+    padding: 0.6rem 1rem;
+    border-radius: 0.7rem;
+    border: 1px solid transparent;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease,
+      border-color 160ms ease,
+      transform 160ms ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.48;
+  }
+
+  .btn-primary {
+    background: var(--color-cyan-neon);
+    color: var(--color-ink-950);
+    border-color: var(--color-cyan-neon);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-cyan-neon) 80%, white);
+    border-color: color-mix(in srgb, var(--color-cyan-neon) 80%, white);
+  }
+
+  .btn-secondary {
+    background: color-mix(in srgb, var(--color-ink-750) 90%, transparent);
+    border-color: var(--color-line);
+    color: var(--color-mist-100);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--color-ink-750);
+    border-color: color-mix(in srgb, var(--color-cyan-neon) 20%, var(--color-line));
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-mist-300);
+    border-color: transparent;
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-cyan-neon) 8%, transparent);
+    color: var(--color-mist-50);
+  }
+
+  .btn-danger {
+    background: color-mix(in srgb, var(--color-rose-neon) 12%, transparent);
+    color: color-mix(in srgb, var(--color-rose-neon) 55%, var(--color-mist-50));
+    border-color: color-mix(in srgb, var(--color-rose-neon) 35%, transparent);
+  }
+
+  .btn-danger:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-rose-neon) 20%, transparent);
+  }
+
+  .btn-sm {
+    min-height: 2.1rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.78rem;
+    border-radius: 0.55rem;
+  }
+
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.6rem;
+    border: 1px solid transparent;
+    color: var(--color-mist-400);
+    background: transparent;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease,
+      border-color 160ms ease;
+    cursor: pointer;
+  }
+
+  .icon-btn:hover {
+    background: color-mix(in srgb, var(--color-cyan-neon) 8%, transparent);
+    color: var(--color-mist-50);
+    border-color: color-mix(in srgb, var(--color-cyan-neon) 14%, transparent);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    padding: 0.22rem 0.62rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.035em;
+    line-height: 1.35;
+    color: var(--color-mist-300);
+    background: color-mix(in srgb, var(--color-ink-800) 70%, transparent);
+    white-space: nowrap;
+  }
+
+  .badge-cyan {
+    color: color-mix(in srgb, var(--color-cyan-neon) 65%, var(--color-mist-50));
+    border-color: color-mix(in srgb, var(--color-cyan-neon) 30%, transparent);
+    background: color-mix(in srgb, var(--color-cyan-neon) 9%, transparent);
+  }
+
+  .badge-teal {
+    color: color-mix(in srgb, var(--color-teal-neon) 65%, var(--color-mist-50));
+    border-color: color-mix(in srgb, var(--color-teal-neon) 30%, transparent);
+    background: color-mix(in srgb, var(--color-teal-neon) 9%, transparent);
+  }
+
+  .badge-violet {
+    color: color-mix(in srgb, var(--color-violet-neon) 65%, var(--color-mist-50));
+    border-color: color-mix(in srgb, var(--color-violet-neon) 32%, transparent);
+    background: color-mix(in srgb, var(--color-violet-neon) 10%, transparent);
+  }
+
+  .badge-amber {
+    color: color-mix(in srgb, var(--color-amber-neon) 65%, var(--color-mist-50));
+    border-color: color-mix(in srgb, var(--color-amber-neon) 32%, transparent);
+    background: color-mix(in srgb, var(--color-amber-neon) 9%, transparent);
+  }
+
+  .badge-rose {
+    color: color-mix(in srgb, var(--color-rose-neon) 55%, var(--color-mist-50));
+    border-color: color-mix(in srgb, var(--color-rose-neon) 32%, transparent);
+    background: color-mix(in srgb, var(--color-rose-neon) 9%, transparent);
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 0.6rem;
+    color: var(--color-mist-400);
+    font-size: 0.875rem;
+    line-height: 1.35;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition:
+      color 150ms ease,
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .nav-link:hover {
+    color: var(--color-mist-100);
+    background: color-mix(in srgb, var(--color-cyan-neon) 5.5%, transparent);
+  }
+
+  .nav-link-active {
+    color: var(--color-mist-50);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--color-cyan-neon) 13%, transparent), color-mix(in srgb, var(--color-cyan-neon) 3%, transparent));
+    border-color: color-mix(in srgb, var(--color-cyan-neon) 18%, transparent);
+  }
+
+  .prose-atlas {
+    color: var(--color-mist-300);
+    font-size: 1.0625rem;
+    line-height: 1.78;
+  }
+
+  .prose-atlas p {
+    margin: 0;
+  }
+
+  .prose-atlas strong {
+    color: var(--color-mist-50);
+    font-weight: 650;
+  }
+
+  .prose-atlas code,
+  .rich-inline code {
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+    color: color-mix(in srgb, var(--color-cyan-neon) 60%, var(--color-mist-50));
+    background: color-mix(in srgb, var(--color-cyan-neon) 9%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-cyan-neon) 13%, transparent);
+    border-radius: 0.3rem;
+    padding: 0.1em 0.35em;
+    overflow-wrap: anywhere;
+  }
+
+  .rich-inline {
+    overflow-wrap: anywhere;
+  }
+
+  .arabic-note {
+    direction: rtl;
+    text-align: right;
+    font-family: "Noto Sans Arabic", var(--font-sans);
+    font-size: 0.98rem;
+    line-height: 1.85;
+    color: var(--color-mist-200);
+    background: color-mix(in srgb, var(--_accent, var(--color-teal-neon)) 5%, transparent);
+    border-inline-start: 3px solid color-mix(in srgb, var(--_accent, var(--color-teal-neon)) 70%, transparent);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin-top: 0.65rem;
+    border-top: 1px solid color-mix(in srgb, var(--_accent, var(--color-teal-neon)) 8%, transparent);
+    border-inline-end: 1px solid color-mix(in srgb, var(--_accent, var(--color-teal-neon)) 8%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--_accent, var(--color-teal-neon)) 8%, transparent);
+  }
+
+  .arabic-note .rich-inline code,
+  .arabic-note code {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  .divide-line > * + * {
+    border-top: 1px solid var(--color-line-soft);
+  }
+
+  .field {
+    width: 100%;
+    border: 1px solid var(--color-line);
+    border-radius: 0.65rem;
+    background: color-mix(in srgb, var(--color-ink-950) 65%, transparent);
+    color: var(--color-mist-100);
+    padding: 0.7rem 0.85rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    transition:
+      border-color 150ms ease,
+      background-color 150ms ease;
+  }
+
+  .field::placeholder {
+    color: var(--color-mist-500);
+  }
+
+  .field:focus {
+    outline: none;
+    border-color: color-mix(in srgb, var(--color-cyan-neon) 70%, transparent);
+    background: color-mix(in srgb, var(--color-ink-900) 90%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-cyan-neon) 12%, transparent);
+  }
+
+  .field[aria-invalid="true"] {
+    border-color: color-mix(in srgb, var(--color-rose-neon) 70%, transparent);
+  }
+
+  .quiz-option {
+    position: relative;
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    width: 100%;
+    border: 1px solid var(--color-line);
+    border-radius: 0.85rem;
+    background: color-mix(in srgb, var(--color-ink-900) 62%, transparent);
+    padding: 0.95rem 1.05rem;
+    text-align: left;
+    color: var(--color-mist-200);
+    font-size: 1rem;
+    line-height: 1.6;
+    cursor: pointer;
+    transition:
+      border-color 150ms ease,
+      background-color 150ms ease;
+  }
+
+  .quiz-option:hover {
+    border-color: color-mix(in srgb, var(--color-cyan-neon) 20%, var(--color-line));
+    background: color-mix(in srgb, var(--color-ink-800) 85%, transparent);
+  }
+
+  .quiz-option:focus-within {
+    outline: 2px solid color-mix(in srgb, var(--color-cyan-neon) 85%, transparent);
+    outline-offset: 2px;
+    border-color: color-mix(in srgb, var(--color-cyan-neon) 55%, transparent);
+  }
+
+  .quiz-prompt {
+    font-size: 1.14rem;
+    line-height: 1.7;
+    font-weight: 450;
+    color: var(--color-mist-100);
+    overflow-wrap: anywhere;
+  }
+
+  .blank-marker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.45rem;
+    height: 1.35rem;
+    margin-inline: 0.12rem;
+    padding-inline: 0.3rem;
+    border-radius: 0.3rem;
+    border: 1px dashed color-mix(in srgb, var(--color-cyan-neon) 55%, transparent);
+    background: color-mix(in srgb, var(--color-cyan-neon) 8%, transparent);
+    color: color-mix(in srgb, var(--color-cyan-neon) 60%, var(--color-mist-50));
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    line-height: 1;
+    vertical-align: middle;
+    transform: translateY(-0.08em);
+  }
+
+  .quiz-option[data-selected="true"] {
+    border-color: color-mix(in srgb, var(--color-cyan-neon) 70%, transparent);
+    background: color-mix(in srgb, var(--color-cyan-neon) 8%, transparent);
+    color: var(--color-mist-50);
+  }
+
+  .quiz-option[data-state="correct"] {
+    border-color: color-mix(in srgb, var(--color-teal-neon) 65%, transparent);
+    background: color-mix(in srgb, var(--color-teal-neon) 9%, transparent);
+  }
+
+  .quiz-option[data-state="wrong"] {
+    border-color: color-mix(in srgb, var(--color-rose-neon) 65%, transparent);
+    background: color-mix(in srgb, var(--color-rose-neon) 8%, transparent);
+  }
+
+  .option-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 1.65rem;
+    height: 1.65rem;
+    border-radius: 0.42rem;
+    border: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-ink-950) 55%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--color-mist-300);
+    margin-top: 0.05rem;
+  }
+
+  .quiz-option[data-selected="true"] .option-key {
+    border-color: color-mix(in srgb, var(--color-cyan-neon) 50%, transparent);
+    color: var(--color-cyan-neon);
+    background: color-mix(in srgb, var(--color-cyan-neon) 10%, transparent);
+  }
+
+  .quiz-option[data-state="correct"] .option-key {
+    border-color: color-mix(in srgb, var(--color-teal-neon) 55%, transparent);
+    color: color-mix(in srgb, var(--color-teal-neon) 85%, var(--color-mist-50));
+    background: color-mix(in srgb, var(--color-teal-neon) 14%, transparent);
+  }
+
+  .quiz-option[data-state="wrong"] .option-key {
+    border-color: color-mix(in srgb, var(--color-rose-neon) 55%, transparent);
+    color: color-mix(in srgb, var(--color-rose-neon) 80%, var(--color-mist-50));
+    background: color-mix(in srgb, var(--color-rose-neon) 14%, transparent);
+  }
+
+  .kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.45rem;
+    height: 1.45rem;
+    padding: 0 0.3rem;
+    border-radius: 0.35rem;
+    border: 1px solid var(--color-line);
+    border-bottom-width: 2px;
+    background: color-mix(in srgb, var(--color-ink-800) 90%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--color-mist-300);
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-mist-50);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-cyan-neon);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .link-arrow:hover {
+    color: color-mix(in srgb, var(--color-cyan-neon) 65%, var(--color-mist-50));
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--color-cyan-neon) 5.5%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--color-cyan-neon) 5.5%, transparent) 1px, transparent 1px);
+    background-size: 34px 34px;
+    mask-image: radial-gradient(ellipse 80% 80% at 60% 40%, black 20%, transparent 78%);
+  }
+
+  .fade-up {
+    animation: fade-up 420ms ease-out both;
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .pulse-dot {
+    animation: pulse-dot 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(0.85);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #0f172a;
+    background-image: none !important;
+  }
+
+  .no-print,
+  aside,
+  nav {
+    display: none !important;
+  }
+
+  .print-area {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  #main-content {
+    max-width: none !important;
+  }
+
+  #main-content,
+  :where(#main-content) * {
+    background: transparent !important;
+    background-image: none !important;
+    color: #1e293b !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  #main-content h1,
+  #main-content h2,
+  #main-content h3,
+  #main-content h4,
+  #main-content .display-title,
+  #main-content .lesson-title,
+  #main-content .section-title,
+  #main-content .stat-value,
+  #main-content strong {
+    color: #0f172a !important;
+  }
+
+  #main-content .badge {
+    border-color: #cbd5e1 !important;
+    color: #334155 !important;
+  }
+
+  #main-content .eyebrow,
+  #main-content .link-arrow {
+    color: #0e7490 !important;
+  }
+
+  #main-content .panel,
+  #main-content .panel-soft,
+  #main-content .concept-card,
+  #main-content .glossary-card,
+  #main-content .exam-focus-card,
+  #main-content .lesson-hero,
+  #main-content .study-band,
+  #main-content table,
+  #main-content th,
+  #main-content td,
+  #main-content pre,
+  #main-content code {
+    border-color: #cbd5e1 !important;
+  }
+
+  #main-content .lesson-hero,
+  #main-content .study-band,
+  #main-content .panel,
+  #main-content .panel-soft,
+  #main-content .concept-card,
+  #main-content .glossary-card,
+  #main-content .exam-focus-card {
+    break-inside: avoid;
+  }
+
+  .print-area,
+  .print-area * {
+    background: transparent !important;
+    color: #1e293b !important;
+    box-shadow: none !important;
+  }
+
+  .print-area .panel,
+  .print-area .panel-soft,
+  .print-area .badge {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    break-inside: avoid;
+  }
+
+  .print-area .display-title,
+  .print-area .section-title,
+  .print-area .stat-value,
+  .print-area h1,
+  .print-area h2,
+  .print-area h3,
+  .print-area strong {
+    color: #0f172a !important;
+  }
+
+  .print-area p,
+  .print-area li,
+  .print-area td,
+  .print-area th,
+  .print-area .prose-atlas,
+  .print-area .arabic-note {
+    color: #1e293b !important;
+  }
+
+  .print-area .arabic-note {
+    display: none !important;
+  }
+
+  .print-area .badge {
+    border-color: #cbd5e1 !important;
+    background: #f8fafc !important;
+    color: #334155 !important;
+  }
+
+  .print-area .eyebrow {
+    color: #0e7490 !important;
+  }
+
+  .print-area .link-arrow {
+    color: #0e7490 !important;
+  }
+
+  .print-area .cheat-bullet {
+    background: #0891b2 !important;
+  }
+
+  a[href]::after {
+    content: "";
+  }
+}
