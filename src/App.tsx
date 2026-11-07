@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import { Suspense, useEffect } from "react";
 import {
   BrowserRouter,
@@ -59,6 +60,7 @@ const subjectRoutes = subjectApps.map(
 export default function App() {
   return (
     <BrowserRouter basename={BASENAME || undefined}>
+      <Analytics />
       <ScrollToTop />
       <Routes>
         {contentRoutes}
@@ -77,5 +79,6 @@ export default function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
+    
   );
 }
