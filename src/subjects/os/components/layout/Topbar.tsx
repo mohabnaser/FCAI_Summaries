@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Bookmark, Gem, Menu, Moon, Palette, PanelLeftClose, PanelLeftOpen, SunMoon, Sunset, Trophy } from 'lucide-react'
+import { ArrowRight, Bookmark, Gem, Home, Menu, Moon, Palette, PanelLeftClose, PanelLeftOpen, SunMoon, Sunset, Trophy } from 'lucide-react'
 import { LanguageToggle } from '../ui/LanguageToggle'
 import { useProgress } from '../../context/ProgressContext'
 import { resolveTheme, useThemePreference, type ThemePreference } from '../../context/ThemeContext'
@@ -118,6 +118,16 @@ export function Topbar({ onMenu, sidebarCollapsed, onToggleSidebar }: TopbarProp
             {inChapter ? chapter.meta.title : 'Operating Systems'}
           </p>
         </div>
+
+        <Link
+          to="/"
+          className="btn btn-secondary btn-sm shrink-0"
+          aria-label="Go to website home page"
+          title="Website home page"
+        >
+          <Home className="h-3.5 w-3.5" aria-hidden="true" />
+          <span className="hidden sm:inline">Home</span>
+        </Link>
 
         <div className="hidden items-center gap-3.5 xl:flex">
           <Link
