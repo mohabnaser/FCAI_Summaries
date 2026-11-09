@@ -1,0 +1,626 @@
+@import "tailwindcss" source("./");
+
+/*
+ * "Blueprint" — the Software Engineering subject's look.
+ * Two themes share one set of semantic variables:
+ *   dark  = midnight (near-black surfaces, soft coloured glows, bright ink)
+ *   light = paper (warm off-white, navy ink)
+ * Every component reads the `--se-*` variables, so switching `data-se-theme` on the subject root (.se-root)
+ * re-colours the whole subject, diagrams included.
+ */
+
+@theme inline {
+  --font-sans: "Inter Variable", "Noto Sans Arabic Variable", "Noto Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk Variable", "Inter Variable", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
+  --font-arabic: "Noto Sans Arabic Variable", "Noto Sans Arabic", ui-sans-serif, sans-serif;
+
+  --color-bg: var(--se-bg);
+  --color-surface: var(--se-surface);
+  --color-surface-2: var(--se-surface-2);
+  --color-line: var(--se-line);
+  --color-line-soft: var(--se-line-soft);
+  --color-ink: var(--se-ink);
+  --color-muted: var(--se-muted);
+  --color-faint: var(--se-faint);
+  --color-blue: var(--se-blue);
+  --color-teal: var(--se-teal);
+  --color-violet: var(--se-violet);
+  --color-amber: var(--se-amber);
+  --color-rose: var(--se-rose);
+  --color-lime: var(--se-lime);
+}
+
+.se-root[data-se-theme="blueprint"] {
+  color-scheme: dark;
+  --se-bg: #05070b;
+  --se-sidebar: #07090e;
+  --se-surface: #0b0e15;
+  --se-surface-2: #0f131c;
+  --se-line: #232a39;
+  --se-line-soft: #161b26;
+  --se-ink: #f1f3f8;
+  --se-reading: #c4cad6;
+  --se-muted: #8e97a9;
+  --se-faint: #5d667a;
+  --se-blue: #7c9dff;
+  --se-teal: #52d6b0;
+  --se-violet: #b197fc;
+  --se-amber: #f3c062;
+  --se-rose: #f47b8f;
+  --se-lime: #a6d77d;
+  --se-glow-a: rgba(124, 157, 255, 0.11);
+  --se-glow-b: rgba(177, 151, 252, 0.07);
+  --se-highlight: rgba(255, 255, 255, 0.035);
+  --se-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 24px 48px -32px rgba(0, 0, 0, 0.95);
+  --se-tint: 13%;
+}
+
+.se-root[data-se-theme="paper"] {
+  color-scheme: light;
+  --se-bg: #f4f1ea;
+  --se-sidebar: #efebe2;
+  --se-surface: #fffdf9;
+  --se-surface-2: #f3f0e8;
+  --se-line: #ddd6c6;
+  --se-line-soft: #e9e3d6;
+  --se-ink: #141c2b;
+  --se-reading: #2c3a50;
+  --se-muted: #526077;
+  --se-faint: #7f8899;
+  --se-blue: #2b5fd9;
+  --se-teal: #0b8a6c;
+  --se-violet: #6447d0;
+  --se-amber: #a8670a;
+  --se-rose: #c9304d;
+  --se-lime: #4a7f12;
+  --se-glow-a: rgba(43, 95, 217, 0.07);
+  --se-glow-b: rgba(100, 71, 208, 0.05);
+  --se-highlight: rgba(255, 255, 255, 0.7);
+  --se-shadow: 0 1px 2px rgba(60, 50, 20, 0.05), 0 14px 30px -24px rgba(60, 50, 20, 0.35);
+  --se-tint: 11%;
+}
+
+/* Component classes live in the components layer so Tailwind utilities (e.g. lg:hidden) can override them. */
+@layer components {
+/* ---------- Tone system: any element with data-tone exposes --tone ---------- */
+[data-tone="blue"] { --tone: var(--se-blue); }
+[data-tone="teal"] { --tone: var(--se-teal); }
+[data-tone="violet"] { --tone: var(--se-violet); }
+[data-tone="amber"] { --tone: var(--se-amber); }
+[data-tone="rose"] { --tone: var(--se-rose); }
+[data-tone="lime"] { --tone: var(--se-lime); }
+
+.se-root {
+  --tone: var(--se-blue);
+  min-height: 100vh;
+  background:
+    radial-gradient(1100px 620px at 88% -12%, var(--se-glow-a), transparent 62%),
+    radial-gradient(800px 480px at 22% -8%, var(--se-glow-b), transparent 60%),
+    var(--se-bg);
+  background-attachment: fixed;
+  color: var(--se-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.se-root ::selection {
+  background: color-mix(in srgb, var(--se-blue) 35%, transparent);
+}
+
+.se-root :focus-visible {
+  outline: 2px solid var(--se-blue);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ---------- Shell ---------- */
+.se-sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 50;
+  width: 18rem;
+  display: flex;
+  flex-direction: column;
+  background: var(--se-sidebar);
+  border-right: 1px solid var(--se-line-soft);
+  transition: transform 0.22s ease;
+}
+.se-content {
+  min-width: 0;
+}
+@media (min-width: 1024px) {
+  .se-content { padding-left: 18rem; }
+}
+@media (max-width: 1023.98px) {
+  .se-sidebar[data-open="false"] { transform: translateX(-100%); }
+}
+
+.se-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--se-bg) 78%, transparent);
+  backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid var(--se-line-soft);
+}
+
+.page { max-width: 76rem; margin-inline: auto; }
+
+.nav-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  border-radius: 0.6rem;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.86rem;
+  line-height: 1.35;
+  color: var(--se-muted);
+  transition: background 0.15s, color 0.15s;
+}
+.nav-link:hover { background: var(--se-surface-2); color: var(--se-ink); }
+.nav-link[aria-current="page"] {
+  background: color-mix(in srgb, var(--se-blue) var(--se-tint), transparent);
+  color: var(--se-ink);
+  box-shadow: inset 2px 0 0 var(--se-blue);
+}
+
+/* ---------- Primitives ---------- */
+.panel {
+  background: linear-gradient(180deg, var(--se-highlight), transparent 120px), var(--se-surface);
+  border: 1px solid var(--se-line-soft);
+  border-radius: 1.1rem;
+  box-shadow: var(--se-shadow);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tone, var(--se-blue));
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--tone) 35%, transparent);
+  background: color-mix(in srgb, var(--tone) 9%, transparent);
+  color: var(--tone);
+  padding: 0.2rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: transform 0.12s, background 0.15s, border-color 0.15s, color 0.15s;
+  cursor: pointer;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary {
+  background: linear-gradient(135deg, var(--se-blue), color-mix(in srgb, var(--se-blue) 55%, var(--se-violet)));
+  color: var(--se-bg);
+  box-shadow: 0 10px 24px -14px var(--se-blue);
+}
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost { border: 1px solid var(--se-line); color: var(--se-ink); background: var(--se-surface); }
+.btn-ghost:hover { border-color: var(--se-blue); }
+.btn-sm { padding: 0.4rem 0.7rem; font-size: 0.8rem; border-radius: 0.6rem; }
+
+.icon-btn {
+  display: inline-flex;
+  height: 2.25rem;
+  width: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.65rem;
+  border: 1px solid var(--se-line-soft);
+  color: var(--se-muted);
+  background: var(--se-surface);
+  transition: color 0.15s, border-color 0.15s;
+}
+.icon-btn:hover { color: var(--se-ink); border-color: var(--se-line); }
+
+.icon-tile {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  height: 2.4rem;
+  width: 2.4rem;
+  border-radius: 0.75rem;
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) var(--se-tint), transparent);
+  border: 1px solid color-mix(in srgb, var(--tone) 28%, transparent);
+}
+
+.display { font-family: var(--font-display); letter-spacing: -0.02em; }
+
+/* ---------- Reading text ---------- */
+.rt strong { color: var(--se-ink); font-weight: 650; }
+.rt code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  padding: 0.08rem 0.36rem;
+  border-radius: 0.35rem;
+  background: color-mix(in srgb, var(--se-rose) 11%, transparent);
+  color: var(--se-rose);
+  border: 1px solid color-mix(in srgb, var(--se-rose) 22%, transparent);
+}
+.rt em { font-style: italic; color: var(--se-ink); }
+.rt mark {
+  background: color-mix(in srgb, var(--se-amber) 22%, transparent);
+  color: var(--se-ink);
+  border-radius: 0.2rem;
+  padding: 0 0.15rem;
+}
+.reading { color: var(--se-reading); line-height: 1.75; }
+
+/* The Arabic explanation layer. */
+.ar {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  text-align: right;
+  line-height: 1.95;
+  color: var(--se-reading);
+  border-right: 3px solid color-mix(in srgb, var(--se-teal) 60%, transparent);
+  padding-right: 0.8rem;
+  margin-top: 0.55rem;
+  font-size: 0.97em;
+}
+.ar-inline {
+  display: block;
+  font-family: var(--font-arabic);
+  direction: rtl;
+  text-align: right;
+  line-height: 1.9;
+  color: var(--se-muted);
+  margin-top: 0.35rem;
+  font-size: 0.93em;
+}
+
+/* ---------- Lesson hero ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.4rem;
+  border: 1px solid var(--se-line);
+  background:
+    radial-gradient(70% 120% at 100% 0%, color-mix(in srgb, var(--tone) 17%, transparent) 0%, transparent 60%),
+    radial-gradient(50% 90% at 0% 100%, color-mix(in srgb, var(--se-violet) 7%, transparent) 0%, transparent 70%),
+    var(--se-surface);
+  box-shadow: var(--se-shadow);
+}
+/* A thin glowing line along the top edge. */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--tone) 80%, transparent) 50%, transparent);
+}
+
+.tldr {
+  position: relative;
+  border-radius: 1rem;
+  padding: 1rem 1.15rem;
+  background: color-mix(in srgb, var(--se-amber) 8%, var(--se-surface));
+  border: 1px solid color-mix(in srgb, var(--se-amber) 32%, transparent);
+}
+
+/* ---------- Blocks ---------- */
+.part-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.6rem;
+  min-width: 2.6rem;
+  border-radius: 0.8rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--se-bg);
+  background: linear-gradient(135deg, var(--tone), color-mix(in srgb, var(--tone) 70%, var(--se-violet)));
+  box-shadow: 0 10px 26px -14px var(--tone);
+}
+
+.lead-block {
+  font-size: 1.12rem;
+  line-height: 1.8;
+  color: var(--se-reading);
+  border-left: 3px solid var(--tone);
+  padding-left: 1.1rem;
+}
+
+.card {
+  position: relative;
+  border-radius: 1rem;
+  border: 1px solid var(--se-line-soft);
+  background: linear-gradient(180deg, var(--se-highlight), transparent 90px), var(--se-surface);
+  padding: 1.1rem;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  border-color: color-mix(in srgb, var(--tone) 45%, var(--se-line));
+  box-shadow: 0 18px 40px -30px color-mix(in srgb, var(--tone) 70%, transparent);
+}
+.card-top { box-shadow: inset 0 3px 0 0 var(--tone); }
+
+.idea {
+  border-radius: 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--tone) 30%, var(--se-line-soft));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tone) 9%, transparent), transparent 60%),
+    var(--se-surface);
+  padding: 1.25rem;
+}
+.analogy {
+  margin-top: 1rem;
+  border-radius: 0.85rem;
+  border: 1px dashed color-mix(in srgb, var(--se-amber) 50%, transparent);
+  background: color-mix(in srgb, var(--se-amber) 6%, transparent);
+  padding: 0.85rem 1rem;
+}
+
+.flow-grid { display: grid; gap: 0.6rem; }
+@media (min-width: 768px) {
+  .flow-grid { grid-auto-flow: column; grid-auto-columns: 1fr; }
+}
+.flow-step {
+  position: relative;
+  border-radius: 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--tone) 30%, var(--se-line-soft));
+  background: color-mix(in srgb, var(--tone) 6%, var(--se-surface));
+  padding: 0.9rem;
+}
+.flow-step + .flow-step::before {
+  content: "";
+  position: absolute;
+  background: var(--se-line);
+}
+@media (min-width: 768px) {
+  .flow-step + .flow-step::before { left: -0.6rem; top: 50%; width: 0.6rem; height: 2px; }
+}
+@media (max-width: 767.98px) {
+  .flow-step + .flow-step::before { top: -0.6rem; left: 1.6rem; width: 2px; height: 0.6rem; }
+}
+
+.versus-head {
+  border-radius: 0.8rem;
+  padding: 0.75rem 0.9rem;
+  background: color-mix(in srgb, var(--tone) var(--se-tint), transparent);
+  border: 1px solid color-mix(in srgb, var(--tone) 35%, transparent);
+}
+
+.se-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.92rem; }
+.se-table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--se-muted);
+  background: var(--se-surface-2);
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--se-line);
+}
+.se-table td {
+  vertical-align: top;
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid var(--se-line-soft);
+  color: var(--se-reading);
+  line-height: 1.6;
+}
+.se-table tr:last-child td { border-bottom: 0; }
+.se-table td:first-child { color: var(--se-ink); font-weight: 600; }
+
+.hook-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 0.8rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--se-bg);
+  background: var(--tone);
+  box-shadow: 0 10px 24px -14px var(--tone);
+}
+
+.memorize {
+  position: relative;
+  border-radius: 1.1rem;
+  padding: 1.3rem 1.3rem 1.2rem;
+  background:
+    radial-gradient(80% 140% at 0% 0%, color-mix(in srgb, var(--se-violet) 14%, transparent), transparent 65%),
+    var(--se-surface);
+  border: 1px solid color-mix(in srgb, var(--se-violet) 32%, transparent);
+  box-shadow: inset 3px 0 0 var(--se-violet);
+}
+.memorize-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  line-height: 1.45;
+  font-weight: 600;
+  color: var(--se-ink);
+}
+
+.callout {
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--tone) 32%, transparent);
+  background: color-mix(in srgb, var(--tone) 7%, var(--se-surface));
+  padding: 1rem 1.1rem;
+}
+
+.myth-x { color: var(--se-rose); }
+.myth-check { color: var(--se-teal); }
+
+.case {
+  border-radius: 1.2rem;
+  border: 1px solid var(--se-line);
+  background: var(--se-surface);
+  overflow: hidden;
+}
+.case-beat { position: relative; padding-left: 2.6rem; }
+.case-beat::before {
+  content: "";
+  position: absolute;
+  left: 1.05rem;
+  top: 2.2rem;
+  bottom: -0.9rem;
+  width: 2px;
+  background: var(--se-line-soft);
+}
+.case-beat:last-child::before { display: none; }
+.case-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  height: 2.2rem;
+  width: 2.2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) var(--se-tint), var(--se-surface));
+  border: 1px solid color-mix(in srgb, var(--tone) 40%, transparent);
+}
+
+.quote-block {
+  border-radius: 1.1rem;
+  padding: 1.4rem 1.5rem;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--se-blue) 10%, transparent), transparent 70%), var(--se-surface);
+  border: 1px solid var(--se-line);
+}
+
+.dilemma {
+  border-radius: 1.2rem;
+  border: 1px solid color-mix(in srgb, var(--se-amber) 35%, var(--se-line));
+  background: var(--se-surface);
+  overflow: hidden;
+}
+
+/* ---------- Code ---------- */
+.code-block {
+  border-radius: 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--tone) 30%, var(--se-line));
+  background: var(--se-surface);
+  overflow: hidden;
+}
+.code-block pre { background: color-mix(in srgb, var(--se-bg) 55%, var(--se-surface)); }
+.code-line[data-marked] {
+  background: color-mix(in srgb, var(--tone) 13%, transparent);
+  box-shadow: inset 3px 0 0 var(--tone);
+}
+
+/* ---------- Diagrams ---------- */
+.diagram {
+  border-radius: 1.2rem;
+  border: 1px solid var(--se-line);
+  background: var(--se-surface);
+  overflow: hidden;
+}
+.diagram-canvas {
+  background:
+    radial-gradient(60% 80% at 50% 0%, var(--se-glow-a), transparent 70%),
+    var(--se-surface-2);
+  padding: 1.4rem 1.1rem;
+  overflow-x: auto;
+}
+.diagram-canvas svg { display: block; margin-inline: auto; max-width: 100%; height: auto; }
+
+/* SVG paint helpers */
+.svg-text { fill: var(--se-ink); font-family: var(--font-sans); }
+.svg-muted { fill: var(--se-muted); font-family: var(--font-sans); }
+.svg-mono { fill: var(--se-muted); font-family: var(--font-mono); }
+.svg-line { stroke: var(--se-line); }
+.svg-ink-stroke { stroke: var(--se-muted); }
+.svg-surface { fill: var(--se-surface); }
+.svg-tone-fill { fill: color-mix(in srgb, var(--tone) var(--se-tint), var(--se-surface)); }
+.svg-tone-stroke { stroke: var(--tone); }
+.svg-tone-text { fill: var(--tone); }
+.svg-solid { fill: var(--tone); }
+
+/* ---------- Key-term flip cards ---------- */
+.flip {
+  perspective: 1200px;
+  min-height: 8.5rem;
+  cursor: pointer;
+}
+/* Both faces share one grid cell, so the card grows to fit the longer face. */
+.flip-inner {
+  display: grid;
+  height: 100%;
+  min-height: 8.5rem;
+  transition: transform 0.45s cubic-bezier(.2,.7,.2,1);
+  transform-style: preserve-3d;
+}
+.flip[data-flipped="true"] .flip-inner { transform: rotateY(180deg); }
+.flip-face {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 1rem;
+  border: 1px solid var(--se-line-soft);
+  background: var(--se-surface);
+  padding: 1rem 1.1rem;
+}
+.flip-back {
+  transform: rotateY(180deg);
+  border-color: color-mix(in srgb, var(--se-teal) 40%, transparent);
+  background: color-mix(in srgb, var(--se-teal) 6%, var(--se-surface));
+}
+@media (prefers-reduced-motion: reduce) {
+  .flip-inner { transition: none; }
+}
+
+/* ---------- Outline rail ---------- */
+.rail-link {
+  display: block;
+  border-left: 2px solid var(--se-line-soft);
+  padding: 0.3rem 0 0.3rem 0.8rem;
+  font-size: 0.82rem;
+  color: var(--se-muted);
+  line-height: 1.4;
+}
+.rail-link:hover { color: var(--se-ink); }
+.rail-link[data-active="true"] { border-color: var(--se-blue); color: var(--se-ink); }
+
+/* ---------- Motion ---------- */
+@keyframes se-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.rise { animation: se-rise 0.45s ease both; }
+[data-reveal] { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+[data-reveal="in"] { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .rise { animation: none; }
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---------- Print: the revision sheet prints cleanly ---------- */
+@media print {
+  .no-print { display: none !important; }
+  .se-content { padding-left: 0 !important; }
+  .se-root { background: #fff !important; color: #000; }
+  .panel, .card, .memorize, .callout { box-shadow: none !important; break-inside: avoid; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+}
+}

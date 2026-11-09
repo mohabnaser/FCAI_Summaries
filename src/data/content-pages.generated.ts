@@ -47,7 +47,7 @@ export const contentPages = {
     "hasSidebar": false,
     "hasQuiz": false,
     "hasFlashcards": false,
-    "bytes": 2040
+    "bytes": 2359
   },
   "software/hub": {
     "id": "software/hub",

@@ -1,5 +1,6 @@
 import { lazy, type ComponentType, type LazyExoticComponent } from "react";
 import { OS_BASE } from "./os/paths";
+import { SE_BASE } from "./se/paths";
 
 /**
  * Subjects built as full React apps (rather than extracted legacy pages).
@@ -23,5 +24,11 @@ export const subjectApps: SubjectApp[] = [
     title: "Operating Systems",
     basePath: OS_BASE,
     component: lazy(() => import("./os/App")),
+  },
+  {
+    id: "se",
+    title: "Advanced Software Engineering",
+    basePath: SE_BASE,
+    component: lazy(() => import("./se/App")),
   },
 ];

@@ -169,6 +169,14 @@
         background: rgba(34, 211, 238, 0.08);
         border-color: rgba(34, 211, 238, 0.16);
       }
+      .SE {
+        color: #8b9cff;
+      }
+      .accent-indigo .icon {
+        color: #8b9cff;
+        background: rgba(139, 156, 255, 0.08);
+        border-color: rgba(139, 156, 255, 0.18);
+      }
       .card-soon {
         border-style: dashed;
         background: rgba(12, 20, 36, 0.5);

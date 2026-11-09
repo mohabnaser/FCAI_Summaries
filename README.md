@@ -36,6 +36,15 @@ which mounts it at its own base path and code-splits it.
 | Subject | Route | Code | Source material |
 | --- | --- | --- | --- |
 | Operating Systems (3rd year) | `/3rd-year/os` | `src/subjects/os/` | `sources/3rd-year/os/` |
+| Advanced Software Engineering (3rd year) | `/3rd-year/se` | `src/subjects/se/` | Lecture material (weeks 1–5) |
+
+The Software Engineering subject is lesson-only (no quizzes). Its content lives in
+`src/subjects/se/data/weekN/` as typed lesson files; each lesson lists the slide
+numbers it teaches, and `data/course.test.ts` fails if any slide of a week is not
+covered by a lesson. Diagrams are hand-built SVG components in
+`src/subjects/se/components/diagrams/`. To add a week, create
+`data/weekN/` (lessons + `index.ts` with the slide list) and add it to `weeks`
+in `data/course.ts`.
 
 Rules a subject follows so it stays independent of the rest of the site:
 
