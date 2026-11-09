@@ -4,6 +4,7 @@ import type { AnswerValue } from '../../lib/grading'
 import { FeedbackText } from '../ui/Text'
 import { QuestionBadges, QuestionBookmarkButton, QuestionSources } from './QuestionMeta'
 import { QuestionPrompt } from './QuestionPrompt'
+import { blankLabel } from '../../lib/quiz'
 import { cn } from '../../lib/cn'
 
 function filledAnswer(answer: AnswerValue | undefined): string | null {
@@ -43,7 +44,7 @@ function YourAnswer({ entry }: { entry: GradedQuestion }) {
         {question.blanks.map((blank, index) => (
           <p key={blank.id} className="text-[0.95rem] text-mist-200">
             <span className="text-mist-500">
-              {question.blanks.length > 1 ? `Blank ${index + 1}: ` : 'Answer: '}
+              {question.blanks.length > 1 ? `${blankLabel(blank, index, question.blanks.length)}: ` : 'Answer: '}
             </span>
             {values[blank.id]?.trim() ? (
               values[blank.id]

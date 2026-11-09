@@ -3,7 +3,8 @@ import { chapterMeta as chapter1Meta, resolveSectionId, sections as chapter1Sect
 import { chapter2Meta, chapter2Sections } from './chapter2'
 import { chapter3Meta, chapter3Sections } from './chapter3'
 import { chapter5Meta, chapter5Sections } from './chapter5'
-import { chapter1Questions, chapter2Questions, chapter3Questions, chapter5Questions } from './questions'
+import { chapter6Meta, chapter6Sections } from './chapter6'
+import { chapter1Questions, chapter2Questions, chapter3Questions, chapter5Questions, chapter6Questions } from './questions'
 import {
   chapter1SectionQuizzes,
   chapter2FinalAssessmentQuiz,
@@ -12,13 +13,16 @@ import {
   chapter3SectionQuizzes,
   chapter5FinalAssessmentQuiz,
   chapter5SectionQuizzes,
+  chapter6FinalAssessmentQuiz,
+  chapter6SectionQuizzes,
   finalAssessmentQuiz,
 } from './quizzes'
-import { chapter1Coverage, chapter2Coverage, chapter3Coverage, chapter5Coverage, type ChapterCoverage } from './coverage'
+import { chapter1Coverage, chapter2Coverage, chapter3Coverage, chapter5Coverage, chapter6Coverage, type ChapterCoverage } from './coverage'
 import { cheatSheetGroups, highYieldTraps, type CheatSheetGroup } from './cheatsheet'
 import { chapter2CheatSheetGroups, chapter2HighYieldTraps } from './chapter2/cheatsheet'
 import { chapter3CheatSheetGroups, chapter3HighYieldTraps } from './chapter3/cheatsheet'
 import { chapter5CheatSheetGroups, chapter5HighYieldTraps } from './chapter5/cheatsheet'
+import { chapter6CheatSheetGroups, chapter6HighYieldTraps } from './chapter6/cheatsheet'
 import { osPath } from '../paths'
 
 /** Everything a chapter needs: one registry entry per chapter, no per-chapter page code. */
@@ -93,6 +97,15 @@ export const chapters: ChapterBundle[] = [
     chapter5FinalAssessmentQuiz,
     { groups: chapter5CheatSheetGroups, traps: chapter5HighYieldTraps },
     chapter5Coverage,
+  ),
+  bundle(
+    chapter6Meta,
+    chapter6Sections,
+    chapter6Questions,
+    chapter6SectionQuizzes,
+    chapter6FinalAssessmentQuiz,
+    { groups: chapter6CheatSheetGroups, traps: chapter6HighYieldTraps },
+    chapter6Coverage,
   ),
 ]
 

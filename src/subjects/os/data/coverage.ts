@@ -3,6 +3,7 @@ import { examAudits, exams } from './exams'
 import { chapter2ExamAudits } from './chapter2/exams'
 import { chapter3ExamAudits } from './chapter3/exams'
 import { chapter5ExamAudits } from './chapter5/exams'
+import { chapter6ExamAudits } from './chapter6/exams'
 import { allQuestions } from './questions'
 
 export interface SourceMapping {
@@ -151,6 +152,7 @@ export const chapter1Coverage = buildChapterCoverage('chapter-1', examAudits)
 export const chapter2Coverage = buildChapterCoverage('chapter-2', chapter2ExamAudits)
 export const chapter3Coverage = buildChapterCoverage('chapter-3', chapter3ExamAudits)
 export const chapter5Coverage = buildChapterCoverage('chapter-5', chapter5ExamAudits)
+export const chapter6Coverage = buildChapterCoverage('chapter-6', chapter6ExamAudits)
 
 // Chapter 1 names kept for existing callers and tests.
 export const examCoverage = chapter1Coverage.examCoverage

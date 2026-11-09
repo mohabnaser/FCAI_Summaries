@@ -79,9 +79,9 @@ describe('getProgressOverview', () => {
     const overview = getProgressOverview(progress)
     expect(overview.sectionsVisited).toBe(2)
     expect(overview.sectionsCompleted).toBe(1)
-    // Without a chapter, the overview spans every chapter (9 + 6 + 5 + 4 sections).
-    expect(overview.totalSections).toBe(24)
-    expect(overview.completionPercent).toBe(4)
+    // Without a chapter, the overview spans every chapter (9 + 6 + 5 + 4 + 5 sections).
+    expect(overview.totalSections).toBe(29)
+    expect(overview.completionPercent).toBe(3)
     const chapterOne = getProgressOverview(progress, getChapter('chapter-1'))
     expect(chapterOne.totalSections).toBe(9)
     expect(chapterOne.completionPercent).toBe(11)

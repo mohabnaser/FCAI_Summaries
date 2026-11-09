@@ -23,18 +23,28 @@ export interface QuizResult {
   attemptedAt: number
 }
 
+/** A blank's display name: its own label, unless it is the generic "Blank N". */
+export function blankLabel(blank: { label: string }, index: number, count: number): string {
+  if (blank.label && !/^Blank \d+$/i.test(blank.label)) return blank.label
+  return count > 1 ? `Blank ${index + 1}` : 'Your answer'
+}
+
 export function correctAnswerText(question: Question): string {
   switch (question.type) {
     case 'mcq':
-      return question.options.find((option) => option.id === question.correct)?.text ?? '—'
+      return (
+        question.options.find((option) => option.id === question.correct)?.text ??
+        'None of the printed options matches the computed answer — see the explanation.'
+      )
     case 'tf':
       return question.correct ? 'True' : 'False'
-    case 'fill':
+    case 'fill': {
+      const count = question.blanks.length
+      const labelled = question.blanks.some((blank, index) => blankLabel(blank, index, count) !== `Blank ${index + 1}`)
       return question.blanks
-        .map((blank, index) =>
-          question.blanks.length > 1 ? `Blank ${index + 1}: ${blank.accepted[0]}` : blank.accepted[0],
-        )
-        .join(' · ')
+        .map((blank, index) => (count > 1 ? `${blankLabel(blank, index, count)}: ${blank.accepted[0]}` : blank.accepted[0]))
+        .join(labelled && count > 2 ? '\n' : ' · ')
+    }
     case 'short':
       return question.modelAnswer
   }

@@ -27,6 +27,7 @@ describe('application routes', () => {
     expect(screen.getByRole('heading', { level: 3, name: /Operating-System Structures/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 3, name: /^Processes$/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 3, name: /^Process Synchronization$/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 3, name: /^CPU Scheduling$/i })).toBeInTheDocument()
   }, 20000)
 
   it('renders a chapter home and navigates to its study tools', async () => {
@@ -95,6 +96,16 @@ describe('application routes', () => {
       await screen.findByRole('heading', { level: 1, name: /Chapter 3: Processes/i }, { timeout: 8000 }),
     ).toBeInTheDocument()
     expect(document.documentElement.dataset.theme).toBe('sunset')
+  }, 20000)
+
+  it('serves the Chapter 6 home in the garnet theme', async () => {
+    window.history.pushState({}, '', osPath('/chapter/chapter-6'))
+    render(<App />)
+
+    expect(
+      await screen.findByRole('heading', { level: 1, name: /Chapter 6: CPU Scheduling/i }, { timeout: 8000 }),
+    ).toBeInTheDocument()
+    expect(document.documentElement.dataset.theme).toBe('garnet')
   }, 20000)
 
   it('removes its styles and theme when the student leaves for the 3rd-year hub', async () => {

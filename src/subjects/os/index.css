@@ -145,13 +145,49 @@
 }
 
 
+/*
+ * Garnet (Chapter 6 — CPU scheduling): deep wine surfaces, warm ivory text and a
+ * gold accent, with tangerine for exam focus, mint, lilac, sky and raspberry. The
+ * hero carries a faint time ruler, like the axis under a Gantt chart.
+ */
+:root[data-theme="garnet"],
+[data-theme-preview="garnet"] {
+  --color-ink-950: #12080d;
+  --color-ink-900: #190b12;
+  --color-ink-850: #1f0f17;
+  --color-ink-800: #27131e;
+  --color-ink-750: #301825;
+  --color-ink-700: #3b1f2e;
+  --color-line: #573248;
+  --color-line-soft: #3f2333;
+
+  --color-mist-50: #fff7f1;
+  --color-mist-100: #f8ece6;
+  --color-mist-200: #ecdcd5;
+  --color-mist-300: #d8c3bf;
+  --color-mist-400: #bba3a5;
+  --color-mist-500: #9d8389;
+  --color-mist-600: #7a626c;
+
+  /* Semantic slots: cyan = primary (gold), amber = exam (tangerine), lime = info (sky). */
+  --color-cyan-neon: #f6c453;
+  --color-teal-neon: #5fe0b2;
+  --color-violet-neon: #c9a6ff;
+  --color-amber-neon: #ff9a52;
+  --color-rose-neon: #ff6f8f;
+  --color-lime-neon: #6dc7ff;
+
+  --reading-text: #eedfda;
+}
+
+
 /* Slowly drifting colour blobs behind everything. */
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) body {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) body {
   background-image: none;
   background-color: var(--color-ink-950);
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) body::before {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) body::before {
   content: "";
   position: fixed;
   inset: -20%;
@@ -183,7 +219,7 @@
 }
 
 /* Hero: a colourful sheen that moves slowly across the card. */
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .lesson-hero {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .lesson-hero {
   border-color: color-mix(in srgb, var(--color-cyan-neon) 30%, var(--color-line));
   background:
     linear-gradient(120deg,
@@ -198,41 +234,42 @@
   box-shadow: 0 30px 80px -50px color-mix(in srgb, var(--color-cyan-neon) 70%, transparent);
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .lesson-title {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .lesson-title {
   background: linear-gradient(90deg, var(--color-mist-50), color-mix(in srgb, var(--color-cyan-neon) 55%, var(--color-mist-50)), var(--color-mist-50));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .exam-focus-card {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .exam-focus-card {
   background: linear-gradient(150deg, color-mix(in srgb, var(--color-amber-neon) 12%, var(--color-ink-900)), var(--color-ink-900) 60%);
 }
 
 /* Buttons: pink to purple gradient with a light sweep on hover. */
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .btn {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .btn {
   position: relative;
   overflow: hidden;
   transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .btn-primary,
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .btn-primary,
 [data-theme-preview="bloom"] .btn-primary,
 [data-theme-preview="sunset"] .btn-primary,
-[data-theme-preview="jade"] .btn-primary {
+[data-theme-preview="jade"] .btn-primary,
+[data-theme-preview="garnet"] .btn-primary {
   border-color: transparent;
   background: linear-gradient(120deg, var(--color-cyan-neon), var(--color-violet-neon));
   color: var(--color-ink-950);
   box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--color-cyan-neon) 90%, transparent);
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .btn-primary:hover:not(:disabled) {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .btn-primary:hover:not(:disabled) {
   background: linear-gradient(120deg, color-mix(in srgb, var(--color-cyan-neon) 85%, white), var(--color-violet-neon));
   transform: translateY(-1px);
   box-shadow: 0 14px 30px -14px color-mix(in srgb, var(--color-cyan-neon) 95%, transparent);
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .btn-primary::after {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .btn-primary::after {
   content: "";
   position: absolute;
   inset: 0 auto 0 -60%;
@@ -243,41 +280,41 @@
   pointer-events: none;
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .btn-primary:hover::after {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .btn-primary:hover::after {
   left: 120%;
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .btn-secondary:hover:not(:disabled) {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .btn-secondary:hover:not(:disabled) {
   transform: translateY(-1px);
   border-color: color-mix(in srgb, var(--color-cyan-neon) 45%, var(--color-line));
 }
 
 /* Cards lift, glow, and their icon does a little wiggle. */
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-card {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .vb-card {
   transition: transform 220ms cubic-bezier(.2, .8, .2, 1), box-shadow 220ms ease, background-color 220ms ease;
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-card:hover {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .vb-card:hover {
   transform: translateY(-5px);
   background-color: var(--color-ink-800);
   box-shadow: 0 22px 44px -26px color-mix(in srgb, var(--color-cyan-neon) 75%, transparent);
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-icon {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .vb-icon {
   transition: transform 300ms cubic-bezier(.3, 1.6, .5, 1);
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-card:hover .vb-icon {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .vb-card:hover .vb-icon {
   transform: rotate(-8deg) scale(1.12);
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-panel,
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .panel {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .vb-panel,
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .panel {
   box-shadow: 0 18px 50px -40px color-mix(in srgb, var(--color-violet-neon) 80%, transparent);
 }
 
 /* Memory hooks: the phrase shimmers through the whole palette. */
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-hook-phrase {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .vb-hook-phrase {
   background: linear-gradient(90deg, var(--color-cyan-neon), var(--color-amber-neon), var(--color-teal-neon), var(--color-lime-neon), var(--color-violet-neon), var(--color-cyan-neon));
   background-size: 300% 100%;
   -webkit-background-clip: text;
@@ -286,7 +323,7 @@
   animation: bloom-shift 10s linear infinite;
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .vb-hook {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .vb-hook {
   border-color: color-mix(in srgb, var(--color-cyan-neon) 35%, transparent);
   background:
     radial-gradient(ellipse 60% 90% at 100% 0%, color-mix(in srgb, var(--color-cyan-neon) 18%, transparent), transparent 60%),
@@ -295,39 +332,39 @@
 }
 
 /* Recap ticks pop in when the recap appears. */
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) [data-reveal="in"] .vb-tick {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) [data-reveal="in"] .vb-tick {
   animation: bloom-pop 420ms cubic-bezier(.3, 1.6, .5, 1) both;
 }
 
 /* Progress bars get a moving gradient; the active nav item a soft pink wash. */
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .bg-gradient-to-r.from-cyan-neon {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .bg-gradient-to-r.from-cyan-neon {
   background-image: linear-gradient(90deg, var(--color-cyan-neon), var(--color-amber-neon), var(--color-teal-neon), var(--color-cyan-neon));
   background-size: 300% 100%;
   animation: bloom-shift 6s linear infinite;
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) .nav-link-active {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) .nav-link-active {
   background: linear-gradient(90deg, color-mix(in srgb, var(--color-cyan-neon) 16%, transparent), color-mix(in srgb, var(--color-violet-neon) 8%, transparent));
 }
 
 /* Lesson blocks fade up as they scroll into view (Bloom only). */
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) [data-reveal] {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) [data-reveal] {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 600ms ease, transform 600ms cubic-bezier(.2, .8, .2, 1);
 }
 
-:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) [data-reveal="in"] {
+:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) [data-reveal="in"] {
   opacity: 1;
   transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) [data-reveal] {
+  :root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) [data-reveal] {
     opacity: 1;
     transform: none;
   }
-  :root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"]) body::before {
+  :root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"], [data-theme="garnet"]) body::before {
     animation: none;
   }
 }
@@ -399,6 +436,34 @@
 :root[data-theme="jade"] .btn-primary,
 [data-theme-preview="jade"] .btn-primary {
   background: linear-gradient(120deg, var(--color-cyan-neon), var(--color-lime-neon));
+}
+
+/* Garnet-only overrides: a calmer glow, a gold hairline and a time ruler on the hero. */
+:root[data-theme="garnet"] body::before {
+  opacity: 0.75;
+}
+
+:root[data-theme="garnet"] .lesson-hero {
+  border-color: color-mix(in srgb, var(--color-cyan-neon) 34%, var(--color-line));
+  background:
+    linear-gradient(90deg, var(--color-cyan-neon), var(--color-amber-neon) 45%, var(--color-violet-neon)) top / 100% 3px no-repeat,
+    repeating-linear-gradient(90deg, transparent 0 55px, color-mix(in srgb, var(--color-cyan-neon) 9%, transparent) 55px 56px) bottom / 100% 26px no-repeat,
+    radial-gradient(70% 120% at 100% 0%, color-mix(in srgb, var(--color-cyan-neon) 13%, transparent), transparent 60%),
+    radial-gradient(60% 110% at 0% 100%, color-mix(in srgb, var(--color-violet-neon) 10%, transparent), transparent 60%),
+    linear-gradient(160deg, var(--color-ink-800), var(--color-ink-900));
+  animation: none;
+  box-shadow: 0 26px 64px -42px color-mix(in srgb, var(--color-cyan-neon) 65%, transparent);
+}
+
+:root[data-theme="garnet"] .btn-primary,
+[data-theme-preview="garnet"] .btn-primary {
+  background: linear-gradient(120deg, var(--color-cyan-neon), var(--color-amber-neon));
+}
+
+:root[data-theme="garnet"] .vb-hook {
+  background:
+    radial-gradient(ellipse 60% 90% at 100% 0%, color-mix(in srgb, var(--color-cyan-neon) 15%, transparent), transparent 60%),
+    linear-gradient(150deg, var(--color-ink-800), var(--color-ink-900));
 }
 
 html {

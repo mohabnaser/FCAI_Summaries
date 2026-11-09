@@ -30,6 +30,12 @@ import { RaceConditionVisual } from './chapter5/RaceCondition'
 import { SemaphoreLabVisual } from './chapter5/SemaphoreLab'
 import { ReadersWritersVisual } from './chapter5/ReadersWriters'
 import { DiningPhilosophersVisual } from './chapter5/DiningPhilosophers'
+import { CpuIoBurstsVisual } from './chapter6/BurstCycle'
+import { DecisionPointsVisual } from './chapter6/DecisionPoints'
+import { GanttFcfsSjfVisual, GanttPriorityRrVisual, SchedulingLabVisual } from './chapter6/SchedulingLab'
+import { BurstPredictorVisual } from './chapter6/BurstPredictor'
+import { QuantumExplorerVisual } from './chapter6/QuantumExplorer'
+import { MlfqSimVisual } from './chapter6/MlfqSim'
 
 type VisualComponent = (props: { title: LText; hint?: LText }) => React.ReactElement
 
@@ -73,6 +79,15 @@ export const visuals: Partial<Record<VisualId, VisualComponent>> = {
   'semaphore-lab': SemaphoreLabVisual,
   'readers-writers': ReadersWritersVisual,
   'dining-philosophers': DiningPhilosophersVisual,
+  // Chapter 6
+  'cpu-io-bursts': CpuIoBurstsVisual,
+  'decision-points': DecisionPointsVisual,
+  'gantt-fcfs-sjf': GanttFcfsSjfVisual,
+  'burst-predictor': BurstPredictorVisual,
+  'gantt-priority-rr': GanttPriorityRrVisual,
+  'quantum-explorer': QuantumExplorerVisual,
+  'mlfq-sim': MlfqSimVisual,
+  'scheduling-lab': SchedulingLabVisual,
 }
 
 export function hasVisual(id: VisualId): boolean {

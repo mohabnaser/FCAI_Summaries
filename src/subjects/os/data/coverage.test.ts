@@ -64,7 +64,9 @@ describe('question bank integrity', () => {
         const optionIds = question.options.map((option) => option.id)
         expect(question.options.length, question.id).toBeGreaterThanOrEqual(2)
         expect(new Set(optionIds).size, question.id).toBe(optionIds.length)
-        expect(optionIds, question.id).toContain(question.correct)
+        // A flagged item whose computed answer matches no printed option has no correct option.
+        if (question.answerStatus !== 'needs-review' || question.correct) expect(optionIds, question.id).toContain(question.correct)
+        else expect(question.unscored, question.id).toBe(true)
       }
       if (question.type === 'tf') {
         expect(typeof question.correct, question.id).toBe('boolean')

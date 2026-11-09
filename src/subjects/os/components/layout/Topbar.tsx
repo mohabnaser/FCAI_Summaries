@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Bookmark, Gem, Home, Menu, Moon, Palette, PanelLeftClose, PanelLeftOpen, SunMoon, Sunset, Trophy } from 'lucide-react'
+import { ArrowRight, Bookmark, Gem, Home, Hourglass, Menu, Moon, Palette, PanelLeftClose, PanelLeftOpen, SunMoon, Sunset, Trophy } from 'lucide-react'
 import { LanguageToggle } from '../ui/LanguageToggle'
 import { useProgress } from '../../context/ProgressContext'
 import { resolveTheme, useThemePreference, type ThemePreference } from '../../context/ThemeContext'
@@ -37,6 +37,7 @@ const themeCopy: Record<ThemePreference, { label: string; icon: typeof Moon }> =
   bloom: { label: 'Theme: bloom', icon: Palette },
   sunset: { label: 'Theme: sunset', icon: Sunset },
   jade: { label: 'Theme: jade', icon: Gem },
+  garnet: { label: 'Theme: garnet', icon: Hourglass },
 }
 
 function ThemeToggle() {

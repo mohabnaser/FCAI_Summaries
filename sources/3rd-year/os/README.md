@@ -59,6 +59,26 @@ npm test
 
 The nine section slugs are `os-intro`, `startup-interrupts`, `storage-caching`, `io-structure`, `system-architecture`, `multiprogramming`, `dual-mode`, `resource-management`, and `protection-environments`. Every older URL — the eleven original topic slugs and the five merged slugs of the previous release (e.g. `/section/foundations-startup`) — redirects to the section that now teaches that topic.
 
+## Chapter 6 — CPU Scheduling
+
+Built from `chapter6.md` (45 pages) as **five lessons**:
+
+| # | Lesson | Est. min | Past-exam Qs (own + shared) |
+| ---: | --- | ---: | ---: |
+| 1 | Basics & Criteria (burst cycle, scheduler, decision points, dispatcher, formulas) | 16 | 8 + 5 shared |
+| 2 | FCFS, SJF & SRTF (convoy effect, burst prediction) | 20 | 10 |
+| 3 | Priority & Round Robin (aging, quantum, the RR tie rule) | 22 | 15 + 1 shared |
+| 4 | Multilevel Queues & Multiple-Processor Scheduling | 14 | 4 |
+| 5 | Evaluating Algorithms & the Exam Problem Clinic | 18 | 5 |
+| | **Total** | **90** | **42 + 6 shared** |
+
+- **Coverage:** 356 items audited — **63 relevant occurrences**, 293 excluded with reasons. They map to **48 implementations**: 42 owned by Chapter 6 and 6 owned by Chapters 1 and 3 (short-term scheduler, ready queue, I/O-bound bursts, the dispatcher fill-in, response time, “time slot → ready”), shown as shared questions.
+- **Every number is computed.** `src/lib/scheduling.ts` is an exact scheduler (FCFS, SJF, SRTF, priority both ways, RR with either same-instant tie rule). The new `gantt` block draws each lecture example from its process list, and `chapter6.test.ts` re-derives every slide value (17/3, 7, 4/3, 6.5, 8.2, 5.66, 73, the q-curve, 28/13/23, the 10-8-6-6-5-9-11-12 prediction) and every exam answer.
+- **Five flagged items** (seven occurrences), all unscored and fully explained: Final 2023 / Undated A Q3.63 computes to **9.75**, which is not an option (the scan’s handwritten note agrees); Final 2020 Q3.63 and Q3.65 match no option (a USB drive covers the scanned table); Final 2020 Q2.43 has two preemptive options; Final 2023 Q2.44 has two defensible options. A flagged MCQ may now have no correct option; review shows “none of the printed options matches”.
+- **Visuals (eight, each tied to exam questions):** CPU-burst histogram with I/O- vs CPU-bound programs, the four decision points on the state diagram, a scheduling lab (editable processes, step-by-step decisions with reasons, filling Gantt chart and TAT/WT table, lecture and past-exam presets, tie-rule switch, “compare all” for deterministic modeling) used in three variants, an exponential-averaging predictor, a quantum explorer (switches and turnaround vs q), and a multilevel-feedback-queue simulator.
+- **Quiz improvements for calculation questions:** process tables render inside question stems (`| … |` lines), and fill-ins with more than four blanks show labelled inputs in a grid (“Waiting · P1”, “FCFS · avg”).
+- **Garnet theme:** deep wine surfaces, warm ivory text, a gold accent with tangerine (exam), mint, lilac, sky and raspberry, and a faint time ruler along the hero like a Gantt axis. The theme button cycles *chapter default → night → bloom → sunset → jade → garnet*.
+
 ## Chapter 5 — Process Synchronization
 
 Built from `chapter5.md` (39 pages) as **four lessons**:
@@ -186,15 +206,16 @@ Clearing site data or using **Reset progress** removes local study history. The 
 
 ## Verification snapshot
 
-At the last documented validation (Chapter 5 release):
+At the last documented validation (Chapter 6 release):
 
-- `npm test`: **110 tests across 10 files**, all passing. On the low-memory build machine the suite was run file by file (`npx vitest run <file>`) because parallel jsdom workers ran out of system memory; `vitest.config.ts` now uses a single worker.
+- `npm test`: **137 tests across 11 files**, all passing (`vitest.config.ts` uses a single worker).
+- Headless Chrome, Chapter 6 (production preview): five lessons at 1440px and 390px in the garnet theme — **0 page errors, 0 horizontal overflow** (the only console 404 is the Vercel analytics script, absent locally); lab steps (SRTF preemption), “compare all” on Undated B, quantum explorer, MLFQ, Arabic mode, and the calculation quiz with its review.
 - `npm run build`: TypeScript project build plus Vite production build, successful.
 - Headless Chrome, Chapter 5 (against the dev server): four lessons at 1440px and 390px in the jade theme, highlighted code in every lesson, every visual scenario (race 4/5, signal…wait, wait…wait deadlock, Midterm 2022 Q5.2/Q5.3 blocking, philosophers’ deadlock), all chapter tools, no slide numbers in Chapters 1–3 — **0 console errors**.
 - Headless Chrome, Chapter 3: all five sections at 1440px and 390px — **0 console errors, 0 horizontal overflow**; **36/36** interaction checks (every Chapter 3 visual driven through its controls, all five chapter tools, the 64-item ledger, three chapter cards, and Chapter 1/2 theme regression).
 - Headless Chrome, Chapter 2: all six sections rendered at 1440px (English) plus two at 390px (Arabic) — **0 console errors, 0 horizontal overflow**; **30/30** interaction checks (routes and legacy redirects, bloom/night theme per chapter, per-section quiz counts, every Chapter 2 visual driven through its controls, all four Chapter 2 tools, the Chapter 2 ledger totals, progress chapter tabs, and a Chapter 1 regression check).
 - Headless Chrome, Chapter 1 (nine-section release): 18 render runs and 36/36 interaction checks.
-- Ledgers: Chapter 1 — 356 = 51 relevant + 305 excluded; Chapter 2 — 356 = 36 relevant + 320 excluded; Chapter 3 — 356 = 64 relevant + 292 excluded; Chapter 5 — 356 = 31 relevant + 325 excluded. No printed item maps to two implementations across chapters.
+- Ledgers: Chapter 6 — 356 = 63 relevant + 293 excluded; Chapter 1 — 356 = 51 relevant + 305 excluded; Chapter 2 — 356 = 36 relevant + 320 excluded; Chapter 3 — 356 = 64 relevant + 292 excluded; Chapter 5 — 356 = 31 relevant + 325 excluded. No printed item maps to two implementations across chapters.
 
 The browser harness was an ad-hoc QA script using a temporary `playwright-core` install; it is not a committed dependency. Evidence and full results are recorded in [`docs/DELIVERY_REPORT.md`](docs/DELIVERY_REPORT.md).
 
@@ -239,5 +260,5 @@ docs/
 - Later-chapter material is excluded and grouped with reasons. One borderline Final 2020 item (“uniprogramming”, Q2.22) is included because it directly contrasts with Chapter 1 multiprogramming.
 - Quiz attempts and best scores saved under the previous five-section quiz IDs are kept in storage but not shown against the new nine quizzes; section visits, completion and bookmarks migrate automatically.
 - One transcript value conflicts with the textbook: slide 41 prints “CMOS SRAM” as main memory’s technology, while the textbook figure it reproduces says DRAM. The app shows DRAM and notes the discrepancy.
-- Chapters 1, 2, 3 and 5 are built (Chapter 4 was not supplied). Items for later chapters (CPU scheduling, synchronization, memory, virtual memory) are listed as excluded, with reasons, in each chapter’s ledger. Adding a chapter needs only data files plus one registry entry (see the project guide).
+- Chapters 1, 2, 3, 5 and 6 are built (Chapter 4 was not supplied). Items for later chapters (CPU scheduling, synchronization, memory, virtual memory) are listed as excluded, with reasons, in each chapter’s ledger. Adding a chapter needs only data files plus one registry entry (see the project guide).
 - Progress is local to one browser profile; there is no sync or account recovery.

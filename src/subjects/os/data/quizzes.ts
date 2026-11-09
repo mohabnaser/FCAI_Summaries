@@ -4,8 +4,9 @@ import { sections as chapter1Sections } from './sections'
 import { chapter2FinalAssessmentQuestionIds, chapter2Sections } from './chapter2'
 import { chapter3FinalAssessmentQuestionIds, chapter3Sections } from './chapter3'
 import { chapter5FinalAssessmentQuestionIds, chapter5Sections } from './chapter5'
+import { chapter6FinalAssessmentQuestionIds, chapter6Sections } from './chapter6'
 
-const allSectionList: Section[] = [...chapter1Sections, ...chapter2Sections, ...chapter3Sections, ...chapter5Sections]
+const allSectionList: Section[] = [...chapter1Sections, ...chapter2Sections, ...chapter3Sections, ...chapter5Sections, ...chapter6Sections]
 const sectionById = new Map(allSectionList.map((section) => [section.id, section]))
 
 /** Questions a section owns, in bank order. */
@@ -54,11 +55,13 @@ export const chapter1SectionQuizzes = buildSectionQuizzes('chapter-1', '01', cha
 export const chapter2SectionQuizzes = buildSectionQuizzes('chapter-2', '02', chapter2Sections)
 export const chapter3SectionQuizzes = buildSectionQuizzes('chapter-3', '03', chapter3Sections)
 export const chapter5SectionQuizzes = buildSectionQuizzes('chapter-5', '05', chapter5Sections)
+export const chapter6SectionQuizzes = buildSectionQuizzes('chapter-6', '06', chapter6Sections)
 export const sectionQuizzes: Quiz[] = [
   ...chapter1SectionQuizzes,
   ...chapter2SectionQuizzes,
   ...chapter3SectionQuizzes,
   ...chapter5SectionQuizzes,
+  ...chapter6SectionQuizzes,
 ]
 
 /**
@@ -151,11 +154,24 @@ export const chapter5FinalAssessmentQuiz: Quiz = {
   questionIds: chapter5FinalAssessmentQuestionIds,
 }
 
+export { chapter6FinalAssessmentQuestionIds }
+
+export const chapter6FinalAssessmentQuiz: Quiz = {
+  id: 'c6-final-assessment',
+  chapterId: 'chapter-6',
+  sectionId: 'chapter-6',
+  kind: 'final',
+  title: 'Chapter 6 Final Assessment',
+  description: `A ${chapter6FinalAssessmentQuestionIds.length}-question mixed-format paper drawn from past examinations, sampling every Chapter 6 lesson. Flagged review items are excluded.`,
+  questionIds: chapter6FinalAssessmentQuestionIds,
+}
+
 export const finalAssessmentQuizzes: Quiz[] = [
   finalAssessmentQuiz,
   chapter2FinalAssessmentQuiz,
   chapter3FinalAssessmentQuiz,
   chapter5FinalAssessmentQuiz,
+  chapter6FinalAssessmentQuiz,
 ]
 
 export const quizzes: Quiz[] = [...sectionQuizzes, ...finalAssessmentQuizzes]

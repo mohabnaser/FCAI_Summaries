@@ -72,6 +72,8 @@ function outlineLabel(block: Block): string | null {
       return block.title ?? 'Code example'
     case 'quote':
       return 'Quotation'
+    case 'gantt':
+      return block.title?.en ?? 'Worked example'
   }
 }
 

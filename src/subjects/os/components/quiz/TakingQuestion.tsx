@@ -5,6 +5,7 @@ import type { AnswerValue } from '../../lib/grading'
 import { FeedbackText } from '../ui/Text'
 import { QuestionBadges, QuestionBookmarkButton, QuestionSources } from './QuestionMeta'
 import { QuestionPrompt } from './QuestionPrompt'
+import { blankLabel } from '../../lib/quiz'
 import { cn } from '../../lib/cn'
 
 interface TakingQuestionProps {
@@ -127,7 +128,15 @@ export function TakingQuestion({
                 Complete {question.blanks.length > 1 ? 'each blank' : 'the blank'} (spelling is
                 checked leniently)
               </legend>
-              <div className="space-y-3">
+              <div
+                className={
+                  question.blanks.length > 4
+                    ? question.blanks.length % 6 === 0
+                      ? 'grid grid-cols-2 gap-x-3 gap-y-2.5 sm:grid-cols-3 lg:grid-cols-6'
+                      : 'grid grid-cols-2 gap-x-3 gap-y-2.5 sm:grid-cols-3 lg:grid-cols-5'
+                    : 'space-y-3'
+                }
+              >
                 {question.blanks.map((blank, blankIndex) => {
                   const values =
                     typeof answer === 'object' && answer !== null && !Array.isArray(answer)
@@ -139,7 +148,7 @@ export function TakingQuestion({
                         htmlFor={`${groupId}-${blank.id}`}
                         className="mb-1.5 block text-[0.76rem] font-medium text-mist-400"
                       >
-                        {question.blanks.length > 1 ? `Blank ${blankIndex + 1}` : 'Your answer'}
+                        {blankLabel(blank, blankIndex, question.blanks.length)}
                       </label>
                       <input
                         id={`${groupId}-${blank.id}`}
@@ -149,7 +158,7 @@ export function TakingQuestion({
                         onChange={(event) =>
                           onAnswer({ ...values, [blank.id]: event.target.value })
                         }
-                        placeholder="Type the missing term…"
+                        placeholder={question.blanks.length > 4 ? 'value' : 'Type the missing term…'}
                         autoComplete="off"
                         spellCheck={false}
                       />

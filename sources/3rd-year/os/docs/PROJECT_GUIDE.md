@@ -147,6 +147,7 @@ Each `Section` contains:
 | `exam` | Exam-focused note that can cite question IDs |
 | `checklist` | Revision checklist |
 | `quote` | Attributed quotation |
+| `gantt` | Worked scheduling example: Gantt chart plus finish / turnaround / waiting table, computed from the process list |
 
 Blocks are content, not layout primitives. If a new teaching pattern is genuinely reusable, add a block type to `types.ts`, implement it in `BlockRenderer`, and test its rendering.
 
@@ -430,6 +431,7 @@ Current suite: **74 tests in 8 files**. On low-memory machines run files one at 
 | File | Scope |
 | --- | --- |
 | `src/data/chapter2.test.ts` | Chapter 2 bank, ledger (36 relevant / 320 excluded / 7 cross-references), per-section quiz counts, final assessment |
+| `src/data/chapter6.test.ts` | Chapter 6 bank (42), ledger (63 relevant / 293 excluded / 7 cross-references / 7 review), per-lesson quiz counts, 19-item final assessment, garnet theme, and the scheduler re-deriving every slide value and exam answer |
 | `src/data/chapter5.test.ts` | Chapter 5 bank (23), ledger (31 relevant / 325 excluded), per-lesson quiz counts, final assessment, and a check that no chapter’s study text cites slide numbers |
 | `src/data/chapter3.test.ts` | Chapter 3 bank (40), ledger (64 relevant / 292 excluded / 15 cross-references), per-section quiz counts, 18-item final assessment, sunset theme |
 | `src/data/sections.test.ts` | Every chapter: registered visuals, cross-references, exam-note refs, Arabic on teaching text, recaps; Chapter 1 nine-section order, registered visuals, exam-note refs, Arabic on teaching text, recaps, legacy redirects, cache-simulator logic |
@@ -494,9 +496,12 @@ The platform is multi-chapter. One registry, `src/data/chapters.ts`, lists every
 | Chapter 5 data | `src/data/chapter5/` — same layout as `chapter2/` |
 | Chapter 5 visuals | `src/components/visuals/chapter5/` — RaceCondition, SemaphoreLab, ReadersWriters, DiningPhilosophers |
 | Code highlighting | `src/components/content/highlight.ts` (Prism grammar additions + theme-token colours), used by `CodeBlock` in `BlockRenderer.tsx` |
+| Chapter 6 data | `src/data/chapter6/` — same layout as `chapter2/` |
+| Chapter 6 visuals | `src/components/visuals/chapter6/` — BurstCycle, DecisionPoints, SchedulingLab (three variants), BurstPredictor, QuantumExplorer, MlfqSim; shared Gantt chart and results table in `gantt.tsx` |
+| Scheduling engine | `src/lib/scheduling.ts` — exact FCFS/SJF/SRTF/priority/RR simulator used by the `gantt` block, the labs and the tests |
 | Chapter 3 visuals | `src/components/visuals/chapter3/` — ProcessMemory, ProcessStates, ForkTrace, BoundedBuffer, MessageBuffering |
 | Routes | `/chapter/:chapterId[/review|assessment|cheat-sheet|coverage]`; legacy `/review` etc. redirect to Chapter 1 |
-| Theme | `ChapterMeta.theme` (`night`, `bloom`, `sunset` or `jade`); `ThemeContext` preference `auto|night|bloom|sunset|jade`; the colourful themes share the motion rules (`:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"])`), and Jade then turns off the background blobs and makes surfaces opaque; tokens and Bloom motion in `src/index.css`; scroll reveal via `useScrollReveal` (`src/lib/useScrollReveal.ts`) and `data-reveal` |
+| Theme | `ChapterMeta.theme` (`night`, `bloom`, `sunset`, `jade` or `garnet`); `ThemeContext` preference `auto|night|bloom|sunset|jade|garnet`; the colourful themes share the motion rules (`:root:is([data-theme="bloom"], [data-theme="sunset"], [data-theme="jade"])`), and Jade then turns off the background blobs and makes surfaces opaque; tokens and Bloom motion in `src/index.css`; scroll reveal via `useScrollReveal` (`src/lib/useScrollReveal.ts`) and `data-reveal` |
 
 ### Cross-chapter questions
 

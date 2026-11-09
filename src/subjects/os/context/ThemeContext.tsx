@@ -5,12 +5,12 @@ import type { ThemeId } from '../types'
 export type ThemePreference = 'auto' | ThemeId
 
 const THEME_KEY = 'os-atlas:theme:v1'
-const order: ThemePreference[] = ['auto', 'night', 'bloom', 'sunset', 'jade']
+const order: ThemePreference[] = ['auto', 'night', 'bloom', 'sunset', 'jade', 'garnet']
 
 function readPreference(): ThemePreference {
   try {
     const stored = window.localStorage.getItem(THEME_KEY)
-    if (stored === 'auto' || stored === 'night' || stored === 'bloom' || stored === 'sunset' || stored === 'jade') return stored
+    if (stored === 'auto' || stored === 'night' || stored === 'bloom' || stored === 'sunset' || stored === 'jade' || stored === 'garnet') return stored
   } catch {
     // Storage may be blocked.
   }

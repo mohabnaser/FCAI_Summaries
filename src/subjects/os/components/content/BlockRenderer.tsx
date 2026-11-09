@@ -31,6 +31,7 @@ import {
   StatsBlock,
   VersusBlock,
 } from './VisualBlocks'
+import { GanttBlock } from './GanttBlock'
 
 /** Theme accent tokens for content-card visual variety — cycled via block index. */
 const ACCENT_PALETTE = ['cyan', 'violet', 'amber', 'teal', 'rose', 'lime'] as const
@@ -546,6 +547,9 @@ export function BlockRenderer({
           ) : null}
         </section>
       )
+
+    case 'gantt':
+      return <GanttBlock block={block} />
 
     case 'exam':
       return (

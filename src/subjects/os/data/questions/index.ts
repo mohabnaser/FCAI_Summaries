@@ -11,6 +11,7 @@ import { section11Questions } from './section11'
 import { chapter2Questions } from '../chapter2/questions'
 import { chapter3Questions } from '../chapter3/questions'
 import { chapter5Questions } from '../chapter5/questions'
+import { chapter6Questions } from '../chapter6/questions'
 
 /**
  * Question modules are grouped by the original lecture topic they were audited
@@ -36,10 +37,10 @@ export const chapter1Questions: Question[] = [
   ...section11Questions,
 ].map((question) => ({ ...question, chapterId: 'chapter-1' as const }))
 
-export { chapter2Questions, chapter3Questions, chapter5Questions }
+export { chapter2Questions, chapter3Questions, chapter5Questions, chapter6Questions }
 
 /** Every implementation across all chapters. Question IDs are globally unique. */
-export const allQuestions: Question[] = [...chapter1Questions, ...chapter2Questions, ...chapter3Questions, ...chapter5Questions]
+export const allQuestions: Question[] = [...chapter1Questions, ...chapter2Questions, ...chapter3Questions, ...chapter5Questions, ...chapter6Questions]
 
 export const questionsById = new Map(allQuestions.map((question) => [question.id, question]))
 

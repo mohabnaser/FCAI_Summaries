@@ -8,14 +8,15 @@ export interface LText {
 
 export type CalloutTone = 'exam' | 'warning' | 'insight' | 'misconception' | 'definition'
 
-export type ChapterId = 'chapter-1' | 'chapter-2' | 'chapter-3' | 'chapter-5'
+export type ChapterId = 'chapter-1' | 'chapter-2' | 'chapter-3' | 'chapter-5' | 'chapter-6'
 
 /**
  * Visual theme. `night` is the original blue-black; `bloom` is the bright pink-led
  * multi-colour theme; `sunset` is the warm apricot-on-deep-sea theme; `jade` is the
- * high-contrast jade-on-graphite theme with solid surfaces.
+ * high-contrast jade-on-graphite theme with solid surfaces; `garnet` is the gold-on-wine
+ * theme of Chapter 6 with a faint time-ruler motif.
  */
-export type ThemeId = 'night' | 'bloom' | 'sunset' | 'jade'
+export type ThemeId = 'night' | 'bloom' | 'sunset' | 'jade' | 'garnet'
 
 export interface ChapterMeta {
   id: ChapterId
@@ -67,6 +68,15 @@ export type VisualId =
   | 'semaphore-lab'
   | 'readers-writers'
   | 'dining-philosophers'
+  // Chapter 6
+  | 'cpu-io-bursts'
+  | 'decision-points'
+  | 'gantt-fcfs-sjf'
+  | 'burst-predictor'
+  | 'gantt-priority-rr'
+  | 'quantum-explorer'
+  | 'mlfq-sim'
+  | 'scheduling-lab'
 
 /** Semantic accent colours shared by every visual block. */
 export type Tone = 'cyan' | 'teal' | 'violet' | 'amber' | 'rose' | 'lime'
@@ -241,6 +251,24 @@ export type Block =
   | { kind: 'exam'; title: LText; body: LText; refs?: string[] }
   | { kind: 'checklist'; title: LText; items: LText[] }
   | { kind: 'quote'; text: LText; attribution?: string }
+  /**
+   * A Gantt chart computed by the scheduling simulator (`lib/scheduling.ts`), with
+   * the per-process finish, turnaround and waiting times worked out underneath.
+   */
+  | {
+      kind: 'gantt'
+      title?: LText
+      caption?: LText
+      algorithm: 'fcfs' | 'sjf' | 'srtf' | 'priority' | 'priority-p' | 'rr'
+      quantum?: number
+      rrTie?: 'arrival-first' | 'preempted-first'
+      processes: Array<{ id: string; arrival: number; burst: number; priority?: number }>
+      /** Hide the arrival column when every process arrives at time 0. */
+      showArrival?: boolean
+      showPriority?: boolean
+      /** Hide the worked results table (chart only). */
+      chartOnly?: boolean
+    }
 
 export interface KeyTerm {
   term: string
