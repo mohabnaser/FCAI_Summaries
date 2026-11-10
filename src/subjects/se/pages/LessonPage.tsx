@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, CircleCheck, Circle, Clock3, Eye, EyeOff, ScrollText, Zap } from 'lucide-react'
-import { allLessons, findLesson, lessonPath, weekOf, weekPath } from '../data/course'
+import { allLessons, findLesson, lessonPath, quizFor, weekOf, weekPath } from '../data/course'
 import { BlockRenderer } from '../components/BlockRenderer'
 import { FlipCard } from '../components/FlipCard'
+import { Quiz } from '../components/Quiz'
 import { Inline, Para } from '../components/Text'
 import { useProgress } from '../context/ProgressContext'
 import { usePrefs } from '../context/PrefsContext'
@@ -72,7 +73,14 @@ export function LessonPage() {
   const done = isDone(lesson.id)
   let partCount = 0
 
-  const outline = [...parts, { id: 'key-terms', label: 'Key terms' }, { id: 'recap', label: '30-second recap' }]
+  const quiz = quizFor(lesson.id)
+
+  const outline = [
+    ...parts,
+    { id: 'key-terms', label: 'Key terms' },
+    ...(quiz.length > 0 ? [{ id: 'quiz', label: 'Check your understanding' }] : []),
+    { id: 'recap', label: '30-second recap' },
+  ]
 
   return (
     <div key={lesson.id} className="rise">
@@ -161,6 +169,8 @@ export function LessonPage() {
               ))}
             </div>
           </section>
+
+          {quiz.length > 0 ? <Quiz questions={quiz} /> : null}
 
           <section id="recap" className="scroll-mt-24 panel p-6" data-reveal="" data-tone="teal">
             <p className="eyebrow">Before you leave</p>

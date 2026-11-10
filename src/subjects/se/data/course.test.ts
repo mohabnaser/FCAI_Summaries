@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { Block, LText } from '../types'
 import { diagrams } from '../components/diagrams'
 import { icons } from '../components/icons'
-import { allLessons, weeks } from './course'
+import { allLessons, quizFor, quizzes, weeks } from './course'
 
 /** Every LText inside a block, so Arabic coverage can be checked generically. */
 function textsOf(block: Block): LText[] {
@@ -79,6 +79,46 @@ describe('course content', () => {
       expect(lesson.keyTerms.length, lesson.id).toBeGreaterThanOrEqual(5)
       expect(lesson.recap.length, lesson.id).toBeGreaterThanOrEqual(4)
       expect(lesson.blocks.some((block) => block.kind === 'part'), lesson.id).toBe(true)
+    }
+  })
+})
+
+describe('lesson quizzes', () => {
+  it('gives every lesson a short quiz, and has no quiz for a lesson that does not exist', () => {
+    for (const lesson of allLessons) {
+      const count = quizFor(lesson.id).length
+      expect(count, `${lesson.id} quiz size`).toBeGreaterThanOrEqual(3)
+      expect(count, `${lesson.id} quiz size`).toBeLessThanOrEqual(6)
+    }
+    const lessonIds = new Set(allLessons.map((lesson) => lesson.id))
+    expect(Object.keys(quizzes).filter((id) => !lessonIds.has(id))).toEqual([])
+  })
+
+  it('writes well-formed questions: four distinct choices, a valid answer and a bilingual explanation', () => {
+    for (const [lessonId, questions] of Object.entries(quizzes)) {
+      questions.forEach((question, i) => {
+        const where = `${lessonId} Q${i + 1}`
+        expect(question.options.length, where).toBe(4)
+        expect(new Set(question.options).size, `${where}: duplicate choices`).toBe(4)
+        expect(Number.isInteger(question.answer) && question.answer >= 0 && question.answer < 4, `${where}: answer index`).toBe(true)
+        expect(question.question.en.trim(), where).not.toBe('')
+        expect(question.question.ar, `${where}: Arabic question`).toBeTruthy()
+        expect(question.explanation.en.trim(), where).not.toBe('')
+        expect(question.explanation.ar, `${where}: Arabic explanation`).toBeTruthy()
+        // Lessons are standalone study pages: nothing refers back to the lecture deck.
+        expect(JSON.stringify(question), where).not.toMatch(/\bslides?\b|سلايد/i)
+      })
+    }
+  })
+
+  it('orders each quiz from recall to application and does not give the answer away by position', () => {
+    const rank = { recall: 0, understand: 1, apply: 2 }
+    for (const [lessonId, questions] of Object.entries(quizzes)) {
+      const ranks = questions.map((question) => rank[question.level])
+      expect(ranks, `${lessonId}: levels must not go back down`).toEqual([...ranks].sort((a, b) => a - b))
+      expect(ranks[0], `${lessonId}: starts with a warm-up`).toBe(0)
+      expect(ranks[ranks.length - 1], `${lessonId}: ends with an application question`).toBe(2)
+      expect(new Set(questions.map((question) => question.answer)).size, `${lessonId}: answers share one position`).toBeGreaterThanOrEqual(3)
     }
   })
 })

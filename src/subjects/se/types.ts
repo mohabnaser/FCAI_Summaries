@@ -126,6 +126,21 @@ export interface Lesson {
   recap: LText[]
 }
 
+/** Questions of a lesson go from `recall` (did you catch it?) to `apply` (can you use it on a new case?). */
+export type QuizLevel = 'recall' | 'understand' | 'apply'
+
+/** One multiple-choice question of a lesson's "Check your understanding" section. */
+export interface QuizQuestion {
+  level: QuizLevel
+  question: LText
+  /** Exactly four choices, in English (the exam language). */
+  options: string[]
+  /** Index of the correct choice in `options`. */
+  answer: number
+  /** Why the answer is right, and why the tempting wrong choice is wrong. */
+  explanation: LText
+}
+
 export interface SlideRef {
   n: number
   title: string
