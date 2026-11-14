@@ -13,7 +13,7 @@ const studySteps = [
     tone: 'blue',
     title: 'Read the 20-second summary',
     en: 'Every lesson opens with the whole idea in two sentences. Read it first so you know where the lesson is going.',
-    ar: 'كل درس بيبدأ بالفكرة كلها في جملتين. اقراها الأول عشان تعرف الدرس رايح فين.',
+    ar: 'كل درس بيبدأ بالفكرة كلها في جملتين. اقرأها الأول عشان تعرف الدرس رايح فين.',
   },
   {
     icon: Shapes,
@@ -27,7 +27,7 @@ const studySteps = [
     tone: 'amber',
     title: 'Lock it in',
     en: 'Purple “memorize” boxes hold the exact sentences worth knowing word for word; memory hooks turn lists into one phrase.',
-    ar: 'المربعات البنفسجي فيها الجمل اللي تستاهل تتحفظ بالحرف؛ والـ memory hooks بتحوّل أي ليستة لجملة واحدة.',
+    ar: 'المربعات البنفسجية فيها الجمل اللي تستاهل تتحفظ بالحرف؛ والـ memory hooks بتحوّل أي ليستة لجملة واحدة.',
   },
   {
     icon: ScrollText,
