@@ -60,7 +60,7 @@ export function HomePage() {
             The whole course, explained simply — with diagrams, analogies and memory hooks, so every idea makes sense the first time and stays with you.
             {showArabic ? (
               <span className="ar-inline !text-[1rem]" lang="ar" dir="rtl">
-                المادة كلها متشرحة ببساطة — برسومات وتشبيهات وطرق حفظ، عشان كل فكرة تتفهم من أول مرة وتفضل في دماغك.
+                المادة كلها مشروحة ببساطة — برسومات وتشبيهات وطرق حفظ، عشان كل فكرة تتفهم من أول مرة وتفضل في دماغك.
               </span>
             ) : null}
           </p>
